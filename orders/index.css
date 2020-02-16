@@ -1,0 +1,152 @@
+/* =====================================================================================================
+Стили страницы "Заказы":
+===================================================================================================== */
+
+#main-header .legend-row {
+  justify-content: space-between;
+  align-items: center;
+  color: #888888;
+}
+
+#main-header .legend-row > .row {
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 3em;
+}
+
+#main-header .legend {
+  width: 0.71em;
+  height: 0.71em;
+  margin-right: 0.57em;
+  cursor: default;
+}
+
+.table .download.icon {
+  margin-right: 0;
+  margin-left: 0.714em;
+}
+
+.table-head .percent {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: 1em;
+}
+
+.table-head .percent::before {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: -1.5em;
+  width: 3em;
+  font-size: 0.67em;
+  text-align: center;
+}
+
+.table-head .twenty {
+  left: 20%;
+}
+
+.table-head .twenty::before {
+  content: '20%';
+}
+
+.table-head .forty {
+  left: 40%;
+}
+
+.table-head .forty::before {
+  content: '40%';
+}
+
+.table-head .sixty {
+  left: 60%;
+}
+
+.table-head .sixty::before {
+  content: '60%';
+}
+
+.table-head .eighty {
+  left: 80%;
+}
+
+.table-head .eighty::before {
+  content: '80%';
+}
+
+.table-head .hundred {
+  left: 100%;
+}
+
+.table-head .hundred::before {
+  content: '100%';
+  right: 0;
+}
+
+.table-head .percent::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 100%;
+  width: 1px;
+  height: 75vh;;
+  background-color: #E4E4E4;
+}
+
+.table-head .legend {
+  width: 0.71em;
+  height: 0.71em;
+  margin-right: 1em;
+}
+
+.table-body td:nth-child(2) {
+  min-width: 8em;
+}
+
+.table-body td:nth-child(3) {
+  min-width: 10em;
+}
+
+.table-body td:nth-child(7) > .row {
+  align-items: baseline;
+}
+
+.table-body .statistics {
+  min-width: 70em;
+  border-left: 1px solid #DCDCDC;
+  border-bottom: none;
+}
+
+.table-body .statistics .row {
+  padding: 0;
+}
+
+.table-body .statistics > .row > div {
+  height: 1.25em;
+}
+
+.table-body .expected {
+  background-color: #6A93BB;
+}
+
+.table-body .available {
+  background-color: #E9BD6A;
+}
+
+.table-body .ready {
+  background-color: #9882A0;
+}
+
+.table-body .shipped {
+  background-color: #4DBCA9;
+}
+
+.table-body .non-delivery {
+  background-color: #A5AFAF;
+}
+
+.table-body tr.disabled .statistics > .row > div {
+  background-color: #DDDDDD;
+}
