@@ -15,9 +15,6 @@
     width: 100%;
     height: auto;
 }
-.addShop{
-    width: 10vw;
-}
 .shop{
     display: flex;
     flex-direction: column;

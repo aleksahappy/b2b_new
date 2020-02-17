@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
+    <title>ТОП СПОРТС - ДИЛЕРСТВО</title>
+    <meta name="keywords" content="ТОП СПОРТС">
+    <meta name="description" content="ТОП СПОРТС">
+    <link rel="stylesheet" type="text/css" href="../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+  </head>
+
+  <body id="auth" data-website="ts_b2b">
+    <div class="header">
+      <div class="header-top">
+        <div class="container row">
+          <div class="left-side row">
+            <a class="logo" href="desktop/"><img src="../img/logo.svg" alt="Логотип"/></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <div class="registr-container">
+          <div class="registr">
+            <div class="title-wrap" style="text-align: center;">
+              <div class="title">Заявка на дилерство</div>
+              <!-- <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
+                <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
+              </svg> -->
+            </div>
+            <form class="registr-form" action="#" method="post">
+              <div class="input-wrap">
+                <input type="text" value="" name="rega[inn]" data-minlength="10" maxlength="12" required onkeypress="return checkValue(event)">
+                <div class="hint">ИНН *</span></div>
+              </div>
+              <div class="input-wrap">
+                <input type="text" value="" name="rega[shopname]" required>
+                <div class="hint">Название магазина *</div>
+              </div>
+              <div class="check-wrap">
+                <div class="title">Формат торговли *</div>
+                <label class="check row" onclick="toggleCheckbox(this)">
+                  <input type="checkbox" value="Розничный магазин" name="rega[area][]">
+                  <div class="checkbox icon"></div>
+                  <div>Розничный магазин</div>
+                </label>
+                <label class="check row" onclick="toggleCheckbox(this)">
+                  <input type="checkbox" value="Интернет магазин" name="rega[area][]">
+                  <div class="checkbox icon"></div>
+                  <div>Интернет магазин</div>
+                </label>
+                <label class="check row" onclick="toggleCheckbox(this)">
+                  <input type="checkbox" value="Сервисный центр" name="rega[area][]">
+                  <div class="checkbox icon"></div>
+                  <div>Сервисный центр</div>
+                </label>
+                <label class="check row" onclick="toggleCheckbox(this)">
+                  <input type="checkbox" value="Другое"name="rega[area][other]">
+                  <div class="checkbox icon"></div>
+                  <div>Другое</div>
+                </label>
+              </div>
+              <div class="input-wrap">
+                <input type="text" value="" name="rega[contact]" required>
+                <div class="hint">Контактное лицо *</div>
+              </div>
+              <div class="input-wrap">
+                <input type="text" value="" name="rega[job]" required>
+                <div class="hint">Должность *</div>
+              </div>
+              <div class="check-wrap">
+                <div class="title">Дилерство каких брендов интересует *</div>
+                <div class="row columns two">
+                  <div>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="509" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>509</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="BCA" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>BCA</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="FullT" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>FullT</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="HMK" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>HMK</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Jethwear" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>Jethwear</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="SEVEN MX" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>SEVEN MX</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="SIXS" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>SIXS</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="TLD" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>TLD</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="ABOM" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>ABOM</div>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="EVS" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>EVS</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="TOBE" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>TOBE</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="FXR" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>FXR</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="HORD" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>HORD</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="OGIO" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>OGIO</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Silky" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>Silky</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="SPI" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>SPI</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Другое" name="rega[brands][]">
+                      <div class="checkbox icon"></div>
+                      <div>Другое</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="check-wrap">
+                <div class="title">Дилерство каких брендов интересует *</div>
+                <div class="row columns two">
+                  <div>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Arctic Cat" name="rega[brands_have][]">
+                      <div class="checkbox icon"></div>
+                      <div>Arctic Cat</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Polaris" name="rega[brands_have][]">
+                      <div class="checkbox icon"></div>
+                      <div>Polaris</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="BRP" name="rega[brands_have][]">
+                      <div class="checkbox icon"></div>
+                      <div>BRP</div>
+                    </label>
+                  </div>
+                  <div>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Yamaha" name="rega[brands_have][]">
+                      <div class="checkbox icon"></div>
+                      <div>Yamaha</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Другое" name="rega[brands_have][other]">
+                      <div class="checkbox icon"></div>
+                      <div>Другое</div>
+                    </label>
+                    <label class="check row" onclick="toggleCheckbox(this)">
+                      <input type="checkbox" value="Не представлены" name="rega[brands_have][other]">
+                      <div class="checkbox icon"></div>
+                      <div>Не представлены</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="btns-wrap col">
+                <input class="active btn" type="submit" value="Отправить анкету">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loader">
+      <div class="loader icon"></div>
+      <div class="text"></div>
+    </div>
+
+    <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
+      <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
+        <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
+      </svg>
+      <div class="text"></div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <div class="wrap">
+          <div>Отдел продаж: +7 (846) 300-44-99</div>
+          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+
+  </body>
+
+</html>

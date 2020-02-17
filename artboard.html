@@ -44,7 +44,7 @@
                     </a>
                   </div>
                   <div class="row">
-                    <a class="item catalog" href="../equipment/" data-href="_equip" data-level="1" data-title="Экипировка" onclick="openPage(event)">Экипировка</a>
+                    <a class="item catalog" href="../equipment/">Экипировка</a>
                     <a id="cart-equip" class="item cart-info row" href="../equipment/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
                       <div class="cart icon"></div>
                       <div class="qty-short">0</div>
@@ -80,16 +80,15 @@
                   <a class="item" href="../certificates/">Сертификаты</a>
                 </div>
               </div>
-
             </div>
           </div>
           <div class="right-side row">
             <div class="activate hover select">
               <div class="head row">
                 <div class="profile icon"></div>
-                <div class="login">
-                  <div class="title">TS00000905</div>
-                  <div class="username">Виктор Пашковски</div>
+                <div id="profile">
+                  <div class="title"></div>
+                  <div class="username"></div>
                 </div>
               </div>
               <div class="drop-down">
@@ -3073,18 +3072,18 @@
       </div>
     </div>
 
-    <!-- Шаблон прелоадера -->
-    <div id="loader">
-      <div class="loader icon"></div>
-      <div class="text"></div>
-    </div>
-
     <!-- Шаблон сообщения об ошибке -->
-    <div id="message-container" class="pop-up-container">
+    <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
       <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
         <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
       </svg>
+      <div class="text"></div>
+    </div>
+
+    <!-- Шаблон прелоадера -->
+    <div id="loader">
+      <div class="loader icon"></div>
       <div class="text"></div>
     </div>
 
