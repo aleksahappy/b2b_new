@@ -168,7 +168,7 @@ function createCartTableRow(id, qty) {
 
 // Сохранение в корзину:
 
-function saveInCart(id, qty) {
+function saveInCart(id, qty, options) {
   id = 'id_' + id;
   if (!cart[cartId]) {
     cart[cartId] = {};
@@ -187,8 +187,13 @@ function saveInCart(id, qty) {
   }
   cart[cartId][id].id = id.replace('id_', '');
   cart[cartId][id].qty = qty;
+  cart[cartId][id].cartId = cartId;
 
-  // cartChanges[id] = cart[cartId][id]; - если 
+  for (let key in options) {
+    cart[cartId][id][key] = options[key];
+  }
+
+  // cartChanges[id] = cart[cartId][id]; - если передаем стек изменений
   saveCartTotals();
   if (location.search === '?cart') {
     changeCartName();
@@ -627,11 +632,12 @@ function changeCart(event) {
       input = qtyWrap.querySelector('.choiced-qty'),
       qty = parseInt(input.value, 10),
       id = input.dataset.id,
-      totalQty = cartItems['id_' + id],
+      actionId = curEl.dataset.actionId,
+      totalQty = cartItems['id_' + id].total_qty;
 
   qty = changeValue(sign, qty, totalQty);
   input.value = qty;
-  saveInCart(id, qty);
+  saveInCart(id, qty, {actionId: actionId});
   changeColors(qtyWrap, qty);
   if (curEl.classList.contains('card')) {
     var clicable = qtyWrap.querySelector('.name.click');
@@ -649,6 +655,7 @@ function changeCart(event) {
 // Изменение количества выбранного товара:
 
 function changeValue(sign, qty, totalQty) {
+  console.log(sign, qty, totalQty);
   if (sign) {
     if (sign == '-') {
       if (qty > 0) {
@@ -838,7 +845,7 @@ function loadInCart() {
   }
   var addInCart = [],
       error = '',
-      strings, curString, id, qty, freeQty, discount, actionId;
+      strings, id, qty, totalQty, actionId;
 
   strings = loadText.value
     .split(/\n|\r\n/)
@@ -862,7 +869,8 @@ function loadInCart() {
       if (qty > 0) {
         totalQty = parseInt(curItem.total_qty, 10);
         qty = totalQty > 0 && qty > totalQty ? totalQty : qty;
-        addInCart.push({id: id, qty: qty});
+        actionId = curItem.action_id;
+        addInCart.push({id: id, qty: qty, options: {actionId: actionId}});
       }
     }
   });
@@ -874,7 +882,7 @@ function loadInCart() {
     return;
   }
   addInCart.forEach(el => {
-    saveInCart(el.id, el.qty);
+    saveInCart(el.id, el.qty, el.options);
   });
   renderCart();
   if (addInCart.length < strings.length) {

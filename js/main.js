@@ -51,26 +51,44 @@ function startPage() {
 
 function checkAuth() {
   loader.show();
-  sendRequest(urlRequest + 'loginGET')
-  .then(result => {
-    var data = JSON.parse(result);
-    if (data.ok) {
-      if (pageId === 'auth') {
-        document.location.href = 'desktop';
-      } else {
+  if (pageId === 'auth' && document.location.search === '?error=1') {
+    loader.hide();
+    showElement(document.getElementById('error'));
+  } else {
+    console.log('check_auth');
+    sendRequest(`${urlRequest}/new_dis/check_auth.php`)
+    .then(result => {
+      console.log(result);
+      var data = JSON.parse(result);
+      console.log(data.ok);
+      if (data.ok) {
         userInfo = data.user_info;
+        showUserInfo(userInfo);
+        console.log(data.cart);
+        cart = data.cart;
+      } else {
+        if (pageId !== 'auth' ) {
+          // document.location.href = '../';
+        } else {
+          loader.hide();
+        }
       }
-    } else {
-      if (pageId !== 'auth') {
-        document.location.href = '../';
+    })
+    .catch(err => {
+      console.log(err);
+      if (pageId !== 'auth' ) {
+        // document.location.href = '../';
+      } else {
+        loader.hide();
       }
-    }
-  })
-  .catch(err => {
-    if (pageId !== 'auth') {
-      document.location.href = '../';
-    }
-  });
+    });
+  }
+}
+
+// Выход из авторизации:
+
+function logOut() {
+  sendRequest(`${urlRequest}/new_dis/user_logout.php?login=${userInfo.code_1c}`)
 }
 
 // Вход через форму авторизации:
@@ -86,11 +104,11 @@ function logIn(event) {
   });
   data = JSON.stringify(data);
 
-  sendRequest(urlRequest + 'loginPOST', data)
+  sendRequest(`${urlRequest}/new_dis/user_auth.php`, data)
   .then(result => {
     var data = JSON.parse(result);
     if (data.ok == 1) {
-      document.location.href = 'desktop';
+      document.location.href = 'desktop/index.html';
     } else {
       loader.hide();
       message.show('Неверно введен логин или пароль');
@@ -149,11 +167,28 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       request.setRequestHeader('Content-type', type);
       request.send(data);
     } else {
-      console.log('get');
       request.open('GET', url);
       request.send();
     }
   });
+}
+
+//=====================================================================================================
+// Работа с данными пользователя:
+//=====================================================================================================
+
+// Вывод информации о пользователе в шапке страницы:
+
+function showUserInfo(data) {
+  var profile = document.getElementById('profile'),
+      login = profile.querySelector('.title'),
+      username = profile.querySelector('.username');
+  if (login) {
+    login.textContent = data.login;
+  }
+  if (username) {
+    username.textContent = data.name + ' ' + data.lastname;
+  }
 }
 
 //=====================================================================================================
@@ -664,6 +699,12 @@ function toggleCheckbox(el) {
   el.classList.toggle('checked');
 }
 
+// Открытие/закрытие поля формы для добавления адреса вручную:
+
+function toggleAddByHand() {
+  document.getElementById('add-hand').classList.toggle('displayNone')
+}
+
 // Отображение количества знаков, оставшихся в поле комментариев:
 
 function countSigns(textarea) {
@@ -999,11 +1040,14 @@ function showTable(id) {
       data = window[`data${id}`];
   // if (table && data) {
   if (table) {
-    var activeTable = document.querySelector('.table-wrap.active');
-    if (activeTable) {
-      hideElement(activeTable);
-      activeTable.classList.remove('active');
+    if (id) {
+      var activeTable = document.querySelector('.table-wrap.active');
+      if (activeTable) {
+        hideElement(activeTable);
+        activeTable.classList.remove('active');
+      }
     }
+
     table = new Table(table, data);
     table.init();
   }

@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
 
-  <body id="_auth" data-website="ts_b2b">
+  <body id="auth" data-website="ts_b2b">
     <div class="header">
       <div class="header-top">
         <div class="container row">
@@ -34,15 +34,17 @@
                 <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
               </svg> -->
             </div>
-            <form class="registr-form" method="post" enctype="multipart/form-data" onsubmit="logIn(event)">
+            <div id="error" class="text red">Пользователь не найден</div>
+            <form class="registr-form" action="http://api.topsports.ru/new_dis/user_auth.php" method="post">
               <div class="input-wrap">
                 <input type="text" value="" name="login" autocomplete="off" required>
-                <div class="hint">Логин</div>
+                <div class="hint">Логин *</span></div>
               </div>
               <div class="input-wrap">
-              <input type="password" value="" name="pass" autocomplete="off" required>
-              <div class="hint">Пароль</div>
+                <input type="password" value="" name="pass" autocomplete="off" required>
+                <div class="hint">Пароль *</div>
               </div>
+              <input type="hidden" name="redirect" value="">
               <div class="check-wrap">
                 <label class="check row" onclick="toggleCheckbox(this)">
                   <input type="checkbox" value="1" name="remember">
@@ -52,7 +54,7 @@
               </div>
               <div class="btns-wrap col">
                 <input class="active btn" type="submit" value="Войти">
-                <a href="/dialership" class="unactive btn">Стать дилером</a>
+                <a href="registr/" class="unactive btn">Стать дилером</a>
               </div>
             </form>
           </div>
@@ -65,7 +67,7 @@
       <div class="text"></div>
     </div>
 
-    <div id="message-container" class="pop-up-container">
+    <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
       <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
         <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>

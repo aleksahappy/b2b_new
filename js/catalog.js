@@ -237,22 +237,31 @@ var fullImgCarousel = {
   durationNav: 400
 };
 
+// Установка ширины галереи и малых карточек товаров:
+
+function setContentWidth() {
+  var minCardWidth;
+  if (website === 'skipper') {
+    minCardWidth = 13;
+    setGalleryWidth();
+    setMinCardWidth(minCardWidth);
+  } else {
+    minCardWidth = 18;
+    setMinCardWidth(minCardWidth);
+  }
+}
+
 // Установка ширины галереи:
 
 function setGalleryWidth() {
   gallery.style.width = (content.clientWidth - filters.clientWidth - 30) + 'px';
-  setMinCardWidth();
 }
 
 // Установка ширины малых карточек товаров:
 
-function setMinCardWidth() {
+function setMinCardWidth(width) {
   if (!content.classList.contains('blocks')) {
     return;
-  }
-  var width = 18;
-  if (website === 'skipper') {
-    width = 13;
   }
   var standartWidth = (width * parseInt(getComputedStyle(gallery).fontSize, 10)),
       countCards = Math.floor(gallery.clientWidth / standartWidth),
@@ -393,11 +402,7 @@ function renderContent() {
 function changeContent(block) {
   window.removeEventListener('scroll', scrollGallery);
   window.removeEventListener('resize', scrollGallery);
-  if (website === 'skipper') {
-    window.removeEventListener('resize', setGalleryWidth);
-  } else {
-    window.removeEventListener('resize', setMinCardWidth);
-  }
+  window.removeEventListener('resize', setContentWidth);
   window.removeEventListener('scroll', setFiltersPosition);
   window.removeEventListener('resize', setFiltersPosition);
 
@@ -418,11 +423,7 @@ function changeContent(block) {
     if (block === 'gallery') {
       window.addEventListener('scroll', scrollGallery);
       window.addEventListener('resize', scrollGallery);
-      if (website === 'skipper') {
-        window.addEventListener('resize', setGalleryWidth);
-      } else {
-        window.addEventListener('resize', setMinCardWidth);
-      }
+      window.addEventListener('resize', setContentWidth);
       window.addEventListener('scroll', setFiltersPosition);
       window.addEventListener('resize', setFiltersPosition);
       showElement(headerContent);
@@ -562,11 +563,7 @@ function renderGallery() {
   checkFiltersPosition();
   clearFiltersInfo();
   checkFilters();
-  if (website === 'skipper') {
-    setGalleryWidth();
-  } else {
-    setMinCardWidth();
-  }
+  setContentWidth();
   showElement(gallery, 'flex');
 }
 
@@ -1507,11 +1504,7 @@ function loadCards(cards) {
     gallery.insertAdjacentHTML('beforeend', list);
   }
   setFiltersPosition();
-  if (website === 'skipper') {
-    setGalleryWidth();
-  } else {
-    setMinCardWidth();
-  }
+  setContentWidth();
 
   if (view === 'list') {
     document.querySelectorAll('.big-card').forEach(card => {
