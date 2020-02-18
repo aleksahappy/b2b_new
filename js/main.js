@@ -180,9 +180,15 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 // Вывод информации о пользователе в шапке страницы:
 
 function showUserInfo(data) {
-  var profile = document.getElementById('profile');
-  profile.querySelector('.title').textContent = data.login;
-  profile.querySelector('.username').textContent = data.name + ' ' + data.lastname;
+  var profile = document.getElementById('profile'),
+      login = profile.querySelector('.title'),
+      username = profile.querySelector('.username');
+  if (login) {
+    login.textContent = data.login;
+  }
+  if (username) {
+    username.textContent = data.name + ' ' + data.lastname;
+  }
 }
 
 //=====================================================================================================
@@ -1034,11 +1040,14 @@ function showTable(id) {
       data = window[`data${id}`];
   // if (table && data) {
   if (table) {
-    var activeTable = document.querySelector('.table-wrap.active');
-    if (activeTable) {
-      hideElement(activeTable);
-      activeTable.classList.remove('active');
+    if (id) {
+      var activeTable = document.querySelector('.table-wrap.active');
+      if (activeTable) {
+        hideElement(activeTable);
+        activeTable.classList.remove('active');
+      }
     }
+
     table = new Table(table, data);
     table.init();
   }
