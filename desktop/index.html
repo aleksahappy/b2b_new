@@ -131,14 +131,29 @@
 					</div>
 				</div>
 				<div class="desktop-wrap">
-					<div class="col1">
+					<div class="col1 align-end">
 						<div class="row1">
 							<div class="switch">
 								<button class="toggle" id="productsBtn">Товары</button>
 								<button class="toggle toggle-active" id="paymentBtn">Оплаты</button>
 							</div>
 						</div>
-						<div class="row2">456</div>				
+						<div class="row2">
+							<div class="range-title">Дата ожидаемого поступления</div>
+							<div class="range-wrap">
+								<div class="range" id="range">
+									<div class="selected-range" id="between" style="width: 306px;"></div>
+									<button class="range-btn" id="rb1" style="margin-left: 0;"></button>
+									<button class="range-btn" id="rb2" style="margin-left: 306px;"></button>
+									<button class="range-point" id="rb3" style="margin-left: 700px;"></button>
+									<button class="range-point" id="rb4" style="margin-left: 850px;"></button>
+									<div class="range-date" id="today">Сегодня</div>
+									<div class="range-date" id="rangeDate1">23.02</div>
+									<div class="range-date" id="rangeDate2">15.03</div>	
+									<div class="range-date" id="rangeDate3">15.04</div>					
+								</div>
+							</div>
+						</div>				
 					</div>
 					
 					<!-- Оплаты -->
@@ -2068,192 +2083,167 @@
     </div>
 
     <!-- Окно уведомлений -->
-    <div id="alerts-container" class="row" onclick="closePopUp(event)">
-		<div class="alerts pop-up">
-			<div class="alerts-title row">
+    <div id="alerts-container" class="pop-up-container" onclick="closePopUp(event)">
+			<div class="alerts pop-up">
+				<div class="alerts-title row">
 					<div class="row">
-							<div class="alerts icon"></div>
-							<div class="title">Уведомления</div>
+						<div class="alerts icon"></div>
+						<div class="title">Уведомления</div>
 					</div>
-					<svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none"
-							xmlns="http://www.w3.org/2000/svg">
-							<path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-							<path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+					<svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
+						<path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
 					</svg>
-			</div>
-			<div id="alerts-body">
+				</div>
+				<div id="alerts-body">
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message action row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.10.19</div>
-									<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со
-											скидкой
-											55%. Только до 11</div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.10.19</div>
+							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+						</div>
 					</div>
 					<div class="message attention row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.11.19</div>
-									<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к
-											регистрации <a href="#">по ссылке.</a></div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.11.19</div>
+							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message action row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.10.19</div>
-									<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со
-											скидкой
-											55%. Только до 11</div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.10.19</div>
+							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+						</div>
 					</div>
 					<div class="message attention row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.11.19</div>
-									<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к
-											регистрации <a href="#">по ссылке.</a></div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.11.19</div>
+							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
-					<div class="message percent row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.10.19</div>
-									<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со
-											скидкой
-											55%. Только до 11</div>
-							</div>
+					<div class="message action row">
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.10.19</div>
+							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+						</div>
 					</div>
 					<div class="message attention row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.11.19</div>
-									<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к
-											регистрации <a href="#">по ссылке.</a></div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.11.19</div>
+							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
-					<div class="message percent row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.10.19</div>
-									<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со
-											скидкой
-											55%. Только до 11</div>
-							</div>
+					<div class="message action row">
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.10.19</div>
+							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+						</div>
 					</div>
 					<div class="message attention row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">25.11.19</div>
-									<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к
-											регистрации <a href="#">по ссылке.</a></div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">25.11.19</div>
+							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
 					<div class="message cart row">
-							<div class="message icon"></div>
-							<div>
-									<div class="date">2 часа назад</div>
-									<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на
-											оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-							</div>
+						<div class="message icon"></div>
+						<div>
+							<div class="date">2 часа назад</div>
+							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+						</div>
 					</div>
+				</div>
 			</div>
-		</div>
-    </div>
+	</div>
 
 		
 		<script src="../js/main.js"></script>
 		<script>
-			'use strict';
+			//Переключатель "Товары/Оплаты"
 			const productsBtn = document.querySelector('#productsBtn');
 			const paymentBtn = document.querySelector('#paymentBtn');
 			const paymentTab = document.querySelector('#paymentTab');
@@ -2272,6 +2262,112 @@
 				paymentTab.style.display = 'flex';
 				productsTab.style.display = 'none';
 			});
+
+			//Сладер
+				
+			setTimeout(init2slider('range', 'between', 'rb1', 'rb2'), 0);
+
+			function init2slider(idX, btwX, btn1X, btn2X) {
+					const slider = document.getElementById(idX);
+					const between = document.getElementById(btwX); 
+					const button1 = document.getElementById(btn1X);
+					const button2 = document.getElementById(btn2X);   
+				
+					button1.onmousedown = function(evt) {       
+							let sliderCoords = getCoords(slider);
+							let betweenCoords = getCoords(between); 
+							let buttonCoords1 = getCoords(button1);
+							let buttonCoords2 = getCoords(button2);
+							let shiftX2 = evt.pageX - buttonCoords2.left; 
+							let shiftX1 = evt.pageX - buttonCoords1.left;
+						
+							document.onmousemove = function(evt) {
+									let left1 = evt.pageX - shiftX1 - sliderCoords.left;
+									let right1 = slider.offsetWidth - button1.offsetWidth;
+									if (left1 < 0) left1 = 0;
+									if (left1 > right1) left1 = 0;
+									button1.style.marginLeft = left1 + 'px';                      
+								
+									shiftX2 = evt.pageX - buttonCoords2.left; 
+									let left2 = evt.pageX - shiftX2 - sliderCoords.left;
+									let right2 = slider.offsetWidth - button2.offsetWidth;            
+									
+									if (left1 > left2)
+										{
+											between.style.width = '0';
+											//between.style.marginLeft = left2 + 'px';
+										}
+									else
+										{
+											between.style.width = (left2-left1) + 'px';
+											between.style.marginLeft = left1 + 'px';
+										}
+									
+							};
+							document.onmouseup = function() {
+									document.onmousemove = document.onmouseup = null;
+							};
+							return false;
+					};
+					
+				button2.onmousedown = function(evt) {       
+							let sliderCoords = getCoords(slider);
+							let betweenCoords = getCoords(between); 
+							let buttonCoords1 = getCoords(button1);
+							let buttonCoords2 = getCoords(button2);
+							let shiftX2 = evt.pageX - buttonCoords2.left; 
+							let shiftX1 = evt.pageX - buttonCoords1.left;
+						
+							document.onmousemove = function(evt) {
+									let left2 = evt.pageX - shiftX2 - sliderCoords.left;
+									let right2 = slider.offsetWidth - button2.offsetWidth;
+									if (left2 < 0) left2 = 0;
+									if (left2 > right2) left2 = right2;
+									button2.style.marginLeft = left2 + 'px';                      
+								
+									shiftX1 = evt.pageX - buttonCoords1.left; 
+									let left1 = evt.pageX - shiftX1 - sliderCoords.left;
+									let right1 = slider.offsetWidth - button1.offsetWidth;            
+									
+									if (left1 > left2)
+										{
+											between.style.width = '0';
+											//between.style.marginLeft = left2 + 'px';
+										}
+									else
+										{
+											between.style.width = (left2-left1) + 'px';
+											between.style.marginLeft = left1 + 'px';
+										}
+									
+							};
+							document.onmouseup = function() {
+									document.onmousemove = document.onmouseup = null;
+							};
+							return false;
+					};
+					
+					button1.ondragstart = function() {
+							return false;
+					};
+					button2.ondragstart = function() {
+							return false;
+					};
+
+					function getCoords(elem) {
+							let box = elem.getBoundingClientRect();
+							return {
+									top: box.top + pageYOffset,
+									left: box.left + pageXOffset
+							};
+					}  
+				
+			}
+
+
+
+
+
 
 		</script>
 </body>
