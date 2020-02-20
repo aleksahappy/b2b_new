@@ -36,17 +36,18 @@ if (isCart) {
 // При запуске страницы:
 //=====================================================================================================
 
-// checkAuth();
 startPage();
 
 // Общие действия на всех страницах при загрузке:
 
 function startPage() {
   setPaddingToBody();
+  // checkAuth();
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     updateCartTotals();
   }
+  window.addEventListener('load', () => initTables());
 }
 
 //=====================================================================================================
@@ -1038,25 +1039,51 @@ function DropDown(obj) {
 // Работа с таблицами:
 //=====================================================================================================
 
-showTable();
+// Создание объектов таблиц при запуске страницы:
+
+function initTables() {
+  document.querySelectorAll('.table-wrap').forEach(el => {
+    var data = window[`${el.id}out`];
+    data = data ? data : [];
+    data = data.filter(el => {
+      return el;
+    });
+    if (data.length === 0) {
+      el.classList.add('disabled');
+      var curTab = document.querySelector(`.tab.${el.id}`);
+      if (curTab) {
+        curTab.classList.add('disabled');
+      }
+    }
+    window['table' + el.id] = new Table(el, data);
+  });
+  showActiveTables();
+}
+
+// Отображение необходимых таблиц при загрузке страницы:
+
+function showActiveTables() {
+  document.querySelectorAll('.table-wrap.active').forEach(el => {
+    if (window['table' + el.id]) {
+      window['table' + el.id].show();
+    }
+  });
+}
 
 // Открытие таблицы:
 
 function showTable(id) {
-  var table = id ? document.getElementById(id) : document.querySelector('.table-wrap.active'),
-      data = window[`data${id}`];
-  // if (table && data) {
-  if (table) {
-    if (id) {
-      var activeTable = document.querySelector('.table-wrap.active');
-      if (activeTable) {
-        hideElement(activeTable);
-        activeTable.classList.remove('active');
-      }
+  var curTable = window['table' + id];
+  if (curTable) {
+    if (curTable.table.classList.contains('disabled')) {
+      return;
     }
-
-    table = new Table(table, data);
-    table.init();
+    var activeTable = document.querySelector('.table-wrap.active');
+    if (activeTable) {
+      hideElement(activeTable);
+      activeTable.classList.remove('active');
+    }
+    curTable.show();
   }
 }
 
@@ -1114,19 +1141,13 @@ function Table(obj, data) {
   }
   this.setEventListeners();
 
-  // Инициализация таблицы:
-
-  this.init = function() {
-    loader.show();
-    showElement(this.table);
-    // this.loadData(this.data);
-    this.table.classList.add('active');
-    loader.hide();
-  }
-
   // Загрузка данных в таблицу:
 
   this.loadData = function(data) {
+    if (data && data.length === 0) {
+      this.body.innerHTML = '';
+      return;
+    }
     if (data) {
       this.countItems = 0;
       this.itemsToLoad = data;
@@ -1190,9 +1211,9 @@ function Table(obj, data) {
     this.results.querySelectorAll('.result').forEach(result => {
       var total = 0;
       this.itemsToLoad.forEach(el => {
-        total += el[result.dataset.key];
+        total += parseFloat(el[result.dataset.key].replace(' ', ''), 10);
       });
-      el.textContent = total.toLocaleString();
+      result.textContent = Math.ceil(total).toLocaleString();
     });
   }
 
@@ -1272,6 +1293,17 @@ function Table(obj, data) {
   // Остановка перетаскивания столбца:
   this.stopResize = function() {
     this.curColumn = null;
+  }
+
+  // Инициализация таблицы:
+
+  this.show = function() {
+    loader.show();
+    showElement(this.table);
+    // console.log(data);
+    this.loadData(this.data);
+    this.table.classList.add('active');
+    loader.hide();
   }
 }
 
