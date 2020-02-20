@@ -1295,6 +1295,7 @@ form.registr-form textarea:focus ~ .hint {
 }
 
 .header-menu {
+  position: relative;
   justify-content: space-between;
   align-items: center;
   font-size: 1.143em;
@@ -1321,12 +1322,10 @@ form.registr-form textarea:focus ~ .hint {
   cursor: pointer;
 }
 
-.header-menu a.topmenu-item {
-  padding-left: 0;
+.header-menu .topmenu-item {
+  min-width: 17.5em;
   background-color: #34495E;
-}
-
-.header-menu a[href="../equipment/"].topmenu-item{
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -1347,10 +1346,8 @@ form.registr-form textarea:focus ~ .hint {
 }
 
 .header-menu .info {
-  position: relative;
   justify-content: flex-end;
   align-items: center;
-  width: 31em;
 }
 
 .header-menu .search.icon.white {
@@ -1359,10 +1356,8 @@ form.registr-form textarea:focus ~ .hint {
 
 .header-menu #page-search {
   position: absolute;
-  left: 0;
-  right: 1em;
-  width: auto;
-  margin-right: 2em;
+  right: 5.5em;
+  width: 330px;
   visibility: hidden;
 }
 
@@ -1460,6 +1455,7 @@ form.registr-form textarea:focus ~ .hint {
 .main-title .title {
   font-size: 1.715em;
   letter-spacing: 0.04em;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
