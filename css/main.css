@@ -1326,6 +1326,10 @@ form.registr-form textarea:focus ~ .hint {
   background-color: #34495E;
 }
 
+.header-menu a[href="../equipment/"].topmenu-item{
+  text-transform: uppercase;
+}
+
 .header-menu .submenu-item {
   margin-right: 0.1rem;
   -webkit-transition: 200ms;
