@@ -1,42 +1,44 @@
-.desktop-wrap{
+.desktop-wrap {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	margin-top: 2vw;
 }
 
-.col1{
+.col1 {
 	display: flex;
 	align-items: flex-start;
   width: 100%;
 }
 
-.align-end{
+.align-end {
 	display: flex;
 	align-items: flex-end!important;
 }
 
-.col1:first-child{
+.col1:first-child {
   margin-bottom: 1.71vw;
 }
 
-.desktop-wrap .col1{
+.desktop-wrap .col1 {
   display: flex;
 }
 
-.row1{
+.row1 {
   width: 14.5%;
 }
-.row2{
+
+.row2 {
   width: 84%;
 }
 
-.switch{
+.switch {
 	display: flex;
 	width: 100%;
 	height: 44px;
 }
-.switch .toggle{
+
+.switch .toggle {
 	width: 50%;
 	border-radius: 3px;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
@@ -50,11 +52,13 @@
 	transition: .4s;
 	transition-duration: .2;
 }
-.toggle-active{
+
+.toggle-active {
 	color: #FFFFFF!important;
 	background: #34495E!important;
 }
-.pane{
+
+.pane {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -66,36 +70,36 @@
 	color: #ffffff;
 }
 
-.pane:last-child{
+.pane:last-child {
 	margin-bottom: 0;
 }
 
-.status_1{
+.status_1 {
   background: #DFA12A;
 }
 
-.status_2{
+.status_2 {
 	background: #E7575F;
 }
 
-.status_3{
+.status_3 {
 	background: #8596A6;
 }
 
-.status_4{
+.status_4 {
 	background: #2A659D;
 }
 
-.status_5{
+.status_5 {
 	background: #6C4D77;
 }
 
-.pane-head{
+.pane-head {
 	display: flex;
 	align-items: center;
 }
 
-.pane-name{
+.pane-name {
 	font-size: 1.5em;
 	font-weight: 600;
 	white-space: nowrap;
@@ -104,63 +108,63 @@
 	color: #ffffff;
 }
 
-.pane-body{
+.pane-body {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 }
 
-.quantity{
+.quantity {
 	font-size: 1.5em;
 	line-height: 1.8em;
 	letter-spacing: 0.01em;
 }
 
-.money{
+.money {
 	font-size: 2.325em;
 	font-weight: 600;
 }
 
-.banners{
+.banners {
 	display: flex;
 	width: 100%;
 	margin-top: 10px;
 }
 
-.banners a{
+.banners a {
 	width: calc(98.6% / 3);
 }
 
-.banners a{
+.banners a {
 	margin-right: 9px;
 }
 
-.banners a:last-child{
+.banners a:last-child {
 	margin-right: 0;
 }
 
-.banners img{
+.banners img {
 	width: 100%;
 	height: 7.55vw;
 }
 
-.data{
+.data {
 	display: flex;
 	margin-left: 10px;
 	border-radius: 3px;
 	background:#ffffff;
 }
 
-.desktop-info{
+.desktop-info {
 	width: 34%;
 	height: 34.79vw;
 }
 
-.desktop-info img{
+.desktop-info img {
 	width: 100%;
 }
 
-.desktop-data{
+.desktop-data {
 	width: 1060px;
 	height: 34.79vw;
 	margin-top: 1vw;
@@ -170,7 +174,7 @@
 	background: #ffffff;
 }
 
-.desktop-num{
+.desktop-num {
 	margin: 0 30px;
 	padding: 1px 10px;
 	border-radius: 15px;
@@ -179,16 +183,16 @@
 	font-weight: bold;
 }
 
-.moreSpace{
+.moreSpace {
 	margin: 0 58px!important;
 }
 
-.table-menu{
+.table-menu {
 	display: flex;
 	padding-bottom: 10px;
 }
 
-.restart{
+.restart {
 	padding: 4px 13px;
 	border-radius: 3px;
 	border: none;
@@ -199,13 +203,13 @@
 	background: #D4D7DB;
 }
 
-.select-orders{
+.select-orders {
 	display: flex;
 	align-items: center;
 	margin-left: 1vw;
 }
 
-.custom-select{
+.custom-select {
 	margin-right: 8px;
 	width: 1em;
 	height: 1em;
@@ -213,14 +217,14 @@
 	background: #EBEBEB;
 }
 
-.select-name{
+.select-name {
 	font-size: 0.9em;
 	line-height: 1.2em;
 	font-weight: 600;
 	color: #34495E;
 }
 
-.desktop-table{
+.desktop-table {
 	width: 100%;
 	height: 600px;
 	overflow: hidden;
@@ -232,21 +236,22 @@
 	padding-left: 5vw!important;
 }
 
-#paymentTab{
+#paymentTab {
 	
 }
 
-#productsTab{
+#productsTab {
 	display: none;
 }
 
 /* стили для слайдера */
-.range-title{
+
+.range-title {
 	padding-left: 1vw;
 	color: #34495E;
 }
 
-.range-wrap{
+.range-wrap {
 	width: 100%;
 	height: 40px;
 	padding-left: 1vw;
@@ -255,7 +260,7 @@
 	justify-content: center;
 }
 
-.range{
+.range {
 	position: relative;
 	width: 100%;
 	height: 6px;
@@ -263,7 +268,7 @@
 	background: #8596A6;
 }
 
-.selected-range{
+.selected-range {
 	position: absolute;
 	height: 6px;
 	width: 10px;
@@ -271,7 +276,7 @@
 	background: #34495E;
 }
 
-.range-btn{
+.range-btn {
 	z-index: 10;
 	position: absolute;
 	width: 20px;
@@ -284,7 +289,7 @@
 	cursor: move;
 }
 
-.range-point{
+.range-point {
 	z-index: 1;
 	position: absolute;
 	width: 16px;
@@ -297,27 +302,28 @@
 	cursor: move;
 }
 
-.range-date{
+.range-date {
 	position: absolute;
 	font-size: 0.9em;
 	color: #34495E;
 }
 
-#today{
+#today {
 	top:20px;
 	left:0;
 }
 
-#rangeDate1{
+#rangeDate1 {
 	top:20px;
 	left:300px;
 }
-#rangeDate2{
+
+#rangeDate2 {
 	top:20px;
 	left:695px;
 }
 
-#rangeDate3{
+#rangeDate3 {
 	top:20px;
 	left:845px;
 }

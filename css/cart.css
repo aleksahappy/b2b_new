@@ -245,6 +245,7 @@
 .cart-list .table-head {
   align-items: stretch;
   justify-content: flex-start;
+  background-color: #53606F;
   z-index: 3;
 }
 

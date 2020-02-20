@@ -99,7 +99,7 @@
                   <a class="item" href="../monitoring">Мониторинг</a>
                   <a class="item" href="../mediabank">Медиабанк</a>
                 </div>
-                <a id="exit" class="item" class="menu-item" href="#">Выйти</a>
+                <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
             <div class="alerts icon" onclick="openPopUp('alerts-container')">
@@ -705,7 +705,7 @@
 
     <div id="alerts-container" class="pop-up-container" onclick="closePopUp(event)">
       <div class="alerts pop-up">
-        <div class="alerts-title row">
+        <div class="pop-up-title row">
           <div class="row">
             <div class="alerts icon"></div>
             <div class="title">Уведомления</div>
@@ -715,7 +715,7 @@
             <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
           </svg>
         </div>
-        <div id="alerts-body">
+        <div class="pop-up-body">
           <div class="message cart row">
             <div class="message icon"></div>
             <div>

@@ -25,46 +25,43 @@
 
     <div class="main">
       <div class="container">
-        <div class="registr-container">
-          <div class="registr">
-            <div class="title-wrap" style="text-align: center;">
+        <div class="registr-container pop-up-container">
+          <div class="registr pop-up">
+            <div class="pop-up-title" style="text-align: center;">
               <div class="title">Вход в личный кабинет</div>
               <!-- <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
                 <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
               </svg> -->
             </div>
-            <div id="error" class="text red">Пользователь не найден</div>
-            <form class="registr-form" action="http://api.topsports.ru/new_dis/user_auth.php" method="post">
-              <div class="input-wrap">
-                <input type="text" value="" name="login" autocomplete="off" required>
-                <div class="hint">Логин *</span></div>
-              </div>
-              <div class="input-wrap">
-                <input type="password" value="" name="pass" autocomplete="off" required>
-                <div class="hint">Пароль *</div>
-              </div>
-              <input type="hidden" name="redirect" value="">
-              <div class="check-wrap">
-                <label class="check row" onclick="toggleCheckbox(this)">
-                  <input type="checkbox" value="1" name="remember">
-                  <div class="checkbox icon"></div>
-                  <div>Запомнить меня</div>
-                </label>
-              </div>
-              <div class="btns-wrap col">
-                <input class="active btn" type="submit" value="Войти">
-                <a href="registr/" class="unactive btn">Стать дилером</a>
-              </div>
-            </form>
+            <div class="pop-up-body">
+              <div id="error" class="text red">Пользователь не найден</div>
+              <form class="registr-form" action="http://api.topsports.ru/new_dis/user_auth.php" method="post">
+                <div class="input-wrap">
+                  <input type="text" value="" name="login" autocomplete="off" required>
+                  <div class="hint">Логин *</span></div>
+                </div>
+                <div class="input-wrap">
+                  <input type="password" value="" name="pass" autocomplete="off" required>
+                  <div class="hint">Пароль *</div>
+                </div>
+                <input type="hidden" name="redirect" value="">
+                <div class="check-wrap">
+                  <label class="check row">
+                    <input type="checkbox" value="1" name="remember">
+                    <div class="checkbox icon"></div>
+                    <div>Запомнить меня</div>
+                  </label>
+                </div>
+                <div class="btns-wrap col">
+                  <input class="active btn" type="submit" value="Войти">
+                  <a href="registr/" class="unactive btn">Стать дилером</a>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div id="loader">
-      <div class="loader icon"></div>
-      <div class="text"></div>
     </div>
 
     <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
@@ -72,6 +69,11 @@
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
         <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
       </svg>
+      <div class="text"></div>
+    </div>
+
+    <div id="loader">
+      <div class="loader icon"></div>
       <div class="text"></div>
     </div>
 

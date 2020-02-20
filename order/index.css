@@ -19,112 +19,28 @@
   margin-right: 0.5em;
 }
 
-.tab.expected .icon {
+.tab.vputi .icon {
   background-image: url(../img/chronometer.svg);
 }
 
-.tab.available .icon {
+.tab.vnali .icon {
   background-image: url(../img/box.svg);
 }
 
-.tab.ready .icon {
+.tab.debzd .icon {
   background-image: url(../img/delivery_trolley.svg);
 }
 
-.tab.shipped .icon {
+.tab.otgrz .icon {
   background-image: url(../img/delivery_truck.svg);
 }
 
-.tab.non-delivery .icon {
+.tab.nedop .icon {
   background-image: url(../img/stop.svg);
 }
 
-.tab.reclamation .icon {
-  background-image: url(../img/security.svg);
-}
-
-/* ==== убрать в общий файл */
-
-.table-wrap {
-  visibility: hidden;
-}
-
-.table-wrap.active {
-  visibility: visible;
-}
-
-/* ================ */
-
-.table-head {
-  background-color: #FFFFFF;
-}
-
-.tabs .tab.total,
-#total .titles {
-  background-color: #53606F;
-}
-
-#total .results {
-  background-color: #778A95;
-}
-
-.tabs .tab.expected,
-#expected .titles  {
-  background-color: #2A659D;
-}
-
-#expected .results {
-  background-color: rgba(42, 101, 157, 0.8);
-}
-
-.tabs .tab.available,
-#available .titles  {
-  background-color: #DFA12A;
-}
-
-#available .results {
-  background-color: rgba(223, 161, 42, 0.8);
-}
-
-.tabs .tab.ready,
-#ready .titles  {
-  background-color: #6C4D77;
-}
-
-#ready .results {
-  background-color: rgba(108, 77, 119, 0.8);
-}
-
-.tabs .tab.shipped,
-#shipped .titles  {
-  background-color: #009F84;
-}
-
-#shipped .results {
-  background-color: rgba(0, 159, 132, 0.8);
-}
-
-.tabs .tab.non-delivery,
-#non-delivery .titles  {
-  background-color: #778A95;
-}
-
-#non-delivery .results {
-  background-color: rgba(119, 138, 149, 0.8);
-}
-
-.tabs .tab.reclamation,
-#reclamation .titles  {
-  background-color: #A89271;
-}
-
-#reclamation .results {
-  background-color: rgba(168, 146, 113, 0.8);
-}
-
-.tabs .tab.disabled {
-  color: #818A94;
-  background-color: #D4D7DB;
+.tab.reclm .icon {
+  background-image: url(../img/anti_smile.svg);
 }
 
 .table-body .articul {
@@ -133,6 +49,10 @@
 
 .table-body .name {
   min-width: 10em;
+}
+
+.table-body .recl {
+  min-width: 14em;
 }
 
 .table-body .price-retail {
@@ -185,4 +105,14 @@
 
 .table-body .status {
   min-width: 7em;
+}
+
+.recl.btn {
+  min-width: 0;
+  padding: 0.2em 1.3em;
+  font-size: 0.785em;
+  color: #FFFFFF;
+  background-color: #A89271;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }

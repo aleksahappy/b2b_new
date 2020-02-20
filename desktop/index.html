@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
@@ -12,9 +12,10 @@
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-</head>
-<body data-website="ts_b2b" data-cart="true">
-    <!-- Шапка -->
+  </head>
+
+  <body data-website="ts_b2b" data-cart="true">
+
     <div class="header">
       <div class="header-top">
         <div class="container row">
@@ -98,7 +99,7 @@
                   <a class="item" href="../monitoring">Мониторинг</a>
                   <a class="item" href="../mediabank">Медиабанк</a>
                 </div>
-                <a id="exit" class="item" class="menu-item" href="#">Выйти</a>
+                <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
             <div class="alerts icon" onclick="openPopUp('alerts-container')">
@@ -111,17 +112,11 @@
 
     <div class="main">
 			<div class="container">
-				<!-- Хлебные крошки -->
 				<div id="main-header">
-					<!-- <div id="main-nav">
-						<a href="../../">Главная</a>
-						<a href="../" class="item">Заказы</a>
-						<a class="item active">Заказ № ТС-180 от 23.03.2018 г.</a>
-					</div> -->
 					<div class="main-title row">
 						<div class="title-row row">
 							<div class="title">Рабочий стол</div>
-							<div class="question icon help" tooltip="Подсказки"></div>
+							<div class="question icon" tooltip="Подсказки" help></div>
 						</div>
 					</div>
 				</div>
@@ -144,13 +139,12 @@
 									<button class="range-point" id="rb4" style="margin-left: 850px;"></button>
 									<div class="range-date" id="today">Сегодня</div>
 									<div class="range-date" id="rangeDate1">23.02</div>
-									<div class="range-date" id="rangeDate2">15.03</div>	
-									<div class="range-date" id="rangeDate3">15.04</div>					
+									<div class="range-date" id="rangeDate2">15.03</div>
+									<div class="range-date" id="rangeDate3">15.04</div>
 								</div>
 							</div>
-						</div>				
+						</div>
 					</div>
-					
 					<!-- Оплаты -->
 					<div class="col1" id="paymentTab">
 						<div class="row1">
@@ -185,7 +179,7 @@
 								<div class="pane-body">
 										<div class="quantity">2 заказа</div>
 										<div class="money">115 250 000 р.</div>
-								</div>		
+								</div>
 							</div>
 							<div class="pane status_3">
 								<div class="pane-head">
@@ -260,7 +254,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -299,7 +293,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -338,7 +332,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -377,7 +371,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -416,7 +410,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -455,7 +449,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -494,7 +488,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -533,7 +527,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -572,7 +566,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -611,7 +605,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -650,7 +644,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -689,7 +683,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -728,7 +722,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -767,7 +761,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -806,7 +800,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -845,7 +839,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -884,7 +878,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -923,7 +917,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -962,7 +956,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -1001,7 +995,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -1040,7 +1034,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -1079,7 +1073,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -1118,7 +1112,7 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
 											<tr>
 												<td>
@@ -1157,900 +1151,1042 @@
 													<div class="row">
 														<div class="desktop-num status_3">75 123 500,00</div>
 													</div>
-												</td>		
+												</td>
 											</tr>
-											
 										</table>
-									</div>			
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-					<!-- Товары -->
-					<div class="col1" id="productsTab">
-						<div class="row1">
-							<div class="pane status_1">
-								<div class="pane-head">
-									<svg width="41" height="43" viewBox="0 0 41 43" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-										<path d="M24.276 21.8728L22.252 22.9699V42.6913L40.4777 32.835V13.1135L24.276 21.8728Z" fill="white"/>
-										<path d="M27.571 4.18756L20.5618 0.387207L1.83008 10.5156L8.84862 14.316L27.571 4.18756Z" fill="white"/>
-										<path d="M39.2881 10.5155L31.2106 6.20605L12.4883 16.3345L13.5565 16.8523L20.5657 20.6439L27.5374 16.8786L39.2881 10.5155Z" fill="white"/>
-										<path d="M11.0709 23.5844L7.71625 21.9695V16.9491L0.800781 13.219V32.8L18.8953 42.5861V23.0051L11.0709 18.7835V23.5844Z" fill="white"/>
-									</svg>
-									<div class="pane-name">Товар в наличии</div>
-								</div>
-								<div class="pane-body">
-									<div class="quantity">2 заказа</div>
-									<div class="money">150 250 000 р.</div>
-								</div>
-							</div>
-							<div class="pane status_4">
-								<div class="pane-head">
-										<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<g clip-path="url(#clip0)">
-											<path d="M35.9615 11.0876L37.4155 9.63367L38.8581 11.0763L40.6397 9.29462L35.9729 4.62782L34.1913 6.40951L35.6339 7.85215L34.1799 9.30613C30.9851 6.49694 27.0058 4.84863 22.7603 4.57592V2.5196H27.2116V0H15.7894V2.5196H20.2407V4.57584C15.5776 4.87542 11.2348 6.83331 7.90072 10.1673C4.26814 13.7999 2.26758 18.6297 2.26758 23.767C2.26758 28.9043 4.26814 33.7341 7.90072 37.3667C11.5334 40.9993 16.3632 42.9999 21.5005 42.9999C26.6378 42.9999 31.4677 40.9994 35.1003 37.3667C38.7328 33.7341 40.7334 28.9043 40.7334 23.767C40.7333 19.0521 39.0469 14.5968 35.9615 11.0876ZM21.5004 38.0676C13.6151 38.0676 7.19994 31.6524 7.19994 23.7671C7.19994 15.8818 13.6152 9.46654 21.5004 9.46654C29.3858 9.46654 35.8009 15.8818 35.8009 23.7671C35.8009 31.6524 29.3858 38.0676 21.5004 38.0676Z" fill="white"/>
-											<path d="M33.2111 22.5107C32.6246 17.0189 28.2493 12.6436 22.7574 12.057V14.6609H20.2378V12.057C14.746 12.6436 10.3707 17.0188 9.78418 22.5107H12.3881V25.0303H9.78418C10.3707 30.5221 14.746 34.8975 20.2378 35.484V32.8801H22.7574V35.484C28.2493 34.8975 32.6246 30.5222 33.2111 25.0303H30.6072V22.5107H33.2111ZM21.4975 25.9515C20.295 25.9515 19.3166 24.9731 19.3166 23.7705C19.3166 23.6451 19.3278 23.5224 19.3482 23.4028L15.9119 19.9665L17.6935 18.1848L21.1297 21.6211C21.2494 21.6007 21.3721 21.5895 21.4975 21.5895C22.7001 21.5895 23.6786 22.5678 23.6786 23.7704C23.6786 24.973 22.7002 25.9515 21.4975 25.9515Z" fill="white"/>
-											</g>
-											<defs>
-											<clipPath id="clip0">
-											<rect width="43" height="43" fill="white"/>
-											</clipPath>
-											</defs>
-										</svg>											
-									<div class="pane-name">Товар ожидается</div>
-								</div>
-								<div class="pane-body">
-										<div class="quantity">2 заказа</div>
-										<div class="money">75 250 000 р.</div>
-								</div>		
-							</div>
-							<div class="pane status_5">
-								<div class="pane-head">
-										<svg width="36" height="41" viewBox="0 0 36 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M0.623195 7.07137C-0.123209 4.75253 1.10993 2.24329 3.37247 1.47809C5.63502 0.712896 8.08292 1.97726 8.82933 4.2961L17.3193 30.671C16.5281 30.4569 15.6867 30.4177 14.8467 30.5752L6.6273 5.04087C6.28142 3.96629 5.14737 3.3807 4.09907 3.73523C3.05071 4.08976 2.4794 5.25216 2.82528 6.32667C3.02587 6.94991 2.69561 7.62199 2.08751 7.82759C1.47947 8.03319 0.823849 7.69461 0.623195 7.07137ZM34.0736 27.7616L20.1633 32.466C20.657 33.0405 21.0483 33.7234 21.2968 34.4951C21.3056 34.5226 21.3106 34.5504 21.319 34.578L34.8002 30.0187C35.4082 29.8131 35.7386 29.1411 35.538 28.5179C35.3373 27.8945 34.6816 27.5559 34.0736 27.7616ZM20.1958 34.8677C20.9839 37.3161 19.6864 39.9558 17.2977 40.7637C14.9091 41.5715 12.3338 40.2416 11.5456 37.7932C10.7574 35.3447 12.055 32.7051 14.4436 31.8972C16.8323 31.0893 19.4077 32.4193 20.1958 34.8677ZM18.0332 35.599C17.6392 34.3748 16.3516 33.7099 15.1572 34.1138C13.9628 34.5177 13.3141 35.8376 13.7081 37.0617C14.1022 38.2859 15.3898 38.9509 16.5842 38.5471C17.7785 38.1431 18.4273 36.8232 18.0332 35.599ZM30.5582 9.87115L35.2808 24.5425C35.3811 24.8541 35.216 25.1901 34.9119 25.293L20.0479 30.3198C19.7439 30.4226 19.416 30.2533 19.3158 29.9417L14.5932 15.2703C14.4928 14.9587 14.658 14.6227 14.9621 14.5199L29.826 9.49298C30.1301 9.39028 30.4579 9.5595 30.5582 9.87115ZM28.592 18.3936L23.5307 15.5394L21.1213 20.9202L22.7165 21.6728L23.7583 19.345L25.6394 25.1889L27.4397 24.5801L25.5588 18.737L27.7469 19.9715L28.592 18.3936ZM24.1755 9.6409L21.1562 0.261025C21.0921 0.0617873 20.8824 -0.046474 20.6881 0.0193135L18.0991 0.89485L18.0864 0.918699L18.0647 0.906506L16.6988 1.36849L17.8236 4.8628L16.2829 5.38387L15.1581 1.88957L13.7917 2.35169L13.7814 2.37473L13.7572 2.36334L11.1851 3.23325C10.9906 3.29897 10.8851 3.51382 10.9493 3.71306L13.9687 13.093C14.0328 13.2922 14.2424 13.4005 14.4368 13.3347L23.9399 10.1208C24.1341 10.055 24.2397 9.84014 24.1755 9.6409Z" fill="white"/>
-										</svg>
-									<div class="pane-name">Товар собран</div>
-								</div>
-								<div class="pane-body">
-									<div class="quantity">2 заказа</div>
-									<div class="money">75 250 000 р.</div>
-								</div>
-							</div>
-						</div>
-						<div class="row2">
-							<div class="data">
-								<!-- График -->
-								<div class="desktop-info">
-									<img src="../img/График и подписи.jpg" alt="">
-								</div>
-								<!-- Таблица -->
-								<div class="desktop-data">
-									<div class="table-menu">
-										<button class="restart">Сбросить все</button>
-										<div class="select-orders">
-											<div class="custom-select"></div>
-											<div class="select-name">Только предзаказы</div>
-										</div>
 									</div>
-									<table class="table">
-										<tbody class="table-body desktop-table">
-											<tr>
-												<td>
-													<div class="row">
-														<div class="checked">
-															<div class="checkbox dark icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div class="checked">
-															<div class="checkbox dark icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div class="checked">
-															<div class="checkbox dark icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div class="checked">
-															<div class="checkbox dark icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											<tr>
-												<td>
-													<div class="row">
-														<div>
-															<div class="checkbox icon"></div>
-														</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>Предзаказ-20 FXR</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>ТС-401</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div>25.02.20</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_1 moreSpace">5 686</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_4 moreSpace">5 444</div>
-													</div>
-												</td>
-												<td>
-													<div class="row">
-														<div class="desktop-num status_5 moreSpace">3 444</div>
-													</div>
-												</td>		
-											</tr>
-											
-										</table>
-									</div>			
 								</div>
 							</div>
-						</div>
-					</div>	
+          </div>
+          <!-- Товары -->
+          <div class="col1" id="productsTab">
+            <div class="row1">
+              <div class="pane status_1">
+                <div class="pane-head">
+                  <svg width="41" height="43" viewBox="0 0 41 43" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24.276 21.8728L22.252 22.9699V42.6913L40.4777 32.835V13.1135L24.276 21.8728Z" fill="white"/>
+                    <path d="M27.571 4.18756L20.5618 0.387207L1.83008 10.5156L8.84862 14.316L27.571 4.18756Z" fill="white"/>
+                    <path d="M39.2881 10.5155L31.2106 6.20605L12.4883 16.3345L13.5565 16.8523L20.5657 20.6439L27.5374 16.8786L39.2881 10.5155Z" fill="white"/>
+                    <path d="M11.0709 23.5844L7.71625 21.9695V16.9491L0.800781 13.219V32.8L18.8953 42.5861V23.0051L11.0709 18.7835V23.5844Z" fill="white"/>
+                  </svg>
+                  <div class="pane-name">Товар в наличии</div>
+                </div>
+                <div class="pane-body">
+                  <div class="quantity">2 заказа</div>
+                  <div class="money">150 250 000 р.</div>
+                </div>
+              </div>
+              <div class="pane status_4">
+                <div class="pane-head">
+                    <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clip-path="url(#clip0)">
+                      <path d="M35.9615 11.0876L37.4155 9.63367L38.8581 11.0763L40.6397 9.29462L35.9729 4.62782L34.1913 6.40951L35.6339 7.85215L34.1799 9.30613C30.9851 6.49694 27.0058 4.84863 22.7603 4.57592V2.5196H27.2116V0H15.7894V2.5196H20.2407V4.57584C15.5776 4.87542 11.2348 6.83331 7.90072 10.1673C4.26814 13.7999 2.26758 18.6297 2.26758 23.767C2.26758 28.9043 4.26814 33.7341 7.90072 37.3667C11.5334 40.9993 16.3632 42.9999 21.5005 42.9999C26.6378 42.9999 31.4677 40.9994 35.1003 37.3667C38.7328 33.7341 40.7334 28.9043 40.7334 23.767C40.7333 19.0521 39.0469 14.5968 35.9615 11.0876ZM21.5004 38.0676C13.6151 38.0676 7.19994 31.6524 7.19994 23.7671C7.19994 15.8818 13.6152 9.46654 21.5004 9.46654C29.3858 9.46654 35.8009 15.8818 35.8009 23.7671C35.8009 31.6524 29.3858 38.0676 21.5004 38.0676Z" fill="white"/>
+                      <path d="M33.2111 22.5107C32.6246 17.0189 28.2493 12.6436 22.7574 12.057V14.6609H20.2378V12.057C14.746 12.6436 10.3707 17.0188 9.78418 22.5107H12.3881V25.0303H9.78418C10.3707 30.5221 14.746 34.8975 20.2378 35.484V32.8801H22.7574V35.484C28.2493 34.8975 32.6246 30.5222 33.2111 25.0303H30.6072V22.5107H33.2111ZM21.4975 25.9515C20.295 25.9515 19.3166 24.9731 19.3166 23.7705C19.3166 23.6451 19.3278 23.5224 19.3482 23.4028L15.9119 19.9665L17.6935 18.1848L21.1297 21.6211C21.2494 21.6007 21.3721 21.5895 21.4975 21.5895C22.7001 21.5895 23.6786 22.5678 23.6786 23.7704C23.6786 24.973 22.7002 25.9515 21.4975 25.9515Z" fill="white"/>
+                      </g>
+                      <defs>
+                      <clipPath id="clip0">
+                      <rect width="43" height="43" fill="white"/>
+                      </clipPath>
+                      </defs>
+                    </svg>
+                  <div class="pane-name">Товар ожидается</div>
+                </div>
+                <div class="pane-body">
+                  <div class="quantity">2 заказа</div>
+                  <div class="money">75 250 000 р.</div>
+                </div>
+              </div>
+              <div class="pane status_5">
+                <div class="pane-head">
+                    <svg width="36" height="41" viewBox="0 0 36 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0.623195 7.07137C-0.123209 4.75253 1.10993 2.24329 3.37247 1.47809C5.63502 0.712896 8.08292 1.97726 8.82933 4.2961L17.3193 30.671C16.5281 30.4569 15.6867 30.4177 14.8467 30.5752L6.6273 5.04087C6.28142 3.96629 5.14737 3.3807 4.09907 3.73523C3.05071 4.08976 2.4794 5.25216 2.82528 6.32667C3.02587 6.94991 2.69561 7.62199 2.08751 7.82759C1.47947 8.03319 0.823849 7.69461 0.623195 7.07137ZM34.0736 27.7616L20.1633 32.466C20.657 33.0405 21.0483 33.7234 21.2968 34.4951C21.3056 34.5226 21.3106 34.5504 21.319 34.578L34.8002 30.0187C35.4082 29.8131 35.7386 29.1411 35.538 28.5179C35.3373 27.8945 34.6816 27.5559 34.0736 27.7616ZM20.1958 34.8677C20.9839 37.3161 19.6864 39.9558 17.2977 40.7637C14.9091 41.5715 12.3338 40.2416 11.5456 37.7932C10.7574 35.3447 12.055 32.7051 14.4436 31.8972C16.8323 31.0893 19.4077 32.4193 20.1958 34.8677ZM18.0332 35.599C17.6392 34.3748 16.3516 33.7099 15.1572 34.1138C13.9628 34.5177 13.3141 35.8376 13.7081 37.0617C14.1022 38.2859 15.3898 38.9509 16.5842 38.5471C17.7785 38.1431 18.4273 36.8232 18.0332 35.599ZM30.5582 9.87115L35.2808 24.5425C35.3811 24.8541 35.216 25.1901 34.9119 25.293L20.0479 30.3198C19.7439 30.4226 19.416 30.2533 19.3158 29.9417L14.5932 15.2703C14.4928 14.9587 14.658 14.6227 14.9621 14.5199L29.826 9.49298C30.1301 9.39028 30.4579 9.5595 30.5582 9.87115ZM28.592 18.3936L23.5307 15.5394L21.1213 20.9202L22.7165 21.6728L23.7583 19.345L25.6394 25.1889L27.4397 24.5801L25.5588 18.737L27.7469 19.9715L28.592 18.3936ZM24.1755 9.6409L21.1562 0.261025C21.0921 0.0617873 20.8824 -0.046474 20.6881 0.0193135L18.0991 0.89485L18.0864 0.918699L18.0647 0.906506L16.6988 1.36849L17.8236 4.8628L16.2829 5.38387L15.1581 1.88957L13.7917 2.35169L13.7814 2.37473L13.7572 2.36334L11.1851 3.23325C10.9906 3.29897 10.8851 3.51382 10.9493 3.71306L13.9687 13.093C14.0328 13.2922 14.2424 13.4005 14.4368 13.3347L23.9399 10.1208C24.1341 10.055 24.2397 9.84014 24.1755 9.6409Z" fill="white"/>
+                    </svg>
+                  <div class="pane-name">Товар собран</div>
+                </div>
+                <div class="pane-body">
+                  <div class="quantity">2 заказа</div>
+                  <div class="money">75 250 000 р.</div>
+                </div>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="data">
+                <!-- График -->
+                <div class="desktop-info">
+                  <img src="../img/График и подписи.jpg" alt="">
+                </div>
+                <!-- Таблица -->
+                <div class="desktop-data">
+                  <div class="table-menu">
+                    <button class="restart">Сбросить все</button>
+                    <div class="select-orders">
+                      <div class="custom-select"></div>
+                      <div class="select-name">Только предзаказы</div>
+                    </div>
+                  </div>
+                  <table class="table">
+                    <tbody class="table-body desktop-table">
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="checked">
+                              <div class="checkbox dark icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="checked">
+                              <div class="checkbox dark icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="checked">
+                              <div class="checkbox dark icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div class="checked">
+                              <div class="checkbox dark icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="row">
+                            <div>
+                              <div class="checkbox icon"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>Предзаказ-20 FXR</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>ТС-401</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div>25.02.20</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_1 moreSpace">5 686</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_4 moreSpace">5 444</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="row">
+                            <div class="desktop-num status_5 moreSpace">3 444</div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+		</div>
 
-				</div>
-
-
-				<div class="banners">
+    <div class="banners">
 					<div class="container">
 						<a href="#">
-								<img src="../img/fullt.jpg" alt="banner">
-							</a>
-							<a href="#">
-								<img src="../img/fullt(1).jpg" alt="banner">
-							</a>
-							<a href="#">
-								<img src="../img/fullt(2).jpg" alt="banner">
-							</a>
-						</div>	
-				</div>
-			</div>
+							<img src="../img/fullt.jpg" alt="banner">
+						</a>
+						<a href="#">
+							<img src="../img/fullt(1).jpg" alt="banner">
+						</a>
+						<a href="#">
+							<img src="../img/fullt(2).jpg" alt="banner">
+						</a>
+					</div>
     </div>
 
-    <!-- Прелоадер -->
-    <div id="loader">
-        <div class="loader icon"></div>
-        <div class="message"></div>
+    <div id="alerts-container" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="alerts pop-up">
+        <div class="pop-up-title row">
+          <div class="row">
+            <div class="alerts icon"></div>
+            <div class="title">Уведомления</div>
+          </div>
+          <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
+            <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pop-up-body">
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message action row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.10.19</div>
+              <div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+          </div>
+          <div class="message attention row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.11.19</div>
+              <div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message action row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.10.19</div>
+              <div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+          </div>
+          <div class="message attention row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.11.19</div>
+              <div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message action row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.10.19</div>
+              <div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+          </div>
+          <div class="message attention row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.11.19</div>
+              <div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message action row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.10.19</div>
+              <div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+          </div>
+          <div class="message attention row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">25.11.19</div>
+              <div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+          <div class="message cart row">
+            <div class="message icon"></div>
+            <div>
+              <div class="date">2 часа назад</div>
+              <div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Сообщение об ошибке -->
-   <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
       <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
         <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
@@ -2058,340 +2194,27 @@
       <div class="text"></div>
     </div>
 
-    <!-- Кнопка "Наверх страницы" -->
-    <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white" />
-        <path
-            d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z"
-            fill="white" />
-    </svg>
-
-    <!-- Футер -->
-    <div class="footer">
-			<div class="container">
-					<div class="wrap">
-							<div>Отдел продаж: +7 (846) 300-44-99</div>
-							<div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
-					</div>
-			</div>
+    <div id="loader">
+      <div class="loader icon"></div>
+      <div class="text"></div>
     </div>
 
-    <!-- Окно уведомлений -->
-    <div id="alerts-container" class="pop-up-container" onclick="closePopUp(event)">
-			<div class="alerts pop-up">
-				<div class="alerts-title row">
-					<div class="row">
-						<div class="alerts icon"></div>
-						<div class="title">Уведомления</div>
-					</div>
-					<svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
-						<path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
-					</svg>
-				</div>
-				<div id="alerts-body">
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message action row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.10.19</div>
-							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-						</div>
-					</div>
-					<div class="message attention row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.11.19</div>
-							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message action row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.10.19</div>
-							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-						</div>
-					</div>
-					<div class="message attention row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.11.19</div>
-							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message action row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.10.19</div>
-							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-						</div>
-					</div>
-					<div class="message attention row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.11.19</div>
-							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message action row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.10.19</div>
-							<div class="text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-						</div>
-					</div>
-					<div class="message attention row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">25.11.19</div>
-							<div class="text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-					<div class="message cart row">
-						<div class="message icon"></div>
-						<div>
-							<div class="date">2 часа назад</div>
-							<div class="text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-						</div>
-					</div>
-				</div>
-			</div>
-	</div>
+    <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white"/>
+      <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
+    </svg>
 
-		
-		<script src="../js/main.js"></script>
-		<script>
-			'use strict';
-			//Переключатель "Товары/Оплаты"
-			const productsBtn = document.querySelector('#productsBtn');
-			const paymentBtn = document.querySelector('#paymentBtn');
-			const paymentTab = document.querySelector('#paymentTab');
-			const productsTab = document.querySelector('#productsTab');
+    <div class="footer">
+      <div class="container">
+        <div class="wrap">
+          <div>Отдел продаж: +7 (846) 300-44-99</div>
+          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+        </div>
+      </div>
+    </div>
 
-			productsBtn.addEventListener('click', function() {
-				productsBtn.classList.add('toggle-active');
-				paymentBtn.classList.remove('toggle-active');
-				productsTab.style.display = 'flex';
-				paymentTab.style.display = 'none';
-			});
+    <script src="../js/main.js"></script>
+    <script src="desktop.js"></script>
 
-			paymentBtn.addEventListener('click', function() {
-				paymentBtn.classList.add('toggle-active');
-				productsBtn.classList.remove('toggle-active');
-				paymentTab.style.display = 'flex';
-				productsTab.style.display = 'none';
-			});
-
-
-
-			
-
-			//Слайдер с ползунками
-				
-			//setTimeout(init2slider('range', 'between', 'rb1', 'rb2'), 0);
-
-			const rangeSlider = () => {
-      //забираем нужные DOM-элементы для манипуляции
-      const range = document.querySelector('#range');//шкала
-      const between = document.querySelector('#between');//пройденная шкала
-      const rangeBtn1 = document.getElementById('rb1');//левый ползунок
-      const rangeBtn2 = document.getElementById('rb2');//правый ползунок 
-
-      //работа левого ползунка
-      rangeBtn1.addEventListener('mousedown', function(evt) {
-        let sliderCoords = getCoords(range);//размеры шкалы
-        let betweenCoords = getCoords(between);//размеры пройденной шкалы 
-        let buttonCoords1 = getCoords(rangeBtn1);//размер левого ползунка
-        let buttonCoords2 = getCoords(rangeBtn2);//размер правого ползунка 
-        let shiftX2 = evt.pageX - buttonCoords2.left;//размер смещения правого ползунка без размера кнопки 
-        let shiftX1 = evt.pageX - buttonCoords1.left;//размер смещения левого ползунка без размера кнопки
-
-
-       	document.onmousemove = function(evt) {
-          let left1 = evt.pageX - shiftX1 - sliderCoords.left;//расстояние перетаскивания ползунка
-          let right1 = range.offsetWidth - rangeBtn1.offsetWidth;//длина шкалы без ширины левого ползунка
-          
-          //условия, чтобы ползунок не выходил за пределы диапазона
-          if (left1 < 0) left1 = 0;
-          if (left1 > right1) left1 = right1;
-
-          //перемещение самого ползунка                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-          rangeBtn1.style.marginLeft = left1 + 'px';
-                                                                                        
-          shiftX2 = evt.pageX - buttonCoords2.left;//отслеживание смещения правого ползунка
-          let left2 = evt.pageX - shiftX2 - sliderCoords.left;
-          let right2 = range.offsetWidth - rangeBtn2.offsetWidth;
-
-          console.log(left1);
-          //console.log(left2);
-
-          if (left1 > left2) {                                                                                          
-            between.style.width = '0';
-            //between.style.marginLeft = left2 + 'px';
-            rangeBtn1.style.marginLeft = left2 - 20 + 'px';
-          }
-          else{
-            between.style.width = (left2-left1) + 'px';
-            between.style.marginLeft = left1 + 'px';
-          }
-        };  
-        document.onmouseup = function() {
-            document.onmousemove = document.onmouseup = null;
-        };
-        return false;
-
-      });
-
-
-      //работа правого ползунка
-      rangeBtn2.addEventListener('mousedown', function(evt) {
-        let sliderCoords = getCoords(range);//размеры шкалы
-        let betweenCoords = getCoords(between);//размеры пройденной шкалы 
-        let buttonCoords1 = getCoords(rangeBtn1);//размер левого ползунка
-        let buttonCoords2 = getCoords(rangeBtn2);//размер правого ползунка 
-        let shiftX2 = evt.pageX - buttonCoords2.left;//размер смещения правого ползунка без размера кнопки 
-        let shiftX1 = evt.pageX - buttonCoords1.left;//размер смещения левого ползунка без размера кнопки
-
-
-       	document.onmousemove = function(evt) {
-          let left2 = evt.pageX - shiftX2 - sliderCoords.left;//расстояние перетаскивания ползунка
-          let right2 = range.offsetWidth - rangeBtn2.offsetWidth;//длина шкалы без ширины левого ползунка
-          
-          //условия, чтобы ползунок не выходил за пределы диапазона
-          if (left2 < 0) left2 = 0;
-          if (left2 > right2) left2 = right2;
-
-          //перемещение самого ползунка                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-          rangeBtn2.style.marginLeft = left2 + 'px';
-                                                                                        
-          shiftX1 = evt.pageX - buttonCoords1.left;//отслеживание смещения правого ползунка
-          let left1 = evt.pageX - shiftX1 - sliderCoords.left;
-          let right1 = range.offsetWidth - rangeBtn1.offsetWidth;
-
-          console.log(left1);
-          console.log(left2);
-
-          if (left1 > left2) {                                                                                          
-            between.style.width = '0';
-            //between.style.marginLeft = left2 + 'px';
-            rangeBtn2.style.marginLeft = left1 + 20 + 'px';
-          }
-          else{
-            between.style.width = (left2-left1) + 'px';
-            between.style.marginLeft = left1 + 'px';
-          }
-        };  
-        document.onmouseup = function() {
-            document.onmousemove = document.onmouseup = null;
-        };
-        return false;
-
-      });
-
-      rangeBtn1.ondragstart = function() {
-          return false;
-      };
-      rangeBtn2.ondragstart = function() {
-          return false;
-      };
-
-
-
-
-    
-      function getCoords(elem){
-        let box = elem.getBoundingClientRect();
-        return {
-          top: box.top + pageYOffset,
-          left: box.left + pageXOffset
-        }
-      };    
-    };
-
-    rangeSlider();
-
-
-
-
-
-		</script>
-</body>
-
+  </body>
 </html>

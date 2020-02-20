@@ -10,8 +10,14 @@ var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
     urlRequest = 'http://api.topsports.ru',
-    loader = new Loader(document.getElementById('loader')),
-    message = new Message(document.getElementById('message-container'));
+    loader = document.getElementById('loader'),
+    message = document.getElementById('message-container');
+if (loader) {
+  loader = new Loader(loader);
+}
+if (message) {
+  message = new Message(message);
+}
 
 // Динамические переменные:
 
@@ -87,7 +93,8 @@ function checkAuth() {
 
 // Выход из авторизации:
 
-function logOut() {
+function logOut(event) {
+  event.preventDefault();
   sendRequest(`${urlRequest}/new_dis/user_logout.php?login=${userInfo.code_1c}`)
 }
 

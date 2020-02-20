@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
@@ -99,7 +98,7 @@
                   <a class="item" href="../monitoring">Мониторинг</a>
                   <a class="item" href="../mediabank">Медиабанк</a>
                 </div>
-                <a id="exit" class="item" class="menu-item" href="#">Выйти</a>
+                <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
             <div class="alerts icon" onclick="openPopUp('alerts-container')">
@@ -146,35 +145,35 @@
         </div>
 
         <div class="tabs row">
-          <div class="tab total row" onclick="showTable('total')">
+          <div class="tab nomen row" onclick="showTable('nomen')">
             <div>Итого</div>
           </div>
-          <div class="tab expected row" onclick="showTable('expected')">
+          <div class="tab vputi row" onclick="showTable('vputi')">
             <div class="icon"></div>
             <div>Товар ожидается</div>
           </div>
-          <div class="tab available row" onclick="showTable('available')">
+          <div class="tab vnali row" onclick="showTable('vnali')">
             <div class="icon"></div>
             <div>Товар в наличии</div>
           </div>
-          <div class="tab ready row" onclick="showTable('ready')">
+          <div class="tab debzd row" onclick="showTable('debzd')">
             <div class="icon"></div>
             <div>Товар собран</div>
           </div>
-          <div class="tab shipped row" onclick="showTable('shipped')">
+          <div class="tab otgrz row" onclick="showTable('otgrz')">
             <div class="icon"></div>
             <div>Товар отгружен</div>
           </div>
-          <div class="tab non-delivery row" onclick="showTable('non-delivery')">
+          <div class="tab nedop row" onclick="showTable('nedop')">
             <div class="icon"></div>
             <div>Непоставка</div>
           </div>
-          <div class="tab reclamation row" onclick="showTable('reclamation')">
+          <div class="tab reclm row" onclick="showTable('reclm')">
             <div class="icon"></div>
             <div>Рекламации</div>
           </div>
         </div>
-        <div id="total" class="table-wrap active">
+        <div id="nomen" class="table-wrap active">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -196,7 +195,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="3">
+                <!-- <th id="3">
                   <div class="row">
                     <div class="title">РРЦ</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -204,8 +203,8 @@
                     </svg>
                   </div>
                   <div class="resize-btn"></div>
-                </th>
-                <th id="4">
+                </th> -->
+                <th id="3">
                   <div class="row">
                     <div class="title">Скидка</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -214,7 +213,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="5">
+                <th id="4">
                   <div class="row">
                     <div class="title">Дилерская цена</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -223,7 +222,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="6">
+                <th id="5">
                   <div class="row">
                     <div class="title">Количество</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -232,23 +231,23 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="7">
+                <th id="6">
                   <div class="row">
                     <div class="title">Дилерская стоимость</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white"/>
                     </svg>
                   </div>
-                  <div class="resize-btn"></div>
+                  <!-- <div class="resize-btn"></div> -->
                 </th>
-                <th id="8">
+                <!-- <th id="8">
                   <div class="row">
                     <div class="title">Розничная стоимость</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white"/>
                     </svg>
                   </div>
-                </th>
+                </th> -->
               </tr>
               <tr class="results">
                 <th>
@@ -259,10 +258,10 @@
                   <div class="row">
                   </div>
                 </th>
-                <th>
+                <!-- <th>
                   <div class="row">
                   </div>
-                </th>
+                </th> -->
                 <th>
                   <div class="row">
                   </div>
@@ -273,22 +272,19 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="result" data-key="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="result" data-key="amount-opt"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="summ">0</span></div>
                   </div>
                 </th>
-                <th>
+                <!-- <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="result" data-key="amount-retail"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="amount_retail">0</span></div>
                   </div>
-                </th>
+                </th> -->
               </tr>
             </thead>
           </table>
@@ -297,49 +293,49 @@
               <tr>
                 <td class="articul">
                   <div class="row">
-                    <div>#articul#</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
                   <div class="row ">
-                    <div>#name#</div>
+                    <div>#titl#</div>
                   </div>
                 </td>
-                <td class="price-retail">
+                <!-- <td class="price-retail">
                   <div class="row right">
                     <div>#price_retail#</div>
                   </div>
-                </td>
+                </td> -->
                 <td class="discount">
                   <div class="row center">
-                    <div>#discount#%</div>
+                    <div>#skid#%</div>
                   </div>
                 </td>
                 <td class="price-opt">
                   <div class="row right">
-                    <div>#price_opt#</div>
+                    <div>#pric#</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>#qty#</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
                 <td class="price-opt-total">
                   <div class="row right">
-                    <div>#price_opt_total#</div>
+                    <div>#summ#</div>
                   </div>
                 </td>
-                <td class="price-retail-total">
+                <!-- <td class="price-retail-total">
                   <div class="row right">
-                    <div>#price_retail_total#</div>
+                    <div>#amount_retail#</div>
                   </div>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>
         </div>
-        <div id="expected" class="table-wrap">
+        <div id="vputi" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -417,8 +413,7 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
                 <th>
@@ -427,20 +422,17 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="left-pay"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kdop">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="paid"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="paid">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="price-opt-total"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="summ">0</span></div>
                   </div>
                 </th>
               </tr>
@@ -451,44 +443,44 @@
               <tr>
                 <td class="articul">
                   <div class="row">
-                    <div>673371163863</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
-                  <div class="row ">
-                    <div>Очки солнцезащитные Spy Optic Atlas HAPPY, взрослые (SOFT MATTE BLACK/TORT FADE - GRAY GREEN)</div>
+                  <div class="row">
+                    <div>#titl#</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>2</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
                 <td class="date">
                   <div class="row center">
-                    <div>12.09.19</div>
+                    <div>#dpst#</div>
                   </div>
                 </td>
                 <td class="left-pay">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#kdop#</div>
                   </div>
                 </td>
                 <td class="paid">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#paid#</div>
                   </div>
                 </td>
                 <td class="price-opt-total">
                   <div class="row right">
-                    <div>16 350,00</div>
+                    <div>#summ#</div>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div id="available" class="table-wrap">
+        <div id="vnali" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -566,8 +558,7 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
                 <th>
@@ -576,20 +567,17 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="left-pay"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kdop">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="paid"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="paid">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="price-opt-total"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="summ">0</span></div>
                   </div>
                 </th>
               </tr>
@@ -600,44 +588,44 @@
               <tr>
                 <td class="articul">
                   <div class="row">
-                    <div>673371163863</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
-                  <div class="row ">
-                    <div>Очки солнцезащитные Spy Optic Atlas HAPPY, взрослые (SOFT MATTE BLACK/TORT FADE - GRAY GREEN)</div>
+                  <div class="row">
+                    <div>#titl#</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>2</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
                 <td class="date">
                   <div class="row center">
-                    <div>12.09.19</div>
+                    <div>#dpst#</div>
                   </div>
                 </td>
                 <td class="left-pay">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#kdop#</div>
                   </div>
                 </td>
                 <td class="paid">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#paid#</div>
                   </div>
                 </td>
                 <td class="price-opt-total">
                   <div class="row right">
-                    <div>16 350,00</div>
+                    <div>#summ#</div>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div id="ready" class="table-wrap">
+        <div id="debzd" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -715,8 +703,7 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
                 <th>
@@ -725,20 +712,17 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="left-pay"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kdop">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="paid"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="paid">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="price-opt-total"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="summ">0</span></div>
                   </div>
                 </th>
               </tr>
@@ -749,44 +733,44 @@
               <tr>
                 <td class="articul">
                   <div class="row">
-                    <div>673371163863</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
-                  <div class="row ">
-                    <div>Очки солнцезащитные Spy Optic Atlas HAPPY, взрослые (SOFT MATTE BLACK/TORT FADE - GRAY GREEN)</div>
+                  <div class="row">
+                    <div>#titl#</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>2</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
                 <td class="date">
                   <div class="row center">
-                    <div>12.09.19</div>
+                    <div>#dpst#</div>
                   </div>
                 </td>
                 <td class="left-pay">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#kdop#</div>
                   </div>
                 </td>
                 <td class="paid">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#paid#</div>
                   </div>
                 </td>
                 <td class="price-opt-total">
                   <div class="row right">
-                    <div>16 350,00</div>
+                    <div>#summ#</div>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div id="shipped" class="table-wrap">
+        <div id="otgrz" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -810,7 +794,7 @@
                 </th>
                 <th id="3">
                   <div class="row">
-                    <div class="title">Количество</div>
+                    <div class="title">Подать рекламацию</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white"/>
                     </svg>
@@ -818,6 +802,15 @@
                   <div class="resize-btn"></div>
                 </th>
                 <th id="4">
+                  <div class="row">
+                    <div class="title">Количество</div>
+                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white"/>
+                    </svg>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5">
                   <div class="row">
                     <div class="title">Дата отгрузки</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -826,7 +819,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="5">
+                <th id="6">
                   <div class="row">
                     <div class="title">№ Накладной</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -835,7 +828,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="6">
+                <th id="7">
                   <div class="row">
                     <div class="title">Дилерская стоимость</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -844,7 +837,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="7">
+                <th id="8">
                   <div class="row">
                     <div class="title">Оплачено</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -853,23 +846,23 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="8">
+                <th id="9">
                   <div class="row">
                     <div class="title">Осталось оплатить</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white"/>
                     </svg>
                   </div>
-                  <div class="resize-btn"></div>
+                  <!-- <div class="resize-btn"></div> -->
                 </th>
-                <th id="9">
+                <!-- <th id="10">
                   <div class="row">
                     <div class="title">Дата платежа</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white"/>
                     </svg>
                   </div>
-                </th>
+                </th> -->
               </tr>
               <tr class="results">
                 <th>
@@ -881,9 +874,12 @@
                   </div>
                 </th>
                 <th>
+                  <div class="row">
+                  </div>
+                </th>
+                <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
                 <th>
@@ -896,26 +892,23 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="price-opt-total"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="summ">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="paid"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="paid">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="left-pay"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kdop">0</span></div>
                   </div>
                 </th>
-                <th>
+                <!-- <th>
                   <div class="row">
                   </div>
-                </th>
+                </th> -->
               </tr>
             </thead>
           </table>
@@ -924,54 +917,59 @@
               <tr>
                 <td class="articul">
                   <div class="row">
-                    <div>673371163863</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
-                  <div class="row ">
-                    <div>Очки солнцезащитные Spy Optic Atlas HAPPY, взрослые (SOFT MATTE BLACK/TORT FADE - GRAY GREEN)</div>
+                  <div class="row">
+                    <div>#titl#</div>
+                  </div>
+                </td>
+                <td class="recl">
+                  <div class="row center">
+                    <div class="recl btn" onclick="openPopUp('reclamation-container')">Претензия</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>2</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
                 <td class="date">
                   <div class="row center">
-                    <div>12.09.19</div>
+                    <div>#dotg#</div>
                   </div>
                 </td>
                 <td class="number">
                   <div class="row">
-                    <div>ТС-156</div>
+                    <div>#nakl#</div>
                   </div>
                 </td>
                 <td class="price-opt-total">
                   <div class="row right">
-                    <div>16 000,00</div>
+                    <div>#summ#</div>
                   </div>
                 </td>
                 <td class="paid">
                   <div class="row right">
-                    <div>3 000,00</div>
+                    <div>#paid#</div>
                   </div>
                 </td>
                 <td class="left-pay">
                   <div class="row right">
-                    <div>13 000,00</div>
+                    <div>#kdop#</div>
                   </div>
                 </td>
-                <td class="date">
+                <!-- <td class="date">
                   <div class="row right">
-                    <div>17.09.19</div>
+                    <div></div>
                   </div>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>
         </div>
-        <div id="non-delivery" class="table-wrap">
+        <div id="nedop" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -1031,14 +1029,12 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="price-opt-total"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="summ">0</span></div>
                   </div>
                 </th>
                 <th>
@@ -1053,34 +1049,34 @@
               <tr>
                 <td class="articul">
                   <div class="row">
-                    <div>673371163863</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
                   <div class="row ">
-                    <div>Очки солнцезащитные Spy Optic Atlas HAPPY, взрослые (SOFT MATTE BLACK/TORT FADE - GRAY GREEN)</div>
+                    <div>#titl#</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>2</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
                 <td class="price-opt-total">
                   <div class="row right">
-                    <div>16 000,00</div>
+                    <div>#summ#</div>
                   </div>
                 </td>
                 <td class="initiator">
                   <div class="row right">
-                    <div>Поставщик</div>
+                    <div>#stat#</div>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div id="reclamation" class="table-wrap">
+        <div id="reclm" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -1129,7 +1125,7 @@
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="6">
+                <!-- <th id="6">
                   <div class="row">
                     <div class="title">Сумма компенсации</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1137,8 +1133,8 @@
                     </svg>
                   </div>
                   <div class="resize-btn"></div>
-                </th>
-                <th id="7">
+                </th> -->
+                <th id="6">
                   <div class="row">
                     <div class="title">Статус</div>
                     <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1166,16 +1162,14 @@
                 </th>
                 <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="qty"></div>
+                    <div>Итого:&nbsp;<span class="result" data-key="kolv">0</span></div>
                   </div>
                 </th>
-                <th>
+                <!-- <th>
                   <div class="row right">
-                    <div>Итого:</div>
-                    <div class="compensation"></div>
+                    <div>Итого:&nbsp;<span class="compensation"></span></div>
                   </div>
-                </th>
+                </th> -->
                 <th>
                   <div class="row">
                   </div>
@@ -1188,37 +1182,37 @@
               <tr>
                 <td class="number">
                   <div class="row">
-                    <div>ТС-53</div>
+                    <div>#recl_num#</div>
                   </div>
                 </td>
                 <td class="date">
                   <div class="row center">
-                    <div>25.08.2019</div>
+                    <div>#recl_date#</div>
                   </div>
                 </td>
                 <td class="articul">
                   <div class="row">
-                    <div>51415-555-011</div>
+                    <div>#artc#</div>
                   </div>
                 </td>
                 <td class="name">
                   <div class="row">
-                    <div>Комбинезон Jethwear Odin&Olivia с утеплителем</div>
+                    <div>#titl#</div>
                   </div>
                 </td>
                 <td class="qty">
                   <div class="row right">
-                    <div>1</div>
+                    <div>#kolv#</div>
                   </div>
                 </td>
-                <td class="compensation">
+                <!-- <td class="compensation">
                   <div class="row right">
-                    <div>25 656,00</div>
+                    <div></div>
                   </div>
-                </td>
+                </td> -->
                 <td class="status">
                   <div class="row right">
-                    <div>Обрабатывается</div>
+                    <div>#trac#</div>
                   </div>
                 </td>
               </tr>
@@ -1228,9 +1222,76 @@
       </div>
     </div>
 
+    <div id="reclamation-container" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="reclamation pop-up">
+        <div class="pop-up-title row">
+          <div class="title">Мастер создания рекламации</div>
+          <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
+            <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="pop-up-body">
+          <div class="order-info row">
+            <div>
+              <div>К заказу №<span id="order-number">ТС-677</span>от <span id="order-date">19.06.2019</span></div>
+              <div id="title">Балаклава SIXS DBX, взрослые, унисекс (Black Carbon, OS)</div>
+              <div class="text light">Артикул <span id="articul">X00DBXUNNEFI</span></div>
+            </div>
+            <img src="http://b2b.topsports.ru/c/source/10414.jpg">
+          </div>
+          <form class="registr-form row" method="post" name="reclamation" id="send_recl_form" enctype="multipart/form-data">
+            <div class="left-container">
+              <div class="title">Категория обращения:</div>
+              <div>
+                <label class="check row">
+                  <input type="radio" value="Производственный брак" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Производственный брак</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Некомплектность" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Некомплектность</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Недосдача" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Недосдача</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Пересорт" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Пересорт</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Несоответствие описанию" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Несоответствие описанию</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Не могу определить" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Не могу определить</div>
+                </label>
+              </div>
+            </div>
+            <div class="right-container">
+              <div class="title">Описание дефекта:</div>
+              <textarea name="recl[comment]" autocomplete="off"></textarea>
+              <div class="btns-wrap row">
+                <div class="basic btn close-btn">Отмена</div>
+                <input class="active btn" type="submit" value="Подать рекламацию">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div id="alerts-container" class="pop-up-container" onclick="closePopUp(event)">
       <div class="alerts pop-up">
-        <div class="alerts-title row">
+        <div class="pop-up-title row">
           <div class="row">
             <div class="alerts icon"></div>
             <div class="title">Уведомления</div>
@@ -1240,7 +1301,7 @@
             <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
           </svg>
         </div>
-        <div id="alerts-body">
+        <div class="pop-up-body">
           <div class="message cart row">
             <div class="message icon"></div>
             <div>
