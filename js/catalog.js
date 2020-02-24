@@ -25,7 +25,8 @@ var pageSearch = document.getElementById('page-search'),
 if (pageSearch) {
   var pageSearchInput = document.getElementById('page-search-input'),
       pageSearchInfo = document.getElementById('search-info'),
-      clearPageSearchBtn = pageSearch.querySelector('.close.icon');
+      clearPageSearchBtn = pageSearch.querySelector('.close.icon'),
+      pageSearchIcon = document.getElementById('page-search-icon');
 }
 if (zipSelect) {
   var selectMan = document.getElementById('select-man'),
@@ -408,9 +409,9 @@ function changeContent(block) {
 
   if (block === 'cart') {
     hideElement(headerContent);
+    hideElement(pageSearchIcon);
     showElement(mainHeader);
     hideElement(mainInfo);
-
     hideElement(content);
     hideElement(filtersContainer);
     hideElement(gallery);
@@ -427,6 +428,7 @@ function changeContent(block) {
       window.addEventListener('scroll', setFiltersPosition);
       window.addEventListener('resize', setFiltersPosition);
       showElement(headerContent);
+      showElement(pageSearchIcon);
       if (website === 'skipper') {
         showElement(mainHeader, 'table');
       } else {
