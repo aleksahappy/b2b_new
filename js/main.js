@@ -9,7 +9,7 @@
 var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
-    urlRequest = 'http://api.topsports.ru',
+    urlRequest = 'http://new.topsports.ru/api',
     loader = document.getElementById('loader'),
     message = document.getElementById('message-container');
 if (loader) {
@@ -23,6 +23,18 @@ if (message) {
 
 var userInfo,
     isSearch;
+
+// Вместе с данными о корзине будет приходить информация для заполения формы заказа, тогда это удалить:
+var partnerInfo = {
+  "user_contr": {
+    "472":["ООО \"АСПОРТ\""],
+    "347":["ТРИАЛ-СПОРТ ООО"]},
+  "user_address_list": {
+    "278":["443082, Самара, Тухачевского, 22"],
+    "279":["443079, Самара, Карла Маркса, 177в"],
+    "468":["354392, Россия, Краснодарский край, городской округ Сочи, посёлок городского типа Красная Поляна, улица Мичурина, 1"]
+  }
+};
 
 if (isCart) {
   var cartId = document.body.dataset.cartId,
@@ -63,7 +75,7 @@ function checkAuth() {
     showElement(document.getElementById('error'));
   } else {
     console.log('check_auth');
-    sendRequest(`${urlRequest}/new_dis/check_auth.php`)
+    sendRequest(`${urlRequest}/check_auth.php`)
     .then(result => {
       var data = JSON.parse(result);
       console.log(data.ok);
@@ -95,7 +107,7 @@ function checkAuth() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest}/new_dis/user_logout.php?login=${userInfo.code_1c}`)
+  sendRequest(`${urlRequest}/user_logout.php?login=${userInfo.code_1c}`)
 }
 
 //=====================================================================================================

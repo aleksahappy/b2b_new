@@ -627,7 +627,7 @@
                   <div class="title">Название контрагента</div>
                   <select name="contr_id" required>
                     <option value="" default selected hidden disabled>Выберите контрагента</option>
-                    <option value="#value#">#partner#</option>
+                    <option value="#key#">#value#</option>
                   </select>
                 </div>
                 <div class="input-wrap">
@@ -651,7 +651,7 @@
                   <div class="title">Адрес доставки</div>
                   <select name="shop_address">
                     <option value="" default selected hidden disabled>Выберите адрес доставки</option>
-                    <option value="#value#">#address#</option>
+                    <option value="#key#">#value#</option>
                   </select>
                 </div>
                 <div class="comment">
@@ -687,8 +687,9 @@
                   </div>
                   <div class="list-wrap row">
                     <div class="prop articul hidden-xs">Артикул</div>
+                    <div class="prop action hidden-xs">Тип заказа</div>
 
-                    <div class="prop action hidden-xs activate checkbox">
+                    <!-- <div class="prop action hidden-xs activate checkbox">
                       <div class="head row">
                         <div class="title">Тип заказа</div>
                         <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -701,7 +702,7 @@
                           <div>#actionTitle#</div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="prop amount hidden-xs">Кол-во штук</div>
                     <div class="prop price hidden-xs">Цена</div>

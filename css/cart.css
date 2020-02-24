@@ -151,7 +151,8 @@
 
 #order-form select {
   position: relative;
-  min-width: 270px;
+  min-width: 20em;
+  max-width: 20em;
   margin-bottom: 1em;
   padding: 0.25em 2.2em 0.25em 0.25em;
   border: 1px solid rgba(52, 73, 94, 0.4);

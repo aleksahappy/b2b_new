@@ -14,12 +14,18 @@ var cartFull = document.getElementById('cart-full'),
     orderForm = document.getElementById('order-form'),
     checkAllBtn = document.getElementById('check-all'),
     cartRows = document.getElementById('cart-rows'),
-    cartTable = document.getElementById('cart-table');
+    cartTable = document.getElementById('cart-table'),
+    partner = document.querySelector('select[name="contr_id"]'),
+    address = document.querySelector('select[name="shop_address"]');
 
 // Получение шаблонов из HTML:
 
 var cartRowTemplate = cartRows.innerHTML,
-    cartTableRowTemplate = cartTable.querySelector('tr').outerHTML;
+    cartTableRowTemplate = cartTable.querySelector('tr').outerHTML,
+    partnerTemplate = partner.innerHTML,
+    partnerOptionTemlate = partner.getElementsByTagName('option')[1].outerHTML,
+    addressTemplate = address.innerHTML,
+    addressOptionTemlate = address.getElementsByTagName('option')[1].outerHTML;
 
 // Динамические переменные:
 
@@ -41,6 +47,7 @@ function renderCart() {
       changeCartRow(row);
     });
     closeOrderForm();
+    fillOrderForm(); //Перенести функцию в зависимости от момента получения данных с api
     changeCartInfo();
     hideElement(cartEmpty);
     showElement(cartFull);
@@ -962,6 +969,29 @@ function deleteSelected() {
       showElement(cartEmpty);
       hideElement(cartFull);
     }
+  }
+}
+
+//=====================================================================================================
+//  Функции для работы с формой заказа:
+//=====================================================================================================
+
+// Заполнение недостающих полей формы заказа (контрагенты и адреса):
+
+function fillOrderForm() {
+  partner.innerHTML = partnerTemplate.replace(partnerOptionTemlate, createOptions(partnerOptionTemlate, partnerInfo.user_contr));
+  address.innerHTML = addressTemplate.replace(addressOptionTemlate, createOptions(addressOptionTemlate, partnerInfo.user_address_list));
+
+  function createOptions(template, data) {
+    var list = '', newEl;
+    for (let key in data) {
+      newEl = template;
+      newEl = newEl
+        .replace('#key#', key)
+        .replace('#value#', data[key])
+      list += newEl;
+    }
+    return list;
   }
 }
 
