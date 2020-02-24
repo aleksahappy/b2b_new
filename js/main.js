@@ -142,12 +142,10 @@ function logOut(event) {
 function sendRequest(url, data, type = 'application/json; charset=utf-8') {
   return new Promise((resolve, reject) => {
     var request = new XMLHttpRequest();
-    request.addEventListener('error', () => reject('Ошибка сети'));
+    request.addEventListener('error', () => reject(new Error('Ошибка сети')));
     request.addEventListener('load', () => {
       if (request.status !== 200) {
-        var error = new Error(this.statusText);
-        error.code = this.status;
-        reject(error);
+        reject(new Error(request.status + ':' +request.statusText));
       }
       resolve(request.responseText);
     });
