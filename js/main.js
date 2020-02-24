@@ -1346,3 +1346,17 @@ function createElByTemplate(newEl, data) {
   });
   return newEl;
 }
+
+
+////////////Временный код для выключения к элементов меню без ссылок на странице
+
+const preordersLink = document.querySelector('a[href="../preorder"]');
+const preorder = preordersLink.parentNode;
+preorder.classList.add('temporary_removed');
+
+const links = document.querySelector('.links');
+const adresses = links.querySelector('a[href="../addresses"]');
+adresses.classList.add('temporary_removed');
+
+const mediabank = links.querySelector('a[href="../mediabank"]');
+mediabank.classList.add('temporary_removed');

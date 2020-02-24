@@ -1919,3 +1919,11 @@ form.registr-form .unactive {
   min-width: 14em;
   justify-content: center;
 }
+
+
+
+
+/* тестовые классы для скрытия элементов меню с неработающими ссылками */
+.temporary_removed{
+  display: none!important;
+}
