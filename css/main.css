@@ -1663,12 +1663,12 @@ form.registr-form .unactive {
 /* Основные стили */
 
 .table-wrap {
-  /* display: none; */
+  display: none;
   width: 100%;
   max-height: 80vh;
   overflow-x: auto;
   overflow-y: auto;
-  /* visibility: hidden; */
+  visibility: hidden;
 }
 
 .table-wrap.active {

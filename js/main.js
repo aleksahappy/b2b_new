@@ -65,7 +65,6 @@ function checkAuth() {
     console.log('check_auth');
     sendRequest(`${urlRequest}/new_dis/check_auth.php`)
     .then(result => {
-      console.log(result);
       var data = JSON.parse(result);
       console.log(data.ok);
       if (data.ok) {
@@ -75,7 +74,7 @@ function checkAuth() {
         cart = data.cart;
       } else {
         if (pageId !== 'auth' ) {
-          // document.location.href = '../';
+          document.location.href = '../';
         } else {
           loader.hide();
         }
@@ -84,7 +83,7 @@ function checkAuth() {
     .catch(err => {
       console.log(err);
       if (pageId !== 'auth' ) {
-        // document.location.href = '../';
+        document.location.href = '../';
       } else {
         loader.hide();
       }
@@ -98,36 +97,6 @@ function logOut(event) {
   event.preventDefault();
   sendRequest(`${urlRequest}/new_dis/user_logout.php?login=${userInfo.code_1c}`)
 }
-
-// Вход через форму авторизации:
-
-function logIn(event) {
-  event.preventDefault();
-  loader.show();
-
-  var formData = new FormData(event.currentTarget),
-      data = {};
-  formData.forEach(function(value, key){
-    data[key] = value;
-  });
-  data = JSON.stringify(data);
-
-  sendRequest(`${urlRequest}/new_dis/user_auth.php`, data)
-  .then(result => {
-    var data = JSON.parse(result);
-    if (data.ok == 1) {
-      document.location.href = 'desktop/index.html';
-    } else {
-      loader.hide();
-      message.show('Неверно введен логин или пароль');
-    }
-  })
-  .catch(err => {
-    console.log(err);
-    loader.hide();
-    message.show('Ошибка сети');
-  })
-};
 
 //=====================================================================================================
 // Полифиллы:
@@ -1044,15 +1013,23 @@ function DropDown(obj) {
 function initTables() {
   document.querySelectorAll('.table-wrap').forEach(el => {
     var data = window[`${el.id}out`];
-    data = data ? data : [];
+    if (!data) {
+      // Пока что показываем таблицу как есть в верстке, если нет данных:
+      window['table' + el.id] = new Table(el, data);
+      return;
+    }
+    // В будущем если не будет данных, то будет показана только шапка таблицы с пустыми данными:
+    // data = data ? data : [];
     data = data.filter(el => {
       return el;
     });
     if (data.length === 0) {
       el.classList.add('disabled');
-      var curTab = document.querySelector(`.tab.${el.id}`);
-      if (curTab) {
-        curTab.classList.add('disabled');
+      if (el.id) {
+        var curTab = document.querySelector(`.tab.${el.id}`);
+        if (curTab) {
+          curTab.classList.add('disabled');
+        }
       }
     }
     window['table' + el.id] = new Table(el, data);
@@ -1169,37 +1146,21 @@ function Table(obj, data) {
     }
     if (this.countItems === 0) {
       this.body.innerHTML = list;
-      this.alignColumns();
-      this.fillResults();
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
-      for (let i = 0; i <= this.countItemsTo - this.countItems; i++) {
-        this.body.removeChild(this.body.children[i]);
-      }
-    }
+      // for (let i = 0; i <= this.countItemsTo - this.countItems; i++) {
+      //   this.body.removeChild(this.body.children[i]);
+      // }
+      this.alignBody();
+    };
   }
 
   // Подгрузка таблицы при скролле:
 
-  // var tempScrollTop, currentScrollTop = 0;
   this.scrollTable = function() {
-    // currentScrollTop = this.table.scrollTop;
-
-    // if (tempScrollTop < currentScrollTop) {
-    //   //scrolling down
-    // } else if (tempScrollTop > currentScrollTop) {
-    //   //scrolling up
-    // }
-    // tempScrollTop = currentScrollTop;
     if (this.table.scrollTop + this.table.clientHeight >= this.table.scrollHeight) {
-      // console.log(this.table.scrollTop);
-      // console.log(this.table.clientHeight);
-      // console.log(this.table.scrollHeight);
       this.loadData();
     }
-    // if (this.table.scrollTop * 2 + this.table.clientHeight < this.table.scrollHeight) {
-    //   this.loadPrev();
-    // }
   }
 
   // Заполнение итогов таблицы:
@@ -1218,18 +1179,40 @@ function Table(obj, data) {
   }
 
   // Выравнивание столбцов таблицы при загрузке:
-  this.alignColumns = function() {
+  this.alignHead = function() {
+    if (!this.head) {
+      return;
+    }
     var headCells = this.head.querySelectorAll('tr:first-child > th');
     headCells.forEach(headCell => {
-      var bodyCell = this.body.querySelector(`tr:first-child > td:nth-child(${headCell.id})`),
-          bodyCellWidth = bodyCell.offsetWidth,
-          newWidth = bodyCellWidth;
+      var bodyCell = this.body.querySelector(`tr:first-child > td:nth-child(${headCell.id})`);
+      if (bodyCell) {
+        var newWidth = bodyCell.offsetWidth;
         headCell.style.width = newWidth + 'px';
         headCell.style.minWidth = newWidth + 'px';
         headCell.style.maxWidth = newWidth + 'px';
+        this.body.querySelectorAll(`td:nth-child(${headCell.id})`).forEach(bodyCell => {
+          var newWidth = headCell.offsetWidth;
+          bodyCell.style.width = newWidth + 'px';
+          bodyCell.style.minWidth = newWidth + 'px';
+          bodyCell.style.maxWidth = newWidth + 'px';
+        });
+      }
+    });
+  }
+
+  this.alignBody = function() {
+    if (!this.head) {
+      return;
+    }
+    var headCells = this.head.querySelectorAll('tr:first-child > th');
+    headCells.forEach(headCell => {
+      this.body.querySelectorAll(`td:nth-child(${headCell.id})`).forEach(bodyCell => {
+        var newWidth = headCell.offsetWidth;
         bodyCell.style.width = newWidth + 'px';
         bodyCell.style.minWidth = newWidth + 'px';
         bodyCell.style.maxWidth = newWidth + 'px';
+      });
     });
   }
 
@@ -1296,15 +1279,21 @@ function Table(obj, data) {
   }
 
   // Инициализация таблицы:
-
-  this.show = function() {
-    loader.show();
-    showElement(this.table);
-    // console.log(data);
-    this.loadData(this.data);
-    this.table.classList.add('active');
-    loader.hide();
+  this.init = function() {
+    if (this.data) { // Пока что показываем таблицу как есть в верстке, если нет данных:
+      this.loadData(this.data);
+      this.fillResults();
+    }
   }
+
+  // Визуальное отображение таблицы:
+  this.show = function() {
+    showElement(this.table);
+    this.alignHead();
+    this.table.classList.add('active');
+  }
+
+  this.init();
 }
 
 //=====================================================================================================
