@@ -2123,5 +2123,17 @@
     <script src ="../js/common.js"></script>
     <script src ="../js/main.js"></script>
 
+    <script>
+      'use strict';
+      //тестовый вариант - при клике на любом заказе в списке заказов проваливаешься на страницу с одним и тем же заказом
+      const tableBody = document.querySelector('.table-body');
+
+      tableBody.addEventListener('click', function(event) {
+        let orders = tableBody.querySelectorAll('.active');
+          window.location.href = '../order/index.html';
+      });
+
+    </script>
+
   </body>
 </html>
