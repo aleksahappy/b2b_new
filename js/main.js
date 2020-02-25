@@ -1362,22 +1362,40 @@ function createElByTemplate(newEl, data) {
 
 const preordersLink = document.querySelector('a[href="../preorder"]');
 const preorder = preordersLink.parentNode;
-preorder.classList.add('temporary_removed');
+if (preorder) {
+  preorder.classList.add('temporary_removed');
+}
+
 
 const links = document.querySelector('.links');
 const adresses = links.querySelector('a[href="../addresses"]');
-adresses.classList.add('temporary_removed');
+if (adresses) {
+  adresses.classList.add('temporary_removed');
+}
+
 
 const mediabank = links.querySelector('a[href="../mediabank"]');
-mediabank.classList.add('temporary_removed');
+if (mediabank) {
+  mediabank.classList.add('temporary_removed');
+}
+
 
 const headerProfile = document.querySelector('#profile');
 const headerNumber = headerProfile.querySelector('.title');
-headerNumber.innerHTML = 'TS00000905';
+if (headerNumber) {
+  headerNumber.innerHTML = 'TS00000905';
+}
+
 const headerName = headerProfile.querySelector('.username');
-headerName.innerHTML = 'Константин Федоров';
+if (headerName) {
+  headerName.innerHTML = 'Константин Федоров';
+
+}
 
 const merch = document.querySelector('a[href="../equipment/?merchandising"]');
-merch.classList.add('temporary_removed');
+if (merch) {
+  merch.classList.add('temporary_removed');
+}
+
 
 
