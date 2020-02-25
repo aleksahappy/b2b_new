@@ -1370,3 +1370,6 @@ adresses.classList.add('temporary_removed');
 
 const mediabank = links.querySelector('a[href="../mediabank"]');
 mediabank.classList.add('temporary_removed');
+
+const merch = document.querySelector('a[href="../equipment/?merchandising"]');
+merch.classList.add('temporary_removed');
