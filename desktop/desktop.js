@@ -11,12 +11,6 @@ const tabs = () => {
     paymentBtn.classList.remove('toggle-active');
     productsTab.style.display = 'flex';
     paymentTab.style.display = 'none';
-
-    resets.addEventListener('click', function () {
-      for (let i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].parentNode.classList.remove('checked');
-      }
-    });
   });
 
   paymentBtn.addEventListener('click', function () {
@@ -43,23 +37,18 @@ const runCheckboxes = () => {
   }
 };
 
-/* const resetAllCheckboxes = () => {
-  const resets = document.querySelector('.reset');
+const resetAllCheckboxes = () => {
+  const resets = document.querySelectorAll('.reset');
   const checkboxes = document.querySelectorAll('.checkbox');
 
-  resets.addEventListener('click', function () {
-    for (let i = 0; i < checkboxes.length; i++) {
-      checkboxes[i].parentNode.classList.remove('checked');
-    }
-  });
-
-  // for (let i = 0; resets.length; i++) {
-    
-  // }
-}; */
-
-
-
+  for (let i = 0; i < resets.length; i++) {
+    resets[i].addEventListener('click', function() {
+      for (let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].parentNode.classList.remove('checked');
+      }
+    });
+  }
+};
 
 
 
@@ -187,5 +176,5 @@ const rangeSlider = () => {
 //подключаем и запускаем все функции-обертки для действий
 tabs();
 runCheckboxes();
-//resetAllCheckboxes();
+resetAllCheckboxes();
 rangeSlider();
