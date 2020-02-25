@@ -1358,7 +1358,7 @@ function createElByTemplate(newEl, data) {
 }
 
 
-////////////Временный код для выключения к элементов меню без ссылок на странице
+////////////Временный код для выключения/включения некоторых элементов для тестового показа
 
 const preordersLink = document.querySelector('a[href="../preorder"]');
 const preorder = preordersLink.parentNode;
@@ -1371,5 +1371,13 @@ adresses.classList.add('temporary_removed');
 const mediabank = links.querySelector('a[href="../mediabank"]');
 mediabank.classList.add('temporary_removed');
 
+const headerProfile = document.querySelector('#profile');
+const headerNumber = headerProfile.querySelector('.title');
+headerNumber.innerHTML = 'TS00000905';
+const headerName = headerProfile.querySelector('.username');
+headerName.innerHTML = 'Константин Федоров';
+
 const merch = document.querySelector('a[href="../equipment/?merchandising"]');
 merch.classList.add('temporary_removed');
+
+
