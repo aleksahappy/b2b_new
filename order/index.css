@@ -20,15 +20,15 @@
 }
 
 .tab.vputi .icon {
-  background-image: url(../img/chronometer.svg);
+  background-image: url(../img/chronometer-nonactive.svg);
 }
 
 .tab.vnali .icon {
-  background-image: url(../img/box.svg);
+  background-image: url(../img/box-nonactive.svg);
 }
 
 .tab.debzd .icon {
-  background-image: url(../img/delivery_trolley.svg);
+  background-image: url(../img/delivery_trolley-nonactive.svg);
 }
 
 .tab.otgrz .icon {
@@ -40,7 +40,9 @@
 }
 
 .tab.reclm .icon {
-  background-image: url(../img/anti_smile.svg);
+  height: 1.6em;
+  background: url(../img/recls-active.svg) center center no-repeat;
+  background-size: cover;
 }
 
 .table-body .articul {
