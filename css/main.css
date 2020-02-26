@@ -1369,7 +1369,7 @@ form.search .close.icon {
   max-height: 90vh;
   background-color: #FFFFFF;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .pop-up-title {
@@ -1393,7 +1393,7 @@ form.search .close.icon {
 }
 
 .pop-up-body {
-  height: 100%;
+  height: 40em;
   padding: 0 1.5em 2.5em 1.5em;
   overflow-y: auto;
 }
@@ -1561,7 +1561,7 @@ form.registr-form .unactive {
 
 #alerts-container .alerts {
   width: 95em;
-  height: 40em;
+  height: auto;
 }
 
 #alerts-container .pop-up-title {
