@@ -164,14 +164,12 @@
 	font-weight: 600;
 }
 
-.banners {
+.banners .container{
   display: flex;
-	width: 100%;
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .banners a {
-  width: 32.83%;
   margin-right: 10px;
 }
 
