@@ -1397,5 +1397,12 @@ if (merch) {
   merch.classList.add('temporary_removed');
 }
 
+const exit = querySelector('#exit');
+
+if (exit) {
+  exit.addEventListener('click', function() {
+    comsole.log('test');
+  });
+}
 
 

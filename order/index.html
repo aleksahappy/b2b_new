@@ -1475,6 +1475,16 @@
 
     <script src ="../js/main.js"></script>
     <script src ="../js/tables.js"></script>
+    <script>
+      'use strict';
+      //тестовый вариант - при клике на любом заказе в списке заказов проваливаешься на страницу с одним и тем же заказом
+      const reclm = document.querySelector('#reclm');
 
+      reclm.addEventListener('click', function (event) {
+        let orders = reclm.querySelectorAll('tr');
+        window.location.href = '../reclamation/index.html';
+      });
+
+    </script>
   </body>
 </html>
