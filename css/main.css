@@ -1885,6 +1885,12 @@ form.registr-form .unactive {
   border-bottom: 1px solid #DCDCDC;
 }
 
+#orders-table td,
+#reclamations-table td,
+#reclm td {
+  cursor: pointer;
+}
+
 .table-body tr:hover {
   background-color: #EFEEF1;
 }
