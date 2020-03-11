@@ -26,6 +26,10 @@
   margin-left: 0.714em;
 }
 
+.table-head .statistics {
+  overflow: visible;
+}
+
 .table-head .percent {
   display: block;
   position: absolute;
@@ -91,7 +95,7 @@
   position: absolute;
   top: 100%;
   width: 1px;
-  height: 75vh;;
+  height: 75vh;
   background-color: #E4E4E4;
 }
 

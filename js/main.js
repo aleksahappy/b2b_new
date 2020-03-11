@@ -9,7 +9,8 @@
 var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
-    urlRequest = 'http://new.topsports.ru/api',
+    // urlRequest = 'http://new.topsports.ru/api',
+    urlRequest = 'http://127.0.0.1:5500/test',
     loader = document.getElementById('loader'),
     message = document.getElementById('message-container');
 if (loader) {
@@ -59,7 +60,6 @@ function startPage() {
     window.addEventListener('focus', updateCartTotals);
     updateCartTotals();
   }
-  window.addEventListener('load', () => initTables());
 }
 
 //=====================================================================================================
@@ -74,12 +74,14 @@ function checkAuth() {
     loader.hide();
     showElement(document.getElementById('error'));
   } else {
-    console.log('check_auth');
     sendRequest(`${urlRequest}/check_auth.php`)
     .then(result => {
       var data = JSON.parse(result);
       console.log(data.ok);
       if (data.ok) {
+        if (pageId == 'desktop') {
+          loader.hide();
+        }
         userInfo = data.user_info;
         showUserInfo(userInfo);
         console.log(data.cart);
@@ -107,7 +109,8 @@ function checkAuth() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest}/user_logout.php?login=${userInfo.code_1c}`)
+  sendRequest(`${urlRequest}/user_logout.php`);
+  document.location.href = '../';
 }
 
 //=====================================================================================================
@@ -1023,13 +1026,7 @@ function DropDown(obj) {
 function initTables() {
   document.querySelectorAll('.table-wrap').forEach(el => {
     var data = window[`${el.id}out`];
-    if (!data) {
-      // Пока что показываем таблицу как есть в верстке, если нет данных:
-      window['table' + el.id] = new Table(el, data);
-      return;
-    }
-    // В будущем если не будет данных, то будет показана только шапка таблицы с пустыми данными:
-    // data = data ? data : [];
+    data = data ? data : [];
     data = data.filter(el => {
       return el;
     });
@@ -1052,6 +1049,7 @@ function initTables() {
 function showActiveTables() {
   document.querySelectorAll('.table-wrap.active').forEach(el => {
     if (window['table' + el.id]) {
+      loader.show();
       window['table' + el.id].show();
     }
   });
@@ -1168,7 +1166,7 @@ function Table(obj, data) {
   // Подгрузка таблицы при скролле:
 
   this.scrollTable = function() {
-    if (this.table.scrollTop + this.table.clientHeight >= this.table.scrollHeight) {
+    if (this.table.scrollTop * 2 + this.table.clientHeight >= this.table.scrollHeight) {
       this.loadData();
     }
   }
@@ -1290,7 +1288,7 @@ function Table(obj, data) {
 
   // Инициализация таблицы:
   this.init = function() {
-    if (this.data) { // Пока что показываем таблицу как есть в верстке, если нет данных:
+    if (this.data) {
       this.loadData(this.data);
       this.fillResults();
     }
@@ -1299,6 +1297,8 @@ function Table(obj, data) {
   // Визуальное отображение таблицы:
   this.show = function() {
     showElement(this.table);
+    loader.hide();
+    console.log('loader hide');
     this.alignHead();
     this.table.classList.add('active');
   }
@@ -1357,8 +1357,19 @@ function createElByTemplate(newEl, data) {
   return newEl;
 }
 
+//=====================================================================================================
+// Переход на другие страницы:
+//=====================================================================================================
 
-////////////Временный код для выключения/включения некоторых элементов для тестового показа
+// Переход на страницу заказа:
+
+function showOrder(id) {
+  document.location.href = '/order/?order_id=' + id;
+}
+
+//=====================================================================================================
+// Временный код для выключения/включения некоторых элементов для тестового показа:
+//=====================================================================================================
 
 const preordersLink = document.querySelector('a[href="../preorder"]');
 const preorder = preordersLink.parentNode;
@@ -1366,19 +1377,16 @@ if (preorder) {
   preorder.classList.add('temporary_removed');
 }
 
-
 const links = document.querySelector('.links');
 const adresses = links.querySelector('a[href="../addresses"]');
 if (adresses) {
   adresses.classList.add('temporary_removed');
 }
 
-
 const mediabank = links.querySelector('a[href="../mediabank"]');
 if (mediabank) {
   mediabank.classList.add('temporary_removed');
 }
-
 
 const headerProfile = document.querySelector('#profile');
 const headerNumber = headerProfile.querySelector('.title');
@@ -1389,7 +1397,6 @@ if (headerNumber) {
 const headerName = headerProfile.querySelector('.username');
 if (headerName) {
   headerName.innerHTML = 'Константин Федоров';
-
 }
 
 const merch = document.querySelector('a[href="../equipment/?merchandising"]');
@@ -1397,12 +1404,10 @@ if (merch) {
   merch.classList.add('temporary_removed');
 }
 
-const exit = querySelector('#exit');
+const exit = document.querySelector('#exit');
 
 if (exit) {
   exit.addEventListener('click', function() {
     comsole.log('test');
   });
 }
-
-

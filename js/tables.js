@@ -155,3 +155,5 @@ function fNb(num) //number back from format
   num = num.toString().replace(" ", '');
   return parseFloat(num.toString().replace(" ", ''));
 }
+
+initTables();

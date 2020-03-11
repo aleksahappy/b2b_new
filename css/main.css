@@ -1393,8 +1393,7 @@ form.search .close.icon {
 }
 
 .pop-up-body {
-  height: 40em;
-  padding: 0 1.5em 2.5em 1.5em;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -1561,7 +1560,7 @@ form.registr-form .unactive {
 
 #alerts-container .alerts {
   width: 95em;
-  height: auto;
+  height: 40em;
 }
 
 #alerts-container .pop-up-title {
@@ -1578,10 +1577,19 @@ form.registr-form .unactive {
   cursor: default;
 }
 
+#alerts-container .pop-up-body {
+  height: calc(100% - 5em);
+  padding: 0 1.5em 1em 1.5em;
+}
+
 #alerts-container .pop-up-body > .message {
   align-items: center;
   padding: 0.5em 0;
   border-bottom: 1px solid #DBDBDB;
+}
+
+#alerts-container .pop-up-body > .message:last-child {
+  border-bottom: none;
 }
 
 #alerts-container .pop-up-body .message.icon {

@@ -20,29 +20,51 @@
 }
 
 .tab.vputi .icon {
-  background-image: url(../img/chronometer-nonactive.svg);
+  background-image: url(../img/chronometer.svg);
+}
+
+.tab.vputi.disabled .icon {
+  background-image: url(../img/chronometer_disabled.svg);
 }
 
 .tab.vnali .icon {
-  background-image: url(../img/box-nonactive.svg);
+  background-image: url(../img/box.svg);
+}
+
+.tab.vnali.disabled .icon {
+  background-image: url(../img/box_disabled.svg);
 }
 
 .tab.debzd .icon {
-  background-image: url(../img/delivery_trolley-nonactive.svg);
+  background-image: url(../img/delivery_trolley.svg);
+}
+
+.tab.debzd.disabled .icon {
+  background-image: url(../img/delivery_trolley_disabled.svg);
 }
 
 .tab.otgrz .icon {
   background-image: url(../img/delivery_truck.svg);
 }
 
+.tab.otgrz.disabled .icon {
+  background-image: url(../img/delivery_truck_disabled.svg);
+}
+
 .tab.nedop .icon {
   background-image: url(../img/stop.svg);
 }
 
+.tab.nedop.disabled .icon {
+  background-image: url(../img/stop_disabled.svg);
+}
+
 .tab.reclm .icon {
-  height: 1.6em;
-  background: url(../img/recls-active.svg) center center no-repeat;
-  background-size: cover;
+  background-image: url(../img/anti_smile.svg);
+}
+
+.tab.reclm.disabled .icon {
+  background-image: url(../img/anti_smile_disabled.svg);
 }
 
 .table-body .articul {

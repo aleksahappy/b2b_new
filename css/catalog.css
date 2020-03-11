@@ -1039,7 +1039,8 @@ body {
 }
 
 .main.zip .big-card .select-info {
-  margin-left: 4em;
+  width: 100%;
+  padding-left: 4em;
 }
 
 .main.zip .big-card .container-right {
@@ -1073,6 +1074,7 @@ body {
   position: relative;
   width: 1050px;
   max-width: 90vw;
+  max-height: 90vh;
   background-color: #FFFFFF;
 }
 
@@ -1106,6 +1108,10 @@ body {
 .full-card .close-btn {
   width: 1.65em;
   height: 1.65em;
+}
+
+.full-card .pop-up-body {
+  max-height: calc(90vh - 7em);
 }
 
 .full-card .card-body {
@@ -1207,13 +1213,17 @@ body {
 
 .full-card .card-desc,
 .full-card .action-desc {
-  padding-top: 1.25em;
+  padding-bottom: 2.5em;
   font-size: 0.857em;
+}
+
+.full-card .card-desc {
+  padding-top: 1.25em;
 }
 
 .full-card .action-desc {
   display: none;
-  padding-bottom: 2.5em;
+  margin-top: -1.25em;
 }
 
 .full-card .subtitle {

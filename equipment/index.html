@@ -378,97 +378,99 @@
                 <path d="M18.1429 1L1 18.1429" stroke="rgb(52,73,94)" stroke-linecap="round"/>
               </svg>
             </div>
-            <div class="card-body row">
-              <div class="carousel" data-type="fullCard">
-                <div class="maximize icon"></div>
-                <div class="carousel-gallery-wrap">
-                  <div class="left-btn control"></div>
-                  <div class="right-btn control"></div>
-                  <div class="carousel-gallery">
-                    <div class="carousel-item row">
-                      <img src="#image#" data-src="#full-image#">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-content">
-                <div class="card-choice">
-                  <div class="card-price">
-                    <div>
-                      <div class="cur-price row #isBorder#">
-                        <div class="title">Оптовая цена: </div>
-                        <div class="text orange">#price_cur#</div>
-                      </div>
-                      <div class="old-price row">
-                        <div class="card-action #isAction#">
-                          <div class="action-title" style="background-color: #actioncolor#">#actiontitle#</div>
-                        </div>
-                        <div class="text light #isOldPrice#">#price#</div>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="user-price row">
-                        <div class="title">Розничная цена: </div>
-                        <div class="text">#price_user#</div>
-                      </div>
-                      <div class="markup row">
-                        <div class="title">Торговая наценка: </div>
-                        <div class="text">#markup#%</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="select-info row">
-                    <div class="select-qty">
-                      Выбрано товаров:&nbsp;<span class="text orange">0</span> шт.
-                    </div>
-                    <div class="select-amount">
-                      Итого:&nbsp;<span class="text orange">0</span> руб.
-                    </div>
-                  </div>
-                  <div class="card-sizes row">
-                    <div class="card-size">
-                      <div class="articul text light">#articul#</div>
-                      <div class="qty row">
-                        <div class="name row text light">#size#</div>
-                        <div class="qty-box row">
-                          <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                          <input class="choiced-qty text light" type="text" value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                          <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
-                        </div>
-                      </div>
-                      <div class="tooltips row">
-                        <div class="free-qty #isFree# row" tooltip="В наличии">
-                          <span class="free-qty icon"></span>
-                          <span class="text green">#free_qty#&nbsp;шт.</span>
-                        </div>
-                        <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
-                          <span class="arrive-qty icon"></span>
-                          <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
-                        </div>
-                        <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
-                          <span class="warehouse-qty icon"></span>
-                          <span class="text">#warehouse_qty#&nbsp;шт.</span>
-                        </div>
+            <div class="pop-up-body">
+              <div class="card-body row">
+                <div class="carousel" data-type="fullCard">
+                  <div class="maximize icon"></div>
+                  <div class="carousel-gallery-wrap">
+                    <div class="left-btn control"></div>
+                    <div class="right-btn control"></div>
+                    <div class="carousel-gallery">
+                      <div class="carousel-item row">
+                        <img src="#image#" data-src="#full-image#">
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="card-options">
-                  <div class="card-option row">
-                    <div class="option-title title">#optitle#</div>
-                    <div class="option-info">#option#</div>
+                <div class="card-content">
+                  <div class="card-choice">
+                    <div class="card-price">
+                      <div>
+                        <div class="cur-price row #isBorder#">
+                          <div class="title">Оптовая цена: </div>
+                          <div class="text orange">#price_cur#</div>
+                        </div>
+                        <div class="old-price row">
+                          <div class="card-action #isAction#">
+                            <div class="action-title" style="background-color: #actioncolor#">#actiontitle#</div>
+                          </div>
+                          <div class="text light #isOldPrice#">#price#</div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="user-price row">
+                          <div class="title">Розничная цена: </div>
+                          <div class="text">#price_user#</div>
+                        </div>
+                        <div class="markup row">
+                          <div class="title">Торговая наценка: </div>
+                          <div class="text">#markup#%</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="select-info row">
+                      <div class="select-qty">
+                        Выбрано товаров:&nbsp;<span class="text orange">0</span> шт.
+                      </div>
+                      <div class="select-amount">
+                        Итого:&nbsp;<span class="text orange">0</span> руб.
+                      </div>
+                    </div>
+                    <div class="card-sizes row">
+                      <div class="card-size">
+                        <div class="articul text light">#articul#</div>
+                        <div class="qty row">
+                          <div class="name row text light">#size#</div>
+                          <div class="qty-box row">
+                            <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
+                            <input class="choiced-qty text light" type="text" value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
+                          </div>
+                        </div>
+                        <div class="tooltips row">
+                          <div class="free-qty #isFree# row" tooltip="В наличии">
+                            <span class="free-qty icon"></span>
+                            <span class="text green">#free_qty#&nbsp;шт.</span>
+                          </div>
+                          <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
+                            <span class="arrive-qty icon"></span>
+                            <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
+                          </div>
+                          <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
+                            <span class="warehouse-qty icon"></span>
+                            <span class="text">#warehouse_qty#&nbsp;шт.</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-options">
+                    <div class="card-option row">
+                      <div class="option-title title">#optitle#</div>
+                      <div class="option-info">#option#</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card-info">
-              <div class="card-desc #isDesc#">
-                <div class="subtitle">Описание товара</div>
-                <div class="text">#desc#</div>
-              </div>
-              <div class="action-desc">
-                <div class="subtitle">Условия акции</div>
-                <div class="text"></div>
+              <div class="card-info">
+                <div class="card-desc #isDesc#">
+                  <div class="subtitle">Описание товара</div>
+                  <div class="text">#desc#</div>
+                </div>
+                <div class="action-desc">
+                  <div class="subtitle">Условия акции</div>
+                  <div class="text"></div>
+                </div>
               </div>
             </div>
           </div>
