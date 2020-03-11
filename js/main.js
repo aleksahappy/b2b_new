@@ -9,8 +9,8 @@
 var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
-    // urlRequest = 'http://new.topsports.ru/api',
-    urlRequest = 'http://127.0.0.1:5500/test',
+    urlRequest = 'http://new.topsports.ru/api',
+    // urlRequest = 'http://127.0.0.1:5500/test',
     loader = document.getElementById('loader'),
     message = document.getElementById('message-container');
 if (loader) {
@@ -55,7 +55,7 @@ startPage();
 
 function startPage() {
   setPaddingToBody();
-  // checkAuth();
+  checkAuth();
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     updateCartTotals();
@@ -76,15 +76,18 @@ function checkAuth() {
   } else {
     sendRequest(`${urlRequest}/check_auth.php`)
     .then(result => {
+      console.log(result);
       var data = JSON.parse(result);
-      console.log(data.ok);
       if (data.ok) {
-        if (pageId == 'desktop') {
+        if (pageId === 'auth') {
+          document.location.href = '../desktop';
+        }
+        if (pageId === 'desktop') {
           loader.hide();
         }
         userInfo = data.user_info;
+        userInfo.full_name = userInfo.name + ' ' + userInfo.lastname;
         showUserInfo(userInfo);
-        console.log(data.cart);
         cart = data.cart;
       } else {
         if (pageId !== 'auth' ) {
@@ -109,8 +112,8 @@ function checkAuth() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest}/user_logout.php`);
-  document.location.href = '../';
+  sendRequest(`${urlRequest}/user_logout.php`)
+  .then(result => document.location.href = '/')
 }
 
 //=====================================================================================================
@@ -177,7 +180,7 @@ function showUserInfo(data) {
     login.textContent = data.login;
   }
   if (username) {
-    username.textContent = data.name + ' ' + data.lastname;
+    username.textContent = data.full_name;
   }
 }
 
@@ -763,6 +766,18 @@ document.addEventListener('click', (event) => {
 // Вспомогательные функции:
 //=====================================================================================================
 
+// Динамическая загрузка скриптов:
+
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    var script = document.createElement('script');
+    script.src = url;
+    script.onload = resolve();
+    script.onerror = reject();
+    document.body.appendChild(script);
+  });
+}
+
 // Кросс-браузерная функция для получения символа из события keypress:
 
 function getChar(event) {
@@ -1024,52 +1039,12 @@ function DropDown(obj) {
 // Создание объектов таблиц при запуске страницы:
 
 function initTables() {
+  loader.show();
   document.querySelectorAll('.table-wrap').forEach(el => {
-    var data = window[`${el.id}out`];
-    data = data ? data : [];
-    data = data.filter(el => {
-      return el;
-    });
-    if (data.length === 0) {
-      el.classList.add('disabled');
-      if (el.id) {
-        var curTab = document.querySelector(`.tab.${el.id}`);
-        if (curTab) {
-          curTab.classList.add('disabled');
-        }
-      }
-    }
-    window['table' + el.id] = new Table(el, data);
+    var data = window[`${el.id}out`] ? window[`${el.id}out`] : [];
+    data = data.filter(el => el);
+    new Table(el, data);
   });
-  showActiveTables();
-}
-
-// Отображение необходимых таблиц при загрузке страницы:
-
-function showActiveTables() {
-  document.querySelectorAll('.table-wrap.active').forEach(el => {
-    if (window['table' + el.id]) {
-      loader.show();
-      window['table' + el.id].show();
-    }
-  });
-}
-
-// Открытие таблицы:
-
-function showTable(id) {
-  var curTable = window['table' + id];
-  if (curTable) {
-    if (curTable.table.classList.contains('disabled')) {
-      return;
-    }
-    var activeTable = document.querySelector('.table-wrap.active');
-    if (activeTable) {
-      hideElement(activeTable);
-      activeTable.classList.remove('active');
-    }
-    curTable.show();
-  }
 }
 
 // Объект таблицы:
@@ -1077,6 +1052,8 @@ function showTable(id) {
 function Table(obj, data) {
   // Элементы для работы:
   this.table = obj;
+  this.id = obj.id;
+  this.tab = document.querySelector(`.tab.${this.id}`);
   this.head = obj.querySelector('.table-head');
   this.results = this.head.querySelector('.results');
   this.body = obj.querySelector('.table-body');
@@ -1099,35 +1076,50 @@ function Table(obj, data) {
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
+    if (this.tab) {
+      this.tab.addEventListener('click', (event) => this.open(event));
+    }
+
     this.table.addEventListener('scroll', () => this.scrollTable());
 
     if (this.resizeBtns.length > 0) {
       this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
       this.table.addEventListener('mouseleave', () => this.stopResize());
-      document.addEventListener('mousemove', (event) => this.resize(event));
+      document.addEventListener('mousemove', event => this.resize(event));
       document.addEventListener('mouseup', () => this.stopResize());
     }
 
     this.dropDown.forEach(el => {
       new DropDown(el, data);
-      el.addEventListener('change', (event) => this.filterData(event, el.dataset.key));
+      el.addEventListener('change', event => this.filterData(event, el.dataset.key));
     });
 
     this.sort.forEach(el => {
       new DropDown(el);
-      el.addEventListener('click', (event) => this.sortData(event, el.dataset.key, el.dataset.type));
+      el.addEventListener('click', event => this.sortData(event, el.dataset.key, el.dataset.type));
     });
     this.search.forEach(el => {
       new DropDown(el);
-      el.addEventListener('submit', (event) => this.searchData(event, el.dataset.key));
-      el.querySelector('.search.icon').addEventListener((event) => this.searchData(event, el.dataset.key));
-      el.querySelector('.close.icon').addEventListener((event) => this.clearSearch(event, el.dataset.key));
+      el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
+      el.querySelector('.search.icon').addEventListener(event => this.searchData(event, el.dataset.key));
+      el.querySelector('.close.icon').addEventListener(event => this.clearSearch(event, el.dataset.key));
     });
   }
   this.setEventListeners();
 
-  // Загрузка данных в таблицу:
+  // Включение/отключение вкладки таблицы:
+  this.toggleTab = function() {
+    if (this.tab) {
+      showElement(this.tab, 'flex');
+      if (this.data.length === 0) {
+        if (this.tab && !this.tab.classList.contains('nomen')) {
+          this.tab.classList.add('disabled');
+        }
+      }
+    }
+  }
 
+  // Загрузка данных в таблицу:
   this.loadData = function(data) {
     if (data && data.length === 0) {
       this.body.innerHTML = '';
@@ -1164,7 +1156,6 @@ function Table(obj, data) {
   }
 
   // Подгрузка таблицы при скролле:
-
   this.scrollTable = function() {
     if (this.table.scrollTop * 2 + this.table.clientHeight >= this.table.scrollHeight) {
       this.loadData();
@@ -1172,7 +1163,6 @@ function Table(obj, data) {
   }
 
   // Заполнение итогов таблицы:
-
   this.fillResults = function() {
     if (!this.results) {
       return;
@@ -1209,6 +1199,7 @@ function Table(obj, data) {
     });
   }
 
+  // Выравнивание столбцов таблицы при последующей подгрузке:
   this.alignBody = function() {
     if (!this.head) {
       return;
@@ -1222,6 +1213,20 @@ function Table(obj, data) {
         bodyCell.style.maxWidth = newWidth + 'px';
       });
     });
+  }
+
+  // Открытие таблицы при клике на вкладку:
+  this.open = function(event) {
+    if (event.currentTarget.classList.contains('disabled')) {
+      return;
+    }
+    loader.show();
+    var activeTable = document.querySelector('.table-wrap.active');
+    if (activeTable) {
+      hideElement(activeTable);
+      activeTable.classList.remove('active');
+    }
+    this.show();
   }
 
   // Фильтрация таблицы:
@@ -1286,24 +1291,40 @@ function Table(obj, data) {
     this.curColumn = null;
   }
 
-  // Инициализация таблицы:
-  this.init = function() {
-    if (this.data) {
-      this.loadData(this.data);
-      this.fillResults();
-    }
-  }
-
   // Визуальное отображение таблицы:
   this.show = function() {
     showElement(this.table);
     loader.hide();
-    console.log('loader hide');
     this.alignHead();
     this.table.classList.add('active');
   }
 
+  // Инициализация таблицы:
+  this.init = function() {
+    this.toggleTab();
+    this.loadData(this.data);
+    this.fillResults();
+    if (this.table.classList.contains('active')) {
+      this.show();
+    }
+  }
+
   this.init();
+}
+
+//=====================================================================================================
+// Заполенение контента из данных по id:
+//=====================================================================================================
+
+function fillById(data) {
+  var el;
+  for (let key in data) {
+    console.log(`#${key}#`);
+    el = document.getElementById(`#${key}#`);
+    if (el) {
+      el.textContent = data[key];
+    }
+  }
 }
 
 //=====================================================================================================
@@ -1367,47 +1388,9 @@ function showOrder(id) {
   document.location.href = '/order/?order_id=' + id;
 }
 
-//=====================================================================================================
-// Временный код для выключения/включения некоторых элементов для тестового показа:
-//=====================================================================================================
+// Переход на страницу рекламации:
 
-const preordersLink = document.querySelector('a[href="../preorder"]');
-const preorder = preordersLink.parentNode;
-if (preorder) {
-  preorder.classList.add('temporary_removed');
-}
-
-const links = document.querySelector('.links');
-const adresses = links.querySelector('a[href="../addresses"]');
-if (adresses) {
-  adresses.classList.add('temporary_removed');
-}
-
-const mediabank = links.querySelector('a[href="../mediabank"]');
-if (mediabank) {
-  mediabank.classList.add('temporary_removed');
-}
-
-const headerProfile = document.querySelector('#profile');
-const headerNumber = headerProfile.querySelector('.title');
-if (headerNumber) {
-  headerNumber.innerHTML = 'TS00000905';
-}
-
-const headerName = headerProfile.querySelector('.username');
-if (headerName) {
-  headerName.innerHTML = 'Константин Федоров';
-}
-
-const merch = document.querySelector('a[href="../equipment/?merchandising"]');
-if (merch) {
-  merch.classList.add('temporary_removed');
-}
-
-const exit = document.querySelector('#exit');
-
-if (exit) {
-  exit.addEventListener('click', function() {
-    comsole.log('test');
-  });
+function showReclm(id) {
+  // document.location.href = '/reclamation/?recl_id=' + id;
+  document.location.href = '../reclamation';
 }

@@ -115,7 +115,7 @@
           <div id="main-nav">
             <a href="../desktop/">Главная</a>
             <a class="item" href="../orders/">Заказы</a>
-            <a class="item active">Заказ № ТС-180 от 23.03.2018 г.</a>
+            <a class="item active">Заказ № <span id="#order_number#"></span> от <span id="#order_date#"></span> г.</a>
           </div>
           <div class="main-title row">
             <div class="title-row row">
@@ -128,47 +128,47 @@
           <div class="head">Детали заказа</div>
           <div class="row">
             <div>
-              <div class="title">Способ оплаты: <span class="text">Безналичный расчет</span></div>
-              <div class="title">Контрагент: <span class="text"><a href="#">ИП Трохименко</a></span></div>
-              <div class="title">Тип заказа: <span class="text"><a href="#">Предзаказ-19 Spy Optic</a></span></div>
-              <div class="title">Менеджер заказа: <span class="text">Ольга Петрова</span></div>
-              <div class="title">Заказчик: <span class="text">Геннадий Трохименко</span></div>
-              <div class="title">Тип доставки: <span class="text">Транспортная компания</span></div>
-              <div class="title">Оплата доставки: <span class="text">Получатель</span></div>
-              <div class="title">Отгрузочные документы: <span class="text">Вкладывать</span></div>
+              <div class="title">Способ оплаты: <span id="#payment_type#" class="text"></span></div>
+              <div class="title">Контрагент: <span id="#contr_name#" class="text"></span></div>
+              <div class="title">Тип заказа: <span id="#order_type#" class="text"></span></div>
+              <div class="title">Менеджер заказа: <span id="#manager_fio#" class="text"></span></div>
+              <div class="title">Заказчик: <span id="#user_fio#" class="text"></span></div>
+              <div class="title">Тип доставки: <span id="#delivery_type#" class="text"></span></div>
+              <div class="title">Оплата доставки: <span id="" class="#text#">Получатель</span></div>
+              <div class="title">Отгрузочные документы: <span id="#shipping_docs#" class="text"></span></div>
             </div>
             <div class="comment">
               <div class="title">Комментарий:</div>
-              <div class="text light">На всех коробках прошу написать маркером или наклеить лист бумаги с кодом TS-0027&#34; Получателем указать ИП Петренко Сергей Анатольевич, телефон 8-499-653-91-08 Плательщик пересылки ООО «Ритм -8»</div>
+              <div id="#comment#" class="text light"></div>
             </div>
           </div>
         </div>
 
         <div class="tabs row">
-          <div class="tab nomen row" onclick="showTable('nomen')">
+          <div class="tab nomen">
             <div>Итого</div>
           </div>
-          <div class="tab vputi row" onclick="showTable('vputi')">
+          <div class="tab vputi">
             <div class="icon"></div>
             <div>Товар ожидается</div>
           </div>
-          <div class="tab vnali row" onclick="showTable('vnali')">
+          <div class="tab vnali">
             <div class="icon"></div>
             <div>Товар в наличии</div>
           </div>
-          <div class="tab debzd row" onclick="showTable('debzd')">
+          <div class="tab debzd">
             <div class="icon"></div>
             <div>Товар собран</div>
           </div>
-          <div class="tab otgrz row" onclick="showTable('otgrz')">
+          <div class="tab otgrz">
             <div class="icon"></div>
             <div>Товар отгружен</div>
           </div>
-          <div class="tab nedop row" onclick="showTable('nedop')">
+          <div class="tab nedop">
             <div class="icon"></div>
             <div>Непоставка</div>
           </div>
-          <div class="tab reclm row" onclick="showTable('reclm')">
+          <div class="tab reclm">
             <div class="icon"></div>
             <div>Рекламации</div>
           </div>
@@ -1179,7 +1179,7 @@
           </table>
           <table class="table">
             <tbody class="table-body">
-              <tr>
+              <tr onclick=showReclm(#recl_id#)>
                 <td class="number">
                   <div class="row">
                     <div>#recl_num#</div>
@@ -1474,17 +1474,7 @@
     </div>
 
     <script src ="../js/main.js"></script>
-    <script src ="../js/tables.js"></script>
-    <script>
-      'use strict';
-      //тестовый вариант - при клике на любом заказе в списке заказов проваливаешься на страницу с одним и тем же заказом
-      const reclm = document.querySelector('#reclm');
+    <script src ="order.js"></script>
 
-      reclm.addEventListener('click', function (event) {
-        let orders = reclm.querySelectorAll('tr');
-        window.location.href = '../reclamation/index.html';
-      });
-
-    </script>
   </body>
 </html>
