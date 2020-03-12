@@ -20,10 +20,13 @@ if (message) {
   message = new Message(message);
 }
 
+// Запуск проверки авторизации:
+
+checkAuth();
+
 // Динамические переменные:
 
-var userInfo,
-    isSearch;
+var isSearch;
 
 // Вместе с данными о корзине будет приходить информация для заполения формы заказа, тогда это удалить:
 var partnerInfo = {
@@ -46,23 +49,6 @@ if (isCart) {
 }
 
 //=====================================================================================================
-// При запуске страницы:
-//=====================================================================================================
-
-startPage();
-
-// Общие действия на всех страницах при загрузке:
-
-function startPage() {
-  setPaddingToBody();
-  checkAuth();
-  if (isCart) {
-    window.addEventListener('focus', updateCartTotals);
-    updateCartTotals();
-  }
-}
-
-//=====================================================================================================
 // Авторизация на сайте при загрузке страницы:
 //=====================================================================================================
 
@@ -72,6 +58,7 @@ function checkAuth() {
   loader.show();
   if (pageId === 'auth' && document.location.search === '?error=1') {
     loader.hide();
+    startPage();
     showElement(document.getElementById('error'));
   } else {
     sendRequest(`${urlRequest}/check_auth.php`)
@@ -80,29 +67,32 @@ function checkAuth() {
       var data = JSON.parse(result);
       if (data.ok) {
         if (pageId === 'auth') {
-          document.location.href = '../desktop';
+          document.location.href = '/desktop';
         }
         if (pageId === 'desktop') {
           loader.hide();
         }
-        userInfo = data.user_info;
-        userInfo.full_name = userInfo.name + ' ' + userInfo.lastname;
-        showUserInfo(userInfo);
-        cart = data.cart;
+        showUserInfo(data.user_info);
+        if (data.cart) {
+          cart = data.cart;
+        }
+        startPage();
       } else {
-        if (pageId !== 'auth' ) {
-          document.location.href = '../';
+        if (pageId !== 'auth') {
+          document.location.href = '/';
         } else {
           loader.hide();
+          startPage();
         }
       }
     })
     .catch(err => {
       console.log(err);
-      if (pageId !== 'auth' ) {
-        document.location.href = '../';
+      if (pageId !== 'auth') {
+        document.location.href = '/';
       } else {
         loader.hide();
+        startPage();
       }
     });
   }
@@ -115,28 +105,6 @@ function logOut(event) {
   sendRequest(`${urlRequest}/user_logout.php`)
   .then(result => document.location.href = '/')
 }
-
-//=====================================================================================================
-// Полифиллы:
-//=====================================================================================================
-
-(function() {
-  // проверяем поддержку
-  if (!Element.prototype.closest) {
-    // реализуем
-    Element.prototype.closest = function(css) {
-      var node = this;
-      while (node) {
-        if (node.matches(css)) {
-          return node;
-        } else {
-          node = node.parentElement;
-        }
-      }
-      return null;
-    };
-  }
-})();
 
 //=====================================================================================================
 // Запросы на сервер:
@@ -167,6 +135,43 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 }
 
 //=====================================================================================================
+// При запуске страницы:
+//=====================================================================================================
+
+// Общие действия на всех страницах при загрузке:
+
+function startPage() {
+  document.body.style.visibility = 'visible';
+  setPaddingToBody();
+  if (isCart) {
+    window.addEventListener('focus', updateCartTotals);
+    updateCartTotals();
+  }
+}
+
+//=====================================================================================================
+// Полифиллы:
+//=====================================================================================================
+
+(function() {
+  // проверяем поддержку
+  if (!Element.prototype.closest) {
+    // реализуем
+    Element.prototype.closest = function(css) {
+      var node = this;
+      while (node) {
+        if (node.matches(css)) {
+          return node;
+        } else {
+          node = node.parentElement;
+        }
+      }
+      return null;
+    };
+  }
+})();
+
+//=====================================================================================================
 // Работа с данными пользователя:
 //=====================================================================================================
 
@@ -180,7 +185,7 @@ function showUserInfo(data) {
     login.textContent = data.login;
   }
   if (username) {
-    username.textContent = data.full_name;
+    username.textContent = data.name + ' ' + data.lastname;
   }
 }
 
@@ -1319,7 +1324,6 @@ function Table(obj, data) {
 function fillById(data) {
   var el;
   for (let key in data) {
-    console.log(`#${key}#`);
     el = document.getElementById(`#${key}#`);
     if (el) {
       el.textContent = data[key];
@@ -1393,4 +1397,115 @@ function showOrder(id) {
 function showReclm(id) {
   // document.location.href = '/reclamation/?recl_id=' + id;
   document.location.href = '../reclamation';
+}
+
+//=====================================================================================================
+// Универсальное заполнение данных по шаблону:
+//=====================================================================================================
+
+var data = {
+  targetName: id,
+  tempName: selector,
+  tempSource: inner || outer,
+  data: [] || {} || variable,
+  dataType: arr || obj || variable,
+  insertType: inner || end || begin
+}
+
+function fillTemplate(info) {
+  var targetName = info.target,
+      tempName = info.tempName,
+      tempSource = info.tempSource || 'inner',
+      data = info.data,
+      dataType = info.dataType,
+      insertType = info.insertType;
+
+  if (!targetName || !dataType) {
+    return;
+  }
+  var target = document.getElementById(targetName);
+  if (!target) {
+    return;
+  }
+
+  if (dataType !== 'variable') {
+    var temp = window[`${targetName}${tempName}Temp`];
+    if (!temp) {
+      if (!tempName) {
+        temp = target.innerHTML;
+      } else {
+        var el = target.querySelector(tempName);
+        if (tempSource === 'inner') {
+          temp = el.innerHTML;
+        } else if (tempSource === 'outer') {
+          temp = el.outerHTML;
+        }
+      }
+    }
+  }
+
+  var list = '', newEl;
+  if (data.type === 'arr') {
+    data.forEach(el => createEl(el));
+  } else if (data.type === 'obj') {
+    createEl(data);
+  } else if (data.type === 'variable') {
+    target.innerHTML = data;
+  }
+
+  if (data.insert === 'inner') {
+    target.innerHTML = list;
+  } else if (data.insert === 'end') {
+    target.insertAdjacentHTML('beforeend', list);
+  } else if (data.insert === 'begin') {
+    target.insertAdjacentHTML('afterbegin', list);
+  }
+}
+
+
+// Получение свойств "#...#" из шаблонов HTML:
+
+function extractProps(template) {
+  return template.match(/#[^#]+#/gi).map(prop => prop = prop.replace(/#/g, ''));
+}
+
+// Заполнение блока по шаблону:
+
+function fillByTemplate(template, data, target) {
+  var list = createListByTemplate(template, data);
+  target.innerHTML = list;
+}
+
+// Создание списка элементов на основе шаблона:
+
+function createListByTemplate(template, data) {
+  var list = '', newEl;
+  data.forEach(dataItem => {
+    newEl = template;
+    newEl = createElByTemplate(newEl, dataItem);
+    list += newEl;
+  });
+  return list;
+}
+
+// Создание одного элемента на основе шаблона:
+
+function createElByTemplate(newEl, data) {
+  var props = extractProps(newEl),
+      propRegExp,
+      value;
+  props.forEach(key => {
+    propRegExp = new RegExp('#' + key + '#', 'gi');
+    if (typeof data === 'object') {
+      if (data[key]) {
+        value = data[key];
+      } else {
+        value = '';
+      }
+    } else {
+      value = data;
+    }
+    newEl = newEl.replace(propRegExp, value);
+  });
+  return newEl;
 }

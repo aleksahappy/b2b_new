@@ -74,6 +74,7 @@ body {
   line-height: normal;
   color: #666666;
   background-color: #F2F2F2;
+  visibility: hidden;
 }
 
 body.no-scroll {

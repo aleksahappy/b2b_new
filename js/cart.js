@@ -292,8 +292,7 @@ function orderSentServer(event) {
 
 function getOrderData() {
   var info = {
-    cart_name: cartId,
-    user_id: '1e659301-d2c4-11e8-8110-002590467a5e'
+    cart_name: cartId
   }
   var formData = new FormData(event.currentTarget);
   formData.forEach(function(value, key){
