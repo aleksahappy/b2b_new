@@ -125,15 +125,14 @@
             </div>
           </div>
         </div>
-        <div id="reclm" class="table-wrap active">
+        <div id="reclamations" class="table-wrap active">
           <table class="table positioned">
             <thead class="table-head complaints">
               <tr class="titles">
                 <th id="1">
                   <div class="row">
                     <div class="title">№</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
+                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
                     </svg>
                   </div>
@@ -142,8 +141,7 @@
                 <th id="2">
                   <div class="row">
                     <div class="title">Дата</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
+                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
                     </svg>
                   </div>
@@ -152,8 +150,7 @@
                 <th id="3">
                   <div class="row">
                     <div class="title">Наименование/Артикул</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
+                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
                     </svg>
                   </div>
@@ -162,8 +159,7 @@
                 <th id="4">
                   <div class="row">
                     <div class="title">Менеджер</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
+                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
                     </svg>
                   </div>
@@ -172,8 +168,7 @@
                 <th id="5">
                   <div class="row">
                     <div class="title">Статус</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
+                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
                     </svg>
                   </div>
@@ -182,11 +177,11 @@
             </thead>
           </table>
           <table class="table">
-            <tbody class="table-body" id="reclamations-table">
+            <tbody class="table-body">
               <tr>
                 <td>
                   <div class="row">
-                    <div>ТС-53</div>
+                    <div>#recl_num#</div>
                   </div>
                 </td>
                 <td>
@@ -458,14 +453,20 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      //тестовый вариант - при клике на любом заказе в списке заказов проваливаешься на страницу с одним и тем же заказом
-      const tableBody = document.querySelector('.table-body');
-
-      tableBody.addEventListener('click', function (event) {
-        let orders = tableBody.querySelectorAll('tr');
-        window.location.href = '../reclamation/index.html';
+      sendRequest('http://api.topsports.ru/recl/recl.php')
+      .then(result => {
+        console.log(result);
+        var data = JSON.parse(result);
+        console.log(data);
+        if (data) {
+          window['reclamationsout'] = data;
+          initTables();
+        }
+      })
+      .catch(err => {
+        console.log('err');
+        initTables();
       });
-
     </script>
   </body>
 </html>

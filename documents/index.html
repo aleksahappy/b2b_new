@@ -119,7 +119,6 @@
           <div class="main-title row">
             <div class="title-row row">
               <div class="title">Документы</div>
-              <!-- <div class="question icon" tooltip="Подсказки" help></div> -->
             </div>
             <div class="left-row row">
               <div class="settings icon" tooltip="Настройки"></div>
@@ -127,7 +126,7 @@
           </div>
         </div>
 
-        <div class="table-wrap active">
+        <div id="docs" class="table-wrap active">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -147,92 +146,13 @@
               <tr>
                 <td>
                   <div class="row">
-                    <div class="download icon"></div>
-                    <div>КОММЕРЧЕСКАЯ ПОЛИТИКА 19-20.docx</div>
+                    <a href="http://api.topsports.ru/files/files.php?mode=docs&id=#id#" target="_blank">
+                      <div class="download icon"></div>
+                    </a>
+                    <div>#title#</div>
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Приложение № 1 МАРКЕТИНГОВЫЙ КАЛЕНДАРЬ.docx</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Приложение № 3 МЕМОРАНДУМ ПО РАБОТЕ С АМБАССАДОРАМИ.pdf</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Приложение №4 ЧЕК-ЛИСТ ПО РАБОТЕ АМБАССАДОРА 2019.pdf</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Прайс-лист РРЦ от 23.09.2019.xlsx</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Договор ответохранения онлайн-витрин ТОП Спортс.doc</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Договор ответохранения онлайн-витрин ТОП Спортс №1.doc</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>Договор ответохранения онлайн-витрин ТОП Спортс №2.doc</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>TOP SPORTS Договор поставки 2019 с НДС ред. от 29.10.2019.docx</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>TOP SPORTS 1 Договор поставки 2019 без НДС ред. от 29.10.2019.docx</div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="download icon"></div>
-                    <div>TOP SPORTS 2 Договор поставки 2019 без НДС ред. от 29.10.2019.docx</div>
-                  </div>
-                </td>
-              </tr>
-
             </tbody>
           </table>
         </div>
@@ -424,6 +344,21 @@
     </div>
 
     <script src="../js/main.js"></script>
+    <script>
+      'use strict';
+      sendRequest('http://api.topsports.ru/files/files.php?mode=docs')
+      .then(result => {
+        var data = JSON.parse(result);
+        if (data) {
+          window['docsout'] = data;
+          initTables();
+        }
+      })
+      .catch(err => {
+        console.log('err');
+        initTables();
+      });
+    </script>
 
   </body>
 </html>

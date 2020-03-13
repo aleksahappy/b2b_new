@@ -1814,7 +1814,8 @@ form.registr-form .unactive {
 }
 
 .tabs .tab.reclm,
-#reclm .titles  {
+#reclm .titles,
+#reclamations .titles  {
   background-color: #A89271;
 }
 
@@ -1903,14 +1904,18 @@ form.registr-form .unactive {
   border-bottom: 1px solid #DCDCDC;
 }
 
-#orderslist td,
-#reclm td,
-#reclamations-table td {
-  cursor: pointer;
+.table-body td a {
+  text-decoration: underline;
 }
 
 .table-body tr:hover {
   background-color: #EFEEF1;
+}
+
+#orderslist td,
+#reclm td,
+#reclamations td {
+  cursor: pointer;
 }
 
 /* Общие стили контента */
@@ -1942,12 +1947,4 @@ form.registr-form .unactive {
 .table-body .date {
   min-width: 14em;
   justify-content: center;
-}
-
-
-
-
-/* тестовые классы для скрытия элементов меню с неработающими ссылками */
-.temporary_removed{
-  display: none!important;
 }
