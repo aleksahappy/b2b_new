@@ -18,95 +18,95 @@
 
     <div class="header">
       <div class="header-top">
-      <div class="container row">
-        <div class="left-side row">
-        <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
-        <div class="row">
-          <div class="activate">
-          <div class="head row">
-            <a class="title" href="../desktop">Рабочий стол</a>
-          </div>
-          </div>
-          <div class="activate hover">
-          <div class="head row">
-            <div class="title">Каталоги</div>
-            <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-            </svg>
-          </div>
-          <div class="drop-down">
+        <div class="container row">
+          <div class="left-side row">
+            <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
             <div class="row">
-            <a class="item catalog" href="../preorder">Предзаказы</a>
-            <a id="cart-preorder" class="item cart-info row" href="../preorder/?cart">
-              <div class="cart icon"></div>
-              <div class="qty-short">0</div>
-            </a>
+              <div class="activate">
+                <div class="head row">
+                  <a class="title" href="../desktop">Рабочий стол</a>
+                </div>
+              </div>
+              <div class="activate hover">
+                <div class="head row">
+                  <div class="title">Каталоги</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div class="drop-down">
+                  <div class="row">
+                    <a class="item catalog" href="../preorder">Предзаказы</a>
+                    <a id="cart-preorder" class="item cart-info row" href="../preorder/?cart">
+                      <div class="cart icon"></div>
+                      <div class="qty-short">0</div>
+                    </a>
+                  </div>
+                  <div class="row">
+                    <a class="item catalog" href="../equipment/">Экипировка</a>
+                    <a id="cart-equip" class="item cart-info row" href="../equipment/?cart">
+                      <div class="cart icon"></div>
+                      <div class="qty-short">0</div>
+                    </a>
+                  </div>
+                  <div class="row">
+                    <a class="item catalog" href="../snowmobiles/">Снегоходы</a>
+                    <a id="cart-snow" class="item cart-info row" href="../snowmobiles/?cart">
+                      <div class="cart icon"></div>
+                      <div class="qty-short">0</div>
+                    </a>
+                  </div>
+                  <div class="row">
+                    <a class="item catalog" href="../boats/">Лодки и моторы</a>
+                    <a id="cart-boats" class="item cart-info row" href="../boats/?cart">
+                      <div class="cart icon"></div>
+                      <div class="qty-short">0</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="activate hover select">
+                <div class="head row">
+                  <div class="title">Закупки</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div class="drop-down">
+                  <a class="item" href="../orders/">Заказы</a>
+                  <a class="item" href="../reclamations/">Рекламации</a>
+                  <a class="item" href="../documents/">Документы</a>
+                  <a class="item" href="../certificates/">Сертификаты</a>
+                </div>
+              </div>
             </div>
-            <div class="row">
-            <a class="item catalog" href="../equipment/">Экипировка</a>
-            <a id="cart-equip" class="item cart-info row" href="../equipment/?cart">
-              <div class="cart icon"></div>
-              <div class="qty-short">0</div>
-            </a>
+          </div>
+          <div class="right-side row">
+            <div class="activate hover select">
+              <div class="head row">
+                <div class="profile icon"></div>
+                <div id="profile">
+                  <div class="title">@@login@@</div>
+                  <div class="username">@@username@@</div>
+                </div>
+              </div>
+              <div class="drop-down">
+                <div class="links">
+                  <a class="item" href="../users">Пользователи</a>
+                  <a class="item" href="../contractors">Контрагенты</a>
+                  <a class="item" href="../addresses">Адреса доставки</a>
+                  <a class="item" href="../shops">Магазины</a>
+                  <a class="item" href="../monitoring">Мониторинг</a>
+                  <a class="item" href="../mediabank">Медиабанк</a>
+                </div>
+                <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
+              </div>
             </div>
-            <div class="row">
-            <a class="item catalog" href="../snowmobiles/">Снегоходы</a>
-            <a id="cart-snow" class="item cart-info row" href="../snowmobiles/?cart">
-              <div class="cart icon"></div>
-              <div class="qty-short">0</div>
-            </a>
-            </div>
-            <div class="row">
-            <a class="item catalog" href="../boats/">Лодки и моторы</a>
-            <a id="cart-boats" class="item cart-info row" href="../boats/?cart">
-              <div class="cart icon"></div>
-              <div class="qty-short">0</div>
-            </a>
+            <div class="alerts icon" onclick="openPopUp('alerts-container')">
+              <div class="qty in-circle row">12</div>
             </div>
           </div>
-          </div>
-          <div class="activate hover select">
-          <div class="head row">
-            <div class="title">Закупки</div>
-            <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-            </svg>
-          </div>
-          <div class="drop-down">
-            <a class="item" href="../orders/">Заказы</a>
-            <a class="item" href="../reclamations/">Рекламации</a>
-            <a class="item" href="../documents/">Документы</a>
-            <a class="item" href="../certificates/">Сертификаты</a>
-          </div>
-          </div>
         </div>
-        </div>
-        <div class="right-side row">
-        <div class="activate hover select">
-          <div class="head row">
-          <div class="profile icon"></div>
-          <div id="profile">
-            <div class="title"></div>
-            <div class="username"></div>
-          </div>
-          </div>
-          <div class="drop-down">
-          <div class="links">
-            <a class="item" href="../users">Пользователи</a>
-            <a class="item" href="../contractors">Контрагенты</a>
-            <a class="item" href="../addresses">Адреса доставки</a>
-            <a class="item" href="../shops">Магазины</a>
-            <a class="item" href="../monitoring">Мониторинг</a>
-            <a class="item" href="../mediabank">Медиабанк</a>
-          </div>
-          <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
-          </div>
-        </div>
-        <div class="alerts icon" onclick="openPopUp('alerts-container')">
-          <div class="qty in-circle row">12</div>
-        </div>
-        </div>
-      </div>
       </div>
     </div>
 

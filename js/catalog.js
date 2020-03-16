@@ -9,7 +9,6 @@
 var pageSearch = document.getElementById('page-search'),
     zipSelect = document.getElementById('zip-select'),
     mainHeader = document.getElementById('main-header'),
-    mainNav = document.getElementById('main-nav'),
     mainInfo = document.getElementById('main-info'),
     content = document.getElementById('content'),
     headerContent = document.getElementById('header-content'),
@@ -57,10 +56,6 @@ var minCardTemplate = document.getElementById('min-card-#object_id#'),
     fullCardTemplate = document.getElementById('full-card-#object_id#'),
     productCardTemplate = document.getElementById('product-card-#object_id#');
 
-if (mainNav) {
-  var mainNavTemplate = mainNav.innerHTML,
-      navItemTemplate = mainNav.querySelector('.item').outerHTML;
-}
 if (zipSelect) {
   var selectManufItemTemplate = selectMan.querySelector('.drop-down').innerHTML,
       oemListTemplate = oemList.innerHTML;
@@ -495,34 +490,37 @@ function createDinamicLinks() {
 // Изменение хлебных крошек:
 
 function createMainNav() {
-  var list = '',
-      curTitle,
-      newItem;
-
-  path.forEach(item => {
-    curTitle = document.querySelector(`[data-href="${item}"]`);
-    if (curTitle) {
-      newItem = navItemTemplate
-      .replace('#href#', curTitle.href)
-      .replace('#dataHref#', item)
-      .replace('#level#', curTitle.dataset.level)
-      .replace('#title#', curTitle.dataset.title);
-      list += newItem;
-    }
+  var navData = {items: {}},
+      curTitle;
+  path.forEach((el, index) => {
+    curTitle = document.querySelector(`[data-href="${el}"]`);
+    var item = {
+      href: view === 'product' ? '#': curTitle.href,
+      dataHref: el,
+      level: curTitle.dataset.level,
+      title: view === 'product' ? items[0].title: curTitle.dataset.title
+    };
+    navData.items[index] = item;
   });
-  if (view === 'product') {
-    newItem = navItemTemplate
-      .replace('#href#', '#')
-      .replace('#title#', items[0].title);
-      list += newItem;
-  }
-  mainNav.innerHTML = mainNavTemplate.replace(navItemTemplate, list);
+  var data = {
+    area: 'main-nav',
+    type: 'obj',
+    items: navData,
+    sub: {'items': '.item'},
+  };
+  fillTemplate(data);
 }
 
 // Создание контента страницы товара:
 
 function renderProductPage() {
-  gallery.innerHTML = createCard(items[0]);
+  // var data = {
+  //   area: 'main-nav',
+  //   type: 'obj',
+  //   items: items[0],
+  //   sub: {'items': '.item'},
+  // };
+  gallery.innerHTML = createCard();
   var card = document.querySelector('.product-card');
   document.querySelector(card)
   renderCarousel(card.querySelector('.carousel'))

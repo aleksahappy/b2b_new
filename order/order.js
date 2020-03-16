@@ -28,7 +28,16 @@ sendRequest(`${urlRequest}/order.php?order_id=` + orderId)
 .then(result => {
   var data = JSON.parse(result);
   if (data.id) {
-    fillById(data);
+    if (!data.comment) {
+      data.isHiddenComment = 'hidden'
+    }
+    var orderInfo = {
+      area: 'order-info',
+      items: data,
+      type: 'obj'
+    };
+    console.log(data);
+    fillTemplate(orderInfo);
     var orderitems = data.orderitems;
     arlistk = orderitems.arlistk;
     arlistv = orderitems.arlistv;
