@@ -41,20 +41,19 @@ if (zipSelect) {
       oemList = document.getElementById('oem-list'),
       oemNotFound = document.getElementById('oem-not-found'),
       clearOemSearchBtn = oemSearch.querySelector('.close.icon');
-
   // Обработчики событий:
-
   selectMan.addEventListener('change', selectCardsZipFilter);
   selectYears.addEventListener('change', selectCardsZipFilter);
   selectModel.addEventListener('change', selectCardsZipFilter);
 }
 
-// Получение шаблонов из HTML:
+// Области с шаблонами карточки товара в галерее:
 
-var minCardTemplate = document.getElementById('min-card-#object_id#'),
-    bigCardTemplate = document.getElementById('big-card-#object_id#'),
-    fullCardTemplate = document.getElementById('full-card-#object_id#'),
-    productCardTemplate = document.getElementById('product-card-#object_id#');
+var minCard = document.querySelector('.min-card'),
+    bigCard = document.querySelector('.big-card');
+
+
+// Получение шаблонов из HTML:
 
 if (zipSelect) {
   var selectManufItemTemplate = selectMan.querySelector('.drop-down').innerHTML,
@@ -67,25 +66,19 @@ if (menuFilters) {
 }
 if (filtersInfo) {
   var duplicateFilterTemplate = filtersInfo.innerHTML;
-  clearFiltersInfo();
-}
-if (fullImgContainer) {
-  var fullImg = document.getElementById('full-img'),
-      fullImgTemplate = fullImg.innerHTML,
-      fullCarouselTemplate = fullImg.querySelector('.carousel-gallery').innerHTML;
 }
 
 // Динамические переменные:
 
-var items,
-    cartItems = {},
+var pageUrl = pageId,
     view = 'list',
     cardTemplate,
+    items,
+    cardItems,
+    cartItems = {},
     curItems,
     selectedItems = '',
-    itemsForSearch,
-    zipFilterData = {},
-    pageUrl = pageId;
+    zipFilterData = {};
 
 //=====================================================================================================
 // При запуске страницы:
@@ -157,54 +150,97 @@ function getProduct(id) {
 //=====================================================================================================
 // // Преобразование исходных данных:
 //=====================================================================================================
+// Добавление:
+// - данных для поиска по странице
+// - данных о картинке в малой карточке
+// - данных о текущей цене
+// - общего количества
 
 // Преобразование:
 // - данных о картинках в карточке товара из строки в массив;
 // - данных о годах в укороченный формат
 
-// Добавление:
-// - данных о текущей цене
-// - общего количества
-
 // Создание:
 // - объекта в разрезе размеров для корзины
 
 function convertItems() {
+  // Фильтрация входящих данных для страниц ЗИПа:
   if (pageId == '_boats') {
     items = items.filter(el => el.lodkimotor == 1);
   }
   if (pageId == '_snow') {
     items = items.filter(el => el.snegohod == 1);
   }
-  var manuf, size, id;
-  items.forEach(item => {
+
+  cardItems = JSON.parse(JSON.stringify(items));
+
+  var itemSearch, size, id, options, option, manuf, isManuf, manufRow, value;
+  cardItems.forEach(item => {
+
+    // Добавление данных для поиска по странице:
+    itemSearch = JSON.parse(JSON.stringify(item));
+    delete itemSearch.desc;
+    item.search = convertToString(itemSearch);
+
+    // Преобразование и добавление данных о картинках:
     item.images = item.images.toString().split(';');
     item.image = `http://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
+
+    // Добавление данных о текущей цене и отображение/скрытие старой:
     if (cartId.indexOf('preorder') >= 0) {
-      item.price_cur = item.price_preorder;
-      item.price_cur1 = item.price_preorder1;
+      item.price_cur = item.price_preorder1 > 0 ? item.price_preorder : item.price;
+      item.price_cur1 = item.price_preorder1 > 0 ? item.price_preorder1 : item.price1;
+      if (website === 'skipper') {
+        item.isHiddenPrice = item.price_preorder1 > 0 ? '' : 'displayNone';
+      } else {
+        item.isOldPrice = item.price_preorder1 > 0 ? '' : 'hidden';
+        item.isBorder = item.price_preorder1 > 0 ? '' : 'borderNone';
+      }
     } else {
       item.price_cur = item.price_action1 > 0 ? item.price_action : item.price;
       item.price_cur1 = item.price_action1 > 0 ? item.price_action1 : item.price1;
+      if (website === 'skipper') {
+        item.isHiddenPrice = item.price_action1 > 0 ? '' : 'displayNone';
+      } else {
+        item.isOldPrice = item.price_action1 > 0 ? '' : 'hidden';
+        item.isBorder = item.actiontitle || item.action_id > 0 ? '' : 'borderNone';
+      }
     }
-    item.total_qty = parseInt(item.free_qty, 10) + parseInt(item.arrive_qty, 10);
-    if (item.sizes && item.sizes != 0) {
-      for (let key in item.sizes) {
-        size = item.sizes[key];
-        id = item.sizes[key].object_id;
-        size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
-        cartItems['id_' + id] = Object.assign({}, size);
-        cartItems['id_' + id].id = id;
-        for (let key in item) {
-          if (key === 'object_id' || key != 'sizes' && !cartItems['id_' + id][key]) {
-            cartItems['id_' + id][key] = item[key];
-          }
+
+    // Добавление данных о торговой наценке:
+    item.markup = ((item.price_user1 - item.price_cur1) / item.price_cur1 * 100).toFixed(0);
+
+    // Добавление данных для создания размеров и общего количества:
+    if (!item.sizes || item.sizes == 0) {
+      item.sizes = {};
+      item.sizes[0] = {
+        articul: item.articul,
+        object_id: item.object_id,
+        free_qty: item.free_qty,
+        arrive_qty: item.arrive_qty,
+        arrive_date: item.arrive_date,
+      };
+    }
+    for (let key in item.sizes) {
+      size = item.sizes[key];
+      size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
+      size.isClick = size.size ? '' : 'click';
+      item.isFree = size.free_qty > 0 ? '' : 'displayNone';
+      item.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
+      item.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
+
+      //Создание объекта в разрезе размеров для корзины:
+      id = item.sizes[key].object_id;
+      cartItems['id_' + id] = Object.assign({}, size);
+      cartItems['id_' + id].id = id;
+      for (let key in item) {
+        if (key === 'object_id' || key !== 'sizes' && !cartItems['id_' + id][key]) {
+          cartItems['id_' + id][key] = item[key];
         }
       }
-    } else {
-      cartItems['id_' + item.object_id] = Object.assign({}, item);
-      cartItems['id_' + item.object_id].id = cartItems['id_' + item.object_id].object_id;
     }
+
+    // Преобразование данных о производителе из JSON в объект:
     if (item.manuf) {
       try {
         manuf = JSON.parse(item.manuf);
@@ -213,8 +249,72 @@ function convertItems() {
       }
       item.manuf = manuf;
     }
+
+    // Нужно ли заполнять таблицу о производителе:
+    isManuf = item.manuf && Object.keys(item.manuf.man).length > 1 ? true : false;
+
+    // Добавление данных для создания списка характеристик:
+    if (item.options && item.options != 0) {
+      options = [];
+      for (let key in item.options) {
+        option = item.options[key];
+        if (key == 32) {
+          option = convertYears(item.options[key]);
+        } else {
+          option = option
+          .replace(/\,/gi, ', ')
+          .replace(/\//gi, '/ ')
+        }
+        if ((key == 7 || key == 31 || key == 32 || key == 33) && isManuf) {
+          continue;
+        } else {
+          options.push({
+            optitle: optnames[key],
+            option: option
+          });
+        }
+      }
+      item.options = options;
+    }
+
+    // Преобразование данных о производителе:
+
+    if (isManuf) {
+      manuf = [];
+      for (let man in item.manuf.man) {
+        manufRow = {};
+        manufRow.man = man;
+        manufRow.oem = manufRow.model = manufRow.years = '&ndash;';
+        for (let k in item.manuf) {
+          if (k !== 'man') {
+            value = [];
+            for (let kk in item.manuf[k]) {
+              for (let kkk in item.manuf[k][kk]) {
+                if (kkk == man) {
+                  value.push(kk);
+                }
+              }
+            }
+            value = value.join(', ');
+            if (k === 'years') {
+              value = convertYears(value);
+            }
+            manufRow[k] = value;
+          }
+        }
+        manuf.push(manufRow);
+      }
+      item.manuf_table = manuf;
+    }
+
+    // Отображение/скрытие информации при ее наличии/отсутствии:
+    item.isAction = item.actiontitle || item.action_id > 0 ? '' : 'hidden';
+    item.isManuf = isManuf ? '' : 'displayNone';
+    item.isDesc = item.desc ? '' : 'displayNone';
   });
-  items.sort(dynamicSort(('catid')));
+
+  // Сортировка полученных данных по id категории:
+  cardItems.sort(dynamicSort(('catid')));
 }
 
 //=====================================================================================================
@@ -318,9 +418,8 @@ var path;
 
 function initPage() {
   loader.hide();
-  setCardTemplate();
   saveCartTotals();
-  // !!! НЕТ ПУТИ ДЛЯ ОТДЕЛЬНОЙ СТРАНИЦЫ ТОВАРА
+  // !!! НЕ ЗНАЮ ОТКУДА БРАТЬ ХЛЕБНЫЕ КРОШКИ НА ОТДЕЛЬНОЙ СТРАНИЦЕ ТОВАРА
   path = location.search.split('?').map(el => {
     if (el == '') {
       return pageId;
@@ -381,7 +480,7 @@ function renderContent() {
   toggleMenuItems();
   createDinamicLinks();
   createMainNav();
-  curItems = items;
+  curItems = cardItems;
   if (path[path.length - 1] === 'cart') {
     renderCart();
   } else if (view === 'product') {
@@ -453,7 +552,7 @@ function changePageTitle() {
   var title = '',
       curTitle = document.querySelector(`[data-href="${path[path.length - 1]}"]`);
   if (view === 'product') {
-    title += items[0].title;
+    title += cardItems[0].title;
   } else if (curTitle) {
     title += curTitle.dataset.title;
   }
@@ -504,7 +603,6 @@ function createMainNav() {
   });
   var data = {
     area: 'main-nav',
-    type: 'obj',
     items: navData,
     sub: {'items': '.item'},
   };
@@ -514,15 +612,14 @@ function createMainNav() {
 // Создание контента страницы товара:
 
 function renderProductPage() {
-  // var data = {
-  //   area: 'main-nav',
-  //   type: 'obj',
-  //   items: items[0],
-  //   sub: {'items': '.item'},
-  // };
-  gallery.innerHTML = createCard();
+  var data = {
+    area: productCard,
+    items: cardItems[0],
+    sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'},
+    action: 'return'
+  };
+  gallery.innerHTML = fillTemplate(data);
   var card = document.querySelector('.product-card');
-  document.querySelector(card)
   renderCarousel(card.querySelector('.carousel'))
   .then(
     result => {
@@ -549,7 +646,6 @@ function renderGallery() {
       curItems = curItems.filter(item => item[key] == 1);
     }
   });
-  prepareForSearch(curItems);
   clearAllSearch();
 
   if (zipSelect) {
@@ -1248,7 +1344,7 @@ function selectCardsZipFilter(event) {
   }
   var curItemsArray = curItems;
   if (website === 'skipper') {
-    curItemsArray = items;
+    curItemsArray = cardItems;
   }
   var filter = event.currentTarget.dataset.filter,
       isFound;
@@ -1492,11 +1588,18 @@ function loadCards(cards) {
     countItemsTo = itemsToLoad.length;
   }
 
-  var list = '', card;
+  var dataItems = [];
   for (let i = countItems; i < countItemsTo; i++) {
-    card = createCard(itemsToLoad[i]);
-    list += card;
+    dataItems.push(itemsToLoad[i]);
   }
+  var data = {
+    area: view === 'list'? bigCard : minCard,
+    source: 'outer',
+    items: dataItems,
+    sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'},
+    action: 'return'
+  };
+  var list = fillTemplate(data);
 
   if (countItems === 0) {
     gallery.innerHTML = list;
@@ -1535,171 +1638,6 @@ function completeCard(card) {
     checkAction(card);
     checkCart(card);
   }
-}
-
-// Создание одной карточки товара :
-
-function createCard(data) {
-  var newCard = cardTemplate.outerHTML,
-      isManuf = data.manuf && Object.keys(data.manuf.man).length > 1 ? true : false,
-      template,
-      list;
-
-  if (cardTemplate != minCardTemplate) {
-    template = cardTemplate.querySelector('.carousel-gallery').innerHTML;
-    list = createCarousel(template, data);
-    newCard = newCard.replace(template, list);
-
-    template = cardTemplate.querySelector('.card-sizes').innerHTML;
-    list = createSizes(template, data);
-    newCard = newCard.replace(template, list);
-
-    template = cardTemplate.querySelector('.card-options').innerHTML;
-    list = createOptions(template, data, isManuf);
-    newCard = newCard.replace(template, list);
-
-    if (isManuf) {
-      template = cardTemplate.querySelector('.manuf-row').outerHTML;
-      list = createManufTable(template, data.manuf);
-      newCard = newCard.replace(template, list);
-    }
-  }
-  newCard = newCard
-  .replace('#isAction#', data.actiontitle || data.action_id > 0 ? '' : 'hidden')
-  .replace('#isFree#', data.free_qty > 0 ? '' : 'displayNone')
-  .replace('#isArrive#', data.arrive_qty > 0 ? '' : 'displayNone')
-  .replace('#isWarehouse#', data.warehouse_qty > 0 ? '' : 'displayNone')
-  .replace('#isManuf#', isManuf ? '' : 'displayNone')
-  .replace('#isDesc#', data.desc ? '' : 'displayNone')
-
-  if (website === 'skipper') {
-    newCard = newCard
-    .replace('#isHiddenPrice#', data.price_preorder1 > 0 ? '' : 'displayNone')
-  } else {
-    newCard = newCard
-    .replace('#isOldPrice#', data.actiontitle || data.action_id > 0 ? '' : 'hidden')
-    .replace('#isBorder#', data.actiontitle || data.action_id > 0 ? '' : 'borderNone')
-    .replace('#markup#', ((data.price_user1 - data.price_cur1) / data.price_cur1 * 100).toFixed(0))
-  }
-  newCard = createElByTemplate(newCard, data);
-  return newCard;
-}
-
-// Создание карусели:
-
-function createCarousel(template, data, isFull = false) {
-  var list = '', newEl;
-  for (let i = 0; i < data.images.length; i++) {
-    newEl = template;
-    if (isFull && window.innerWidth > 400) {
-      newEl = newEl.replace('#image#', `http://b2b.topsports.ru/c/source/${data.images[i]}.jpg`);
-    } else {
-      newEl = newEl.replace('#image#', `http://b2b.topsports.ru/c/productpage/${data.images[i]}.jpg`);
-    }
-    newEl = newEl.replace('#full-image#', `http://b2b.topsports.ru/c/source/${data.images[i]}.jpg`);
-    list += newEl;
-  }
-  return list;
-}
-
-// Создание информации о размерах:
-
-function createSizes(template, data) {
-  var list = '', newEl;
-  if (data.sizes && data.sizes != 0) {
-    for (let key in data.sizes) {
-      createSize(data.sizes[key]);
-    }
-  } else {
-    createSize(data);
-  }
-  function createSize(sizeInfo) {
-    newEl = template
-    .replace('#isClick#', sizeInfo.size ? '' : 'click')
-    .replace('#isFree#', sizeInfo.free_qty > 0 ? '' : 'displayNone')
-    .replace('#isArrive#', sizeInfo.arrive_qty > 0 ? '' : 'displayNone')
-    .replace('#isWarehouse#', sizeInfo.warehouse_qty > 0 ? '' : 'displayNone');
-    newEl = createElByTemplate(newEl, sizeInfo);
-    list += newEl;
-  }
-  return list;
-}
-
-// Создание описания опций в карточке товара:
-
-function createOptions(template, data, isManuf) {
-  var list = '', newEl;
-  if (data.options && data.options != 0) {
-    var option;
-    for (let key in data.options) {
-      option = data.options[key];
-      if (key == 32) {
-        option = convertYears(data.options[key]);
-      } else {
-        option = option
-          .replace(/\,/gi, ', ')
-          .replace(/\//gi, '/ ')
-      }
-      if ((key == 7 || key == 31 || key == 32 || key == 33) && isManuf) {
-        continue;
-      } else {
-        newEl = template
-          .replace('#optitle#', optnames[key])
-          .replace('#option#', option);
-        list += newEl;
-      }
-    }
-  }
-  return list;
-}
-
-// Создание таблицы с данными о производителе:
-
-function createManufTable(template, data) {
-  var list = '',
-      subList,
-      newEl,
-      subTemplate = cardTemplate.querySelector('.manuf-row').innerHTML,
-      titles = Array.from(document.getElementById('manuf-headers').querySelectorAll('div')).map(element => element.dataset.title),
-      newCell,
-      cell;
-
-  for (let item in data.man) {
-    newEl = template;
-    subList = '';
-
-    for (let k of titles) {
-      newCell = subTemplate;
-      cell = [];
-      for (let kk in data[k]) {
-        if (kk == item) {
-          cell.push(kk);
-        } else {
-          for (let kkk in data[k][kk]) {
-            if (kkk == item) {
-              cell.push(kk);
-            }
-          }
-        }
-      }
-      if (cell.length == 0) {
-        cell.push('&ndash;');
-        cell = cell.join(', ');
-      } else {
-        cell = cell.join(', ');
-        if (k == 'years') {
-          cell = convertYears(cell);
-        }
-      }
-      newCell = newCell
-        .replace('#cat#', k)
-        .replace('#info#', cell);
-      subList += newCell;
-    }
-    newEl = newEl.replace(subTemplate, subList);
-    list += newEl;
-  }
-  return list;
 }
 
 // Проверка загруженности всех изображений карусели и отображение карусели:
@@ -1774,25 +1712,10 @@ function toggleView(event, newView) {
   if (view != newView) {
     document.querySelector(`.view-${view}`).classList.remove('active');
     event.currentTarget.classList.add('active');
-    content.classList.remove(`${view}`);
-    content.classList.add(`${newView}`);
     view = newView;
-    setCardTemplate();
-    gallery.style.opacity = '0'
+    gallery.style.opacity = '0';
     showCards();
-    gallery.style.opacity = '1'
-  }
-}
-
-function setCardTemplate() {
-  if (view === 'list') {
-    cardTemplate = bigCardTemplate;
-  }
-  if (view === 'blocks') {
-    cardTemplate = minCardTemplate;
-  }
-  if (view === 'product') {
-    cardTemplate = productCardTemplate;
+    gallery.style.opacity = '1';
   }
 }
 
@@ -1829,13 +1752,15 @@ function showFullCard(id) {
   loader.show();
   openPopUp(fullCardContainer);
   fullCardContainer.style.opacity = 0;
-  cardTemplate = fullCardTemplate;
-  fullCardContainer.innerHTML = createCard(items.find(item => item.object_id == id));
-
+  var data = {
+    area: fullCardContainer,
+    items: cardItems.find(item => item.object_id == id),
+    sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'}
+  };
+  fillTemplate(data);
   completeCard(document.querySelector('.full-card'));
 
   var curCarousel = fullCardContainer.querySelector('.carousel');
-  setCardTemplate();
   renderCarousel(curCarousel)
   .then(
     result => {
@@ -1862,9 +1787,12 @@ function showFullImg(event, id) {
   fullImgContainer.style.opacity = 0;
   loader.show();
 
-  var card = curItems.find(item => item.object_id == id),
-      list = createCarousel(fullCarouselTemplate, card, true);
-  fullImg.innerHTML = fullImgTemplate.replace(fullCarouselTemplate, list);
+  var data = {
+    area: fullImgContainer,
+    items: curItems.find(item => item.object_id == id),
+    sub: {'images': '.carousel-item'}
+  };
+  fillTemplate(data);
 
   var curCarousel = fullImgContainer.querySelector('.carousel'),
       curImg = event.currentTarget.closest('.carousel').dataset.img;
@@ -1918,35 +1846,6 @@ function sortItems() {
 // Поиск на странице:
 //=====================================================================================================
 
-// Подготовка данных для поиска на странице:
-
-function prepareForSearch(data) {
-  itemsForSearch = JSON.parse(JSON.stringify(data)).map(el => {
-    delete el.desc;
-    return {object_id: el.object_id, value: convertToString(el)};
-  });
-}
-
-// Конвертация всей вложенности свойств объекта в строку:
-
-function convertToString(obj) {
-  var objProps = '';
-  crossObj(obj);
-  return objProps;
-
-  function crossObj(obj) {
-    var prop;
-    for (let k in obj) {
-      prop = obj[k];
-      if (typeof prop === 'string') {
-        objProps += prop + ',';
-      } else if (typeof prop === 'object') {
-        crossObj(prop);
-      }
-    }
-  }
-}
-
 // Поиск совпадений с введенным текстом:
 
 function findOnPage(event) {
@@ -1961,9 +1860,9 @@ function findOnPage(event) {
   }
   var regExpSearch = new RegExp(textToFind, 'i');
   selectedItems = [];
-  itemsForSearch
-    .filter(el => el.value.search(regExpSearch) >= 0)
-    .forEach(el => selectedItems.push(curItems.find(item => item.object_id == el.object_id)));
+  curItems
+    .filter(el => el.search.search(regExpSearch) >= 0)
+    .forEach(el => selectedItems.push(el));
   showCards();
   isSearch = true;
   document.getElementById('search-text').textContent = '"' + textToFind + '"';

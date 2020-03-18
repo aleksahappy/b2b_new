@@ -34,7 +34,6 @@ sendRequest(`${urlRequest}/order.php?order_id=` + orderId)
     var orderInfo = {
       area: 'order-info',
       items: data,
-      type: 'obj'
     };
     console.log(data);
     fillTemplate(orderInfo);

@@ -22,7 +22,8 @@ if (message) {
 
 // Запуск проверки авторизации:
 
-checkAuth();
+// checkAuth();
+startPage();
 
 // Динамические переменные:
 
@@ -183,8 +184,7 @@ function showUserInfo(userInfo) {
     items: {
       login: userInfo.login,
       username: userInfo.name + ' ' + userInfo.lastname
-    },
-    type: 'obj'
+    }
   }
   fillTemplate(data);
 }
@@ -777,6 +777,26 @@ function loadScript(url) {
   });
 }
 
+// Конвертация всей вложенности свойств объекта в строку:
+
+function convertToString(obj) {
+  var objProps = '';
+  crossObj(obj);
+  return objProps;
+
+  function crossObj(obj) {
+    var prop;
+    for (let k in obj) {
+      prop = obj[k];
+      if (typeof prop === 'string') {
+        objProps += prop + ',';
+      } else if (typeof prop === 'object') {
+        crossObj(prop);
+      }
+    }
+  }
+}
+
 // Кросс-браузерная функция для получения символа из события keypress:
 
 function getChar(event) {
@@ -1105,7 +1125,7 @@ function Table(obj, data) {
   }
   this.setEventListeners();
 
-  // Включение/отключение вкладки таблицы:
+  // Включение/отключение вкладки таблицы в зависимости от наличия данных:
   this.toggleTab = function() {
     if (this.tab) {
       showElement(this.tab, 'flex');
@@ -1118,41 +1138,6 @@ function Table(obj, data) {
   }
 
   // Загрузка данных в таблицу:
-  // this.loadData = function(data) {
-  //   if (data && data.length === 0) {
-  //     this.body.innerHTML = '';
-  //     return;
-  //   }
-  //   if (data) {
-  //     this.countItems = 0;
-  //     this.itemsToLoad = data;
-  //   } else {
-  //     this.countItems = this.countItemsTo;
-  //   }
-  //   if (this.countItemsTo == this.itemsToLoad.length) {
-  //     return;
-  //   }
-  //   this.countItemsTo = this.countItems + this.incr;
-  //   if (this.countItemsTo > this.itemsToLoad.length) {
-  //     this.countItemsTo = this.itemsToLoad.length;
-  //   }
-  //   var list = '', newEl;
-  //   for (let i = this.countItems; i < this.countItemsTo; i++) {
-  //     newEl = this.rowTemplate;
-  //     newEl = createElByTemplate(newEl, this.itemsToLoad[i]);
-  //     list += newEl;
-  //   }
-  //   if (this.countItems === 0) {
-  //     this.body.innerHTML = list;
-  //   } else {
-  //     this.body.insertAdjacentHTML('beforeend', list);
-  //     // for (let i = 0; i <= this.countItemsTo - this.countItems; i++) {
-  //     //   this.body.removeChild(this.body.children[i]);
-  //     // }
-  //     this.alignBody();
-  //   };
-  // }
-
   this.loadData = function(data) {
     if (data && data.length === 0) {
       this.body.innerHTML = '';
@@ -1179,10 +1164,8 @@ function Table(obj, data) {
     var tableData = {
       area: this.body,
       items: tableItems,
-      type: 'array',
       action: 'return'
     };
-    console.log(tableData);
     var list = fillTemplate(tableData);
 
     if (this.countItems === 0) {
@@ -1448,7 +1431,6 @@ function showReclm(id) {
 //     source: 'inner' или 'outer',           (как извлекать шаблон - весь тег целиком или его внутреннюю часть, по умолчанию - inner)
 //     target: id элемента,                   (id области куда будет вставляться результат, если нужно вставить в другое место отличное от того где извлекали шаблон)
 //   * items: массив объектов или объект,     (данные для заполнения шаблона)
-//   * type: 'obj' или  'array',              (тип данных items)
 //     sub: объект,                           (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - селекторы, по которым нужно найти подшаблон в шаблоне)
 //     action: 'replace' или return',         (действие с данными, если 'replace' - вставит шаблон на страницу, если 'return' - вернет строку с шаблоном, по умолчанию - 'replace')
 // }
@@ -1458,15 +1440,14 @@ function showReclm(id) {
 //   source: 'outer',
 //   target: 'gallery',
 //   items: items,
-//   type: 'array',
 //   sub: {'images': '.carousel-gallery', 'sizes': '.card-sizes', 'options': '.card-options', 'manuf': '.manuf-row'},
 //   action: 'replace',
 // }
 
 // Универсальная функция заполнения данных по шаблону:
 
-function fillTemplate(data) {
-  if (!data.area || !data.items || !data.type) {
+function fillTemplate(data, sign = '#') {
+  if (!data.area || !data.items) {
     return;
   }
 
@@ -1475,16 +1456,14 @@ function fillTemplate(data) {
     var target = document.getElementById(data.target);
   }
 
-  var area; //место содержащее шаблон
+  var area, areaName; //место содержащее шаблон
   if (typeof data.area !== 'string') {
     area = data.area;
+    areaName = data.area.id ? data.area.id : data.area.classList[0];
   } else {
+    areaName = data.area;
     if (data.area.indexOf('.') === 0) {
-      if (target) {
-        area = target.querySelector(data.area);
-      } else {
-        area = document.querySelector(data.area);
-      }
+      area = document.querySelector(data.area);
     } else {
       area = document.getElementById(data.area);
     }
@@ -1494,20 +1473,20 @@ function fillTemplate(data) {
     return;
   }
 
-  var temp = window[`${data.area}Temp`]; // шаблон
+  var temp = window[`${areaName}Temp`]; // шаблон
   if (!temp) {
     if (data.source && data.source === 'outer') {
-      window[`${data.area}Temp`] = temp = area.outerHTML;
+      window[`${areaName}Temp`] = temp = area.outerHTML;
     } else {
-      window[`${data.area}Temp`] = temp = area.innerHTML;
+      window[`${areaName}Temp`] = temp = area.innerHTML;
     }
   }
 
   var txt;
-  if (data.type === 'obj') { //данные - объект
-    txt = fillByObj(data.area, area, data.items, temp, sub);
-  } else if (data.type === "array") { //данные - массив
-    txt = fillByArr(data.area, area, data.items, temp, sub);
+  if (Array.isArray(data.items) && typeof data.items[0] === 'object') { //данные - массив объектов
+    txt = fillList(areaName, area, data.items, temp, sign, sub);
+  } else if (typeof data.items === 'object') { //данные - объект
+    txt = fillEl(areaName, area, data.items, temp, sign, sub);
   }
 
   if (data.action && data.action === 'return') {
@@ -1521,9 +1500,22 @@ function fillTemplate(data) {
   }
 }
 
+// Замена данных в шаблоне из массива объектов:
+
+function fillList(areaName, area, data, temp, sign, sub, objKey) {
+  var result = '',
+      newEl;
+  for (let arrKey in data) {
+    newEl = temp;
+    newEl = fillEl(areaName, area, data[arrKey], temp, sign, sub, objKey);
+    result += newEl;
+  }
+  return result;
+}
+
 // Замена данных в шаблоне из объекта:
 
-function fillByObj(areaName, area, data, temp, sub, sign = undefined) {
+function fillEl(areaName, area, data, temp, sign, sub, objKey) {
   if (sub) { // Если есть подшаблоны
     var list,
         subNames = [];
@@ -1535,45 +1527,37 @@ function fillByObj(areaName, area, data, temp, sub, sign = undefined) {
         if (!subTemp) {
           window[`${areaName}${subKey}Temp`] = subTemp = area.querySelector(sub[subKey]).outerHTML;
         }
-        if (data[subKey][0]) {
-          list = fillByArr(areaName, area, data[subKey], subTemp);
+        if (data[subKey][0] && typeof data[subKey][0] === 'object') {
+          list = fillList(areaName, area, data[subKey], subTemp, sign);
+        } else if (data[subKey][0]) {
+          list = fillList(areaName, area, data[subKey], subTemp, sign, null, subKey);
         } else {
-          list = fillByObj(areaName, area, data[subKey], subTemp, undefined, sign);
+          list = fillEl(areaName, area, data[subKey], subTemp, sign);
         }
       }
       temp = temp.replace(subTemp, list);
     }
   }
 
-  var value;
-  for (let key in data) {
-    if (!sub || subNames.indexOf(key) === -1) {
-      value = data[key];
-      temp = replaceInTemp(key, value, temp, sign);
+  if (objKey) {
+    temp = replaceInTemp(objKey, data, temp, sign);
+  } else {
+    var value;
+    for (let key in data) {
+      if (!sub || subNames.indexOf(key) === -1) {
+        value = data[key];
+        temp = replaceInTemp(key, value, temp, sign);
+      }
     }
   }
   return temp;
 }
 
-// Замена данных в шаблоне из массива объектов:
-
-function fillByArr(areaName, area, data, temp, sub) {
-  var sign = '#',
-      result = '',
-      newEl;
-  for (let arrKey in data) {
-    newEl = temp;
-    newEl = fillByObj(areaName, area, data[arrKey], temp, sub, sign);
-    result += newEl;
-  }
-  return result;
-}
-
 // Замена в полученном шаблоне всех найденных данных:
 
-function replaceInTemp(key, val, temp, sign = "@@") {
-  var regex = new RegExp(sign + key + sign, 'gi');
-  var res = temp.replace(regex, val);
+function replaceInTemp(key, val, temp, sign) {
+  var regex = new RegExp(sign + key + sign, 'gi'),
+      res = temp.replace(regex, val);
   return res;
 }
 
