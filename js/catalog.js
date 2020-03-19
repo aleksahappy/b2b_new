@@ -52,7 +52,6 @@ if (zipSelect) {
 var minCard = document.querySelector('.min-card'),
     bigCard = document.querySelector('.big-card');
 
-
 // Получение шаблонов из HTML:
 
 if (zipSelect) {
@@ -134,7 +133,7 @@ function showPage() {
 
 function getProduct(id) {
   return new Promise((resolve, reject) => {
-    sendRequest(urlRequest + 'product' + id)
+    sendRequest('urlRequest' + 'product' + id)
     .then(
       result => {
         var product = JSON.parse(result);
@@ -418,7 +417,6 @@ var path;
 
 function initPage() {
   loader.hide();
-  saveCartTotals();
   // !!! НЕ ЗНАЮ ОТКУДА БРАТЬ ХЛЕБНЫЕ КРОШКИ НА ОТДЕЛЬНОЙ СТРАНИЦЕ ТОВАРА
   path = location.search.split('?').map(el => {
     if (el == '') {
@@ -475,7 +473,6 @@ function renderContent() {
   if (path[path.length - 1].indexOf('=') >= 0) {
     path.pop();
   }
-  changeCartInHeader();
   changePageTitle();
   toggleMenuItems();
   createDinamicLinks();
@@ -700,13 +697,16 @@ function clearAllSearch() {
   clearOemSearch();
 }
 
+//=====================================================================================================
+// Работа с данными корзины:
+//=====================================================================================================
+
 // Обновление корзины при возвращении на страницу:
 
 function updateCart() {
   getCart()
   .then(
     result => {
-      saveCartTotals();
       if (location.search === '?cart') {
         renderCart();
       } else {
@@ -1596,7 +1596,7 @@ function loadCards(cards) {
     area: view === 'list'? bigCard : minCard,
     source: 'outer',
     items: dataItems,
-    sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'},
+    sub: view === 'list'? {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'} : undefined,
     action: 'return'
   };
   var list = fillTemplate(data);

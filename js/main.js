@@ -9,8 +9,11 @@
 var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
-    urlRequest = 'http://new.topsports.ru/api',
-    // urlRequest = 'http://127.0.0.1:5500/test',
+    urlRequest = {
+      new: 'http://new.topsports.ru/api/',
+      api: 'http://api.topsports.ru/',
+      test: 'http://127.0.0.1:5500/test/'
+    },
     loader = document.getElementById('loader'),
     message = document.getElementById('message-container');
 if (loader) {
@@ -28,19 +31,6 @@ checkAuth();
 // Динамические переменные:
 
 var isSearch;
-
-// Вместе с данными о корзине будет приходить информация для заполения формы заказа, тогда это удалить:
-var partnerInfo = {
-  "user_contr": {
-    "472":["ООО \"АСПОРТ\""],
-    "347":["ТРИАЛ-СПОРТ ООО"]},
-  "user_address_list": {
-    "278":["443082, Самара, Тухачевского, 22"],
-    "279":["443079, Самара, Карла Маркса, 177в"],
-    "468":["354392, Россия, Краснодарский край, городской округ Сочи, посёлок городского типа Красная Поляна, улица Мичурина, 1"]
-  }
-};
-
 if (isCart) {
   var cartId = document.body.dataset.cartId,
       cart = {},
@@ -62,7 +52,7 @@ function checkAuth() {
     startPage();
     showElement(document.getElementById('error'));
   } else {
-    sendRequest(`${urlRequest}/check_auth.php`)
+    sendRequest(`${urlRequest.new}check_auth.php`)
     .then(result => {
       console.log(result);
       var data = JSON.parse(result);
@@ -74,9 +64,6 @@ function checkAuth() {
           loader.hide();
         }
         showUserInfo(data.user_info);
-        if (data.cart) {
-          cart = data.cart;
-        }
         startPage();
       } else {
         if (pageId !== 'auth') {
@@ -103,7 +90,7 @@ function checkAuth() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest}/user_logout.php`)
+  sendRequest(`${urlRequest.new}user_logout.php`)
   .then(result => document.location.href = '/')
 }
 
@@ -193,67 +180,52 @@ function showUserInfo(userInfo) {
 // Работа с данными корзины:
 //=====================================================================================================
 
+// Обновление итогов корзины при возвращении на страницу:
+
+function updateCartTotals() {
+  getCart('totals')
+  .then(result => {
+    changeCartInHeader();
+  }, reject => {
+    console.log(reject);
+  });
+}
+
 // Получение данных корзины с сервера:
 
-// function getCart(totals = false) {
-//   var url;
-//   if (totals) {
-//     url = urlRequest + 'cart';
-//   } else {
-//     url = urlRequest + 'cartTotals';
-//   }
-//   return new Promise((resolve, reject) => {
-//     sendRequest(url)
-//     .then(
-//       result => {
-//         if (totals && JSON.stringify(cartTotals) === result) {
-//           reject('Корзина не изменилась');
-//         } else if (JSON.stringify(cart[cartId]) === result) {
-//           reject('Корзина не изменилась');
-//         } else {
-//           console.log('Корзина обновилась');
-//           if (totals) {
-//             cartTotals = JSON.parse(result);
-//           } else {
-//             cart[cartId] = JSON.parse(result);
-//           }
-//           resolve();
-//         }
-//       }
-//     )
-//     .catch(error => {
-//       reject(error);
-//     })
-//   });
-// }
-
-// Получение данных корзины из cookie:
-
 function getCart(totals = false) {
-  var key;
+  var url;
   if (totals) {
-    key = `cartTotals`;
+    url = `${urlRequest.api}baskets/ajax.php?action=get_user_cart_total`;
   } else {
-    key = `cart_${cartId}`;
+    url = `${urlRequest.api}baskets/ajax.php?action=get_user_cart&cart_type=${cartId}`;
   }
   return new Promise((resolve, reject) => {
-    var result = getCookie(key);
-    if (totals && (!result || JSON.stringify(cartTotals) === result)) {
-      console.log('Итоги не изменились');
-      reject('Итоги не изменились');
-    } else if (!result || JSON.stringify(cart[cartId]) === result) {
-      console.log('Корзина не изменилась');
-      reject('Корзина не изменилась');
-    } else {
-      if (totals) {
-        console.log('Итоги обновились');
-        cartTotals = JSON.parse(result);
-      } else {
-        console.log('Корзина обновилась');
-        cart[cartId] = JSON.parse(result);
+    sendRequest(url)
+    .then(
+      result => {
+        if (!result) {
+          reject('Корзина пустая');
+        } else if (totals && JSON.stringify(cartTotals) === result) {
+          reject('Итоги не изменились');
+        } else if (JSON.stringify(cart[cartId]) === result) {
+          reject('Корзина не изменилась');
+        } else {
+          if (totals) {
+            console.log(result);
+            console.log('Итоги обновились');
+            cartTotals = JSON.parse(result);
+          } else {
+            console.log('Корзина обновилась');
+            cart[cartId] = JSON.parse(result);
+          }
+          resolve();
+        }
       }
-      resolve();
-    }
+    )
+    .catch(error => {
+      reject(error);
+    })
   });
 }
 
@@ -267,7 +239,7 @@ function changeCartInHeader() {
           qty = headerCart.querySelector('.qty');
 
       if (cartTotals[cartId]) {
-        amount.textContent = cartTotals[cartId].amount.toLocaleString();
+        amount.textContent = cartTotals[cartId].sum.toLocaleString();
         if (cartTotals[cartId].qty > 0) {
           if (cartTotals[cartId].qty > 99) {
             qty.textContent = '99';
@@ -315,20 +287,9 @@ function changeCatalogCart(cartName, totals) {
       }
     }
     if (amount) {
-      amount.textContent = totals.amount;
+      amount.textContent = totals.sum;
     }
   }
-}
-
-// Обновление итогов корзины при возвращении на страницу:
-
-function updateCartTotals() {
-  getCart('totals')
-  .then(result => {
-    changeCartInHeader();
-  }, reject => {
-    console.log(reject)
-  });
 }
 
 //=====================================================================================================
@@ -1505,7 +1466,7 @@ function fillTemplate(data, sign = '#') {
 function fillList(areaName, area, data, temp, sign, sub, objKey) {
   var result = '',
       newEl;
-  for (let arrKey in data) {
+  for (var arrKey in data) {
     newEl = temp;
     newEl = fillEl(areaName, area, data[arrKey], temp, sign, sub, objKey);
     result += newEl;
@@ -1519,7 +1480,7 @@ function fillEl(areaName, area, data, temp, sign, sub, objKey) {
   if (sub) { // Если есть подшаблоны
     var list,
         subNames = [];
-    for (let subKey in sub) {
+    for (var subKey in sub) {
       list = '';
       if (data[subKey]) {
         subNames.push(subKey);
@@ -1543,7 +1504,7 @@ function fillEl(areaName, area, data, temp, sign, sub, objKey) {
     temp = replaceInTemp(objKey, data, temp, sign);
   } else {
     var value;
-    for (let key in data) {
+    for (var key in data) {
       if (!sub || subNames.indexOf(key) === -1) {
         value = data[key];
         temp = replaceInTemp(key, value, temp, sign);

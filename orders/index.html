@@ -509,8 +509,7 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest(`${urlRequest}/orderslist.php`)
-      // sendRequest(`${urlRequest}/orderslist.txt`)
+      sendRequest(`${urlRequest.new}orderslist.php`)
       .then(result => {
         var data = JSON.parse(result);
         if (data.orderslist) {

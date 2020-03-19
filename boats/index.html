@@ -277,7 +277,7 @@
             </div>
           </div>
           <div id="gallery" class="row">
-            <div id="min-card-#object_id#" class="min-card card" data-id="#object_id#" data-action-id="#action_id#" onclick="showFullCard(#object_id#)">
+            <div class="min-card card" data-id="#object_id#" data-action-id="#action_id#" onclick="showFullCard(#object_id#)">
               <div class="card-img-wrap">
                 <img class="card-img" src="#image#">
               </div>
@@ -315,7 +315,7 @@
                 </div>
               </div>
             </div>
-            <div id="big-card-#object_id#" class="big-card card manage row" data-id="#object_id#" data-action-id="#action_id#" onclick="closeBigCard(event)">
+            <div class="big-card card manage row" data-id="#object_id#" data-action-id="#action_id#" onclick="closeBigCard(event)">
               <div class="container-left row">
                 <div class="carousel" data-type="bigCard">
                   <div class="left-btn"></div>
@@ -323,7 +323,7 @@
                   <div class="carousel-gallery-wrap">
                     <div class="carousel-gallery">
                       <div class="carousel-item" onclick="showFullImg(event, #object_id#)">
-                        <img src="#images#">
+                        <img src="http://b2b.topsports.ru/c/productpage/#images#.jpg">
                       </div>
                     </div>
                   </div>
@@ -432,7 +432,7 @@
           </div>
         </div>
         <div id="full-card-container" class="pop-up-container" onclick="closePopUp(event)">
-          <div id="full-card-#object_id#" class="full-card card manage pop-up" data-id="#object_id#" data-action-id="#action_id#">
+          <div class="full-card card manage pop-up" data-id="#object_id#" data-action-id="#action_id#">
             <div class="card-head row">
               <div class="card-title">
                 <div class="title">#title#</div>
@@ -452,7 +452,7 @@
                     <div class="right-btn control"></div>
                     <div class="carousel-gallery">
                       <div class="carousel-item row">
-                        <img src="#image#" data-src="#full-image#">
+                        <img src="http://b2b.topsports.ru/c/productpage/#images#.jpg" data-src="http://b2b.topsports.ru/c/source/#images#.jpg">
                       </div>
                     </div>
                   </div>
@@ -567,7 +567,7 @@
               <div class="carousel-gallery-wrap">
                 <div class="carousel-gallery">
                   <div class="carousel-item">
-                    <img src="#image#">
+                    <img src="http://b2b.topsports.ru/c/source/#images#.jpg">
                   </div>
                 </div>
               </div>
@@ -630,9 +630,9 @@
                 </div>
                 <div class="input-wrap">
                   <div class="title">Название контрагента</div>
-                  <select name="contr_id" required>
+                  <select id="select-contr" name="contr_id" required>
                     <option value="" default selected hidden disabled>Выберите контрагента</option>
-                    <option value="#key#">#value#</option>
+                    <option class="item" value="#id#">#title#</option>
                   </select>
                 </div>
                 <div class="input-wrap">
@@ -654,9 +654,9 @@
                 </div>
                 <div class="input-wrap address">
                   <div class="title">Адрес доставки</div>
-                  <select name="shop_address">
+                  <select id="select-address" name="shop_address">
                     <option value="" default selected hidden disabled>Выберите адрес доставки</option>
-                    <option value="#key#">#value#</option>
+                    <option class="item" value="#id#">#title#</option>
                   </select>
                 </div>
                 <div class="comment">

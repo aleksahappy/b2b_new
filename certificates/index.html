@@ -393,7 +393,7 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest('http://api.topsports.ru/files/files.php?type=cert')
+      sendRequest(`${urlRequest.api}files/files.php?type=cert`)
       .then(result => {
         var data = JSON.parse(result);
         if (data) {

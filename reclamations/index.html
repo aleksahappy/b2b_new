@@ -398,7 +398,7 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest('http://api.topsports.ru/recl/recl.php')
+      sendRequest(`${urlRequest.api}recl/recl.php`)
       .then(result => {
         console.log(result);
         var data = JSON.parse(result);

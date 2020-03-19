@@ -14,18 +14,12 @@ var cartFull = document.getElementById('cart-full'),
     orderForm = document.getElementById('order-form'),
     checkAllBtn = document.getElementById('check-all'),
     cartRows = document.getElementById('cart-rows'),
-    cartTable = document.getElementById('cart-table'),
-    partner = document.querySelector('select[name="contr_id"]'),
-    address = document.querySelector('select[name="shop_address"]');
+    cartTable = document.getElementById('cart-table');
 
 // Получение шаблонов из HTML:
 
 var cartRowTemplate = cartRows.innerHTML,
-    cartTableRowTemplate = cartTable.querySelector('tr').outerHTML,
-    partnerTemplate = partner.innerHTML,
-    partnerOptionTemlate = partner.getElementsByTagName('option')[1].outerHTML,
-    addressTemplate = address.innerHTML,
-    addressOptionTemlate = address.getElementsByTagName('option')[1].outerHTML;
+    cartTableRowTemplate = cartTable.querySelector('tr').outerHTML;
 
 // Динамические переменные:
 
@@ -47,7 +41,6 @@ function renderCart() {
       changeCartRow(row);
     });
     closeOrderForm();
-    fillOrderForm(); //Перенести функцию в зависимости от момента получения данных с api
     changeCartInfo();
     hideElement(cartEmpty);
     showElement(cartFull);
@@ -199,8 +192,11 @@ function saveInCart(id, qty, options) {
   for (let key in options) {
     cart[cartId][id][key] = options[key];
   }
+  var actionId = cart[cartId][id][actionId];
+  if (actionId && actions[actionId]) {
+    cart[cartId][id].actionName = actions[actionId].title;
+  }
 
-  // cartChanges[id] = cart[cartId][id]; - если передаем стек изменений
   saveCartTotals();
   if (location.search === '?cart') {
     changeCartName();
@@ -225,31 +221,25 @@ function saveCartTotals() {
   if (!cartTotals[cartId]) {
     cartTotals[cartId] = {};
   }
-  cartTotals[cartId].amount = totals.amountResult;
+  cartTotals[cartId].sum = totals.amountResult;
   cartTotals[cartId].qty = totals.qty;
   changeCartInHeader();
 }
 
 // Отправка данных корзины на сервер:
 
-// function cartSentServer() {
-//   clearTimeout(cartTimer);
-//   cartTimer = setTimeout(function () {
-//     sendRequest(`${urlRequest}/baskets/ajax.php?action=set_user_cart&user_id='1e659301-d2c4-11e8-8110-002590467a5e'&cart_type=${cartId}`, JSON.stringify(cart[cartId]))
-//       .then(response => {
-//       })
-//       .catch(err => {
-//         console.log(err);
-//         // cartSentServer();
-//       })
-//   }, cartTimeout);
-// }
-
-// Отправка данных корзины и итогов в cookie:
-
 function cartSentServer() {
-  saveCookie(`cart_${cartId}`, cart[cartId]);
-  saveCookie(`cartTotals`, cartTotals);
+  clearTimeout(cartTimer);
+  cartTimer = setTimeout(function () {
+    sendRequest(`${urlRequest.api}baskets/ajax.php?action=set_user_cart&cart_type=${cartId}`, JSON.stringify(cart[cartId]))
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+        // cartSentServer();
+      })
+  }, cartTimeout);
 }
 
 // Отправка данных о заказе на сервер:
@@ -273,15 +263,10 @@ function orderSentServer(event) {
     cart: cartInfo
   };
   console.log(data);
-
-  // deleteFormCart(idList);
-  // cartSentServer();
-  // renderCart();
-  // loader.hide();
-  sendRequest(`${urlRequest}/baskets/ajax.php?action=set_user_cart&user_id='1e659301-d2c4-11e8-8110-002590467a5e'&cart_type=${cartId}`, JSON.stringify(data))
+  sendRequest(`${urlRequest.api}baskets/ajax.php?action=???&cart_type=${cartId}`, JSON.stringify(data))
   .then(response => {
     deleteFormCart(idList);
-    document.location.href = "../orders";
+    // document.location.href = "../orders";
   })
   .catch(error => {
     message.show('Заказ не отправлен. Попробуйте еще раз.');
@@ -975,28 +960,79 @@ function deleteSelected() {
 //  Функции для работы с формой заказа:
 //=====================================================================================================
 
-// Заполнение недостающих полей формы заказа (контрагенты и адреса):
-
-function fillOrderForm() {
-  partner.innerHTML = partnerTemplate.replace(partnerOptionTemlate, createOptions(partnerOptionTemlate, partnerInfo.user_contr));
-  address.innerHTML = addressTemplate.replace(addressOptionTemlate, createOptions(addressOptionTemlate, partnerInfo.user_address_list));
-
-  function createOptions(template, data) {
-    var list = '', newEl;
-    for (let key in data) {
-      newEl = template;
-      newEl = newEl
-        .replace('#key#', key)
-        .replace('#value#', data[key])
-      list += newEl;
-    }
-    return list;
-  }
-}
+// Как присылал Паша:
+// var partnerInfo = {
+//   "user_contr": {
+//     "472":["ООО \"АСПОРТ\""],
+//     "347":["ТРИАЛ-СПОРТ ООО"]},
+//   "user_address_list": {
+//     "278":["443082, Самара, Тухачевского, 22"],
+//     "279":["443079, Самара, Карла Маркса, 177в"],
+//     "468":["354392, Россия, Краснодарский край, городской округ Сочи, посёлок городского типа Красная Поляна, улица Мичурина, 1"]
+//   }
+// };
 
 // Открытие формы заказа:
 
 function openOrderForm() {
+  // sendRequest(`${urlRequest.api}???`, JSON.stringify(data))
+  // .then(result => {
+  //   if (result.user_contr) {
+  //     var contrData = {
+  //       area: 'select-contr',
+  //       items: result,
+  //       sub: {'user_contr': '.item'},
+  //     };
+  //     fillTemplate(contrData);
+  //   }
+  //   if (result.user_address_list) {
+  //     var addressData = {
+  //       area: 'select-address',
+  //       items: result,
+  //       sub: {'user_address_list': '.item'},
+  //     };
+  //     fillTemplate(addressData);
+  //   }
+  //   showElement(orderForm, 'flex');
+  //   hideElement(cartMakeOrder);
+  //   document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
+  // })
+  // .catch(error => {
+  //   console.log(error);
+  //   // openOrderForm();
+  // })
+
+  var partnerInfo = {
+    "user_contr": [{
+      id: "472",
+      title: "ООО \"АСПОРТ\""
+    }, {
+      id: "347",
+      title: "ТРИАЛ-СПОРТ ООО"
+    }],
+    "user_address_list": [{
+      id: "278",
+      title: "443082, Самара, Тухачевского, 22"
+    }, {
+      id: "279",
+      title: "443079, Самара, Карла Маркса, 177в"
+    }, {
+      id: "468",
+      title: "354392, Россия, Краснодарский край, городской округ Сочи, посёлок городского типа Красная Поляна, улица Мичурина, 1"
+    }]
+  };
+  var contrData = {
+    area: 'select-contr',
+    items: partnerInfo,
+    sub: {'user_contr': '.item'},
+  };
+  fillTemplate(contrData);
+  var addressData = {
+    area: 'select-address',
+    items: partnerInfo,
+    sub: {'user_address_list': '.item'},
+  };
+  fillTemplate(addressData);
   showElement(orderForm, 'flex');
   hideElement(cartMakeOrder);
   document.querySelectorAll('.cart-list').forEach(el => hideElement(el));

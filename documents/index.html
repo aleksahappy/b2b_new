@@ -346,7 +346,7 @@
     <script src="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest('http://api.topsports.ru/files/files.php?type=docs')
+      sendRequest(`${urlRequest.api}files/files.php?type=docs`)
       .then(result => {
         var data = JSON.parse(result);
         if (data) {
