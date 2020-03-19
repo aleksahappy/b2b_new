@@ -173,10 +173,10 @@
               <tr>
                 <td>
                   <div class="row">
-                    <a href="http://api.topsports.ru/files/files.php?mode=cert&id=#id#" target="_blank">
+                    <a href="http://api.topsports.ru/files/files.php?type=cert&id=#id#" target="_blank">
                       <div class="download icon"></div>
                     </a>
-                    <div><a href="/certificates/#title#.#file_name#" target="_blank">#title#</a></div>
+                    <div><a href="http://api.topsports.ru/files/files.php?type=cert&mode=view&id=#id#" target="_blank">#title#</a></div>
                   </div>
                 </td>
                 <td>
@@ -393,7 +393,7 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest('http://api.topsports.ru/files/files.php?mode=cert')
+      sendRequest('http://api.topsports.ru/files/files.php?type=cert')
       .then(result => {
         var data = JSON.parse(result);
         if (data) {

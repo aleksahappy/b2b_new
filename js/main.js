@@ -22,8 +22,8 @@ if (message) {
 
 // Запуск проверки авторизации:
 
-// checkAuth();
-startPage();
+checkAuth();
+// startPage();
 
 // Динамические переменные:
 
@@ -1447,8 +1447,8 @@ function showReclm(id) {
 // Универсальная функция заполнения данных по шаблону:
 
 function fillTemplate(data, sign = '#') {
-  if (!data.area || !data.items) {
-    return;
+  if (!data.area || !data.items || isEmptyObj(data.items)) {
+    return '';
   }
 
   var sub = data.sub;
