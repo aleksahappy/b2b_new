@@ -1110,12 +1110,12 @@ function Table(obj, data) {
     } else {
       this.countItems = this.countItemsTo;
     }
-    if (this.countItemsTo == this.itemsToLoad.length) {
-      return;
-    }
-    this.countItemsTo = this.countItems + this.incr;
+    this.countItemsTo =  + this.incr;
     if (this.countItemsTo > this.itemsToLoad.length) {
       this.countItemsTo = this.itemsToLoad.length;
+    }
+    if (this.countItems === this.countItemsTo) {
+      return;
     }
 
     var tableItems = [];
@@ -1298,17 +1298,186 @@ function Table(obj, data) {
 }
 
 //=====================================================================================================
-// Заполенение контента из данных по id:
+// Переход на другие страницы:
 //=====================================================================================================
 
-function fillById(data) {
-  var el;
-  for (let key in data) {
-    el = document.getElementById(`#${key}#`);
-    if (el) {
-      el.textContent = data[key];
+// Переход на страницу заказа:
+
+function showOrder(id) {
+  document.location.href = '/order/?order_id=' + id;
+}
+
+// Переход на страницу рекламации:
+
+function showReclm(id) {
+  document.location.href = '/reclamation/?recl_id=' + id;
+}
+
+//=====================================================================================================
+// Универсальное заполнение данных по шаблону:
+//=====================================================================================================
+
+// В каком виде данные нужно передавать в функцию fillTemplate:
+
+// * - обязательное поле, остальные можно пропускать
+// var data = {
+//   * area: элемент / id / селектор,                   (сам элемент, его id или селектор, откуда будет браться шаблон)
+//   * items: массив объектов / объект / массив строк,  (данные для заполнения шаблона - массив или объект с ключами 0,1,2.. содержащий объекты / объект (ключ: значение) / массив или объект с ключами 0,1,2.. содержащий строки)
+//     source: 'inner' / 'outer',                       (как извлекать шаблон - весь тег целиком или его внутреннюю часть, по умолчанию - inner)
+//     target: id элемента,                             (id области куда будет вставляться результат, если нужно вставить в другое место отличное от того где извлекали шаблон)
+//     sign: '#' / '@@' / другой,                       (символ, которым выделяется место замены, по умолчанию - '#')
+//     sub: объект,                                     (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - селекторы, по которым нужно найти подшаблон в шаблоне)
+//     action: 'replace' / return',                     (действие с данными, если 'replace' - вставит шаблон на страницу, если 'return' - вернет строку с шаблоном, по умолчанию - 'replace'),
+//     iterate: 'temp' / 'data'                         (перебирать ключи (#...#) в шаблоне или ключи объекта данных во время замены)
+// }
+
+// Пример данных:
+
+// var data = {
+//   * area: 'big-card',
+//   * items: items,
+//     source: 'outer',
+//     target: 'gallery',
+//     sign: '#',
+//     sub: {'images': '.carousel-gallery', 'sizes': '.card-sizes', 'options': '.card-options', 'manuf': '.manuf-row'},
+//     action: 'replace',
+//     iterate: 'temp'
+// }
+
+// Универсальная функция заполнения данных по шаблону:
+
+function fillTemplate(data) {
+  if (!data.area || !data.items) {
+    return
+  }
+
+  if (typeof data.area !== 'string') {
+    data.areaName = data.area.id || data.area.classList[0];
+  } else {
+    data.areaName = data.area;
+    if (data.area.indexOf('.') === 0) {
+      data.area = document.querySelector(data.area);
+    } else {
+      data.area = document.getElementById(data.area);
     }
   }
+
+  if (!data.area) {
+    return;
+  }
+
+  var temp = window[`${data.areaName}Temp`]; // шаблон
+  if (!temp) {
+    if (data.source && data.source === 'outer') {
+      window[`${data.areaName}Temp`] = temp = data.area.outerHTML;
+    } else {
+      window[`${data.areaName}Temp`] = temp = data.area.innerHTML;
+    }
+  }
+
+  var txt = fillTemp(data, data.items, temp);
+  if (data.action && data.action === 'return') {
+    return txt;
+  } else {
+    var targetEl = data.area;
+    if (data.target) {
+      var target = document.getElementById(data.target);
+      if (target) {
+        targetEl = target;
+      }
+    }
+    insertText(targetEl, txt);
+  }
+}
+
+// Определение функции для замены данных:
+
+function fillTemp(data, items, temp) {
+  var txt = '';
+  if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий объекты
+    txt = fillList(data, items, temp);
+  } else if (Array.isArray(items) && typeof items[0] === 'string') { //данные - массив строк
+    txt = fillList(data, items, temp);
+  } else if (typeof items === 'object' && !Array.isArray(items)) { //данные - объект (ключ: значение)
+    txt = fillEl(data, items, temp);
+  }
+  return txt;
+}
+
+// Создание нескольких элементов на основе данных:
+
+function fillList(data, items, temp) {
+  var result = '',
+      newEl;
+  for (var arrKey in items) {
+    newEl = temp;
+    newEl = fillEl(data, items[arrKey], temp);
+    result += newEl;
+  }
+  return result;
+}
+
+// Создание одного элемента на основе данных:
+
+function fillEl(data, items, temp) {
+  if (data.sub) { // Если есть подшаблоны
+    var list,
+        subNames = [],
+        subData;
+    for (var subKey in data.sub) {
+      if (items[subKey]) {
+        subNames.push(subKey);
+        var subTemp = window[`${data.areaName}${subKey}Temp`]; // подшаблон
+        if (!subTemp) {
+          window[`${data.areaName}${subKey}Temp`] = subTemp = data.area.querySelector(data.sub[subKey]).outerHTML;
+        }
+        subData = JSON.parse(JSON.stringify(data));
+        delete subData.sub;
+        list = fillTemp(subData, items[subKey], subTemp);
+        temp = temp.replace(subTemp, list);
+      }
+    }
+  }
+
+  if (typeof items === 'string') { //Данные - строка
+    temp = replaceInTemp(null, items, temp, data.sign);
+  } else { // Данные - объект
+    var value;
+    if (data.iterate && data.iterate === 'data') {
+      for (var key in items) {
+        if (!data.sub || subNames.indexOf(key) === -1) {
+          value = items[key];
+          temp = replaceInTemp(key, value, temp, data.sign);
+        }
+      }
+    } else {
+      var props = temp.match(/#[^#]+#/gi);
+      props = props ? props.map(prop => prop = prop.replace(/#/g, '')) : [];
+      props.forEach(key => {
+        value = items[key];
+        temp = replaceInTemp(key, value, temp, data.sign);
+      });
+    }
+  }
+  return temp;
+}
+
+// Подстановка данных в шаблон:
+
+function replaceInTemp(key, value, temp, sign) {
+  var sign = sign || '#',
+      regex = key ? new RegExp(sign + key + sign, 'gi') : new RegExp(sign + 'item' + sign, 'gi'),
+      value = typeof value === 'string' ? value : '',
+      res = temp.replace(regex, value);
+  return res;
+}
+
+// Вставка заполненного шаблона в документ:
+
+function insertText(el, txt) {
+  el.classList.remove('template');
+  txt = txt.replace('template', '');
+  el.innerHTML = txt;
 }
 
 //=====================================================================================================
@@ -1360,172 +1529,4 @@ function createElByTemplate(newEl, data) {
     newEl = newEl.replace(propRegExp, value);
   });
   return newEl;
-}
-
-//=====================================================================================================
-// Переход на другие страницы:
-//=====================================================================================================
-
-// Переход на страницу заказа:
-
-function showOrder(id) {
-  document.location.href = '/order/?order_id=' + id;
-}
-
-// Переход на страницу рекламации:
-
-function showReclm(id) {
-  // document.location.href = '/reclamation/?recl_id=' + id;
-  document.location.href = '../reclamation';
-}
-
-//=====================================================================================================
-// Универсальное заполнение данных по шаблону:
-//=====================================================================================================
-
-// Примеры данных:
-
-// * - обязательное поле, остальные можно пропускать
-
-// var data = {
-//   * area: элемент или id или селектор,     (сам элемент, его id или селектор, откуда будет браться шаблон)
-//     source: 'inner' или 'outer',           (как извлекать шаблон - весь тег целиком или его внутреннюю часть, по умолчанию - inner)
-//     target: id элемента,                   (id области куда будет вставляться результат, если нужно вставить в другое место отличное от того где извлекали шаблон)
-//   * items: массив объектов или объект,     (данные для заполнения шаблона)
-//     sub: объект,                           (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - селекторы, по которым нужно найти подшаблон в шаблоне)
-//     action: 'replace' или return',         (действие с данными, если 'replace' - вставит шаблон на страницу, если 'return' - вернет строку с шаблоном, по умолчанию - 'replace')
-// }
-
-// var data = {
-//   area: 'big-card',
-//   source: 'outer',
-//   target: 'gallery',
-//   items: items,
-//   sub: {'images': '.carousel-gallery', 'sizes': '.card-sizes', 'options': '.card-options', 'manuf': '.manuf-row'},
-//   action: 'replace',
-// }
-
-// Универсальная функция заполнения данных по шаблону:
-
-function fillTemplate(data, sign = '#') {
-  if (!data.area || !data.items || isEmptyObj(data.items)) {
-    return '';
-  }
-
-  var sub = data.sub;
-  if (data.target) {
-    var target = document.getElementById(data.target);
-  }
-
-  var area, areaName; //место содержащее шаблон
-  if (typeof data.area !== 'string') {
-    area = data.area;
-    areaName = data.area.id ? data.area.id : data.area.classList[0];
-  } else {
-    areaName = data.area;
-    if (data.area.indexOf('.') === 0) {
-      area = document.querySelector(data.area);
-    } else {
-      area = document.getElementById(data.area);
-    }
-  }
-
-  if (!area) {
-    return;
-  }
-
-  var temp = window[`${areaName}Temp`]; // шаблон
-  if (!temp) {
-    if (data.source && data.source === 'outer') {
-      window[`${areaName}Temp`] = temp = area.outerHTML;
-    } else {
-      window[`${areaName}Temp`] = temp = area.innerHTML;
-    }
-  }
-
-  var txt;
-  if (Array.isArray(data.items) && typeof data.items[0] === 'object') { //данные - массив объектов
-    txt = fillList(areaName, area, data.items, temp, sign, sub);
-  } else if (typeof data.items === 'object') { //данные - объект
-    txt = fillEl(areaName, area, data.items, temp, sign, sub);
-  }
-
-  if (data.action && data.action === 'return') {
-    return txt;
-  } else {
-    var targetEl = area;
-    if (target) {
-      targetEl = target;
-    }
-    insertText(targetEl, txt);
-  }
-}
-
-// Замена данных в шаблоне из массива объектов:
-
-function fillList(areaName, area, data, temp, sign, sub, objKey) {
-  var result = '',
-      newEl;
-  for (var arrKey in data) {
-    newEl = temp;
-    newEl = fillEl(areaName, area, data[arrKey], temp, sign, sub, objKey);
-    result += newEl;
-  }
-  return result;
-}
-
-// Замена данных в шаблоне из объекта:
-
-function fillEl(areaName, area, data, temp, sign, sub, objKey) {
-  if (sub) { // Если есть подшаблоны
-    var list,
-        subNames = [];
-    for (var subKey in sub) {
-      list = '';
-      if (data[subKey]) {
-        subNames.push(subKey);
-        var subTemp = window[`${areaName}${subKey}Temp`]; // подшаблон
-        if (!subTemp) {
-          window[`${areaName}${subKey}Temp`] = subTemp = area.querySelector(sub[subKey]).outerHTML;
-        }
-        if (data[subKey][0] && typeof data[subKey][0] === 'object') {
-          list = fillList(areaName, area, data[subKey], subTemp, sign);
-        } else if (data[subKey][0]) {
-          list = fillList(areaName, area, data[subKey], subTemp, sign, null, subKey);
-        } else {
-          list = fillEl(areaName, area, data[subKey], subTemp, sign);
-        }
-      }
-      temp = temp.replace(subTemp, list);
-    }
-  }
-
-  if (objKey) {
-    temp = replaceInTemp(objKey, data, temp, sign);
-  } else {
-    var value;
-    for (var key in data) {
-      if (!sub || subNames.indexOf(key) === -1) {
-        value = data[key];
-        temp = replaceInTemp(key, value, temp, sign);
-      }
-    }
-  }
-  return temp;
-}
-
-// Замена в полученном шаблоне всех найденных данных:
-
-function replaceInTemp(key, val, temp, sign) {
-  var regex = new RegExp(sign + key + sign, 'gi'),
-      res = temp.replace(regex, val);
-  return res;
-}
-
-// Вставка заполненного шаблона в документ:
-
-function insertText(el, txt) {
-  el.classList.remove('template');
-  txt = txt.replace('template', '');
-  el.innerHTML = txt;
 }

@@ -202,7 +202,7 @@ function convertItems() {
         item.isHiddenPrice = item.price_action1 > 0 ? '' : 'displayNone';
       } else {
         item.isOldPrice = item.price_action1 > 0 ? '' : 'hidden';
-        item.isBorder = item.actiontitle || item.action_id > 0 ? '' : 'borderNone';
+        item.isBorder = item.price_action1 > 0 ? '' : 'borderNone';
       }
     }
 
@@ -224,9 +224,9 @@ function convertItems() {
       size = item.sizes[key];
       size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
       size.isClick = size.size ? '' : 'click';
-      item.isFree = size.free_qty > 0 ? '' : 'displayNone';
-      item.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
-      item.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
+      size.isFree = size.free_qty > 0 ? '' : 'displayNone';
+      size.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
+      size.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
 
       //Создание объекта в разрезе размеров для корзины:
       id = item.sizes[key].object_id;
@@ -1586,6 +1586,9 @@ function loadCards(cards) {
   countItemsTo = countItems + incr;
   if (countItemsTo > itemsToLoad.length) {
     countItemsTo = itemsToLoad.length;
+  }
+  if (countItems === countItemsTo) {
+    return;
   }
 
   var dataItems = [];
