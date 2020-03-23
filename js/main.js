@@ -34,9 +34,8 @@ var isSearch;
 if (isCart) {
   var cartId = document.body.dataset.cartId,
       cart = {},
-      cartTotals = {},
-      cartChanges = {},
-      cartContent = document.getElementById('cart');
+      cartTotals = {};
+      // cartChanges = {};
 }
 
 //=====================================================================================================
@@ -587,9 +586,23 @@ function replaceImg(img) {
   img.src = '../img/no_img.jpg';
 }
 
+// Получение элемента по id или селектору:
+
+function getEl(el) {
+  if (typeof el === 'string') {
+    if (el.indexOf('.') === 0) {
+      el = document.querySelector(el);
+    } else {
+      el = document.getElementById(el);
+    }
+  }
+  return el;
+}
+
 // Показ элемента:
 
 function showElement(el, style = 'block') {
+  el = getEl(el);
   if (el) {
     el.style.display = style;
   }
@@ -598,6 +611,7 @@ function showElement(el, style = 'block') {
 // Скрытие элемента:
 
 function hideElement(el) {
+  el = getEl(el);
   if (el) {
     el.style.display = 'none';
   }
@@ -1328,6 +1342,7 @@ function showReclm(id) {
 //     sign: '#' / '@@' / другой,                       (символ, которым выделяется место замены, по умолчанию - '#')
 //     sub: объект,                                     (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - селекторы, по которым нужно найти подшаблон в шаблоне)
 //     action: 'replace' / return',                     (действие с данными, если 'replace' - вставит шаблон на страницу, если 'return' - вернет строку с шаблоном, по умолчанию - 'replace'),
+//     method: 'inner' / 'begin' / 'end'                (метод вставки шаблона на страницу, если 'inner' - замена содержимого, если 'begin' - перед первым дочерним элементом, если 'end' - после последнего дочернего элемента, по умолчанию - 'inner'),
 //     iterate: 'temp' / 'data'                         (перебирать ключи (#...#) в шаблоне или ключи объекта данных во время замены)
 // }
 
@@ -1341,6 +1356,7 @@ function showReclm(id) {
 //     sign: '#',
 //     sub: {'images': '.carousel-gallery', 'sizes': '.card-sizes', 'options': '.card-options', 'manuf': '.manuf-row'},
 //     action: 'replace',
+//     method: 'inner'
 //     iterate: 'temp'
 // }
 
@@ -1355,11 +1371,7 @@ function fillTemplate(data) {
     data.areaName = data.area.id || data.area.classList[0];
   } else {
     data.areaName = data.area;
-    if (data.area.indexOf('.') === 0) {
-      data.area = document.querySelector(data.area);
-    } else {
-      data.area = document.getElementById(data.area);
-    }
+    data.area = getEl(data.area);
   }
 
   if (!data.area) {
@@ -1386,7 +1398,7 @@ function fillTemplate(data) {
         targetEl = target;
       }
     }
-    insertText(targetEl, txt);
+    insertText(targetEl, txt, data.method);
   }
 }
 
@@ -1467,17 +1479,24 @@ function fillEl(data, items, temp) {
 function replaceInTemp(key, value, temp, sign) {
   var sign = sign || '#',
       regex = key ? new RegExp(sign + key + sign, 'gi') : new RegExp(sign + 'item' + sign, 'gi'),
-      value = typeof value === 'string' ? value : '',
-      res = temp.replace(regex, value);
-  return res;
+      value = typeof value === 'string' ? value : '';
+  return temp.replace(regex, value);
 }
 
 // Вставка заполненного шаблона в документ:
 
-function insertText(el, txt) {
+function insertText(el, txt, method = 'inner') {
   el.classList.remove('template');
   txt = txt.replace('template', '');
-  el.innerHTML = txt;
+  if (el.childNodes.length == 1 && el.firstChild.classList.contains('template')) {
+    el.innerHTML = txt;
+  } else if (method === 'end') {
+    el.insertAdjacentHTML('beforeend', txt);
+  } else if (method === 'begin') {
+    el.insertAdjacentHTML('afterbegin', txt);
+  } else {
+    el.innerHTML = txt;
+  }
 }
 
 //=====================================================================================================

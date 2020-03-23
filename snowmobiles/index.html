@@ -123,7 +123,7 @@
                 <input class="search icon" type="submit" value=""></input>
                 <input id="page-search-input" type="text" autocomplete="off" placeholder="Поиск...">
               </div>
-              <div class="close icon" onclick="startClearPageSearch()"></div>
+              <div id="page-search-clear" class="close icon" onclick="startClearPageSearch()"></div>
             </form>
             <a id="header-cart" class="row" href="../equipment/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
               <div class="amount"><span>0</span>&nbsp;руб.</div>
@@ -410,13 +410,16 @@
                 <div class="card-manuf #isManuf#">
                   <div class="manuf-table">
                     <div id="manuf-headers" class="title row">
-                      <div class="man" data-title="man">Производитель</div>
-                      <div class="oem" data-title="oem">ОЕМ</div>
-                      <div class="model" data-title="model">Модель</div>
-                      <div class="years" data-title="years">Год модели</div>
+                      <div class="man">Производитель</div>
+                      <div class="oem" >ОЕМ</div>
+                      <div class="model">Модель</div>
+                      <div class="years">Год модели</div>
                     </div>
                     <div class="manuf-row row">
-                      <div class="#cat#">#info#</div>
+                      <div class="man">#man#</div>
+                      <div class="oem">#oem#</div>
+                      <div class="model">#model#</div>
+                      <div class="years">#years#</div>
                     </div>
                   </div>
                 </div>
@@ -527,13 +530,16 @@
                     <div class="card-manuf #isManuf#">
                       <div class="manuf-table">
                         <div id="manuf-headers" class="title row">
-                          <div class="man" data-title="man">Производитель</div>
-                          <div class="oem" data-title="oem">ОЕМ</div>
-                          <div class="model" data-title="model">Модель</div>
-                          <div class="years" data-title="years">Год модели</div>
+                          <div class="man">Производитель</div>
+                          <div class="oem" >ОЕМ</div>
+                          <div class="model">Модель</div>
+                          <div class="years">Год модели</div>
                         </div>
                         <div class="manuf-row row">
-                          <div class="#cat#">#info#</div>
+                          <div class="man">#man#</div>
+                          <div class="oem">#oem#</div>
+                          <div class="model">#model#</div>
+                          <div class="years">#years#</div>
                         </div>
                       </div>
                     </div>
