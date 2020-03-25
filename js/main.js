@@ -23,16 +23,11 @@ if (message) {
   message = new Message(message);
 }
 
-// Запуск проверки авторизации:
-
-checkAuth();
-// startPage();
-
 // Динамические переменные:
 
 var isSearch;
 if (isCart) {
-  var cartId = document.body.dataset.cartId,
+  var cartId = pageId,
       cart = {},
       cartTotals = {};
       // cartChanges = {};
@@ -41,6 +36,9 @@ if (isCart) {
 //=====================================================================================================
 // Авторизация на сайте при загрузке страницы:
 //=====================================================================================================
+
+checkAuth();
+// startPage();
 
 // Проверка авторизован ли пользователь:
 
@@ -232,7 +230,7 @@ function getCart(totals = false) {
 
 function changeCartInHeader() {
   if (isCart) {
-    var headerCart = document.getElementById('header-cart');
+    var headerCart = getEl('header-cart');
     if (headerCart) {
       var amount = headerCart.querySelector('.amount span'),
           qty = headerCart.querySelector('.qty');
@@ -264,7 +262,7 @@ function changeCartInHeader() {
 // Вывод информации обо всех имеющихся корзинах в шапке сайта:
 
 function changeCatalogCart(cartName, totals) {
-  var curCart = document.getElementById(`cart-${cartName}`);
+  var curCart = getEl(`cart-${cartName}`);
   if (curCart) {
     var qty = curCart.querySelector('.qty'),
         qtyShort = curCart.querySelector('.qty-short'),
@@ -588,12 +586,15 @@ function replaceImg(img) {
 
 // Получение элемента по id или селектору:
 
-function getEl(el) {
+function getEl(el, area = document) {
   if (typeof el === 'string') {
-    if (el.indexOf('.') === 0) {
-      el = document.querySelector(el);
+    area = typeof area === 'string' ? getEl(area): area;
+    if (el.indexOf('.') === 0 || el.indexOf('[') === 0) {
+      el = area.querySelector(el);
+    } else if (area === document) {
+      el = area.getElementById(el);
     } else {
-      el = document.getElementById(el);
+      el = area.querySelector(el);
     }
   }
   return el;
@@ -1023,6 +1024,7 @@ function DropDown(obj) {
   this.clear = function () {
     this.title.textContent = this.titleText;
     this.filter.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+    this.filter.value = undefined;
   }
 }
 
@@ -1340,7 +1342,7 @@ function showReclm(id) {
 //     source: 'inner' / 'outer',                       (как извлекать шаблон - весь тег целиком или его внутреннюю часть, по умолчанию - inner)
 //     target: id элемента,                             (id области куда будет вставляться результат, если нужно вставить в другое место отличное от того где извлекали шаблон)
 //     sign: '#' / '@@' / другой,                       (символ, которым выделяется место замены, по умолчанию - '#')
-//     sub: объект,                                     (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - селекторы, по которым нужно найти подшаблон в шаблоне)
+//     sub: объект,                                     (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - id или селекторы, по которым нужно найти подшаблон в шаблоне)
 //     action: 'replace' / return',                     (действие с данными, если 'replace' - вставит шаблон на страницу, если 'return' - вернет строку с шаблоном, по умолчанию - 'replace'),
 //     method: 'inner' / 'begin' / 'end'                (метод вставки шаблона на страницу, если 'inner' - замена содержимого, если 'begin' - перед первым дочерним элементом, если 'end' - после последнего дочернего элемента, по умолчанию - 'inner'),
 //     iterate: 'temp' / 'data'                         (перебирать ключи (#...#) в шаблоне или ключи объекта данных во время замены)
@@ -1381,9 +1383,9 @@ function fillTemplate(data) {
   var temp = window[`${data.areaName}Temp`]; // шаблон
   if (!temp) {
     if (data.source && data.source === 'outer') {
-      window[`${data.areaName}Temp`] = temp = data.area.outerHTML;
+      temp = window[`${data.areaName}Temp`] = data.area.outerHTML;
     } else {
-      window[`${data.areaName}Temp`] = temp = data.area.innerHTML;
+      temp = window[`${data.areaName}Temp`] = data.area.innerHTML;
     }
   }
 
@@ -1441,7 +1443,13 @@ function fillEl(data, items, temp) {
         subNames.push(subKey);
         var subTemp = window[`${data.areaName}${subKey}Temp`]; // подшаблон
         if (!subTemp) {
-          window[`${data.areaName}${subKey}Temp`] = subTemp = data.area.querySelector(data.sub[subKey]).outerHTML;
+          var subArea = data.sub[subKey];
+          if (subArea.indexOf('.') === 0 || subArea.indexOf('[') === 0) {
+            subArea = getEl(subArea, data.area);
+          } else {
+            subArea = getEl(subArea);
+          }
+          subTemp = window[`${data.areaName}${subKey}Temp`] = subArea.outerHTML;
         }
         subData = JSON.parse(JSON.stringify(data));
         delete subData.sub;

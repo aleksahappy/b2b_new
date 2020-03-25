@@ -100,12 +100,12 @@ body {
   overflow-y: scroll;
 }
 
-#oem-list .oem {
+#oem-list .item {
   padding: 0.35em 0.75em;
   cursor: pointer;
 }
 
-#oem-list .oem:hover{
+#oem-list .item:hover{
   background-color: #E4E3E7;
 }
 

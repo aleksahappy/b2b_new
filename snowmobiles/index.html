@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../css/cart.css">
   </head>
 
-  <body id="_snow" data-website="ts_b2b" data-cart="true" data-cart-id="snow">
+  <body id="snow" data-website="ts_b2b" data-cart="true">
 
     <div class="header">
       <div class="header-top">
@@ -50,7 +50,7 @@
                     </a>
                   </div>
                   <div class="row">
-                    <a class="item catalog" href="../snowmobiles/" data-href="_snow" data-level="1" data-title="Снегоходы" onclick="openPage(event)">Снегоходы</a>
+                    <a class="item catalog" href="../snowmobiles/" data-href="snow" data-level="1" data-title="Снегоходы" onclick="openPage(event)">Снегоходы</a>
                     <a id="cart-snow" class="item cart-info row" href="../snowmobiles/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
                       <div class="cart icon"></div>
                       <div class="qty-short">0</div>
@@ -112,7 +112,7 @@
       <div class="header-menu">
         <div class="container row">
           <div class="catalog row">
-            <a class="topmenu-item active" href="../snowmobiles/" data-href="_snow" data-level="1" data-title="Снегоходы" onclick="openPage(event)">Снегоходы</a>
+            <a class="topmenu-item active" href="../snowmobiles/" data-href="snow" data-level="1" data-title="Снегоходы" onclick="openPage(event)">Снегоходы</a>
             <a class="submenu-item" href="../snowmobiles/?zip" data-href="zip" data-level="2" data-title="Запчасти" onclick="openPage(event)">Запчасти</a>
             <a class="submenu-item" href="../snowmobiles/?acc" data-href="acc" data-level="2" data-title="Аксессуары" onclick="openPage(event)">Аксессуары</a>
           </div>
@@ -137,51 +137,51 @@
       <div id="zip-select">
         <div class="container row">
           <div class="zip-filters row">
-            <div id="select-man" data-filter="man" class="activate select">
+            <div id="select-man" class="activate select">
               <div class="head row">
                 <div class="title">Производитель:</div>
                 <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
                 </svg>
               </div>
-              <div class="drop-down">
+              <div id="man-list" class="drop-down">
                 <div class="item" data-value="#item#">#item#</div>
               </div>
             </div>
-            <div id="select-years" data-filter="years" class="activate select">
+            <div id="select-years" class="activate select">
               <div class="head row">
                 <div class="title">Год:</div>
                 <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
                 </svg>
               </div>
-              <div class="drop-down">
+              <div id="years-list" class="drop-down">
                 <div class="item" data-value="#item#">#item#</div>
               </div>
             </div>
-            <div id="select-model" data-filter="model" class="activate select">
+            <div id="select-model" class="activate select">
               <div class="head row">
                 <div class="title">Модель:</div>
                 <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
                 </svg>
               </div>
-              <div class="drop-down">
+              <div id="model-list" class="drop-down">
                 <div class="item" data-value="#item#">#item#</div>
               </div>
             </div>
-            <div class="close icon white" tooltip="Сброс фильтра" onclick="startClearZipFilters(this)"></div>
+            <div id="zip-filters-clear" class="close icon white" tooltip="Сброс фильтра" onclick="startClearZipFilters(this)"></div>
           </div>
           <form action="#" id="oem-search" class="search row" oninput="showOemList()" onsubmit="findOem(event)">
             <div class="row">
-              <div class="search icon" onclick="findOem(event)"></div>
+              <input class="search icon" type="submit" value=""></input>
               <input id="oem-search-input" type="text" autocomplete="off" data-value="" placeholder="Поиск по OEM" onfocus="onFocusOemInput(this)" onblur="onBlurOemInput(this)">
             </div>
-            <div class="close icon" onclick="startClearOemSearch(event)"></div>
+            <div id="oem-search-clear" class="close icon" onclick="startClearOemSearch(event)"></div>
             <div id="oem-dropdown">
               <div id="oem-not-found">Совпадений не найдено</div>
               <div id="oem-list">
-                <div class="oem" data-oem="#item#" onclick="selectOem(event)">#item#</div>
+                <div class="item" data-value="#item#" onclick="selectOem(event)">#item#</div>
               </div>
             </div>
           </form>

@@ -4,49 +4,11 @@
 // Первоначальные данные для работы:
 //=====================================================================================================
 
-// Элементы DOM для работы с ними:
-
-var zipSelect = document.getElementById('zip-select'),
-    filters = document.getElementById('filters'),
-    menuFilters = document.getElementById('menu-filters');
-
-if (zipSelect) {
-  var selectMan = document.getElementById('select-man'),
-      selectYears = document.getElementById('select-years'),
-      selectModel = document.getElementById('select-model'),
-      manDropDown = new DropDown(selectMan),
-      yearsDropDown = new DropDown(selectYears),
-      modelDropDown = new DropDown(selectModel),
-      clearZipFilterBtn = zipSelect.querySelector('.zip-filters').querySelector('.close.icon'),
-      oemSearch = document.getElementById('oem-search'),
-      oemSearchInput = document.getElementById('oem-search-input'),
-      oemDropdown =  document.getElementById('oem-dropdown'),
-      oemList = document.getElementById('oem-list'),
-      oemNotFound = document.getElementById('oem-not-found'),
-      clearOemSearchBtn = oemSearch.querySelector('.close.icon');
-  // Обработчики событий:
-  selectMan.addEventListener('change', selectCardsZipFilter);
-  selectYears.addEventListener('change', selectCardsZipFilter);
-  selectModel.addEventListener('change', selectCardsZipFilter);
-}
-
 // Области с шаблонами карточки товара в галерее
-// (сохраняем в переменные при загрузке, потому что потом эти данные затрутся):
+// (сохраняем в переменные при загрузке, потому что потом эти данные перезапишутся):
 
-var minCard = document.querySelector('.min-card'),
-    bigCard = document.querySelector('.big-card');
-
-// Получение шаблонов из HTML:
-
-if (zipSelect) {
-  var selectManufItemTemplate = selectMan.querySelector('.drop-down').innerHTML,
-      oemListTemplate = oemList.innerHTML;
-}
-if (menuFilters) {
-  var filterTemplate = menuFilters.querySelector('.filter').outerHTML,
-      filterItemTemplate = menuFilters.querySelector('.filter-item').outerHTML,
-      filterSubitemTemplate = menuFilters.querySelector('.filter-item.subitem').outerHTML;
-}
+var minCard = getEl('.min-card'),
+    bigCard = getEl('.big-card');
 
 // Динамические переменные:
 
@@ -58,7 +20,18 @@ var pageUrl = pageId,
     curItems,
     selectedItems = '',
     filtersInfoItems = [],
-    zipFilterData = {};
+    zipFilterData = {},
+    zifFilterQueue = [];
+
+// УБРАТЬ!!!
+// Получение шаблонов из HTML:
+
+var menuFilters = getEl('menu-filters');
+if (menuFilters) {
+  var filterTemplate = menuFilters.querySelector('.filter').outerHTML,
+      filterItemTemplate = menuFilters.querySelector('.filter-item').outerHTML,
+      filterSubitemTemplate = menuFilters.querySelector('.filter-item.subitem').outerHTML;
+}
 
 //=====================================================================================================
 // При запуске страницы:
@@ -145,16 +118,16 @@ function getProduct(id) {
 
 function convertItems() {
   // Фильтрация входящих данных для страниц ЗИПа:
-  if (pageId == '_boats') {
+  if (pageId == 'boats') {
     items = items.filter(el => el.lodkimotor == 1);
   }
-  if (pageId == '_snow') {
+  if (pageId == 'snow') {
     items = items.filter(el => el.snegohod == 1);
   }
 
   cardItems = JSON.parse(JSON.stringify(items));
 
-  var itemSearch, size, id, options, option, manuf, isManuf, manufRow, value;
+  var size, id, options, option, manuf, isManuf, manufRow, value;
   cardItems.forEach(item => {
 
     // Добавление данных для поиска по странице:
@@ -343,7 +316,7 @@ function setContentWidth() {
 // Установка ширины галереи:
 
 function setGalleryWidth() {
-  gallgetEl('gallery').style.width = (getEl('content').clientWidth - filters.clientWidth - 30) + 'px';
+  gallgetEl('gallery').style.width = (getEl('content').clientWidth - getEl('filters').clientWidth - 30) + 'px';
 }
 
 // Установка ширины малых карточек товаров:
@@ -374,7 +347,9 @@ function setMinCardWidth(width) {
 
 function setFiltersPosition() {
   if (window.innerWidth > 767) {
-    var gallery = getEl('gallery');
+    var gallery = getEl('gallery'),
+        filters = getEl('filters'),
+        menuFilters = getEl('menu-filters');
     if (filters.style.position == 'fixed') {
       if (menuFilters.clientHeight >= gallery.clientHeight) {
         filters.style.position = 'static';
@@ -395,12 +370,30 @@ function setFiltersPosition() {
 // Установка высоты меню фильтров:
 
 function setFiltersHeight() {
-  var scrolled = window.pageYOffset || document.documentElement.scrollTop,
-      headerHeight = document.querySelector('.header').clientHeight,
-      footerHeight = Math.max((window.innerHeight + scrolled - document.querySelector('.footer').offsetTop) + 20, 0),
+  var filters = getEl('filters'),
+      scrolled = window.pageYOffset || document.documentElement.scrollTop,
+      headerHeight = getEl('.header').clientHeight,
+      footerHeight = Math.max((window.innerHeight + scrolled - getEl('.footer').offsetTop) + 20, 0),
       filtersHeight = window.innerHeight - headerHeight - footerHeight;
   filters.style.top = headerHeight + 'px';
   filters.style.maxHeight = filtersHeight + 'px';
+}
+
+//=====================================================================================================
+// Общие вспомогательные функции:
+//=====================================================================================================
+
+// Выбор массива карточек товаров из существующих:
+
+function selectCurItems(isZipFilter) {
+  var curItemsArray = curItems;
+  if (isZipFilter && website === 'skipper') {
+    curItemsArray = cardItems;
+  }
+  if (selectedItems !== '') {
+    curItemsArray = selectedItems;
+  }
+  return curItemsArray;
 }
 
 //=====================================================================================================
@@ -421,6 +414,7 @@ function initPage() {
       return el;
     }
   });
+  initZipFilters();
   renderContent();
 }
 
@@ -439,7 +433,7 @@ function openPage(event) {
   } else {
     var oldPath = path,
         newUrl = event.currentTarget.dataset.href.split('?');
-    path = Array.from(document.querySelector('.header-menu').querySelectorAll('.active'))
+    path = Array.from(getEl('.header-menu').querySelectorAll('.active'))
       .filter(element => element.dataset.level < event.currentTarget.dataset.level)
       .map(element => element.dataset.href);
     path = path.concat(newUrl);
@@ -523,14 +517,11 @@ function changeContent(block) {
       }
       showElement('main-info', 'flex');
       hideElement('cart');
-      if (zipSelect) {
-        showElement(zipSelect);
-        if (website !== 'skipper') {
-          if (path[path.length - 1] == 'zip') {
-            showElement(zipSelect);
-          } else {
-            hideElement(zipSelect);
-          }
+      if (website !== 'skipper') {
+        if (path[path.length - 1] == 'zip') {
+          showElement('zip-select');
+        } else {
+          hideElement('zip-select');
         }
       }
     }
@@ -541,14 +532,14 @@ function changeContent(block) {
 
 function changePageTitle() {
   var title = '',
-      curTitle = document.querySelector(`[data-href="${path[path.length - 1]}"]`);
+      curTitle = getEl(`[data-href="${path[path.length - 1]}"]`);
   if (view === 'product') {
     title += cardItems[0].title;
   } else if (curTitle) {
     title += curTitle.dataset.title;
   }
   document.title = 'ТОП СПОРТС - ' + title;
-  var pageTitle = document.getElementById('page-title');
+  var pageTitle = getEl('page-title');
   if (pageTitle) {
     pageTitle.textContent = title;
   }
@@ -559,7 +550,7 @@ function changePageTitle() {
 function toggleMenuItems() {
   document.querySelectorAll('.header-menu .active').forEach(item => item.classList.remove('active'));
   path.forEach(key => {
-    var curTitle = document.querySelector(`.header-menu [data-href="${key}"]`);
+    var curTitle = getEl(`.header-menu [data-href="${key}"]`);
     if (curTitle) {
       curTitle.classList.add('active');
     }
@@ -570,7 +561,7 @@ function toggleMenuItems() {
 
 function createDinamicLinks() {
   document.querySelectorAll('.dinamic').forEach(item => {
-    var curTitle = document.querySelector(`.header-menu .active[data-level="${item.dataset.level - 1}"]`);
+    var curTitle = getEl(`.header-menu .active[data-level="${item.dataset.level - 1}"]`);
     if (curTitle) {
       item.href = curTitle.href + '?' + item.dataset.href;
     }
@@ -583,7 +574,7 @@ function createMainNav() {
   var navData = {items: {}},
       curTitle;
   path.forEach((el, index) => {
-    curTitle = document.querySelector(`[data-href="${el}"]`);
+    curTitle = getEl(`[data-href="${el}"]`);
     var item = {
       href: view === 'product' ? '#': curTitle.href,
       dataHref: el,
@@ -611,8 +602,8 @@ function renderProductPage() {
     action: 'return'
   };
   fillTemplate(data);
-  var card = document.querySelector('.product-card');
-  renderCarousel(card.querySelector('.carousel'))
+  var card = getEl('.product-card');
+  renderCarousel(getEl('.carousel', card))
   .then(
     result => {
       card.style.opacity = '1';
@@ -631,23 +622,16 @@ function renderGallery() {
     local = local.join('?');
   }
   pageUrl = local ? pageId + local : pageId;
-  changeContent('gallery');
-
   path.forEach(key => {
     if (key != pageId) {
       curItems = curItems.filter(item => item[key] == 1);
     }
   });
+  changeContent('gallery');
   clearAllSearch();
-
-  if (zipSelect) {
-    initZipFilter('man');
-    initOemSearch();
-  }
+  fillZipFilters();
   initFilters(dataFilters);
-  if (pageFilter) {
-    setFilterOnPage(pageFilter);
-  }
+  setFilterOnPage(pageFilter);
   clearFiltersInfo();
   checkFiltersPosition();
   checkFilters();
@@ -659,15 +643,21 @@ function renderGallery() {
 // Добавление фильтра из поисковой строки:
 
 function setFilterOnPage(filter) {
+  if (!filter) {
+    return;
+  }
   var key, value;
   removeInfo('filters');
-  removeAllFilters();
   var filterData = decodeURI(filter).toLowerCase().split('=');
-  if (filterData[0] === 'manuf_man') {
+  if (filterData[0].indexOf('manuf') === 0) {
     filterData[1] = filterData[1].replace('_', ' ');
-    manDropDown.setValue(filterData[1]);
+    var selectName = filterData[0].replace('manuf_', ''),
+        curSelect = window[`${selectName}List`];
+    if (curSelect) {
+      curSelect.setValue(filterData[1]);
+    }
   } else {
-    menuFilters.querySelectorAll('.filter-item').forEach(el => {
+    getEl('menu-filters').querySelectorAll('.filter-item').forEach(el => {
       key = el.dataset.key;
       value = el.dataset.value;
       if (key.toLowerCase() == filterData[0] && value.toLowerCase() == filterData[1]) {
@@ -756,7 +746,7 @@ function initFilters(dataFilters) {
       }
     }
   }
-  menuFilters.innerHTML = createFilters(data);
+  getEl('menu-filters').innerHTML = createFilters(data);
   showElement('filters-container');
   addTooltips('color');
 }
@@ -879,7 +869,7 @@ function selectFilterValue(event) {
     if (!event.target.classList.contains('close')) {
       return;
     }
-    curEl = menuFilters.querySelector(`[data-key="${event.currentTarget.dataset.key}"][data-value="${event.currentTarget.dataset.value}"]`);
+    curEl = getEl(`[data-key="${event.currentTarget.dataset.key}"][data-value="${event.currentTarget.dataset.value}"]`, 'menu-filters');
   } else {
     if (!event.target.closest('.filter-item-title') || event.currentTarget.classList.contains('disabled')) {
       return;
@@ -912,18 +902,18 @@ function selectFilterValue(event) {
       addInFiltersInfo(key, value, curEl);
     }
   }
-  var info = getInfo('filters')[pageUrl];
-  if (info && isEmptyObj(info)) {
+  var filters = getInfo('filters')[pageUrl];
+  if (filters && isEmptyObj(filters)) {
     selectedItems = '';
   } else {
-    selectCards(info);
+    selectCards(filters);
   }
   showCards();
   toggleToActualFilters(event.currentTarget);
   createFiltersInfo();
 
   if (window.innerWidth >= 767) {
-    if (filters.style.position === 'static') {
+    if (getEl('filters').style.position === 'static') {
       setDocumentScroll();
     }
   } else {
@@ -934,89 +924,89 @@ function selectFilterValue(event) {
 // Добавление данных в хранилище о выбранных фильтрах:
 
 function saveFilter(key, value, subkey) {
-  var info = getInfo('filters');
-  if (!info[pageUrl]) {
-    info[pageUrl] = {};
+  var filters = getInfo('filters');
+  if (!filters[pageUrl]) {
+    filters[pageUrl] = {};
   }
-  if (!info[pageUrl][key]) {
-    info[pageUrl][key] = {};
+  if (!filters[pageUrl][key]) {
+    filters[pageUrl][key] = {};
   }
   if (subkey) {
-    if (!info[pageUrl][key][subkey]) {
-      info[pageUrl][key][subkey] = {};
+    if (!filters[pageUrl][key][subkey]) {
+      filters[pageUrl][key][subkey] = {};
     }
-    if (!info[pageUrl][key][subkey][value]) {
-      info[pageUrl][key][subkey][value] = {};
+    if (!filters[pageUrl][key][subkey][value]) {
+      filters[pageUrl][key][subkey][value] = {};
     }
   } else {
-    if (!info[pageUrl][key][value]) {
-      info[pageUrl][key][value] = {};
+    if (!filters[pageUrl][key][value]) {
+      filters[pageUrl][key][value] = {};
     }
   }
-  saveInfo('filters', info);
+  saveInfo('filters', filters);
 }
 
 // Удаление данных из хранилища о выбранных фильтрах:
 
 function removeFilter(key, value, subkey) {
-  var info = getInfo('filters');
+  var filters = getInfo('filters');
   if (!subkey) {
-    delete info[pageUrl][key][value];
-    if (isEmptyObj(info[pageUrl][key])) {
-      delete info[pageUrl][key];
+    delete filters[pageUrl][key][value];
+    if (isEmptyObj(filters[pageUrl][key])) {
+      delete filters[pageUrl][key];
     }
   } else {
-    delete info[pageUrl][key][subkey][value];
-    if (info[pageUrl][key][subkey] && isEmptyObj(info[pageUrl][key][subkey])) {
-      info[pageUrl][key][subkey] = {};
+    delete filters[pageUrl][key][subkey][value];
+    if (filters[pageUrl][key][subkey] && isEmptyObj(filters[pageUrl][key][subkey])) {
+      filters[pageUrl][key][subkey] = {};
     }
   }
-  saveInfo('filters', info);
+  saveInfo('filters', filters);
 }
 
 // Удаление данных из хранилища обо всех фильтрах:
 
 function removeAllFilters() {
-  var info = getInfo('filters');
-  info[pageUrl] = {};
-  saveInfo(`filters`, info);
+  var filters = getInfo('filters');
+  filters[pageUrl] = {};
+  saveInfo(`filters`, filters);
 }
 
 // Сохранение данных в хранилище о состоянии фильтров (открыт/закрыт):
 
 function saveFilterPosition(key, value) {
-  var info = getInfo('positions', 'sessionStorage');
-  if (!info[pageUrl]) {
-    info[pageUrl] = {};
+  var positions = getInfo('positions', 'sessionStorage');
+  if (!positions[pageUrl]) {
+    positions[pageUrl] = {};
   }
   if (value) {
-    info[pageUrl][key] = value;
+    positions[pageUrl][key] = value;
   }
-  saveInfo('positions', info, 'sessionStorage');
+  saveInfo('positions', positions, 'sessionStorage');
 }
 
 // Удаление данных из хранилища обо всех состояниях фильтров (открыт/закрыт):
 
 function removeAllFilterPosition() {
-  var info = getInfo('positions', 'sessionStorage');
-  info[pageUrl] = {};
-  saveInfo(`positions`, info, 'sessionStorage');
+  var positions = getInfo('positions', 'sessionStorage');
+  positions[pageUrl] = {};
+  saveInfo(`positions`, positions, 'sessionStorage');
 }
 
 // Отбор карточек фильтром каталога:
 
-function selectCards(info) {
-  if (!info) {
+function selectCards(filters) {
+  if (!filters) {
     return;
   }
   var isFound;
 
   selectedItems = curItems.filter(card => {
-    for (let k in info) {
+    for (let k in filters) {
       isFound = false;
-      for (let kk in info[k]) {
-        if (info[k][kk] && !isEmptyObj(info[k][kk])) {
-          for (let kkk in info[k][kk]) {
+      for (let kk in filters[k]) {
+        if (filters[k][kk] && !isEmptyObj(filters[k][kk])) {
+          for (let kkk in filters[k][kk]) {
             if (card.cat == kk && card.subcat == kkk) {
               isFound = true;
             }
@@ -1038,22 +1028,23 @@ function selectCards(info) {
 // Блокировка неактуальных фильтров:
 
 function toggleToActualFilters(filter) {
-  var curItemsArray = curItems;
-  if (selectedItems !== '') {
-    curItemsArray = selectedItems;
-  }
-  var curFilters = menuFilters.querySelectorAll(`.filter-item.item.checked[data-key="${filter.dataset.key}"]`),
+  var curItemsArray = selectCurItems();
+  var menuFilters = getEl('menu-filters'),
+      curFilters = menuFilters.querySelectorAll(`.filter-item.item.checked[data-key="${filter.dataset.key}"]`),
       checked = menuFilters.querySelectorAll(`.filter-item.item.checked`),
       filterItems;
 
   if (checked.length == 0) {
     menuFilters.querySelectorAll(`.filter-item.item`).forEach(item => {
       item.classList.remove('disabled');
+      item.querySelectorAll('.subitem').forEach(subitem => {
+        subitem.classList.remove('disabled');
+      });
     });
     return;
   }
 
-  if (curFilters.length != 0) {
+  if (curFilters.length > 0) {
     filterItems = menuFilters.querySelectorAll(`.filter-item.item:not([data-key="${filter.dataset.key}"])`);
   } else {
     filterItems = menuFilters.querySelectorAll(`.filter-item.item`);
@@ -1067,6 +1058,9 @@ function toggleToActualFilters(filter) {
 
     if (checked.length == 1 && key == checked[0].dataset.key) {
       item.classList.remove('disabled');
+      item.querySelectorAll('.subitem').forEach(subitem => {
+        subitem.classList.remove('disabled');
+      });
     } else {
       isExsist = curItemsArray.find(card => {
         if (card[key] == value || card[value] == 1) {
@@ -1079,24 +1073,23 @@ function toggleToActualFilters(filter) {
         item.classList.add('close');
         if (item.classList.contains('checked')) {
           item.classList.remove('checked');
-          deleteFromFiltersInfo(key, value);
           item.querySelectorAll('.subitem').forEach(subitem => {
             subitem.classList.remove('checked');
           });
           removeFilter(key, value);
+          deleteFromFiltersInfo(key, value);
         }
       }
       item.querySelectorAll('.subitem').forEach(subitem => {
         isFound = false;
         isFound = curItemsArray.find(card => {
           if (card.cat == value && card.subcat == subitem.dataset.value) {
+            subitem.classList.remove('disabled');
             return true;
           }
         });
         if (!isFound) {
           subitem.classList.add('disabled');
-        } else {
-          subitem.classList.remove('disabled');
         }
       });
     }
@@ -1106,7 +1099,8 @@ function toggleToActualFilters(filter) {
 // Очистка фильтров каталога:
 
 function clearFilters() {
-  if (!menuFilters.querySelector('.checked')) {
+  var menuFilters = getEl('menu-filters');
+  if (!getEl('.checked', menuFilters)) {
     return;
   }
   getDocumentScroll();
@@ -1134,13 +1128,13 @@ function clearFilters() {
 // Проверка сохраненных положений фильтров:
 
 function checkFiltersPosition() {
-  var info = getInfo('positions', 'sessionStorage')[pageUrl],
+  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
       curEl;
-  if (info) {
-    for (let key in info) {
-      curEl = document.getElementById(key);
+  if (positions) {
+    for (let key in positions) {
+      curEl = getEl(key);
       if (curEl) {
-        if (info[key] == 'close') {
+        if (positions[key] == 'close') {
           curEl.classList.add('close');
         } else {
           curEl.classList.remove('close');
@@ -1153,35 +1147,35 @@ function checkFiltersPosition() {
 // Проверка сохраненных значений фильтров:
 
 function checkFilters() {
-  var info = getInfo('filters')[pageUrl];
-  if (info && !isEmptyObj(info)){
-    checkFilterExist(info);
-    selectFilters(info);
+  var filters = getInfo('filters')[pageUrl];
+  if (filters && !isEmptyObj(filters)){
+    checkFilterExist(filters);
+    selectFilters(filters);
   }
   showCards();
 }
 
 // Удаление сохраненных фильтров, если их больше нет на странице:
 
-function checkFilterExist(info) {
+function checkFilterExist(filters) {
   var curEl;
-  for (let k in info) {
-    for (let kk in info[k]) {
-      curEl = menuFilters.querySelector(`[data-key="${k}"][data-value="${kk}"]`);
+  for (let k in filters) {
+    for (let kk in filters[k]) {
+      curEl = getEl(`[data-key="${k}"][data-value="${kk}"]`, 'menu-filters');
       if (!curEl) {
-        delete info[k][kk];
+        delete filters[k][kk];
       }
-      for (let kkk in info[k][kk]) {
-        curEl = menuFilters.querySelector(`[data-subkey="${kk}"][data-value="${kkk}"]`);
+      for (let kkk in filters[k][kk]) {
+        curEl = getEl(`[data-subkey="${kk}"][data-value="${kkk}"]`, 'menu-filters');
         if (!curEl) {
-          delete info[k][kk][kkk];
+          delete filters[k][kk][kkk];
         }
-        if (isEmptyObj(info[k][kk])) {
-          delete info[k][kk];
+        if (isEmptyObj(filters[k][kk])) {
+          delete filters[k][kk];
         }
       }
-      if (isEmptyObj(info[k])) {
-        delete info[k];
+      if (isEmptyObj(filters[k])) {
+        delete filters[k];
       }
     }
   }
@@ -1189,22 +1183,22 @@ function checkFilterExist(info) {
 
 // Визуальное отображение сохраненных фильтров:
 
-function selectFilters(info) {
-  var filters = {},
-      filterItem;
-  for (var k in info) {
-    filters[k] = {};
-    filterItem = document.getElementById(`filter-${k}`);
-    if (filterItem) {
-      filterItem.classList.remove('close');
+function selectFilters(filters) {
+  var curFilters = {},
+      curItem;
+  for (var k in filters) {
+    curFilters[k] = {};
+    curItem = getEl(`filter-${k}`);
+    if (curItem) {
+      curItem.classList.remove('close');
     }
-    for (var kk in info[k]) {
-      filters[k][kk] = {};
-      selectCards(filters);
+    for (var kk in filters[k]) {
+      curFilters[k][kk] = {};
+      selectCards(curFilters);
       changeFilterClass(k, kk);
-      for (var kkk in info[k][kk]) {
-        filters[k][kk][kkk] = {};
-        selectCards(filters);
+      for (var kkk in filters[k][kk]) {
+        curFilters[k][kk][kkk] = {};
+        selectCards(curFilters);
         changeFilterClass(k, kkk, kk);
       }
     }
@@ -1216,9 +1210,9 @@ function selectFilters(info) {
 function changeFilterClass(key, value, subkey) {
   var curEl;
   if (subkey) {
-    curEl = menuFilters.querySelector(`[data-subkey="${subkey}"][data-value="${value}"]`);
+    curEl = getEl(`[data-subkey="${subkey}"][data-value="${value}"]`, 'menu-filters');
   } else {
-    curEl = menuFilters.querySelector(`[data-key="${key}"][data-value="${value}"]`);
+    curEl = getEl(`[data-key="${key}"][data-value="${value}"]`, 'menu-filters');
     addInFiltersInfo(key, value, curEl);
   }
   if (curEl) {
@@ -1241,7 +1235,7 @@ function addInFiltersInfo(key, value, el) {
   filtersInfoItems.push({
     key: key,
     value: value,
-    title: el.querySelector('.item-title').textContent
+    title: getEl('.item-title', el).textContent
   });
 }
 
@@ -1274,154 +1268,105 @@ function clearFiltersInfo() {
 //  Функции для создания фильтров запчастей и поиска по запчастям:
 //=====================================================================================================
 
-// Запуск создания фильтров запчастей:
+// Инициализация фильтров запчастей:
 
-function initZipFilter(filter) {
-  createZipFilterData(filter);
-  if (zipFilterData[filter].length === 0) {
-    if (filter == 'years') {
-      initZipFilter('model');
-    }
-    return;
-  }
-  createZipFilter(filter);
-  unlockZipFilter(filter);
+function initZipFilters() {
+  getEl('zip-select').querySelectorAll('activate').forEach(el => {
+    var selectName = el.id.replace('select-', '');
+    window[`${selectName}Select`] = new DropDown(el);
+    el.addEventListener('change', event => selectCardsZipFilter(selectName));
+  });
 }
 
-// Подготовка данных для фильтров запчастей:
+// Заполнение фильтров запчастей данными:
+// (сначала формируются все сразу, а потом переформировываются при выборе):
 
-function createZipFilterData(filter) {
-  var curItemsArray = curItems;
-  if (website === 'skipper') {
-    curItemsArray = items;
+function fillZipFilters(filter) {
+  if (!getEl('zip-select')) {
+    return;
   }
-  if (filter != 'man' && filter != 'oem') {
-    curItemsArray = selectedItems;
-  }
-  zipFilterData[filter] = [];
-
+  var curItemsArray = selectCurItems('zipFilter');
   curItemsArray.forEach(item => {
     if (item.manuf) {
-      for (let k in item.manuf[filter]) {
-        if (filter == 'man' || filter == 'oem') {
-          if (zipFilterData[filter].indexOf(k.trim()) === -1) {
-            zipFilterData[filter].push(k);
+      for (var k in item.manuf) {
+        if (k === 'oem') {
+          if (filter || zipFilterData[k]) {
+            continue;
           }
         } else {
-          for (let kk in item.manuf[filter][k]) {
-            if (kk == selectMan.value && zipFilterData[filter].indexOf(k.trim()) === -1) {
-              zipFilterData[filter].push(k);
+          if (filter) {
+            zifFilterQueue.push(filter);
+            getEl('zip-filters-clear').classList.add('active');
+          }
+          if (!filter || (zifFilterQueue.indexOf(k) === -1 || zifFilterQueue.findIndex(k) > zifFilterQueue.findIndex(filter))) {
+            zipFilterData[k] = [];
+            window[`${k}Select`].clear();
+            for (var kk in item.manuf[k]) {
+              if (!filter) {
+                if (zipFilterData[k].indexOf(kk.trim()) === -1) {
+                  zipFilterData[k].push(kk);
+                }
+              } else {
+                getEl(`select-${filter}`).removeAttribute('disabled', 'disabled');
+                if (zipFilterData[k].indexOf(kk.trim()) === -1) {
+                  zipFilterData[k].push(kk); // ДОРАБОТАТЬ!!!
+                }
+              }
             }
           }
+        }
+        if (!zipFilterData[k].length) {
+          getEl(`select-${filter}`).setAttribute('disabled', 'disabled');
+        } else {
+          fillZipFilter(k);
         }
       }
     }
   });
-  zipFilterData[filter].sort();
 }
 
-// Создание фильтров запчастей:
+// Создание в фильтре запчастей списка вариантов:
 
-function createZipFilter(filter) {
-  var curSelect = document.getElementById(`select-${filter}`).querySelector('.drop-down');
-  fillByTemplate(selectManufItemTemplate, zipFilterData[filter], curSelect);
-}
-
-// Создание подсказок в поиске по OEM:
-
-function initOemSearch() {
-  createZipFilterData('oem');
-  fillByTemplate(oemListTemplate, zipFilterData.oem, oemList);
+function fillZipFilter(key) {
+  var data = {
+    area: `${key}-list`,
+    items: zipFilterData[key].sort()
+  }
+  fillTemplate(data);
 }
 
 //=====================================================================================================
 //  Функции для работы с фильтрами запчастей и поиском по запчастям:
 //=====================================================================================================
 
-// Отбор карточек фильтром запчастей:
+// Отбор карточек фильтром запчастей и поиском по ОЕМ:
 
-function selectCardsZipFilter(event) {
+function selectCardsZipFilter(filter) {// ДОРАБОТАТЬ!!!
   if (isSearch) {
     clearPageSearch();
     clearOemSearch();
   }
-  var curItemsArray = curItems;
-  if (website === 'skipper') {
-    curItemsArray = cardItems;
+  var curItemsArray = selectCurItems('zipFilter'),
+      filterValue;
+  if (filter === 'oem') {
+    filterValue = getEl('oem-search-input').value.trim();
+  } else {
+    filterValue = getEl(`select-${filter}`).value;
   }
-  var filter = event.currentTarget.dataset.filter,
-      isFound;
   selectedItems = curItemsArray.filter(item => {
     if (item.manuf) {
-      isFound = false;
-      for (let k in item.manuf.man) {
-        if (k == selectMan.value) {
-          isFound = true;
+      for (let key in item.manuf[filter]) {
+        if (key == filterValue) {
+          return true;
         }
-      }
-      if (filter != 'man' && isFound && zipFilterData.years.length != 0) {
-        isFound = false;
-        for (let k in item.manuf.years) {
-          if (k == selectYears.value) {
-            for (let kk in item.manuf.years[k]) {
-              if (kk == selectMan.value) {
-                isFound = true;
-              }
-            }
-          }
-        }
-      }
-      if (filter == 'model' && isFound && zipFilterData.model.length != 0) {
-        isFound = false;
-        for (let k in item.manuf.model) {
-          if (k == selectModel.value) {
-            for (let kk in item.manuf.model[k]) {
-              if (kk == selectMan.value) {
-                isFound = true;
-              }
-            }
-          }
-        }
-      }
-      if (isFound) {
-        return true;
       }
     }
   });
   showCards();
   isSearch = true;
-
-  if (filter == 'man') {
-    clearZipFilterBtn.classList.add('active');
-    lockZipFilter('years');
-    lockZipFilter('model');
-    initZipFilter('years');
-  } else if (filter == 'years') {
-    lockZipFilter('model');
-    initZipFilter('model');
-  }
 }
 
-// Блокировка фильтров запчастей:
-
-function lockZipFilter(filter) {
-  var curSelect = document.getElementById(`select-${filter}`);
-  if (curSelect) {
-    window[`${filter}DropDown`].clear();
-    curSelect.setAttribute('disabled', 'disabled');
-  }
-}
-
-// Разблокировка фильтров запчастей:
-
-function unlockZipFilter(filter) {
-  var curSelect = document.getElementById(`select-${filter}`);
-  if (curSelect) {
-    curSelect.removeAttribute('disabled');
-  }
-}
-
-// Очистка фильтров запчастей:
+// Запуск очиски фильтров запчастей:
 
 function startClearZipFilters(btn) {
   if (btn.classList.contains('active')) {
@@ -1430,47 +1375,48 @@ function startClearZipFilters(btn) {
   }
 }
 
+// Очистка фильтров запчастей:
+
 function clearZipFilters() {
-  if (!zipSelect) {
+  if (!getEl('zip-select')) {
     return;
   }
   isSearch = false;
-  clearZipFilterBtn.classList.remove('active');
-  manDropDown.clear();
-  lockZipFilter('years');
-  lockZipFilter('model');
+  zifFilterQueue = [];
+  getEl('zip-filters-clear').classList.remove('active');
+  fillZipFilters();
 }
 
 // Отображение текущего списка OEM:
 
 function showOemList() {
-  var oemToFind = oemSearchInput.value.trim();
+  var oemToFind = getEl('oem-search-input').value.trim();
   if (oemToFind == '') {
     closeOemHints();
     return;
   }
-  showElement(oemDropdown);
+  showElement('oem-dropdown');
 
-  var regExpSearch = RegExp(oemToFind, 'i'),
+  var regEx = RegExp(oemToFind, 'i'),
       allOem = Array.from(document.querySelectorAll('#oem-list .oem'));
 
   allOem.forEach(el => hideElement(el));
-  var curOemList = allOem.filter(el => el.dataset.oem.search(regExpSearch) >= 0);
+  var curOemList = allOem.filter(el => el.dataset.value.search(regEx) >= 0);
 
   if (curOemList.length > 0) {
-    showElement(oemList);
-    hideElement(oemNotFound);
+    showElement('oem-list');
+    hideElement('oem-not-found');
     curOemList.forEach(el => showElement(el));
   } else {
-    hideElement(oemList);
-    showElement(oemNotFound);
+    hideElement('oem-list');
+    showElement('oem-not-found');
   }
 }
 
 // Выбор OEM из списка:
 
 function selectOem(event) {
-  oemSearchInput.value = event.currentTarget.dataset.oem;
+  getEl('oem-search-input').value = event.currentTarget.dataset.value;
   findOem();
 }
 
@@ -1482,29 +1428,14 @@ function findOem() {
     clearPageSearch();
     clearZipFilters();
   }
-  var oemToFind = oemSearchInput.value.trim();
+  var input = getEl('oem-search-input'),
+      oemToFind = input.value.trim();
   if (oemToFind == '') {
     return;
   }
-  oemSearchInput.dataset.value = oemSearchInput.value;
-  selectCardsOemSearch(oemToFind);
-  showCards();
-  isSearch = true;
-  showElement(clearOemSearchBtn);
-}
-
-// Отбор карточек по OEM:
-
-function selectCardsOemSearch(oem) {
-  selectedItems = curItems.filter(item => {
-    if (item.manuf) {
-      for (let k in item.manuf.oem) {
-        if (k == oem) {
-          return true;
-        }
-      }
-    }
-  });
+  input.dataset.value = input.value;
+  selectCardsZipFilter('oem');
+  showElement('oem-search-clear');
 }
 
 // Запуск очиски поиска по OEM:
@@ -1517,14 +1448,14 @@ function startClearOemSearch() {
 // Очистка поиска по OEM:
 
 function clearOemSearch() {
-  if (!zipSelect) {
+  if (!getEl('zip-select')) {
     return;
   }
   isSearch = false;
   closeOemHints();
-  hideElement(clearOemSearchBtn);
-  oemSearchInput.value = '';
-  oemSearchInput.dataset.value = '';
+  hideElement('oem-search-clear');
+  var input = getEl('oem-search-input');
+  input.value = input.dataset.value = '';
 }
 
 // Удаление значения из поиска OEM при его фокусе и скрытие подсказок:
@@ -1534,19 +1465,21 @@ function onFocusOemInput(input) {
   closeOemHints();
 }
 
-// Скрытие подсказок поиска OEM:
-
-function closeOemHints() {
-  hideElement(oemDropdown);
-  hideElement(oemList);
-  hideElement(oemNotFound);
-}
+// Восстановление последнего найденного значения в поиске OEM при потере им фокуса и скрытие подсказок:
 
 function onBlurOemInput(input) {
   setTimeout(() => {
     onBlurInput(input);
     closeOemHints();
   }, 100);
+}
+
+// Скрытие подсказок в поиске OEM:
+
+function closeOemHints() {
+  hideElement('oem-dropdown');
+  hideElement('oem-list');
+  hideElement('oem-not-found');
 }
 
 //=====================================================================================================
@@ -1618,7 +1551,7 @@ function loadCards(cards) {
 
   if (view === 'list') {
     document.querySelectorAll('.big-card').forEach(card => {
-      renderCarousel(card.querySelector('.carousel'));
+      renderCarousel(getEl('.carousel', card));
       completeCard(card)
     });
   }
@@ -1633,7 +1566,7 @@ function loadCards(cards) {
 // Проверка загружено ли изображение и вставка заглушки при отсутствии изображения:
 
 function checkImg(element) {
-  element.querySelector('img').addEventListener('error', (event) => {
+  getEl('img', element).addEventListener('error', (event) => {
     event.currentTarget.src = '../img/no_img.jpg';
   });
 }
@@ -1671,7 +1604,7 @@ function renderCarousel(carousel, curImg = 0) {
 
     function render(carousel) {
       if (carousel.querySelectorAll('img').length === 0) {
-        carousel.querySelector('.carousel-gallery').insertAdjacentHTML('beforeend', '<div class="carousel-item"><img src="../img/no_img.jpg"></div>');
+        getEl('.carousel-gallery', carousel).insertAdjacentHTML('beforeend', '<div class="carousel-item"><img src="../img/no_img.jpg"></div>');
         startCarouselInit(carousel, curImg);
       }
       startCarouselInit(carousel, curImg);
@@ -1717,7 +1650,7 @@ function scrollGallery() {
 
 function toggleView(event, newView) {
   if (view != newView) {
-    document.querySelector(`.view-${view}`).classList.remove('active');
+    getEl(`.view-${view}`).classList.remove('active');
     event.currentTarget.classList.add('active');
     view = newView;
     var gallery = getEl('gallery');
@@ -1747,7 +1680,7 @@ function closeBigCard(event) {
   if (window.innerWidth < 767) {
     if (!(event.target.classList.contains('toggle-btn') || event.target.closest('.carousel') || event.target.closest('.card-size') || event.target.classList.contains('dealer-button'))) {
       curCard.classList.remove('open');
-      curCard.querySelector('.toggle-btn').setAttribute('tooltip', 'Раскрыть');
+      getEl('.toggle-btn', curCard).setAttribute('tooltip', 'Раскрыть');
       setFiltersPosition();
     }
   }
@@ -1767,15 +1700,15 @@ function showFullCard(id) {
     sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'}
   };
   fillTemplate(data);
-  completeCard(document.querySelector('.full-card'));
+  completeCard(getEl('.full-card'));
 
-  var curCarousel = fullCardContainer.querySelector('.carousel');
+  var curCarousel = getEl('.carousel', fullCardContainer);
   renderCarousel(curCarousel)
   .then(
     result => {
-      if (curCarousel.querySelector('img').src.indexOf('/no_img.jpg') === -1) {
-        curCarousel.querySelector('.carousel-gallery-wrap').addEventListener('click', (event) => showFullImg(event, id));
-        curCarousel.querySelector('.maximize').addEventListener('click', (event) => showFullImg(event, id));
+      if (getEl('img', curCarousel).src.indexOf('/no_img.jpg') === -1) {
+        getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
+        getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
       }
     }
   );
@@ -1805,7 +1738,7 @@ function showFullImg(event, id) {
   };
   fillTemplate(data);
 
-  var curCarousel = fullImgContainer.querySelector('.carousel'),
+  var curCarousel = getEl('.carousel', fullImgContainer),
       curImg = event.currentTarget.closest('.carousel').dataset.img;
 
   renderCarousel(curCarousel, curImg)
@@ -1875,19 +1808,21 @@ function findOnPage(event) {
   curItems.filter(el => el.search.search(regExpSearch) >= 0).forEach(el => selectedItems.push(el));
   showCards();
   isSearch = true;
-  document.getElementById('search-text').textContent = '"' + textToFind + '"';
-  document.getElementById('search-count').textContent = selectedItems.length;
+  getEl('search-text').textContent = '"' + textToFind + '"';
+  getEl('search-count').textContent = selectedItems.length;
   hideElement('filters-info');
   showElement('page-search-clear');
   showElement('search-info', 'flex');
 }
 
-// Очистка поиска по странице:
+// Запуск очиски поиска по странице:
 
 function startClearPageSearch() {
   clearSearchResult();
   clearPageSearch();
 }
+
+// Очистка поиска по странице:
 
 function clearPageSearch() {
   var pageSearch = getEl('page-search');
@@ -1905,6 +1840,8 @@ function clearPageSearch() {
 // Разворачивание поля поиска в шапке сайта:
 
 function openPageSearch() {
-  getEl('page-search').classList.add('open');
+  var input = getEl('page-search');
+  onFocusInput(input);
+  input.classList.add('open');
   getEl('page-search-input').focus();
 }

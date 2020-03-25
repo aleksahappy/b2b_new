@@ -175,28 +175,29 @@ function saveInCart(id, qty, options) {
   if (!cart[cartId]) {
     cart[cartId] = {};
   }
-  if (!qty) {
+  if (qty) {
+    if (cart[cartId][id] && cart[cartId][id].qty == qty) {
+      return;
+    }
+    if (!cart[cartId][id]) {
+      cart[cartId][id] = {};
+    }
+    cart[cartId][id].id = id.replace('id_', '');
+    cart[cartId][id].qty = qty;
+    cart[cartId][id].cartId = cartId;
+    cart[cartId][id].actionName = '';
+
+    for (let key in options) {
+      cart[cartId][id][key] = options[key];
+      if (key == 'actionId' && actions[options[key]]) {
+        cart[cartId][id].actionName = actions[options[key]].title;
+      }
+    }
+  } else {
     if (cart[cartId][id]) {
       delete cart[cartId][id];
-      cartSentServer();
-    }
-    return;
-  }
-  if (cart[cartId][id] && cart[cartId][id].qty == qty) {
-    return;
-  }
-  if (!cart[cartId][id]) {
-    cart[cartId][id] = {};
-  }
-  cart[cartId][id].id = id.replace('id_', '');
-  cart[cartId][id].qty = qty;
-  cart[cartId][id].cartId = cartId;
-  cart[cartId][id].actionName = '';
-
-  for (let key in options) {
-    cart[cartId][id][key] = options[key];
-    if (key == 'actionId' && actions[options[key]]) {
-      cart[cartId][id].actionName = actions[options[key]].title;
+    } else {
+      return;
     }
   }
 
@@ -207,6 +208,8 @@ function saveInCart(id, qty, options) {
   cartSentServer();
 }
 
+
+
 // С отправкой на сервер только изменившихся данных:
 
 // function saveInCart(id, qty, options) {
@@ -214,7 +217,7 @@ function saveInCart(id, qty, options) {
 //   if (!cart[cartId]) {
 //     cart[cartId] = {};
 //   }
-//   if (qty == 0 && !cart[cartId][id]) {
+//   if (!qty && !cart[cartId][id]) {
 //     return;
 //   }
 //   if (cart[cartId][id] && cart[cartId][id].qty == qty) {
@@ -236,7 +239,7 @@ function saveInCart(id, qty, options) {
 //   cartChanges[id] = cart[cartId][id];
 //   cartSentServer();
 
-//   if (options.qty == 0) {
+//   if (!qty) {
 //     delete cart[cartId][id];
 //   }
 // }
@@ -703,7 +706,6 @@ function changeCart(event) {
 // Изменение количества выбранного товара:
 
 function changeValue(sign, qty, totalQty) {
-  console.log(sign, qty, totalQty);
   if (sign) {
     if (sign == '-') {
       if (qty > 0) {
@@ -1001,7 +1003,7 @@ function deleteSelected() {
         cartTable.firstChild.removeChild(cartTable.querySelector(`.bonus[data-id="${id}"]`));
       } else {
         cartTable.firstChild.removeChild(cartTable.querySelector(`[data-id="${id}"]`));
-        saveInCart(id);
+        saveInCart(id, 0);
       }
     });
     checkAllBtn.classList.remove('checked');
