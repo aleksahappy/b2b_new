@@ -29,8 +29,8 @@ var isSearch;
 if (isCart) {
   var cartId = pageId,
       cart = {},
-      cartTotals = {};
-      // cartChanges = {};
+      cartTotals = {},
+      cartChanges = {};
 }
 
 //=====================================================================================================
@@ -109,9 +109,14 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       resolve(request.responseText);
     });
     if (data) {
+      var requestData = {
+        sessid: getCookie('iam'),
+        data: data
+      };
+      console.log(requestData);
       request.open('POST', url);
       request.setRequestHeader('Content-type', type);
-      request.send(data);
+      request.send(JSON.stringify(requestData));
     } else {
       request.open('GET', url);
       request.send();
@@ -191,30 +196,35 @@ function updateCartTotals() {
 // Получение данных корзины с сервера:
 
 function getCart(totals = false) {
-  var url;
+  var url, data;
   if (totals) {
-    url = `${urlRequest.api}baskets/ajax.php?action=get_user_cart_total`;
+    url = `${urlRequest.api}baskets/get_total.php`;
+    data = {};
   } else {
-    url = `${urlRequest.api}baskets/ajax.php?action=get_user_cart&cart_type=${cartId}`;
+    url = `${urlRequest.api}baskets/get_cart.php`;
+    data = {'cart_type': cartId};
   }
   return new Promise((resolve, reject) => {
-    sendRequest(url)
+    sendRequest(url, data)
     .then(
       result => {
         if (!result) {
           reject('Корзина пустая');
         } else if (totals && JSON.stringify(cartTotals) === result) {
+          console.log(JSON.parse(result));
           reject('Итоги не изменились');
-        } else if (JSON.stringify(cart[cartId]) === result) {
+        } else if (!totals && JSON.stringify(cart[cartId]) === JSON.stringify(JSON.parse(result)[cartId])) {
+          console.log(JSON.parse(result)[cartId]);
           reject('Корзина не изменилась');
         } else {
           if (totals) {
-            console.log(result);
+            console.log(JSON.parse(result));
             console.log('Итоги обновились');
             cartTotals = JSON.parse(result);
           } else {
+            console.log(JSON.parse(result)[cartId]);
             console.log('Корзина обновилась');
-            cart[cartId] = JSON.parse(result);
+            cart[cartId] = JSON.parse(result)[cartId];
           }
           resolve();
         }

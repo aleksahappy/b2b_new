@@ -558,10 +558,6 @@ body {
   width: calc(100% - 22em);
 }
 
-[data-view="product"] #gallery {
-  display: flex;
-}
-
 #gallery-notice {
   display: none;
   width: calc(100% - 22em);

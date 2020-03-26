@@ -43,15 +43,15 @@
                     </a>
                   </div>
                   <div class="row">
-                    <a class="item catalog" href="../equipment/" data-href="equip" data-level="1" data-title="Экипировка" onclick="openPage(event)">Экипировка</a>
-                    <a id="cart-equip" class="item cart-info row" href="../equipment/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
+                    <a class="item catalog" href="../equip/" data-href="equip" data-level="1" data-title="Экипировка" onclick="openPage(event)">Экипировка</a>
+                    <a id="cart-equip" class="item cart-info row" href="../equip/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
                       <div class="cart icon"></div>
                       <div class="qty-short">0</div>
                     </a>
                   </div>
                   <div class="row">
-                    <a class="item catalog" href="../snowmobiles/">Снегоходы</a>
-                    <a id="cart-snow" class="item cart-info row" href="../snowmobiles/?cart">
+                    <a class="item catalog" href="../snow/">Снегоходы</a>
+                    <a id="cart-snow" class="item cart-info row" href="../snow/?cart">
                       <div class="cart icon"></div>
                       <div class="qty-short">0</div>
                     </a>
@@ -111,16 +111,16 @@
       <div class="header-menu">
         <div class="container row">
           <div class="catalog row">
-            <a class="topmenu-item active" href="../equipment/" data-href="equip" data-level="1" data-title="Экипировка" onclick="openPage(event)">Экипировка</a>
-            <a class="submenu-item" href="../equipment/?odegda" data-href="odegda" data-level="2" data-title="Одежда" onclick="openPage(event)">Одежда</a>
-            <a class="submenu-item" href="../equipment/?obuv" data-href="obuv" data-level="2" data-title="Обувь" onclick="openPage(event)">Обувь</a>
-            <a class="submenu-item" href="../equipment/?shlem" data-href="shlem" data-level="2" data-title="Шлемы" onclick="openPage(event)">Шлемы</a>
-            <a class="submenu-item" href="../equipment/?optic" data-href="optic" data-level="2" data-title="Оптика" onclick="openPage(event)">Оптика</a>
-            <a class="submenu-item" href="../equipment/?snarag" data-href="snarag" data-level="2" data-title="Снаряжение" onclick="openPage(event)">Снаряжение</a>
-            <a class="submenu-item" href="../equipment/?zashita" data-href="zashita" data-level="2" data-title="Защита" onclick="openPage(event)">Защита</a>
-            <a class="submenu-item" href="../equipment/?sumruk" data-href="sumruk" data-level="2" data-title="Сумки и рюкзаки" onclick="openPage(event)">Сумки и рюкзаки</a>
-            <a class="submenu-item" href="../equipment/?sale" data-href="sale" data-level="2" data-title="Распродажа" onclick="openPage(event)">Распродажа!</a>
-            <a class="submenu-item" href="../equipment/?merchandising" data-href="merchandising" data-level="2" data-title="Мерчандайзинг" onclick="openPage(event)">Мерчандайзинг</a>
+            <a class="topmenu-item active" href="../equip/" data-href="equip" data-level="1" data-title="Экипировка" onclick="openPage(event)">Экипировка</a>
+            <a class="submenu-item" href="../equip/?odegda" data-href="odegda" data-level="2" data-title="Одежда" onclick="openPage(event)">Одежда</a>
+            <a class="submenu-item" href="../equip/?obuv" data-href="obuv" data-level="2" data-title="Обувь" onclick="openPage(event)">Обувь</a>
+            <a class="submenu-item" href="../equip/?shlem" data-href="shlem" data-level="2" data-title="Шлемы" onclick="openPage(event)">Шлемы</a>
+            <a class="submenu-item" href="../equip/?optic" data-href="optic" data-level="2" data-title="Оптика" onclick="openPage(event)">Оптика</a>
+            <a class="submenu-item" href="../equip/?snarag" data-href="snarag" data-level="2" data-title="Снаряжение" onclick="openPage(event)">Снаряжение</a>
+            <a class="submenu-item" href="../equip/?zashita" data-href="zashita" data-level="2" data-title="Защита" onclick="openPage(event)">Защита</a>
+            <a class="submenu-item" href="../equip/?sumruk" data-href="sumruk" data-level="2" data-title="Сумки и рюкзаки" onclick="openPage(event)">Сумки и рюкзаки</a>
+            <a class="submenu-item" href="../equip/?sale" data-href="sale" data-level="2" data-title="Распродажа" onclick="openPage(event)">Распродажа!</a>
+            <a class="submenu-item" href="../equip/?merchandising" data-href="merchandising" data-level="2" data-title="Мерчандайзинг" onclick="openPage(event)">Мерчандайзинг</a>
           </div>
           <div class="info row">
             <div id="page-search-icon" class="search icon white search-manage" onclick="openPageSearch()"></div>
@@ -131,7 +131,7 @@
               </div>
               <div id="page-search-clear" class="close icon" onclick="startClearPageSearch()"></div>
             </form>
-            <a id="header-cart" class="row" href="../equipment/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
+            <a id="header-cart" class="row" href="../equip/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="openPage(event)">
               <div class="amount"><span>0</span>&nbsp;руб.</div>
               <div class="cart icon white">
                 <div class="qty in-circle row">0</div>
@@ -497,7 +497,7 @@
         <div id="cart">
           <div id="cart-empty">
             <div class="title">Ваша корзина пуста</div>
-            <a id="catalog-link" class="active btn" href="../equipment/" data-href="_equip" data-level="1" onclick="openPage(event)">Перейти в каталог товаров</a>
+            <a id="catalog-link" class="active btn" href="../equip/" data-href="equip" data-level="1" onclick="openPage(event)">Перейти в каталог товаров</a>
             <div class="load-cart">
               <textarea id="load-text" class="text" placeholder="Артикул Количество
 Артикул Количество
