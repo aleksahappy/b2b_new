@@ -135,7 +135,13 @@ function startPage() {
   setPaddingToBody();
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
-    updateCartTotals();
+    getCart('totals')
+    .then(result => {
+      renderCatalogs();
+    }, reject => {
+      console.log(reject);
+      renderCatalogs();
+    });
   }
 }
 
@@ -187,7 +193,7 @@ function showUserInfo(userInfo) {
 function updateCartTotals() {
   getCart('totals')
   .then(result => {
-    changeCartInHeader();
+    renderCatalogs();
   }, reject => {
     console.log(reject);
   });
@@ -236,67 +242,29 @@ function getCart(totals = false) {
   });
 }
 
-// Отображение информации о корзине в шапке сайта:
+// Создание списка каталогов и корзин в шапке сайта:
 
-function changeCartInHeader() {
-  if (isCart) {
-    var headerCart = getEl('header-cart');
-    if (headerCart) {
-      var amount = headerCart.querySelector('.amount span'),
-          qty = headerCart.querySelector('.qty');
-
-      if (cartTotals[cartId]) {
-        amount.textContent = cartTotals[cartId].sum.toLocaleString();
-        if (cartTotals[cartId].qty > 0) {
-          if (cartTotals[cartId].qty > 99) {
-            qty.textContent = '99';
-          } else {
-            qty.textContent = cartTotals[cartId].qty;
-          }
-          showElement(qty);
-        } else {
-          hideElement(qty);
-        }
-      } else {
-        amount.textContent = 0;
-        qty.textContent = 0;
-        hideElement(qty);
-      }
-    }
-    for (let key in cartTotals) {
-      changeCatalogCart(key, cartTotals[key]);
-    }
+function renderCatalogs() {
+  if (!isCart) {
+    return;
   }
-}
-
-// Вывод информации обо всех имеющихся корзинах в шапке сайта:
-
-function changeCatalogCart(cartName, totals) {
-  var curCart = getEl(`cart-${cartName}`);
-  if (curCart) {
-    var qty = curCart.querySelector('.qty'),
-        qtyShort = curCart.querySelector('.qty-short'),
-        amount = curCart.querySelector('.amount');
-    if (qty) {
-      qty.textContent = totals.qty;
-    }
-    if (qtyShort) {
-      if (totals.qty > 0) {
-        qtyShort.classList.add('full');
-        if (totals.qty > 99) {
-          qtyShort.textContent = '99+';
-        } else {
-          qtyShort.textContent = totals.qty;
-        }
-      } else {
-        qtyShort.classList.remove('full');
-        qtyShort.textContent = 0;
+  var catalogItems = JSON.parse(JSON.stringify(cartTotals));
+  catalogItems.forEach(el => {
+    if (el.qty > 0) {
+      el.isFull = 'full';
+      if (el.qty > 99) {
+        el.qty = '99+';
       }
+    } else {
+      el.isFull = '';
     }
-    if (amount) {
-      amount.textContent = totals.sum;
-    }
-  }
+    el.sum = Math.ceil(el.sum).toLocaleString('ru-RU');
+  });
+  var data = {
+    area: 'catalogs',
+    items: catalogItems
+  };
+  fillTemplate(data);
 }
 
 //=====================================================================================================
@@ -1183,7 +1151,7 @@ function Table(obj, data) {
       this.itemsToLoad.forEach(el => {
         total += parseFloat(el[result.dataset.key].replace(' ', ''), 10);
       });
-      result.textContent = Math.ceil(total).toLocaleString();
+      result.textContent = Math.ceil(total).toLocaleString('ru-RU');
     });
   }
 
@@ -1497,7 +1465,7 @@ function fillEl(data, items, temp) {
 function replaceInTemp(key, value, temp, sign) {
   var sign = sign || '#',
       regex = key ? new RegExp(sign + key + sign, 'gi') : new RegExp(sign + 'item' + sign, 'gi'),
-      value = typeof value === 'string' ? value : '';
+      value = (typeof value === 'string' || typeof value === 'number') ? value : '';
   return temp.replace(regex, value);
 }
 

@@ -110,7 +110,7 @@
   justify-content: flex-start;
 }
 
-#cart-info .discount .amount {
+#cart-info .discount .sum {
   padding-right: 1em;
 }
 
@@ -346,12 +346,12 @@
 
 .cart-row .articul,
 .cart-row .action,
-.cart-row .amount {
+.cart-row .prop.qty {
   justify-content: center;
 }
 
 .cart-row .price,
-.cart-row .total {
+.cart-row .sum {
   justify-content: flex-end;
 }
 
@@ -364,44 +364,22 @@
   text-align: center;
 }
 
-.cart-row.not-available .list-wrap .qty,
-.cart-row.not-available .list-wrap .bonus {
-  display: none;
-}
-
-.cart-row.not-available .list-wrap .message {
-  display: flex;
-}
-
-.cart-row.bonus .list-wrap .qty,
-.cart-row.bonus .list-wrap .message {
-  display: none;
-}
-
-.cart-row.bonus .list-wrap .bonus {
-  display: flex;
-}
-
-.cart-row .amount > .qty {
+.cart-row .prop.qty > .qty {
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 
-.cart-row .amount > .qty > div {
+.cart-row .prop.qty  > .qty > div {
   width: 8em;
 }
 
-.cart-row .amount .available-qty {
-  font-size: 0.9em;
-}
-
-.cart-row.bonus .amount .bonus {
+.cart-row.bonus .prop.qty .bonus {
   font-weight: 700;
 }
 
 .cart-row.bonus .price .value,
-.cart-row.bonus .total .value {
+.cart-row.bonus .sum .value {
   color: #CE0014;
 }

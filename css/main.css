@@ -1079,7 +1079,7 @@ form.search .close.icon {
   margin-right: 0.5em;
 }
 
-.header-top .cart-info .qty-short {
+.header-top .cart-info .qty {
   width: 3em;
   color: #666666;
   text-align: center;
@@ -1087,7 +1087,7 @@ form.search .close.icon {
   border-radius: 50px;
 }
 
-.header-top .cart-info .qty-short.full {
+.header-top .cart-info .qty.full {
   color: #FFFFFF;
   background-color: #E74C3C;
 }
@@ -1427,13 +1427,8 @@ form.search .close.icon {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 60vh;
   margin: 5em auto;
-}
-
-.registr-container.pop-up-container {
-  display: flex;
-  background-color: initial;
-  margin: 0;
 }
 
 .registr {
