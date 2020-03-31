@@ -4,12 +4,12 @@
 // Первоначальные данные для работы:
 //=====================================================================================================
 
-// Области с шаблонами карточки товара в галерее (сохраняем, потому что эти данные перезапишутся в DOM):
+// Области с шаблонами карточки товара в галерее (сохраняем, потому что эти данные перезапишутся):
 
 var minCard = getEl('.min-card'),
     bigCard = getEl('.big-card');
 
-// Динамические переменные:
+// Динамически изменяемые переменные:
 
 var pageUrl = pageId,
     view = 'list',
@@ -42,7 +42,7 @@ if (view != 'product') {
 if (isCart) {
   window.addEventListener('focus', updateCart);
   if (view === 'product') {
-    getProduct(location.search.replace('?',''))
+    getItems(location.search.replace('?',''))
     .then(
       result => {
         window.items = [result];
@@ -116,7 +116,7 @@ function convertItems() {
 // Преобразование данных по одному товару:
 
 function convertItem(item) {
-  var size, id, options, option, manuf, manufTable, isManuf, manufRow, manufTableRow, value;
+  var size, options, option, manuf, manufTable, isManuf, manufRow, manufTableRow, value;
 
   // Преобразование и добавление данных о картинках:
   item.images = item.images.toString().split(';');
@@ -143,6 +143,9 @@ function convertItem(item) {
     }
   }
 
+  // Добавление данных о названии акции:
+  item.action_name = window[actions] && actions[item.action_id] ? actions[item.action_id].title : '';
+
   // Добавление данных о торговой наценке:
   item.markup = ((item.price_user1 - item.price_cur1) / item.price_cur1 * 100).toFixed(0);
 
@@ -157,13 +160,13 @@ function convertItem(item) {
       object_id: item.object_id,
       free_qty: item.free_qty,
       arrive_qty: item.arrive_qty,
-      arrive_date: item.arrive_date,
+      arrive_date: item.arrive_date
     };
   }
   for (let key in item.sizes) {
     size = item.sizes[key];
     size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
-    size.isClick = size.size ? '' : 'click';
+    size.isClick = cartId === 'equip' ? '' : 'click';
     size.isFree = size.free_qty > 0 ? '' : 'displayNone';
     size.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
     size.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
@@ -172,14 +175,15 @@ function convertItem(item) {
     item.search.push(size.articul);
 
     //Создание объекта в разрезе размеров для корзины:
-    id = item.sizes[key].object_id;
-    cartItems['id_' + id] = Object.assign({}, size);
-    cartItems['id_' + id].id = id;
-    for (let key in item) {
-      if (key === 'object_id' || key !== 'sizes' && !cartItems['id_' + id][key]) {
-        cartItems['id_' + id][key] = item[key];
-      }
-    }
+    var sizeObj = cartItems['id_' + item.sizes[key].object_id] = Object.assign({}, size);
+    sizeObj.image = item.image;
+    sizeObj.title = item.title;
+    sizeObj.price_cur = item.price_cur;
+    sizeObj.price_cur1 = item.price_cur1;
+    sizeObj.price_user = item.price_user;
+    sizeObj.price_user1 = item.price_user1;
+    sizeObj.action_id = item.action_id;
+    sizeObj.action_name = action_name;
   }
 
   // Преобразование данных о производителе из JSON в объект:

@@ -16,14 +16,8 @@ var website = document.body.dataset.website,
     },
     loader = document.getElementById('loader'),
     message = document.getElementById('message-container');
-if (loader) {
-  loader = new Loader(loader);
-}
-if (message) {
-  message = new Message(message);
-}
 
-// Динамические переменные:
+// Динамически изменяемые переменные:
 
 var isSearch;
 if (isCart) {
@@ -31,6 +25,15 @@ if (isCart) {
       cart = {},
       cartTotals = {},
       cartChanges = {};
+}
+
+// Инициализация прелоадера и поля с сообщениями:
+
+if (loader) {
+  loader = new Loader(loader);
+}
+if (message) {
+  message = new Message(message);
 }
 
 //=====================================================================================================
