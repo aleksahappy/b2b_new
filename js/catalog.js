@@ -81,6 +81,10 @@ function showPage() {
 //=====================================================================================================
 // // Преобразование исходных данных:
 //=====================================================================================================
+
+// Фильтрация:
+// - входящих данных для страниц ЗИПа
+
 // Добавление:
 // - данных для поиска по странице
 // - данных о картинке в малой карточке
@@ -101,7 +105,6 @@ function convertItems() {
   if (!window.items) {
     return;
   }
-  // Фильтрация входящих данных для страниц ЗИПа:
   if (pageId == 'boats') {
     items = items.filter(el => el.lodkimotor == 1);
   }
@@ -109,20 +112,44 @@ function convertItems() {
     items = items.filter(el => el.snegohod == 1);
   }
   items.forEach(item => convertItem(item));
-  // Сортировка по id категории:
-  items.sort(dynamicSort(('catid')));
+  items.sort(dynamicSort(('catid')));  // Сортировка по id категории:
 }
 
 // Преобразование данных по одному товару:
 
 function convertItem(item) {
-  var size, options, option, manuf, manufTable, isManuf, manufRow, manufTableRow, value;
+  if (item.manuf) {// Преобразование данных о производителе из JSON в объект:
+    var manuf;
+    try {
+      manuf = JSON.parse(item.manuf);
+    } catch(error) {
+      item.manuf = 0;
+    }
+    item.manuf = manuf;
+    item.isManuf = item.manuf && Object.keys(item.manuf.man).length > 1  ? '' : 'displayNone';
+  }
 
-  // Преобразование и добавление данных о картинках:
+  addImgInfo(item);
+  addPriceInfo(item);
+  addMarkupInfo(item);
+  addActionInfo(item);
+  addSizeInfo(item);
+  addOptionsInfo(item);
+  addManufInfo(item);
+  addSearchInfo(item);
+  item.isDesc = item.desc ? '' : 'displayNone';
+}
+
+// Преобразование и добавление данных о картинках:
+
+function addImgInfo(item) {
   item.images = item.images.toString().split(';');
   item.image = `http://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
+}
 
-  // Добавление данных о текущей цене и отображение/скрытие старой:
+// Добавление данных о текущей цене и отображении/скрытии старой:
+
+function addPriceInfo(item) {
   if (cartId.indexOf('preorder') >= 0) {
     item.price_cur = item.price_preorder1 > 0 ? item.price_preorder : item.price;
     item.price_cur1 = item.price_preorder1 > 0 ? item.price_preorder1 : item.price1;
@@ -142,17 +169,40 @@ function convertItem(item) {
       item.isBorder = item.price_action1 > 0 ? '' : 'borderNone';
     }
   }
+}
 
-  // Добавление данных о названии акции:
-  item.action_name = window[actions] && actions[item.action_id] ? actions[item.action_id].title : '';
+// Добавление данных о торговой наценке:
 
-  // Добавление данных о торговой наценке:
+function addMarkupInfo(item) {
   item.markup = ((item.price_user1 - item.price_cur1) / item.price_cur1 * 100).toFixed(0);
+}
 
-  // Добавление данных для поиска по странице:
-  item.search = [item.title, item.brand, item.cat, item.subcat];
+// Проверка действия акции и добавление данных о ней:
 
-  // Добавление данных для создания размеров и общего количества:
+function addActionInfo(item) {
+  if (item.action_id > 0) {
+    if (window.actions) {
+      var action = actions[item.action_id];
+      if (action && checkDate(action.begin, action.expire)) {
+        item.actiontitle = action.title;
+        item.actioncolor = action.color;
+        if (action.descr) {
+          item.action_descr = action.descr;
+          item.action_tooltip = action.descr.replace(/<br>/gi, '&#10')
+        }
+      } else {
+        item.action_id = '0';
+      }
+    }
+  }
+  item.actiontitle = item.actiontitle ? item.actiontitle : '';
+  item.isAction = item.actiontitle ? '' : 'hidden';
+  item.isActionDescr = item.descr ? '' : 'dispayNone';
+}
+
+// Добавление данных о размерах, общем количестве и создание cartItems (использовать после addActionInfo):
+
+function addSizeInfo(item) {
   if (!item.sizes || item.sizes == 0) {
     item.sizes = {};
     item.sizes[0] = {
@@ -163,7 +213,8 @@ function convertItem(item) {
       arrive_date: item.arrive_date
     };
   }
-  for (let key in item.sizes) {
+  var size;
+  for (var key in item.sizes) {
     size = item.sizes[key];
     size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
     size.isClick = cartId === 'equip' ? '' : 'click';
@@ -171,11 +222,7 @@ function convertItem(item) {
     size.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
     size.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
 
-    // Добавление данных для поиска по странице:
-    item.search.push(size.articul);
-
-    //Создание объекта в разрезе размеров для корзины:
-    var sizeObj = cartItems['id_' + item.sizes[key].object_id] = Object.assign({}, size);
+    var sizeObj = cartItems['id_' + size.object_id] = Object.assign({}, size);
     sizeObj.image = item.image;
     sizeObj.title = item.title;
     sizeObj.price_cur = item.price_cur;
@@ -183,98 +230,98 @@ function convertItem(item) {
     sizeObj.price_user = item.price_user;
     sizeObj.price_user1 = item.price_user1;
     sizeObj.action_id = item.action_id;
-    sizeObj.action_name = action_name;
+    sizeObj.action_name = sizeObj.total_qty > 0 ? (item.actiontitle ? item.actiontitle: 'Cклад') : 'Нет в наличии';
   }
+}
 
-  // Преобразование данных о производителе из JSON в объект:
-  if (item.manuf) {
-    try {
-      manuf = JSON.parse(item.manuf);
-    } catch(error) {
-      item.manuf = 0;
+
+// Добавление данных для создания списка характеристик:
+
+function addOptionsInfo(item) {
+  if (!item.options || item.options == 0) {
+    return;
+  }
+  item.options = [];
+  var option;
+  for (var key in item.options) {
+    option = item.options[key];
+    if (key == 32) {
+      option = convertYears(item.options[key]);
+    } else {
+      option = option
+      .replace(/\,/gi, ', ')
+      .replace(/\//gi, '/ ')
     }
-    item.manuf = manuf;
-  }
-
-  // Нужно ли заполнять таблицу о производителе:
-  isManuf = item.manuf && Object.keys(item.manuf.man).length > 1 ? true : false;
-
-  // Добавление данных для создания списка характеристик:
-  if (item.options && item.options != 0) {
-    options = [];
-    for (let key in item.options) {
-      option = item.options[key];
-      if (key == 32) {
-        option = convertYears(item.options[key]);
-      } else {
-        option = option
-        .replace(/\,/gi, ', ')
-        .replace(/\//gi, '/ ')
-      }
-      if ((key == 7 || key == 31 || key == 32 || key == 33) && isManuf) {
-        continue;
-      } else {
-        options.push({
-          optitle: optnames[key],
-          option: option
-        });
-        // Добавление данных для поиска по странице:
-        item.search.push(optnames[key] + ' ' + option.replace('"', ''));
-      }
+    if ((key == 7 || key == 31 || key == 32 || key == 33) && item.isManuf) {
+      continue;
+    } else {
+      item.options.push({
+        optitle: optnames[key],
+        option: option
+      });
     }
-    item.options = options;
   }
+}
 
-  // Преобразование данных о производителе для фильтров по производителю и для построения таблицы:
+// Преобразование данных о производителе для фильтров и построения таблицы:
 
-  if (item.manuf) {
-    manuf = [];
-    manufTable = [];
-    for (var man in item.manuf.man) {
-      manufRow = {};
-      manufTableRow = {};
-      manufRow.man = manufTableRow.man = man;
-      manufRow.oem = manufRow.model = manufRow.years = '&ndash;';
-      for (var k in item.manuf) {
-        if (k !== 'man') {
-          value = [];
-          for (var kk in item.manuf[k]) {
-            for (var kkk in item.manuf[k][kk]) {
-              if (kkk == man) {
-                value.push(kk);
-              }
+function addManufInfo(item) {
+  if (item.isManuf) {
+    return;
+  }
+  var manuf = [],
+      manufTable = [],
+      manufRow, manufTableRow, value;
+  for (var man in item.manuf.man) {
+    manufRow = {};
+    manufTableRow = {};
+    manufRow.man = manufTableRow.man = man;
+    manufRow.oem = manufRow.model = manufRow.years = '&ndash;';
+    for (var k in item.manuf) {
+      if (k !== 'man') {
+        value = [];
+        for (var kk in item.manuf[k]) {
+          for (var kkk in item.manuf[k][kk]) {
+            if (kkk == man) {
+              value.push(kk);
             }
           }
-          manufRow[k] = value;
-          value = value.join(', ');
-          if (k === 'years') {
-            value = convertYears(value);
-          }
-          manufTableRow[k] = value;
         }
+        manufRow[k] = value;
+        value = value.join(', ');
+        if (k === 'years') {
+          value = convertYears(value);
+        }
+        manufTableRow[k] = value;
       }
-      manuf.push(manufRow);
-      manufTable.push(manufTableRow);
     }
-    item.manuf_filter = manuf;
-    item.manuf_table = manufTable;
+    manuf.push(manufRow);
+    manufTable.push(manufTableRow);
+  }
+  item.manuf_filter = manuf;
+  item.manuf_table = manufTable;
+}
 
+// Добавление данных для поиска по странице (использовать после addSizeInfo, addOptionsInfo и addManufInfo):
+
+function addSearchInfo(item) {
+  item.search = [item.title, item.brand, item.cat, item.subcat];
+  for (let key in item.sizes) {
+    item.search.push(item.sizes[key].articul);
+  }
+  for (let key in item.options) {
+    item.search.push(item.options[key].option.replace('"', ''));
+  }
+  if (item.manuf) {
     for (var k in item.manuf) {
       for (var kk in item.manuf[k]) {
-      // Добавление данных для поиска по странице:
       item.search.push(kk);
       }
     }
   }
-
-  // Отображение/скрытие информации при ее наличии/отсутствии:
-  item.isAction = item.actiontitle || item.action_id > 0 ? '' : 'hidden';
-  item.isManuf = isManuf ? '' : 'displayNone';
-  item.isDesc = item.desc ? '' : 'displayNone';
-
-  // Преобразование данных для поиска по странице в строку с пробелами:
-  item.search = item.search.join(' ,').replace(/\s/, ' ');
+  item.search = item.search.join(',').replace(/\s/, ' '); // Замена любых пробельных символов на пробелы
 }
+
 
 //=====================================================================================================
 // Визуальное отображение контента на странице:

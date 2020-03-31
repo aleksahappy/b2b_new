@@ -256,7 +256,7 @@
             </div>
           </div>
           <div id="gallery" class="row">
-            <div class="min-card card" data-id="#object_id#" data-action-id="#action_id#" onclick="showFullCard(#object_id#)">
+            <div class="min-card card" data-id="#object_id#" onclick="showFullCard(#object_id#)">
               <div class="card-img-wrap">
                 <img class="card-img" src="#image#">
               </div>
@@ -271,7 +271,7 @@
                   </div>
                   <div class="old-price row">
                     <div class="card-action #isAction#">
-                      <div class="action-title" style="background-color: #actioncolor#">#actiontitle#</div>
+                      <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
                     </div>
                     <div class="text light #isOldPrice#">#price#</div>
                   </div>
@@ -294,7 +294,7 @@
                 </div>
               </div>
             </div>
-            <div class="big-card card manage row" data-id="#object_id#" data-action-id="#action_id#" onclick="closeBigCard(event)">
+            <div class="big-card card manage row" data-id="#object_id#" onclick="closeBigCard(event)">
               <div class="container-left row">
                 <div class="carousel" data-type="bigCard">
                   <div class="left-btn"></div>
@@ -322,7 +322,7 @@
                         </div>
                         <div class="old-price row">
                           <div class="card-action #isAction#">
-                            <div class="action-title" style="background-color: #actioncolor#">Акция</div>
+                            <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
                           </div>
                           <div class="text light #isOldPrice#">#price#</div>
                         </div>
@@ -411,7 +411,7 @@
           </div>
         </div>
         <div id="full-card-container" class="pop-up-container" onclick="closePopUp(event)">
-          <div class="full-card card manage pop-up" data-id="#object_id#" data-action-id="#action_id#">
+          <div class="full-card card manage pop-up" data-id="#object_id#">
             <div class="card-head row">
               <div class="card-title">
                 <div class="title">#title#</div>
@@ -446,7 +446,7 @@
                         </div>
                         <div class="old-price row">
                           <div class="card-action #isAction#">
-                            <div class="action-title" style="background-color: #actioncolor#">Акция</div>
+                            <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
                           </div>
                           <div class="text light #isOldPrice#">#price#</div>
                         </div>
@@ -529,9 +529,9 @@
                   <div class="subtitle">Описание товара</div>
                   <div class="text">#desc#</div>
                 </div>
-                <div class="action-desc">
+                <div class="action-desc #isActionDesc#">
                   <div class="subtitle">Условия акции</div>
-                  <div class="text"></div>
+                  <div class="text">#action_descr#</div>
                 </div>
               </div>
             </div>

@@ -308,7 +308,7 @@ body.no-scroll {
   z-index: 1000;
 }
 
-[tooltip][align^="left"]::after {
+[tooltip][text-align="left"]::after {
   text-align: left;
 }
 

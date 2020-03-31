@@ -822,10 +822,19 @@ function convertYears(stringYears) {
 
 function checkDate(start, end) {
   var curDate = new Date(),
-      dateStart = start.split('.'),
-      dateEnd = end.split('.');
-  dateStart = new Date(dateStart[2], dateStart[1] - 1, dateStart[0], 0, 0, 0, 0);
-  dateEnd = new Date(dateEnd[2], dateEnd[1] - 1, dateEnd[0], 23, 59, 59, 999);
+      dateStart, dateEnd;
+  if (!start) {
+    dateStart = new Date(data[0], + data[1] - 1, + data[2] - 1, 0, 0, 0, 0);
+  } else {
+    dateStart = start.split('-');
+    dateStart = new Date(dateStart[0], dateStart[1] - 1, dateStart[2], 0, 0, 0, 0);
+  }
+  if (!end) {
+    dateEnd = new Date(data[0], + data[1] - 1, + data[2] + 1, 0, 0, 0, 0);
+  } else {
+    dateEnd = end.split('-');
+    dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], 23, 59, 59, 999);
+  }
   if (curDate > dateStart && curDate < dateEnd) {
     return true;
   } else {

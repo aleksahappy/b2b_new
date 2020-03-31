@@ -69,7 +69,7 @@ function orderSentServer(event) {
   event.preventDefault()
   loader.show();
   var info = getOrderData();
-  var idList = getIdList(getEl('cart-rows'));
+  var idList = getIdList();
   if (!idList) {
     return;
   }
@@ -472,92 +472,6 @@ function sumLessProc(sum) {
 }
 
 //=====================================================================================================
-// Проверка скидок: !!! ПЕРЕДЕЛАТЬ НА ИСПОЛЬЗОВАНИЕ actions
-//=====================================================================================================
-
-// Проверка наличия акции на товар:
-
-function findDiscount(id) {
-  if (!discounts) {
-    return 0;
-  }
-  var discount = discounts.find(item => {
-    if (item.diart) {
-      for (let key of item.diart) {
-        return key == id ? true : false;
-      }
-    }
-  });
-  if (!discount) {
-    discount = discounts.find(item => !item.diart && checkCondition(item.dcondition));
-  }
-  if (!discount) {
-    return 0;
-  }
-  var relevance = true;
-  if (discount.ddatestart && discount.ddateend) {
-    relevance = checkDate(discount.ddatestart, discount.ddateend)
-  }
-  if (relevance) {
-    return discount;
-  }
-}
-
-// Проверка условия скидки:
-
-function checkCondition(condition) {
-  if (condition.cartId == cartId) {
-    return true;
-  }
-  return false;
-}
-
-// Добавление информации об акции в элемент:
-
-function checkAction(curEl) {
-  if (!window.actions) {
-    return;
-  }
-  var actionId = curEl.dataset.actionId,
-  curAction = actions[actionId];
-  if (!curAction) {
-    if (curEl.classList.contains('cart-row')) {
-      curEl.querySelector('.action .value').textContent = 'Склад';
-    }
-    return;
-  }
-
-  if (curEl.classList.contains('cart-row')) {
-    curEl.classList.add('discount');
-    curEl.querySelector('.action .value').textContent = curAction.title;
-  }
-
-  if (curEl.classList.contains('card')) {
-    curEl.querySelector('.card-action').classList.remove('hidden');
-
-    var title = curEl.querySelector('.action-title');
-    title.textContent = curAction.title;
-    title.style.backgroundColor = '#' + curAction.color;
-
-    var date = curEl.querySelector('.action-date');
-    if (date && curAction.expire) {
-      date.querySelector('span').textContent = curAction.expire;
-      showElement(date);
-    }
-
-    if (curAction.descr) {
-      title.setAttribute('tooltip', curAction.descr.replace(/<br>/gi, ''));
-      title.setAttribute('align', 'left');
-      var desc = curEl.querySelector('.action-desc');
-      if (desc) {
-        desc.querySelector('.text').innerHTML = curAction.descr;
-        showElement(desc);
-      }
-    }
-  }
-}
-
-//=====================================================================================================
 // Изменение данных о количестве:
 //=====================================================================================================
 
@@ -565,10 +479,10 @@ function checkAction(curEl) {
 
 function getIdList(area) {
   var list;
-  if (area === 'card') {
-    list = area.querySelectorAll('.choiced-qty')
-  } else if (area === 'cart') {
-    list = area.querySelectorAll('.cart-row.checked:not(.bonus):not(.not-available)');
+  if (area) {
+    list = area.querySelectorAll('.choiced-qty');
+  } else {
+    list = getEl('cart-rows').querySelectorAll('.cart-row.checked:not(.bonus):not(.not-available)');
   }
   return Array.from(list).map(el => el.dataset.id);
 }
@@ -577,19 +491,15 @@ function getIdList(area) {
 
 function checkCart(card) {
   if (card.classList.contains('min-card')) {
-    var cartInfo = card.querySelector('.cart');
+    var cartInfo = getEl('.cart', card);
     if (cartInfo) {
       var curProduct = curItems.find(item => item.object_id == card.dataset.id),
-          sizeInfo = curProduct.sizes && curProduct.sizes != 0 ? curProduct.sizes : '',
+          sizeInfo = curProduct.sizes,
           totalQty = 0;
-      if (sizeInfo) {
-        for (let el in sizeInfo) {
-          totalQty += getQty(sizeInfo[el].object_id);
-        }
-      } else {
-        totalQty += getQty(curProduct.object_id);
+      for (let el in sizeInfo) {
+        totalQty += getQty(sizeInfo[el].object_id);
       }
-      var qty = cartInfo.querySelector('.qty');
+      var qty = getEl('.qty', cartInfo);
       if (totalQty > 0) {
         if (totalQty > 99) {
           qty.textContent = '99';
@@ -606,11 +516,11 @@ function checkCart(card) {
   } else {
     var input, qty;
     card.querySelectorAll('.card-size').forEach(size => {
-      input = size.querySelector('.choiced-qty');
+      input = getEl('.choiced-qty', size);
       qty = getQty(input.dataset.id);
       input.value = qty;
-      changeColors(size.querySelector('.qty'), qty);
-      changeNameBtn(size.querySelector('.name.click'), qty);
+      changeColors(getEl('.qty', size), qty);
+      changeNameBtn(getEl('.name.click', size), qty);
       changeCardInfo(card);
     });
   }
@@ -625,10 +535,14 @@ function getQty(id) {
   if (info && info[id]) {
     qty = parseInt(info[id].qty, 10);
     totalQty = parseInt(cartItems[id].total_qty, 10);
+    if (totalQty > 0) {
+      return qty > totalQty ? totalQty : qty;
+    } else {
+      return qty;
+    }
   } else {
-    qty = 0;
+    return 0;
   }
-  return qty = qty > totalQty ? totalQty : qty;
 }
 
 // Выбор количества пользователем:
@@ -638,7 +552,7 @@ function changeCart(event) {
       curEl = current.closest('.manage'),
       sign = current.textContent,
       qtyWrap = current.closest('.qty'),
-      input = qtyWrap.querySelector('.choiced-qty'),
+      input = getEl('.choiced-qty', qtyWrap),
       qty = parseInt(input.value, 10),
       id = input.dataset.id,
       totalQty = cartItems['id_' + id].total_qty;
@@ -648,11 +562,10 @@ function changeCart(event) {
   saveInCart(id, qty);
   changeColors(qtyWrap, qty);
   if (curEl.classList.contains('card')) {
-    var clicable = qtyWrap.querySelector('.name.click');
-    changeNameBtn(clicable, qty);
+    changeNameBtn(getEl('.name.click', qtyWrap), qty);
     changeCardInfo(curEl);
     if (curEl.classList.contains('full-card')) {
-      checkCart(gallery.querySelector(`.card[data-id="${curEl.dataset.id}"]`));
+      checkCart(getEl(`.card[data-id="${curEl.dataset.id}"]`, 'gallery'));
     }
   } else {
     changeCartRow(curEl);
@@ -715,24 +628,26 @@ function changeNameBtn(el, qty) {
 // Изменение информации в карточке товара:
 
 function changeCardInfo(card) {
-  var selectInfo = card.querySelector('.select-info'),
-      bonusRow = selectInfo.querySelector('.bonus'),
+  var selectInfo = getEl('.select-info', card),
+      bonusRow = getEl('.bonus', selectInfo),
       idList = getIdList(card),
       totals = countFromCart(idList, false);
 
   if (bonusRow && totals.bonusQty) {
-    var curItem = cartItems[totals.bonusId];
-    bonusRow.querySelector('.bonus-qty span').textContent = totals.bonusQty;
-    bonusRow.querySelector('.bonus-img').src = `http://b2b.topsports.ru/c/productpage/${curItem.image}.jpg`;
-    checkImg(bonusRow);
-    showElement(bonusRow, 'flex');
+    var bonusItem = cartItems[totals.bonusId];
+    if (bonusItem) {
+      getEl('.bonus-qty span', bonusRow).textContent = totals.bonusQty;
+      getEl('.bonus-img', bonusRow).src = bonusItem.image;
+      checkImg(bonusRow);
+      showElement(bonusRow, 'flex');
+    }
   } else {
     hideElement(bonusRow);
   }
 
   if (totals.qty > 0) {
-    card.querySelector('.select-qty span').textContent = totals.qty;
-    card.querySelector('.select-sum span').textContent = totals.amount.toLocaleString('ru-RU');
+    getEl('.select-qty span', card).textContent = totals.qty;
+    getEl('.select-sum span', card).textContent = totals.sum.toLocaleString('ru-RU');
     selectInfo.style.visibility = 'visible';
   } else {
     selectInfo.style.visibility = 'hidden';
@@ -792,23 +707,19 @@ function changeCartRow(row) {
 // Изменение общей информации о корзине:
 
 function changeCartInfo() {
-  var idList = getIdList(getEl('cart-rows')),
-      cartInfo = document.getElementById('cart-info'),
-      cartQty = cartInfo.querySelector('.qty'),
-      cartAmountRetail = cartInfo.querySelector('.amount-retail'),
-      cartAmountOpt = cartInfo.querySelector('.amount-opt'),
-      cartDiscount = cartInfo.querySelector('.cart-discount');
+  var idList = getIdList(),
+      cartInfo = getEl('cart-info'),
+      cartDiscount = getEl('.cart-discount', cartInfo);
   if (idList) {
     var totals = countFromCart(idList);
-    cartQty.textContent = totals.qty;
+    getEl('.qty', cartInfo).textContent = totals.qty;
     showElement('.cart-make-order', 'flex');
-
     if (totals.qty > 0) {
-      cartAmountOpt.textContent = totals.amountResult.toLocaleString('ru-RU');
-      cartAmountRetail.textContent = totals.amountRetail.toLocaleString('ru-RU');
-      if (totals.amountDiscount) {
-        cartDiscount.querySelector('.discount-amount').textContent = totals.amountDiscount.toLocaleString('ru-RU');
-        cartDiscount.querySelector('.discount-percent').textContent = totals.percentDiscount;
+      getEl('.sum-opt', cartInfo).textContent = totals.sum.toLocaleString('ru-RU');
+      getEl('.sum-retail', cartInfo).textContent = totals.sumRetail.toLocaleString('ru-RU');
+      if (totals.sumDiscount) {
+        getEl('.discount-amount', cartDiscount).textContent = totals.sumDiscount.toLocaleString('ru-RU');
+        getEl('.discount-percent', cartDiscount).textContent = totals.percentDiscount;
         showElement(cartDiscount);
       } else {
         hideElement(cartDiscount);
@@ -823,10 +734,10 @@ function changeCartInfo() {
     } else {
       hideElement('.cart-make-order');
     }
-    cartQty.textContent = 0;
+    getEl('.qty', cartInfo).textContent = 0;
   }
-  cartAmountOpt.textContent = 0;
-  cartAmountRetail.textContent = 0;
+  getEl('.sum-opt', cartInfo).textContent = 0;
+  getEl('.sum-retail', cartInfo).textContent = 0;
   hideElement(cartDiscount);
 }
 
