@@ -22,8 +22,8 @@ if (message) {
 
 // Запуск проверки авторизации:
 
-checkAuth();
-// startPage();
+//checkAuth();
+startPage();
 
 // Динамические переменные:
 

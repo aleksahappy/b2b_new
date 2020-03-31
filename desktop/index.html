@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="media_index.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
 
   <body id="desktop" data-website="ts_b2b" data-cart="true">
@@ -227,7 +228,7 @@
 							<div class="data">
 								<!-- График -->
 								<div class="desktop-info">
-									<img src="../img/график и подписи (1).png" alt="">
+                  <div id="donutchart" style="width: 300px; height: 500px;"></div>
 								</div>
 								<!-- Таблица -->
 								<div class="desktop-data">
@@ -1239,7 +1240,8 @@
               <div class="data">
                 <!-- График -->
                 <div class="desktop-info">
-                  <img src="../img/График и подписи.jpg" alt="">
+                  <!-- <img src="../img/График и подписи.jpg" alt=""> -->
+                  <div id="donutchart1" style="width: 600px; height: 500px;"></div>
                 </div>
                 <!-- Таблица -->
                 <div class="desktop-data">
@@ -2238,9 +2240,9 @@
         </div>
       </div>
     </div>
-
+    
     <script src="../js/main.js"></script>
     <script src="desktop.js"></script>
-
+    <script src="../js/charts.js"></script>
   </body>
 </html>
