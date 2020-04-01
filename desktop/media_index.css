@@ -77,6 +77,17 @@
   svg{
     width: 30px;
   }
+  #myChart{
+    margin-top: 3vw;
+  }
+
+  #myChart1{
+    margin-top: 3vw;
+  }
+  .chart-info{
+    left: 45%;
+    top: 12vw;
+  }
 }
 
 @media (max-width: 1312px) {
