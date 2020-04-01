@@ -417,9 +417,9 @@
 
 .chart-info{
   position: absolute;
+  width: 200px;
   left: 38%;
   top: 14vw;
-  width: 100%;
   height: 2vw;
   color: #34495E;
 }
