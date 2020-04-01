@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="media_index.css">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
   </head>
 
   <body id="desktop" data-website="ts_b2b" data-cart="true">
@@ -228,7 +228,13 @@
 							<div class="data">
 								<!-- График -->
 								<div class="desktop-info">
-                  <div id="donutchart" style="width: 300px; height: 500px;"></div>
+                  <div class="free-product">0</div>
+                  <div class="dept-sum">0</div>
+                  <div class="chart-info">
+                    <div class="donut-text">Итого к оплате</div>
+                    <div class="donut-sum"></div>
+                  </div>
+                  <canvas id="myChart"></canvas>
 								</div>
 								<!-- Таблица -->
 								<div class="desktop-data">
@@ -1240,8 +1246,13 @@
               <div class="data">
                 <!-- График -->
                 <div class="desktop-info">
-                  <!-- <img src="../img/График и подписи.jpg" alt=""> -->
-                  <div id="donutchart1" style="width: 600px; height: 500px;"></div>
+                  <div class="stock-product">0</div>
+                  <div class="stock-sum">0</div>
+                  <div class="chart-info">
+                    <div class="donut-text">Итого товаров</div>
+                    <div class="donut-sum" id="donut-sum1"></div>
+                  </div>
+                  <canvas id="myChart1"></canvas>
                 </div>
                 <!-- Таблица -->
                 <div class="desktop-data">
