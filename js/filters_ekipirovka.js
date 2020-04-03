@@ -115,5 +115,3 @@ var dataFilters = [{
 //   key: 'Емкость',
 //   items: sortObjByKey(createFilterData(items, '1262'), 'number from string')
 // }];
-
-

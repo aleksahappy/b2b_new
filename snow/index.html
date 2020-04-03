@@ -560,7 +560,7 @@
         <div id="cart">
           <div id="cart-empty">
             <div class="title">Ваша корзина пуста</div>
-            <a id="catalog-link" class="active btn" href="../boats/" data-href="boats" data-level="1" onclick="openPage(event)">Перейти в каталог товаров</a>
+            <a id="catalog-link" class="active btn" href="../snow/" data-href="snow" data-level="1" onclick="openPage(event)">Перейти в каталог товаров</a>
             <div class="load-cart">
               <textarea id="load-text" class="text" placeholder="Артикул Количество
 Артикул Количество
@@ -660,9 +660,9 @@
                     <div>Наименование</div>
                     <div class="copy-container col">
                       <div class="copy basic btn" onclick="copyCart()">Копировать корзину</div>
-                      <table id="cart-table">
-                        <tbody>
-                          <tr data-id="#id#">
+                      <table>
+                        <tbody id="cart-table">
+                          <tr class="cart-table-row #isBonus#" data-id="#object_id#">
                             <td>#title#</td>
                             <td>#articul#</td>
                             <td class="qty">#qty#</td>
@@ -703,7 +703,7 @@
             </div>
             <div class="cart-list">
               <div id="cart-rows" class="table-body">
-                <div class="cart-row row manage checked #status#" data-id="#id#" data-action-id="#action_id#">
+                <div class="cart-row row manage checked #isAvailable# #isBonus#" data-id="#object_id#">
                   <div class="check" onclick="toggleInCart(event)">
                     <div class="checkbox icon"></div>
                   </div>
@@ -721,8 +721,8 @@
                       <div class="value">#articul#</div>
                     </div>
                     <div class="prop action">
-                      <div class="title">Акция</div>
-                      <div class="value">&mdash;</div>
+                      <div class="title">Тип заказа</div>
+                      <div class="value">#action_name#</div>
                     </div>
                     <div class="prop qty">
                       <div class="title">Кол-во штук</div>
@@ -730,7 +730,7 @@
                         <div>
                           <div class="qty-box row">
                             <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                            <input class="choiced-qty text light" type="text" value="#qty#" data-id="#id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <input class="choiced-qty text light" type="text" value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
                             <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
                           </div>
                           <div class="tooltips row">
@@ -750,7 +750,7 @@
                         </div>
                       </div>
                       <div class="value message text red">Продано</div>
-                      <div class="value bonus"><span>#bonus#</span>&nbsp;шт.</div>
+                      <div class="value bonus"><span>#qty#</span>&nbsp;шт.</div>
                     </div>
                     <div class="prop price">
                       <div class="title">Цена</div>

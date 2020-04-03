@@ -293,10 +293,7 @@ function createFilterData(curArray, optNumb) {
     if (item.options && item.options != 0) {
       name = item.options[optNumb];
     }
-    if (item.dtitle) {
-      name = item.dtitle;
-    }
-    if (name != undefined && filter[name] == undefined) {
+    if (name !== undefined && filter[name] === undefined) {
       filter[name] = 1;
     }
   });
@@ -1385,7 +1382,7 @@ function fillTemplate(data) {
   } else {
     var targetEl = data.area;
     if (data.target) {
-      var target = document.getElementById(data.target);
+      var target = getEl(data.target);
       if (target) {
         targetEl = target;
       }
@@ -1495,55 +1492,4 @@ function insertText(el, txt, method = 'inner') {
   } else {
     el.innerHTML = txt;
   }
-}
-
-//=====================================================================================================
-// Заполенение контента по шаблону:
-//=====================================================================================================
-
-// Получение свойств "#...#" из шаблонов HTML:
-
-function extractProps(template) {
-  return template.match(/#[^#]+#/gi).map(prop => prop = prop.replace(/#/g, ''));
-}
-
-// Заполнение блока по шаблону:
-
-function fillByTemplate(template, data, target) {
-  var list = createListByTemplate(template, data);
-  target.innerHTML = list;
-}
-
-// Создание списка элементов на основе шаблона:
-
-function createListByTemplate(template, data) {
-  var list = '', newEl;
-  data.forEach(dataItem => {
-    newEl = template;
-    newEl = createElByTemplate(newEl, dataItem);
-    list += newEl;
-  });
-  return list;
-}
-
-// Создание одного элемента на основе шаблона:
-
-function createElByTemplate(newEl, data) {
-  var props = extractProps(newEl),
-      propRegExp,
-      value;
-  props.forEach(key => {
-    propRegExp = new RegExp('#' + key + '#', 'gi');
-    if (typeof data === 'object') {
-      if (data[key]) {
-        value = data[key];
-      } else {
-        value = '';
-      }
-    } else {
-      value = data;
-    }
-    newEl = newEl.replace(propRegExp, value);
-  });
-  return newEl;
 }
