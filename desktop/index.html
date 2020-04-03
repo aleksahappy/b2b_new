@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="media_index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
   </head>
 
   <body id="desktop" data-website="ts_b2b" data-cart="true">
@@ -206,7 +207,13 @@
 							<div class="data">
 								<!-- График -->
 								<div class="desktop-info">
-									<img src="../img/график и подписи (1).png" alt="">
+                  <div class="free-product">0</div>
+                  <div class="dept-sum">0</div>
+                  <div class="chart-info">
+                    <div class="donut-text">Итого к оплате</div>
+                    <div class="donut-sum"></div>
+                  </div>
+                  <canvas id="myChart"></canvas>
 								</div>
 								<!-- Таблица -->
 								<div class="desktop-data">
@@ -1218,7 +1225,13 @@
               <div class="data">
                 <!-- График -->
                 <div class="desktop-info">
-                  <img src="../img/График и подписи.jpg" alt="">
+                  <div class="stock-product">0</div>
+                  <div class="stock-sum">0</div>
+                  <div class="chart-info">
+                    <div class="donut-text">Итого товаров</div>
+                    <div class="donut-sum" id="donut-sum1"></div>
+                  </div>
+                  <canvas id="myChart1"></canvas>
                 </div>
                 <!-- Таблица -->
                 <div class="desktop-data">
@@ -2217,9 +2230,9 @@
         </div>
       </div>
     </div>
-
+    
     <script src="../js/main.js"></script>
     <script src="desktop.js"></script>
-
+    <script src="../js/charts.js"></script>
   </body>
 </html>

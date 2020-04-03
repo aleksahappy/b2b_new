@@ -189,6 +189,7 @@
 }
 
 .desktop-info {
+  position: relative;
 	width: 34%;
 	height: 31.6vw;
 }
@@ -368,6 +369,80 @@
 }
 
 #rangeDate3 {
-	top:20px;
-	left:845px;
+	top: 20px;
+	left: 845px;
+}
+
+.free-product{
+  position: absolute;
+  right: 20%;
+  bottom: 25%;
+  font-family: 'Open Sans';
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #DFA12A;
+}
+
+
+.dept-sum{
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  font-family: 'Open Sans';
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #E7575F;
+}
+
+.stock-product{
+  position: absolute;
+  right: 20%;
+  bottom: 25%;
+  font-family: 'Open Sans';
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #2A659D;
+}
+
+
+.stock-sum{
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  font-family: 'Open Sans';
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #DFA12A;
+}
+
+.chart-info{
+  position: absolute;
+  width: 200px;
+  left: 38%;
+  top: 14vw;
+  height: 2vw;
+  color: #34495E;
+}
+
+.donut-text{
+  font-size: 1em;
+  line-height: 1em;
+  font-family: 'Open Sans';
+}
+
+.donut-sum{
+  margin-left: -15px;
+  font-size: 2em;
+  font-weight: bold;
+  font-family: 'Open Sans';
+}
+
+#myChart{
+  margin-top: 8vw;
+  max-width: 600px;
+}
+
+#myChart1{
+  margin-top: 8vw;
+  max-width: 600px;
 }
