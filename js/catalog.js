@@ -733,7 +733,6 @@ function initFilters() {
   });
   showElement('filters-container');
   addTooltips('color');
-  checkFiltersIsExist();
 }
 
 // Проверка необходимости фильтра:
@@ -789,34 +788,6 @@ function checkFiltersIsNeed(dataFilters) {
 //=====================================================================================================
 //  Функции для работы с фильтрами каталога:
 //=====================================================================================================
-
-// Удаление сохраненных фильтров, если их больше нет на странице:
-
-function checkFiltersIsExist(filters) {
-  var filters = getInfo('filters'),
-      curEl;
-  for (let k in filters[pageUrl]) {
-    for (let kk in filters[pageUrl][k]) {
-      curEl = getEl(`[data-key="${k}"][data-value="${kk}"]`, 'menu-filters');
-      if (!curEl) {
-        delete filters[pageUrl][k][kk];
-      }
-      for (let kkk in filters[pageUrl][k][kk]) {
-        curEl = getEl(`[data-subkey="${kk}"][data-value="${kkk}"]`, 'menu-filters');
-        if (!curEl) {
-          delete filters[pageUrl][k][kk][kkk];
-        }
-        if (isEmptyObj(filters[pageUrl][k][kk])) {
-          delete filters[pageUrl][k][kk];
-        }
-      }
-      if (isEmptyObj(filters[pageUrl][k])) {
-        delete filters[pageUrl][k];
-      }
-    }
-  }
-  saveInfo('filters', filters);
-}
 
 // Свернуть/развернуть фильтр:
 
@@ -887,7 +858,7 @@ function selectFilterValue(event) {
     }
   }
   var filters = getInfo('filters')[pageUrl];
-  if (!filters || (filters && isEmptyObj(filters))) {
+  if (!filters || isEmptyObj(filters)) {
     selectedItems = '';
   } else {
     selectCards(filters);
@@ -1137,51 +1108,77 @@ function checkFilters() {
   console.log(Date.now() - d);
 }
 
-// Визуальное отображение сохраненных фильтров:
+// Выбор сохраненных фильтров на странице или их удаление если их больше нет на странице:
 
 function selectFilters() {
-  var filters = getInfo('filters')[pageUrl];
-  if (!filters || (filters && isEmptyObj(filters))) {
+  var info = getInfo('filters'),
+      filters = info[pageUrl];
+  if (!filters || isEmptyObj(filters)) {
     return;
   }
   var curFilters = {},
+      curFilter,
       curItem;
   for (var k in filters) {
     curFilters[k] = {};
-    curItem = getEl(`filter-${k}`);
-    if (curItem) {
-      curItem.classList.remove('close');
-    }
     for (var kk in filters[k]) {
       curFilters[k][kk] = {};
-      selectCards(curFilters);
-      changeFilterClass(k, kk);
-      for (var kkk in filters[k][kk]) {
-        curFilters[k][kk][kkk] = {};
+      curItem = getCurFilterItem(k, kk);
+      if (curItem) {
         selectCards(curFilters);
-        changeFilterClass(k, kkk, kk);
+        changeFilterClass(curEl);
+        for (var kkk in filters[k][kk]) {
+          curFilters[k][kk][kkk] = {};
+          curItem = getCurFilterItem(k, kkk, kk);
+          if (curItem) {
+            selectCards(curFilters);
+            changeFilterClass(curItem);
+          } else {
+            delete info[pageUrl][k][kk][kkk];
+          }
+        }
+        if (isEmptyObj(info[pageUrl][k][kk])) {
+          info[pageUrl][k][kk] = {};
+        }
+      } else {
+        delete info[pageUrl][k][kk];
+      }
+    }
+    if (isEmptyObj(info[pageUrl][k])) {
+      delete filters[pageUrl][k];
+    } else {
+      curFilter = getEl(`filter-${k}`);
+      if (curFilter) {
+        curFilter.classList.remove('close');
       }
     }
   }
+  saveInfo('filters', info);
 }
 
-// Изменение классов сохраненных фильтров:
+// Поиск фильтра на странице:
 
-function changeFilterClass(key, value, subkey) {
-  var curEl;
+function getCurFilterItem(key, value, subkey) {
+  var curItem;
   if (subkey) {
-    curEl = getEl(`[data-subkey="${subkey}"][data-value="${value}"]`, 'menu-filters');
+    curItem = getEl(`[data-subkey="${subkey}"][data-value="${value}"]`, 'menu-filters');
   } else {
-    curEl = getEl(`[data-key="${key}"][data-value="${value}"]`, 'menu-filters');
+    curItem = getEl(`[data-key="${key}"][data-value="${value}"]`, 'menu-filters');
     addInFiltersInfo(key, value, curEl);
   }
-  if (curEl) {
-    curEl.classList.add('checked');
-    var filterItem = curEl.closest('.filter-item');
+  return curItem;
+}
+
+// Визуальное отображение сохраненных фильтров:
+
+function changeFilterClass(curItem) {
+  if (curItem) {
+    curItem.classList.add('checked');
+    var filterItem = curItem.closest('.filter-item');
     if (filterItem) {
       filterItem.classList.remove('close');
     }
-    toggleToActualFilters(curEl);
+    toggleToActualFilters(curItem);
   }
 }
 
