@@ -78,7 +78,7 @@
                   <a class="item" href="../monitoring">Мониторинг</a>
                   <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
                 </div>
-                <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
+                <a class="item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
             <div class="alerts icon" onclick="openPopUp('alerts-container')">
@@ -425,30 +425,30 @@
     </div>
 
     <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
-    <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
-      <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
-    </svg>
-    <div class="text"></div>
+      <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
+        <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
+      </svg>
+      <div class="text pop-up"></div>
     </div>
 
     <div id="loader">
-    <div class="loader icon"></div>
-    <div class="text"></div>
+      <div class="loader icon"></div>
+      <div class="text"></div>
     </div>
 
     <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white"/>
-    <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
+      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white"/>
+      <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
     </svg>
 
     <div class="footer">
-    <div class="container">
-      <div class="wrap">
-      <div>Отдел продаж: +7 (846) 300-44-99</div>
-      <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+      <div class="container">
+        <div class="wrap">
+        <div>Отдел продаж: +7 (846) 300-44-99</div>
+        <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+        </div>
       </div>
-    </div>
     </div>
 
     <script src="../js/main.js"></script>

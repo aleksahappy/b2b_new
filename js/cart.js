@@ -946,78 +946,45 @@ function deleteSelected() {
 // Работа с формой заказа:
 //=====================================================================================================
 
-// Как присылал Паша:
-// var partnerInfo = {
-//   "user_contr": {
-//     "472":["ООО \"АСПОРТ\""],
-//     "347":["ТРИАЛ-СПОРТ ООО"]},
-//   "user_address_list": {
-//     "278":["443082, Самара, Тухачевского, 22"],
-//     "279":["443079, Самара, Карла Маркса, 177в"],
-//     "468":["354392, Россия, Краснодарский край, городской округ Сочи, посёлок городского типа Красная Поляна, улица Мичурина, 1"]
-//   }
-// };
-
 // Открытие формы заказа:
 
 function openOrderForm() {
-  // sendRequest(`${urlRequest.???}???`)
-  // .then(result => {
-  //   if (result.user_contr) {
-  //     fillTemplate({
-  //       area: 'select-contr',
-  //       items: result.user_contr,
-  //       sub: {'user_contr': '.item'}
-  //     });
-  //   }
-  //   if (result.user_address_list) {
-  //     fillTemplate({
-  //       area: 'select-address',
-  //       items: result.user_address_list,
-  //       sub: {'user_address_list': '.item'}
-  //     });
-  //   }
-  //   showElement('order-form', 'flex');
-  //   hideElement('.cart-make-order');
-  //   document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
-  // })
-  // .catch(error => {
-  //   console.log(error);
-  //   // openOrderForm();
-  // })
-
-  var partnerInfo = {
-    "user_contr": [{
-      id: "472",
-      title: "ООО \"АСПОРТ\""
-    }, {
-      id: "347",
-      title: "ТРИАЛ-СПОРТ ООО"
-    }],
-    "user_address_list": [{
-      id: "278",
-      title: "443082, Самара, Тухачевского, 22"
-    }, {
-      id: "279",
-      title: "443079, Самара, Карла Маркса, 177в"
-    }, {
-      id: "468",
-      title: "354392, Россия, Краснодарский край, городской округ Сочи, посёлок городского типа Красная Поляна, улица Мичурина, 1"
-    }]
-  };
-  fillTemplate({
-    area: 'select-contr',
-    items: partnerInfo,
-    sub: {'user_contr': '.item'}
-  });
-  fillTemplate({
-    area: 'select-address',
-    items: partnerInfo,
-    sub: {'user_address_list': '.item'},
-  });
-  showElement('order-form', 'flex');
-  hideElement('.cart-make-order');
-  document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
+  sendRequest(`${urlRequest.api}baskets/ajax.php?action=get_contr_delivery`)
+  .then(result => {
+    var data = JSON.parse(result);
+    console.log(data);
+    if (data.user_contr && data.user_address_list) {
+      fillTemplate({
+        area: 'select-contr',
+        items: data,
+        sub: [{
+          area: '.item',
+          items: 'user_contr'
+        }]
+      });
+      fillTemplate({
+        area: 'select-address',
+        items: data,
+        sub: [{
+          area: '.item',
+          items: 'user_address_list'
+        }]
+      });
+      showElement('order-form', 'flex');
+      hideElement('.cart-make-order');
+      document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
+    } else {
+      if (!data.user_contr) {
+        message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в <a href="http://new.topsports.ru/cabinet">профиль</a> для их добавления/включения.')
+      } else {
+        message.show('Оформление заказа невозможно: отсутствуют активные адреса!<br>Перейдите в <a href="http://new.topsports.ru/cabinet">профиль</a> для их добавления/включения.')
+      }
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    // openOrderForm();
+  })
 }
 
 // Закрытие формы заказа:

@@ -18,18 +18,8 @@ var pageUrl = pageId,
     selectedItems = '',
     filtersInfoItems = [],
     zipFilterData = {},
-    zifFilterQueue = [],
+    zipFilterQueue = [],
     path;
-
-// УБРАТЬ!!!
-// Получение шаблонов из HTML:
-
-var menuFilters = getEl('menu-filters');
-if (menuFilters) {
-  var filterTemplate = menuFilters.querySelector('.filter').outerHTML,
-      filterItemTemplate = menuFilters.querySelector('.filter-item').outerHTML,
-      filterSubitemTemplate = menuFilters.querySelector('.filter-item.subitem').outerHTML;
-}
 
 //=====================================================================================================
 // При запуске страницы:
@@ -219,6 +209,7 @@ function addSizeInfo(item) {
   var size;
   for (var key in item.sizes) {
     size = item.sizes[key];
+    size.size = size.size || '';
     size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
     size.isClick = cartId === 'equip' ? '' : 'click';
     size.isFree = size.free_qty > 0 ? '' : 'displayNone';
@@ -257,7 +248,6 @@ function addOptionsInfo(item) {
       .replace(/\//gi, '/ ')
     }
     if ((key == 7 || key == 31 || key == 32 || key == 33) && item.isManuf) {
-      console.log('continue');
       continue;
     } else {
       options.push({
@@ -422,26 +412,6 @@ function setFiltersHeight() {
       filtersHeight = window.innerHeight - headerHeight - footerHeight;
   filters.style.top = headerHeight + 'px';
   filters.style.maxHeight = filtersHeight + 'px';
-}
-
-//=====================================================================================================
-// Общие вспомогательные функции:
-//=====================================================================================================
-
-// Выбор массива карточек товаров из существующих:
-
-function selectCurItems(isZipFilter) {
-  var curItemsArray = curItems;
-  if (isZipFilter) {
-    if (website === 'skipper') {
-      curItemsArray = items;
-    }
-  } else {
-    if (selectedItems !== '') {
-      curItemsArray = selectedItems;
-    }
-  }
-  return curItemsArray;
 }
 
 //=====================================================================================================
@@ -632,7 +602,10 @@ function createMainNav() {
   fillTemplate({
     area: 'main-nav',
     items: data,
-    sub: {'items': '.item'}
+    sub: [{
+      area: '.item',
+      items: 'items'
+    }]
   });
 }
 
@@ -643,7 +616,19 @@ function renderProductPage() {
     area: '.product-card',
     target: 'gallery',
     items: items[0],
-    sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options-list': '.card-option', 'manuf_table': '.manuf-row'}
+    sub: [{
+      area: '.carousel-item',
+      items: 'images'
+    }, {
+      area: '.card-size',
+      items: 'sizes'
+    }, {
+      area: '.card-option',
+      items: 'options'
+    }, {
+      area: '.manuf-row',
+      items: 'manuf_table'
+    }]
   });
   var card = getEl('.product-card');
   renderCarousel(getEl('.carousel', card))
@@ -670,11 +655,11 @@ function renderGallery() {
     if (key != pageId) {
       curItems = curItems.filter(item => item[key] == 1);
     }
-  });
+  });;
   changeContent('gallery');
   clearAllSearch();
   fillZipFilters();
-  initFilters(dataFilters);
+  initFilters();
   setFilterOnPage(pageFilter);
   clearFiltersInfo();
   checkFiltersPosition();
@@ -730,123 +715,108 @@ function clearAllSearch() {
 //  Функции для создания фильтров каталога:
 //=====================================================================================================
 
-// Отображение фильтров на странице:
+// Инициализация фильтров каталога:
 
-function initFilters(dataFilters) {
+function initFilters() {
+  var data = checkFiltersIsNeed(dataFilters);
+  fillTemplate({
+    area: 'menu-filters',
+    items: data,
+    sub: [{
+      area: '.filter-item.item',
+      items: 'items',
+      sub: [{
+        area: '.filter-item.subitem',
+        items: 'items',
+      }]
+    }]
+  });
+  showElement('filters-container');
+  addTooltips('color');
+  checkFiltersIsExist();
+}
+
+// Проверка необходимости фильтра:
+
+function checkFiltersIsNeed(dataFilters) {
   var data = JSON.parse(JSON.stringify(dataFilters)),
       isExsist = false;
-
-  for (let item of data) {
-    for (let k in item.items) {
+  data.forEach(filter => {
+    for (let k in filter.items) {
+      var item = filter.items[k];
       isExsist = curItems.find(card => {
-        if (card[item.key] == k || card[k] == 1) {
+        if (card[filter.key] == item.value || card[item.value] == 1) {
           return true;
         }
       });
       if (!isExsist) {
-        delete item.items[k];
-      }
-      if (typeof item.items[k] == 'object') {
-        for (let kk in item.items[k]) {
-          isExsist = curItems.find(card => {
-            if (card[item.key] == k && card.subcat == item.items[k][kk]) {
-              return true;
+        delete filter.items[k];
+      } else {
+        if (typeof item.items == 'object') {
+          for (let kk in item.items) {
+            var subItem = item.items[kk];
+            isExsist = curItems.find(card => {
+              if (card[filter.key] == item.value && card.subcat == subItem.value) {
+                return true;
+              }
+            });
+            if (!isExsist) {
+              delete filter.items[k][kk];
             }
-          });
-          if (!isExsist) {
-            delete item.items[k][kk];
           }
         }
+        item.isBtn = item.items && !isEmptyObj(item.items) ? '' : 'hidden';
       }
     }
-  }
-  getEl('menu-filters').innerHTML = createFilters(data);
-  showElement('filters-container');
-  addTooltips('color');
-}
-
-// Создание меню фильтров:
-
-function createFilters(data) {
-  return data.map(el => {
-    if (document.body.id === 'equip' && !location.search) {
-      if (el.key == 'cat') {
-        return;
-      }
-      if (el.key == 'brand') {
-        el.isOpen = 'true';
-      }
+  });
+  data.forEach((filter, index) => {
+    if (filter.key === 'cat' && pageId === 'equip' && !location.search) {
+      data.splice(index, 1);
+      return;
     }
-    if (el.items && !isEmptyObj(el.items)) {
-      return createFilter(el);
+    if (filter.key === 'brand' && pageId === 'equip' && location.search) {
+      filter.isOpen = false;
     }
-  }).join('');
-}
-
-// Создание одного фильтра:
-
-function createFilter(data) {
-  var curTitle,
-      isHidden,
-      newItem = filterTemplate,
-      newSubItem,
-      list = '',
-      subList;
-
-  for (let k in data.items) {
-    subList = '';
-    isHidden = 'hidden';
-
-    if (typeof data.items[k] === 'object') {
-      for (let kk in data.items[k]) {
-        if (data.items[k][kk] !== '') {
-          isHidden = '';
-          newSubItem = filterSubitemTemplate
-          .replace('#key#', data.key)
-          .replace('#subkey#', k)
-          .replace('#value#', data.items[k][kk])
-          .replace('#title#', data.items[k][kk])
-          subList += newSubItem;
-        }
-      }
-    }
-
-    if ((data.items[k] == 1) || (data.key == 'cat')) {
-      curTitle = k;
+    if (filter.items && !isEmptyObj(filter.items)) {
+      filter.isOpen = filter.isOpen && window.innerWidth >= 767 ? 'default-open' : 'close';
     } else {
-      curTitle = data.items[k];
+      data.splice(index, 1);
     }
-
-    if (curTitle == 'SpyOptic') {
-      curTitle = 'Spy Optic';
-    }
-    if (curTitle == 'TroyLeeDesigns') {
-      curTitle = 'Troy Lee Designs';
-    }
-    if (curTitle == 'KingDolphin') {
-      curTitle = 'King Dolphin';
-    }
-
-    newSubItem = filterItemTemplate
-      .replace(filterSubitemTemplate, subList)
-      .replace('#key#', data.key)
-      .replace('#value#', k)
-      .replace('#title#', curTitle)
-      .replace('#isHidden#', isHidden);
-    list += newSubItem;
-  }
-
-  newItem = newItem
-    .replace(filterItemTemplate, list)
-    .replace('#key#', data.key)
-    .replace('#isOpen#', data.isOpen && window.innerWidth >= 767 ? 'default-open' : 'close')
-    .replace('#title#', data.title);
-  return newItem;
+  });
+  return data;
 }
 
 //=====================================================================================================
 //  Функции для работы с фильтрами каталога:
 //=====================================================================================================
+
+// Удаление сохраненных фильтров, если их больше нет на странице:
+
+function checkFiltersIsExist(filters) {
+  var filters = getInfo('filters'),
+      curEl;
+  for (let k in filters[pageUrl]) {
+    for (let kk in filters[pageUrl][k]) {
+      curEl = getEl(`[data-key="${k}"][data-value="${kk}"]`, 'menu-filters');
+      if (!curEl) {
+        delete filters[pageUrl][k][kk];
+      }
+      for (let kkk in filters[pageUrl][k][kk]) {
+        curEl = getEl(`[data-subkey="${kk}"][data-value="${kkk}"]`, 'menu-filters');
+        if (!curEl) {
+          delete filters[pageUrl][k][kk][kkk];
+        }
+        if (isEmptyObj(filters[pageUrl][k][kk])) {
+          delete filters[pageUrl][k][kk];
+        }
+      }
+      if (isEmptyObj(filters[pageUrl][k])) {
+        delete filters[pageUrl][k];
+      }
+    }
+  }
+  saveInfo('filters', filters);
+}
 
 // Свернуть/развернуть фильтр:
 
@@ -1042,8 +1012,8 @@ function selectCards(filters) {
 // Блокировка неактуальных фильтров:
 
 function toggleToActualFilters(filter) {
-  var curItemsArray = selectCurItems();
-  var menuFilters = getEl('menu-filters'),
+  var curItemsArray = selectedItems === '' ? curItems : selectedItems,
+      menuFilters = getEl('menu-filters'),
       curFilters = menuFilters.querySelectorAll(`.filter-item.item.checked[data-key="${filter.dataset.key}"]`),
       checked = menuFilters.querySelectorAll(`.filter-item.item.checked`),
       filterItems;
@@ -1161,37 +1131,10 @@ function checkFiltersPosition() {
 // Проверка сохраненных значений фильтров:
 
 function checkFilters() {
-  checkFilterExist();
   selectFilters();
+  const d = Date.now();
   showCards();
-}
-
-// Удаление сохраненных фильтров, если их больше нет на странице:
-
-function checkFilterExist(filters) {
-  var filters = getInfo('filters'),
-      curEl;
-  for (let k in filters[pageUrl]) {
-    for (let kk in filters[pageUrl][k]) {
-      curEl = getEl(`[data-key="${k}"][data-value="${kk}"]`, 'menu-filters');
-      if (!curEl) {
-        delete filters[pageUrl][k][kk];
-      }
-      for (let kkk in filters[pageUrl][k][kk]) {
-        curEl = getEl(`[data-subkey="${kk}"][data-value="${kkk}"]`, 'menu-filters');
-        if (!curEl) {
-          delete filters[pageUrl][k][kk][kkk];
-        }
-        if (isEmptyObj(filters[pageUrl][k][kk])) {
-          delete filters[pageUrl][k][kk];
-        }
-      }
-      if (isEmptyObj(filters[pageUrl][k])) {
-        delete filters[pageUrl][k];
-      }
-    }
-  }
-  saveInfo('filters', filters);
+  console.log(Date.now() - d);
 }
 
 // Визуальное отображение сохраненных фильтров:
@@ -1301,14 +1244,15 @@ function initZipFilters() {
 // (сначала формируются все сразу, а потом переформировываются при выборе):
 
 function fillZipFilters(filter) {
+  return;
   if (!getEl('zip-select')) {
     return;
   }
   if (filter) {
-    zifFilterQueue.push(filter);
+    zipFilterQueue.push(filter);
     getEl('zip-filters-clear').classList.add('active');
   }
-  var curItemsArray = selectCurItems('zipFilter');
+  var curItemsArray = website === 'skipper' ? items : curItems;
   curItemsArray.forEach(item => {
     if (item.manuf) {
       for (var k in item.manuf) {
@@ -1317,7 +1261,7 @@ function fillZipFilters(filter) {
             continue;
           }
         } else {
-          if (!filter || (zifFilterQueue.indexOf(k) === -1 || zifFilterQueue.findIndex(k) > zifFilterQueue.findIndex(filter))) {
+          if (!filter || (zipFilterQueue.indexOf(k) === -1 || zipFilterQueue.findIndex(k) > zipFilterQueue.findIndex(filter))) {
             if (!zipFilterData[k]) {
               zipFilterData[k] = [];
             }
@@ -1366,7 +1310,7 @@ function selectCardsZipFilter(filter) {// ДОРАБОТАТЬ!!!
     clearPageSearch();
     clearOemSearch();
   }
-  var curItemsArray = selectCurItems('zipFilter'),
+  var curItemsArray = website === 'skipper' ? items : curItems,
       filterValue;
   if (filter === 'oem') {
     filterValue = getEl('oem-search-input').value.trim();
@@ -1403,7 +1347,7 @@ function clearZipFilters() {
     return;
   }
   isSearch = false;
-  zifFilterQueue = [];
+  zipFilterQueue = [];
   getEl('zip-filters-clear').classList.remove('active');
   fillZipFilters();
 }
@@ -1553,10 +1497,24 @@ function loadCards(cards) {
     data.push(itemsToLoad[i]);
   }
   var list = fillTemplate({
-    area: view === 'list'? bigCard : minCard,
+    area: view === 'list' ? bigCard : minCard,
     source: 'outer',
     items: data,
-    sub: view === 'list'? {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'} : undefined,
+    sub: view === 'list'
+        ? [{
+          area: '.carousel-item',
+          items: 'images'
+        }, {
+          area: '.card-size',
+          items: 'sizes'
+        }, {
+          area: '.card-option',
+          items: 'options'
+        }, {
+          area: '.manuf-row',
+          items: 'manuf_table'
+        }]
+        : undefined,
     action: 'return'
   });
 
@@ -1711,7 +1669,19 @@ function showFullCard(id) {
   fillTemplate({
     area: fullCardContainer,
     items: curItems.find(item => item.object_id == id),
-    sub: {'images': '.carousel-item', 'sizes': '.card-size', 'options': '.card-option', 'manuf_table': '.manuf-row'}
+    sub: [{
+      area: '.carousel-item',
+      items: 'images'
+    }, {
+      area: '.card-size',
+      items: 'sizes'
+    }, {
+      area: '.card-option',
+      items: 'options'
+    }, {
+      area: '.manuf-row',
+      items: 'manuf_table'
+    }]
   });
   checkCart(getEl('.full-card'));
 
@@ -1747,7 +1717,10 @@ function showFullImg(event, id) {
   fillTemplate({
     area: fullImgContainer,
     items: curItems.find(item => item.object_id == id),
-    sub: {'images': '.carousel-item'}
+    sub: [{
+      area: '.carousel-item',
+      items: 'images'
+    }]
   });
 
   var curCarousel = getEl('.carousel', fullImgContainer),

@@ -14,8 +14,8 @@ var website = document.body.dataset.website,
       api: 'http://api.topsports.ru/',
       test: 'http://127.0.0.1:5500/test/'
     },
-    loader = document.getElementById('loader'),
-    message = document.getElementById('message-container');
+    loader = getEl('loader'),
+    message = getEl('message-container');
 
 // Динамически изменяемые переменные:
 
@@ -40,8 +40,8 @@ if (message) {
 // Авторизация на сайте при загрузке страницы:
 //=====================================================================================================
 
-checkAuth();
-// startPage();
+// checkAuth();
+startPage();
 
 // Проверка авторизован ли пользователь:
 
@@ -50,7 +50,7 @@ function checkAuth() {
   if (pageId === 'auth' && document.location.search === '?error=1') {
     loader.hide();
     startPage();
-    showElement(document.getElementById('error'));
+    showElement('error');
   } else {
     sendRequest(`${urlRequest.new}check_auth.php`)
     .then(result => {
@@ -116,7 +116,7 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
         sessid: getCookie('iam'),
         data: data
       };
-      console.log(requestData);
+      // console.log(requestData);
       request.open('POST', url);
       request.setRequestHeader('Content-type', type);
       request.send(JSON.stringify(requestData));
@@ -268,36 +268,6 @@ function renderCatalogs() {
     items: catalogItems
   };
   fillTemplate(data);
-}
-
-//=====================================================================================================
-// Создание данных для фильтров каталога:
-//=====================================================================================================
-
-// Создание фильтра каталога из данных options или actions:
-
-function createFilterData(curArray, optNumb) {
-  if (!curArray) {
-    return;
-  }
-  var filter = {},
-      name;
-  if (curArray === actions) {
-    filter.is_new = 'Новинка';
-    for (let action in actions) {
-      filter[action] = actions[action].title;
-    }
-    return filter;
-  }
-  curArray.forEach(item => {
-    if (item.options && item.options != 0) {
-      name = item.options[optNumb];
-    }
-    if (name !== undefined && filter[name] === undefined) {
-      filter[name] = 1;
-    }
-  });
-  return filter;
 }
 
 //=====================================================================================================
@@ -550,8 +520,8 @@ function deleteCookie(key) {
 window.addEventListener('resize', setPaddingToBody);
 
 function setPaddingToBody() {
-  var headerHeight = document.querySelector('.header').clientHeight;
-  var footerHeight = document.querySelector('.footer').clientHeight;
+  var headerHeight = getEl('.header').clientHeight;
+  var footerHeight = getEl('.footer').clientHeight;
   document.body.style.paddingTop = `${headerHeight}px`;
   document.body.style.paddingBottom = `${footerHeight + 20}px`;
 }
@@ -615,7 +585,7 @@ function setDocumentScroll(top = scrollTop) {
 
 function openPopUp(el, style = 'flex') {
   if (typeof el != 'object') {
-    el = document.getElementById(el);
+    el = getEl(el);
   }
   if (el) {
     getDocumentScroll();
@@ -634,7 +604,7 @@ function closePopUp(event, el) {
     el = event.currentTarget;
   } else {
     if (typeof el != 'object') {
-      el = document.getElementById(el);
+      el = getEl(el);
     }
   }
   if (el) {
@@ -648,13 +618,13 @@ function closePopUp(event, el) {
 // Открытие/закрытие поля формы для добавления адреса вручную:
 
 function toggleAddByHand() {
-  document.getElementById('add-hand').classList.toggle('displayNone')
+  getEl('add-hand').classList.toggle('displayNone')
 }
 
 // Отображение количества знаков, оставшихся в поле комментариев:
 
 function countSigns(textarea) {
-  document.getElementById('textarea-counter').textContent = 300 - textarea.value.length;
+  getEl('textarea-counter').textContent = 300 - textarea.value.length;
 }
 
 // Удаление значения из инпута при его фокусе:
@@ -702,13 +672,13 @@ function addTooltips(key) {
 document.addEventListener('click', (event) => {
   var target = event.target;
   if (!target.closest('.activate.open')) {
-    var dropDownOpen = document.querySelector('.activate.open');
+    var dropDownOpen = getEl('.activate.open');
     if (dropDownOpen) {
       dropDownOpen.classList.remove('open');
     }
   }
   if (!target.classList.contains('search-manage') && !target.closest('.search.open')) {
-    var searchOpen = document.querySelector('.search.open');
+    var searchOpen = getEl('.search.open');
     if (searchOpen) {
       searchOpen.classList.remove('open');
     }
@@ -845,7 +815,7 @@ function checkDate(start, end) {
 
 function Loader(obj) {
   this.loader = obj;
-  this.text = obj.querySelector('.text');
+  this.text = getEl('.text', obj);
 
   this.show = function(text) {
     if (!text) {
@@ -866,19 +836,19 @@ function Loader(obj) {
 
 function Message(obj) {
   this.message = obj;
-  this.text = obj.querySelector('.text');
+  this.text = getEl('.text', obj);
 
-  this.message.addEventListener('click', () => this.hide());
-
-  this.show = function(text) {
+  this.show = function(text, timer) {
     if (!text) {
       return;
     }
-    this.text.textContent = text;
+    this.text.innerHTML = text;
     openPopUp(this.message);
-    setTimeout(() => {
-      closePopUp(null, this.message);
-    }, 2000);
+    if (timer) {
+      setTimeout(() => {
+        closePopUp(null, this.message);
+      }, timer);
+    }
   }
 
   this.hide = function() {
@@ -890,7 +860,7 @@ function Message(obj) {
 // Работа кнопки "Наверх страницы":
 //=====================================================================================================
 
-var upBtn = document.getElementById('up-btn');
+var upBtn = getEl('up-btn');
 
 if (upBtn) {
   window.addEventListener('scroll', toggleBtnGoTop);
@@ -930,9 +900,9 @@ function goToTop() {
 function DropDown(obj) {
   // Элементы для работы:
   this.filter = obj;
-  this.head = obj.querySelector('.head');
-  this.title = obj.querySelector('.title');
-  this.clearBtn = obj.querySelector('.clear-btn');
+  this.head = getEl('.head', obj);
+  this.title = getEl('.title', obj);
+  this.clearBtn = getEl('.clear-btn', obj);
 
   // Константы:
   this.titleText = this.title.textContent;
@@ -1026,7 +996,7 @@ function initTables() {
   document.querySelectorAll('.table-wrap').forEach(el => {
     var data = window[`${el.id}out`] ? window[`${el.id}out`] : [];
     data = data.filter(el => el);
-    new Table(el, data);
+    window[`table-${el.id}`] = new Table(el, data);
   });
 }
 
@@ -1036,10 +1006,10 @@ function Table(obj, data) {
   // Элементы для работы:
   this.table = obj;
   this.id = obj.id;
-  this.tab = document.querySelector(`.tab.${this.id}`);
-  this.head = obj.querySelector('.table-head');
-  this.results = this.head.querySelector('.results');
-  this.body = obj.querySelector('.table-body');
+  this.tab = getEl(`.tab.${this.id}`);
+  this.head = getEl('.table-head', obj);
+  this.results = getEl('.results', this.head);
+  this.body = getEl('.table-body', obj);
   this.resizeBtns = this.head.querySelectorAll('.resize-btn');
   this.dropDown = obj.querySelectorAll('.activate');
   this.sort = obj.querySelectorAll('.sort');
@@ -1083,8 +1053,8 @@ function Table(obj, data) {
     this.search.forEach(el => {
       new DropDown(el);
       el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
-      el.querySelector('.search.icon').addEventListener(event => this.searchData(event, el.dataset.key));
-      el.querySelector('.close.icon').addEventListener(event => this.clearSearch(event, el.dataset.key));
+      getEl('.search.icon', el).addEventListener(event => this.searchData(event, el.dataset.key));
+      getEl('.close.icon', el).addEventListener(event => this.clearSearch(event, el.dataset.key));
     });
   }
   this.setEventListeners();
@@ -1171,7 +1141,7 @@ function Table(obj, data) {
     }
     var headCells = this.head.querySelectorAll('tr:first-child > th');
     headCells.forEach(headCell => {
-      var bodyCell = this.body.querySelector(`tr:first-child > td:nth-child(${headCell.id})`);
+      var bodyCell = getEl(`tr:first-child > td:nth-child(${headCell.id})`, this.body);
       if (bodyCell) {
         var newWidth = bodyCell.offsetWidth;
         headCell.style.width = newWidth + 'px';
@@ -1209,7 +1179,7 @@ function Table(obj, data) {
       return;
     }
     loader.show();
-    var activeTable = document.querySelector('.table-wrap.active');
+    var activeTable = getEl('.table-wrap.active');
     if (activeTable) {
       hideElement(activeTable);
       activeTable.classList.remove('active');
@@ -1226,7 +1196,7 @@ function Table(obj, data) {
   // Сортировка таблицы:
   this.sortData = function(event, key, type) {
     var sortBtn = event.currentTarget;
-    this.head.querySelector('.sort.cheched').classList.remove('checked');
+    getEl('.sort.cheched', this.head).classList.remove('checked');
     if (sortBtn.classList.contains('checked')) {
       this.loadData(this.itemsToLoad);
     } else {
@@ -1320,50 +1290,24 @@ function showReclm(id) {
 // Универсальное заполнение данных по шаблону:
 //=====================================================================================================
 
-// В каком виде данные нужно передавать в функцию fillTemplate:
-
-// * - обязательное поле, остальные можно пропускать
-// var data = {
-//   * area: элемент / id / селектор,                   (сам элемент, его id или селектор, откуда будет браться шаблон)
-//   * items: массив объектов / объект / массив строк,  (данные для заполнения шаблона - массив или объект с ключами 0,1,2.. содержащий объекты / объект (ключ: значение) / массив или объект с ключами 0,1,2.. содержащий строки)
-//     source: 'inner' / 'outer',                       (как извлекать шаблон - весь тег целиком или его внутреннюю часть, по умолчанию - inner)
-//     target: id элемента,                             (id области куда будет вставляться результат, если нужно вставить в другое место отличное от того где извлекали шаблон)
-//     sign: '#' / '@@' / другой,                       (символ, которым выделяется место замены, по умолчанию - '#')
-//     sub: объект,                                     (где ключи - это названия ключей в данных, откуда брать информацию для заполнения подшаблонов, а значения - id или селекторы, по которым нужно найти подшаблон в шаблоне)
-//     action: 'replace' / return',                     (действие с данными, если 'replace' - вставит шаблон на страницу, если 'return' - вернет строку с шаблоном, по умолчанию - 'replace'),
-//     method: 'inner' / 'begin' / 'end'                (метод вставки шаблона на страницу, если 'inner' - замена содержимого, если 'begin' - перед первым дочерним элементом, если 'end' - после последнего дочернего элемента, по умолчанию - 'inner'),
-//     iterate: 'temp' / 'data'                         (перебирать ключи (#...#) в шаблоне или ключи объекта данных во время замены)
-// }
-
-// Пример данных:
-
-// var data = {
-//   * area: 'big-card',
-//   * items: items,
-//     source: 'outer',
-//     target: 'gallery',
-//     sign: '#',
-//     sub: {'images': '.carousel-gallery', 'sizes': '.card-sizes', 'options': '.card-options', 'manuf': '.manuf-row'},
-//     action: 'replace',
-//     method: 'inner'
-//     iterate: 'temp'
-// }
-
 // Универсальная функция заполнения данных по шаблону:
 
 function fillTemplate(data) {
   if (!data.area || !data.items) {
-    return
+    return;
   }
 
-  if (typeof data.area !== 'string') {
-    data.areaName = data.area.id || data.area.classList[0];
+  if (typeof data.area === 'string') {
+    data.areaName = (data.parentAreaName || '') + data.area;
+    data.area = getEl(data.area, data.parentArea);
   } else {
-    data.areaName = data.area;
-    data.area = getEl(data.area);
+    data.areaName = data.area.id || data.area.classList[0];
   }
 
   if (!data.area) {
+    if (data.temp) {
+      return data.temp;
+    }
     return;
   }
 
@@ -1377,17 +1321,21 @@ function fillTemplate(data) {
   }
 
   var txt = fillTemp(data, data.items, temp);
-  if (data.action && data.action === 'return') {
-    return txt;
+  if (data.temp) {
+    return data.temp.replace(temp, txt);
   } else {
-    var targetEl = data.area;
-    if (data.target) {
-      var target = getEl(data.target);
-      if (target) {
-        targetEl = target;
+    if (data.action && data.action === 'return') {
+      return txt;
+    } else {
+      var targetEl = data.area;
+      if (data.target) {
+        var target = getEl(data.target);
+        if (target) {
+          targetEl = target;
+        }
       }
+      insertText(targetEl, txt, data.method);
     }
-    insertText(targetEl, txt, data.method);
   }
 }
 
@@ -1395,12 +1343,14 @@ function fillTemplate(data) {
 
 function fillTemp(data, items, temp) {
   var txt = '';
-  if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий объекты
-    txt = fillList(data, items, temp);
-  } else if (Array.isArray(items) && typeof items[0] === 'string') { //данные - массив строк
-    txt = fillList(data, items, temp);
-  } else if (typeof items === 'object' && !Array.isArray(items)) { //данные - объект (ключ: значение)
-    txt = fillEl(data, items, temp);
+  if (typeof items === 'object') { // данные - это всегда массив или объект
+    if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий массивы и/или объекты
+      txt = fillList(data, items, temp);
+    } else if (Array.isArray(items)) { //данные - массив (строк или чисел)
+      txt = fillList(data, items, temp);
+    } else if (!Array.isArray(items)) { //данные - объект (ключ: значение)
+      txt = fillEl(data, items, temp);
+    }
   }
   return txt;
 }
@@ -1411,7 +1361,6 @@ function fillList(data, items, temp) {
   var result = '',
       newEl;
   for (var arrKey in items) {
-    newEl = temp;
     newEl = fillEl(data, items[arrKey], temp);
     result += newEl;
   }
@@ -1422,60 +1371,58 @@ function fillList(data, items, temp) {
 
 function fillEl(data, items, temp) {
   if (data.sub) { // Если есть подшаблоны
-    var list,
-        subNames = [],
-        subData;
-    for (var subKey in data.sub) {
-      if (items[subKey]) {
-        subNames.push(subKey);
-        var subTemp = window[`${data.areaName}${subKey}Temp`]; // подшаблон
-        if (!subTemp) {
-          var subArea = data.sub[subKey];
-          if (subArea.indexOf('.') === 0 || subArea.indexOf('[') === 0) {
-            subArea = getEl(subArea, data.area);
-          } else {
-            subArea = getEl(subArea);
-          }
-          subTemp = window[`${data.areaName}${subKey}Temp`] = subArea.outerHTML;
-        }
-        subData = JSON.parse(JSON.stringify(data));
-        delete subData.sub;
-        list = fillTemp(subData, items[subKey], subTemp);
-        temp = temp.replace(subTemp, list);
-      }
-    }
+    temp = fillSubTemp(data, items, temp);
   }
 
-  if (typeof items === 'string') { //Данные - строка
+  if (typeof items === 'string' || typeof items === 'number') { //Данные - строка
     temp = replaceInTemp(null, items, temp, data.sign);
-  } else { // Данные - объект
-    var value;
-    if (data.iterate && data.iterate === 'data') {
-      for (var key in items) {
-        if (!data.sub || subNames.indexOf(key) === -1) {
-          value = items[key];
-          temp = replaceInTemp(key, value, temp, data.sign);
-        }
+  } else if (data.iterate && data.iterate === 'data') {
+    for (var key in items) {
+      if (!data.sub || subNames.indexOf(key) === -1) {
+        temp = replaceInTemp(key, items, temp, data.sign);
       }
-    } else {
-      var props = temp.match(/#[^#]+#/gi);
-      props = props ? props.map(prop => prop = prop.replace(/#/g, '')) : [];
-      props.forEach(key => {
-        value = items[key];
-        temp = replaceInTemp(key, value, temp, data.sign);
-      });
     }
+  } else {
+    var props = temp.match(/#[^#]+#/gi);
+    props = props ? props.map(prop => prop = prop.replace(/#/g, '')) : [];
+    props.forEach(key => {
+      temp = replaceInTemp(key, items, temp, data.sign);
+    });
+  }
+  return temp;
+}
+
+// Заполнение подшаблонов:
+
+function fillSubTemp(data, items, temp) {
+  var subData;
+  for (var sub of data.sub) {
+    subData = {
+      area: sub.area,
+      items: items[sub.items] ? Object.assign(items[sub.items]) : [],
+      sub: sub.sub,
+      parentArea: data.area,
+      parentAreaName: data.areaName,
+      temp: temp,
+      source: sub.source || 'outer',
+      sign: sub.sign || data.sign,
+      iterate: sub.iterate || data.iterate,
+    };
+    temp = fillTemplate(subData);
   }
   return temp;
 }
 
 // Подстановка данных в шаблон:
 
-function replaceInTemp(key, value, temp, sign) {
+function replaceInTemp(key, items, temp, sign) {
   var sign = sign || '#',
-      regex = key ? new RegExp(sign + key + sign, 'gi') : new RegExp(sign + 'item' + sign, 'gi'),
-      value = (typeof value === 'string' || typeof value === 'number') ? value : '';
-  return temp.replace(regex, value);
+      value = key ? items[key] : items;
+  if (typeof value === 'string' || typeof value === 'number') {
+    var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
+    temp = temp.replace(regex, value);
+  }
+  return temp;
 }
 
 // Вставка заполненного шаблона в документ:
@@ -1483,7 +1430,7 @@ function replaceInTemp(key, value, temp, sign) {
 function insertText(el, txt, method = 'inner') {
   el.classList.remove('template');
   txt = txt.replace('template', '');
-  if (el.childNodes.length == 1 && el.firstChild.classList.contains('template')) {
+  if (el.childNodes.length === 1 && el.firstChild.classList.contains('template')) {
     el.innerHTML = txt;
   } else if (method === 'end') {
     el.insertAdjacentHTML('beforeend', txt);

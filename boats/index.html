@@ -78,7 +78,7 @@
                   <a class="item" href="../monitoring">Мониторинг</a>
                   <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
                 </div>
-                <a id="exit" class="item" class="menu-item" onclick="logOut(event)">Выйти</a>
+                <a class="item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
             <div class="alerts icon" onclick="openPopUp('alerts-container')">
@@ -237,7 +237,7 @@
                           <div class="checkbox dark icon"></div>
                           <div class="item-title">#title#</div>
                         </div>
-                        <div class="drop-down icon #isHidden#" onclick="toggleFilterItem(event)"></div>
+                        <div class="drop-down icon #isBtn#" onclick="toggleFilterItem(event)"></div>
                       </div>
                       <div class="filter-subitems">
                         <div class="filter-item subitem" data-key="#key#" data-subkey="#subkey#" data-value="#value#" onclick="selectFilterValue(event)">
@@ -930,7 +930,7 @@
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#FFFFFF" stroke-linecap="round"/>
         <path d="M18.1429 1L1 18.1429" stroke="#FFFFFF" stroke-linecap="round"/>
       </svg>
-      <div class="text"></div>
+      <div class="text pop-up"></div>
     </div>
 
     <div id="loader">
@@ -956,7 +956,7 @@
     <script src="http://api.topsports.ru/spad/qzip.php"></script>
     <!-- <script src ="../../stand/qzip.php"></script> -->
     <!-- <script src="../js/qzip.js"></script> -->
-    <script src="../js/filters_zip.js"></script>
+    <script src="../js/filters.js"></script>
     <script src="../js/cart.js"></script>
     <script src="../js/catalog.js"></script>
     <script src="../js/carousel.js"></script>
