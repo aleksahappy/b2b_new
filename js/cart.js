@@ -19,7 +19,7 @@ function getItems(data) {
   return new Promise((resolve, reject) => {
     sendRequest(`${urlRequest.api}???`, data)
     .then(result => {
-      console.log(result);
+      // console.log(result);
       var productList = JSON.parse(result);
       resolve(productList);
     })
@@ -34,11 +34,11 @@ function getItems(data) {
 function cartSentServer() {
   clearTimeout(cartTimer);
   cartTimer = setTimeout(function () {
-    console.log(cartChanges);
+    // console.log(cartChanges);
     sendRequest(`${urlRequest.api}baskets/set_cart.php`, cartChanges)
       .then(response => {
         cartChanges = {};
-        console.log(response);
+        // console.log(response);
       })
       .catch(err => {
         console.log(err);
@@ -46,6 +46,18 @@ function cartSentServer() {
       })
   }, cartTimeout);
 }
+
+// Отправка данных корзины на сервер если при закрытии страницы остались неотправленные данные (только изменившихся данных):
+
+window.addEventListener('unload', () => {
+  if(!isEmptyObj(cartChanges)) {
+    var data = {
+      sessid: getCookie('iam'),
+      data: cartChanges
+    };
+    navigator.sendBeacon(`${urlRequest.api}baskets/set_cart.php`, JSON.stringify(data));
+  }
+}, false);
 
 // Отправка данных о заказе на сервер:
 
@@ -67,7 +79,7 @@ function orderSentServer(event) {
     info: info,
     cart: cartInfo
   };
-  console.log(data);
+  // console.log(data);
   sendRequest(`${urlRequest.api}baskets/???`, data)
   .then(result => {
     // var orderId = JSON.parse(result);
@@ -76,7 +88,7 @@ function orderSentServer(event) {
   })
   .catch(error => {
     console.log(error);
-    message.show('Заказ не отправлен. Попробуйте еще раз.');
+    message.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
 }
 
@@ -90,7 +102,7 @@ function getOrderData() {
   formData.forEach(function(value, key){
     info[key] = value;
   });
-  console.log(info)
+  // console.log(info);
   return info;
 }
 
@@ -874,7 +886,7 @@ function loadInCart() {
   });
   renderCart();
   if (addInCart.length < strings.length) {
-    message.show('При загрузке были найдены не все артикулы');
+    message.show('При загрузке были найдены не все артикулы', 3000);
   }
   loadText.value = '';
 }
@@ -931,33 +943,44 @@ function toggleInCart(event) {
 
 // Удаление выбранных пунктов корзины:
 
-function deleteSelected() {
-  if (confirm('Удалить выделенные товары из корзины?')) {
-    var cartRows = getEl('cart-rows'),
-        cartTable = getEl('cart-table');
-    var id, tableRow, bonusRow, tableBonusRow;
-
-    cartRows.querySelectorAll('.cart-row.checked:not(.bonus)').forEach(row => {
-      id = row.dataset.id;
-      tableRow = getEl(`.cart-table-row[data-id="${id}"]`);
-      cartRows.removeChild(row);
-      cartTable.removeChild(tableRow);
-      saveInCart(id, 0);
-
-      bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`);
-      if (bonusRow) {
-        tableBonusRow = getEl(`.cart-table-row.bonus[data-parent-id="${id}"]`);
-        cartRows.removeChild(bonusRow);
-        cartTable.removeChild(tableBonusRow);
-      }
-    });
-    getEl('check-all').classList.remove('checked');
-    changeCartInfo();
-    if (cartRows.querySelectorAll('.cart-row').length == 0) {
-      showElement('cart-empty');
-      hideElement('cart-full');
-    }
+function deleteSelected(isConfirm) {
+  if (!isConfirm) {
+    getConfirmDeleteFromCart();
+    return;
   }
+  message.hide();
+  var cartRows = getEl('cart-rows'),
+      cartTable = getEl('cart-table');
+  var id, tableRow, bonusRow, tableBonusRow;
+
+  cartRows.querySelectorAll('.cart-row.checked:not(.bonus)').forEach(row => {
+    id = row.dataset.id;
+    tableRow = getEl(`.cart-table-row[data-id="${id}"]`);
+    cartRows.removeChild(row);
+    cartTable.removeChild(tableRow);
+    saveInCart(id, 0);
+
+    bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`);
+    if (bonusRow) {
+      tableBonusRow = getEl(`.cart-table-row.bonus[data-parent-id="${id}"]`);
+      cartRows.removeChild(bonusRow);
+      cartTable.removeChild(tableBonusRow);
+    }
+  });
+  getEl('check-all').classList.remove('checked');
+  changeCartInfo();
+  if (cartRows.querySelectorAll('.cart-row').length == 0) {
+    showElement('cart-empty');
+    hideElement('cart-full');
+  }
+}
+
+function getConfirmDeleteFromCart() {
+  message.show(
+  `<div style="margin-bottom: 1em;">Удалить выделенные товары из корзины?</div><div class="row">
+    <div class="basic btn" onclick="message.hide()" style="margin-right: 1em;">Отмена</div>
+    <div class="active btn" onclick="deleteSelected(true)">Ок</div>
+  </div>`)
 }
 
 //=====================================================================================================
@@ -970,7 +993,7 @@ function openOrderForm() {
   sendRequest(`${urlRequest.api}baskets/ajax.php?action=get_contr_delivery`)
   .then(result => {
     var data = JSON.parse(result);
-    console.log(data);
+    // console.log(data);
     if (data.user_contr && data.user_address_list) {
       fillTemplate({
         area: 'select-contr',

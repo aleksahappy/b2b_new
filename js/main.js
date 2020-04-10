@@ -54,7 +54,7 @@ function checkAuth() {
   } else {
     sendRequest(`${urlRequest.new}check_auth.php`)
     .then(result => {
-      console.log(result);
+      // console.log(result);
       var data = JSON.parse(result);
       if (data.ok) {
         if (pageId === 'auth') {
@@ -220,19 +220,19 @@ function getCart(totals = false) {
         if (!result) {
           reject('Корзина пустая');
         } else if (totals && JSON.stringify(cartTotals) === result) {
-          console.log(JSON.parse(result));
+          // console.log(JSON.parse(result));
           reject('Итоги не изменились');
         } else if (!totals && JSON.stringify(cart[cartId]) === JSON.stringify(JSON.parse(result)[cartId])) {
-          console.log(JSON.parse(result)[cartId]);
+          // console.log(JSON.parse(result)[cartId]);
           reject('Корзина не изменилась');
         } else {
           if (totals) {
-            console.log(JSON.parse(result));
-            console.log('Итоги обновились');
+            // console.log(JSON.parse(result));
+            // console.log('Итоги обновились');
             cartTotals = JSON.parse(result);
           } else {
-            console.log(JSON.parse(result)[cartId]);
-            console.log('Корзина обновилась');
+            // console.log(JSON.parse(result)[cartId]);
+            // console.log('Корзина обновилась');
             cart[cartId] = JSON.parse(result)[cartId];
           }
           resolve();
@@ -742,7 +742,7 @@ function getChar(event) {
 // Проверка пустой ли объект:
 
 function isEmptyObj(obj) {
-  if (Object.keys(obj).length > 0) {
+  if (Object.keys(obj).length) {
     return false;
   }
   return true;
@@ -1378,19 +1378,23 @@ function fillEl(data, items, temp) {
     temp = replaceInTemp(null, items, temp, data.sign);
   } else if (data.iterate && data.iterate === 'data') {
     for (var key in items) {
-      if (!data.sub || subNames.indexOf(key) === -1) {
-        temp = replaceInTemp(key, items, temp, data.sign);
-      }
+      temp = replaceInTemp(key, items, temp, data.sign);
     }
   } else {
     var props = temp.match(/#[^#]+#/gi);
-    props = props ? props.map(prop => prop = prop.replace(/#/g, '')) : [];
-    props.forEach(key => {
-      temp = replaceInTemp(key, items, temp, data.sign);
-    });
+    props = props || [];
+    props = props.reduce((unique, el) => {
+      el = el.replace(/#/g, '');
+      if (unique.indexOf(el) === -1) {
+        unique.push(el);
+      }
+      return unique;
+    }, []);
+    props.forEach(key => temp = replaceInTemp(key, items, temp, data.sign));
   }
   return temp;
 }
+
 
 // Заполнение подшаблонов:
 

@@ -719,6 +719,7 @@ function clearAllSearch() {
 
 function initFilters() {
   var data = checkFiltersIsNeed(dataFilters);
+  console.log(data);
   fillTemplate({
     area: 'menu-filters',
     items: data,
@@ -735,51 +736,42 @@ function initFilters() {
   addTooltips('color');
 }
 
-// Проверка необходимости фильтра:
+// Проверка необходимости фильтров на странице и добавление необходимых данных:
 
 function checkFiltersIsNeed(dataFilters) {
   var data = JSON.parse(JSON.stringify(dataFilters)),
       isExsist = false;
-  data.forEach(filter => {
-    for (let k in filter.items) {
-      var item = filter.items[k];
-      isExsist = curItems.find(card => {
-        if (card[filter.key] == item.value || card[item.value] == 1) {
-          return true;
-        }
-      });
-      if (!isExsist) {
-        delete filter.items[k];
-      } else {
-        if (typeof item.items == 'object') {
-          for (let kk in item.items) {
-            var subItem = item.items[kk];
-            isExsist = curItems.find(card => {
-              if (card[filter.key] == item.value && card.subcat == subItem.value) {
+  data = data.filter(filter => {
+    if (filter.items) {
+      filter.items = filter.items.filter(item => {
+        isExsist = curItems.find(card => card[filter.key] == item.value || card[item.value] == 1);
+        if (isExsist) {
+          if (item.items) {
+            item.items = item.items.filter(subItem => {
+              isExsist = curItems.find(card => card[filter.key] == item.value && card.subcat == subItem.value);
+              if (isExsist) {
                 return true;
               }
             });
-            if (!isExsist) {
-              delete filter.items[k][kk];
-            }
           }
+          if (item.items && !isEmptyObj(item.items)) {
+            item.isBtn = '';
+          } else {
+            item.isBtn = 'hidden';
+          }
+          return true;
         }
-        item.isBtn = item.items && !isEmptyObj(item.items) ? '' : 'hidden';
-      }
-    }
-  });
-  data.forEach((filter, index) => {
-    if (filter.key === 'cat' && pageId === 'equip' && !location.search) {
-      data.splice(index, 1);
-      return;
-    }
-    if (filter.key === 'brand' && pageId === 'equip' && location.search) {
-      filter.isOpen = false;
+      });
     }
     if (filter.items && !isEmptyObj(filter.items)) {
+      if (filter.key === 'cat' && pageId === 'equip' && !location.search) {
+        return;
+      }
+      if (filter.key === 'brand' && pageId === 'equip' && location.search) {
+        filter.isOpen = false;
+      }
       filter.isOpen = filter.isOpen && window.innerWidth >= 767 ? 'default-open' : 'close';
-    } else {
-      data.splice(index, 1);
+      return true;
     }
   });
   return data;
@@ -1103,9 +1095,7 @@ function checkFiltersPosition() {
 
 function checkFilters() {
   selectFilters();
-  const d = Date.now();
   showCards();
-  console.log(Date.now() - d);
 }
 
 // Выбор сохраненных фильтров на странице или их удаление если их больше нет на странице:
@@ -1126,7 +1116,7 @@ function selectFilters() {
       curItem = getCurFilterItem(k, kk);
       if (curItem) {
         selectCards(curFilters);
-        changeFilterClass(curEl);
+        changeFilterClass(curItem);
         for (var kkk in filters[k][kk]) {
           curFilters[k][kk][kkk] = {};
           curItem = getCurFilterItem(k, kkk, kk);
@@ -1164,7 +1154,7 @@ function getCurFilterItem(key, value, subkey) {
     curItem = getEl(`[data-subkey="${subkey}"][data-value="${value}"]`, 'menu-filters');
   } else {
     curItem = getEl(`[data-key="${key}"][data-value="${value}"]`, 'menu-filters');
-    addInFiltersInfo(key, value, curEl);
+    addInFiltersInfo(key, value, curItem);
   }
   return curItem;
 }

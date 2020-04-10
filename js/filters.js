@@ -66,40 +66,10 @@ var colors = {
   'graphite': 'Графитовый' // нет в массиве
 }
 
-// Создание данных для фильтров каталога:
 
-function createFilterData(data, optNumb) {
-  var filter = {};
-  if (window.actions && data === actions) {
-    filter = createFilterFromActions();
-  } else if (window.items && optNumb) {
-    filter = createFilterFromOptions(optNumb);
-  } else if (window.catsubs && data === catsubs) {
-    filter = createFilterFromCatsubs();
-  } else {
-    filter = createFilterFromObj(data);
-  }
-  return filter;
-}
+// Получение уникальных данных из options массива items:
 
-// Создание данных для фильтра из объекта actions:
-
-function createFilterFromActions() {
-  var filter = {},
-      i = 0;
-  for (var key in actions) {
-    filter[i] = {
-      title: actions[key].title,
-      value: key
-    }
-    i++;
-  }
-  return filter;
-}
-
-// Создание данных для фильтра из данных options в массиве items:
-
-function createFilterFromOptions(optNumb) {
+function getDataFromOptions(optNumb) {
   var filter = {}, item;
   items.forEach(el => {
     if (el.options && el.options != 0) {
@@ -109,57 +79,98 @@ function createFilterFromOptions(optNumb) {
       }
     }
   });
-  return createFilterFromObj(filter);
+  return filter;
 }
 
-// Создание данных для фильтра из данных catsubs:
+// Создание данных для фильтров каталога:
 
-function createFilterFromCatsubs() {
-  var filter = {},
+function createFilterData(data) {
+  if (!data) {
+    return [];
+  }
+  var title,
+      items = [],
+      item,
       subItems,
       i = 0,
       ii;
-  for (var k in catsubs) {
-    subItems = {};
-    ii = 0;
-    for (var kk in catsubs[k]) {
-      subItems[ii] = {
-        title: catsubs[k][kk],
-        value: catsubs[k][kk],
-        subkey: k
-      };
-      ii++;
-    }
-    filter[i] = {
-      title: k,
-      value: k,
-      items: subItems
+  for (var k in data) {
+    title = getTitle(i, k, data[k]);
+    item = {
+      title: title,
+      value: k != i ? k : title,
     };
-    i++;
+    subItems = [];
+    ii = 0;
+    if (typeof data[k] === 'object') {
+      for (var kk in data[k]) {
+        title = getTitle(ii, kk, data[k][kk]);
+        subItems.push({
+          title: title,
+          value: kk != ii ? kk : title,
+          subkey: item.value
+        });
+        ii++;
+      }
+    }
+    item.items = subItems
+    items.push(item);
+    index ++;
   }
-  return filter;
+  return items;
 }
 
-function createFilterFromObj(data) {
-  var filter = {},
-      title,
-      i = 0;
-  for (var key in data) {
-    title = data[key] == 1 ? key : data[key];
-    if (title == 'SpyOptic') {
-      title = 'Spy Optic';
-    } else if (title == 'TroyLeeDesigns') {
-      title = 'Troy Lee Designs';
-    } else if (title == 'KingDolphin') {
-      title = 'King Dolphin';
-    }
-    filter[i] = {
-      title: title,
-      value: key
-    };
-    i++;
+function createFilterData(data, parent) {
+  var items = [];
+  if (!data) {
+    return items;
   }
-  return filter;
+  if (typeof data === 'object') {
+    var title,
+        item,
+        subItems,
+        index = 0;
+    for (var key in data) {
+      title = getTitle(index, key, data[key]);
+      item = {
+        title: title,
+        value: key != index ? key : title,
+      };
+      if (parent) {
+        item.subkey = parent;
+      }
+      if (data[key] && typeof data[key] === 'object' && !data[key].title) {
+        subItems = createFilterData(data[key], item.value);
+        item.items = subItems;
+      }
+      items.push(item);
+      index ++;
+    }
+  }
+  return items;
+}
+
+// Получение для фильтра названия, которое будет отображаться на странице:
+
+function getTitle(index, key, value) {
+  var title;
+
+  if (value && typeof value === 'object') {
+    title = value.title || key;
+  } else if (!value || value == 1) {
+    title = key;
+  } else {
+    title = value;
+  }
+
+  if (title == 'SpyOptic') {
+    title = 'Spy Optic';
+  } else if (title == 'TroyLeeDesigns') {
+    title = 'Troy Lee Designs';
+  } else if (title == 'KingDolphin') {
+    title = 'King Dolphin';
+  }
+  return title;
 }
 
 // Сортировка подкатегорий по алфавиту:
@@ -202,7 +213,7 @@ if (pageId === 'equip') {
   dataFilters.push({
     title: 'Применяемость',
     key: 'use',
-    items: createFilterData(use,)
+    items: createFilterData(use)
     // items: sortObjByValue(use)
   }, {
     title: 'Возраст',
@@ -224,7 +235,7 @@ if (pageId === 'equip') {
   // }, {
   //   title: 'Емкость',
   //   key: 'volume',
-  //   items: sortObjByKey(createFilterData(items, '1262'), 'number from string')
+  //   items: sortObjByKey(createFilterData(getDataFromOptions('1262')), 'number from string')
   // }
   );
 }
@@ -234,3 +245,5 @@ dataFilters.forEach((filter, index) => {
     dataFilters.splice(index, 1);
   }
 });
+
+console.log(dataFilters);
