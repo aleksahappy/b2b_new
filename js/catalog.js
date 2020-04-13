@@ -666,7 +666,6 @@ function changeContent(page) {
 
 function toggleEventListeners(page) {
   if (page === 'cart') {
-    toggleEventListeners(page);
     window.removeEventListener('scroll', scrollGallery);
     window.removeEventListener('resize', scrollGallery);
     window.removeEventListener('resize', setContentWidth);
