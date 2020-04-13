@@ -495,55 +495,6 @@ function renderContent() {
   setDocumentScroll(0);
 }
 
-// Скрытие неактуальных частей страницы:
-
-function changeContent(page) {
-  window.removeEventListener('scroll', scrollGallery);
-  window.removeEventListener('resize', scrollGallery);
-  window.removeEventListener('resize', setContentWidth);
-  window.removeEventListener('scroll', setFiltersPosition);
-  window.removeEventListener('resize', setFiltersPosition);
-
-  if (page === 'cart') {
-    hideElement('header-content');
-    hideElement('page-search-icon');
-    showElement('main-header');
-    hideElement('main-info');
-    hideElement('content');
-    hideElement('filters-container');
-    hideElement('gallery');
-    hideElement('gallery-notice');
-  } else {
-    showElement('content', 'flex');
-    if (page === 'product') {
-      showElement('main-header');
-    }
-    if (page === 'gallery') {
-      window.addEventListener('scroll', scrollGallery);
-      window.addEventListener('resize', scrollGallery);
-      window.addEventListener('resize', setContentWidth);
-      window.addEventListener('scroll', setFiltersPosition);
-      window.addEventListener('resize', setFiltersPosition);
-      showElement('header-content');
-      showElement('page-search-icon');
-      if (website === 'skipper') {
-        showElement('main-header', 'table');
-      } else {
-        hideElement('main-header');
-      }
-      showElement('main-info', 'flex');
-      hideElement('cart');
-      if (website !== 'skipper') {
-        if (path[path.length - 1] == 'zip') {
-          showElement('zip-select');
-        } else {
-          hideElement('zip-select');
-        }
-      }
-    }
-  }
-}
-
 // Изменение заголовка страницы:
 
 function changePageTitle() {
@@ -655,8 +606,13 @@ function renderGallery() {
     if (key != pageId) {
       curItems = curItems.filter(item => item[key] == 1);
     }
-  });;
+  });
   changeContent('gallery');
+  if (!curItems.length) {
+    hideElement('header-content');
+    hideElement('content');
+    return;
+  }
   clearAllSearch();
   fillZipFilters();
   initFilters();
@@ -666,6 +622,63 @@ function renderGallery() {
   checkFilters();
   createFiltersInfo();
   setContentWidth();
+}
+
+// Скрытие неактуальных частей страницы:
+
+function changeContent(page) {
+  if (page === 'cart') {
+    hideElement('header-content');
+    hideElement('page-search-icon');
+    showElement('main-header');
+    hideElement('main-info');
+    hideElement('content');
+    hideElement('filters-container');
+    hideElement('gallery');
+    hideElement('gallery-notice');
+    toggleEventListeners(page);
+  } else if (page === 'product') {
+    showElement('main-header');
+    showElement('content', 'flex');
+  } else if (page === 'gallery') {
+    hideElement('cart');
+    showElement('header-content');
+    showElement('page-search-icon');
+    if (website === 'skipper') {
+      showElement('main-header', 'table');
+    } else {
+      hideElement('main-header');
+    }
+    showElement('main-info', 'flex');
+    if (website !== 'skipper') {
+      if (path[path.length - 1] == 'zip') {
+        showElement('zip-select');
+      } else {
+        hideElement('zip-select');
+      }
+    }
+    showElement('content', 'flex');
+    toggleEventListeners(page);
+  }
+}
+
+// Добавление/удаление обработчиков событий на странице:
+
+function toggleEventListeners(page) {
+  if (page === 'cart') {
+    toggleEventListeners(page);
+    window.removeEventListener('scroll', scrollGallery);
+    window.removeEventListener('resize', scrollGallery);
+    window.removeEventListener('resize', setContentWidth);
+    window.removeEventListener('scroll', setFiltersPosition);
+    window.removeEventListener('resize', setFiltersPosition);
+  } else if (page === 'gallery') {
+    window.addEventListener('scroll', scrollGallery);
+    window.addEventListener('resize', scrollGallery);
+    window.addEventListener('resize', setContentWidth);
+    window.addEventListener('scroll', setFiltersPosition);
+    window.addEventListener('resize', setFiltersPosition);
+  }
 }
 
 // Добавление фильтра из поисковой строки:
@@ -718,8 +731,8 @@ function clearAllSearch() {
 // Инициализация фильтров каталога:
 
 function initFilters() {
+  hideElement('filters-container');
   var data = checkFiltersIsNeed(dataFilters);
-  console.log(data);
   fillTemplate({
     area: 'menu-filters',
     items: data,
@@ -1576,15 +1589,12 @@ function renderCarousel(carousel, curImg = 0) {
 // Отображение карточек на странице:
 
 function showCards() {
-  if (curItems.length > 0 && selectedItems === '') {
+  if (curItems.length && selectedItems === '') {
     loadCards(curItems);
     showElement('gallery', 'flex');
     hideElement('gallery-notice');
   } else {
-    if (curItems.length === 0) {
-      hideElement('gallery-notice', 'flex');
-      hideElement('gallery');
-    } else if (selectedItems.length === 0) {
+    if (selectedItems.length === 0) {
       showElement('gallery-notice', 'flex');
       hideElement('gallery');
       setFiltersPosition();

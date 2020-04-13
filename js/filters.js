@@ -84,42 +84,6 @@ function getDataFromOptions(optNumb) {
 
 // Создание данных для фильтров каталога:
 
-function createFilterData(data) {
-  if (!data) {
-    return [];
-  }
-  var title,
-      items = [],
-      item,
-      subItems,
-      i = 0,
-      ii;
-  for (var k in data) {
-    title = getTitle(i, k, data[k]);
-    item = {
-      title: title,
-      value: k != i ? k : title,
-    };
-    subItems = [];
-    ii = 0;
-    if (typeof data[k] === 'object') {
-      for (var kk in data[k]) {
-        title = getTitle(ii, kk, data[k][kk]);
-        subItems.push({
-          title: title,
-          value: kk != ii ? kk : title,
-          subkey: item.value
-        });
-        ii++;
-      }
-    }
-    item.items = subItems
-    items.push(item);
-    index ++;
-  }
-  return items;
-}
-
 function createFilterData(data, parent) {
   var items = [];
   if (!data) {
@@ -131,7 +95,7 @@ function createFilterData(data, parent) {
         subItems,
         index = 0;
     for (var key in data) {
-      title = getTitle(index, key, data[key]);
+      title = getTitle(key, data[key]);
       item = {
         title: title,
         value: key != index ? key : title,
@@ -152,9 +116,8 @@ function createFilterData(data, parent) {
 
 // Получение для фильтра названия, которое будет отображаться на странице:
 
-function getTitle(index, key, value) {
+function getTitle(key, value) {
   var title;
-
   if (value && typeof value === 'object') {
     title = value.title || key;
   } else if (!value || value == 1) {
@@ -245,5 +208,3 @@ dataFilters.forEach((filter, index) => {
     dataFilters.splice(index, 1);
   }
 });
-
-console.log(dataFilters);

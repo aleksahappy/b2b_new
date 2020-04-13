@@ -545,7 +545,7 @@ function getEl(el, area = document) {
       el = area.querySelector(el);
     }
   }
-  return el;
+  return el || undefined;
 }
 
 // Показ элемента:
@@ -1304,15 +1304,14 @@ function fillTemplate(data) {
     data.areaName = data.area.id || data.area.classList[0];
   }
 
-  if (!data.area) {
-    if (data.temp) {
-      return data.temp;
-    }
-    return;
-  }
-
   var temp = window[`${data.areaName}Temp`]; // шаблон
   if (!temp) {
+    if (!data.area) {
+      if (data.parentTemp) {
+        return data.parentTemp;
+      }
+      return;
+    }
     if (data.source && data.source === 'outer') {
       temp = window[`${data.areaName}Temp`] = data.area.outerHTML;
     } else {
@@ -1321,8 +1320,8 @@ function fillTemplate(data) {
   }
 
   var txt = fillTemp(data, data.items, temp);
-  if (data.temp) {
-    return data.temp.replace(temp, txt);
+  if (data.parentTemp) {
+    return data.parentTemp.replace(temp, txt);
   } else {
     if (data.action && data.action === 'return') {
       return txt;
@@ -1374,7 +1373,7 @@ function fillEl(data, items, temp) {
     temp = fillSubTemp(data, items, temp);
   }
 
-  if (typeof items === 'string' || typeof items === 'number') { //Данные - строка
+  if (typeof items === 'string' || typeof items === 'number') { //Данные - строка/число
     temp = replaceInTemp(null, items, temp, data.sign);
   } else if (data.iterate && data.iterate === 'data') {
     for (var key in items) {
@@ -1407,7 +1406,7 @@ function fillSubTemp(data, items, temp) {
       sub: sub.sub,
       parentArea: data.area,
       parentAreaName: data.areaName,
-      temp: temp,
+      parentTemp: temp,
       source: sub.source || 'outer',
       sign: sub.sign || data.sign,
       iterate: sub.iterate || data.iterate,
