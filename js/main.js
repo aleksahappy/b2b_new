@@ -1433,13 +1433,12 @@ function replaceInTemp(key, items, temp, sign) {
 function insertText(el, txt, method = 'inner') {
   el.classList.remove('template');
   txt = txt.replace('template', '');
-  if (el.childNodes.length === 1 && el.firstChild.classList.contains('template')) {
+  if (!method || method === 'inner') {
     el.innerHTML = txt;
-  } else if (method === 'end') {
-    el.insertAdjacentHTML('beforeend', txt);
-  } else if (method === 'begin') {
-    el.insertAdjacentHTML('afterbegin', txt);
   } else {
-    el.innerHTML = txt;
+    if ((method === 'afterbegin' || method === 'beforeend') && (el.childNodes.length === 1 && el.firstChild.classList.contains('template'))) {
+      el.innerHTML = txt;
+    }
+    el.insertAdjacentHTML(method, txt);
   }
 }

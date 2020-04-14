@@ -956,9 +956,9 @@ form.search .close.icon {
   position: absolute;
   top: 0;
   right: 0;
-  width: 2em;
-  height: 2em;
-  margin: 1em;
+  width: 1em;
+  height: 1em;
+  margin: 0.5em;
   z-index: 1;
 }
 

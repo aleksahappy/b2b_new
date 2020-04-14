@@ -33,19 +33,9 @@
   margin-bottom: 20px;
 }
 
-.load-cart {
-  width: 100%;
-}
-
-#load-text {
-  display: block;
-  width: 100%;
-  height: 10em;
-  margin: 2em 0;
-  padding: 0.5em;
-  border: 0.5px solid rgba(52, 73, 94, 0.3);;
-  border-radius: 3px;
-  resize: none;
+#catalog-link {
+  margin-bottom: 1em;
+  text-decoration: none;
 }
 
 /* =====================================================================================================
@@ -392,4 +382,41 @@
 .cart-row.bonus .price .value,
 .cart-row.bonus .sum .value {
   color: #CE0014;
+}
+
+/* =====================================================================================================
+Всплывающее окно загрузки данных в корзину:
+===================================================================================================== */
+
+#load-container .text.light {
+  margin-bottom: 1em;
+}
+
+#load-text {
+  display: block;
+  width: 100%;
+  height: 10em;
+  padding: 0.5em;
+  border: 0.5px solid rgba(52, 73, 94, 0.3);;
+  border-radius: 3px;
+  resize: none;
+}
+
+#load-file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+#load-file + label {
+  cursor: pointer;
+}
+
+#load-container .btns-wrap {
+  width: 100%;
+  margin-top: 0.5em;
+  text-align: center;
 }

@@ -66,10 +66,12 @@ function getEl(el, area = document) {
 //                                                     - replace - вставит заполненный шаблон на страницу
 //                                                     - return - вернет строку с заполненным шаблоном
 //
-//    method: 'inner' / 'begin' / 'end'                Метод вставки шаблона на страницу (по умолчанию - 'inner'):
-//                                                     - inner - замена содержимого
-//                                                     - begin - перед первым дочерним элементом
-//                                                     - end - после последнего дочернего элемента
+//    method: 'inner' /                                Метод вставки шаблона на страницу (по умолчанию - 'inner'):
+//            'beforebegin' / 'afterbegin' /           - inner - замена содержимого елемента
+//            'beforeend' / 'afterend'                 - beforebegin - до самого елемента (до открывающего тега)
+//                                                     - afterbegin - перед первым потомком елемента
+//                                                     - beforeend - после последнего потомка елемента
+//                                                     - afterend - после самого елемента (после закрывающего тега)
 //
 //    iterate: 'temp' / 'data'                         Как производить перебор при замене данных в шаблоне (по умолчанию - 'temp'):
 // }                                                   - перебором всех мест замены (#...#) в шаблоне:
@@ -253,13 +255,12 @@ function replaceInTemp(key, items, temp, sign) {
 function insertText(el, txt, method = 'inner') {
   el.classList.remove('template');
   txt = txt.replace('template', '');
-  if (el.childNodes.length === 1 && el.firstChild.classList.contains('template')) {
+  if (!method || method === 'inner') {
     el.innerHTML = txt;
-  } else if (method === 'end') {
-    el.insertAdjacentHTML('beforeend', txt);
-  } else if (method === 'begin') {
-    el.insertAdjacentHTML('afterbegin', txt);
   } else {
-    el.innerHTML = txt;
+    if ((method === 'afterbegin' || method === 'beforeend') && (el.childNodes.length === 1 && el.firstChild.classList.contains('template'))) {
+      el.innerHTML = txt;
+    }
+    el.insertAdjacentHTML(method, txt);
   }
 }
