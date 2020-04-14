@@ -221,13 +221,13 @@ function addSizeInfo(item) {
     sizeObj.image = item.image;
     sizeObj.title = item.title;
     sizeObj.options = size.size ? `(${item.options[40]}, ${size.size})` : '';
-    sizeObj.price_cur = size.total_qty > 0 ? item.price_cur : 0;
-    sizeObj.price_cur1 = size.total_qty > 0 ? item.price_cur1 : 0;
-    sizeObj.price_user = size.total_qty > 0 ? item.price_user : 0;
-    sizeObj.price_user1 = size.total_qty > 0 ? item.price_user1 : 0;
+    sizeObj.price_cur = item.price_cur;
+    sizeObj.price_cur1 = item.price_cur1;
+    sizeObj.price_user = item.price_user ;
+    sizeObj.price_user1 = item.price_user1;
     sizeObj.action_id = item.action_id;
-    sizeObj.action_name = item.actiontitle || 'Cклад';
-    // sizeObj.action_name = sizeObj.total_qty > 0 ? (item.actiontitle ? item.actiontitle: 'Cклад') : 'Нет в наличии';
+    sizeObj.action_name = sizeObj.total_qty > 0 ? (item.actiontitle ? item.actiontitle: 'Cклад') : 'Нет в наличии';
+    // sizeObj.action_name = item.actiontitle || 'Cклад';
   }
 }
 
