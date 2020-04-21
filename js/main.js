@@ -1,6 +1,28 @@
 'use strict';
 
 //=====================================================================================================
+// Полифиллы:
+//=====================================================================================================
+
+(function() {
+  // проверяем поддержку
+  if (!Element.prototype.closest) {
+    // реализуем
+    Element.prototype.closest = function(css) {
+      var node = this;
+      while (node) {
+        if (node.matches(css)) {
+          return node;
+        } else {
+          node = node.parentElement;
+        }
+      }
+      return null;
+    };
+  }
+})();
+
+//=====================================================================================================
 // Первоначальные данные для работы:
 //=====================================================================================================
 
@@ -17,13 +39,13 @@ var website = document.body.dataset.website,
     loader = getEl('loader'),
     message = getEl('message-container');
 
+
 // Динамически изменяемые переменные:
 
-var isSearch;
 if (isCart) {
   var cartId = pageId,
       cart = {},
-      cartTotals = {},
+      cartTotals = [],
       cartChanges = {};
 }
 
@@ -36,52 +58,33 @@ if (message) {
   message = new Message(message);
 }
 
-//=====================================================================================================
-// Авторизация на сайте при загрузке страницы:
-//=====================================================================================================
+// Запускаем рендеринг страницы:
 
-// checkAuth();
 startPage();
 
-// Проверка авторизован ли пользователь:
+//=====================================================================================================
+// Общие действия на всех страницах:
+//=====================================================================================================
 
-function checkAuth() {
-  loader.show();
-  if (pageId === 'auth' && document.location.search === '?error=1') {
-    loader.hide();
-    startPage();
-    showElement('error');
-  } else {
-    sendRequest(`${urlRequest.new}check_auth.php`)
+// Запуск страницы:
+
+function startPage() {
+  if (location.pathname === '/' || location.pathname === '/registr/') {
+    return;
+  }
+  if (location.pathname !== '/desktop/') {
+    loader.show();
+  }
+  setPaddingToBody();
+  showUserInfo();
+  if (isCart) {
+    window.addEventListener('focus', updateCartTotals);
+    getCart('totals')
     .then(result => {
-      // console.log(result);
-      var data = JSON.parse(result);
-      if (data.ok) {
-        if (pageId === 'auth') {
-          document.location.href = '/desktop';
-        }
-        if (pageId === 'desktop') {
-          loader.hide();
-        }
-        showUserInfo(data.user_info);
-        startPage();
-      } else {
-        if (pageId !== 'auth') {
-          document.location.href = '/';
-        } else {
-          loader.hide();
-          startPage();
-        }
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      if (pageId !== 'auth') {
-        document.location.href = '/';
-      } else {
-        loader.hide();
-        startPage();
-      }
+      renderTotals();
+    }, reject => {
+      console.log(reject);
+      renderTotals();
     });
   }
 }
@@ -107,9 +110,9 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
     request.addEventListener('load', () => {
       if (request.status !== 200) {
-        reject(new Error(request.status + ':' +request.statusText));
+        reject(new Error(request.status + ':' + request.statusText));
       }
-      resolve(request.responseText);
+      resolve(request.response);
     });
     if (data) {
       var requestData = {
@@ -128,63 +131,21 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 }
 
 //=====================================================================================================
-// При запуске страницы:
-//=====================================================================================================
-
-// Общие действия на всех страницах при загрузке:
-
-function startPage() {
-  document.body.style.visibility = 'visible';
-  setPaddingToBody();
-  if (isCart) {
-    window.addEventListener('focus', updateCartTotals);
-    getCart('totals')
-    .then(result => {
-      renderCatalogs();
-    }, reject => {
-      console.log(reject);
-      renderCatalogs();
-    });
-  }
-}
-
-//=====================================================================================================
-// Полифиллы:
-//=====================================================================================================
-
-(function() {
-  // проверяем поддержку
-  if (!Element.prototype.closest) {
-    // реализуем
-    Element.prototype.closest = function(css) {
-      var node = this;
-      while (node) {
-        if (node.matches(css)) {
-          return node;
-        } else {
-          node = node.parentElement;
-        }
-      }
-      return null;
-    };
-  }
-})();
-
-//=====================================================================================================
 // Работа с данными пользователя:
 //=====================================================================================================
 
 // Вывод информации о пользователе в шапке страницы:
 
-function showUserInfo(userInfo) {
-  var data = {
-    area: 'profile',
-    items: {
-      login: userInfo.login,
-      username: userInfo.name + ' ' + userInfo.lastname
-    }
+function showUserInfo() {
+  if (window.userInfo) {
+    fillTemplate({
+      area: 'profile',
+      items: {
+        login: userInfo.login,
+        username: userInfo.name + ' ' + userInfo.lastname
+      }
+    });
   }
-  fillTemplate(data);
 }
 
 //=====================================================================================================
@@ -196,7 +157,7 @@ function showUserInfo(userInfo) {
 function updateCartTotals() {
   getCart('totals')
   .then(result => {
-    renderCatalogs();
+    renderTotals();
   }, reject => {
     console.log(reject);
   });
@@ -217,22 +178,22 @@ function getCart(totals = false) {
     sendRequest(url, data)
     .then(
       result => {
-        if (!result) {
+        if (!result || JSON.parse(result).err) {
           reject('Корзина пустая');
         } else if (totals && JSON.stringify(cartTotals) === result) {
-          // console.log(JSON.parse(result));
+          console.log(JSON.parse(result));
           reject('Итоги не изменились');
         } else if (!totals && JSON.stringify(cart[cartId]) === JSON.stringify(JSON.parse(result)[cartId])) {
-          // console.log(JSON.parse(result)[cartId]);
+          console.log(JSON.parse(result)[cartId]);
           reject('Корзина не изменилась');
         } else {
           if (totals) {
-            // console.log(JSON.parse(result));
-            // console.log('Итоги обновились');
+            console.log(JSON.parse(result));
+            console.log('Итоги обновились');
             cartTotals = JSON.parse(result);
           } else {
-            // console.log(JSON.parse(result)[cartId]);
-            // console.log('Корзина обновилась');
+            console.log(JSON.parse(result)[cartId]);
+            console.log('Корзина обновилась');
             cart[cartId] = JSON.parse(result)[cartId];
           }
           resolve();
@@ -245,29 +206,68 @@ function getCart(totals = false) {
   });
 }
 
-// Создание списка каталогов и корзин в шапке сайта:
+// Создание списков каталогов и корзин в шапке сайта:
 
-function renderCatalogs() {
-  if (!isCart) {
+function renderTotals() {
+  if (!isCart || !cartTotals.length) {
     return;
   }
-  var catalogItems = JSON.parse(JSON.stringify(cartTotals));
-  catalogItems.forEach(el => {
+  renderCartList('cart');
+  renderCartList('catalog');
+}
+
+// Создание списка каталогов/корзин в шапке сайта:
+
+function renderCartList(type) {
+  var area = type === 'cart' ? getEl('header-cart') : getEl('catalogs');
+  if (!area) {
+    return;
+  }
+  var data = getDataFromTotals(type);
+  fillTemplate({
+    area: area,
+    items: data,
+    sub: type === 'cart' ? [{area: '.item', items: 'items'}] : null
+  });
+}
+
+// Подготовка данных для создания списка каталогов/корзин:
+
+function getDataFromTotals(type) {
+  var data = JSON.parse(JSON.stringify(cartTotals)),
+      curTitle = getEl('.topmenu-item.active'),
+      sum = 0;
+  data.forEach((el, index) => {
     if (el.qty > 0) {
       el.isFull = 'full';
       if (el.qty > 99) {
-        el.qty = '99+';
+        el.qty = type === 'cart' ? '99' : '99+';
       }
     } else {
       el.isFull = '';
     }
-    el.sum = Math.ceil(el.sum).toLocaleString('ru-RU');
+
+    if (type === 'cart') {
+      sum += el.sum;
+    }
+    el.sum = el.sum.toLocaleString('ru-RU');
+
+    if (curTitle && el.id === curTitle.dataset.href) {
+      el.isFunc = 'openPage(event)';
+      if (type === 'cart') {
+        data.unshift(data.splice(index, 1)[0]);
+      }
+    } else {
+      el.isFunc = '';
+    }
   });
-  var data = {
-    area: 'catalogs',
-    items: catalogItems
-  };
-  fillTemplate(data);
+  if (type === 'cart') {
+    data = {
+      sum: sum,
+      items: data
+    };
+  }
+  return data;
 }
 
 //=====================================================================================================
@@ -584,9 +584,7 @@ function setDocumentScroll(top = scrollTop) {
 // Открытие всплывающего окна:
 
 function openPopUp(el, style = 'flex') {
-  if (typeof el != 'object') {
-    el = getEl(el);
-  }
+  el = getEl(el);
   if (el) {
     getDocumentScroll();
     document.body.classList.add('no-scroll');
@@ -603,9 +601,7 @@ function closePopUp(event, el) {
     }
     el = event.currentTarget;
   } else {
-    if (typeof el != 'object') {
-      el = getEl(el);
-    }
+    el = getEl(el);
   }
   if (el) {
     loader.hide();
@@ -897,6 +893,34 @@ function goToTop() {
 // Работа выпадающих списков:
 //=====================================================================================================
 
+// Инициализация выпадающего списка:
+
+function initDropDown(el, func) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Dropdown`] = new DropDown(el);
+    el.addEventListener('change', event => func(event));
+  }
+}
+
+// Очистка значения выпадающего списка:
+
+function clearDropDown(id) {
+  if (window[`${id}Dropdown`]) {
+    window[`${id}Dropdown`].clear();
+  }
+}
+
+// Установка значения выпадающего списка:
+
+function setValueDropDown(id, value) {
+  if (window[`${id}Dropdown`]) {
+    window[`${id}Dropdown`].setValue(value);
+  }
+}
+
+// Объект выпадающего списка:
+
 function DropDown(obj) {
   // Элементы для работы:
   this.filter = obj;
@@ -912,7 +936,11 @@ function DropDown(obj) {
     if (this.head) {
       this.head.addEventListener('click', () => this.toggle());
     }
-    this.filter.addEventListener('click', (event) => this.selectValue(event));
+    this.filter.addEventListener('click', event => this.selectValue(event));
+    var handler = window[this.filter.dataset.handler];
+    if (handler) {
+      this.filter.addEventListener('change', event => handler(event));
+    }
     if (this.clearFilterBtn) {
       this.clearFilterBtn.addEventListener('click', event => this.clear(event));
     }
@@ -933,11 +961,13 @@ function DropDown(obj) {
   }
 
   // Выбор значения:
-  this.selectValue = function (event) {
-    if (!event.target.closest('.item')) {
+  this.selectValue = function (event, curItem) {
+    if (event) {
+      curItem = event.target.closest('.item');
+    }
+    if (!curItem) {
       return;
     }
-    var curItem = event.target.closest('.item');
 
     if (this.filter.classList.contains('select')) {
       this.title.textContent = curItem.textContent;
@@ -957,22 +987,14 @@ function DropDown(obj) {
         this.filter.value = value;
       }
     }
-    var event = new Event('change');
-    this.filter.dispatchEvent(event);
+    this.filter.dispatchEvent(new Event('change'));
   }
 
   // Установка определенного значения фильтра:
   this.setValue = function (value) {
-    if (!this.filter.classList.contains('select')) {
-      return;
-    }
-    obj.querySelectorAll('.item').forEach(el => {
-      if ((el.dataset.value).toLowerCase() == value.toLowerCase()) {
-        this.title.textContent = el.textContent;
-        this.filter.value = el.dataset.value;
-        this.filter.classList.remove('open');
-        var event = new Event('change');
-        this.filter.dispatchEvent(event);
+    this.filter.querySelectorAll('.item').forEach(el => {
+      if ((el.dataset.value).toLowerCase() === value.toLowerCase()) {
+        this.selectValue(null, el);
       }
     });
   }
@@ -989,24 +1011,23 @@ function DropDown(obj) {
 // Работа с таблицами:
 //=====================================================================================================
 
-// Создание объектов таблиц при запуске страницы:
+// Инициализация объектов таблиц при запуске страницы:
 
 function initTables() {
-  loader.show();
   document.querySelectorAll('.table-wrap').forEach(el => {
-    var data = window[`${el.id}out`] ? window[`${el.id}out`] : [];
-    data = data.filter(el => el);
-    window[`table-${el.id}`] = new Table(el, data);
+    window[`${el.id}Table`] = new Table(el);
   });
 }
 
 // Объект таблицы:
 
-function Table(obj, data) {
+function Table(obj) {
+  // Константы:
+  this.data = Array.isArray(window[`${obj.id}Data`]) ? window[`${obj.id}Data`].filter(el => el) : [];
+
   // Элементы для работы:
   this.table = obj;
-  this.id = obj.id;
-  this.tab = getEl(`.tab.${this.id}`);
+  this.tab = getEl(`.tab.${obj.id}`);
   this.head = getEl('.table-head', obj);
   this.results = getEl('.results', this.head);
   this.body = getEl('.table-body', obj);
@@ -1015,13 +1036,10 @@ function Table(obj, data) {
   this.sort = obj.querySelectorAll('.sort');
   this.search = obj.querySelectorAll('.search');
 
-  // Константы:
-  this.data = data;
-
   // Динамические переменные:
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.itemsToLoad = this.data;
+  this.itemsToLoad;
   this.incr = 60;
   this.curColumn = null;
   this.startOffset = 0;
@@ -1042,16 +1060,14 @@ function Table(obj, data) {
     }
 
     this.dropDown.forEach(el => {
-      new DropDown(el, data);
       el.addEventListener('change', event => this.filterData(event, el.dataset.key));
     });
 
     this.sort.forEach(el => {
-      new DropDown(el);
       el.addEventListener('click', event => this.sortData(event, el.dataset.key, el.dataset.type));
     });
+
     this.search.forEach(el => {
-      new DropDown(el);
       el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
       getEl('.search.icon', el).addEventListener(event => this.searchData(event, el.dataset.key));
       getEl('.close.icon', el).addEventListener(event => this.clearSearch(event, el.dataset.key));
@@ -1122,7 +1138,7 @@ function Table(obj, data) {
 
   // Заполнение итогов таблицы:
   this.fillResults = function() {
-    if (!this.results) {
+    if (!this.results || !this.itemsToLoad || !this.itemsToLoad.length) {
       return;
     }
     this.results.querySelectorAll('.result').forEach(result => {
@@ -1266,7 +1282,6 @@ function Table(obj, data) {
       this.show();
     }
   }
-
   this.init();
 }
 
@@ -1277,13 +1292,13 @@ function Table(obj, data) {
 // Переход на страницу заказа:
 
 function showOrder(id) {
-  document.location.href = '/order/?order_id=' + id;
+  location.href = '/order/?order_id=' + id;
 }
 
 // Переход на страницу рекламации:
 
 function showReclm(id) {
-  document.location.href = '/reclamation/?recl_id=' + id;
+  location.href = '/reclamation/?recl_id=' + id;
 }
 
 //=====================================================================================================

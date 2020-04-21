@@ -33,9 +33,12 @@
   margin-bottom: 20px;
 }
 
+#cart-empty .btn {
+  min-width: 16.8em;
+}
+
 #catalog-link {
   margin-bottom: 1em;
-  text-decoration: none;
 }
 
 /* =====================================================================================================
@@ -44,11 +47,6 @@
 
 #cart-full {
   display: none;
-}
-
-.cart-header a,
-.cart-list a {
-  text-decoration: underline;
 }
 
 .cart-header a:hover,
@@ -63,6 +61,10 @@
   padding-top: 2px;
   background-color: #F2F2F2;
   z-index: 2;
+}
+
+.cart-header .unactive.btn {
+  margin-bottom: 1em;
 }
 
 .cart-info-container {

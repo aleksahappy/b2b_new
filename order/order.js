@@ -5,7 +5,10 @@ var orderId = document.location.search.replace('?order_id=', ''),
     TFF = {},
     TFD = {},
     TF = [];
-var arnaklk, arnaklv, arlistk, arlistv;
+var arnaklk,
+    arnaklv,
+    arlistk,
+    arlistv;
 TF["nomen"] = "artc,titl,kolv,pric,summ,sned,skid";
 TF["vnali"] = "artc,titl,dpst,kolv,pric,summ,paid,prcd,treb,kdop";
 TF["vputi"] = "artc,titl,dpst,kolv,pric,summ,paid,prcd,treb,kdop";
@@ -28,14 +31,13 @@ sendRequest(`${urlRequest.new}order.php?order_id=` + orderId)
   var data = JSON.parse(result);
   if (data.id) {
     if (!data.comment) {
-      data.isHiddenComment = 'hidden'
+      data.isHiddenComment = 'hidden';
     }
-    var orderInfo = {
+    // console.log(data);
+    fillTemplate({
       area: 'order-info',
       items: data,
-    };
-    console.log(data);
-    fillTemplate(orderInfo);
+    });
     var orderitems = data.orderitems;
     arlistk = orderitems.arlistk;
     arlistv = orderitems.arlistv;
@@ -48,7 +50,7 @@ sendRequest(`${urlRequest.new}order.php?order_id=` + orderId)
   initTables();
 });
 
-var restorearray = function() {
+function restorearray() {
   var k = arlistk;
   var v = arlistv;
   var d = "@$";
@@ -56,7 +58,7 @@ var restorearray = function() {
   var dx = ",";
   var out = [];
   for (var ti = 0; ti < ordtabs.length; ti++) {
-    window[ordtabs[ti] + "out"] = [];
+    window[ordtabs[ti] + "Data"] = [];
     window["summ" + ordtabs[ti]] = 0;
     window["kolv" + ordtabs[ti]] = 0;
     window["paid" + ordtabs[ti]] = 0;
@@ -82,7 +84,7 @@ var restorearray = function() {
     for (var ti = 0; ti < ordtabs.length; ti++) {
       // if(ordtabs[ti] != 'reclm') {
       if (checkinc(ordtabs[ti], outin)) {
-        window[ordtabs[ti] + "out"][i] = window[ordtabs[ti] + "outin"];
+        window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
 
         window["summ" + ordtabs[ti]] = Math.max(0, fNb(window["summ" + ordtabs[ti]])) + Math.max(0, fNb(window[ordtabs[ti] + "outin"]['summ']));
         if (window[ordtabs[ti] + "outin"]['paid']) {
@@ -94,7 +96,7 @@ var restorearray = function() {
         window["kolv" + ordtabs[ti]] = Math.max(0, window["kolv" + ordtabs[ti]]) + Math.max(0, window[ordtabs[ti] + "outin"]['kolv']);
       }
       // } else {
-      // 	window[ordtabs[ti] + "out"][i] = window[ordtabs[ti] + "outin"];
+      // 	window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
     }
     // }
     out[i] = outin;

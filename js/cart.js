@@ -113,11 +113,10 @@ function getOrderData() {
 // Обновление корзины при возвращении на страницу:
 
 function updateCart() {
-  return;
+  // return;
   getCart()
   .then(
     result => {
-      changeCartInHeader(countFromCart());
       if (location.search === '?cart') {
         createCart();
       } else {
@@ -151,7 +150,6 @@ function checkFullnessItems() {
     .then(
       result => {
         result.forEach(item => convertItem(item));
-        items.push(result);
       },
       reject => {
         console.log(reject);
@@ -165,24 +163,22 @@ function checkFullnessItems() {
 
 function changeCartInHeader(totals) {
   var qty = totals.qty,
-      sum = totals.sum,
-      headerCart = getEl('header-cart'),
-      catalogCart = getEl(`cart-${cartId}`);
-  if (headerCart) {
-    fillCartInHeader(qty, sum, headerCart);
-  }
-  if (catalogCart) {
-    fillCartInHeader(qty, sum, catalogCart);
-  }
+      sum = totals.sum;
+  fillCartInHeader(qty, sum, 'cart');
+  fillCartInHeader(qty, sum, 'catalog');
   changeCartName(qty);
 }
 
 // Заполнение конкретной корзины в шапке сайта данными:
 
-function fillCartInHeader(qty, sum, curCart) {
-  var cartQty = getEl('.qty', curCart),
-      cartSum = getEl('.sum span', curCart),
-      cartType = curCart.id;
+function fillCartInHeader(qty, sum, type) {
+  var area = type === 'cart' ? getEl('header-cart') : getEl('catalogs');
+  if (!area) {
+    return;
+  }
+  var curCart = getEl(`.cart-${cartId}`, area),
+      cartQty = getEl('.qty', curCart),
+      cartSum = getEl('.sum span', curCart);
   if (cartSum) {
     cartSum.textContent = sum.toLocaleString('ru-RU');
   }
@@ -191,25 +187,20 @@ function fillCartInHeader(qty, sum, curCart) {
   } else {
     if (qty > 0) {
       if (qty > 99) {
-        if (cartType === 'header-cart') {
-          cartQty.textContent = '99';
-        } else {
-          cartQty.textContent = '99+';
-        }
+        cartQty.textContent = type === 'cart' ? '99' : '99+';
       } else {
         cartQty.textContent = qty;
       }
-      if (cartType === 'header-cart') {
-        showElement(cartQty);
-      } else {
-        cartQty.classList.add('full');
-      }
+      cartQty.classList.add('full');
     } else {
-      if (cartType === 'header-cart') {
-        hideElement(cartQty);
-      } else {
-        cartQty.classList.remove('full');
-      }
+      cartQty.classList.remove('full');
+    }
+    if (type === 'cart') {
+      var sum = 0;
+      cartTotals.forEach(el => {
+        sum += el.sum;
+      });
+      getEl('.cart-sum span', area).textContent = sum.toLocaleString('ru-RU');
     }
   }
 }
@@ -219,6 +210,10 @@ function fillCartInHeader(qty, sum, curCart) {
 function changeCartName(qty) {
   var cartName = getEl('cart-name');
   if (cartName) {
+    if (!qty) {
+      var curTotal = cartTotals.find(el => el.id = cartId);
+      qty = curTotal ? curTotal.qty : 0;
+    };
     cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + getWord(qty);
   }
 }
@@ -284,13 +279,13 @@ function deleteFormCart(idList) {
 // Сохранение данных об итогах корзины:
 
 function saveCartTotals() {
+  var curTotal = cartTotals.find(el => el.id = cartId);
+  if (!curTotal) {
+    return;
+  }
   var totals = countFromCart();
-  cartTotals.forEach(el => {
-    if (el.id === cartId) {
-      el.qty = totals.qty;
-      el.sum = totals.sum;
-    }
-  });
+  curTotal.qty = totals.qty;
+  curTotal.sum = totals.sum;
   changeCartInHeader(totals);
 }
 
@@ -524,10 +519,8 @@ function checkCart(card) {
         } else {
           qty.textContent = totalQty;
         }
-        showElement(qty);
         showElement(cartInfo);
       } else {
-        hideElement(qty);
         hideElement(cartInfo);
       }
     }
@@ -760,6 +753,7 @@ function changeCartInfo() {
 
 function renderCart() {
   changeContent('cart');
+  changeCartName();
   showElement('cart-name');
   createCart();
   showElement('cart');
@@ -869,10 +863,10 @@ function loadInCart() {
       strings, id, qty, totalQty;
 
   strings = loadText.value
-    .split(/\n|\r\n/)
-    .map(el => el.split(/\s/))
-    .map(el => el.filter(el => el != ''))
-    .filter(el => el.length > 0);
+  .split(/\n|\r\n/)
+  .map(el => el.split(/\s/))
+  .map(el => el.filter(el => el))
+  .filter(el => el.length);
 
   strings.forEach(el => {
     if (el.length != 2) {

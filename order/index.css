@@ -60,11 +60,11 @@
 }
 
 .tab.reclm .icon {
-  background-image: url(../img/anti_smile.svg);
+  background-image: url(../img/reclm.svg);
 }
 
 .tab.reclm.disabled .icon {
-  background-image: url(../img/anti_smile_disabled.svg);
+  background-image: url(../img/reclm_disabled.svg);
 }
 
 .table-body .articul {

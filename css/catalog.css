@@ -10,52 +10,52 @@ body {
  Стили для фильтров OEM:
 ===================================================================================================== */
 
-#zip-select {
+#zip-filters {
   display: none;
   background-color: #818D99;
 }
 
-#zip-select .container {
+#zip-filters .container {
   justify-content: space-between;
   align-items: center;
 }
 
-.zip-filters {
+.zip-selects {
   align-items: center;
   padding: 0.45em 0;
 }
 
-.zip-filters .activate {
+.zip-selects .activate {
   margin-right: 1.5em;
 }
 
-.zip-filters .activate:last-child {
+.zip-selects .activate:last-child {
   margin-right: 0;
 }
 
-.zip-filters .activate .head {
+.zip-selects .activate .head {
   padding: 0.15em 1.5rem;
 }
 
-#select-man {
+#man {
   width: 18em;
 }
 
-#select-years {
+#years {
   width: 10em;
 }
 
-#select-model {
+#model {
   width: 18em;
 }
 
-.zip-filters .close.icon {
+.zip-selects .close.icon {
   width: 0.8em;
   height: 0.8em;
   visibility: hidden;
 }
 
-.zip-filters .close.icon.active {
+.zip-selects .close.icon.active {
   visibility: visible;
 }
 
@@ -163,6 +163,7 @@ body {
 }
 
 #filters-info {
+  display: flex;
   flex-wrap: wrap;
   width: calc(100% - 29em);
   padding: 0.2em 2em 0.2em 0;
@@ -276,7 +277,7 @@ body {
   cursor: pointer;
 }
 
-#menu-filters {
+#catalog-filters {
   width: 20em;
 }
 
@@ -834,7 +835,7 @@ body {
 
 .min-card .card-title {
   width: 100%;
-  height: 2.5em;
+  height: 3.3em;
   margin: 0.5em 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1192,7 +1193,7 @@ body {
 }
 
 .full-card .card-options {
-  min-height: 18em;
+  /* min-height: 18em; */
   padding: 1.5em 0;
   padding-left: 3rem;
 }
@@ -1239,13 +1240,13 @@ body {
 }
 
 .main.zip .full-card .card-opt {
-  min-height: 22em;
+  /* min-height: 22em; */
   padding: 1.5em 0;
   padding-left: 3rem;
 }
 
 .main.zip .full-card .card-options {
-  min-height: auto;
+  /* min-height: auto; */
   margin-bottom: 1.5em;
   padding: 0;
   padding-left: 0;

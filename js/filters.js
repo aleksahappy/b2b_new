@@ -1,10 +1,11 @@
 'use strict';
 
-//=====================================================================================================
-//  Подготовка данных для фильтров каталога:
-//=====================================================================================================
+var catalogFiltersData = createCatalogFiltersData();
+var zipFiltersData = createZipFiltersData();
 
-// Данные для фильтров каталога:
+//=====================================================================================================
+// Ручные данные для фильтров каталога:
+//=====================================================================================================
 
 var use = {
   'moto': 'Мотоцикл',
@@ -66,8 +67,14 @@ var colors = {
   'graphite': 'Графитовый' // нет в массиве
 }
 
+var actions = window.actions ? window.actions : {};
+actions['is_new'] = {title: 'Новинка'};
 
-// Получение уникальных данных из options массива items:
+//=====================================================================================================
+// Получение и преобразование данных для фильтров каталога:
+//=====================================================================================================
+
+// Получение данных из options массива items:
 
 function getDataFromOptions(optNumb) {
   var filter = {}, item;
@@ -136,75 +143,75 @@ function getTitle(key, value) {
   return title;
 }
 
-// Сортировка подкатегорий по алфавиту:
-
-// for (var k in catsubs) {
-//   for(var kk in catsubs[k]) {
-//     catsubs[k]['key' + kk] = catsubs[k][kk];
-//     delete catsubs[k][kk];
-//     catsubs[k] = sortObjByValue(catsubs[k]);
-//   }
-// }
-
 //=====================================================================================================
-// Данные для фильтров каталога:
+// Создание данных для фильтров каталога:
 //=====================================================================================================
 
-if (!window.actions) {
-  window.actions = {};
-}
-actions['is_new'] = {title: 'Новинка'};
+function createCatalogFiltersData() {
+  var data = [{
+    title: 'Спецпредложение',
+    isOpen: true,
+    key: 'action_id',
+    items: createFilterData(window.actions)
+  }, {
+    title: 'Категория',
+    isOpen: true,
+    key: 'cat',
+    items: createFilterData(window.catsubs)
+  }, {
+    title: 'Бренд',
+    isOpen: true,
+    key: 'brand',
+    items: createFilterData(brands)
+  }];
 
-var dataFilters = [{
-  title: 'Спецпредложение',
-  isOpen: true,
-  key: 'action_id',
-  items: createFilterData(window.actions)
-}, {
-  title: 'Категория',
-  isOpen: true,
-  key: 'cat',
-  items: createFilterData(window.catsubs)
-}, {
-  title: 'Бренд',
-  isOpen: true,
-  key: 'brand',
-  items: createFilterData(brands)
-}];
-
-if (pageId === 'equip') {
-  dataFilters.push({
-    title: 'Применяемость',
-    key: 'use',
-    items: createFilterData(use)
-    // items: sortObjByValue(use)
-  }, {
-    title: 'Возраст',
-    key: 'age',
-    items: createFilterData(ages)
-  }, {
-    title: 'Пол',
-    key: 'gender',
-    items: createFilterData(gender)
-  }, {
-    title: 'Размер',
-    key: 'size',
-    items: createFilterData(sizes)
-  }, {
-    title: 'Цвет',
-    key: 'color',
-    items: createFilterData(colors)
+  if (pageId === 'equip') {
+    data.push({
+      title: 'Применяемость',
+      key: 'use',
+      items: createFilterData(use)
+    }, {
+      title: 'Возраст',
+      key: 'age',
+      items: createFilterData(ages)
+    }, {
+      title: 'Пол',
+      key: 'gender',
+      items: createFilterData(gender)
+    }, {
+      title: 'Размер',
+      key: 'size',
+      items: createFilterData(sizes)
+    }, {
+      title: 'Цвет',
+      key: 'color',
+      items: createFilterData(colors)
+    });
   }
-  // }, {
-  //   title: 'Емкость',
-  //   key: 'volume',
-  //   items: sortObjByKey(createFilterData(getDataFromOptions('1262')), 'number from string')
-  // }
-  );
+  data.forEach((filter, index) => {
+    if (!filter.items || isEmptyObj(filter.items)) {
+      data.splice(index, 1);
+    }
+  });
+  return data;
 }
 
-dataFilters.forEach((filter, index) => {
-  if (!filter.items || isEmptyObj(filter.items)) {
-    dataFilters.splice(index, 1);
-  }
-});
+//=====================================================================================================
+// Создание данных для фильтров ЗИП:
+//=====================================================================================================
+
+function createZipFiltersData() {
+  var data = {
+    selects: [{
+      title: 'Производитель',
+      key: 'man',
+    }, {
+      title: 'Год',
+      key: 'years',
+    }, {
+      title: 'Модель',
+      key: 'model',
+    }]
+  };
+  return data;
+}
