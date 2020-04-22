@@ -244,6 +244,10 @@ body {
   color: #34495E;
 }
 
+#zip-filters .activate .drop-down {
+  color: #34495E;
+}
+
 #zip-filters .activate.open .drop-down {
   max-height: 15em;
 }
@@ -259,10 +263,14 @@ body {
   top: 100%;
   width: 100%;
   margin-left: -0.3125em;
-  padding-top: 0.4em;
+  color: #34495E;
   background-color: #FFFFFF;
   border-radius: 0 0 3px 3px;
   z-index: 1;
+}
+
+#oem-search-input {
+  color: #34495E;
 }
 
 #oem-not-found {
@@ -275,10 +283,23 @@ body {
 
 #oem-list {
   display: none;
-  max-height: 10em;
+  max-height: 11em;
   border: 1px solid rgba(52, 73, 94, 0.4);
   border-top: none;
   overflow-y: scroll;
+}
+
+
+#oem-list::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+#oem-list::-webkit-scrollbar-thumb {
+  background-color: rgb(52,73,94,0.5);
+  border: 1px solid #D4D7DB;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 #oem-list .item {
