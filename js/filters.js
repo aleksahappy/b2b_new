@@ -206,7 +206,8 @@ function createCatalogFiltersData() {
 
 function createZipFiltersData() {
   var data = {
-    selects: [{
+    isOpen: true,
+    items: [{
       title: 'Производитель',
       key: 'man',
     }, {

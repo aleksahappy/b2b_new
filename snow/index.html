@@ -121,38 +121,9 @@
           </div>
         </div>
       </div>
-      <div id="zip-filters">
-        <div class="container row">
-          <div class="zip-selects row">
-            <div id="#key#" class="activate select" disabled>
-              <div class="head row">
-                <div class="title">#title#:</div>
-                <div class="triangle icon"></div>
-              </div>
-              <div id="#key#-list" class="drop-down">
-                <div class="item" data-value="#item#">#item#</div>
-              </div>
-            </div>
-            <div id="zip-filters-clear" class="close icon white" tooltip="Сброс фильтра" onclick="clearSearchResult()"></div>
-          </div>
-          <form action="#" id="oem-search" class="search row" oninput="showOemList()" onsubmit="findOem(event)">
-            <div class="row">
-              <input class="search icon" type="submit" value="">
-              <input id="oem-search-input" type="text" autocomplete="off" data-value="" placeholder="Поиск по OEM" onfocus="onFocusOemInput(this)" onblur="onBlurOemInput(this)">
-            </div>
-            <div id="oem-search-clear" class="close icon" onclick="clearSearchResult()"></div>
-            <div id="oem-dropdown">
-              <div id="oem-not-found">Совпадений не найдено</div>
-              <div id="oem-list">
-                <div class="item" data-value="#item#" onclick="selectOem(event)">#item#</div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
       <div id="header-content">
         <div class="container row">
-          <div class="clear-filter btn basic" onclick="clearFilters()">Сбросить фильтры</div>
+          <div class="clear-filter btn basic" onclick="clearSearchResult()">Сбросить фильтры</div>
           <div class="gallery-head row">
             <div id="search-info">
               <div class="result row">
@@ -210,6 +181,42 @@
         <div id="content" class="row">
           <div id="filters-container">
             <div id="filters">
+              <div id="zip-filters">
+                <div class="filter #isOpen#" onclick="toggleFilter(event)">
+                  <div class="filter-title row">
+                    <div class="title">Производитель и ОЕМ</div>
+                    <div class="open white icon"></div>
+                  </div>
+                  <div class="filter-items">
+                    <div class="zip-selects">
+                      <div id="#key#" class="activate select" disabled>
+                        <div class="head row">
+                          <div class="title">#title#:</div>
+                          <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="rgb(52,73,94)"/>
+                          </svg>
+                        </div>
+                        <div class="list drop-down">
+                          <div class="item" data-value="#item#">#item#</div>
+                        </div>
+                      </div>
+                    </div>
+                    <form id="oem" class="search row" action="#" oninput="showOemList()" onsubmit="findOem(event)">
+                      <div class="row">
+                        <input class="search icon blue" type="submit" value="">
+                        <input id="oem-search-input" type="text" autocomplete="off" data-value="" placeholder="Поиск по OEM" onfocus="onFocusOemInput(this)" onblur="onBlurOemInput(this)">
+                      </div>
+                      <div id="oem-search-clear" class="close icon blue" onclick="clearSearchResult()"></div>
+                      <div id="oem-dropdown">
+                        <div id="oem-not-found">Совпадений не найдено</div>
+                        <div id="oem-list" class="list">
+                          <div class="item" data-value="#item#" onclick="selectOem(event)">#item#</div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
               <div id="catalog-filters">
                 <div id=filter-#key# class="filter #isOpen#" onclick="toggleFilter(event)">
                   <div class="filter-title row">

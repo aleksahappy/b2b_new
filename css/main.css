@@ -458,31 +458,46 @@ a.btn {
   text-decoration: none;
 }
 
-.basic.btn {
+.btn.basic {
   color: #34495E;
   background-color: #D4D7DB;
 }
 
-.basic.btn:hover {
-  background-color: #BCCADD;
+.btn.basic:hover {
+  background-color: #B3BAC2;
 }
 
-.active.btn {
+.btn.basic.disabled {
+  color: rgb(113,129,145, 0.4);
+  background-color: rgb(179,186,194, 0.3);
+}
+
+.btn.active {
   color: #FFFFFF;
   background-color: #F05A28;
 }
 
-.active.btn:hover {
+.btn.active:hover {
   background-color: #DA3600;
 }
 
-.unactive.btn {
+.btn.active.disabled {
+  color: rgb(255,255,255, 0.6);
+  background-color: rgb(218,54,0, 0.2)
+}
+
+.btn.unactive {
   color: #FFFFFF;
   background-color: #34495E
 }
 
-.unactive.btn:hover {
+.btn.unactive:hover {
   background-color: #53606F;
+}
+
+.btn.unactive.disabled {
+  color: rgb(255,255,255, 0.6);
+  background-color: rgb(83,96,111, 0.2)
 }
 
 /* Иконки как svg в html */
@@ -501,10 +516,6 @@ a.btn {
   height: 1em;
 }
 
-.triangle.icon {
-  background-image: url(../img/triangle.svg);
-}
-
 .close.icon {
   background-image: url(../img/close.svg);
 }
@@ -513,12 +524,20 @@ a.btn {
   background-image: url(../img/close_white.svg);
 }
 
+.close.icon.blue {
+  background-image: url(../img/close_blue.svg);
+}
+
 .search.icon {
   background-image: url(../img/search.svg);
 }
 
 .search.icon.white {
   background-image: url(../img/search_white.svg);
+}
+
+.search.icon.blue {
+  background-image: url(../img/search_blue.svg);
 }
 
 .maximize.icon {
@@ -531,6 +550,14 @@ a.btn {
 
 .close .open.icon {
   background-image: url(../img/open_plus.svg);
+}
+
+.open.white.icon {
+  background-image: url(../img/open_minus_white.svg);
+}
+
+.close .open.white.icon {
+  background-image: url(../img/open_plus_white.svg);
 }
 
 .drop-down.icon {
@@ -632,6 +659,7 @@ a.btn {
 
 .checkbox.icon {
   background-image: url(../img/checkbox.svg);
+  padding: 0.5em;
 }
 
 .checkbox.white.icon {
@@ -761,17 +789,18 @@ a.btn {
 }
 
 .activate[disabled] .head {
-  background-color: #E6E6E6;
+  background-color: #F3F3F3;
 }
 
 .activate .head .title {
+  color: #666666;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .activate[disabled] .head .title {
-  color: #666666;
+  color: rgb(113,129,145, 0.4);
 }
 
 .activate .triangle {
@@ -780,16 +809,14 @@ a.btn {
   margin-left: 0.5em;
 }
 
+.activate[disabled] .triangle path {
+  fill: rgb(113,129,145, 0.4);
+}
+
 .activate.hover:hover .triangle,
 .activate.open .triangle {
   transform: rotate(180deg);
 }
-
-/* .activate .close-btn {
-  margin-left: 0.5em;
-  width: 0.9em;
-  height: 0.9em;
-} */
 
 .activate .drop-down {
   position: absolute;
@@ -863,7 +890,7 @@ form.search {
   align-items: center;
   max-width: 100%;
   padding: 0 0.3125em;
-  font-size: 16px;
+  font-size: 1em;
   border: 1px solid rgba(52, 73, 94, 0.4);
   border-radius: 2px;
   background-color: #FFFFFF;
@@ -876,15 +903,18 @@ form.search > .row {
 
 form.search input:not([type="submit"]) {
   width: 100%;
-  padding: 0.125em 0.3125em;
-  font-size: 16px;
+  padding: 0.15em 0.3125em;
   line-height: 1;
 }
 
-form.search .search.icon,
-form.search .close.icon {
+form.search .search.icon {
   width: 1em;
   height: 1em;
+}
+
+form.search .close.icon {
+  width: 0.8em;
+  height: 0.8em;
 }
 
 form.search .close.icon {
@@ -1433,6 +1463,7 @@ form.search .close.icon {
   max-width: 70vw;
   max-height: 90vh;
   background-color: #FFFFFF;
+  box-shadow: -18px 31px 23px rgba(0, 0, 0, 0.1);
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -1654,7 +1685,6 @@ form.registr-form .unactive {
   max-height: 100%;
   max-width: 50vw;
   background-color: #F2F2F2;
-  box-shadow: -18px 31px 23px rgba(0, 0, 0, 0.1);
 }
 
 #alerts-container .pop-up-title .title {
@@ -1664,10 +1694,6 @@ form.registr-form .unactive {
 #alerts-container .pop-up-body {
   padding: 0;
   padding-bottom: 1em;
-}
-
-#alerts-container .pop-up-body > .message:hover {
-  background-color: #FFF1C1;
 }
 
 #alerts-container .wrap {

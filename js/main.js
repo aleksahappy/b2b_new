@@ -909,9 +909,10 @@ function initDropDown(el, func) {
 
 // Очистка значения выпадающего списка:
 
-function clearDropDown(id) {
-  if (window[`${id}Dropdown`]) {
-    window[`${id}Dropdown`].clear();
+function clearDropDown(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Dropdown`]) {
+    window[`${el.id}Dropdown`].clear();
   }
 }
 

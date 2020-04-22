@@ -731,8 +731,7 @@ function setFilterOnPage(filter) {
 
 // Очистка результатов текущего поиска:
 
-function clearSearchResult() {
-  selectedItems = '';
+function clearSearchResult(search) {
   clearCurSearch();
   selectCardsByFilterCatalog();
   showCards();
@@ -743,11 +742,11 @@ function clearSearchResult() {
 function clearCurSearch(search) {
   if (search !== curSearch) {
     selectedItems = '';
-    if (curSearch === 'page') {
+    if (curSearch === 'searchPage') {
       clearSearchPage();
-    } else if (curSearch === 'zip') {
+    } else if (curSearch === 'filterZip') {
       clearFiltersZip();
-    } else if (curSearch === 'oem') {
+    } else if (curSearch === 'searchOem') {
       clearSearchOem();
     }
     curSearch = null;
@@ -757,11 +756,11 @@ function clearCurSearch(search) {
 // Повторение текущего поиска:
 
 function repeatCurSearch() {
-  if (curSearch === 'page') {
+  if (curSearch === 'searchPage') {
     selectCardsBySearchPage();
-  } else if (curSearch === 'zip') {
+  } else if (curSearch === 'filterZip') {
     selectCardsByFilterZip();
-  } else if (curSearch === 'oem') {
+  } else if (curSearch === 'searchOem') {
     selectCardsBySearchOem();
   } else {
     selectCardsByFilterCatalog();
@@ -1274,51 +1273,49 @@ function initFiltersZip() {
     hideElement(zipFilters);
     return;
   }
+  zipFiltersData.isOpen = zipFiltersData.isOpen && window.innerWidth >= 767 ? 'default-open' : 'close';
   fillTemplate({
-    area: getEl('.zip-selects', zipFilters),
+    area: zipFilters,
     items: zipFiltersData,
-    sub: [{area: '.activate', items: 'selects'}]
+    sub: [{area: '.activate', items: 'items'}]
   });
   showElement(zipFilters);
   zipFilters.querySelectorAll('.activate').forEach(el => initDropDown(el, selectFilterZip))
-  fillFilterZip('man');
-  fillFilterZip('oem');
+  fillFilterZip(getEl('.zip-selects').firstElementChild);
+  fillFilterZip(getEl('oem'));
 }
 
 // Заполнение выпадающего списка вариантов фильтра/поиска:
 
-function fillFilterZip(key) {
-  var data = getFilterZipData(key);
-  if (data.length) {
-    fillTemplate({
-      area: `${key}-list`,
-      items: data
-    });
-    unlockFilterZip(key);
-  } else {
-    lockFilterZip(key);
-    if (key === 'years') {
-      fillFilterZip('model');
+function fillFilterZip(filter) {
+  if (!filter) {
+    return;
+  }
+  var data = getFilterZipData(filter.id);
+  fillTemplate({
+    area: getEl('.list', filter),
+    items: data
+  });
+  if (filter.id !== 'oem') {
+    toggleFilterZip(filter, data.length);
+  }
+}
+
+// Переключение блокировки фильтров, следующих за заполняемым:
+
+function toggleFilterZip(filter, data) {
+  var nextFilter = filter.nextElementSibling;
+  if (data) {
+    unlockFilterZip(filter);
+    while (nextFilter) {
+      lockFilterZip(nextFilter);
+      nextFilter = nextFilter.nextElementSibling;
     }
-  }
-}
-
-// Разблокировка фильтра:
-
-function unlockFilterZip(key) {
-  var filter = getEl(key);
-  if (filter) {
-    filter.removeAttribute('disabled');
-  }
-}
-
-// Блокировка фильтра:
-
-function lockFilterZip(key) {
-  var filter = getEl(key);
-  if (filter) {
-    clearDropDown(key);
-    filter.setAttribute('disabled', 'disabled');
+  } else {
+    lockFilterZip(filter);
+    if (nextFilter && getEl('.zip-selects').firstElementChild !== filter) {
+      fillFilterZip(nextFilter);
+    }
   }
 }
 
@@ -1332,6 +1329,9 @@ function getFilterZipData(key) {
   if (key !== 'man' && key !== 'oem') {
     curArray = selectedItems;
   }
+  // if (selectedItems !== '') {
+  //   curArray = selectedItems;
+  // }
   var data = [];
   curArray.forEach(item => {
     if (item.manuf) {
@@ -1354,6 +1354,19 @@ function getFilterZipData(key) {
   return data;
 }
 
+// Разблокировка фильтра:
+
+function unlockFilterZip(filter) {
+  filter.removeAttribute('disabled');
+}
+
+// Блокировка фильтра:
+
+function lockFilterZip(filter) {
+  clearDropDown(filter);
+  filter.setAttribute('disabled', 'disabled');
+}
+
 //=====================================================================================================
 //  Функции для работы с фильтрами запчастей и поиском по запчастям:
 //=====================================================================================================
@@ -1361,17 +1374,13 @@ function getFilterZipData(key) {
 // Выбор значения фильтра запчастей:
 
 function selectFilterZip(event) {
-  clearCurSearch('zip');
+  clearCurSearch('filterZip');
   selectCardsByFilterZip();
-  curSearch = 'zip';
+  curSearch = 'filterZip';
   showCards();
-  var filter = event.currentTarget.id;
-  if (filter === 'man') {
-    getEl('zip-filters-clear').classList.add('active');
-    fillFilterZip('years');
-    lockFilterZip('model');
-  } else if (filter === 'years') {
-    fillFilterZip('model');
+  var nextFilter = event.currentTarget.nextElementSibling;
+  if (nextFilter) {
+    fillFilterZip(nextFilter);
   }
 }
 
@@ -1391,6 +1400,8 @@ function selectCardsByFilterZip() {
           isFound = false;
           if (row[key] && row[key].indexOf(filters[key]) >= 0) {
             isFound = true;
+          } else {
+            break;
           }
         }
         if (isFound) {
@@ -1416,10 +1427,13 @@ function getFiltersZip() {
 // Очистка фильтров запчастей:
 
 function clearFiltersZip() {
-  getEl('zip-filters-clear').classList.remove('active');
-  clearDropDown('man')
-  lockFilterZip('years');
-  lockFilterZip('model');
+  var filter = getEl('.zip-selects').firstElementChild,
+      nextFilter = filter.nextElementSibling;
+  clearDropDown(filter);
+  while (nextFilter) {
+    lockFilterZip(nextFilter);
+    nextFilter = nextFilter.nextElementSibling;
+  }
 }
 
 // Отображение текущего списка OEM:
@@ -1459,10 +1473,10 @@ function selectOem(event) {
 
 function findOem(event) {
   event.preventDefault();
-  clearCurSearch('oem');
+  clearCurSearch('searchOem');
   selectCardsBySearchOem();
   showCards();
-  curSearch = 'oem';
+  curSearch = 'searchOem';
   showElement('oem-search-clear');
 }
 
@@ -1849,10 +1863,10 @@ function sortItems(event) {
 
 function findOnPage(event) {
   event.preventDefault();
-  clearCurSearch('page');
+  clearCurSearch('searchPage');
   selectCardsBySearch();
   showCards();
-  curSearch = 'page';
+  curSearch = 'searchPage';
   hideElement('filters-info');
   showElement('search-info', 'flex');
   showElement('page-search-clear');
