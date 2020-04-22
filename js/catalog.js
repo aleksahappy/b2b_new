@@ -766,6 +766,7 @@ function repeatCurSearch() {
   } else {
     selectCardsByFilterCatalog();
   }
+  showCards();
 }
 
 //=====================================================================================================
@@ -1460,9 +1461,9 @@ function findOem(event) {
   event.preventDefault();
   clearCurSearch('oem');
   selectCardsBySearchOem();
+  showCards();
   curSearch = 'oem';
   showElement('oem-search-clear');
-  showCards();
 }
 
 // Отбор карточек поиском по OEM:
@@ -1672,6 +1673,7 @@ function showCards() {
       hideElement('gallery-notice');
     }
   }
+  setDocumentScroll(0);
 }
 
 // Добавление новых карточек при скролле страницы:
@@ -1694,7 +1696,6 @@ function toggleView(event, newView) {
     gallery.style.opacity = '0';
     showCards();
     gallery.style.opacity = '1';
-    setDocumentScroll(0);
   }
 }
 
@@ -1836,8 +1837,8 @@ function sortItems(event) {
     if (selectedItems !== '') {
       selectedItems.sort(dynamicSort(prop));
     }
+    showCards();
   }
-  showCards();
 }
 
 //=====================================================================================================
@@ -1850,10 +1851,8 @@ function findOnPage(event) {
   event.preventDefault();
   clearCurSearch('page');
   selectCardsBySearch();
-  curSearch = 'page';
   showCards();
-  getEl('search-text').textContent = textToFind;
-  getEl('search-count').textContent = selectedItems.length;
+  curSearch = 'page';
   hideElement('filters-info');
   showElement('search-info', 'flex');
   showElement('page-search-clear');
@@ -1865,6 +1864,8 @@ function selectCardsBySearch() {
   var textToFind = getEl('page-search-input').value.trim();
   var regExpSearch = new RegExp(textToFind, 'gi');
   selectedItems = curItems.filter(el => el.search.search(regExpSearch) >= 0);
+  getEl('search-text').textContent = textToFind;
+  getEl('search-count').textContent = selectedItems.length;
 }
 
 // Очистка поиска по странице:

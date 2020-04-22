@@ -192,9 +192,13 @@ function getCart(totals = false) {
             console.log('Итоги обновились');
             cartTotals = JSON.parse(result);
           } else {
-            console.log(JSON.parse(result)[cartId]);
-            console.log('Корзина обновилась');
-            cart[cartId] = JSON.parse(result)[cartId];
+            if (!JSON.parse(result)[cartId]) {
+              reject('Корзина пустая');
+            } else {
+              console.log(JSON.parse(result)[cartId]);
+              console.log('Корзина обновилась');
+              cart[cartId] = JSON.parse(result)[cartId];
+            }
           }
           resolve();
         }

@@ -1331,6 +1331,7 @@ form.search .close.icon {
   letter-spacing: 0.04em;
   color: #2C3E50;
   cursor: pointer;
+  text-decoration: none;
 }
 
 #main-nav  a:last-child {
