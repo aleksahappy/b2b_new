@@ -469,7 +469,7 @@ a.btn {
 
 .btn.basic.disabled {
   color: rgb(113,129,145, 0.4);
-  background-color: rgb(179,186,194, 0.3);
+  background-color: #D9DCDF;
 }
 
 .btn.active {
@@ -483,7 +483,7 @@ a.btn {
 
 .btn.active.disabled {
   color: rgb(255,255,255, 0.6);
-  background-color: rgb(218,54,0, 0.2)
+  background-color: rgb#EBBAAA;
 }
 
 .btn.unactive {
@@ -497,7 +497,7 @@ a.btn {
 
 .btn.unactive.disabled {
   color: rgb(255,255,255, 0.6);
-  background-color: rgb(83,96,111, 0.2)
+  background-color: #D3D6D9;
 }
 
 /* Иконки как svg в html */
@@ -764,12 +764,12 @@ a.btn {
   background-image: url(../img/loader.gif);
 }
 
-/* Выпадающее меню: */
+/* Выпадающие списки: */
 
 .activate {
   position: relative;
   width: fit-content;
-  overflow: visible !important;
+  overflow: visible;
   cursor: pointer;
 }
 
@@ -855,7 +855,7 @@ a.btn {
 
 .activate.hover:hover .drop-down,
 .activate.open .drop-down {
-  max-height: 350px;
+  max-height: 25em;
   opacity: 1;
 }
 
@@ -877,7 +877,7 @@ a.btn {
   background-color: #E4E3E7;
 }
 
-.activate.checkbox .checkbox.icon {
+.activate.checkbox .drop-down .checkbox.icon {
   margin-right: 1.5rem;
   width: 0.857em;
   height: 0.857em;
@@ -886,19 +886,33 @@ a.btn {
 /* Поле поиска: */
 
 form.search {
-  justify-content: space-between;
-  align-items: center;
+  position: relative;
   max-width: 100%;
-  padding: 0 0.3125em;
-  font-size: 1em;
-  border: 1px solid rgba(52, 73, 94, 0.4);
-  border-radius: 2px;
-  background-color: #FFFFFF;
 }
 
-form.search > .row {
+form.search.positioned {
+  position: absolute;
+  justify-content: space-between;
+  align-items: center
+}
+
+form.search .search-area {
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 0 0.3125em;
+  font-size: 1em;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(52, 73, 94, 0.4);
+  border-radius: 2px;
+}
+
+form.search.positioned .search-area {
+  visibility: hidden;
+}
+
+form.search.positioned.show .search-area {
+  visibility: visible;
 }
 
 form.search input:not([type="submit"]) {
@@ -919,6 +933,21 @@ form.search .close.icon {
 
 form.search .close.icon {
   display: none;
+}
+
+form.search .toggle {
+  margin-left: 1em;
+}
+
+form.search .not-found {
+  display: none;
+  background-color: rgb(240,240,240);
+  border-bottom: 1px solid rgba(52, 73, 94, 0.4);
+}
+
+form.search .list {
+  display: none;
+  border-bottom: 1px solid rgba(52, 73, 94, 0.4);
 }
 
 /* Информация о количестве в кружке: */
@@ -1029,13 +1058,15 @@ form.search .close.icon {
 }
 
 .header-top {
-  justify-content: space-between;
-  align-items: stretch;
   height: 4em;
-  padding-left: 4rem;
   font-size: 1.143em;
   background-color: #FFFFFF;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.09);
+}
+
+.header-top .container{
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .header-top a {
@@ -1182,25 +1213,28 @@ form.search .close.icon {
   position: relative;
   width: 2.25em;
   height: 2.25em;
-  margin: 0 4rem;
+  margin-left: 4rem;
 }
 
 .header-menu {
   position: relative;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 4rem;
-  padding-right: calc(4rem + 17em);
   font-size: 1.143em;
   color: #FFFFFF;
   background-color: #53606F;
+}
+
+.header-menu .container {
+  justify-content: flex-start;
+  align-items: center;
+  padding-right: calc(17em);
 }
 
 .header-menu a {
   color: #FFFFFF;
 }
 
-.header-menu .catalog a {
+.header-menu .topmenu a,
+.header-menu .submenu a {
   padding: 0.5em 1.5em;
   cursor: pointer;
 }
@@ -1219,6 +1253,7 @@ form.search .close.icon {
 .header-menu .submenu {
   align-items: stretch;
   flex-wrap: wrap;
+  background-color: #53606F;
 }
 
 .header-menu .submenu-item {
@@ -1237,20 +1272,13 @@ form.search .close.icon {
   background-color: #F05A28;
 }
 
-.header-menu .search.icon.white {
-  margin-right: 1.5em;
-}
-
 #page-search {
-  position: absolute;
-  right: calc(4rem + 18.5em);
-  width: 25em;
-  z-index: 2;
-  visibility: hidden;
+  right: calc(4rem + 17em);
+  margin-right: 1em;
 }
 
-#page-search.open {
-  visibility: visible;
+#page-search .row {
+  width: 25em;
 }
 
 #header-cart {
@@ -2007,10 +2035,6 @@ form.registr-form .unactive {
 .table-head .activate .head {
   background-color: initial;
   border: none;
-}
-
-.table-head .drop-down .item {
-  color: #666666;
 }
 
 .table-body {

@@ -7,7 +7,9 @@
 // Динамически изменяемые переменные:
 
 var cartTimer = null,
-    cartTimeout = 1000;
+    cartTimeout = 1000,
+    cartChanges = {};
+cartChanges[cartId] = {};
 
 //=====================================================================================================
 // Запросы на сервер:
@@ -34,11 +36,11 @@ function getItems(data) {
 function cartSentServer() {
   clearTimeout(cartTimer);
   cartTimer = setTimeout(function () {
-    // console.log(cartChanges);
+    console.log(JSON.stringify(cartChanges));
     sendRequest(`${urlRequest.api}baskets/set_cart.php`, cartChanges)
       .then(response => {
-        cartChanges = {};
-        // console.log(response);
+        cartChanges[cartId] = {};
+        console.log(response);
       })
       .catch(err => {
         console.log(err);
@@ -50,7 +52,7 @@ function cartSentServer() {
 // Отправка данных корзины на сервер если при закрытии страницы остались неотправленные данные (только изменившихся данных):
 
 window.addEventListener('unload', () => {
-  if(!isEmptyObj(cartChanges)) {
+  if(!isEmptyObj(cartChanges[cartId])) {
     var data = {
       sessid: getCookie('iam'),
       data: cartChanges
@@ -238,9 +240,6 @@ function getWord(qty) {
 
 function saveInCart(id, qty) {
   id = 'id_' + id;
-  if (!cart[cartId]) {
-    cart[cartId] = {};
-  }
   if (!qty && !cart[cartId][id]) {
     return;
   }
@@ -254,11 +253,8 @@ function saveInCart(id, qty) {
   cart[cartId][id].qty = qty;
   cart[cartId][id].cartId = cartId;
   cart[cartId][id].actionId = cartItems[id].action_id;
-  cart[cartId][id].actionName = cartItems[id].action_name;
+  cart[cartId][id].actionName = cartItems[id].actiontitle || 'Cклад';
 
-  if (!cartChanges[cartId]) {
-    cartChanges[cartId] = {};
-  }
   cartChanges[cartId][id] = cart[cartId][id];
   cartSentServer();
 
@@ -531,6 +527,7 @@ function checkCart(card) {
       input = getEl('.choiced-qty', size);
       qty = getQty(input.dataset.id);
       input.value = qty;
+      input.dataset.value = qty;
       changeColors(getEl('.qty', size), qty);
       changeNameBtn(getEl('.name.click', size), qty);
       changeCardInfo(card);
@@ -571,6 +568,7 @@ function changeCart(event) {
 
   qty = changeValue(sign, qty, totalQty);
   input.value = qty;
+  input.dataset.value = qty;
   saveInCart(id, qty);
   changeColors(qtyWrap, qty);
   if (curEl.classList.contains('card')) {

@@ -72,7 +72,7 @@ actions['is_new'] = {title: 'Новинка'};
 //=====================================================================================================
 
 var catalogFiltersData = createCatalogFiltersData();
-var zipFiltersData = createZipFiltersData();
+var zipSelectsData = createZipSelectsData();
 
 //=====================================================================================================
 // Получение и преобразование данных для фильтров каталога:
@@ -154,17 +154,17 @@ function getTitle(key, value) {
 function createCatalogFiltersData() {
   var data = [{
     title: 'Спецпредложение',
-    isOpen: true,
+    isOpen: 'default-open',
     key: 'action_id',
     items: createFilterData(window.actions)
   }, {
     title: 'Категория',
-    isOpen: true,
+    isOpen: 'default-open',
     key: 'cat',
     items: createFilterData(window.catsubs)
   }, {
     title: 'Бренд',
-    isOpen: true,
+    isOpen: 'default-open',
     key: 'brand',
     items: createFilterData(brands)
   }];
@@ -172,22 +172,27 @@ function createCatalogFiltersData() {
   if (pageId === 'equip') {
     data.push({
       title: 'Применяемость',
+      isOpen: 'close',
       key: 'use',
       items: createFilterData(use)
     }, {
       title: 'Возраст',
+      isOpen: 'close',
       key: 'age',
       items: createFilterData(ages)
     }, {
       title: 'Пол',
+      isOpen: 'close',
       key: 'gender',
       items: createFilterData(gender)
     }, {
       title: 'Размер',
+      isOpen: 'close',
       key: 'size',
       items: createFilterData(sizes)
     }, {
       title: 'Цвет',
+      isOpen: 'close',
       key: 'color',
       items: createFilterData(colors)
     });
@@ -204,19 +209,16 @@ function createCatalogFiltersData() {
 // Создание данных для фильтров ЗИП:
 //=====================================================================================================
 
-function createZipFiltersData() {
-  var data = {
-    isOpen: true,
-    items: [{
-      title: 'Производитель',
-      key: 'man',
-    }, {
-      title: 'Год',
-      key: 'years',
-    }, {
-      title: 'Модель',
-      key: 'model',
-    }]
-  };
+function createZipSelectsData() {
+  var data = [{
+    title: 'Производитель',
+    key: 'man',
+  }, {
+    title: 'Год',
+    key: 'years',
+  }, {
+    title: 'Модель',
+    key: 'model',
+  }]
   return data;
 }

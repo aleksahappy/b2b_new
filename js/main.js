@@ -37,16 +37,16 @@ var website = document.body.dataset.website,
       test: 'http://127.0.0.1:5500/test/'
     },
     loader = getEl('loader'),
-    message = getEl('message-container');
-
+    message = getEl('message-container'),
+    upBtn = getEl('up-btn');
 
 // Динамически изменяемые переменные:
 
 if (isCart) {
   var cartId = pageId,
-      cart = {},
       cartTotals = [],
-      cartChanges = {};
+      cart = {};
+  cart[cartId] = {};
 }
 
 // Инициализация прелоадера и поля с сообщениями:
@@ -178,27 +178,20 @@ function getCart(totals = false) {
     sendRequest(url, data)
     .then(
       result => {
+        console.log(JSON.parse(result));
         if (!result || JSON.parse(result).err) {
           reject('Корзина пустая');
         } else if (totals && JSON.stringify(cartTotals) === result) {
-          console.log(JSON.parse(result));
           reject('Итоги не изменились');
-        } else if (!totals && JSON.stringify(cart[cartId]) === JSON.stringify(JSON.parse(result)[cartId])) {
-          console.log(JSON.parse(result)[cartId]);
+        } else if (!totals && JSON.stringify(cart[cartId]) === result) {
           reject('Корзина не изменилась');
         } else {
           if (totals) {
-            console.log(JSON.parse(result));
             console.log('Итоги обновились');
             cartTotals = JSON.parse(result);
           } else {
-            if (!JSON.parse(result)[cartId]) {
-              reject('Корзина пустая');
-            } else {
-              console.log(JSON.parse(result)[cartId]);
-              console.log('Корзина обновилась');
-              cart[cartId] = JSON.parse(result)[cartId];
-            }
+            console.log('Корзина обновилась');
+            cart[cartId] = JSON.parse(result);
           }
           resolve();
         }
@@ -267,7 +260,7 @@ function getDataFromTotals(type) {
   });
   if (type === 'cart') {
     data = {
-      sum: sum,
+      sum: sum.toLocaleString('ru-RU'),
       items: data
     };
   }
@@ -536,22 +529,6 @@ function replaceImg(img) {
   img.src = '../img/no_img.jpg';
 }
 
-// Получение элемента по id или селектору:
-
-function getEl(el, area = document) {
-  if (typeof el === 'string') {
-    area = typeof area === 'string' ? getEl(area): area;
-    if (el.indexOf('.') === 0 || el.indexOf('[') === 0) {
-      el = area.querySelector(el);
-    } else if (area === document) {
-      el = area.getElementById(el);
-    } else {
-      el = area.querySelector(el);
-    }
-  }
-  return el || undefined;
-}
-
 // Показ элемента:
 
 function showElement(el, style = 'block') {
@@ -583,36 +560,6 @@ function getDocumentScroll() {
 function setDocumentScroll(top = scrollTop) {
   document.documentElement.scrollTop = top;
   document.body.scrollTop = top;
-}
-
-// Открытие всплывающего окна:
-
-function openPopUp(el, style = 'flex') {
-  el = getEl(el);
-  if (el) {
-    getDocumentScroll();
-    document.body.classList.add('no-scroll');
-    showElement(el, style);
-  }
-}
-
-// Закрытие всплывающего окна:
-
-function closePopUp(event, el) {
-  if (event) {
-    if (!event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
-      return;
-    }
-    el = event.currentTarget;
-  } else {
-    el = getEl(el);
-  }
-  if (el) {
-    loader.hide();
-    hideElement(el);
-    document.body.classList.remove('no-scroll');
-    setDocumentScroll();
-  }
 }
 
 // Открытие/закрытие поля формы для добавления адреса вручную:
@@ -667,27 +614,25 @@ function addTooltips(key) {
   }
 }
 
-// Закрытие окон при клике вне их самих:
-
-document.addEventListener('click', (event) => {
-  var target = event.target;
-  if (!target.closest('.activate.open')) {
-    var dropDownOpen = getEl('.activate.open');
-    if (dropDownOpen) {
-      dropDownOpen.classList.remove('open');
-    }
-  }
-  if (!target.classList.contains('search-manage') && !target.closest('.search.open')) {
-    var searchOpen = getEl('.search.open');
-    if (searchOpen) {
-      searchOpen.classList.remove('open');
-    }
-  }
-});
-
 //=====================================================================================================
 // Вспомогательные функции:
 //=====================================================================================================
+
+// Получение элемента по id или селектору:
+
+function getEl(el, area = document) {
+  if (typeof el === 'string') {
+    area = typeof area === 'string' ? getEl(area): area;
+    if (el.indexOf('.') === 0 || el.indexOf('[') === 0) {
+      el = area.querySelector(el);
+    } else if (area === document) {
+      el = area.getElementById(el);
+    } else {
+      el = area.querySelector(el);
+    }
+  }
+  return el || undefined;
+}
 
 // Динамическая загрузка скриптов:
 
@@ -810,6 +755,179 @@ function checkDate(start, end) {
 }
 
 //=====================================================================================================
+// Переход на другие страницы:
+//=====================================================================================================
+
+// Переход на страницу заказа:
+
+function showOrder(id) {
+  location.href = '/order/?order_id=' + id;
+}
+
+// Переход на страницу рекламации:
+
+function showReclm(id) {
+  location.href = '/reclamation/?recl_id=' + id;
+}
+
+//=====================================================================================================
+// Универсальное заполнение данных по шаблону:
+//=====================================================================================================
+
+// Универсальная функция заполнения данных по шаблону:
+
+function fillTemplate(data) {
+  if (!data.area || !data.items) {
+    return;
+  }
+
+  if (typeof data.area === 'string') {
+    data.areaName = (data.parentAreaName || '') + data.area;
+    data.area = getEl(data.area, data.parentArea);
+  } else {
+    data.areaName = data.area.id || data.area.classList[0];
+  }
+
+  var temp = window[`${data.areaName}Temp`]; // шаблон
+  if (!temp) {
+    if (!data.area) {
+      if (data.parentTemp) {
+        return data.parentTemp;
+      }
+      return;
+    }
+    if (data.source && data.source === 'outer') {
+      temp = window[`${data.areaName}Temp`] = data.area.outerHTML;
+    } else {
+      temp = window[`${data.areaName}Temp`] = data.area.innerHTML;
+    }
+  }
+
+  var txt = fillTemp(data, data.items, temp);
+  if (data.parentTemp) {
+    return data.parentTemp.replace(temp, txt);
+  } else {
+    if (data.action && data.action === 'return') {
+      return txt;
+    } else {
+      var targetEl = data.area;
+      if (data.target) {
+        var target = getEl(data.target);
+        if (target) {
+          targetEl = target;
+        }
+      }
+      insertText(targetEl, txt, data.method);
+    }
+  }
+}
+
+// Определение функции для замены данных:
+
+function fillTemp(data, items, temp) {
+  var txt = '';
+  if (typeof items === 'object') { // данные - это всегда массив или объект
+    if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий массивы и/или объекты
+      txt = fillList(data, items, temp);
+    } else if (Array.isArray(items)) { //данные - массив (строк или чисел)
+      txt = fillList(data, items, temp);
+    } else if (!Array.isArray(items)) { //данные - объект (ключ: значение)
+      txt = fillEl(data, items, temp);
+    }
+  }
+  return txt;
+}
+
+// Создание нескольких элементов на основе данных:
+
+function fillList(data, items, temp) {
+  var result = '',
+      newEl;
+  for (var arrKey in items) {
+    newEl = fillEl(data, items[arrKey], temp);
+    result += newEl;
+  }
+  return result;
+}
+
+// Создание одного элемента на основе данных:
+
+function fillEl(data, items, temp) {
+  if (data.sub) { // Если есть подшаблоны
+    temp = fillSubTemp(data, items, temp);
+  }
+
+  if (typeof items === 'string' || typeof items === 'number') { //Данные - строка/число
+    temp = replaceInTemp(null, items, temp, data.sign);
+  } else if (data.iterate && data.iterate === 'data') {
+    for (var key in items) {
+      temp = replaceInTemp(key, items, temp, data.sign);
+    }
+  } else {
+    var props = temp.match(/#[^#]+#/gi);
+    props = props || [];
+    props = props.reduce((unique, el) => {
+      el = el.replace(/#/g, '');
+      if (unique.indexOf(el) === -1) {
+        unique.push(el);
+      }
+      return unique;
+    }, []);
+    props.forEach(key => temp = replaceInTemp(key, items, temp, data.sign));
+  }
+  return temp;
+}
+
+
+// Заполнение подшаблонов:
+
+function fillSubTemp(data, items, temp) {
+  var subData;
+  for (var sub of data.sub) {
+    subData = {
+      area: sub.area,
+      items: items[sub.items] ? Object.assign(items[sub.items]) : [],
+      sub: sub.sub,
+      parentArea: data.area,
+      parentAreaName: data.areaName,
+      parentTemp: temp,
+      source: sub.source || 'outer',
+      sign: sub.sign || data.sign,
+      iterate: sub.iterate || data.iterate,
+    };
+    temp = fillTemplate(subData);
+  }
+  return temp;
+}
+
+// Подстановка данных в шаблон:
+
+function replaceInTemp(key, items, temp, sign) {
+  var sign = sign || '#',
+      value = key ? items[key] : items;
+  if (typeof value === 'string' || typeof value === 'number') {
+    var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
+    temp = temp.replace(regex, value);
+  }
+  return temp;
+}
+
+// Вставка заполненного шаблона в документ:
+
+function insertText(el, txt, method = 'inner') {
+  el.classList.remove('template');
+  txt = txt.replace('template', '');
+  if (!method || method === 'inner') {
+    el.innerHTML = txt;
+  } else {
+    if ((method === 'afterbegin' || method === 'beforeend') && (el.childNodes.length === 1 && el.firstChild.classList.contains('template'))) {
+      el.innerHTML = txt;
+    }
+    el.insertAdjacentHTML(method, txt);
+  }
+}
+
+//=====================================================================================================
 // Работа прелоадера:
 //=====================================================================================================
 
@@ -817,6 +935,7 @@ function Loader(obj) {
   this.loader = obj;
   this.text = getEl('.text', obj);
 
+  // Отображение лоадера (можно с текстом):
   this.show = function(text) {
     if (!text) {
       text = '';
@@ -825,19 +944,21 @@ function Loader(obj) {
     showElement(this.loader, 'flex');
   }
 
+  // Скрытие лоадера:
   this.hide = function() {
     hideElement(this.loader);
   }
 }
 
 //=====================================================================================================
-// Работа окна с сообщениями:
+// Работа окна сообщений:
 //=====================================================================================================
 
 function Message(obj) {
   this.message = obj;
   this.text = getEl('.text', obj);
 
+  // Отображение окна сообщений (обязательно с текстом):
   this.show = function(text, timer) {
     if (!text) {
       return;
@@ -851,6 +972,7 @@ function Message(obj) {
     }
   }
 
+  // Скрытие окна сообщений:
   this.hide = function() {
     closePopUp(null, this.message);
   }
@@ -859,8 +981,6 @@ function Message(obj) {
 //=====================================================================================================
 // Работа кнопки "Наверх страницы":
 //=====================================================================================================
-
-var upBtn = getEl('up-btn');
 
 if (upBtn) {
   window.addEventListener('scroll', toggleBtnGoTop);
@@ -894,16 +1014,220 @@ function goToTop() {
 }
 
 //=====================================================================================================
+// Работа всплывающих окон:
+//=====================================================================================================
+
+// Открытие всплывающего окна:
+
+function openPopUp(el, style = 'flex') {
+  el = getEl(el);
+  if (el) {
+    getDocumentScroll();
+    document.body.classList.add('no-scroll');
+    showElement(el, style);
+  }
+}
+
+// Закрытие всплывающего окна:
+
+function closePopUp(event, el) {
+  if (event) {
+    if (!event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
+      return;
+    }
+    el = event.currentTarget;
+  } else {
+    el = getEl(el);
+  }
+  if (el) {
+    loader.hide();
+    hideElement(el);
+    document.body.classList.remove('no-scroll');
+    setDocumentScroll();
+  }
+}
+
+//=====================================================================================================
+// Работа полей поиска:
+//=====================================================================================================
+
+// Инициализация поля поиска:
+
+function initSearch(el, func) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Search`] = new Search(el, func);
+  }
+}
+
+// Очистка поля поиска:
+
+function clearSearch(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Search`]) {
+    window[`${el.id}Search`].clear();
+  }
+}
+
+// Объект поля поиска:
+
+function Search(obj, func) {
+  // Элементы для работы:
+  this.form = obj;
+  this.toggleBtn = getEl('.toggle', obj);
+  this.input = getEl('input[type="text"]', obj);
+  this.cancelBtn = getEl('.close', obj);
+  this.dropDown = getEl('.drop-down', obj);
+  this.info = getEl(`${this.form.id}-info`);
+
+  // Установка обработчиков событий:
+  this.setEventListeners = function() {
+    this.form.addEventListener('submit', (event) =>{
+      event.preventDefault();
+      this.search();
+    });
+    if (this.toggleBtn) {
+      this.toggleBtn.addEventListener('click', () => this.toggleSearch());
+    }
+    if (this.dropDown) {
+      this.form.addEventListener('input', () => this.showHints());
+      this.form.addEventListener('click', event => this.selectHint(event));
+      this.input.addEventListener('focus', () => this.onFocus());
+      this.input.addEventListener('blur', () => this.onBlur());
+    } else {
+      this.input.addEventListener('focus', () => onFocusInput(this.input));
+      this.input.addEventListener('blur', () => onBlurInput(this.input));
+    }
+    this.cancelBtn.addEventListener('click', () => this.cancel());
+    if (this.info) {
+      getEl('.close', this.info).addEventListener('click', () => this.cancel());
+    }
+  }
+
+  // Отображение/скрытие формы поиска:
+  this.toggleSearch = function() {
+    this.form.classList.toggle('show');
+    if (this.form.classList.contains('show')) {
+      this.input.focus();
+    }
+  }
+
+  // Отображение подсказок:
+  this.showHints = function() {
+    console.log('this.showHints');
+    var textToFind = this.input.value.trim();
+    if (textToFind === '') {
+      this.closeHints();
+      return;
+    }
+    var regEx = RegExp(textToFind, 'gi'),
+        list = getEl('.list', this.dropDown),
+        notFound = getEl('.not-found', this.dropDown),
+        items = Array.from(list.querySelectorAll('.item')),
+        curItems = items.filter(el => el.dataset.value.search(regEx) >= 0);
+
+    items.forEach(el => hideElement(el));
+    if (curItems.length > 0) {
+      hideElement(notFound);
+      showElement(list);
+      curItems.forEach(el => showElement(el));
+    } else {
+      showElement(notFound);
+      hideElement(list);
+    }
+    this.form.classList.add('open');
+  }
+
+  // Cкрытие подсказок:
+  this.closeHints = function() {
+    if (!this.dropDown) {
+      return;
+    }
+    var list = getEl('.list', this.dropDown),
+        notFound = getEl('.not-found', this.dropDown);
+    hideElement(list);
+    hideElement(notFound);
+    this.form.classList.remove('open');
+  }
+
+  // Удаление значения из инпута при его фокусе и скрытие подсказок:
+  this.onFocus = function() {
+    onFocusInput(this.input);
+    this.closeHints();
+  }
+
+  // Восстановление последнего найденного значения в инпуте при потере им фокуса и скрытие подсказок:
+  this.onBlur = function() {
+    setTimeout(() => {
+      onBlurInput(this.input);
+      this.closeHints();
+    }, 100);
+  }
+
+  // Поиск по подсказке:
+  this.selectHint = function(event) {
+    var curItem = event.target.closest('.item');
+    if (!curItem) {
+      return;
+    }
+    this.input.value = curItem.dataset.value;
+    this.search();
+  }
+
+  // Поиск:
+  this.search = function() {
+    var textToFind = this.input.value.trim();
+    if (textToFind === '') {
+      return;
+    }
+    var length = func(this.form.id, textToFind);
+    this.input.dataset.value = this.input.value;
+    this.toggleInfo(textToFind, length);
+    showElement(this.clearBtn);
+  }
+
+  // Сброс поиска:
+  this.cancel = function() {
+    this.clear();
+    func();
+  }
+
+  // Очистка поля поиска: 
+  this.clear = function() {
+    this.input.value = this.input.dataset.value = '';
+    this.toggleInfo();
+    this.closeHints();
+    hideElement(this.clearBtn);
+  }
+
+  // Отображение/скрытие информации о поиске:
+  this.toggleInfo = function(text, count) {
+    if (!this.info) {
+      return;
+    }
+    if (text) {
+      getEl('.search-text', this.info).textContent = text;
+      getEl('.search-count', this.info).textContent = count;
+      showElement(this.info, 'flex');
+    } else {
+      hideElement(this.info);
+    }
+  }
+
+  this.setEventListeners();
+}
+
+//=====================================================================================================
 // Работа выпадающих списков:
 //=====================================================================================================
 
 // Инициализация выпадающего списка:
 
-function initDropDown(el, func) {
+function initDropDown(el, handler) {
   var el = getEl(el);
   if (el && el.id) {
     window[`${el.id}Dropdown`] = new DropDown(el);
-    el.addEventListener('change', event => func(event));
+    el.addEventListener('change', event => handler(event));
   }
 }
 
@@ -924,6 +1248,18 @@ function setValueDropDown(id, value) {
   }
 }
 
+// Закрытие выпадающих списков при клике вне их самих:
+
+document.addEventListener('click', (event) => {
+  var target = event.target;
+  if (!target.closest('.activate.open')) {
+    var dropDownOpen = getEl('.activate.open');
+    if (dropDownOpen) {
+      dropDownOpen.classList.remove('open');
+    }
+  }
+});
+
 // Объект выпадающего списка:
 
 function DropDown(obj) {
@@ -942,12 +1278,8 @@ function DropDown(obj) {
       this.head.addEventListener('click', () => this.toggle());
     }
     this.filter.addEventListener('click', event => this.selectValue(event));
-    var handler = window[this.filter.dataset.handler];
-    if (handler) {
-      this.filter.addEventListener('change', event => handler(event));
-    }
-    if (this.clearFilterBtn) {
-      this.clearFilterBtn.addEventListener('click', event => this.clear(event));
+    if (this.clearBtn) {
+      this.clearBtn.addEventListener('click', event => this.clear(event));
     }
   }
   this.setEventListeners();
@@ -1013,10 +1345,10 @@ function DropDown(obj) {
 }
 
 //=====================================================================================================
-// Работа с таблицами:
+// Работа таблиц:
 //=====================================================================================================
 
-// Инициализация объектов таблиц при запуске страницы:
+// Инициализация всех таблиц на странице:
 
 function initTables() {
   document.querySelectorAll('.table-wrap').forEach(el => {
@@ -1288,177 +1620,4 @@ function Table(obj) {
     }
   }
   this.init();
-}
-
-//=====================================================================================================
-// Переход на другие страницы:
-//=====================================================================================================
-
-// Переход на страницу заказа:
-
-function showOrder(id) {
-  location.href = '/order/?order_id=' + id;
-}
-
-// Переход на страницу рекламации:
-
-function showReclm(id) {
-  location.href = '/reclamation/?recl_id=' + id;
-}
-
-//=====================================================================================================
-// Универсальное заполнение данных по шаблону:
-//=====================================================================================================
-
-// Универсальная функция заполнения данных по шаблону:
-
-function fillTemplate(data) {
-  if (!data.area || !data.items) {
-    return;
-  }
-
-  if (typeof data.area === 'string') {
-    data.areaName = (data.parentAreaName || '') + data.area;
-    data.area = getEl(data.area, data.parentArea);
-  } else {
-    data.areaName = data.area.id || data.area.classList[0];
-  }
-
-  var temp = window[`${data.areaName}Temp`]; // шаблон
-  if (!temp) {
-    if (!data.area) {
-      if (data.parentTemp) {
-        return data.parentTemp;
-      }
-      return;
-    }
-    if (data.source && data.source === 'outer') {
-      temp = window[`${data.areaName}Temp`] = data.area.outerHTML;
-    } else {
-      temp = window[`${data.areaName}Temp`] = data.area.innerHTML;
-    }
-  }
-
-  var txt = fillTemp(data, data.items, temp);
-  if (data.parentTemp) {
-    return data.parentTemp.replace(temp, txt);
-  } else {
-    if (data.action && data.action === 'return') {
-      return txt;
-    } else {
-      var targetEl = data.area;
-      if (data.target) {
-        var target = getEl(data.target);
-        if (target) {
-          targetEl = target;
-        }
-      }
-      insertText(targetEl, txt, data.method);
-    }
-  }
-}
-
-// Определение функции для замены данных:
-
-function fillTemp(data, items, temp) {
-  var txt = '';
-  if (typeof items === 'object') { // данные - это всегда массив или объект
-    if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий массивы и/или объекты
-      txt = fillList(data, items, temp);
-    } else if (Array.isArray(items)) { //данные - массив (строк или чисел)
-      txt = fillList(data, items, temp);
-    } else if (!Array.isArray(items)) { //данные - объект (ключ: значение)
-      txt = fillEl(data, items, temp);
-    }
-  }
-  return txt;
-}
-
-// Создание нескольких элементов на основе данных:
-
-function fillList(data, items, temp) {
-  var result = '',
-      newEl;
-  for (var arrKey in items) {
-    newEl = fillEl(data, items[arrKey], temp);
-    result += newEl;
-  }
-  return result;
-}
-
-// Создание одного элемента на основе данных:
-
-function fillEl(data, items, temp) {
-  if (data.sub) { // Если есть подшаблоны
-    temp = fillSubTemp(data, items, temp);
-  }
-
-  if (typeof items === 'string' || typeof items === 'number') { //Данные - строка/число
-    temp = replaceInTemp(null, items, temp, data.sign);
-  } else if (data.iterate && data.iterate === 'data') {
-    for (var key in items) {
-      temp = replaceInTemp(key, items, temp, data.sign);
-    }
-  } else {
-    var props = temp.match(/#[^#]+#/gi);
-    props = props || [];
-    props = props.reduce((unique, el) => {
-      el = el.replace(/#/g, '');
-      if (unique.indexOf(el) === -1) {
-        unique.push(el);
-      }
-      return unique;
-    }, []);
-    props.forEach(key => temp = replaceInTemp(key, items, temp, data.sign));
-  }
-  return temp;
-}
-
-
-// Заполнение подшаблонов:
-
-function fillSubTemp(data, items, temp) {
-  var subData;
-  for (var sub of data.sub) {
-    subData = {
-      area: sub.area,
-      items: items[sub.items] ? Object.assign(items[sub.items]) : [],
-      sub: sub.sub,
-      parentArea: data.area,
-      parentAreaName: data.areaName,
-      parentTemp: temp,
-      source: sub.source || 'outer',
-      sign: sub.sign || data.sign,
-      iterate: sub.iterate || data.iterate,
-    };
-    temp = fillTemplate(subData);
-  }
-  return temp;
-}
-
-// Подстановка данных в шаблон:
-
-function replaceInTemp(key, items, temp, sign) {
-  var sign = sign || '#',
-      value = key ? items[key] : items;
-  if (typeof value === 'string' || typeof value === 'number') {
-    var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
-    temp = temp.replace(regex, value);
-  }
-  return temp;
-}
-
-// Вставка заполненного шаблона в документ:
-
-function insertText(el, txt, method = 'inner') {
-  el.classList.remove('template');
-  txt = txt.replace('template', '');
-  if (!method || method === 'inner') {
-    el.innerHTML = txt;
-  } else {
-    if ((method === 'afterbegin' || method === 'beforeend') && (el.childNodes.length === 1 && el.firstChild.classList.contains('template'))) {
-      el.innerHTML = txt;
-    }
-    el.insertAdjacentHTML(method, txt);
-  }
 }

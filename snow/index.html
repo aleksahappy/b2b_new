@@ -18,76 +18,78 @@
   <body id="snow" data-website="ts_b2b" data-cart="true">
 
     <div class="header">
-      <div class="header-top row">
-        <div class="left-side row">
-          <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
-          <div class="row">
-            <div class="activate hover">
-              <div class="head row">
-                <a class="title" href="../desktop">Рабочий стол</a>
+      <div class="header-top">
+        <div class="container row">
+          <div class="left-side row">
+            <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
+            <div class="row">
+              <div class="activate hover">
+                <div class="head row">
+                  <a class="title" href="../desktop">Рабочий стол</a>
+                </div>
               </div>
-            </div>
-            <div class="activate hover">
-              <div class="head row">
-                <div class="title">Каталоги</div>
-                <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-                </svg>
+              <div class="activate hover">
+                <div class="head row">
+                  <div class="title">Каталоги</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div id="catalogs" class="drop-down template">
+                  <div class="row">
+                    <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
+                    <a class="cart-#id# item cart-info row" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
+                      <div class="cart icon"></div>
+                      <div class="qty #isFull#">#qty#</div>
+                    </a>
+                  </div>
+                </div>
               </div>
-              <div id="catalogs" class="drop-down template">
-                <div class="row">
-                  <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
-                  <a class="cart-#id# item cart-info row" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
-                    <div class="cart icon"></div>
-                    <div class="qty #isFull#">#qty#</div>
-                  </a>
+              <div class="activate hover select">
+                <div class="head row">
+                  <div class="title">Закупки</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div class="drop-down">
+                  <a class="item" href="../orders/">Заказы</a>
+                  <a class="item" href="../reclamations/">Рекламации</a>
+                  <a class="item" href="../documents/">Документы</a>
+                  <a class="item" href="../certificates/">Сертификаты</a>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="right-side row">
             <div class="activate hover select">
               <div class="head row">
-                <div class="title">Закупки</div>
-                <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-                </svg>
+                <div class="profile icon"></div>
+                <div id="profile" class="template">
+                  <div class="title">#login#</div>
+                  <div class="username text light">#username#</div>
+                </div>
               </div>
               <div class="drop-down">
-                <a class="item" href="../orders/">Заказы</a>
-                <a class="item" href="../reclamations/">Рекламации</a>
-                <a class="item" href="../documents/">Документы</a>
-                <a class="item" href="../certificates/">Сертификаты</a>
+                <div class="links">
+                  <a class="item" href="../users">Пользователи</a>
+                  <a class="item" href="../contractors">Контрагенты</a>
+                  <a class="item" href="../addresses">Адреса доставки</a>
+                  <a class="item" href="../shops">Магазины</a>
+                  <a class="item" href="../monitoring">Мониторинг</a>
+                  <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
+                </div>
+                <a class="item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="right-side row">
-          <div class="activate hover select">
-            <div class="head row">
-              <div class="profile icon"></div>
-              <div id="profile" class="template">
-                <div class="title">#login#</div>
-                <div class="username text light">#username#</div>
-              </div>
+            <div class="alerts icon" onclick="openPopUp('alerts-container')">
+              <div class="qty in-circle row">#qty#</div>
             </div>
-            <div class="drop-down">
-              <div class="links">
-                <a class="item" href="../users">Пользователи</a>
-                <a class="item" href="../contractors">Контрагенты</a>
-                <a class="item" href="../addresses">Адреса доставки</a>
-                <a class="item" href="../shops">Магазины</a>
-                <a class="item" href="../monitoring">Мониторинг</a>
-                <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
-              </div>
-              <a class="item" onclick="logOut(event)">Выйти</a>
-            </div>
-          </div>
-          <div class="alerts icon" onclick="openPopUp('alerts-container')">
-            <div class="qty in-circle row">#qty#</div>
           </div>
         </div>
       </div>
-      <div class="header-menu row">
-        <div class="catalog row">
+      <div class="header-menu">
+        <div class="container row">
           <div class="topmenu row">
             <a class="topmenu-item active" href="../snow/" data-href="snow" data-level="1" data-title="Снегоходы" onclick="openPage(event)">Снегоходы</a>
           </div>
@@ -95,15 +97,15 @@
             <a class="submenu-item" href="../snow/?zip" data-href="zip" data-level="2" data-title="Запчасти" onclick="openPage(event)">Запчасти</a>
             <a class="submenu-item" href="../snow/?acc" data-href="acc" data-level="2" data-title="Аксессуары" onclick="openPage(event)">Аксессуары</a>
           </div>
+          <form id="page-search" class="search positioned row" action="#">
+            <div class="search-area row">
+              <input class="search icon" type="submit" value="">
+              <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+              <div class="close icon"></div>
+            </div>
+            <div class="toggle search icon white"></div>
+          </form>
         </div>
-        <div id="page-search-icon" class="search icon white search-manage" onclick="openPageSearch()"></div>
-        <form id="page-search" class="search row" action="#" onsubmit="findOnPage(event)">
-          <div class="row">
-            <input class="search icon" type="submit" value="">
-            <input id="page-search-input" type="text" autocomplete="off" placeholder="Поиск...">
-          </div>
-          <div id="page-search-clear" class="close icon" onclick="clearSearchResult()"></div>
-        </form>
         <div id="header-cart" class="template">
           <div class="wrap">
             <div class="items">
@@ -123,12 +125,18 @@
       </div>
       <div id="header-content">
         <div class="container row">
-          <div class="clear-filter btn basic" onclick="clearSearchResult()">Сбросить фильтры</div>
+          <div class="clear-filter btn basic" onclick="clearFilters()">Сбросить фильтры</div>
           <div class="gallery-head row">
-            <div id="search-info">
+            <div id="page-search-info" class="search-info">
               <div class="result row">
-                <div>Результаты поиска ("<span id="search-text"></span>" - <span id="search-count">0</span>)</div>
-                <div class="close icon" onclick="clearSearchResult()"></div>
+                <div>Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+            <div id="oem-info" class="search-info">
+              <div class="result row">
+                <div>Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+                <div class="close icon"></div>
               </div>
             </div>
             <div id="filters-info" class="template">
@@ -181,40 +189,38 @@
         <div id="content" class="row">
           <div id="filters-container">
             <div id="filters">
-              <div id="zip-filters">
-                <div class="filter #isOpen#" onclick="toggleFilter(event)">
-                  <div class="filter-title row">
-                    <div class="title">Производитель и ОЕМ</div>
-                    <div class="open white icon"></div>
-                  </div>
-                  <div class="filter-items">
-                    <div class="zip-selects">
-                      <div id="#key#" class="activate select" disabled>
-                        <div class="head row">
-                          <div class="title">#title#:</div>
-                          <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="rgb(52,73,94)"/>
-                          </svg>
-                        </div>
-                        <div class="list drop-down">
-                          <div class="item" data-value="#item#">#item#</div>
-                        </div>
+              <div id="zip-filters" class="filter default-open" onclick="toggleFilter(event)">
+                <div class="filter-title row">
+                  <div class="title">Производитель и ОЕМ</div>
+                  <div class="open white icon"></div>
+                </div>
+                <div class="filter-items">
+                  <div id="zip-selects">
+                    <div id="#key#" class="activate select" disabled>
+                      <div class="head row">
+                        <div class="title">#title#:</div>
+                        <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="rgb(52,73,94)"/>
+                        </svg>
+                      </div>
+                      <div class="list drop-down">
+                        <div class="item" data-value="#item#">#item#</div>
                       </div>
                     </div>
-                    <form id="oem" class="search row" action="#" oninput="showOemList()" onsubmit="findOem(event)">
-                      <div class="row">
-                        <input class="search icon blue" type="submit" value="">
-                        <input id="oem-search-input" type="text" autocomplete="off" data-value="" placeholder="Поиск по OEM" onfocus="onFocusOemInput(this)" onblur="onBlurOemInput(this)">
-                      </div>
-                      <div id="oem-search-clear" class="close icon blue" onclick="clearSearchResult()"></div>
-                      <div id="oem-dropdown">
-                        <div id="oem-not-found">Совпадений не найдено</div>
-                        <div id="oem-list" class="list">
-                          <div class="item" data-value="#item#" onclick="selectOem(event)">#item#</div>
-                        </div>
-                      </div>
-                    </form>
                   </div>
+                  <form id="oem" class="search activate select row" action="#">
+                    <div class="search-area row">
+                      <input class="search icon blue" type="submit" value="">
+                      <input type="text" data-value="" autocomplete="off" placeholder="Поиск по OEM">
+                      <div class="close icon blue"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item not-found">Совпадений не найдено</div>
+                      <div class="list">
+                        <div class="item" data-value="#item#">#item#</div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
               <div id="catalog-filters">
@@ -339,7 +345,7 @@
                             <div class="name row text light">#size#</div>
                             <div class="qty-box row">
                               <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                              <input class="choiced-qty text light" type="text" value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                              <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
                               <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
                             </div>
                             <div class="tooltips col">
@@ -470,7 +476,7 @@
                           <div class="name row text light">#size#</div>
                           <div class="qty-box row">
                             <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                            <input class="choiced-qty text light" type="text" value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
                             <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
                           </div>
                         </div>
@@ -700,7 +706,7 @@
                         <div>
                           <div class="qty-box row">
                             <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                            <input class="choiced-qty text light" type="text" value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="changeCart(event)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <input class="choiced-qty text light" type="text" value="#qty#" data-value=#qty# data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
                             <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
                           </div>
                           <div class="tooltips row">
