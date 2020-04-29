@@ -6,7 +6,8 @@
 
 // Динамически изменяемые переменные:
 
-var cartTimer = null,
+var cartData = {},
+    cartTimer = null,
     cartTimeout = 1000,
     cartChanges = {};
 cartChanges[cartId] = {};
@@ -14,22 +15,6 @@ cartChanges[cartId] = {};
 //=====================================================================================================
 // Запросы на сервер:
 //=====================================================================================================
-
-// Получение данных о конкретном товаре:
-
-function getItems(data) {
-  return new Promise((resolve, reject) => {
-    sendRequest(`${urlRequest.api}???`, data)
-    .then(result => {
-      // console.log(result);
-      var productList = JSON.parse(result);
-      resolve(productList);
-    })
-    .catch(error => {
-      reject(error);
-    })
-  });
-}
 
 // Отправка данных корзины на сервер (только изменившихся данных):
 
@@ -74,7 +59,7 @@ function orderSentServer(event) {
   var cartInfo = {};
   cartInfo[cartId] = {};
   idList.forEach(id => {
-    cartInfo[cartId]['id_' + id] = cart[cartId]['id_' + id];
+    cartInfo[cartId]['id_' + id] = cart['id_' + id];
   });
 
   var data = {
@@ -115,19 +100,20 @@ function getOrderData() {
 // Обновление корзины при возвращении на страницу:
 
 function updateCart() {
-  // return;
   getCart()
   .then(
     result => {
+      checkFullnessItems();
       if (location.search === '?cart') {
         createCart();
       } else {
         var cards;
         if (view === 'list') {
           cards = document.querySelectorAll('.big-card');
-        }
-        if (view === 'blocks') {
+        } else if (view === 'blocks') {
           cards = document.querySelectorAll('.min-card');
+        } else if (view === 'product') {
+          cards = document.querySelectorAll('.product-card');
         }
         cards.forEach(card => checkCart(card));
       }
@@ -142,9 +128,9 @@ function updateCart() {
 
 function checkFullnessItems() {
   var data = [];
-  for (var key in cart[cartId]) {
+  for (var key in cart) {
     if (!cartItems[key]) {
-      data.push(cart[cartId][key].id);
+      data.push(cart[key].id);
     }
   }
   if (data.length) {
@@ -217,22 +203,7 @@ function changeCartName(qty) {
       var curTotal = cartTotals.find(el => el.id === cartId);
       qty = curTotal ? curTotal.qty : 0;
     };
-    cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + getWord(qty);
-  }
-}
-
-// Отображение правильного окончания в слове "товар":
-// * товар - 1 | 21 | 31 | 41 | 51 | 61 |71 | 81 | 91 | 101 ...
-// * товара - 2 | 3 | 4 | 22 | 23 | 24 | 32 | 33 | 34 ...
-// * товаров - 0 | 5 | 6 | 7 | 8 | 9 | 10-20 | 25-30 | 35-40 ...
-
-function getWord(qty) {
-  if ((qty === 1) || (qty > 20 && qty % 10 === 1)) {
-    return 'товар';
-  } else if ((qty >= 2 && qty <= 4) || (qty > 20 && qty % 10 >= 2 && qty % 10 <= 4)) {
-    return 'товара';
-  } else {
-    return 'товаров';
+    cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + getWordEnd('товар', qty);
   }
 }
 
@@ -240,26 +211,26 @@ function getWord(qty) {
 
 function saveInCart(id, qty) {
   id = 'id_' + id;
-  if (!qty && !cart[cartId][id]) {
+  if (!qty && !cart[id]) {
     return;
   }
-  if (cart[cartId][id] && cart[cartId][id].qty == qty) {
+  if (cart[id] && cart[id].qty == qty) {
     return;
   }
-  if (!cart[cartId][id]) {
-    cart[cartId][id] = {};
+  if (!cart[id]) {
+    cart[id] = {};
   }
-  cart[cartId][id].id = id.replace('id_', '');
-  cart[cartId][id].qty = qty;
-  cart[cartId][id].cartId = cartId;
-  cart[cartId][id].actionId = cartItems[id].action_id;
-  cart[cartId][id].actionName = cartItems[id].actiontitle || 'Cклад';
+  cart[id].id = id.replace('id_', '');
+  cart[id].qty = qty;
+  cart[id].cartId = cartId;
+  cart[id].actionId = cartItems[id].action_id;
+  cart[id].actionName = cartItems[id].actiontitle || 'Cклад';
 
-  cartChanges[cartId][id] = cart[cartId][id];
+  cartChanges[cartId][id] = cart[id];
   cartSentServer();
 
   if (!qty) {
-    delete cart[cartId][id];
+    delete cart[id];
   }
   saveCartTotals();
 }
@@ -268,7 +239,7 @@ function saveInCart(id, qty) {
 
 function deleteFormCart(idList) {
   idList.forEach(id => {
-    delete cart[cartId]['id_' + id];
+    delete cart['id_' + id];
   });
   saveCartTotals();
 }
@@ -293,8 +264,7 @@ function saveCartTotals() {
 // Подсчет по корзине (всей корзины целиком или только выбранных элементов):
 
 function countFromCart(idList = undefined, totals = true) {
-  var info = cart[cartId],
-      qty = 0,
+  var qty = 0,
       sum = 0;
 
   if (totals) {
@@ -308,15 +278,15 @@ function countFromCart(idList = undefined, totals = true) {
         bonusId = 0;
   }
 
-  if (info) {
+  if (!isEmptyObj(cart)) {
     var curItem, curQty;
     if (idList) {
       idList.forEach(id => {
-        countTotals('id_' + id, info['id_' + id]);
+        countTotals('id_' + id, cart['id_' + id]);
       });
     } else {
-      for (let id in info) {
-        countTotals(id, info[id]);
+      for (var id in cart) {
+        countTotals(id, cart[id]);
       }
     }
   }
@@ -538,11 +508,10 @@ function checkCart(card) {
 // Получение даннных о количестве товара из корзины:
 
 function getQty(id) {
-  var info = cart[cartId],
-      id = 'id_' + id,
+  var id = 'id_' + id,
       qty, totalQty;
-  if (info && info[id]) {
-    qty = parseInt(info[id].qty, 10);
+  if (cart[id]) {
+    qty = parseInt(cart[id].qty, 10);
     totalQty = parseInt(cartItems[id].total_qty, 10);
     if (totalQty > 0) {
       return qty > totalQty ? totalQty : qty;
@@ -688,7 +657,7 @@ function changeCartRow(row) {
         getEl('.qty .bonus span', bonusRow).textContent = qty;
         getEl('.qty', tableBonusRow).textContent = qty;
       } else {
-        createCart('id_' + bonusId, qty, row, tableRow);
+        createCartRow('id_' + bonusId, qty, row, tableRow, true);
         bonusRow = row.nextElementSibling;
         checkImg(bonusRow);
         getEl('.prop.action', bonusRow).textContent = getEl('.prop.action', row).textContent;
@@ -751,41 +720,53 @@ function changeCartInfo() {
 // Отображение контента корзины:
 
 function renderCart() {
-  changeContent('cart');
   changeCartName();
   showElement('cart-name');
   createCart();
   showElement('cart');
 }
 
-// Создание корзины/строки корзины:
+// Cоздание корзины:
 
-function createCart(id, qty, row = null, tableRow = null) {
-  var isBonus = row ? true : false;
-  var data = getCartData(id, qty, isBonus);
+function createCart() {
+  var data = getCartData();
   if (data.length) {
     fillTemplate({
       area: 'cart-rows',
-      items: data,
-      target: row,
-      method: row ? 'afterend' : null
+      items: data
     });
     fillTemplate({
       area: 'cart-table',
-      items: data,
-      target: tableRow,
-      method: tableRow ? 'afterend' : null
+      items: data
     });
-    showActualCart('full');
-  } else {
-    showActualCart();
+  }
+  showActualCart(data.length);
+}
+
+// Cоздание строки корзины:
+
+function createCartRow(id, qty, row = null, tableRow = null, isBonus) {
+  var data = getCartItemData(id, qty, isBonus);
+  if (data.length) {
+    fillTemplate({
+      area: 'cart-rows',
+      items: [data],
+      target: row,
+      method: row ? 'afterend' : 'beforeend'
+    });
+    fillTemplate({
+      area: 'cart-table',
+      items: [data],
+      target: tableRow,
+      method: tableRow ? 'afterend' : 'beforeend'
+    });
   }
 }
 
-// Отображение контента пустой или полной коризны:
+// Отображение контента пустой или полной корзины:
 
-function showActualCart(type) {
-  if (type === 'full') {
+function showActualCart(length) {
+  if (length) {
     getEl('check-all').classList.add('checked');
     document.querySelectorAll('.cart-row').forEach(row => {
       checkImg(row);
@@ -803,39 +784,37 @@ function showActualCart(type) {
 
 // Подготовка данных для создания корзины:
 
-function getCartData(id, qty, isBonus) {
+function getCartData() {
   var data = [];
-  if (id && qty) {
-    getRowData(id, qty);
-  } else {
-    for (var id in cart[cartId]) {
-      qty = cart[cartId][id].qty
-      if (qty) {
-        getRowData(id, qty);
-      }
+  for (var id in cart) {
+    qty = cart[id].qty
+    if (qty) {
+      data.push(getCartItemData(id, qty));
     }
-  }
-
-  function getRowData(id, qty) {
-    if (!cartItems[id]) {
-      return;
-    }
-    var cartItem = Object.assign(cartItems[id]);
-    if (isBonus) {
-      cartItem.isBonus = 'bonus';
-      cartItem.price_cur = 'Подарок';
-    } else {
-      cartItem.isBonus = '';
-    }
-    if (cartItem.total_qty > 0) {
-      cartItem.qty = qty > cartItem.total_qty ? cartItem.total_qty : qty;
-    } else {
-      cartItem.qty = qty;
-      cartItem.price_cur = 0;
-    }
-    data.push(cartItem);
   }
   return data;
+}
+
+// Получение данных для создания строки корзины:
+
+function getCartItemData(id, qty, isBonus) {
+  if (!cartItems[id]) {
+    return;
+  }
+  var item = Object.assign(cartItems[id]);
+  if (isBonus) {
+    item.isBonus = 'bonus';
+    item.price_cur = 'Подарок';
+  } else {
+    item.isBonus = '';
+  }
+  if (item.total_qty > 0) {
+    item.qty = qty > item.total_qty ? item.total_qty : qty;
+  } else {
+    item.qty = qty;
+    item.price_cur = 0;
+  }
+  return item;
 }
 
 //=====================================================================================================
@@ -911,31 +890,33 @@ function loadInCart() {
 //Загрузка данных в корзину из файла:
 
 function addInCart(event) {
+  event.preventDefault();
   loader.show();
-  var file = event.currentTarget.files[0];
-  var test = {
-    id: 'id',
-    data: file
-  };
-  console.log(test);
-  sendRequest(`${urlRequest.api}???`, file)
+  var form = event.currentTarget,
+      data = new FormData(form),
+      loadBtn = getEl('label',form),
+      submitBtn = getEl('input[type="submit"]', form);
+  sendRequest(`${urlRequest.api}???`, data, 'multipart/form-data')
   .then(result => {
     // console.log(result);
     var data = JSON.parse(result);
     if (data.cart) {
       cart[cartId] = data.cart[cartId];
+      closePopUp(null, 'load-container');
       changeCartInHeader(countFromCart());
       createCart();
     } else {
       message.show('Файл не загружен. Неверный формат данных.', 2000);
+      showElement(loadBtn);
+      hideElement(submitBtn);
     }
     loader.hide();
-    closePopUp(null, 'load-container');
   })
   .catch(error => {
     loader.hide();
-    closePopUp(null, 'load-container');
     message.show('Файл не загружен. Ошибка сервера.', 2000);
+    showElement(loadBtn);
+    hideElement(submitBtn);
     console.log(error);
   })
 }

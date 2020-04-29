@@ -84,6 +84,15 @@ body.no-scroll {
   margin: 0 4rem;
 }
 
+.container.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  margin-top: 5em;
+  margin-bottom: 5em;
+}
+
 /* =====================================================================================================
 Общие стили:
 ===================================================================================================== */
@@ -904,7 +913,7 @@ form.search .search-area {
   font-size: 1em;
   background-color: #FFFFFF;
   border: 1px solid rgba(52, 73, 94, 0.4);
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 form.search.positioned .search-area {
@@ -948,6 +957,33 @@ form.search .not-found {
 form.search .list {
   display: none;
   border-bottom: 1px solid rgba(52, 73, 94, 0.4);
+}
+
+/* Поле для загрузки файлов: */
+
+form.file {
+  align-items: stretch;
+}
+
+form.file .file-name {
+  min-width: 15em;
+  padding: 0.714em 1.5em;
+  border: 1px solid rgba(52, 73, 94, 0.4);
+  border-radius: 3px 0 0 3px;
+  text-align: center;
+}
+
+input.file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+input.file ~ label {
+  cursor: pointer;
 }
 
 /* Информация о количестве в кружке: */
@@ -1058,15 +1094,15 @@ form.search .list {
 }
 
 .header-top {
-  height: 4em;
   font-size: 1.143em;
   background-color: #FFFFFF;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.09);
 }
 
-.header-top .container{
+.header-top .container {
   justify-content: space-between;
   align-items: stretch;
+  height: 4em;
 }
 
 .header-top a {
@@ -1488,7 +1524,7 @@ form.search .list {
 
 .pop-up {
   position: relative;
-  max-width: 70vw;
+  max-width: 90vw;
   max-height: 90vh;
   background-color: #FFFFFF;
   box-shadow: -18px 31px 23px rgba(0, 0, 0, 0.1);
@@ -1541,14 +1577,6 @@ form.search .list {
 /* =====================================================================================================
 Всплывающее окна с формами:
 ===================================================================================================== */
-
-.registr-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60vh;
-  margin: 5em auto;
-}
 
 .registr {
   width: 33em;
@@ -2085,4 +2113,22 @@ form.registr-form .unactive {
 .table-body .date {
   min-width: 14em;
   justify-content: center;
+}
+
+/* Стили страницы 404 */
+
+body#err .main-title {
+  text-align: center;
+}
+
+body#err .img {
+  margin: 4.5em auto 3.5em auto;
+  width: 19em;
+  height: 13em;
+  background: url('../img/404.svg') no-repeat center center;
+  background-size: contain;
+}
+
+body#err a {
+  font-size: 1.143em;
 }

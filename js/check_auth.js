@@ -9,7 +9,8 @@
 // Проверка авторизован ли пользователь:
 
 function checkAuth() {
-  if (location.pathname === '/' && location.search === '?error=1') {
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
+  if (path === '' && location.search === '?error=1') {
     var error = document.getElementById('error');
     if (error) {
       error.style.display = 'block';
@@ -26,20 +27,20 @@ function checkAuth() {
         console.log(xhr.response);
         var data = JSON.parse(xhr.response);
         if (data.ok) {
-          if (location.pathname === '/' || location.pathname === '/registr/') {
+          if (path === '' || path === 'registr') {
             location.href = '/desktop';
           } else {
             window.userInfo = data.user_info;
           }
         } else {
-          if (location.pathname !== '/') {
+          if (path !== '') {
            location.href = '/';
           }
         }
       }
     } catch(err) {
       console.log(err);
-      if (location.pathname !== '/') {
+      if (path !== '') {
         location.href = '/';
       }
     }

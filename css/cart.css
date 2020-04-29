@@ -399,22 +399,14 @@
   width: 100%;
   height: 10em;
   padding: 0.5em;
+  margin-bottom: 1em;
   border: 0.5px solid rgba(52, 73, 94, 0.3);;
   border-radius: 3px;
   resize: none;
 }
 
-#load-file {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-
-#load-file + label {
-  cursor: pointer;
+#load-file input[type="submit"] {
+  display: none;
 }
 
 #load-container .btns-wrap {

@@ -46,7 +46,6 @@ if (isCart) {
   var cartId = pageId,
       cartTotals = [],
       cart = {};
-  cart[cartId] = {};
 }
 
 // Инициализация прелоадера и поля с сообщениями:
@@ -69,10 +68,8 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
-  if (location.pathname === '/' || location.pathname === '/registr/') {
-    return;
-  }
-  if (location.pathname !== '/desktop/') {
+  var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
+  if (path !== '' && path !== 'desktop') {
     loader.show();
   }
   setPaddingToBody();
@@ -103,7 +100,6 @@ function logOut(event) {
 
 // Отправка запросов на сервер:
 
-// type : 'multipart/form-data', 'application/json; charset=utf-8'
 function sendRequest(url, data, type = 'application/json; charset=utf-8') {
   return new Promise((resolve, reject) => {
     var request = new XMLHttpRequest();
@@ -115,14 +111,18 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       resolve(request.response);
     });
     if (data) {
-      var requestData = {
-        sessid: getCookie('iam'),
-        data: data
-      };
+      if (type === 'application/json; charset=utf-8') {
+        data = JSON.stringify({
+          sessid: getCookie('iam'),
+          data: data
+        });
+      } else if (type === 'multipart/form-data') {
+        data.append('sessid', getCookie('iam'));
+      }
       // console.log(requestData);
       request.open('POST', url);
       request.setRequestHeader('Content-type', type);
-      request.send(JSON.stringify(requestData));
+      request.send(data);
     } else {
       request.open('GET', url);
       request.send();
@@ -131,7 +131,7 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 }
 
 //=====================================================================================================
-// Работа с данными пользователя:
+// Отображение данных пользователя:
 //=====================================================================================================
 
 // Вывод информации о пользователе в шапке страницы:
@@ -145,6 +145,10 @@ function showUserInfo() {
         username: userInfo.name + ' ' + userInfo.lastname
       }
     });
+  } else {
+    // if (location.pathname !== '/') {
+    //   location.href = '/';
+    // }
   }
 }
 
@@ -178,12 +182,12 @@ function getCart(totals = false) {
     sendRequest(url, data)
     .then(
       result => {
-        console.log(JSON.parse(result));
+        console.log(result);
         if (!result || JSON.parse(result).err) {
           reject('Корзина пустая');
         } else if (totals && JSON.stringify(cartTotals) === result) {
           reject('Итоги не изменились');
-        } else if (!totals && JSON.stringify(cart[cartId]) === result) {
+        } else if (!totals && JSON.stringify(cart) === result) {
           reject('Корзина не изменилась');
         } else {
           if (totals) {
@@ -191,7 +195,7 @@ function getCart(totals = false) {
             cartTotals = JSON.parse(result);
           } else {
             console.log('Корзина обновилась');
-            cart[cartId] = JSON.parse(result);
+            cart = JSON.parse(result);
           }
           resolve();
         }
@@ -693,6 +697,21 @@ function isEmptyObj(obj) {
   return true;
 }
 
+// Отображение правильного окончания в слове:
+// * без окончания (товар, файл) - 1 | 21 | 31 | 41 | 51 | 61 |71 | 81 | 91 | 101 ...
+// * окончание "а" (товара, файла) - 2 | 3 | 4 | 22 | 23 | 24 | 32 | 33 | 34 ...
+// * окончание "ов" (товаров, файлов) - 0 | 5 | 6 | 7 | 8 | 9 | 10-20 | 25-30 | 35-40 ...
+
+function getWordEnd(word, qty) {
+  if ((qty === 1) || (qty > 20 && qty % 10 === 1)) {
+    return word;
+  } else if ((qty >= 2 && qty <= 4) || (qty > 20 && qty % 10 >= 2 && qty % 10 <= 4)) {
+    return word + 'а';
+  } else {
+    return word + 'ов';
+  }
+}
+
 // Функция преобразования цены к формату с пробелами:
 
 function convertPrice(price) {
@@ -1048,6 +1067,46 @@ function closePopUp(event, el) {
 }
 
 //=====================================================================================================
+// Работа полей для загрузки файлов:
+//=====================================================================================================
+
+document.querySelectorAll('input[type="file"]').forEach(input => showFiles(input));
+
+// Отображение названия файла или количества выбранных файлов:
+
+function showFiles(input) {
+  var form = input.closest('form');
+  if (!form) {
+    return;
+  }
+  var fileName = getEl('.file-name', form),
+      loadBtn = getEl('label', form),
+      submitBtn = getEl('input[type="submit"]', form);
+  if (fileName) {
+    input.addEventListener('change', event => {
+      var text = '',
+          files = event.currentTarget.files;
+      if (files && files.length > 1) {
+        text = `${files.length} ${getWordEnd('файл', files.length)} выбрано`;
+      } else {
+        text = event.currentTarget.value.split('\\').pop();
+      }
+      console.log(fileName);
+      fileName.textContent = text;
+      if (submitBtn) {
+        if (files && files.length) {
+          hideElement(loadBtn);
+          showElement(submitBtn);
+        } else {
+          showElement(loadBtn);
+          hideElement(submitBtn);
+        }
+      }
+    });
+  }
+}
+
+//=====================================================================================================
 // Работа полей поиска:
 //=====================================================================================================
 
@@ -1063,9 +1122,29 @@ function initSearch(el, func) {
 // Очистка поля поиска:
 
 function clearSearch(el) {
+  var el = getSearch(el);
+  if (el) {
+    el.clear();
+  }
   var el = getEl(el);
   if (window[`${el.id}Search`]) {
     window[`${el.id}Search`].clear();
+  }
+}
+
+// Открытие/закрытие поля поиска:
+
+function toggleSearch(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Search`]) {
+    window[`${el.id}Search`].toggle();
+  }
+}
+
+function getSearch(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Search`]) {
+    return window[`${el.id}Search`];
   }
 }
 
@@ -1087,7 +1166,7 @@ function Search(obj, func) {
       this.search();
     });
     if (this.toggleBtn) {
-      this.toggleBtn.addEventListener('click', () => this.toggleSearch());
+      this.toggleBtn.addEventListener('click', () => this.toggle());
     }
     if (this.dropDown) {
       this.form.addEventListener('input', () => this.showHints());
@@ -1105,7 +1184,7 @@ function Search(obj, func) {
   }
 
   // Отображение/скрытие формы поиска:
-  this.toggleSearch = function() {
+  this.toggle = function() {
     this.form.classList.toggle('show');
     if (this.form.classList.contains('show')) {
       this.input.focus();
