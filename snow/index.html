@@ -756,19 +756,19 @@
 Артикул Количество
 Артикул Количество
 Артикул Количество"></textarea>
-                <div class="btns-wrap">
-                  <div class="unactive btn" onclick="loadInCart()">Загрузить список</div>
-                </div>
+                <div class="unactive btn" onclick="loadInCart()">Загрузить список</div>
               </div>
               <div class="pop-up-title row">
                 <div class="title">Добавить товары из файла</div>
               </div>
               <div class="pop-up-body">
-                <div class="text light">Загрузите файл в формате...</div>
-                <div class="btns-wrap">
-                  <input id="load-file" type="file" accept=".xls,.xlsx" onchange="addInCart(event)">
-                  <label class="unactive btn" for="load-file">Загрузить файл</label>
-                </div>
+                <div class="text light">Загрузите бланк заказа в MS Excel</div>
+                <form id="load-file" class="file row" action="#" onsubmit="addInCart(event)">
+                  <input id="file-cart" class="file" type="file" accept=".xls,.xlsx">
+                  <div class="file-name"></div>
+                  <label class="unactive btn" for="file-cart">Выбрать файл</label>
+                  <input class="unactive btn" type="submit" value="Загрузить файл">
+                </form>
               </div>
             </div>
           </div>

@@ -592,7 +592,7 @@
                   <div id="warning-btn"></div>
                 </div>
               </div>
-              <form id="order-form" class="row" action="#" onsubmit="orderSentServer(event)">
+              <form id="order-form" class="row" method="post" enctype="multipart/form-data" onsubmit="orderSentServer(event)">
                 <div class="input-wrap">
                   <div class="title">Способ оплаты</div>
                   <select name="payment_type" required>
@@ -643,94 +643,98 @@
                 <div class="basic btn" onclick="closeOrderForm()">Отменить</div>
                 <input class="order active btn" type="submit" value="Заказать">
               </form>
-              <div class="table-head cart-list row">
-                <div id="check-all" class="check" onclick="toggleAllCart(event)">
-                  <div class="checkbox white icon"></div>
-                </div>
-                <div class="name">
-                  <div>Наименование</div>
-                  <div class="copy-container col">
-                    <div class="copy basic btn" onclick="copyCart()">Копировать корзину</div>
-                    <table>
-                      <tbody id="cart-table">
-                        <tr class="cart-table-row #isBonus#" data-id="#object_id#">
-                          <td>#title#</td>
-                          <td>#articul#</td>
-                          <td class="qty">#qty#</td>
-                          <td class="sum">0</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <textarea id="cart-copy"></textarea>
+              <div class="cart-list">
+                <div class="table-head row">
+                  <div id="check-all" class="check" onclick="toggleAllCart(event)">
+                    <div class="checkbox white icon"></div>
                   </div>
-                </div>
-                <div class="list-wrap row">
-                  <div class="prop articul hidden-xs">Артикул</div>
-                  <div class="prop action hidden-xs">Тип заказа</div>
-                  <div class="prop qty hidden-xs">Кол-во штук</div>
-                  <div class="prop price hidden-xs">Цена</div>
-                  <div class="prop sum hidden-xs">Итого</div>
-                  <div class="title">Раздел</div>
-                  <div class="value">Значение</div>
+                  <div class="name">
+                    <div>Наименование</div>
+                    <div class="copy-container col">
+                      <div class="copy basic btn" onclick="copyCart()">Копировать корзину</div>
+                      <table>
+                        <tbody id="cart-table">
+                          <tr class="cart-table-row #isBonus#" data-id="#object_id#">
+                            <td>#title#</td>
+                            <td>#articul#</td>
+                            <td class="qty">#qty#</td>
+                            <td class="sum">0</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <textarea id="cart-copy"></textarea>
+                    </div>
+                  </div>
+                  <div class="list-wrap row">
+                    <div class="prop articul hidden-xs">Артикул</div>
+                    <div class="prop action hidden-xs">Тип заказа</div>
+                    <div class="prop qty hidden-xs">Кол-во штук</div>
+                    <div class="prop price hidden-xs">Цена</div>
+                    <div class="prop sum hidden-xs">Итого</div>
+                    <div class="title">Раздел</div>
+                    <div class="value">Значение</div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div id="cart-rows" class="cart-list">
-              <div class="cart-row row manage checked #isAvailable# #isBonus#" data-id="#object_id#">
-                <div class="check" onclick="toggleInCart(event)">
-                  <div class="checkbox icon"></div>
-                </div>
-                <div class="name">
-                  <a class="row" onclick="showFullCard(#object_id#)">
-                    <div class="img-wrap row">
-                      <img src="#image#">
+            <div class="cart-list">
+              <div id="cart-rows" class="table-body">
+                <div class="cart-row row manage checked #isAvailable# #isBonus#" data-id="#object_id#">
+                  <div class="check" onclick="toggleInCart(event)">
+                    <div class="checkbox icon"></div>
+                  </div>
+                  <div class="name">
+                    <a class="row" onclick="showFullCard(#object_id#)">
+                      <div class="img-wrap row">
+                        <img src="#image#">
+                      </div>
+                      <div>#title# #options#</div>
+                    </a>
+                  </div>
+                  <div class="list-wrap row">
+                    <div class="prop articul">
+                      <div class="title">Артикул</div>
+                      <div class="value">#articul#</div>
                     </div>
-                    <div>#title# #options#</div>
-                  </a>
-                </div>
-                <div class="list-wrap row">
-                  <div class="prop articul">
-                    <div class="title">Артикул</div>
-                    <div class="value">#articul#</div>
-                  </div>
-                  <div class="prop action">
-                    <div class="title">Тип заказа</div>
-                    <div class="value">#action_name#</div>
-                  </div>
-                  <div class="prop qty">
-                    <div class="title">Кол-во штук</div>
-                    <div class="value qty in-cart">
-                      <div>
-                        <div class="qty-box row">
-                          <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                          <input class="choiced-qty text light" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                          <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
-                        </div>
-                        <div class="tooltips row">
-                          <div class="free-qty #isFree# row" tooltip="В наличии">
-                            <span class="free-qty icon"></span>
-                            <span class="text green">#free_qty#&nbsp;шт.</span>
+                    <div class="prop action">
+                      <div class="title">Тип заказа</div>
+                      <div class="value">#action_name#</div>
+                    </div>
+                    <div class="prop qty">
+                      <div class="title">Кол-во штук</div>
+                      <div class="value qty in-cart">
+                        <div>
+                          <div class="qty-box row">
+                            <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
+                            <input class="choiced-qty text light" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
                           </div>
-                          <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
-                            <span class="arrive-qty icon"></span>
-                            <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
-                          </div>
-                          <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
-                            <span class="warehouse-qty icon"></span>
-                            <span class="text">#warehouse_qty#&nbsp;шт.</span>
+                          <div class="tooltips row">
+                            <div class="free-qty #isFree# row" tooltip="В наличии">
+                              <span class="free-qty icon"></span>
+                              <span class="text green">#free_qty#&nbsp;шт.</span>
+                            </div>
+                            <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
+                              <span class="arrive-qty icon"></span>
+                              <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
+                            </div>
+                            <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
+                              <span class="warehouse-qty icon"></span>
+                              <span class="text">#warehouse_qty#&nbsp;шт.</span>
+                            </div>
                           </div>
                         </div>
                       </div>
+                      <div class="value fix-qty"><span>#qty#</span>&nbsp;шт.</div>
                     </div>
-                    <div class="value fix-qty"><span>#qty#</span>&nbsp;шт.</div>
-                  </div>
-                  <div class="prop price">
-                    <div class="title">Цена</div>
-                    <div class="value">#price_cur#</div>
-                  </div>
-                  <div class="prop sum">
-                    <div class="title">Итого</div>
-                    <div class="value">0</div>
+                    <div class="prop price">
+                      <div class="title">Цена</div>
+                      <div class="value">#price_cur#</div>
+                    </div>
+                    <div class="prop sum">
+                      <div class="title">Итого</div>
+                      <div class="value">0</div>
+                    </div>
                   </div>
                 </div>
               </div>

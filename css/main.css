@@ -986,6 +986,10 @@ input.file ~ label {
   cursor: pointer;
 }
 
+form.file input[type="submit"] {
+  display: none;
+}
+
 /* Информация о количестве в кружке: */
 
 .qty.in-circle {
