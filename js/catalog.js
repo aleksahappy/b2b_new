@@ -1674,6 +1674,8 @@ function clearCurSelect(type) {
     } else if (curSelect === 'page-search' || curSelect === 'oem') {
       clearSearch(curSelect);
     }
+    curSelect = null;
+    selectedItems = '';
   }
 }
 

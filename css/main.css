@@ -917,11 +917,11 @@ form.search .search-area {
 }
 
 form.search.positioned .search-area {
-  visibility: hidden;
+  display: none;
 }
 
 form.search.positioned.show .search-area {
-  visibility: visible;
+  display: flex;
 }
 
 form.search input:not([type="submit"]) {
@@ -1265,7 +1265,7 @@ form.file input[type="submit"] {
 
 .header-menu .container {
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   padding-right: calc(17em);
 }
 
@@ -1313,12 +1313,18 @@ form.file input[type="submit"] {
 }
 
 #page-search {
+  top: 0;
   right: calc(4rem + 17em);
   margin-right: 1em;
 }
 
-#page-search .row {
+#page-search .search-area {
   width: 25em;
+}
+
+#page-search .toggle.icon {
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
 }
 
 #header-cart {

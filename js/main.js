@@ -1122,29 +1122,9 @@ function initSearch(el, func) {
 // Очистка поля поиска:
 
 function clearSearch(el) {
-  var el = getSearch(el);
-  if (el) {
-    el.clear();
-  }
   var el = getEl(el);
   if (window[`${el.id}Search`]) {
-    window[`${el.id}Search`].clear();
-  }
-}
-
-// Открытие/закрытие поля поиска:
-
-function toggleSearch(el) {
-  var el = getEl(el);
-  if (window[`${el.id}Search`]) {
-    window[`${el.id}Search`].toggle();
-  }
-}
-
-function getSearch(el) {
-  var el = getEl(el);
-  if (window[`${el.id}Search`]) {
-    return window[`${el.id}Search`];
+    window[`${el.id}Search`].clear(true);
   }
 }
 
@@ -1262,7 +1242,7 @@ function Search(obj, func) {
     var length = func(this.form.id, textToFind);
     this.input.dataset.value = this.input.value;
     this.toggleInfo(textToFind, length);
-    showElement(this.clearBtn);
+    showElement(this.cancelBtn);
   }
 
   // Сброс поиска:
@@ -1271,12 +1251,15 @@ function Search(obj, func) {
     func();
   }
 
-  // Очистка поля поиска: 
-  this.clear = function() {
+  // Очистка поля поиска:
+  this.clear = function(isFull) {
     this.input.value = this.input.dataset.value = '';
     this.toggleInfo();
     this.closeHints();
-    hideElement(this.clearBtn);
+    hideElement(this.cancelBtn);
+    if (isFull) {
+      this.form.classList.remove('show');
+    }
   }
 
   // Отображение/скрытие информации о поиске:
