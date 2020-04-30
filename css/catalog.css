@@ -1218,7 +1218,7 @@ body {
 
 #full-img-container {
   padding: 3em 0;
-  opacity: 0;
+  z-index: 500;
 }
 
 #full-img-container .close-btn {

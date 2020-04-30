@@ -1059,7 +1059,7 @@ form.file input[type="submit"] {
 }
 
 #loader.over {
-  z-index: 500;
+  z-index: 400;
 }
 
 #loader .loader.icon {

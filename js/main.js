@@ -1054,11 +1054,7 @@ function openPopUp(el) {
 
 function closePopUp(event, el) {
   if (event) {
-    console.log(event.target);
-    console.log(event.target.closest('#loader'));
-    console.log(event.target.closest('.close-btn'));
-    console.log(event.target.closest('.pop-up'));
-    if (!event.target.closest('#loader') && !event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
+    if (!event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
       return;
     }
     el = event.currentTarget;
