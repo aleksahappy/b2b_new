@@ -63,7 +63,7 @@ function startCatalogPage() {
 function showPage() {
   getCart()
   .then(result => {
-    checkFullnessItems();
+    createCartData();
     initPage();
   })
   .catch(err => {
@@ -144,7 +144,7 @@ function convertItems() {
     items = items.filter(el => el.snegohod == 1);
   }
   items.forEach(item => convertItem(item));
-  items.sort(dynamicSort(('catId')));  // Сортировка по id категории:
+  items.sort(dynamicSort(('catid')));  // Сортировка по id категории:
 }
 
 // Преобразование данных по одному товару:
@@ -669,6 +669,7 @@ function renderGallery() {
   showElement('page-search', 'flex');
   showElement('header-content');
   showElement('content', 'flex');
+  toggleEventListeners('on');
   clearCurSelect();
   initFilters(filter);
   showCards();
@@ -681,6 +682,7 @@ function hideContent() {
   hideElement('page-search');
   hideElement('header-content');
   hideElement('main-header');
+  hideElement('cart-name');
   hideElement('cart');
   hideElement('content');
   hideElement('filters-container');
@@ -1557,8 +1559,9 @@ function showFullCard(id) {
   event.preventDefault();
   loader.show();
   var fullCardContainer = getEl('full-card-container');
-  openPopUp(fullCardContainer);
   fullCardContainer.style.opacity = 0;
+  openPopUp(fullCardContainer);
+
   fillTemplate({
     area: fullCardContainer,
     items: curItems.find(item => item.object_id == id),
@@ -1588,24 +1591,20 @@ function showFullCard(id) {
       }
     }
   );
-  loader.hide();
   fullCardContainer.style.opacity = 1;
+  loader.hide();
 }
 
-// Отображение картинки полного размера на экране:
+// Открытие картинки полного размера:
 
 function showFullImg(event, id) {
   if (event.target.classList.contains('control')) {
     return;
   }
-  var fullCardContainer = getEl('full-card-container'),
-      fullImgContainer = getEl('full-img-container');
-  if (fullCardContainer && (!fullCardContainer.style.display || fullCardContainer.style.display === 'none')) {
-    getDocumentScroll();
-  }
-  showElement(fullImgContainer);
-  fullImgContainer.style.opacity = 0;
   loader.show();
+  var fullImgContainer = getEl('full-img-container');
+  fullImgContainer.style.opacity = 0;
+  openPopUp(fullImgContainer);
 
   fillTemplate({
     area: fullImgContainer,
@@ -1622,25 +1621,18 @@ function showFullImg(event, id) {
   renderCarousel(curCarousel, curImg)
   .then(
     result => {
-      loader.hide();
+      getEl('full-card-container').style.opacity = 0;
       fullImgContainer.style.opacity = 1;
+      loader.hide();
     }
   );
-  document.body.classList.add('no-scroll');
 }
 
-// Скрытие картинки полного размера:
+// Закрытие картинки полного размера:
 
 function closeFullImg(event) {
-  if (event.target.classList.contains('control')) {
-    return;
-  }
-  loader.hide();
-  hideElement('full-img-container');
-  var fullCardContainer = getEl('full-card-container');
-  if (!fullCardContainer.style.display || fullCardContainer.style.display === 'none') {
-    document.body.classList.remove('no-scroll');
-    setDocumentScroll();
+  if (closePopUp(event)) {
+    getEl('full-card-container').style.opacity = 1;
   }
 }
 

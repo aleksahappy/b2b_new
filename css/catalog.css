@@ -1218,7 +1218,7 @@ body {
 
 #full-img-container {
   padding: 3em 0;
-  z-index: 400;
+  opacity: 0;
 }
 
 #full-img-container .close-btn {
@@ -1232,7 +1232,6 @@ body {
 }
 
 #full-img {
-  position: relative;
   justify-content: center;
   align-items: center;
   width: 100%;

@@ -69,7 +69,7 @@ startPage();
 
 function startPage() {
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
-  if (path !== '' && path !== 'desktop') {
+  if (path !== '') {
     loader.show();
   }
   setPaddingToBody();
@@ -955,17 +955,18 @@ function Loader(obj) {
   this.text = getEl('.text', obj);
 
   // Отображение лоадера (можно с текстом):
-  this.show = function(text) {
-    if (!text) {
-      text = '';
-    }
+  this.show = function(text = '') {
     this.text.textContent = text;
+    if (document.querySelector('.pop-up-container.open')) {
+      this.loader.classList.add('over');
+    }
     showElement(this.loader, 'flex');
   }
 
   // Скрытие лоадера:
   this.hide = function() {
     hideElement(this.loader);
+    this.loader.classList.remove('over');
   }
 }
 
@@ -1038,12 +1039,14 @@ function goToTop() {
 
 // Открытие всплывающего окна:
 
-function openPopUp(el, style = 'flex') {
+function openPopUp(el) {
   el = getEl(el);
   if (el) {
-    getDocumentScroll();
-    document.body.classList.add('no-scroll');
-    showElement(el, style);
+    if (!document.querySelector('.pop-up-container.open')) {
+      getDocumentScroll();
+      document.body.classList.add('no-scroll');
+    }
+    el.classList.add('open');
   }
 }
 
@@ -1051,7 +1054,11 @@ function openPopUp(el, style = 'flex') {
 
 function closePopUp(event, el) {
   if (event) {
-    if (!event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
+    console.log(event.target);
+    console.log(event.target.closest('#loader'));
+    console.log(event.target.closest('.close-btn'));
+    console.log(event.target.closest('.pop-up'));
+    if (!event.target.closest('#loader') && !event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
       return;
     }
     el = event.currentTarget;
@@ -1060,9 +1067,12 @@ function closePopUp(event, el) {
   }
   if (el) {
     loader.hide();
-    hideElement(el);
-    document.body.classList.remove('no-scroll');
-    setDocumentScroll();
+    el.classList.remove('open');
+    if (!document.querySelector('.pop-up-container.open')) {
+      document.body.classList.remove('no-scroll');
+      setDocumentScroll();
+    }
+    return true;
   }
 }
 
@@ -1166,9 +1176,9 @@ function Search(obj, func) {
   // Отображение/скрытие формы поиска:
   this.toggle = function() {
     this.form.classList.toggle('show');
-    if (this.form.classList.contains('show')) {
-      this.input.focus();
-    }
+    // if (this.form.classList.contains('show')) {
+    //   this.input.focus();
+    // }
   }
 
   // Отображение подсказок:

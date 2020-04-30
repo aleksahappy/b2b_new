@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/catalog.css">
+    <link rel="stylesheet" type="text/css" href="../css/media_catalog.css">
     <link rel="stylesheet" type="text/css" href="../css/cart.css">
   </head>
 
@@ -541,7 +542,7 @@
             <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
             <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
           </svg>
-          <div id="full-img" class="row">
+          <div id="full-img" class="pop-up row">
             <div class="carousel" data-type="fullImg">
               <div class="left-btn control"></div>
               <div class="right-btn control"></div>
@@ -654,7 +655,7 @@
                       <div class="copy basic btn" onclick="copyCart()">Копировать корзину</div>
                       <table>
                         <tbody id="cart-table">
-                          <tr class="cart-table-row #isBonus#" data-id="#object_id#">
+                          <tr class="cart-table-row #status#" data-id="#object_id#">
                             <td>#title#</td>
                             <td>#articul#</td>
                             <td class="qty">#qty#</td>
@@ -679,7 +680,7 @@
             </div>
             <div class="cart-list">
               <div id="cart-rows" class="table-body">
-                <div class="cart-row row manage checked #isAvailable# #isBonus#" data-id="#object_id#">
+                <div class="cart-row row manage checked #isAvailable# #status#" data-id="#object_id#">
                   <div class="check" onclick="toggleInCart(event)">
                     <div class="checkbox icon"></div>
                   </div>
