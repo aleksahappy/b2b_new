@@ -127,11 +127,11 @@ function updateCart() {
 // Создание данных для рендеринга корзины:
 
 function createCartData() {
-  getMissingItems();
+  // getMissingItems();
   for (var id in cart) {
     qty = cart[id].qty
     if (qty) {
-      cartData[id] = createCartItemData(id, qty)
+      cartData[id] = createCartItemData(id, qty);
     }
   }
 }
@@ -139,6 +139,7 @@ function createCartData() {
 // Создание данных строки корзины:
 
 function createCartItemData(id, qty, status = '') {
+  console.log(cartItems[id]);
   if (!cartItems[id]) {
     return;
   }
@@ -153,6 +154,7 @@ function createCartItemData(id, qty, status = '') {
     item.qty = qty;
     item.price_cur = 0;
   }
+  console.log(item);
   return item;
 }
 
@@ -256,12 +258,13 @@ function saveInCart(id, qty) {
   cart[id].actionName = cartItems[id].actiontitle || 'Cклад';
 
   cartChanges[cartId][id] = cart[id];
-  cartData[id] = cart[id];
   cartSentServer();
 
   if (!qty) {
     delete cart[id];
     delete cartData[id];
+  } else {
+    cartData[id] = createCartItemData(id, qty);
   }
   saveCartTotals();
 }
@@ -761,34 +764,26 @@ function renderCart() {
 // Cоздание корзины:
 
 function createCart() {
-  var data = getCartData();
-  if (data.length) {
-    fillTemplate({
+  if (!isEmptyObj(cartData)) {
+    var data = {
       area: 'cart-rows',
-      items: data
-    });
-    fillTemplate({
-      area: 'cart-table',
-      items: data
-    });
+      items: cartData,
+      type: 'list'
+    };
+    fillTemplate(data);
+    data.area = 'cart-table';
+    fillTemplate (data);
   }
-  showActualCart(data.length);
-}
-
-// Подготовка данных для создания корзины:
-
-function getCartData() {
-  var data = [];
-  for (var id in cartData) {
-    data.push(cartData[id]);
-  }
-  return data;
+  showActualCart();
 }
 
 // Отображение контента пустой или полной корзины:
 
-function showActualCart(length) {
-  if (length) {
+function showActualCart() {
+  if (isEmptyObj(cartData)) {
+    hideElement('cart-full');
+    showElement('cart-empty');
+  } else {
     getEl('check-all').classList.add('checked');
     document.querySelectorAll('.cart-row').forEach(row => {
       checkImg(row);
@@ -798,9 +793,6 @@ function showActualCart(length) {
     changeCartInfo();
     hideElement('cart-empty');
     showElement('cart-full');
-  } else {
-    hideElement('cart-full');
-    showElement('cart-empty');
   }
 }
 
@@ -811,13 +803,13 @@ function createCartRow(id, qty, row = null, tableRow = null, status) {
   if (data) {
     fillTemplate({
       area: 'cart-rows',
-      items: [data],
+      items: data,
       target: row,
       method: row ? 'afterend' : 'beforeend'
     });
     fillTemplate({
       area: 'cart-table',
-      items: [data],
+      items: data,
       target: tableRow,
       method: tableRow ? 'afterend' : 'beforeend'
     });

@@ -184,8 +184,9 @@ function getCart(totals = false) {
       result => {
         console.log(result);
         if (!result || JSON.parse(result).err) {
-          reject('Корзина пустая');
-        } else if (totals && JSON.stringify(cartTotals) === result) {
+          result = "{}";
+        }
+        if (totals && JSON.stringify(cartTotals) === result) {
           reject('Итоги не изменились');
         } else if (!totals && JSON.stringify(cart) === result) {
           reject('Корзина не изменилась');
@@ -846,11 +847,11 @@ function fillTemplate(data) {
 function fillTemp(data, items, temp) {
   var txt = '';
   if (typeof items === 'object') { // данные - это всегда массив или объект
-    if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий массивы и/или объекты
+    if (data.type === 'list' || (items[0] && typeof items[0] === 'object')) { //данные - массив или объект, содержащий массивы и/или объекты
       txt = fillList(data, items, temp);
-    } else if (Array.isArray(items)) { //данные - массив (строк или чисел)
+    } else if (data.type === 'vars' || Array.isArray(items)) { //данные - массив (строк или чисел)
       txt = fillList(data, items, temp);
-    } else if (!Array.isArray(items)) { //данные - объект (ключ: значение)
+    } else if (data.type === 'obj' || !Array.isArray(items)) { //данные - объект (ключ: значение)
       txt = fillEl(data, items, temp);
     }
   }

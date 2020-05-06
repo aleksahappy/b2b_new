@@ -35,6 +35,11 @@ function getEl(el, area = document) {
 //                                                      - объект (ключ: значение)
 //                                                      - массив содержащий строки и/или цифры
 //
+//   type: 'list' / 'vars' / 'obj'                    Тип данных (по умолчанию - определится по типу переданных данных):
+//                                                      - 'list' - массив или объект, содержащий массивы и/или объекты (для создания множества элементов на основе шаблона)
+//                                                      - 'vars' - массив содержащий строки и/или цифры (для создания множества элементов на основе простейшего шаблона)
+//                                                      - 'obj' - объект (ключ: значение) (для создания одного элемента на основе шаблон)
+//
 //    source: 'inner' / 'outer',                       Как получать шаблон из DOM (по умолчанию - 'inner'):
 //                                                      - весь тег целиком, т.е. с помощью outerHTML
 //                                                      - внутреннюю часть тега, т.е. с помощью innerHTML
@@ -89,6 +94,7 @@ function getEl(el, area = document) {
 // var data = {
 //   area: 'big-card',
 //   items: items,
+//   type: 'list',
 //   source: 'outer',
 //   target: 'gallery',
 //   sign: '#',
@@ -109,8 +115,6 @@ function getEl(el, area = document) {
 //   method: 'inner'
 //   iterate: 'temp'
 // }
-
-// Универсальная функция заполнения данных по шаблону:
 
 // Универсальная функция заполнения данных по шаблону:
 
@@ -165,11 +169,11 @@ function fillTemplate(data) {
 function fillTemp(data, items, temp) {
   var txt = '';
   if (typeof items === 'object') { // данные - это всегда массив или объект
-    if (items[0] && typeof items[0] === 'object') { //данные - массив или объект с ключами 0,1,2.. содержащий массивы и/или объекты
+    if (data.type === 'list' || (items[0] && typeof items[0] === 'object')) { //данные - массив или объект, содержащий массивы и/или объекты
       txt = fillList(data, items, temp);
-    } else if (Array.isArray(items)) { //данные - массив (строк или чисел)
+    } else if (data.type === 'vars' || Array.isArray(items)) { //данные - массив (строк или чисел)
       txt = fillList(data, items, temp);
-    } else if (!Array.isArray(items)) { //данные - объект (ключ: значение)
+    } else if (data.type === 'obj' || !Array.isArray(items)) { //данные - объект (ключ: значение)
       txt = fillEl(data, items, temp);
     }
   }
