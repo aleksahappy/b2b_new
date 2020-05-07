@@ -14,7 +14,7 @@ var minCard = getEl('.min-card'),
 var view = location.pathname === '/product'? 'product' : 'list',
     pageUrl = pageId,
     path,
-    items,
+    // items,
     cartItems = {},
     curItems,
     selectedItems = '',
@@ -65,9 +65,7 @@ function initCart() {
       initPage();
     });
   } else {
-    document.addEventListener('DOMContentLoaded', () => {
-      initPage();
-    });
+    initPage();
   }
 }
 
