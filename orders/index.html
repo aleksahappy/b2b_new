@@ -603,7 +603,7 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest(`${urlRequest.new}orderslist.php`)
+      sendRequest(`${urlRequest.new}api/orderslist.php`)
       .then(result => {
         var data = JSON.parse(result);
         if (data.orderslist) {

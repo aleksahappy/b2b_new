@@ -32,9 +32,8 @@ var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
     urlRequest = {
-      new: 'http://new.topsports.ru/api/',
-      api: 'http://api.topsports.ru/',
-      test: 'http://127.0.0.1:5500/test/'
+      new: 'https://new.topsports.ru/',
+      api: 'https://api.topsports.ru/'
     },
     loader = getEl('loader'),
     message = getEl('message-container'),
@@ -90,7 +89,7 @@ function startPage() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest.new}user_logout.php`)
+  sendRequest(`${urlRequest.new}api/user_logout.php`)
   .then(result => document.location.href = '/')
 }
 

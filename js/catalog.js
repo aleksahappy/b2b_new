@@ -14,6 +14,7 @@ var minCard = getEl('.min-card'),
 var view = location.pathname === '/product'? 'product' : 'list',
     pageUrl = pageId,
     path,
+    items,
     cartItems = {},
     curItems,
     selectedItems = '',
@@ -22,7 +23,7 @@ var view = location.pathname === '/product'? 'product' : 'list',
 
 // Запускаем рендеринг страницы каталога:
 
-startCatalogPage();
+startPage();
 
 //=====================================================================================================
 // При запуске страницы:
@@ -30,46 +31,44 @@ startCatalogPage();
 
 // Запуск страницы каталога:
 
-function startCatalogPage() {
-  if (view != 'product') {
+function startPage() {
+  if (view === 'product') {
+    getItems(location.search.replace('?',''))
+    .then(
+      result => {
+        items = [result];
+        convertItems();
+        initCart();
+      },
+      reject => {
+        location.href = '/404'
+      }
+    )
+  } else {
     convertItems();
+    initCart();
   }
+}
+
+// Инициализация корзины (если есть):
+
+function initCart() {
   if (isCart) {
     window.addEventListener('focus', updateCart);
-    if (view === 'product') {
-      getItems(location.search.replace('?',''))
-      .then(
-        result => {
-          window.items = [result];
-          convertItems();
-          showPage();
-        },
-        reject => {
-          location.href = '/404'
-        }
-      )
-    } else {
-      showPage();
-    }
+    getCart()
+    .then(result => {
+      createCartData();
+      initPage();
+    })
+    .catch(err => {
+      console.log(err);
+      initPage();
+    });
   } else {
     document.addEventListener('DOMContentLoaded', () => {
       initPage();
     });
   }
-}
-
-// Запуск инициализации страницы:
-
-function showPage() {
-  getCart()
-  .then(result => {
-    createCartData();
-    initPage();
-  })
-  .catch(err => {
-    console.log(err);
-    initPage();
-  });
 }
 
 // Инициализация страницы при открытии сайта:

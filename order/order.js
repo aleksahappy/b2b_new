@@ -26,7 +26,7 @@ for (var i = 0; i < ordtabs.length; i++) {
   TFF[ordtabs[i]] = window[ordtabs[i]];
 }
 
-sendRequest(`${urlRequest.new}order.php?order_id=` + orderId)
+sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
 .then(result => {
   var data = JSON.parse(result);
   if (data.id) {

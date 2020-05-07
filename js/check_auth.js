@@ -17,7 +17,7 @@ function checkAuth() {
     }
   } else {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://new.topsports.ru/api/check_auth.php', false);
+    xhr.open('GET', 'https://new.topsports.ru/api/check_auth.php', false);
     try {
       xhr.send();
       if (xhr.status != 200) {
