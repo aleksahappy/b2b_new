@@ -62,7 +62,7 @@ $(function () {
 				var file_type = file.name.split('.').pop();
 				file_type = file_type.toLowerCase();
 				file_type = (filetypes[file_type]) ? filetypes[file_type] : 'txt';
-				var ico = '<img src="http://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
+				var ico = '<img src="https://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
 				$('#files').append('<div class="image-item" data-file="' + file_name + '">' + ico + file_name + '</div>');
 			}
 		});
@@ -184,7 +184,7 @@ $(function () {
 						file_type = v.file_type.toLowerCase();
 						file_type = (filetypes[file_type]) ? filetypes[file_type] : 'txt';
 						file_type_add = (file_type == 'txt') ? ".txt" : "";
-						var ico = '<img src="http://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
+						var ico = '<img src="https://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
 						// var is_img = (imgtypes[file_type]) ? 'data-img="' + v.file_name + '"' : '';
 						var is_img = (imgtypes[file_type]) ? 'data-fancybox="img"' : '';
 						var href = path + '/recl/storage_remote/' + recl.recl_code_1c + '/' + v.file_folder + '/' + v.file_name + '.' + v.file_type + file_type_add;
@@ -210,9 +210,9 @@ $(function () {
 				$('#item_title').html(recl.item_title_preview).attr('data-title', recl.item_title).attr('data-title-preview', recl.item_title_preview);
 				$('.item_articul span').html(recl.item_articul);
 				if (recl.item_img) {
-					$('.item_img').attr('src', 'http://b2b.topsports.ru/c/productpage/' + recl.item_img);
+					$('.item_img').attr('src', 'https://b2b.topsports.ru/c/productpage/' + recl.item_img);
 				} else {
-					$('.item_img').attr('src', 'http://b2b.topsports.ru/d/img/no_img_big.jpg');
+					$('.item_img').attr('src', 'https://b2b.topsports.ru/d/img/no_img_big.jpg');
 				}
 				$('.item_price span').html(recl.item_price);
 				$.each(recl.item_options, function (k, v) {
@@ -286,7 +286,7 @@ function uploadFormData(formFile, obj) {
 				add = "data-fancybox='vid'";
 			}
 			file_type = (filetypes[response.file_type]) ? filetypes[response.file_type] : 'txt';
-			var ico = '<img src="http://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
+			var ico = '<img src="https://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
 			var href = 'http://80.234.34.212:2000/-aleksa-/TopSports/b2b_new_design/recl/storage_remote/' + recl_id + '/' + response.folder + '/' + response.file_name + '.' + response.file_type;
 			cont.html('<a href="' + href + '" ' + add + ' target="_blank">' + ico + ' ' + response.file_name_view + '</a>')
 //			$('#' + data.folder).removeClass('hide').addClass('nohide').append('<a href="' + data.link + '" ' + add + '>' + data.file_name + '</a>')

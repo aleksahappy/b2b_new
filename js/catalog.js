@@ -173,7 +173,7 @@ function convertItem(item) {
 
 function addImgInfo(item) {
   item.images = item.images.toString().split(';');
-  item.image = `http://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
+  item.image = `https://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
 }
 
 // Проверка действия акции и добавление данных о ней:
