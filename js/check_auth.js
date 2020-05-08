@@ -18,8 +18,10 @@ function checkAuth() {
   } else {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://new.topsports.ru/api/check_auth.php', false);
+    // xhr.open('POST', 'https://new.topsports.ru/api.php', false);
     try {
       xhr.send();
+      // xhr.send({action: 'auth'});
       if (xhr.status != 200) {
         console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
         new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);

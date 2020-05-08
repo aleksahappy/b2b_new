@@ -14,7 +14,6 @@ var minCard = getEl('.min-card'),
 var view = location.pathname === '/product'? 'product' : 'list',
     pageUrl = pageId,
     path,
-    // items,
     cartItems = {},
     curItems,
     selectedItems = '',
@@ -49,6 +48,36 @@ function startPage() {
     initCart();
   }
 }
+
+// При получении данных POST-запросом:
+
+// function startPage() {
+//   if (view === 'product') {
+//     getItems(location.search.replace('?',''))
+//     .then(
+//       result => {
+//         items = [result];
+//         convertItems();
+//         initCart();
+//       },
+//       reject => {
+//         location.href = '/404'
+//       }
+//     )
+//   } else {
+//     getItems()
+//     .then(
+//       result => {
+//         for (var key in result) {
+//           window[key] = result[key];
+//         }
+//         catalogFiltersData = createCatalogFiltersData();
+//         convertItems();
+//         initCart();
+//       }
+//     )
+//   }
+// }
 
 // Инициализация корзины (если есть):
 
@@ -85,26 +114,6 @@ function initPage() {
   initSearch('page-search', selectCards);
   initSearch('oem', selectCards);
   initDropDown('gallery-sort', sortItems);
-}
-
-//=====================================================================================================
-// Запросы на сервер:
-//=====================================================================================================
-
-// Получение данных о конкретном товаре/товарах:
-
-function getItems(data) {
-  return new Promise((resolve, reject) => {
-    sendRequest(`${urlRequest.api}???`, data)
-    .then(result => {
-      // console.log(result);
-      var data = JSON.parse(result);
-      resolve(data);
-    })
-    .catch(error => {
-      reject(error);
-    })
-  });
 }
 
 //=====================================================================================================

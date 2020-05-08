@@ -97,7 +97,7 @@ function getDataFromOptions(optNumb) {
 
 function createFilterData(data, parent) {
   var items = [];
-  if (!data) {
+  if (!window[data]) {
     return items;
   }
   if (typeof data === 'object') {
@@ -156,12 +156,12 @@ function createCatalogFiltersData() {
     title: 'Спецпредложение',
     isOpen: 'default-open',
     key: 'action_id',
-    items: createFilterData(window.actions)
+    items: createFilterData(actions)
   }, {
     title: 'Категория',
     isOpen: 'default-open',
     key: 'cat',
-    items: createFilterData(window.catsubs)
+    items: createFilterData(catsubs)
   }, {
     title: 'Бренд',
     isOpen: 'default-open',

@@ -161,13 +161,13 @@ function createCartItemData(id, qty, status = '') {
 // Получение недостающих items для рендеринга корзины:
 
 function getMissingItems() {
-  var data = [];
+  var data = '';
   for (var key in cart) {
     if (!cartItems[key]) {
-      data.push(cart[key].id);
+      data += cart[key].id + ',';
     }
   }
-  if (data.length) {
+  if (data) {
     getItems(data)
     .then(
       result => {

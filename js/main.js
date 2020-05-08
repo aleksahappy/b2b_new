@@ -33,6 +33,7 @@ var website = document.body.dataset.website,
     isCart = document.body.dataset.cart,
     urlRequest = {
       new: 'https://new.topsports.ru/',
+      // new: 'https://new.topsports.ru/api.php',
       api: 'https://api.topsports.ru/'
     },
     loader = getEl('loader'),
@@ -90,7 +91,11 @@ function startPage() {
 function logOut(event) {
   event.preventDefault();
   sendRequest(`${urlRequest.new}api/user_logout.php`)
-  .then(result => document.location.href = '/')
+  // sendRequest(urlRequest.new, {action: 'logout'})
+  .then(result => {
+    clearLocal();
+    document.location.href = '/';
+  })
 }
 
 //=====================================================================================================
@@ -111,10 +116,8 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
     });
     if (data) {
       if (type === 'application/json; charset=utf-8') {
-        data = JSON.stringify({
-          sessid: getCookie('iam'),
-          data: data
-        });
+        data.sessid = getCookie('iam');
+        data = JSON.stringify(data);
       } else if (type === 'multipart/form-data') {
         data.append('sessid', getCookie('iam'));
       }
@@ -126,43 +129,6 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       request.open('GET', url);
       request.send();
     }
-  });
-}
-
-//=====================================================================================================
-// Отображение данных пользователя:
-//=====================================================================================================
-
-// Вывод информации о пользователе в шапке страницы:
-
-function showUserInfo() {
-  if (window.userInfo) {
-    fillTemplate({
-      area: 'profile',
-      items: {
-        login: userInfo.login,
-        username: userInfo.name + ' ' + userInfo.lastname
-      }
-    });
-  } else {
-    // if (location.pathname !== '/') {
-    //   location.href = '/';
-    // }
-  }
-}
-
-//=====================================================================================================
-// Работа с данными корзины:
-//=====================================================================================================
-
-// Обновление итогов корзины при возвращении на страницу:
-
-function updateCartTotals() {
-  getCart('totals')
-  .then(result => {
-    renderTotals();
-  }, reject => {
-    console.log(reject);
   });
 }
 
@@ -204,6 +170,66 @@ function getCart(totals = false) {
     .catch(error => {
       reject(error);
     })
+  });
+}
+
+// Получение данных о товарах/товаре:
+
+function getItems(data) {
+  return new Promise((resolve, reject) => {
+    var info = {
+      action: 'items',
+      cat_type: cartId
+    }
+    if (data) {
+      info.data = data;
+    }
+    sendRequest(urlRequest.new, info)
+    .then(result => {
+      console.log(result);
+      var data = JSON.parse(result);
+      resolve(data);
+    })
+    .catch(error => {
+      reject(error);
+    })
+  });
+}
+
+//=====================================================================================================
+// Отображение данных пользователя:
+//=====================================================================================================
+
+// Вывод информации о пользователе в шапке страницы:
+
+function showUserInfo() {
+  if (window.userInfo) {
+    fillTemplate({
+      area: 'profile',
+      items: {
+        login: userInfo.login,
+        username: userInfo.name + ' ' + userInfo.lastname
+      }
+    });
+  } else {
+    // if (location.pathname !== '/') {
+    //   location.href = '/';
+    // }
+  }
+}
+
+//=====================================================================================================
+// Работа с данными корзины:
+//=====================================================================================================
+
+// Обновление итогов корзины при возвращении на страницу:
+
+function updateCartTotals() {
+  getCart('totals')
+  .then(result => {
+    renderTotals();
+  }, reject => {
+    console.log(reject);
   });
 }
 
@@ -415,6 +441,16 @@ function getFromLocal(key, type) {
     info[key] = {};
   }
   return info;
+}
+
+// Очистка данных storage и cookie:
+
+function clearLocal() {
+  window.localStorage.clear();
+  window.sessionStorage.clear();
+  if (getCookie(website)) {
+    deleteCookie(website);
+  }
 }
 
 // Проверка доступности storage:
