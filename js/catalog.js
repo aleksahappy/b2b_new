@@ -1390,10 +1390,11 @@ function loadCards(cards) {
   for (var i = countItems; i < countItemsTo; i++) {
     data.push(itemsToLoad[i]);
   }
-  var list = fillTemplate({
+  fillTemplate({
     area: view === 'list' ? bigCard : minCard,
     source: 'outer',
     items: data,
+    target: 'gallery',
     sub: view === 'list'
         ? [{
           area: '.carousel-item',
@@ -1409,15 +1410,8 @@ function loadCards(cards) {
           items: 'manuf_table'
         }]
         : undefined,
-    action: 'return'
+    method: countItems === 0 ? 'inner' : 'beforeend'
   });
-
-  var gallery = getEl('gallery');
-  if (countItems === 0) {
-    gallery.innerHTML = list;
-  } else {
-    gallery.insertAdjacentHTML('beforeend', list);
-  }
   setFiltersPosition();
   setContentWidth();
 

@@ -924,8 +924,8 @@ function fillSubTemp(data, items, temp) {
 function replaceInTemp(key, items, temp, sign) {
   var sign = sign || '#',
       value = key ? items[key] : items;
-      value = value === null || value === undefined ? '' : value;
-  if (typeof value !== 'object') {
+      value = value === null ? '' : value;
+  if (value !== undefined && typeof value !== 'object') {
     var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
     temp = temp.replace(regex, value);
   }
@@ -1539,9 +1539,6 @@ function Table(obj) {
       this.body.innerHTML = list;
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
-      // for (let i = 0; i <= this.countItemsTo - this.countItems; i++) {
-      //   this.body.removeChild(this.body.children[i]);
-      // }
       this.alignBody();
     };
   }

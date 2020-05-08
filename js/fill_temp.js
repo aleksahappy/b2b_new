@@ -247,7 +247,8 @@ function fillSubTemp(data, items, temp) {
 function replaceInTemp(key, items, temp, sign) {
   var sign = sign || '#',
       value = key ? items[key] : items;
-  if (typeof value === 'string' || typeof value === 'number') {
+      value = value === null ? '' : value;
+  if (value !== undefined && typeof value !== 'object') {
     var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
     temp = temp.replace(regex, value);
   }
