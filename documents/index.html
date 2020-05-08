@@ -445,8 +445,8 @@
         var data = JSON.parse(result);
         if (data) {
           window['docsData'] = data;
-          initTables();
         }
+        initTables();
       })
       .catch(err => {
         console.log('err');

@@ -924,7 +924,8 @@ function fillSubTemp(data, items, temp) {
 function replaceInTemp(key, items, temp, sign) {
   var sign = sign || '#',
       value = key ? items[key] : items;
-  if (typeof value === 'string' || typeof value === 'number') {
+      value = value === null || value === undefined ? '' : value;
+  if (typeof value !== 'object') {
     var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
     temp = temp.replace(regex, value);
   }
@@ -1139,7 +1140,6 @@ function clearSearch(el) {
 function Search(obj, func) {
   // Элементы для работы:
   this.form = obj;
-  this.toggleBtn = getEl('.toggle', obj);
   this.input = getEl('input[type="text"]', obj);
   this.cancelBtn = getEl('.close', obj);
   this.dropDown = getEl('.drop-down', obj);
@@ -1151,18 +1151,13 @@ function Search(obj, func) {
       event.preventDefault();
       this.search();
     });
-    if (this.toggleBtn) {
-      this.toggleBtn.addEventListener('click', () => this.toggle());
-    }
+    this.form.addEventListener('input', () => this.toggle());
     if (this.dropDown) {
       this.form.addEventListener('input', () => this.showHints());
       this.form.addEventListener('click', event => this.selectHint(event));
-      this.input.addEventListener('focus', () => this.onFocus());
-      this.input.addEventListener('blur', () => this.onBlur());
-    } else {
-      this.input.addEventListener('focus', () => onFocusInput(this.input));
-      this.input.addEventListener('blur', () => onBlurInput(this.input));
     }
+    this.input.addEventListener('focus', () => this.onFocus());
+    this.input.addEventListener('blur', () => this.onBlur());
     this.cancelBtn.addEventListener('click', () => this.cancel());
     if (this.info) {
       getEl('.close', this.info).addEventListener('click', () => this.cancel());
@@ -1171,15 +1166,16 @@ function Search(obj, func) {
 
   // Отображение/скрытие формы поиска:
   this.toggle = function() {
-    this.form.classList.toggle('show');
-    // if (this.form.classList.contains('show')) {
-    //   this.input.focus();
-    // }
+    var textToFind = this.input.value.trim();
+    if (textToFind === '') {
+      this.form.classList.remove('show');
+      return;
+    }
+    this.form.classList.add('show');
   }
 
   // Отображение подсказок:
   this.showHints = function() {
-    console.log('this.showHints');
     var textToFind = this.input.value.trim();
     if (textToFind === '') {
       this.closeHints();
@@ -1226,6 +1222,7 @@ function Search(obj, func) {
     setTimeout(() => {
       onBlurInput(this.input);
       this.closeHints();
+      this.toggle();
     }, 100);
   }
 
@@ -1492,6 +1489,22 @@ function Table(obj) {
     }
   }
 
+  // Преобразование входящих данных:
+  this.convertData = function() {
+    this.data.forEach(el => {
+      for (var key in el) {
+        el[key] = el[key].trim();
+        if (el[key]) {
+          if (key === 'skid') {
+            el[key] = el[key] + '%';
+          }
+        } else {
+          el[key] = '&ndash;';
+        }
+      }
+    });
+  }
+
   // Загрузка данных в таблицу:
   this.loadData = function(data) {
     if (data && data.length === 0) {
@@ -1504,7 +1517,7 @@ function Table(obj) {
     } else {
       this.countItems = this.countItemsTo;
     }
-    this.countItemsTo =  + this.incr;
+    this.countItemsTo = this.countItems + this.incr;
     if (this.countItemsTo > this.itemsToLoad.length) {
       this.countItemsTo = this.itemsToLoad.length;
     }
@@ -1516,12 +1529,11 @@ function Table(obj) {
     for (let i = this.countItems; i < this.countItemsTo; i++) {
       tableItems.push(this.itemsToLoad[i]);
     }
-    var tableData = {
+    var list = fillTemplate({
       area: this.body,
       items: tableItems,
       action: 'return'
-    };
-    var list = fillTemplate(tableData);
+    });
 
     if (this.countItems === 0) {
       this.body.innerHTML = list;
@@ -1681,6 +1693,7 @@ function Table(obj) {
   // Инициализация таблицы:
   this.init = function() {
     this.toggleTab();
+    this.convertData();
     this.loadData(this.data);
     this.fillResults();
     if (this.table.classList.contains('active')) {

@@ -607,9 +607,10 @@
       .then(result => {
         var data = JSON.parse(result);
         if (data.orderslist) {
+          // console.log(data.orderslist);
           window['orderslistData'] = data.orderslist;
-          initTables();
         }
+        initTables();
       })
       .catch(err => {
         console.log('err');

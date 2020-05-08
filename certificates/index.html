@@ -492,8 +492,8 @@
         var data = JSON.parse(result);
         if (data) {
           window['certifData'] = data;
-          initTables();
         }
+        initTables();
       })
       .catch(err => {
         console.log('err');

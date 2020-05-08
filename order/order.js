@@ -28,12 +28,12 @@ for (var i = 0; i < ordtabs.length; i++) {
 
 sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
 .then(result => {
+  // console.log(result);
   var data = JSON.parse(result);
   if (data.id) {
     if (!data.comment) {
       data.isHiddenComment = 'hidden';
     }
-    // console.log(data);
     fillTemplate({
       area: 'order-info',
       items: data,
@@ -43,6 +43,8 @@ sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
     arlistv = orderitems.arlistv;
     restorearray();
     initTables();
+  } else {
+    location.href = '/orders';
   }
 })
 .catch(err => {
