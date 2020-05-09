@@ -177,20 +177,23 @@ function getCart(totals = false) {
 
 function getItems(data) {
   return new Promise((resolve, reject) => {
-    var info = {
-      action: 'items',
-      cat_type: cartId
-    }
-    if (data) {
-      info.data = data;
-    }
-    sendRequest(urlRequest.new, info)
+    // var info = {
+    //   action: 'items',
+    //   cat_type: cartId
+    // }
+    // if (data) {
+    //   info.data = data;
+    // }
+    // sendRequest(urlRequest.new, info)
+    // console.log(data);
+    sendRequest(`https://new.topsports.ru/api/q2!.php?ids=${data}`)
     .then(result => {
-      console.log(result);
       var data = JSON.parse(result);
+      // console.log(data);
       resolve(data);
     })
     .catch(error => {
+      console.log(error);
       reject(error);
     })
   });
@@ -1529,13 +1532,15 @@ function Table(obj) {
   this.convertData = function() {
     this.data.forEach(el => {
       for (var key in el) {
-        el[key] = el[key].trim();
         if (el[key]) {
-          if (key === 'skid') {
-            el[key] = el[key] + '%';
+          el[key] = el[key].trim();
+          if (el[key]) {
+            if (key === 'skid') {
+              el[key] = el[key] + '%';
+            }
+          } else {
+            el[key] = '&ndash;';
           }
-        } else {
-          el[key] = '&ndash;';
         }
       }
     });

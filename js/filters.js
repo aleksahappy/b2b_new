@@ -97,7 +97,7 @@ function getDataFromOptions(optNumb) {
 
 function createFilterData(data, parent) {
   var items = [];
-  if (!window[data]) {
+  if (!data) {
     return items;
   }
   if (typeof data === 'object') {
@@ -156,17 +156,17 @@ function createCatalogFiltersData() {
     title: 'Спецпредложение',
     isOpen: 'default-open',
     key: 'action_id',
-    items: createFilterData(actions)
+    items: createFilterData(window.actions)
   }, {
     title: 'Категория',
     isOpen: 'default-open',
     key: 'cat',
-    items: createFilterData(catsubs)
+    items: createFilterData(window.catsubs)
   }, {
     title: 'Бренд',
     isOpen: 'default-open',
     key: 'brand',
-    items: createFilterData(brands)
+    items: createFilterData(window.brands)
   }];
 
   if (pageId === 'equip') {
@@ -174,27 +174,27 @@ function createCatalogFiltersData() {
       title: 'Применяемость',
       isOpen: 'close',
       key: 'use',
-      items: createFilterData(use)
+      items: createFilterData(window.use)
     }, {
       title: 'Возраст',
       isOpen: 'close',
       key: 'age',
-      items: createFilterData(ages)
+      items: createFilterData(window.ages)
     }, {
       title: 'Пол',
       isOpen: 'close',
       key: 'gender',
-      items: createFilterData(gender)
+      items: createFilterData(window.gender)
     }, {
       title: 'Размер',
       isOpen: 'close',
       key: 'size',
-      items: createFilterData(sizes)
+      items: createFilterData(window.sizes)
     }, {
       title: 'Цвет',
       isOpen: 'close',
       key: 'color',
-      items: createFilterData(colors)
+      items: createFilterData(window.colors)
     });
   }
   data.forEach((filter, index) => {

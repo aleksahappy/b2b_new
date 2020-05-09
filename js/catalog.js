@@ -85,14 +85,12 @@ function initCart() {
   if (isCart) {
     window.addEventListener('focus', updateCart);
     getCart()
-    .then(result => {
-      createCartData();
-      initPage();
-    })
-    .catch(err => {
-      console.log(err);
-      initPage();
-    });
+      .then(result => createCartData())
+      .then(result => initPage())
+      .catch(err => {
+        console.log(err);
+        initPage();
+      });
   } else {
     initPage();
   }
