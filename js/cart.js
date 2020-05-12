@@ -160,9 +160,6 @@ function getMissingItems() {
           convertItem(result.items[key]);
         }
         resolve();
-        // if (result.items) {
-        //   result.items.forEach(item => convertItem(item));
-        // }
       })
     } else {
       resolve();

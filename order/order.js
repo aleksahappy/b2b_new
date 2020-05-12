@@ -5,21 +5,22 @@
 //=====================================================================================================
 
 var orderId = document.location.search.replace('?order_id=', ''),
-    ordtabs = ["nomen", "vnali", "vputi", "nedop", "otgrz", "debzd", "reclm"],
+    ordtabs = ["nomen", "vputi", "vnali", "sobrn", "otgrz", "nedop", "reclm", "debzd"],
     TFF = {},
-    TFD = {},
     TF = [];
 var arnaklk,
     arnaklv,
     arlistk,
     arlistv;
-TF["nomen"] = "artc,titl,kolv,pric,summ,sned,skid";
-TF["vnali"] = "artc,titl,dpst,kolv,pric,summ,paid,prcd,treb,kdop";
-TF["vputi"] = "artc,titl,dpst,kolv,pric,summ,paid,prcd,treb,kdop";
-TF["nedop"] = "artc,titl,kolv,summ,stat";
-TF["otgrz"] = "artc,titl,dpst,kolv,pric,summ,paid,prcp,kdop,nakl,cods,naklid,dotg,harid";
-TF["debzd"] = "artc,titl,dpst,kolv,pric,summ,paid,prcd,prcp,kdop,vdlg,recv,nakl,over";
-TF["reclm"] = "artc,titl,pric,summ,trac,kolv,nakl,recl_id,recl_num,recl_date";
+TF["nomen"] = "artc,titl,kolv,pric,summ,sned,skid,lnk,preview,titllnk"; //Номенклатура
+TF["vputi"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; //Ожидается
+TF["vnali"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk";  //В наличии
+TF["sobrn"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; // Собран
+TF["otgrz"] = "artc,titl,kolv,pric,summ,dpst,paid,prcp,kdop,nakl,cods,naklid,dotg,harid,lnk,preview,titllnk"; // Отгружен
+TF["nedop"] = "artc,titl,kolv,summ,stat,lnk,preview,titllnk"; //Недопоставка
+TF["reclm"] = "artc,titl,kolv,pric,summ,trac,nakl,recl_id,recl_num,recl_date,lnk,preview,titllnk"; //Рекламации
+TF["debzd"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk"; //Долг
+
 for (var i = 0; i < ordtabs.length; i++) {
   var tmp = TF[ordtabs[i]].split(",");
   window[ordtabs[i]] = [];
@@ -35,7 +36,6 @@ function restorearray() {
   var v = arlistv;
   var d = "@$";
   var dd = "^@^";
-  var dx = ",";
   var out = [];
   for (var ti = 0; ti < ordtabs.length; ti++) {
     window[ordtabs[ti] + "Data"] = [];
@@ -44,7 +44,6 @@ function restorearray() {
     window["paid" + ordtabs[ti]] = 0;
     window["kdop" + ordtabs[ti]] = 0;
   }
-  var tmp = "";
   var kk = k.split(d);
   var vv = v.split(dd);
   for (var i = 0; i < vv.length; i++) {
@@ -62,7 +61,6 @@ function restorearray() {
       outin[kk[ii]] = vvv[ii];
     }
     for (var ti = 0; ti < ordtabs.length; ti++) {
-      // if(ordtabs[ti] != 'reclm') {
       if (checkinc(ordtabs[ti], outin)) {
         window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
 
@@ -75,19 +73,8 @@ function restorearray() {
         }
         window["kolv" + ordtabs[ti]] = Math.max(0, window["kolv" + ordtabs[ti]]) + Math.max(0, window[ordtabs[ti] + "outin"]['kolv']);
       }
-      // } else {
-      // 	window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
     }
-    // }
     out[i] = outin;
-  }
-  if (window.nomenout) {
-    window.nomenout.forEach(el => {
-      el.skid = el.skid.replace(' ', '');
-      if (el.skid) {
-        el.skid = el.skid + '%';
-      }
-    });
   }
 }
 
@@ -98,11 +85,7 @@ function checkinc(t, a) {
   if (t == "vputi" && a["bkma"] == "ВПути") return 1;
   if (t == "sobrn" && a["bkma"] == "Собран") return 1;
   if (t == "vnali" && a["bkma"] == "ВНаличии") return 1;
-  if (t == "reclm" && a["bkma"] == "Рекламации") {
-    // xshow("reclmbutton");
-    // xshow("kol_reclm");
-    return 1;
-  }
+  if (t == "reclm" && a["bkma"] == "Рекламации") return 1;
   if ((t == "debzd" && a["recv"] > " ") || (t == "debzd" && a['vdlg'] > " " && a['kdop'] > " ")) return 1;
 }
 

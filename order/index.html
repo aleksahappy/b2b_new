@@ -138,7 +138,7 @@
             <div class="icon"></div>
             <div>Товар в наличии</div>
           </div>
-          <div class="tab debzd">
+          <div class="tab sobrn">
             <div class="icon"></div>
             <div>Товар собран</div>
           </div>
@@ -148,7 +148,7 @@
           </div>
           <div class="tab nedop">
             <div class="icon"></div>
-            <div>Непоставка</div>
+            <div>Недопоставка</div>
           </div>
           <div class="tab reclm">
             <div class="icon"></div>
@@ -271,7 +271,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="nomen-body" class="table-body">
+            <tbody class="table-body">
               <tr>
                 <td class="articul">
                   <div class="row">
@@ -421,7 +421,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="vputi-body" class="table-body">
+            <tbody class="table-body">
               <tr>
                 <td class="articul">
                   <div class="row">
@@ -566,7 +566,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="vnali-body" class="table-body">
+            <tbody class="table-body">
               <tr>
                 <td class="articul">
                   <div class="row">
@@ -607,7 +607,7 @@
             </tbody>
           </table>
         </div>
-        <div id="debzd" class="table-wrap">
+        <div id="sobrn" class="table-wrap">
           <table class="table positioned">
             <thead class="table-head">
               <tr class="titles">
@@ -711,7 +711,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="debzd-body" class="table-body">
+            <tbody class="table-body">
               <tr>
                 <td class="articul">
                   <div class="row">
@@ -895,7 +895,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="otgrz-body" class="table-body">
+            <tbody class="table-body">
               <tr>
                 <td class="articul">
                   <div class="row">
@@ -1027,7 +1027,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="nedop-body" class="table-body">
+            <tbody class="table-body">
               <tr>
                 <td class="articul">
                   <div class="row">
@@ -1160,7 +1160,7 @@
             </thead>
           </table>
           <table class="table">
-            <tbody id="reclm-body" class="table-body">
+            <tbody class="table-body">
               <tr onclick=showReclm(#recl_id#)>
                 <td class="number">
                   <div class="row">
@@ -1223,17 +1223,17 @@
             <img src="#image#">
           </div>
           <form id="reclm-form" class="registr-form row" action="#" method="post" name="reclamation" enctype="multipart/form-data">
-            <!-- <input type="hidden" id="order_id" name="recl[order_id]" value="5761">
-            <input type="hidden" name="recl[code_1c]" value="988c03e0-925d-11e9-81b1-002590467a5e">
-            <input type="hidden" name="recl[code_str]" value="94" id="recl_code_str">
-            <input type="hidden" name="recl[articul]" value="X00DBXUNNEFI" id="recl_art">
-            <input type="hidden" name="recl[item_code_1c]" value="0312f261-3644-11e8-8107-3ca82a9f50d9" id="harid">
-            <input type="hidden" name="recl[doc_id]" value="bd77c66f-b1c1-11e9-81d2-002590467a5e" id="recl_doc">
-            <input type="hidden" name="recl[cnt]" value="0" id="otgrz_line">
-            <input type="hidden" name="recl[nakl]" value="ТС-500" id="item_nakl_name">
-            <input type="hidden" name="recl[nakl_date]" value="29.07.2019" id="item_nakl_date">
-            <input type="hidden" name="recl[item_title]" value="Балаклава SIXS DBX, взрослые, унисекс (Black Carbon, OS)" class="recl_item_title">
-            <input type="hidden" name="recl[max_otgrz]" value="2" id="max_otgrz"> -->
+            <input type="hidden" name="recl[order_id]" value="#id#">
+            <input type="hidden" name="recl[code_1c]" value="#object_id#"> <!-- заменим на id товара -->
+            <input type="hidden" name="recl[code_str]" value="#???#"> <!-- номер строки по порядку??? -->
+            <input type="hidden" name="recl[articul]" value="#artc#">
+            <input type="hidden" name="recl[item_code_1c]" value="#harid#">
+            <input type="hidden" name="recl[doc_id]" value="#naklid#">
+            <input type="hidden" name="recl[cnt]" value="#???#"> <!-- что это??? -->
+            <input type="hidden" name="recl[nakl]" value="#nakl#">
+            <input type="hidden" name="recl[nakl_date]" value="#???#"> <!-- нет в данных -->
+            <input type="hidden" name="recl[item_title]" value="#titl#">
+            <input type="hidden" name="recl[max_otgrz]" value="#kolv#">
             <div class="left-container">
               <div class="form-wrap">
                 <div class="title">Категория обращения:</div>

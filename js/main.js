@@ -186,10 +186,16 @@ function getItems(data) {
     // }
     // sendRequest(urlRequest.new, info)
     // console.log(data);
-    sendRequest(`https://new.topsports.ru/api/q2!.php?ids=${data}`)
+    var url;
+    if (data) {
+      url = `https://new.topsports.ru/api/q2json.php?ids=${data}`
+    } else {
+      url = 'https://new.topsports.ru/api/q2json.php';
+    }
+    sendRequest(url)
     .then(result => {
       var data = JSON.parse(result);
-      // console.log(data);
+      console.log(data);
       resolve(data);
     })
     .catch(error => {

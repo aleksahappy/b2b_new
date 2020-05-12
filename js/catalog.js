@@ -44,40 +44,20 @@ function startPage() {
       }
     )
   } else {
-    convertItems();
-    initCart();
+    getItems()
+    .then(
+      result => {
+        for (var key in result) {
+          window[key] = result[key];
+        }
+        convertItems();
+        catalogFiltersData = createCatalogFiltersData();
+        zipSelectsData = createZipSelectsData();
+        initCart();
+      }
+    )
   }
 }
-
-// При получении данных POST-запросом:
-
-// function startPage() {
-//   if (view === 'product') {
-//     getItems(location.search.replace('?',''))
-//     .then(
-//       result => {
-//         items = [result];
-//         convertItems();
-//         initCart();
-//       },
-//       reject => {
-//         location.href = '/404'
-//       }
-//     )
-//   } else {
-//     getItems()
-//     .then(
-//       result => {
-//         for (var key in result) {
-//           window[key] = result[key];
-//         }
-//         catalogFiltersData = createCatalogFiltersData();
-//         convertItems();
-//         initCart();
-//       }
-//     )
-//   }
-// }
 
 // Инициализация корзины (если есть):
 

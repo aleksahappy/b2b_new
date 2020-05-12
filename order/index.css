@@ -35,11 +35,11 @@
   background-image: url(../img/box_disabled.svg);
 }
 
-.tab.debzd .icon {
+.tab.sobrn .icon {
   background-image: url(../img/delivery_trolley.svg);
 }
 
-.tab.debzd.disabled .icon {
+.tab.sobrn.disabled .icon {
   background-image: url(../img/delivery_trolley_disabled.svg);
 }
 
