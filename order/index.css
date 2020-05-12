@@ -140,3 +140,74 @@
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
+/* =====================================================================================================
+Всплывающее окно рекламаций:
+===================================================================================================== */
+
+#reclm-container .pop-up {
+  width: 58em;
+}
+
+#reclm-container .pop-up-title {
+  padding: 1.5em 2em;
+}
+
+#reclm-container .pop-up-body {
+  padding: 0 2em 1.5em 2em;
+}
+
+#reclm-container img {
+  width: 7.5em;
+}
+
+#reclm-container .order-info {
+  justify-content: space-between;
+}
+
+#reclm-container .order-info > div {
+  margin-bottom: 1em;
+}
+
+#reclm-container .registr-form .title {
+  margin-left: 0;
+  margin-bottom: 1em;
+  font-size: 1em;
+  color: #666666;
+  font-weight: 600;
+}
+
+#reclm-container .left-container {
+  width: 40%;
+  padding-right: 2em;
+}
+
+#error {
+  visibility: hidden;
+}
+
+#reclm-container .right-container {
+  width: 60%;
+}
+
+#reclm-container textarea {
+  margin-bottom: 0;
+  padding: 0.5em 1em;
+  height: 11em;
+}
+
+#reclm-container .btns-wrap {
+  justify-content: space-between;
+}
+
+#reclm-container .btns-wrap > div {
+  margin-right: 1em;
+}
+
+#reclm-container .btns-wrap > input {
+  width: 100%;
+}
+
+#reclm-loader {
+  background-color: #fffc;
+}

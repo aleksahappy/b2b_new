@@ -1436,14 +1436,6 @@ function loadCards(cards) {
   }
 }
 
-// Проверка загружено ли изображение и вставка заглушки при отсутствии изображения:
-
-function checkImg(element) {
-  getEl('img', element).addEventListener('error', (event) => {
-    event.currentTarget.src = '../img/no_img.jpg';
-  });
-}
-
 // Проверка загруженности всех изображений карусели и отображение карусели:
 
 function renderCarousel(carousel, curImg = 0) {

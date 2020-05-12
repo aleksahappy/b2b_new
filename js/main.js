@@ -566,10 +566,12 @@ function setPaddingToBody() {
   document.body.style.paddingBottom = `${footerHeight + 20}px`;
 }
 
-// Вставка заглушки при ошибке загрузки изображения:
+// Проверка загружено ли изображение и вставка заглушки при отсутствии изображения:
 
-function replaceImg(img) {
-  img.src = '../img/no_img.jpg';
+function checkImg(element) {
+  getEl('img', element).addEventListener('error', (event) => {
+    event.currentTarget.src = '../img/no_img.jpg';
+  });
 }
 
 // Показ элемента:
@@ -631,6 +633,21 @@ function onBlurInput(input) {
   input.value = input.dataset.value;
 }
 
+// Добавление всплывающих подсказок:
+
+function addTooltips(key) {
+  var elements = document.querySelectorAll(`[data-key=${key}]`);
+  if (elements) {
+    elements.forEach(el => {
+      el.setAttribute('tooltip', el.textContent.trim());
+    });
+  }
+}
+
+//=====================================================================================================
+// Функции управления количеством:
+//=====================================================================================================
+
 // Запрет на ввод в инпут любого значения кроме цифр:
 
 function checkValue(event) {
@@ -646,14 +663,71 @@ function checkValue(event) {
   }
 }
 
-// Добавление всплывающих подсказок:
+// Изменение количества в панели управления:
 
-function addTooltips(key) {
-  var elements = document.querySelectorAll(`[data-key=${key}]`);
-  if (elements) {
-    elements.forEach(el => {
-      el.setAttribute('tooltip', el.textContent.trim());
-    });
+function changeQty(event, totalQty, text) {
+  var current = event.currentTarget,
+      sign = current.textContent,
+      qtyWrap = current.closest('.qty'),
+      input = getEl('.choiced-qty', qtyWrap),
+      qty = parseInt(input.value, 10);
+  qty = countQty(sign, qty, totalQty);
+  input.value = qty;
+  input.dataset.value = qty;
+  changeColors(qtyWrap, qty);
+  changeNameBtn(getEl('.name.click', qtyWrap), qty, text);
+  return qty;
+}
+
+// Подсчет количества:
+
+function countQty(sign, qty, totalQty) {
+  if (sign) {
+    if (sign == '-') {
+      if (qty > 0) {
+        qty--;
+      }
+    } else if (sign == '+') {
+      if (qty < totalQty) {
+        qty++;
+      }
+    } else if (sign == 'Удалить') {
+      qty = 0;
+    } else {
+      qty = 1;
+    }
+  } else {
+    if (isNaN(qty)) {
+      qty = 0;
+    }
+    if (qty > totalQty) {
+      qty = totalQty;
+    }
+  }
+  return qty;
+}
+
+// Изменение цвета элементов панели выбора:
+
+function changeColors(el, qty) {
+  if (el) {
+    if (qty == 0) {
+      el.classList.remove('in-cart');
+    } else {
+      el.classList.add('in-cart');
+    }
+  }
+}
+
+// Изменение названия кнопки в панели выбора:
+
+function changeNameBtn(el, qty, text = 'В корзину') {
+  if (el) {
+    if (qty == 0) {
+      el.textContent = text;
+    } else {
+      el.textContent = 'Удалить';
+    }
   }
 }
 

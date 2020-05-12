@@ -151,6 +151,11 @@ body.no-scroll {
   color: #D97E00;
 }
 
+.err {
+  display: none;
+  color: #CE0014;
+}
+
 .visible-xs {
   display: none;
 }
@@ -771,9 +776,36 @@ a.btn {
 
 .loader.icon {
   background-image: url(../img/loader.gif);
+  width: 6em;
+  height: 6em;
 }
 
-/* Выпадающие списки: */
+/* Информация о количестве в кружке: */
+
+.qty.in-circle {
+  display: none;
+  position: absolute;
+  justify-content: center;
+  width: 1.76em;
+  height: 1.75em;
+  top: 0;
+  right: -0.3em;
+  font-size: 0.57em;
+  line-height: 1.6;
+  color: #FFFFFF;
+  background-color: #C33039;;
+  border: 1px solid #FFFFFF;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.qty.in-circle.full {
+  display: flex;
+}
+
+/* =====================================================================================================
+Выпадающие списки:
+===================================================================================================== */
 
 .activate {
   position: relative;
@@ -892,7 +924,9 @@ a.btn {
   height: 0.857em;
 }
 
-/* Поле поиска: */
+/* =====================================================================================================
+Поля поиска:
+===================================================================================================== */
 
 form.search {
   position: relative;
@@ -966,7 +1000,9 @@ form.search .list {
   border-bottom: 1px solid rgba(52, 73, 94, 0.4);
 }
 
-/* Поле для загрузки файлов: */
+/* =====================================================================================================
+Поля загрузки файлов:
+===================================================================================================== */
 
 form.file {
   align-items: stretch;
@@ -997,30 +1033,68 @@ form.file input[type="submit"] {
   display: none;
 }
 
-/* Информация о количестве в кружке: */
+/* =====================================================================================================
+Панель управления количеством:
+===================================================================================================== */
 
-.qty.in-circle {
-  display: none;
-  position: absolute;
-  justify-content: center;
-  width: 1.76em;
-  height: 1.75em;
-  top: 0;
-  right: -0.3em;
-  font-size: 0.57em;
-  line-height: 1.6;
-  color: #FFFFFF;
-  background-color: #C33039;;
-  border: 1px solid #FFFFFF;
-  border-radius: 50%;
+.qty-box {
+  align-items: stretch;
+  height: 1.857em;
+  margin-right: 0.5em;
+  border-radius: 3px;
+}
+
+.qty-box .btn-minus,
+.qty-box .btn-plus {
   text-align: center;
+  width: 1.5em;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #34495E;
+  border: 0.5px solid #8596A6;
+  cursor: pointer;
 }
 
-.qty.in-circle.full {
-  display: flex;
+.qty-box .btn-minus {
+  border-radius: 3px 0 0 3px;
 }
 
-/* Кнопка "Наверх": */
+.qty-box .btn-plus {
+  border-radius: 0 3px 3px 0;
+}
+
+.disabled .btn-minus,
+.disabled .btn-plus {
+  color: #A9A9A9;
+  background-color: rgba(52, 73, 94, 0.4);
+  border-color: rgba(52, 73, 94, 0.4);
+}
+
+.in-cart .btn-minus,
+.in-cart .btn-plus {
+  color: #FFFFFF;
+  background-color: #34495E;
+  border-color: #34495E;
+}
+
+.qty-box .choiced-qty {
+  width: 3.857em;
+  text-align: center;
+  border-top: 0.5px solid #8596A6;
+  border-bottom: 0.5px solid #8596A6;
+}
+
+.disabled .choiced-qty {
+  border-color: rgba(52, 73, 94, 0.4);
+}
+
+.choiced-qty:disabled {
+  opacity: 1
+}
+
+/* =====================================================================================================
+Кнопка "Наверх":
+===================================================================================================== */
 
 #up-btn {
   display: none;
@@ -1041,14 +1115,16 @@ form.file input[type="submit"] {
   fill-opacity: 0.8;
 }
 
-/* Прелоадер страницы: */
+/* =====================================================================================================
+Прелоадер:
+===================================================================================================== */
 
-#loader {
+.loader:not(.icon) {
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -1058,20 +1134,17 @@ form.file input[type="submit"] {
   z-index: 100;
 }
 
-#loader.over {
+.loader.over {
   z-index: 400;
 }
 
-#loader .loader.icon {
-  width: 6em;
-  height: 6em;
-}
-
-#loader .text {
+.loader .text {
   text-align: center;
 }
 
-/* Окно для вывода сообщений: */
+/* =====================================================================================================
+Всплывающее окно вывода сообщений:
+===================================================================================================== */
 
 #message-container .close-btn {
   position: absolute;
@@ -1631,7 +1704,7 @@ form.registr-form .input-wrap {
   position: relative;
 }
 
-form.registr-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+form.registr-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty),
 form.registr-form textarea {
   width: 100%;
   margin-bottom: 0.857em;
@@ -1664,6 +1737,10 @@ form.registr-form .hint {
 form.registr-form input:focus ~ .hint,
 form.registr-form textarea:focus ~ .hint {
   font-size: 0.714em;
+}
+
+form.registr-form .form-wrap {
+  margin-bottom: 1em;
 }
 
 form.registr-form .check-wrap {
@@ -1811,60 +1888,6 @@ form.registr-form .unactive {
   width: 0.75em;
   height: 0.75em;
 }
-
-/* =====================================================================================================
-Всплывающее окно рекламаций:
-===================================================================================================== */
-
-#reclamation-container .reclamation {
-  width: 58em;
-}
-
-#reclamation-container img {
-  width: 7.5em;
-}
-
-#reclamation-container .order-info {
-  justify-content: space-between;
-}
-
-#reclamation-container .order-info > div {
-  margin-bottom: 1em;
-}
-
-#reclamation-container .registr-form .title {
-  color: #666666;
-  font-weight: 600;
-  margin-bottom: 1em;
-}
-
-#reclamation-container .left-container {
-  width: 40%;
-  padding-right: 2em;
-}
-
-#reclamation-container .right-container {
-  width: 60%;
-}
-
-#reclamation-container textarea {
-  padding: 0.5em 1em;
-  height: 11.5em;
-}
-
-#reclamation-container .btns-wrap {
-  justify-content: space-between;
-  margin-top: 0;
-}
-
-#reclamation-container .btns-wrap > div {
-  margin-right: 1em;
-}
-
-#reclamation-container .btns-wrap > input {
-  width: 100%;
-}
-
 
 /* =====================================================================================================
 Основные стили таблиц:

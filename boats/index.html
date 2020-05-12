@@ -345,9 +345,9 @@
                           <div class="qty row">
                             <div class="name row text light">#size#</div>
                             <div class="qty-box row">
-                              <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                              <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                              <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
+                              <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
+                              <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                              <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event, #object_id#)">+</div>
                             </div>
                             <div class="tooltips col">
                               <div class="free-qty #isFree# row" tooltip="В наличии">
@@ -476,9 +476,9 @@
                         <div class="qty row">
                           <div class="name row text light">#size#</div>
                           <div class="qty-box row">
-                            <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                            <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
+                            <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
+                            <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event, #object_id#)">+</div>
                           </div>
                         </div>
                         <div class="tooltips row">
@@ -706,9 +706,9 @@
                       <div class="value qty in-cart">
                         <div>
                           <div class="qty-box row">
-                            <div class="btn-minus" tooltip="Удалить" onclick="changeCart(event)">-</div>
-                            <input class="choiced-qty text light" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event)">+</div>
+                            <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
+                            <input class="choiced-qty text light" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event, #object_id#)">+</div>
                           </div>
                           <div class="tooltips row">
                             <div class="free-qty #isFree# row" tooltip="В наличии">
@@ -1056,7 +1056,7 @@
       </div>
     </div>
 
-    <div id="loader">
+    <div id="loader" class="loader">
       <div class="loader icon"></div>
       <div class="text"></div>
     </div>

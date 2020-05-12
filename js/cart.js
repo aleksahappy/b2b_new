@@ -568,25 +568,14 @@ function getQty(id) {
   }
 }
 
-// Выбор количества пользователем:
+// Изменение выбранного количества:
 
-function changeCart(event) {
-  var current = event.currentTarget,
-      curEl = current.closest('.manage'),
-      sign = current.textContent,
-      qtyWrap = current.closest('.qty'),
-      input = getEl('.choiced-qty', qtyWrap),
-      qty = parseInt(input.value, 10),
-      id = input.dataset.id,
-      totalQty = cartItems['id_' + id].total_qty;
-
-  qty = changeValue(sign, qty, totalQty);
-  input.value = qty;
-  input.dataset.value = qty;
+function changeCart(event, id) {
+  var curEl = event.currentTarget.closest('.manage'),
+      totalQty = cartItems['id_' + id].total_qty,
+      qty = changeQty(event, totalQty);
   saveInCart(id, qty);
-  changeColors(qtyWrap, qty);
   if (curEl.classList.contains('card')) {
-    changeNameBtn(getEl('.name.click', qtyWrap), qty);
     changeCardInfo(curEl);
     if (curEl.classList.contains('full-card')) {
       checkCart(getEl(`.card[data-id="${curEl.dataset.id}"]`, 'gallery'));
@@ -594,58 +583,6 @@ function changeCart(event) {
   } else {
     changeCartRow(curEl);
     changeCartInfo();
-  }
-}
-
-// Изменение количества выбранного товара:
-
-function changeValue(sign, qty, totalQty) {
-  if (sign) {
-    if (sign == '-') {
-      if (qty > 0) {
-        qty--;
-      }
-    } else if (sign == '+') {
-      if (qty < totalQty) {
-        qty++;
-      }
-    } else if (sign == 'В корзину') {
-      qty = 1;
-    } else if (sign == 'Удалить') {
-      qty = 0;
-    }
-  } else {
-    if (isNaN(qty)) {
-      qty = 0;
-    }
-    if (qty > totalQty) {
-      qty = totalQty;
-    }
-  }
-  return qty;
-}
-
-// Изменение цвета элементов панели выбора:
-
-function changeColors(el, qty) {
-  if (el) {
-    if (qty == 0) {
-      el.classList.remove('in-cart');
-    } else {
-      el.classList.add('in-cart');
-    }
-  }
-}
-
-// Изменение названия кнопки в панели выбора:
-
-function changeNameBtn(el, qty) {
-  if (el) {
-    if (qty == 0) {
-      el.textContent = 'В корзину';
-    } else {
-      el.textContent = 'Удалить';
-    }
   }
 }
 

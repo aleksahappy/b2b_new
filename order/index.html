@@ -909,7 +909,7 @@
                 </td>
                 <td class="recl">
                   <div class="row center">
-                    <div class="recl btn" onclick="openPopUp('reclamation-container')">Претензия</div>
+                    <div class="recl btn" onclick="openReclmPopUp(this)">Претензия</div>
                   </div>
                 </td>
                 <td class="qty">
@@ -1204,8 +1204,8 @@
       </div>
     </div>
 
-    <div id="reclamation-container" class="pop-up-container" onclick="closePopUp(event)">
-      <div class="reclamation pop-up">
+    <div id="reclm-container" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="pop-up">
         <div class="pop-up-title row">
           <div class="title">Мастер создания рекламации</div>
           <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1216,16 +1216,27 @@
         <div class="pop-up-body">
           <div class="order-info row">
             <div>
-              <div>К заказу №<span id="order-number">ТС-677</span>от <span id="order-date">19.06.2019</span></div>
-              <div id="title">Балаклава SIXS DBX, взрослые, унисекс (Black Carbon, OS)</div>
-              <div class="text light">Артикул <span id="articul">X00DBXUNNEFI</span></div>
+              <div id="order">К заказу <a href="https://new.topsports.ru/order/?order_id=#id#">№#order_number#</a> от #order_date#</div>
+              <div id="title">#titl#</div>
+              <div class="text light">Артикул #artc#</div>
             </div>
-            <img src="https://b2b.topsports.ru/c/source/10414.jpg">
+            <img src="#image#">
           </div>
-          <form class="registr-form row" method="post" name="reclamation" id="send_recl_form" enctype="multipart/form-data">
+          <form id="reclm-form" class="registr-form row" action="#" method="post" name="reclamation" enctype="multipart/form-data">
+            <!-- <input type="hidden" id="order_id" name="recl[order_id]" value="5761">
+            <input type="hidden" name="recl[code_1c]" value="988c03e0-925d-11e9-81b1-002590467a5e">
+            <input type="hidden" name="recl[code_str]" value="94" id="recl_code_str">
+            <input type="hidden" name="recl[articul]" value="X00DBXUNNEFI" id="recl_art">
+            <input type="hidden" name="recl[item_code_1c]" value="0312f261-3644-11e8-8107-3ca82a9f50d9" id="harid">
+            <input type="hidden" name="recl[doc_id]" value="bd77c66f-b1c1-11e9-81d2-002590467a5e" id="recl_doc">
+            <input type="hidden" name="recl[cnt]" value="0" id="otgrz_line">
+            <input type="hidden" name="recl[nakl]" value="ТС-500" id="item_nakl_name">
+            <input type="hidden" name="recl[nakl_date]" value="29.07.2019" id="item_nakl_date">
+            <input type="hidden" name="recl[item_title]" value="Балаклава SIXS DBX, взрослые, унисекс (Black Carbon, OS)" class="recl_item_title">
+            <input type="hidden" name="recl[max_otgrz]" value="2" id="max_otgrz"> -->
             <div class="left-container">
-              <div class="title">Категория обращения:</div>
-              <div>
+              <div class="form-wrap">
+                <div class="title">Категория обращения:</div>
                 <label class="check row">
                   <input type="radio" value="Производственный брак" name="recl[group_type]">
                   <div class="select icon"></div>
@@ -1252,21 +1263,36 @@
                   <div>Несоответствие описанию</div>
                 </label>
                 <label class="check row">
-                  <input type="radio" value="Не могу определить" name="recl[group_type]">
+                  <input type="radio" value="" name="recl[group_type]">
                   <div class="select icon"></div>
                   <div>Не могу определить</div>
                 </label>
+                <div class="err" data-err="group_type">Необходимо выбрать значение</div>
+              </div>
+              <div class="form-wrap">
+                <div class="title">Количество:</div>
+                <div class="qty qty-box row">
+                  <div class="btn-minus" tooltip="Уменьшить" onclick="changeQty(event, #kolv#)">-</div>
+                  <input class="choiced-qty text light" name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                  <div class="btn-plus" tooltip="Добавить" onclick="changeQty(event, #kolv#)">+</div>
+                </div>
               </div>
             </div>
             <div class="right-container">
-              <div class="title">Описание дефекта:</div>
-              <textarea name="recl[comment]" autocomplete="off"></textarea>
+              <div class="form-wrap">
+                <div class="title">Описание дефекта:</div>
+                <textarea name="recl[comment]" autocomplete="off"></textarea>
+                <div class="err" data-err="comment">Необходимо заполнить</div>
+              </div>
               <div class="btns-wrap row">
-                <div class="basic btn close-btn">Отмена</div>
-                <input class="active btn" type="submit" value="Подать рекламацию">
+                <div class="basic btn close-btn" onclick="closePopUp('reclm-container')">Отмена</div>
+                <input class="active btn" type="submit" value="Подать рекламацию" onclick="makeReclm">
               </div>
             </div>
           </form>
+        </div>
+        <div id="reclm-loader">
+          <div class="loader icon"></div>
         </div>
       </div>
     </div>
@@ -1550,7 +1576,7 @@
       </div>
     </div>
 
-    <div id="loader">
+    <div id="loader" class="loader">
       <div class="loader icon"></div>
       <div class="text"></div>
     </div>

@@ -1,5 +1,9 @@
 'use strict';
 
+//=====================================================================================================
+// Преобразование исходных данных:
+//=====================================================================================================
+
 var orderId = document.location.search.replace('?order_id=', ''),
     ordtabs = ["nomen", "vnali", "vputi", "nedop", "otgrz", "debzd", "reclm"],
     TFF = {},
@@ -25,32 +29,6 @@ for (var i = 0; i < ordtabs.length; i++) {
   }
   TFF[ordtabs[i]] = window[ordtabs[i]];
 }
-
-sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
-.then(result => {
-  // console.log(result);
-  var data = JSON.parse(result);
-  if (data.id) {
-    if (!data.comment) {
-      data.isHiddenComment = 'hidden';
-    }
-    fillTemplate({
-      area: 'order-info',
-      items: data,
-    });
-    var orderitems = data.orderitems;
-    arlistk = orderitems.arlistk;
-    arlistv = orderitems.arlistv;
-    restorearray();
-    initTables();
-  } else {
-    location.href = '/orders';
-  }
-})
-.catch(err => {
-  console.log(err);
-  initTables();
-});
 
 function restorearray() {
   var k = arlistk;
@@ -133,4 +111,52 @@ function fNb(num) {
   num = num.toString().replace(" ", '');
   num = num.toString().replace(" ", '');
   return parseFloat(num.toString().replace(" ", ''));
+}
+
+//=====================================================================================================
+// Получение и отображение информации о заказе:
+//=====================================================================================================
+
+// Получение информации о заказе, ее преобразование и запуск инициализации таблицы:
+
+sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
+.then(result => {
+  var data = JSON.parse(result);
+  console.log(data);
+  if (data.id) {
+    if (!data.comment) {
+      data.isHiddenComment = 'hidden';
+    }
+    fillTemplate({
+      area: 'order-info',
+      items: data,
+    });
+    var orderitems = data.orderitems;
+    arlistk = orderitems.arlistk;
+    arlistv = orderitems.arlistv;
+    restorearray();
+    initTables();
+  } else {
+    location.href = '/orders';
+  }
+})
+.catch(err => {
+  console.log(err);
+  initTables();
+});
+
+//=====================================================================================================
+// Работа с рекламациями:
+//=====================================================================================================
+
+// Открытие мастера создания рекламации:
+
+function openReclmPopUp(el) {
+  openPopUp('reclm-container');
+}
+
+// Подача рекламации:
+
+function makeReclm() {
+
 }
