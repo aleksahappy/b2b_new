@@ -1,6 +1,6 @@
 'use strict';
 
-var catalogFiltersData
+var catalogFiltersData,
     zipSelectsData;
 
 //=====================================================================================================
