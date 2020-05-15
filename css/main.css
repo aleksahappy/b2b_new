@@ -1065,13 +1065,13 @@ form.file input[type="submit"] {
 
 .disabled .btn-minus,
 .disabled .btn-plus {
-  color: #A9A9A9;
-  background-color: rgba(52, 73, 94, 0.4);
-  border-color: rgba(52, 73, 94, 0.4);
+  color: #B3B3B3;
+  background-color: #D3D6D9;
+  border-color: #D3D6D9;
 }
 
-.in-cart .btn-minus,
-.in-cart .btn-plus {
+.added .btn-minus,
+.added .btn-plus {
   color: #FFFFFF;
   background-color: #34495E;
   border-color: #34495E;
@@ -1085,12 +1085,11 @@ form.file input[type="submit"] {
 }
 
 .disabled .choiced-qty {
-  border-color: rgba(52, 73, 94, 0.4);
+  color: #B3B3B3;
+  background-color: #E2E2E2;
+  border-color: #E2E2E2;
 }
 
-.choiced-qty:disabled {
-  opacity: 1
-}
 
 /* =====================================================================================================
 Кнопка "Наверх":

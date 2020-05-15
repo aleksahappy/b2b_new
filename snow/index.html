@@ -98,7 +98,7 @@
             <a class="submenu-item" href="../snow/?zip" data-href="zip" data-level="2" data-title="Запчасти" onclick="openPage(event)">Запчасти</a>
             <a class="submenu-item" href="../snow/?acc" data-href="acc" data-level="2" data-title="Аксессуары" onclick="openPage(event)">Аксессуары</a>
           </div>
-          <form id="page-search" class="search positioned row" action="#">
+          <form id="page-search" class="search positioned row">
             <div class="search-area row">
               <input class="search icon" type="submit" value="">
               <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
@@ -209,7 +209,7 @@
                       </div>
                     </div>
                   </div>
-                  <form id="oem" class="search activate select row" action="#">
+                  <form id="oem" class="search activate select row">
                     <div class="search-area row">
                       <input class="search icon blue" type="submit" value="">
                       <input type="text" data-value="" autocomplete="off" placeholder="Поиск по OEM">
@@ -703,7 +703,7 @@
                     </div>
                     <div class="prop qty">
                       <div class="title">Кол-во штук</div>
-                      <div class="value qty in-cart">
+                      <div class="value qty added">
                         <div>
                           <div class="qty-box row">
                             <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
@@ -764,7 +764,7 @@
               </div>
               <div class="pop-up-body">
                 <div class="text light">Загрузите бланк заказа в MS Excel</div>
-                <form id="load-file" class="file row" action="#" onsubmit="addInCart(event)">
+                <form id="load-file" class="file row" onsubmit="addInCart(event)">
                   <input id="file-cart" class="file" type="file" accept=".xls,.xlsx">
                   <div class="file-name"></div>
                   <label class="unactive btn" for="file-cart">Выбрать файл</label>

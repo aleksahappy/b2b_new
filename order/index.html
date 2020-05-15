@@ -908,7 +908,7 @@
                 </td>
                 <td class="recl">
                   <div class="row center">
-                    <div class="recl btn" onclick="openReclmPopUp(this)">Претензия</div>
+                    <div class="recl btn" onclick="openReclmPopUp(#object_id#)">Претензия</div>
                   </div>
                 </td>
                 <td class="qty">
@@ -1208,29 +1208,29 @@
         <div class="pop-up-title row">
           <div class="title">Мастер создания рекламации</div>
           <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-            <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+            <path d="M1.42859 1.42847L18.5714 18.5713" stroke="rgb(52,73,94)" stroke-linecap="round" />
+            <path d="M18.1429 1L1 18.1429" stroke="rgb(52,73,94)" stroke-linecap="round" />
           </svg>
         </div>
         <div class="pop-up-body">
-          <div class="order-info row">
-            <div>
+          <div class="row">
+            <div class="order-info">
               <div>К заказу <a href="https://new.topsports.ru/order/?order_id=#id#">№#order_number#</a> от #order_date#</div>
               <div>#titl#</div>
               <div class="text light">Артикул #artc#</div>
             </div>
             <img src="#image#">
           </div>
-          <form id="reclm-form" class="registr-form row" action="#" method="post" name="reclamation" enctype="multipart/form-data">
+          <form id="reclm-form" class="registr-form row" method="post" name="reclamation" enctype="multipart/form-data">
             <input type="hidden" name="recl[order_id]" value="#id#">
             <input type="hidden" name="recl[code_1c]" value="#object_id#"> <!-- заменим на id товара -->
-            <input type="hidden" name="recl[code_str]" value="#???#"> <!-- номер строки по порядку??? -->
+            <input type="hidden" name="recl[code_str]" value="#cods#">
             <input type="hidden" name="recl[articul]" value="#artc#">
             <input type="hidden" name="recl[item_code_1c]" value="#harid#">
             <input type="hidden" name="recl[doc_id]" value="#naklid#">
             <input type="hidden" name="recl[cnt]" value="#???#"> <!-- что это??? -->
             <input type="hidden" name="recl[nakl]" value="#nakl#">
-            <input type="hidden" name="recl[nakl_date]" value="#???#"> <!-- нет в данных -->
+            <input type="hidden" name="recl[nakl_date]" value="#dotg#">
             <input type="hidden" name="recl[item_title]" value="#titl#">
             <input type="hidden" name="recl[max_otgrz]" value="#kolv#">
             <div class="left-container">
@@ -1270,10 +1270,10 @@
               </div>
               <div class="form-wrap">
                 <div class="title">Количество:</div>
-                <div class="qty qty-box row">
-                  <div class="btn-minus" tooltip="Уменьшить" onclick="changeQty(event, #kolv#)">-</div>
-                  <input class="choiced-qty text light" name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                  <div class="btn-plus" tooltip="Добавить" onclick="changeQty(event, #kolv#)">+</div>
+                <div class="qty qty-box #qtyStyle# row">
+                  <div class="btn-minus" tooltip="Уменьшить" onclick="changeQty(event, #kolv#, 1)">-</div>
+                  <input class="choiced-qty text light" name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                  <div class="btn-plus" tooltip="Добавить" onclick="changeQty(event, #kolv#, 1)">+</div>
                 </div>
               </div>
             </div>
@@ -1285,7 +1285,7 @@
               </div>
               <div class="btns-wrap row">
                 <div class="basic btn close-btn" onclick="closePopUp('reclm-container')">Отмена</div>
-                <input class="active btn" type="submit" value="Подать рекламацию" onclick="makeReclm">
+                <input class="active btn" type="submit" value="Подать рекламацию" onclick="makeReclm(event)">
               </div>
             </div>
           </form>

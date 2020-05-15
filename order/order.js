@@ -1,132 +1,123 @@
 'use strict';
 
 //=====================================================================================================
-// Преобразование исходных данных:
+// Первоначальные данные для работы:
 //=====================================================================================================
 
-var orderId = document.location.search.replace('?order_id=', ''),
-    ordtabs = ["nomen", "vputi", "vnali", "sobrn", "otgrz", "nedop", "reclm", "debzd"],
-    TFF = {},
-    TF = [];
-var arnaklk,
-    arnaklv,
-    arlistk,
-    arlistv;
-TF["nomen"] = "artc,titl,kolv,pric,summ,sned,skid,lnk,preview,titllnk"; //Номенклатура
-TF["vputi"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; //Ожидается
-TF["vnali"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk";  //В наличии
-TF["sobrn"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; // Собран
-TF["otgrz"] = "artc,titl,kolv,pric,summ,dpst,paid,prcp,kdop,nakl,cods,naklid,dotg,harid,lnk,preview,titllnk"; // Отгружен
-TF["nedop"] = "artc,titl,kolv,summ,stat,lnk,preview,titllnk"; //Недопоставка
-TF["reclm"] = "artc,titl,kolv,pric,summ,trac,nakl,recl_id,recl_num,recl_date,lnk,preview,titllnk"; //Рекламации
-TF["debzd"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk"; //Долг
+// Константы:
 
-for (var i = 0; i < ordtabs.length; i++) {
-  var tmp = TF[ordtabs[i]].split(",");
-  window[ordtabs[i]] = [];
-  for (var ii = 0; ii < tmp.length; ii++) {
-    var a = {};
-    window[ordtabs[i]].push(tmp[ii]);
-  }
-  TFF[ordtabs[i]] = window[ordtabs[i]];
-}
+var ordtabs = ["nomen", "vputi", "vnali", "sobrn", "otgrz", "nedop", "reclm"];
 
-function restorearray() {
-  var k = arlistk;
-  var v = arlistv;
-  var d = "@$";
-  var dd = "^@^";
-  var out = [];
-  for (var ti = 0; ti < ordtabs.length; ti++) {
-    window[ordtabs[ti] + "Data"] = [];
-    window["summ" + ordtabs[ti]] = 0;
-    window["kolv" + ordtabs[ti]] = 0;
-    window["paid" + ordtabs[ti]] = 0;
-    window["kdop" + ordtabs[ti]] = 0;
-  }
-  var kk = k.split(d);
-  var vv = v.split(dd);
-  for (var i = 0; i < vv.length; i++) {
-    var vvv = vv[i].split(d);
-    var outin = [];
-    for (var ti = 0; ti < ordtabs.length; ti++) {
-      window[ordtabs[ti] + "outin"] = [];
-    }
-    for (var ii = 0; ii < vvv.length; ii++) {
-      for (var ti = 0; ti < ordtabs.length; ti++) {
-        if (TF[ordtabs[ti]].indexOf(kk[ii]) != -1) {
-          window[ordtabs[ti] + "outin"][kk[ii]] = vvv[ii];
-        }
-      }
-      outin[kk[ii]] = vvv[ii];
-    }
-    for (var ti = 0; ti < ordtabs.length; ti++) {
-      if (checkinc(ordtabs[ti], outin)) {
-        window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
+// Список ключей для их включения в таблицы:
+// var TF = [];
+// TF["nomen"] = "artc,titl,kolv,pric,summ,sned,skid,lnk,preview,titllnk"; //Номенклатура
+// TF["vputi"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; //Ожидается
+// TF["vnali"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk";  //В наличии
+// TF["sobrn"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; // Собран
+// TF["otgrz"] = "artc,titl,kolv,pric,summ,dpst,paid,prcp,kdop,nakl,cods,naklid,dotg,harid,lnk,preview,titllnk"; // Отгружен
+// TF["nedop"] = "artc,titl,kolv,summ,stat,lnk,preview,titllnk"; //Недопоставка
+// TF["reclm"] = "artc,titl,kolv,pric,summ,trac,nakl,recl_id,recl_num,recl_date,lnk,preview,titllnk"; //Рекламации
+// TF["debzd"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk"; //Долг
 
-        window["summ" + ordtabs[ti]] = Math.max(0, fNb(window["summ" + ordtabs[ti]])) + Math.max(0, fNb(window[ordtabs[ti] + "outin"]['summ']));
-        if (window[ordtabs[ti] + "outin"]['paid']) {
-          window["paid" + ordtabs[ti]] = Math.max(0, fNb(window["paid" + ordtabs[ti]])) + Math.max(0, fNb(window[ordtabs[ti] + "outin"]['paid']));
-        }
-        if (window[ordtabs[ti] + "outin"]['kdop']) {
-          window["kdop" + ordtabs[ti]] = Math.max(0, fNb(window["kdop" + ordtabs[ti]])) + Math.max(0, fNb(window[ordtabs[ti] + "outin"]['kdop']));
-        }
-        window["kolv" + ordtabs[ti]] = Math.max(0, window["kolv" + ordtabs[ti]]) + Math.max(0, window[ordtabs[ti] + "outin"]['kolv']);
-      }
-    }
-    out[i] = outin;
-  }
-}
+// Динамическе переменные:
 
-function checkinc(t, a) {
-  if (t == "nomen" && a["bkma"] != "Рекламации" && a["bkma"] != "Собран") return 1;
-  if (t == "otgrz" && a["bkma"] == "Отгрузки") return 1;
-  if (t == "nedop" && a["bkma"] == "Недопоставка") return 1;
-  if (t == "vputi" && a["bkma"] == "ВПути") return 1;
-  if (t == "sobrn" && a["bkma"] == "Собран") return 1;
-  if (t == "vnali" && a["bkma"] == "ВНаличии") return 1;
-  if (t == "reclm" && a["bkma"] == "Рекламации") return 1;
-  if ((t == "debzd" && a["recv"] > " ") || (t == "debzd" && a['vdlg'] > " " && a['kdop'] > " ")) return 1;
-}
+var items = {};
 
-//number back from format
-function fNb(num) {
-  num = num.toString().replace(" ", '');
-  num = num.toString().replace(" ", '');
-  return parseFloat(num.toString().replace(" ", ''));
-}
+// Запускаем рендеринг страницы заказа:
+
+startPage();
 
 //=====================================================================================================
 // Получение и отображение информации о заказе:
 //=====================================================================================================
 
-// Получение информации о заказе, ее преобразование и запуск инициализации таблицы:
+// Запуск страницы заказа:
 
-sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
-.then(result => {
-  var data = JSON.parse(result);
-  console.log(data);
-  if (data.id) {
-    if (!data.comment) {
-      data.isHiddenComment = 'hidden';
+function startPage() {
+  sendRequest(`${urlRequest.new}api/order.php${document.location.search}`)
+  .then(result => {
+    var data = JSON.parse(result);
+    console.log(data);
+    if (data.id) {
+      if (!data.comment) {
+        data.isHiddenComment = 'hidden';
+      }
+      fillTemplate({
+        area: 'order-info',
+        items: data
+      });
+      fillTemplate({
+        area: getEl('.pop-up-body', 'reclm-container'),
+        items: data
+      })
+      if (data.orderitems) {
+        restoreArray(data.orderitems.arlistk, data.orderitems.arlistv);
+      }
+      initTables();
+    } else {
+      // location.href = '/err404.html';
     }
-    fillTemplate({
-      area: 'order-info',
-      items: data,
-    });
-    var orderitems = data.orderitems;
-    arlistk = orderitems.arlistk;
-    arlistv = orderitems.arlistv;
-    restorearray();
-    initTables();
-  } else {
-    location.href = '/orders';
+  })
+  .catch(err => {
+    console.log(err);
+    // location.href = '/err404.html';
+  });
+}
+
+//=====================================================================================================
+// Преобразование получаемых данных:
+//=====================================================================================================
+
+// Преобразование данных из csv-формата:
+
+function restoreArray(k, v) {
+  var d = "@$",
+      dd = "^@^",
+      kk = k.split(d),
+      vv = v.split(dd),
+      result = [];
+  for (var ti = 0; ti < ordtabs.length; ti++) {
+    window[ordtabs[ti] + "Data"] = [];
   }
-})
-.catch(err => {
-  console.log(err);
-  initTables();
-});
+  for (var i = 0; i < vv.length; i++) {
+    var vvv = vv[i].split(d),
+        obj = {};
+    for (var ii = 0; ii < vvv.length; ii++) {
+      obj[kk[ii]] = vvv[ii];
+    }
+    for (var ti = 0; ti < ordtabs.length; ti++) {
+      if (checkInclusion(ordtabs[ti], obj)) {
+        var copy = Object.assign({}, obj);
+        if (ordtabs[ti] == "otgrz") {
+          // добавляем в данные стиль для степпера:
+          if (copy.kolv > 1) {
+            copy.qtyStyle = 'added';
+          } else {
+            copy.qtyStyle = 'disabled';
+          }
+          // добавляем в данные id товара:
+          copy.object_id = parseInt(copy.preview.match(/\d+/));
+        }
+        window[ordtabs[ti] + "Data"].push(copy);
+      }
+    }
+    result.push(obj);
+  }
+  // console.log(result);
+}
+
+// Проверка включения в данные таблицы объекта данных:
+
+function checkInclusion(name, obj) {
+  if (name == "nomen" && obj["bkma"] != "Рекламации" && obj["bkma"] != "Собран") return 1;
+  if (name == "otgrz" && obj["bkma"] == "Отгрузки") return 1;
+  if (name == "nedop" && obj["bkma"] == "Недопоставка") return 1;
+  if (name == "vputi" && obj["bkma"] == "ВПути") return 1;
+  if (name == "sobrn" && obj["bkma"] == "Собран") return 1;
+  if (name == "vnali" && obj["bkma"] == "ВНаличии") return 1;
+  if (name == "reclm" && obj["bkma"] == "Рекламации") return 1;
+  if ((name == "debzd" && a["recv"] > " ") || (name == "debzd" && obj['vdlg'] > " " && obj['kdop'] > " ")) return 1;
+}
 
 //=====================================================================================================
 // Работа с рекламациями:
@@ -134,12 +125,70 @@ sendRequest(`${urlRequest.new}api/order.php?order_id=` + orderId)
 
 // Открытие мастера создания рекламации:
 
-function openReclmPopUp(el) {
+function openReclmPopUp(id) {
+  loader.show();
+  var data = otgrzData.find(el => el.object_id == id);
+  if (!data.image) {
+    getItems(data.object_id)
+    .then(result => {
+      if (result.items && result.items.length) {
+        items[data.object_id] = result.items[0];
+        var images = result.items[0].images.toString().split(';');
+        data.image = `https://b2b.topsports.ru/c/productpage/${images[0]}.jpg`;
+      }
+      showReclPopUp(data);
+    }, reject => showReclPopUp(data))
+  } else {
+    showReclPopUp(data);
+  }
+}
+
+// Заполение данными и отображение мастера создания рекламации:
+
+function showReclPopUp(data) {
+  console.log(data);
+  fillTemplate({
+    area: 'reclm-container',
+    items: data
+  })
+  checkImg('reclm-container');
   openPopUp('reclm-container');
+  loader.hide();
 }
 
 // Подача рекламации:
 
-function makeReclm() {
-
+function makeReclm(event) {
+  event.preventDefault();
+  var formData = new FormData(event.currentTarget.closest('form')),
+      data = {},
+      err = false;
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
+  if (data['recl[group_type]'] === undefined) {
+    showElement('[data-err="group_type"]');
+    err = true;
+  } else {
+    hideElement('[data-err="group_type"]');
+  }
+  if (!data['recl[comment]']) {
+    showElement('[data-err="comment"]');
+    err = true;
+  } else {
+    hideElement('[data-err="comment"]');
+  }
+  if (!err) {
+    showElement('reclm-loader', 'flex');
+    console.log('отправляем форму для создания рекламации');
+    // sendRequest(`${urlRequest}???`, formData, 'multipart/form-data')
+    // .then(result => {
+    //   console.log(result);
+    //   hideElement('reclm-loader');
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    //   hideElement('reclm-loader');
+    // })
+  }
 }

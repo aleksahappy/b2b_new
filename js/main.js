@@ -32,8 +32,8 @@ var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
     urlRequest = {
+      main: 'https://new.topsports.ru/api.php',
       new: 'https://new.topsports.ru/',
-      // new: 'https://new.topsports.ru/api.php',
       api: 'https://api.topsports.ru/'
     },
     loader = getEl('loader'),
@@ -121,7 +121,7 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       } else if (type === 'multipart/form-data') {
         data.append('sessid', getCookie('iam'));
       }
-      // console.log(requestData);
+      // console.log(data);
       request.open('POST', url);
       request.setRequestHeader('Content-type', type);
       request.send(data);
@@ -177,22 +177,15 @@ function getCart(totals = false) {
 
 function getItems(data) {
   return new Promise((resolve, reject) => {
-    // var info = {
-    //   action: 'items',
-    //   cat_type: cartId
-    // }
-    // if (data) {
-    //   info.data = data;
-    // }
-    // sendRequest(urlRequest.new, info)
-    // console.log(data);
-    var url;
-    if (data) {
-      url = `https://new.topsports.ru/api/q2json.php?ids=${data}`
-    } else {
-      url = 'https://new.topsports.ru/api/q2json.php';
+    var info = {
+      action: 'items',
+      cat_type: cartId
     }
-    sendRequest(url)
+    if (data) {
+      info.data = data;
+    }
+    console.log(info);
+    sendRequest(urlRequest.main, info)
     .then(result => {
       var data = JSON.parse(result);
       console.log(data);
@@ -651,7 +644,7 @@ function addTooltips(key) {
 }
 
 //=====================================================================================================
-// Функции управления количеством:
+// Функции степпера:
 //=====================================================================================================
 
 // Запрет на ввод в инпут любого значения кроме цифр:
@@ -669,15 +662,18 @@ function checkValue(event) {
   }
 }
 
-// Изменение количества в панели управления:
+// Изменение количества степпером:
 
-function changeQty(event, totalQty, text) {
+function changeQty(event, maxQty, minQty = 0, text) {
+  if (minQty === maxQty) {
+    return;
+  }
   var current = event.currentTarget,
       sign = current.textContent,
       qtyWrap = current.closest('.qty'),
       input = getEl('.choiced-qty', qtyWrap),
       qty = parseInt(input.value, 10);
-  qty = countQty(sign, qty, totalQty);
+  qty = countQty(sign, qty, maxQty, minQty);
   input.value = qty;
   input.dataset.value = qty;
   changeColors(qtyWrap, qty);
@@ -687,14 +683,14 @@ function changeQty(event, totalQty, text) {
 
 // Подсчет количества:
 
-function countQty(sign, qty, totalQty) {
+function countQty(sign, qty, maxQty, minQty) {
   if (sign) {
     if (sign == '-') {
-      if (qty > 0) {
+      if (qty > minQty) {
         qty--;
       }
     } else if (sign == '+') {
-      if (qty < totalQty) {
+      if (qty < maxQty) {
         qty++;
       }
     } else if (sign == 'Удалить') {
@@ -704,28 +700,28 @@ function countQty(sign, qty, totalQty) {
     }
   } else {
     if (isNaN(qty)) {
-      qty = 0;
+      qty = minQty;
     }
-    if (qty > totalQty) {
-      qty = totalQty;
+    if (qty > maxQty) {
+      qty = maxQty;
     }
   }
   return qty;
 }
 
-// Изменение цвета элементов панели выбора:
+// Изменение цвета элементов степпера:
 
 function changeColors(el, qty) {
   if (el) {
     if (qty == 0) {
-      el.classList.remove('in-cart');
+      el.classList.remove('added');
     } else {
-      el.classList.add('in-cart');
+      el.classList.add('added');
     }
   }
 }
 
-// Изменение названия кнопки в панели выбора:
+// Изменение названия кнопки в степпере:
 
 function changeNameBtn(el, qty, text = 'В корзину') {
   if (el) {
@@ -1024,7 +1020,7 @@ function fillSubTemp(data, items, temp) {
   for (var sub of data.sub) {
     subData = {
       area: sub.area,
-      items: items[sub.items] ? Object.assign(items[sub.items]) : [],
+      items: items[sub.items] ? items[sub.items] : [],
       sub: sub.sub,
       parentArea: data.area,
       parentAreaName: data.areaName,
@@ -1600,8 +1596,8 @@ function Table(obj) {
   this.toggleTab = function() {
     if (this.tab) {
       showElement(this.tab, 'flex');
-      if (this.data.length === 0) {
-        if (this.tab && !this.tab.classList.contains('nomen')) {
+      if (!this.data.length) {
+        if (!this.tab.classList.contains('nomen')) {
           this.tab.classList.add('disabled');
         }
       }
@@ -1613,7 +1609,7 @@ function Table(obj) {
     this.data.forEach(el => {
       for (var key in el) {
         if (el[key]) {
-          el[key] = el[key].trim();
+          el[key] = el[key].toString().trim();
           if (el[key]) {
             if (key === 'skid') {
               el[key] = el[key] + '%';
@@ -1679,9 +1675,11 @@ function Table(obj) {
     this.results.querySelectorAll('.result').forEach(result => {
       var total = 0;
       this.itemsToLoad.forEach(el => {
-        total += parseFloat(el[result.dataset.key].replace(' ', ''), 10);
+        if (el[result.dataset.key]) {
+          total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
+        }
       });
-      result.textContent = Math.ceil(total).toLocaleString('ru-RU');
+      result.textContent = Math.round(total).toLocaleString('ru-RU');
     });
   }
 

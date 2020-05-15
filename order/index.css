@@ -158,14 +158,14 @@
 }
 
 #reclm-container img {
-  width: 7.5em;
+  height: 7.3em;
 }
 
-#reclm-container .order-info {
+#reclm-container .pop-up-body > .row {
   justify-content: space-between;
 }
 
-#reclm-container .order-info > div {
+#reclm-container .order-info {
   margin-bottom: 1em;
 }
 

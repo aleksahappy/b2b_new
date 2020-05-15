@@ -228,7 +228,7 @@ function fillSubTemp(data, items, temp) {
   for (var sub of data.sub) {
     subData = {
       area: sub.area,
-      items: items[sub.items] ? Object.assign(items[sub.items]) : [],
+      items: items[sub.items] ? items[sub.items] : [],
       sub: sub.sub,
       parentArea: data.area,
       parentAreaName: data.areaName,

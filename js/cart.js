@@ -86,7 +86,7 @@ function getOrderData() {
     cart_name: cartId
   }
   var formData = new FormData(event.currentTarget);
-  formData.forEach(function(value, key){
+  formData.forEach((value, key) => {
     info[key] = value;
   });
   // console.log(info);
@@ -160,7 +160,7 @@ function getMissingItems() {
           convertItem(result.items[key]);
         }
         resolve();
-      })
+      }, reject => resolve())
     } else {
       resolve();
     }
@@ -845,10 +845,10 @@ function addInCart(event) {
   event.preventDefault();
   loader.show();
   var form = event.currentTarget,
-      data = new FormData(form),
+      formData = new FormData(form),
       loadBtn = getEl('label',form),
       submitBtn = getEl('input[type="submit"]', form);
-  sendRequest(`${urlRequest.api}???`, data, 'multipart/form-data')
+  sendRequest(`${urlRequest.api}???`, formData, 'multipart/form-data')
   .then(result => {
     // console.log(result);
     var data = JSON.parse(result);
@@ -865,11 +865,11 @@ function addInCart(event) {
     loader.hide();
   })
   .catch(error => {
+    console.log(error);
     loader.hide();
     message.show('Файл не загружен. Ошибка сервера.', 2000);
     showElement(loadBtn);
     hideElement(submitBtn);
-    console.log(error);
   })
 }
 
