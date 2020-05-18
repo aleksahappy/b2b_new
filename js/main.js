@@ -179,7 +179,8 @@ function getItems(data) {
   return new Promise((resolve, reject) => {
     var info = {
       action: 'items',
-      cat_type: cartId
+      // cat_type: cartId
+      cat_type: 'equip'
     }
     if (data) {
       info.data = data;

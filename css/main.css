@@ -24,6 +24,11 @@ a {
   cursor: pointer;
 }
 
+a[href^=tel] {
+  color: inherit;
+  text-decoration: none;
+}
+
 img {
   display: block;
 }
@@ -45,6 +50,10 @@ input, textarea, select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+}
+
+input:disabled {
+  opacity: 1
 }
 
 textarea {
@@ -364,6 +373,10 @@ body.no-scroll {
   display: block;
 }
 
+.disabled [tooltip]::before,
+.disabled [tooltip]::after,
+.disabled[tooltip]::before,
+.disabled[tooltip]::after,
 [tooltip='']::before,
 [tooltip='']::after {
   display: none !important;
@@ -496,6 +509,10 @@ body.no-scroll {
   border-radius: 3px;
   text-align: center;
   cursor: pointer;
+}
+
+.btn.disabled {
+  cursor: default;
 }
 
 a.btn {
@@ -985,7 +1002,17 @@ form.search.positioned .search-area {
   /* display: none; */
   max-width: 0;
   opacity: 0;
+  -webkit-transition: max-height 0.3s linear;
+  -moz-transition: max-height 0.3s linear;
+  -o-transition: max-height 0.3s linear;
+  transition: max-height 0.3s linear;
+  -webkit-transition: max-width 0.3s linear;
+  -moz-transition: max-width 0.3s linear;
+  -o-transition: max-width 0.3s linear;
   transition: max-width 0.5s ease-in;
+  -webkit-transition: opacity 0.5s ease-in 0.2;
+  -moz-transition: opacity 0.5s ease-in 0.2;
+  -o-transition: opacity 0.5s ease-in 0.2;
   transition: opacity 0.5s ease-in 0.2;
 }
 
@@ -1099,6 +1126,7 @@ form.file input[type="submit"] {
   color: #B3B3B3;
   background-color: #D3D6D9;
   border-color: #D3D6D9;
+  cursor: default;
 }
 
 .added .btn-minus,
@@ -1115,12 +1143,12 @@ form.file input[type="submit"] {
   border-bottom: 1px solid #8596A6;
 }
 
-.disabled .choiced-qty {
+.disabled .choiced-qty,
+.choiced-qty:disabled {
   color: #B3B3B3;
   background-color: #E2E2E2;
   border-color: #E2E2E2;
 }
-
 
 /* =====================================================================================================
 Кнопка "Наверх":
@@ -1743,7 +1771,9 @@ form.registr-form textarea {
   border: 1px solid #D5D5D5;
 }
 
-form.registr-form input:hover,
+form.registr-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty):hover,
+form.registr-form input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty):focus,
+form.registr-form textarea:hover,
 form.registr-form textarea:focus {
   border-color: #34495E;
 }
@@ -1757,15 +1787,16 @@ form.registr-form .hint {
   font-size: 0.857em;
   color: #8596A6;
   pointer-events: none;
-  -webkit-transition: font-size 0.5s;
-  -moz-transition: font-size 0.5s;
-  -o-transition: font-size 0.5s;
-  transition: font-size 0.5s;
+  transform-origin: 0 0;
+  -webkit-transition: transform 0.5s;
+  -moz-transition: transform 0.5s;
+  -o-transition: transform 0.5s;
+  transition: transform 0.5s;
 }
 
 form.registr-form input:focus ~ .hint,
 form.registr-form textarea:focus ~ .hint {
-  font-size: 0.714em;
+  transform: scale(.85);
 }
 
 form.registr-form .form-wrap {
@@ -2324,10 +2355,8 @@ form.registr-form .unactive {
 
 .tabs .tab {
   display: none;
-}
-
-.tab.disabled .icon {
-  cursor: default;
+  color: #FFFFFF;
+  cursor: pointer;
 }
 
 .table-wrap {
@@ -2476,6 +2505,10 @@ form.registr-form .unactive {
 .tabs .tab.disabled {
   color: #818A94;
   background-color: #D4D7DB;
+  cursor: default;
+}
+
+.tabs .tab.disabled .icon {
   cursor: default;
 }
 

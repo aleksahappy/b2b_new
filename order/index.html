@@ -1365,7 +1365,7 @@
                 <div class="title">Количество:</div>
                 <div class="qty qty-box #qtyStyle# row">
                   <div class="btn-minus" tooltip="Уменьшить" onclick="changeQty(event, #kolv#, 1)">-</div>
-                  <input class="choiced-qty text light" name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                  <input class="choiced-qty text light" #qtyStyle# name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
                   <div class="btn-plus" tooltip="Добавить" onclick="changeQty(event, #kolv#, 1)">+</div>
                 </div>
               </div>
@@ -1681,7 +1681,7 @@
     <div class="footer">
       <div class="container">
         <div class="wrap">
-          <div>Отдел продаж: +7 (846) 300-44-99</div>
+          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
           <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
         </div>
       </div>
