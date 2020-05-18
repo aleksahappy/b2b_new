@@ -2436,12 +2436,12 @@ form.registr-form .unactive {
   background-color: rgba(223, 161, 42, 0.8);
 }
 
-.tabs .tab.debzd,
-#debzd .titles  {
+.tabs .tab.sobrn,
+#sobrn .titles  {
   background-color: #6C4D77;
 }
 
-#debzd .results {
+#sobrn .results {
   background-color: rgba(108, 77, 119, 0.8);
 }
 
@@ -2541,6 +2541,10 @@ form.registr-form .unactive {
   border: none;
 }
 
+.table-head .activate .head .title {
+  color: #FFFFFF;
+}
+
 .table-body {
   color: #666666;
   background-color: #FFFFFF;
@@ -2586,12 +2590,43 @@ form.registr-form .unactive {
   justify-content: center;
 }
 
-.table-body .date {
-  min-width: 14em;
-  justify-content: center;
+/* Cтили для минимальной ширины колонки */
+
+.table-body .w7em {
+  min-width: 7em;
 }
 
-/* Стили страницы 404 */
+.table-body .w8em {
+  min-width: 8em;
+}
+
+.table-body .w9em {
+  min-width: 9em;
+}
+
+.table-body .w10em {
+  min-width: 10em;
+}
+
+.table-body .w11em {
+  min-width: 11em;
+}
+
+.table-body .w12em {
+  min-width: 13em;
+}
+
+.table-body .w13em {
+  min-width: 13em;
+}
+
+.table-body .w14em {
+  min-width: 14em;
+}
+
+/* =====================================================================================================
+Стили страницы 404:
+===================================================================================================== */
 
 body#err .main-title {
   text-align: center;
