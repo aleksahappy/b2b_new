@@ -9,7 +9,7 @@
 }
 
 html {
-  font-size: 10px;
+  font-size: 16px;
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   -ms-text-size-adjust: none;
@@ -68,7 +68,7 @@ body {
   min-height: 100vh;
   padding-top: 65px;
   padding-bottom: 110px;
-  font-size: 1.4em;
+  font-size: 1em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   line-height: normal;
@@ -1204,6 +1204,7 @@ form.file input[type="submit"] {
 .header-top .logo img {
   max-height: 2em;
   max-width: 100%;
+  min-width: 100px
 }
 
 .header-top .left-side {
@@ -1490,7 +1491,7 @@ form.file input[type="submit"] {
   right: 0;
   left: 0;
   color: #FFFFFF;
-  background-color: #454D56;
+  background-color: #53606F;
   z-index: 100;
 }
 
@@ -1503,7 +1504,7 @@ form.file input[type="submit"] {
 ===================================================================================================== */
 
 #main-header {
-  padding: 1em 0;
+  padding: 1.9625em 0 1.5625em 0;
 }
 
 #main-nav  {
@@ -1548,8 +1549,8 @@ form.file input[type="submit"] {
 }
 
 .main-title .title {
-  font-size: 1.715em;
-  letter-spacing: 0.04em;
+  font-size: 1.875em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 

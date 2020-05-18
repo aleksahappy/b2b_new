@@ -70,7 +70,7 @@ startPage();
 function startPage() {
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
   if (path !== '') {
-    loader.show();
+    //loader.show();  //  запуск работы лоадера
   }
   setPaddingToBody();
   showUserInfo();
