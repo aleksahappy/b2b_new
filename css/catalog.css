@@ -7,7 +7,7 @@ body {
 }
 
 /* =====================================================================================================
-Стили для заголовка каталога товаров:
+Стили для "прилипающей" части каталога:
 ===================================================================================================== */
 
 #header-content {
@@ -30,7 +30,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   width: calc(100% - 22em);
-  border-bottom: 0.5px solid rgba(52, 73, 94, 0.3);
+  border-bottom: 1px solid #D5D5D5;
 }
 
 .gallery-head .result {
@@ -122,20 +122,8 @@ body {
   justify-content: space-between;
 }
 
-[data-view="product"] #content {
-  background-color: #FFFFFF;
-}
-
-/* =====================================================================================================
-Стили для заголовка страницы:
-===================================================================================================== */
-
 #main-header {
   display: none;
-}
-
-.main.product #main-header {
-  padding: 2em 0;
 }
 
 /* =====================================================================================================
@@ -227,7 +215,7 @@ body {
 
 #zip-filters .filter-items {
   background-color: #7B8894;
-  border: 0.5px solid #7B8894;
+  border: 1px solid #7B8894;
   padding: 0.7em;
 }
 
@@ -273,7 +261,7 @@ body {
 
 #catalog-filters .filter-items {
   background-color: #FFFFFF;
-  border: 0.5px solid rgba(52, 73, 94, 0.3);
+  border: 1px solid #D5D5D5;
 }
 
 .filter-title-container {
@@ -368,7 +356,7 @@ body {
   width: 2.4em;
   padding: 0;
   line-height: 1.4;
-  border: 0.5px solid rgba(52, 73, 94, 0.4);
+  border: 1px solid rgba(52, 73, 94, 0.4);
   border-radius: 3px;
   text-transform: uppercase;
   text-align: center;
@@ -530,181 +518,6 @@ body {
 }
 
 /* =====================================================================================================
- Общие стили для карточек:
-===================================================================================================== */
-
-.card-img {
-  width: 100%;
-}
-
-.card-title .title {
-  font-weight: 600;
-  line-height: 1.1;
-}
-
-.select-info {
-  align-items: baseline;
-  flex-wrap: wrap;
-  visibility: hidden;
-}
-
-.select-info span {
-  font-weight: 600;
-}
-
-.select-qty {
-  margin-right: 1.5em;
-}
-
-.card-price > div > div {
-  justify-content: space-between;
-  align-items: baseline;
-  width: 100%;
-  padding: 0.2em 0;
-}
-
-.card-price .cur-price,
-.card-price .user-price {
-  border-bottom: 1px solid rgba(133, 150, 166, 0.2);
-}
-
-.card-price .cur-price.borderNone {
-  border-bottom-color: transparent;
-}
-
-.card-price .cur-price .text {
-  font-size: 1.714em;
-  font-weight: 700;
-}
-
-.card-price .old-price .text {
-  text-decoration: line-through;
-}
-
-.card-price .user-price .text {
-  font-weight: 700;
-}
-
-.action-title {
-  display: inline;
-  padding: 1px 7px;
-  font-size: 0.785em;
-  font-weight: 600;
-  line-height: 1;
-  color: #FFFFFF;
-  text-transform: uppercase;
-}
-
-.action-title.hidden {
-  font-size: 0;
-  margin-right: 0;
-}
-
-.card-sizes {
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.card-size {
-  padding-bottom: 0.7em;
-}
-
-.card-size .articul {
-  padding-left: 5.8em;
-  padding-bottom: 1px;
-  font-size: 0.714em;
-}
-
-.card-size .qty {
-  align-items: stretch;
-  height: 1.857em;
-}
-
-.card-size .name {
-  justify-content: center;
-  align-items: center;
-  width: 4em;
-  text-align: center;
-}
-
-.card-size .name.click {
-  cursor: pointer;
-}
-
-.tooltips {
-  font-size: 0.714em;
-}
-
-.tooltips > .row {
-  align-items: center;
-  padding-right: 0.5em;
-  cursor: help;
-}
-
-.tooltips .icon {
-  margin-right: 0.2em;
-}
-
-.card-options {
-  font-size: 0.857em;
-}
-
-.card-option > div {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-option .option-title {
-  padding-right: 0.5em;
-}
-
-.card-manuf {
-  width: 100%;
-  max-width: 50em;
-}
-
-.manuf-table {
-  font-size: 0.857em;
-}
-
-#manuf-headers,
-.manuf-row {
-  align-items: stretch;
-  border: 0.5px solid #8596A6;
-  border-left: none;
-}
-
-.manuf-row {
-  border-top: none;
-}
-
-#manuf-headers > div,
-.manuf-row > div {
-  padding: 0.1em 0.3em;
-  border-left: 0.5px solid #8596A6;
-}
-
-#manuf-headers > div {
-  text-align: center;
-}
-
-.manuf-table .man {
-  width: 20%;
-}
-
-.manuf-table .oem {
-  width: 30%;
-}
-
-.manuf-table .model {
-  width: 30%;
-}
-
-.manuf-table .years {
-  width: 20%;
-}
-
-/* =====================================================================================================
  Стили для малой карточки:
 ===================================================================================================== */
 
@@ -795,7 +608,7 @@ body {
   margin: 0 0 -1px 0;
   padding: 1em;
   background-color: rgb(255, 255, 255);
-  border: 0.5px solid rgba(52, 73, 94, 0.3);
+  border: 1px solid #D5D5D5;
 }
 
 .big-card:first-child {
@@ -972,166 +785,18 @@ body {
 
 /* Стили для полной карточки экипировки: */
 
-.full-card {
-  position: relative;
-  width: 1050px;
-  max-width: 90vw;
-  max-height: 90vh;
-  background-color: #FFFFFF;
-}
-
-.full-card .card-head,
-.full-card .card-body,
-.full-card .card-info {
-  width: 100%;
-}
-
-.full-card .card-head {
-  justify-content: space-between;
-  width: 100%;
-  padding: 1em 2.7em;
-  padding-bottom: 0;
-  margin-bottom: 2.5em;
-}
-
-.full-card .card-title {
-  width: calc(100% - 3em);
-}
-
-.full-card .card-title .title {
-  font-size: 1.5em;
-  padding-bottom: 0.2em;
-}
-
-.full-card .card-title .text {
-  font-size: 0.857em;
-}
-
-.full-card .close-btn {
-  width: 1.65em;
-  height: 1.65em;
-}
-
-.full-card .pop-up-body {
-  max-height: calc(90vh - 7em);
-  padding: 0;
-}
-
-.full-card .card-body {
-  padding: 0 2.7em;
-}
-
-.full-card .carousel {
-  width: 38%;
-}
-
-.full-card .maximize {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1.65em;
-  height: 1.65em;
-  cursor: pointer;
-  z-index: 10;
-}
-
 .full-card .carousel-gallery-wrap {
   min-height: 30em;
   border-bottom: 1px solid rgba(133, 150, 166, 0.2);
 }
 
-.full-card .carousel .left-btn,
-.full-card .carousel .right-btn {
-  width: 3em;
-}
-
-.full-card .carousel-nav {
-  margin-top: 1.5em;
-}
-
-.full-card .carousel-nav .carousel-item {
-  width: calc(25% - 0.4em);
-  max-width: 100px;
-  min-width: 70px;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.full-card .carousel-nav .carousel-item:nth-child(4n) {
-  margin-right: 0;
-}
-
-.full-card .card-content {
-  width: 62%;
-}
-
 .full-card .card-choice {
   min-height: 30em;
-  padding-left: 3rem;
   border-bottom: 1px solid rgba(133, 150, 166, 0.2);
 }
 
-.full-card .card-price,
-.full-card .select-info,
-.full-card .card-sizes,
-.full-card .card-options,
-.full-card .card-desc,
-.full-card .action-desc {
-  width: 100%;
-}
-
-.full-card .card-price {
-  margin-bottom: 2em;
-}
-
-.full-card .select-info {
-  margin-bottom: 1em;
-}
-
-.full-card .card-size {
-  width: 13.5em;
-}
-
-.full-card .tooltips {
-  justify-content: flex-start;
-  padding-left: 5.8em;
-}
-
 .full-card .card-options {
-  /* min-height: 18em; */
-  padding: 1.5em 0;
   padding-left: 3rem;
-}
-
-.full-card .option-title {
-  min-width: 15em;
-  max-width: 15em;
-  padding-right: 1em;
-}
-
-.full-card .card-info {
-  padding: 0 2.7em;
-  background-color: #F2F2F2;
-}
-
-.full-card .card-desc,
-.full-card .action-desc {
-  padding-bottom: 2.5em;
-  font-size: 0.857em;
-}
-
-.full-card .card-desc {
-  padding-top: 1.25em;
-}
-
-.full-card .action-desc {
-  display: none;
-  margin-top: -1.25em;
-}
-
-.full-card .subtitle {
-  padding-bottom: 0.5em;
-  font-weight: 600;
 }
 
 /* Стили для полной карточки ЗИП: */
@@ -1144,73 +809,8 @@ body {
   min-height: 28em;
 }
 
+/* Стили для полной карточки ЗИП: */
+
 .main.zip .full-card .card-opt {
-  /* min-height: 22em; */
-  padding: 1.5em 0;
   padding-left: 3rem;
 }
-
-.main.zip .full-card .card-options {
-  /* min-height: auto; */
-  margin-bottom: 1.5em;
-  padding: 0;
-  padding-left: 0;
-}
-
-/* =====================================================================================================
- Стили для изображения на весь экран:
-===================================================================================================== */
-
-#full-img-container {
-  padding: 3em 0;
-  z-index: 500;
-}
-
-#full-img-container .close-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 2em;
-  height: 2em;
-  margin: 1em;
-  z-index: 1;
-}
-
-#full-img {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  visibility: hidden;
-}
-
-#full-img-container .carousel {
-  display: flex;
-  align-items: center;
-  width: 1000px;
-  height: auto;
-}
-
-#full-img-container .carousel-gallery-wrap {
-  border-radius: 5px;
-}
-
-#full-img-container .carousel .left-btn,
-#full-img-container .carousel .right-btn {
-  width: 4em;
-}
-
-#full-img-container .carousel:hover .left-btn,
-#full-img-container .carousel:hover .right-btn {
-  opacity: 0.5;
-}
-
-#full-img-container .carousel-gallery img {
-  width: 1000px;
-  height: auto;
-}
-
-/* =====================================================================================================
- Стили для отдельной страницы товара:
-===================================================================================================== */
-

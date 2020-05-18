@@ -128,19 +128,20 @@ function checkInclusion(name, obj) {
 function openReclmPopUp(id) {
   loader.show();
   var data = otgrzData.find(el => el.object_id == id);
-  if (!data.image) {
-    getItems(data.object_id)
-    .then(result => {
-      if (result.items && result.items.length) {
-        items[data.object_id] = result.items[0];
-        var images = result.items[0].images.toString().split(';');
-        data.image = `https://b2b.topsports.ru/c/productpage/${images[0]}.jpg`;
-      }
-      showReclPopUp(data);
-    }, reject => showReclPopUp(data))
-  } else {
-    showReclPopUp(data);
-  }
+  showReclPopUp(data);
+  // if (!data.image) {
+  //   getItems(data.object_id)
+  //   .then(result => {
+  //     if (result.items && result.items.length) {
+  //       items[data.object_id] = result.items[0];
+  //       var images = result.items[0].images.toString().split(';');
+  //       data.image = `https://b2b.topsports.ru/c/productpage/${images[0]}.jpg`;
+  //     }
+  //     showReclPopUp(data);
+  //   }, reject => showReclPopUp(data))
+  // } else {
+  //   showReclPopUp(data);
+  // }
 }
 
 // Заполение данными и отображение мастера создания рекламации:

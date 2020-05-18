@@ -2745,9 +2745,9 @@
 
         <div class="not-found icon"></div>
 
-        <div class="loader icon"></div>
-
       </div>
+
+      <div class="loader icon"></div>
 
       <!-- Шаблоны чекбоксов как background у div -->
 
@@ -2834,12 +2834,13 @@
       <div class="artboard-title">Поле поиска</div>
       <div class="arboard-block search-temp">
 
-        <form action="#" class='search row'>
-          <div class="row">
-            <div class="search icon"></div>
-            <input class='search-input' type="text" autocomplete="off" placeholder="Поиск...">
+        <form class="search row">
+          <div class="search-area row">
+            <input class="search icon" type="submit" value="">
+            <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+            <div class="close icon"></div>
           </div>
-          <div class="close icon"></div>
+          <div class="toggle search icon white"></div>
         </form>
 
       </div>
@@ -2850,7 +2851,7 @@
       <div class="arboard-block drop-down-temp row">
 
         <!-- Шаблон селекта -->
-        <div class="activate select">
+        <div id="select" class="activate select">
           <div class="head row">
             <div class="title">Select</div>
             <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2867,7 +2868,7 @@
         </div>
 
         <!-- Шаблон чекбокса -->
-        <div class="activate checkbox">
+        <div id="checkbox" class="activate checkbox">
           <div class="head row">
             <div class="title">Checkbox</div>
             <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2900,8 +2901,17 @@
 
       </div>
 
-    </div>
+      <div class="artboard-title">Текстовое поле</div>
+      <div class="arboard-block textarea-temp">
 
+        <!-- Шаблон текстового поля -->
+        <div class="title">Описание дефекта:</div>
+        <textarea name="" autocomplete="off"></textarea>
+        <div class="err" data-err="comment">Необходимо заполнить</div>
+
+      </div>
+
+    </div>
 
     <!-- Шаблон окна уведомлений -->
     <div id="alerts-container" class="pop-up-container col" onclick="closePopUp(event)">
@@ -3207,6 +3217,10 @@
     </div>
 
     <script src ="js/main.js"></script>
+    <script>
+      initDropDown('select');
+      initDropDown('checkbox');
+    </script>
 
   </body>
 </html>

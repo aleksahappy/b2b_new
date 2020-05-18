@@ -21,7 +21,7 @@ function checkAuth() {
     // xhr.open('POST', 'https://new.topsports.ru/api.php', false);
     try {
       xhr.send();
-      // xhr.send({action: 'auth'});
+      // xhr.send(JSON.stringify({action: 'auth'}));
       if (xhr.status != 200) {
         console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
         new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
@@ -42,7 +42,7 @@ function checkAuth() {
       }
     } catch(err) {
       console.log(err);
-      if (path !== '') {
+      if (path !== '' && path !== 'registr') {
         location.href = '/';
       }
     }
