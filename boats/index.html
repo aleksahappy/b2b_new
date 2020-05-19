@@ -190,12 +190,12 @@
         <div id="content" class="row">
           <div id="filters-container">
             <div id="filters">
-              <div id="zip-filters" class="filter default-open" onclick="toggleFilter(event)">
+              <div id="zip-filters" class="filter default-open toggle save" onclick="toggleContent(event)">
                 <div class="filter-title row">
                   <div class="title">Производитель и ОЕМ</div>
-                  <div class="open white icon"></div>
+                  <div class="open white icon toggle-icon"></div>
                 </div>
-                <div class="filter-items">
+                <div class="filter-items toggle-cont">
                   <div id="zip-selects">
                     <div id="#key#" class="activate select" disabled>
                       <div class="head row">
@@ -225,21 +225,21 @@
                 </div>
               </div>
               <div id="catalog-filters">
-                <div id=filter-#key# class="filter #isOpen#" onclick="toggleFilter(event)">
+                <div id=filter-#key# class="filter #isOpen# toggle save" onclick="toggleContent(event)">
                   <div class="filter-title row">
                     <div class="title">#title#</div>
-                    <div class="open icon"></div>
+                    <div class="open icon toggle-icon"></div>
                   </div>
-                  <div class="filter-items">
-                    <div class="filter-item item close" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
+                  <div class="filter-items toggle-cont">
+                    <div class="filter-item item close toggle" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
                       <div class="filter-title-container row">
                         <div class="filter-item-title row">
                           <div class="checkbox dark icon"></div>
                           <div class="item-title">#title#</div>
                         </div>
-                        <div class="drop-down icon #isBtn#" onclick="toggleFilterItem(event)"></div>
+                        <div class="drop-down icon #isBtn# toggle-icon" onclick="toggleContent(event)"></div>
                       </div>
-                      <div class="filter-subitems">
+                      <div class="filter-subitems toggle-cont">
                         <div class="filter-item subitem" data-key="#key#" data-subkey="#subkey#" data-value="#value#" onclick="selectFilterCatalog(event)">
                           <div class="filter-title-container row">
                             <div class="filter-item-title row">
@@ -560,11 +560,11 @@
           <div id="cart-empty">
             <div class="title">Ваша корзина пуста</div>
             <a id="catalog-link" class="active btn" href="../boats/" data-href="boats" data-level="1" onclick="openPage(event)">Перейти в каталог товаров</a>
-            <div class="unactive btn" onclick="openLoadContainer()">Добавить из файла</div>
+            <div class="unactive btn" onclick="openLoadContainer()">Добавить товары</div>
           </div>
           <div id="cart-full">
             <div class="cart-header">
-              <div class="unactive btn" onclick="openLoadContainer()">Добавить из файла</div>
+              <div class="unactive btn" onclick="openLoadContainer()">Добавить товары</div>
               <div class="cart-info-container row">
                 <div id="cart-info" class="row">
                   <div>
@@ -637,8 +637,8 @@
                 </div>
                 <div class="comment">
                   <div class="title">Комментарий к заказу</div>
-                  <textarea id="order-comment" name="comment" maxlength="300" oninput="countSigns(this)"></textarea>
-                  <div class="counter text light">Знаков осталось: <span id="textarea-counter">300</span></div>
+                  <textarea id="order-comment" name="comment" maxlength="300" oninput="textareaCounter(this)"></textarea>
+                  <div class="text light">Знаков осталось: <span class="counter">300</span></div>
                 </div>
                 <div id="order-info" class="text red">Обратите внимание!<br/>Будет создано несколько заказов: (<span id="order-names"></span>)</div>
                 <div class="basic btn" onclick="closeOrderForm()">Отменить</div>
@@ -744,32 +744,33 @@
           <div id="load-container" class="pop-up-container" onclick="closePopUp(event)">
             <div class="registr pop-up">
               <div class="pop-up-title row">
-                <div class="title">Добавить товары из списка</div>
+                <div class="title">Добавить товары</div>
                 <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
                   <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
                 </svg>
               </div>
               <div class="pop-up-body">
-                <div class="text light">Добавтьте товары: АРТИКУЛ (ПРОБЕЛ) КОЛИЧЕСТВО или скопируйте строки из MS Excel в форму:</div>
-                <textarea id="load-text" class="text" placeholder="Артикул Количество
+                <div class="add-from-list col">
+                  <div class="title">Вариант №1: Добавить из списка</div>
+                  <div class="text light">Введите в поле АРТИКУЛ (ПРОБЕЛ) КОЛИЧЕСТВО или скопируйте строки из MS Excel в форму:</div>
+                  <textarea id="load-text" class="text" placeholder="Артикул Количество
 Артикул Количество
 Артикул Количество
 Артикул Количество
 Артикул Количество"></textarea>
-                <div class="unactive btn" onclick="loadInCart()">Загрузить список</div>
-              </div>
-              <div class="pop-up-title row">
-                <div class="title">Добавить товары из файла</div>
-              </div>
-              <div class="pop-up-body">
-                <div class="text light">Загрузите бланк заказа в MS Excel</div>
+                  <div class="unactive btn" onclick="loadInCart()">Загрузить список</div>
+                </div>
+                <div class="add-from-file">
+                  <div class="title">Вариант №2: Добавить из файла</div>
+                  <div class="text light">Загрузите список в MS Excel</div>
                 <form id="load-file" class="file row" onsubmit="addInCart(event)">
                   <input id="file-cart" class="file" type="file" accept=".xls,.xlsx">
                   <div class="file-name"></div>
                   <label class="unactive btn" for="file-cart">Выбрать файл</label>
                   <input class="unactive btn" type="submit" value="Загрузить файл">
                 </form>
+                </div>
               </div>
             </div>
           </div>

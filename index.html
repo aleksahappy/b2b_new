@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
 
-  <body data-website="ts_b2b">
+  <body id="auth" data-website="ts_b2b">
 
     <div class="header">
       <div class="header-top">
@@ -74,6 +74,12 @@
         </div>
       </div>
     </div>
+
+    <script>
+      if (location.search === '?error=1') {
+        document.getElementById('error').style.display = 'block';
+      }
+    </script>
 
   </body>
 

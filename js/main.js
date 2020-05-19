@@ -42,6 +42,9 @@ var website = document.body.dataset.website,
 
 // Динамически изменяемые переменные:
 
+var pageUrl = pageId,
+    scrollTop;
+
 if (isCart) {
   var cartId = pageId,
       cartTotals = [],
@@ -62,7 +65,7 @@ if (message) {
 startPage();
 
 //=====================================================================================================
-// Общие действия на всех страницах:
+// Обязательные функции для всех страниц:
 //=====================================================================================================
 
 // Запуск страницы:
@@ -179,8 +182,7 @@ function getItems(data) {
   return new Promise((resolve, reject) => {
     var info = {
       action: 'items',
-      // cat_type: cartId
-      cat_type: 'equip'
+      cat_type: cartId
     }
     if (data) {
       info.data = data;
@@ -301,7 +303,7 @@ function getDataFromTotals(type) {
 }
 
 //=====================================================================================================
-// Сортировка массива:
+// Сортировка массивов:
 //=====================================================================================================
 
 // Сортировка массива объектов по указанному значению:
@@ -327,7 +329,7 @@ function dynamicSort(prop) {
 }
 
 //=====================================================================================================
-// Сортировка объекта:
+// Сортировка объектов:
 //=====================================================================================================
 
 // Сортировка по ключу:
@@ -377,7 +379,7 @@ function sortObjByValue(obj, type = 'string') {
 }
 
 //=====================================================================================================
-// Сохранение и извлечение данных на компьютере пользователя:
+// Работа со storage и cookie:
 //=====================================================================================================
 
 // Получение данных о странице по ключу:
@@ -552,7 +554,7 @@ function deleteCookie(key) {
 }
 
 //=====================================================================================================
-// Визуальное отображение контента на странице:
+// Функции для работы с контентом на странице:
 //=====================================================================================================
 
 // Установка отступов документа:
@@ -594,8 +596,6 @@ function hideElement(el) {
 
 // Получение текущей прокрутки документа:
 
-var scrollTop;
-
 function getDocumentScroll() {
   scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 }
@@ -605,18 +605,6 @@ function getDocumentScroll() {
 function setDocumentScroll(top = scrollTop) {
   document.documentElement.scrollTop = top;
   document.body.scrollTop = top;
-}
-
-// Открытие/закрытие поля формы для добавления адреса вручную:
-
-function toggleAddByHand() {
-  getEl('add-hand').classList.toggle('displayNone')
-}
-
-// Отображение количества знаков, оставшихся в поле комментариев:
-
-function countSigns(textarea) {
-  getEl('textarea-counter').textContent = 300 - textarea.value.length;
 }
 
 // Удаление значения из инпута при его фокусе:
@@ -633,6 +621,20 @@ function onBlurInput(input) {
   input.value = input.dataset.value;
 }
 
+// Отображение количества знаков, оставшихся для заполнения в textarea:
+
+function textareaCounter(textarea) {
+  var maxLength = textarea.getAttribute('maxlength');
+  console.log(maxLength);
+  if (maxLength) {
+    var counter = getEl('.counter', textarea.nextElementSibling);
+    console.log(counter);
+    if (counter) {
+      counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
+    }
+  }
+}
+
 // Добавление всплывающих подсказок:
 
 function addTooltips(key) {
@@ -641,6 +643,79 @@ function addTooltips(key) {
     elements.forEach(el => {
       el.setAttribute('tooltip', el.textContent.trim());
     });
+  }
+}
+
+//=====================================================================================================
+// Функции сворачивания/разворачивания контейнеров:
+//=====================================================================================================
+
+// Свернуть/развернуть контейнер:
+
+function toggleEl(name) {
+  if (!name) {
+    return;
+  }
+  var el = getEl(name);
+  if (el) {
+    el.classList.toggle('displayNone');
+  }
+}
+
+// Свернуть/развернуть содержимое контейнера:
+
+function toggleContent(event) {
+  var container = event.currentTarget.closest('.toggle');
+  if (!container || container.classList.contains('disabled')) {
+    return;
+  }
+  var toggleIcon = getEl('.toggle-icon', container);
+  if (!toggleIcon || toggleIcon.style.display === 'none') {
+    return;
+  }
+  container.classList.toggle('close');
+  if (container.id && container.classList.contains('save')) {
+    if (container.classList.contains('close')) {
+      savePosition(container.id, 'close');
+    } else {
+      savePosition(container.id, 'open');
+    }
+  }
+}
+
+// Сохранение данных о состоянии контейнера (открыт/закрыт):
+
+function savePosition(key, value) {
+  var positions = getInfo('positions', 'sessionStorage');
+  if (!positions[pageUrl]) {
+    positions[pageUrl] = {};
+  }
+  positions[pageUrl][key] = value;
+  saveInfo('positions', positions, 'sessionStorage');
+}
+
+// Удаление данных о состоянии контейнеров (открыты/закрыты):
+
+function removePositions() {
+  var positions = getInfo('positions', 'sessionStorage');
+  positions[pageUrl] = {};
+  saveInfo(`positions`, positions, 'sessionStorage');
+}
+
+// Проверка сохраненных положений контейнеров (открыты/закрыты):
+
+function checkPositions() {
+  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
+      el;
+  for (var key in positions) {
+    el = getEl(key);
+    if (el) {
+      if (positions[key] === 'close') {
+        el.classList.add('close');
+      } else {
+        el.classList.remove('close');
+      }
+    }
   }
 }
 
@@ -754,6 +829,15 @@ function getEl(el, area = document) {
   return el || undefined;
 }
 
+// Проверка пустой ли объект:
+
+function isEmptyObj(obj) {
+  if (Object.keys(obj).length) {
+    return false;
+  }
+  return true;
+}
+
 // Динамическая загрузка скриптов:
 
 function loadScript(url) {
@@ -764,6 +848,52 @@ function loadScript(url) {
     script.onerror = reject();
     document.body.appendChild(script);
   });
+}
+
+// Проверка актуальности даты в периоде:
+
+function checkDate(start, end) {
+  var curDate = new Date(),
+      dateStart, dateEnd;
+  if (!start) {
+    dateStart = new Date(data[0], + data[1] - 1, + data[2] - 1, 0, 0, 0, 0);
+  } else {
+    dateStart = start.split('-');
+    dateStart = new Date(dateStart[0], dateStart[1] - 1, dateStart[2], 0, 0, 0, 0);
+  }
+  if (!end) {
+    dateEnd = new Date(data[0], + data[1] - 1, + data[2] + 1, 0, 0, 0, 0);
+  } else {
+    dateEnd = end.split('-');
+    dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], 23, 59, 59, 999);
+  }
+  if (curDate > dateStart && curDate < dateEnd) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//=====================================================================================================
+// Конвертирующие функции:
+//=====================================================================================================
+
+// Кросс-браузерная функция для получения символа из события keypress:
+
+function getChar(event) {
+  if (event.which == null) { // IE
+    if (event.keyCode < 32) {
+      return null; // спец. символ
+    }
+    return String.fromCharCode(event.keyCode);
+  }
+  if (event.which != 0 && event.charCode != 0) { // все кроме IE
+    if (event.which < 32) {
+      return null; // спец. символ
+    }
+    return String.fromCharCode(event.which); // остальные
+  }
+  return null; // спец. символ
 }
 
 // Конвертация всей вложенности свойств объекта в строку:
@@ -784,33 +914,6 @@ function convertToString(obj) {
       }
     }
   }
-}
-
-// Кросс-браузерная функция для получения символа из события keypress:
-
-function getChar(event) {
-  if (event.which == null) { // IE
-    if (event.keyCode < 32) {
-      return null; // спец. символ
-    }
-    return String.fromCharCode(event.keyCode);
-  }
-  if (event.which != 0 && event.charCode != 0) { // все кроме IE
-    if (event.which < 32) {
-      return null; // спец. символ
-    }
-    return String.fromCharCode(event.which); // остальные
-  }
-  return null; // спец. символ
-}
-
-// Проверка пустой ли объект:
-
-function isEmptyObj(obj) {
-  if (Object.keys(obj).length) {
-    return false;
-  }
-  return true;
 }
 
 // Отображение правильного окончания в слове:
@@ -863,30 +966,6 @@ function convertYears(stringYears) {
     }
   }
   return resultYears = resultYears.join('');
-}
-
-// Проверка актуальности даты в периоде:
-
-function checkDate(start, end) {
-  var curDate = new Date(),
-      dateStart, dateEnd;
-  if (!start) {
-    dateStart = new Date(data[0], + data[1] - 1, + data[2] - 1, 0, 0, 0, 0);
-  } else {
-    dateStart = start.split('-');
-    dateStart = new Date(dateStart[0], dateStart[1] - 1, dateStart[2], 0, 0, 0, 0);
-  }
-  if (!end) {
-    dateEnd = new Date(data[0], + data[1] - 1, + data[2] + 1, 0, 0, 0, 0);
-  } else {
-    dateEnd = end.split('-');
-    dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], 23, 59, 59, 999);
-  }
-  if (curDate > dateStart && curDate < dateEnd) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 //=====================================================================================================

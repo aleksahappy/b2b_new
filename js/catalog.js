@@ -12,7 +12,6 @@ var minCard = getEl('.min-card'),
 // Динамически изменяемые переменные:
 
 var view = location.pathname === '/product'? 'product' : 'list',
-    pageUrl = pageId,
     path,
     cartItems = {},
     curItems,
@@ -704,7 +703,7 @@ function initFilters(filter) {
   showElement('filters-container');
   setFilterOnPage(filter);
   clearFiltersInfo();
-  checkFiltersPosition();
+  checkPositions();
   checkFilters();
   createFiltersInfo();
 }
@@ -732,32 +731,6 @@ function setFilterOnPage(filter) {
   }
 }
 
-// Свернуть/развернуть фильтр:
-
-function toggleFilter(event) {
-  var curFilter;
-  if (event.target.closest('.filter-title')) {
-    curFilter = event.currentTarget;
-    if (curFilter.classList.contains('close')) {
-      curFilter.classList.remove('close');
-      saveFilterPosition(curFilter.id, 'open');
-    } else {
-      curFilter.classList.add('close');
-      saveFilterPosition(curFilter.id, 'close');
-    }
-  }
-}
-
-// Свернуть/развернуть подфильтр:
-
-function toggleFilterItem(event) {
-  var filterItem = event.currentTarget.closest('.filter-item');
-  if (filterItem.classList.contains('disabled')) {
-    return;
-  }
-  filterItem.classList.toggle('close');
-}
-
 // Очистка фильтров:
 
 function clearFilters() {
@@ -777,32 +750,11 @@ function clearFilters() {
       }
     });
     removeAllFilters();
-    removeAllFilterPosition();
+    removePositions();
     clearFiltersInfo();
     selectCards();
     setDocumentScroll();
   }
-}
-
-// Сохранение данных о состоянии фильтров (открыт/закрыт):
-
-function saveFilterPosition(key, value) {
-  var positions = getInfo('positions', 'sessionStorage');
-  if (!positions[pageUrl]) {
-    positions[pageUrl] = {};
-  }
-  if (value) {
-    positions[pageUrl][key] = value;
-  }
-  saveInfo('positions', positions, 'sessionStorage');
-}
-
-// Удаление данных о состоянии фильтров (открыт/закрыт):
-
-function removeAllFilterPosition() {
-  var positions = getInfo('positions', 'sessionStorage');
-  positions[pageUrl] = {};
-  saveInfo(`positions`, positions, 'sessionStorage');
 }
 
 //=====================================================================================================
@@ -1062,25 +1014,6 @@ function clearFiltersCatalog() {
     el.classList.remove('checked', 'disabled', );
     el.classList.add('close');
   });
-}
-
-// Проверка сохраненных положений фильтров:
-
-function checkFiltersPosition() {
-  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
-      curEl;
-  if (positions) {
-    for (let key in positions) {
-      curEl = getEl(key);
-      if (curEl) {
-        if (positions[key] == 'close') {
-          curEl.classList.add('close');
-        } else {
-          curEl.classList.remove('close');
-        }
-      }
-    }
-  }
 }
 
 // Выбор сохраненных фильтров на странице или их удаление если их больше нет на странице:

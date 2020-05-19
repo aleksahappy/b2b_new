@@ -191,10 +191,6 @@ body {
   font-size: 0.97em;
 }
 
-.filter.close .filter-items {
-  display: none;
-}
-
 /* =====================================================================================================
 Стили для фильтров OEM:
 ===================================================================================================== */
@@ -306,10 +302,6 @@ body {
   -moz-transition: 300ms;
   -o-transition: 300ms;
   transition: 300ms;
-}
-
-.filter-item.close .filter-subitems {
-  display: none;
 }
 
 .filter-item.subitem {

@@ -241,9 +241,10 @@
 }
 
 #cart-copy {
-  opacity: 0;
   width: 1px;
   height: 1px;
+  padding: 0;
+  opacity: 0;
 }
 
 .table-head .name,
@@ -371,17 +372,28 @@
 Всплывающее окно загрузки данных в корзину:
 ===================================================================================================== */
 
-#load-container .text.light {
+#load-container .pop-up-body .text.light {
   margin-bottom: 1em;
 }
 
+#load-container .pop-up-body .title {
+  margin-bottom: 0.2em;
+}
+
+#load-container .add-from-list {
+  margin-bottom: 2em;
+}
+
 #load-text {
-  display: block;
   width: 100%;
   height: 10em;
-  padding: 0.5em;
   margin-bottom: 1em;
-  border: 1px solid #D5D5D5;;
-  border-radius: 3px;
-  resize: none;
+}
+
+#load-container .add-from-list .btn {
+  align-self: flex-end;
+}
+
+#load-container .file-name {
+  width: 100%;
 }

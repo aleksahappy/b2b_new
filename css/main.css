@@ -8,6 +8,17 @@
   margin: 0;
 }
 
+::-webkit-input-placeholder {color: #8596A6;}
+::-ms-input-placeholder {color: #8596A6;}
+::-ms-input-placeholder {color: #8596A6;}
+::-moz-placeholder {color: #8596A6;}
+:-moz-placeholder {color: #8596A6;}
+::placeholder {color: #8596A6; }
+
+:focus {
+  outline: #34495E auto 5px;
+}
+
 html {
   font-size: 10px;
   -moz-text-size-adjust: none;
@@ -20,7 +31,6 @@ a {
   display: inline-block;
   color: #34548A;
   text-decoration: underline;
-  outline: none;
   cursor: pointer;
 }
 
@@ -46,14 +56,18 @@ input, textarea, select {
   background: none;
   background-color: #FFFFFF;
   border: none;
-  outline: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
 }
 
+input:not([type="submit"]) {
+  outline: none;
+}
+
 input:disabled {
-  opacity: 1
+  opacity: 1;
+  outline: none;
 }
 
 textarea {
@@ -62,6 +76,7 @@ textarea {
   line-height: 1.5;
   border: 1px solid #D5D5D5;
   border-radius: 3px;
+  outline: none;
   resize: none;
 }
 
@@ -73,6 +88,7 @@ select {
   background-image: url(../img/ico_drop_down.png);
   background-repeat: no-repeat;
   background-position: right;
+  outline: none;
 }
 
 textarea:hover,
@@ -90,11 +106,6 @@ ul {
 th {
   font-weight: 400;
 }
-
-::-webkit-input-placeholder {color: #8596A6;}
-::-ms-input-placeholder {color: #8596A6;}
-::-ms-input-placeholder {color: #8596A6;}
-::placeholder {color: #8596A6; }
 
 /* =====================================================================================================
 Основные стили:
@@ -213,6 +224,10 @@ body.no-scroll {
 
 .template {
   visibility: hidden;
+}
+
+.toggle.close .toggle-cont {
+  display: none;
 }
 
 /* =====================================================================================================
@@ -1711,6 +1726,7 @@ form.file input[type="submit"] {
 
 .pop-up-body {
   height: calc(100% - 5em);
+  max-height: calc(90vh - 7em);
   padding: 0 1.5em 2.5em 1.5em;
   overflow-x: hidden;
   overflow-y: auto;
@@ -1738,12 +1754,6 @@ form.file input[type="submit"] {
 .registr {
   width: 33em;
   background-color: #FFFFFF;
-}
-
-.registr #error {
-  display: none;
-  margin-bottom: 1em;
-  text-align: center;
 }
 
 form.registr-form .columns {
@@ -1830,11 +1840,11 @@ form.registr-form .check input {
   cursor: pointer;
 }
 
-form.registr-form .check input:checked ~ .checkbox.icon {
+form.registr-form input:checked ~ .checkbox.icon {
   background-image: url(../img/checkbox_checked.svg);
 }
 
-form.registr-form .check input:checked ~ .select.icon {
+form.registr-form input:checked ~ .select.icon {
   background-image: url(../img/select_check.svg);
 }
 
@@ -2171,7 +2181,6 @@ form.registr-form .unactive {
 }
 
 .full-card .pop-up-body {
-  max-height: calc(90vh - 7em);
   padding: 0;
 }
 
@@ -2655,6 +2664,16 @@ form.registr-form .unactive {
 
 .table-body .w14em {
   min-width: 14em;
+}
+
+/* =====================================================================================================
+Стили страницы авторизации:
+===================================================================================================== */
+
+body#auth #error {
+  font-size: 1em;
+  margin-bottom: 1em;
+  text-align: center;
 }
 
 /* =====================================================================================================
