@@ -160,6 +160,7 @@ section{
 
 .graphics{
 	display: flex;
+	width: 100%;
 	margin-top: 20px;
 }
 
@@ -206,7 +207,7 @@ section{
 	margin-right: 20px;
 }
 
-.table-btns:last-child{
+.table-btn:last-child{
 	margin-right: 0;
 }
 
@@ -246,10 +247,96 @@ section{
 
 .col1{
 	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	min-width: calc(1360px / 3);
 	border-top: 1px solid #cccccc;
 }
 
 .col2{
 	flex: 2;
 	border-top: 1px solid #cccccc;
+}
+
+#desktop-table .table-body{
+	display: block;
+	width: 100%;
+	height: 621px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.table-body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+  background-color: rgba(52,73,94,0.5);
+  border: 3px solid #ffffff;
+  border-radius: 10px;
+}
+
+.table-body::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+
+
+#desktop-table .row{
+	font-size: 0.875em;
+}
+
+.data-sticker{
+	padding: 2px 30px;
+	text-align: center;
+	border: 1px solid transparent;
+	border-radius: 30px;
+	font-size: 0.875em;
+	background: #cccccc;
+}
+
+.sticker1{
+	border: 1px solid #2C6DA8;
+	color: #2C6DA8;
+	background: #EAF0F6;
+}
+
+.sticker2{
+	border: 1px solid #F69C00;
+	color: #F69C00;
+	background: #FEF5E5;
+}
+.sticker3{
+	border: 1px solid #6C4D77;
+	color: #6C4D77;
+	background: #F0EDF1;
+}
+.sticker4{
+	border: 1px solid #3F9726;
+	color: #3F9726;
+	background: #ECF5E9;
+}
+
+#chart1{
+	position: relative;
+	height: 621px;
+}
+
+/* Вторая секция с графикми */
+.info-graphic-1{
+	margin-top: 20px;
+}
+
+.orders-info{
+	position: absolute;
+	top: 36%;
+	left: 25%;
+	width: 200px;
+	height: 100px;
+	text-align: center;
+	font-size: 1.25em;
+	line-height: 1.55em;
 }

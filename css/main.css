@@ -834,7 +834,7 @@ a.btn {
 }
 
 .activate .head .title {
-  color: #666666;
+  color: #34495E;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2180,4 +2180,25 @@ body#err .img {
 
 body#err a {
   font-size: 1.143em;
+}
+
+
+/* Новый новый дизайн */
+.btn{
+  padding: 10px 30px;
+  border: 0;
+  border-radius: 3px;
+  font-size: 0.875em;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.action-btn{
+  background: #34495E;
+}
+
+.fullWidth{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

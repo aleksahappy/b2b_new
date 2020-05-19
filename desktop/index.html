@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="media_index.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
@@ -146,8 +146,8 @@
                   <div class="set set-money">Итого: <div class="money">278 500 руб.</div></div>
                 </div>
               </div>
-
             </section>
+            <!-- Секция "Заказы в работе"-->
             <section class="info-graphic">
               <div class="section-head">
                 <div class="section-title">Заказы в работе</div>
@@ -168,16 +168,992 @@
               </div>
               <div class="graphics">
                 <div class="col1">
-
+                  <div id="chart1">
+                    <div class="orders-info">тест тест тест</div>
+                    <canvas id="myChart"></canvas>
+                  </div>
+                  <div class="fullWidth">
+                    <button class="btn action-btn">Перейти к заказам</button>
+                  </div>
                 </div>
                 <div class="col2">
+                  <div id="desktop-table">
+                    <table class="table">
+                      <tbody class="table-body">
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 FXR</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 509</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
 
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 BCA</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 Jethwear</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 FXR</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Распродажа</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>ЗИП</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>ЗИП</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 FXR</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Распродажа</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 BCA</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">218 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 FXR</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 509</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 BCA</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 Jethwear</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 FXR</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Распродажа</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>ЗИП</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>ЗИП</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 FXR</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker1">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">228 950</div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Распродажа</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Экипировка</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker3">8 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="row">
+                              <div>ТС-567 от 20.03.20</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div>Предзаказ-20 BCA</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker2">118 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="data-sticker sticker4">218 950</div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                          <td>
+                            <div class="row">
+
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
+            </section>
+            <!-- Секция "Рекламация в работе" и "График поставок" -->
+            <section class="info-graphic-1">
+
             </section>
           </main>
           <!-- Правая колонка с баннерами -->
           <aside>
+            <!-- подготовить тут слайдер для меньших брейкпоинтов -->
             <div class="banners">
               <div class="banner">
                 <img src="../img/desktop/banner-desk.svg" alt="banner">
@@ -488,7 +1464,7 @@
     </div>
 
     <script src="../js/main.js"></script>
-    <script src="desktop.js"></script>
+    <!-- <script src="desktop.js"></script> -->
     <script src="../js/charts.js"></script>
   </body>
 </html>
