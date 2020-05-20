@@ -40,7 +40,7 @@ section{
 
 .section-title{
 	font-size: 1.5em;
-	line-height: 1.5em;
+	line-height: 1em;
 	text-transform: uppercase;
 	color: #34495E;
 }
@@ -50,7 +50,7 @@ section{
 .settle{
 	width: 100%;
 	padding: 0 10px 15px 20px;
-	background: #34495E;
+	background: #53606F;
 }
 
 .settle-title{
@@ -239,6 +239,7 @@ section{
 	background: #3F9726 url('../img/desktop/Close.svg') no-repeat 90px center!important;
 }
 
+
 .col1,
 .col2{
 	display: flex;
@@ -252,11 +253,13 @@ section{
 	align-items: center;
 	justify-content: space-between;
 	min-width: calc(1360px / 3);
-	border-top: 1px solid #cccccc;
 }
 
 .col2{
 	flex: 2;
+}
+
+.border-title{
 	border-top: 1px solid #cccccc;
 }
 
@@ -331,6 +334,7 @@ section{
 }
 
 .orders-info{
+	z-index: 0;
 	position: absolute;
 	top: 36%;
 	left: 25%;
@@ -339,4 +343,158 @@ section{
 	text-align: center;
 	font-size: 1.25em;
 	line-height: 1.55em;
+}
+
+.info-graphic-1 .col1{
+	margin-right: 20px;
+	height: 450px;
+	background: #ffffff;
+}
+
+.info-graphic-1 .col2{
+	height: 450px;
+	background: #ffffff;
+}
+
+.col-body{
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	background: #ffffff;
+}
+
+.col-head{
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+.brands-btns{
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+.brand-btn{
+	width: 60px;
+	height: 26px;
+	padding-left: 10px;
+	line-height: 28px;
+	border-radius: 37px;
+	text-align: left;
+	font-size: 0.875em;
+	color: #ffffff;
+	background: url('../img/desktop/Close.svg') no-repeat right center;
+}
+
+.brand-btn:last-child{
+	margin-right: 0;
+}
+
+.status-1{
+	background: #2C6DA8 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+}
+
+.status-2{
+	background: #F69C00 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+}
+
+.status-3{
+	background: #6C4D77 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+}
+
+.status-4{
+	background: #3F9726 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+}
+
+/* График для рекламаций в работе */
+.gauge{
+	width: 100%;
+	max-width: 355px;
+	margin: 0 auto;
+}
+
+.g-body{
+	position: relative;
+	width: 100%;
+	height: 0;
+	padding-bottom: 50%;
+	border-top-left-radius: 100% 200%;
+  border-top-right-radius: 100% 200%;
+	background: #F7AC93;
+	overflow: hidden;
+}
+
+.g-fill{
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: inherit;
+	height: 100%;
+	border-top: 1px solid #ffffff;
+	background: #cccccc;
+	transform-origin: center top;
+	transform: rotate(0.0turn);
+	transition: transform 2s ease-out;
+}
+
+.g-cover{
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	width: 75%;
+	height: 150%;
+	border-radius: 50%;
+	transform: translateX(-50%);
+	background: #ffffff;
+}
+
+.speed-point{
+	z-index: 10;
+	position: absolute;
+	top: 54%;
+	left: 46%;
+	width: 30px;
+	height: 30px;
+	border: 6px solid #34495E;
+	border-radius: 50%;
+	background: #ffffff;
+	transition: .3s linear;
+	transform: rotate(0.21turn);
+	animation: spin 1s linear;
+}
+
+.speed-pointer{
+	z-index: -1;
+	position: absolute;
+	top: -100px;
+	left: -1px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 10px 100px 10px;
+	border-color: transparent transparent #34495E transparent;
+}
+
+@keyframes spin {
+	0%{
+		transform: rotate(-0.25turn);
+	}
+	100% {
+		transform: rotate(0.21turn);
+		}
+	}
+
+.recl-result{
+	margin: 0 auto;
+	width: 78%;
+	font-size: 1.125em;
+	line-height: 1.35em;
+	text-align: center;
+	letter-spacing: -1px;
+	color: #34495E;
+}
+
+.info-graphic-1 .fullWidth{
+	margin-bottom: 10px;
 }

@@ -167,7 +167,7 @@
                 </div>
               </div>
               <div class="graphics">
-                <div class="col1">
+                <div class="col1 border-title">
                   <div id="chart1">
                     <div class="orders-info">тест тест тест</div>
                     <canvas id="myChart"></canvas>
@@ -176,7 +176,7 @@
                     <button class="btn action-btn">Перейти к заказам</button>
                   </div>
                 </div>
-                <div class="col2">
+                <div class="col2 border-title">
                   <div id="desktop-table">
                     <table class="table">
                       <tbody class="table-body">
@@ -1148,7 +1148,57 @@
             </section>
             <!-- Секция "Рекламация в работе" и "График поставок" -->
             <section class="info-graphic-1">
-
+              <div class="graphics">
+                <div class="col1">
+                  <div class="col-body center-col">
+                    <!-- Заголовок секции -->
+                    <div class="section-title">Рекламации в работе</div>
+                    <!-- Диаграмма рекламаций -->
+                    <div class="speed-chart">
+                      <div class="gauge">
+                        <div class="g-body">
+                          <div class="g-fill"></div>
+                          <div class="g-cover"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="speed-point">
+                      <div class="speed-pointer"></div>
+                    </div>
+                    <!-- Текст результата рекламаций -->
+                    <div class="recl-result">
+                      тест тест тест
+                    </div>
+                    <!-- Копка перейти к рекламациям -->
+                    <div class="fullWidth">
+                      <button class="btn action-btn">Перейти к рекламациям</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col2">
+                  <div class="col-body">
+                    <div class="col-head">
+                      <div class="section-title">График поставок</div>
+                      <div class="preorder-toggle">
+                        <div class="toggle-name">Только предзаказы</div>
+                        <div class="toggle">
+                          <div class="toggle-btn"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="brands-btns">
+                      <div class="table-btns">
+                        <div class="brand-btn status-1">BCA</div>
+                        <div class="brand-btn status-2">509</div>
+                        <div class="brand-btn status-4">FXR</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="chart2">
+                    <canvas id="deliveryChart"></canvas>
+                  </div>
+                </div>
+              </div>
             </section>
           </main>
           <!-- Правая колонка с баннерами -->
@@ -1464,7 +1514,6 @@
     </div>
 
     <script src="../js/main.js"></script>
-    <!-- <script src="desktop.js"></script> -->
     <script src="../js/charts.js"></script>
   </body>
 </html>

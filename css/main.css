@@ -81,7 +81,7 @@ body.no-scroll {
 }
 
 .container {
-  margin: 0 4rem;
+  margin: 0 3.125rem;
 }
 
 .container.center {
@@ -2184,6 +2184,14 @@ body#err a {
 
 
 /* Новый новый дизайн */
+
+.center-col{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .btn{
   padding: 10px 30px;
   border: 0;
