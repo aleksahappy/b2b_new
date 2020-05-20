@@ -37,8 +37,8 @@
               </svg> -->
             </div>
             <div class="pop-up-body">
-              <div id="error" class="err">Пользователь не найден</div>
-              <form class="registr-form" action="http://new.topsports.ru/api/user_auth.php" method="post" enctype="multipart/form-data">
+              <div id="error" class="err"></div>
+              <form id="log-in" class="registr-form">
                 <div class="input-wrap">
                   <input type="text" value="" name="login" autocomplete="off" required>
                   <div class="hint">Логин *</span></div>
@@ -47,7 +47,6 @@
                   <input type="password" value="" name="pass" autocomplete="off" required>
                   <div class="hint">Пароль *</div>
                 </div>
-                <input type="hidden" name="redirect" value="">
                 <div class="check-wrap">
                   <label class="check row">
                     <input type="checkbox" value="1" name="remember">
@@ -56,7 +55,7 @@
                   </label>
                 </div>
                 <div class="btns-wrap col">
-                  <input class="active btn" id="enter" type="submit" value="Войти">
+                  <input class="active btn" id="enter" type="submit" value="Войти" onclick="logIn(event)">
                   <a href="registr/" class="unactive btn">Стать дилером</a>
                 </div>
               </form>
@@ -75,11 +74,7 @@
       </div>
     </div>
 
-    <script>
-      if (location.search === '?error=1') {
-        document.getElementById('error').style.display = 'block';
-      }
-    </script>
+    <script src ="js/log_in.js"></script>
 
   </body>
 

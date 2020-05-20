@@ -93,8 +93,7 @@ function startPage() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest.new}api/user_logout.php`)
-  // sendRequest(urlRequest.new, {action: 'logout'})
+  sendRequest(urlRequest.main, {action: 'logout'})
   .then(result => {
     clearLocal();
     document.location.href = '/';
