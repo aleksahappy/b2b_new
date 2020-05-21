@@ -1,36 +1,36 @@
 'use strict';
+//  Находит сумму элементов массива
+
+function arraySum(arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  return sum;
+}
+
+
 // Диаграмма "Заказы в работе"
+
 const ordersProgress = () => {
   //  тестовые данные
-  // кол-во заказов
-  let data1 = [4, 3, 2, 1];
-  //  суммы состояний заказов
-  let data1Sum = [203600, 50000, 530000, 1000000];
+  let data1 = [4, 3, 2, 1]; // кол-во заказов
+  let data1Sum = [203600, 50000, 530000, 1000000];  //  суммы состояний заказов
   let test1 = arraySum(data1);
   let test2 = arraySum(data1Sum);
 
-  //  Находит сумму элементов массива
-  function arraySum(arr) {
-    let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
-      sum += arr[i];
-    }
-    return sum;
-  }
-  //  контейнер с текстом внутри диаграммы
-  const ordersInfo = document.querySelector('.orders-info');
+  const ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
   ordersInfo.textContent = `${test1} активных заказов на общую сумму ${test2} руб.`;
   const ordersChart = document.getElementById('myChart').getContext('2d');  //  canvas диаграммы
   ordersChart.canvas.parentNode.style.height = '393px';
   ordersChart.canvas.parentNode.style.width = '393px';
 
   const chart = new Chart(ordersChart, {
-      // тип графика
-      type: 'doughnut',
+      type: 'doughnut', // тип графика
 
       // Отображение данных
       data: {
-          //  В тултипах при наведение на шкалы графика
+          //  Название линии
           labels: [`Ожидается заказов`, `Товар отгружен: заказов`, `Собрано заказов`, `В наличии`],
           //  Настройка отображения данных
           datasets: [{
@@ -72,6 +72,7 @@ const ordersProgress = () => {
 ordersProgress();
 
 
+
 //  Диаграмма "Рекламации в работе"
 
 const speedChart = () => {
@@ -98,73 +99,179 @@ const speedChart = () => {
 speedChart();
 
 
+
 //  График поставок
 
 const deliveryProgress = () => {
   //  тестовые данные
-  // кол-во заказов
-  let data1 = [4, 3, 2, 1];
-  //  суммы состояний заказов
-  let data1Sum = [203600, 50000, 530000, 1000000];
-  let test1 = arraySum(data1);
-  let test2 = arraySum(data1Sum);
+  let data1 = [540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000]; // данные для синей линии
+  let data2 = [350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400]; // данные для оранжевой линии
+  let data3 = [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000]; // данные для зеленой линии
 
-  //  Находит сумму элементов массива
-  function arraySum(arr) {
-    let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
-      sum += arr[i];
-    }
-    return sum;
-  }
+  //let test1 = arraySum(data1);
+  //let test2 = arraySum(data1Sum);
 
   const deliveryСhart = document.getElementById('deliveryChart').getContext('2d'); //  canvas диаграммы
+    deliveryСhart.canvas.parentNode.style.width = '100%';
+    deliveryСhart.canvas.parentNode.style.height = '258px';
 
-  const lineChart = new Chart(deliveryСhart, {
+  const chart = new Chart(deliveryСhart, {
     type: 'line',
+    // Отображение данных
     data: {
-        //  В тултипах при наведение на шкалы графика
-        labels: [`Ожидается заказов`, `Товар отгружен: заказов`, `Собрано заказов`, `В наличии`],
-        //  Настройка отображения данных
-        datasets: [{
-            //
-            label: true,
-            //  цвета шкал графика
-            backgroundColor: ['#96B6D3', '#9FCB93', '#B5A6BB', '#FBCD80'],
-            //  цвет бордера шкал и графика
-            borderColor: 'transparent',
-            //  данные для отображения
-            data: [{
-              x: 10,
-              y: 20
-            }, {
-              x: 15,
-              y: 30
-            }, {
-              x: 5,
-              y: 10
-            }]
-        }]
+      labels: ["21 нед.",	"22 нед.",	"23 нед.",	"24 нед.",	"25 нед.",	"26 нед.",	"27 нед.", "28 нед."],
+      //  Настройка отображения данных
+      datasets: [{
+          label: 'BCA', //  Название линии
+          data: [0, 540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000], // подключение данных
+          fill: false,
+          borderColor: '#34495E', // цвет линии
+          backgroundColor: '#ffffff', // заливка поинта
+          borderWidth: 3 // толщина линии
+      }, {
+          label: '509', //  Название линии
+          data: [0, 350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400], // подключение данных
+          fill: false,
+          borderColor: '#F69C00', // цвет линии
+          backgroundColor: '#ffffff', // заливка поинта
+          borderWidth: 3 // толщина линии
+      }, {
+          label: 'FXR', //  Название линии
+          data: [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000], // подключение данных
+          fill: false,
+          borderColor: '#3F9726', // цвет линии
+          backgroundColor: '#ffffff', // заливка поинта
+          borderWidth: 3 // толщина линии
+      }]
     },
     options: {
-      // ширина "кольца"
-      cutoutPercentage: 70,
+      //  "выпрямление" линий
+      elements: {
+        line: {
+          tension: 0,
+        }
+      },
       // отключение легенды
       legend: {
         display: false
       },
-      //  отступы графика
-      layout: {
-        padding: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0
-        }
+      responsive: true, // адаптивность
+      maintainAspectRatio: false, // отклюдчаем лишнее свободное пространство вокруг графика
+    }
+});
+
+}
+deliveryProgress();
+
+
+
+//  График "Ежегодная динамика товарооборота"
+
+const productsBarChart = () => {
+  //  тестовые данные
+  let data = [1400000, 7980548, 4100675, 15880000, 10245014];
+  const barChart = document.getElementById('barChart').getContext('2d'); //  canvas диаграмм
+  barChart.canvas.parentNode.style.width = '100%';
+  barChart.canvas.parentNode.style.height = '258px';
+
+  const cart = new Chart(barChart, {
+    type: 'bar',  // тип графика
+    // Отображение данных
+    data: {
+      labels: ['2017','2018', '2019', '2020', '2021'],
+      //  Настройка отображения данных
+      datasets: [{
+        label: 'test',  //  название диаграммы
+        barPercentage: 0.5,
+        barThickness: 6,
+        maxBarThickness: 8,
+        minBarLength: 1,
+        data: [1400000, 7980548, 4100675, 15880000, 10245014],
+        backgroundColor: ['#9FCB93', '#F7AC93', '#96B6D3', '#B5A6BB', '#FBCD80']
+      }]
+    },
+    options: {
+      legend: false,  // отображение/скрытие названия диаграммы
+      scales: {
+        xAxes: [{
+          gridLines: {
+            offsetGridLines: true,
+            drawOnChartArea: false  //  убрать/показать сетку
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            beginAtZero: true //  начало всегда с нуля
+          },
+          gridLines: {
+            offsetGridLines: true,
+            drawOnChartArea: false  //  убрать/показать сетку
+          }
+        }]
       },
-      //  отклюдчаем лишнее свободное пространство вокруг графика
-      maintainAspectRatio: false
+      responsive: true, // адаптивность
+      maintainAspectRatio: false, // отклюдчаем лишнее свободное пространство вокруг графика
     }
   });
 }
-deliveryProgress();
+productsBarChart();
+
+
+//  Диаграмма "Доля закупок по производителям"
+
+const procurementPieChart = () => {
+  //  тестовые данные
+  let data1 = [5000000, 2400333, 5600450, 3500400,4005600,5000000]; // кол-во заказов
+  let data1Sum = [203600, 50000, 530000, 1000000, 10000, 200000];  //  суммы состояний заказов
+  let test1 = arraySum(data1);
+  let test2 = arraySum(data1Sum);
+
+  const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
+  procurementChart.canvas.parentNode.style.height = '280px';
+  procurementChart.canvas.parentNode.style.width = '280px';
+
+  const chart = new Chart(procurementChart, {
+      type: 'doughnut', // тип графика
+
+      // Отображение данных
+      data: {
+          //  Название линии
+          labels: ['BCA', 'Jethwear', '509', 'FXR', 'Abom', 'Ogio'],
+          //  Настройка отображения данных
+          datasets: [{
+              //
+              label: false,
+              //  цвета шкал графика
+              backgroundColor: ['#96B6D3', '#CDC9CB', '#F8AD94', '#B5A6BB', '#9FCB93', '#FBCD80'],
+              //  цвет бордера шкал и графика
+              borderColor: '#ffffff',
+              //  данные для отображения
+              data: [data1[0], data1[1], data1[2], data1[3], data1[4], data1[5]]
+          }]
+      },
+
+      // Настройки отображения графика
+      options: {
+        // ширина "кольца"
+        cutoutPercentage: 70,
+        // отключение легенды
+        legend: {
+          display: false
+        },
+        //  поворот угла стартового значения
+        rotation: 4,
+        //  отступы графика
+        layout: {
+          padding: {
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10
+          }
+        },
+        //  отклюдчаем лишнее свободное пространство вокруг графика
+        maintainAspectRatio: false
+      }
+  });
+};
+procurementPieChart();

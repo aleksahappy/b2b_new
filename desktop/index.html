@@ -1150,7 +1150,7 @@
             <section class="info-graphic-1">
               <div class="graphics">
                 <div class="col1">
-                  <div class="col-body center-col">
+                  <div class="col-wrapper center-col">
                     <!-- Заголовок секции -->
                     <div class="section-title">Рекламации в работе</div>
                     <!-- Диаграмма рекламаций -->
@@ -1176,8 +1176,9 @@
                   </div>
                 </div>
                 <div class="col2">
-                  <div class="col-body">
-                    <div class="col-head">
+                  <div class="col-wrapper">
+                    <div class="col-body">
+                      <!-- Заголовок секции -->
                       <div class="section-title">График поставок</div>
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
@@ -1193,9 +1194,79 @@
                         <div class="brand-btn status-4">FXR</div>
                       </div>
                     </div>
+                    <div id="chart2">
+                      <canvas id="deliveryChart"></canvas>
+                    </div>
+                    <div class="txt">Оплатить товар необходимо в течение 5 рабочих дней, с момента получения уведомления о поступлении на склад.</div>
                   </div>
-                  <div id="chart2">
-                    <canvas id="deliveryChart"></canvas>
+                </div>
+              </div>
+            </section>
+            <section class="info-graphic-2">
+              <div class="graphics">
+                <div class="col2 ">
+                  <div class="col-wrapper center-col">
+                    <div class="col-body">
+                      <!-- Заголовок секции -->
+                      <div class="section-title">Ежегодная динамика товарооборота</div>
+                      <!-- тоггл "Только предзаказы" -->
+                      <div class="preorder-toggle">
+                        <div class="toggle-name">Только предзаказы</div>
+                        <div class="toggle">
+                          <div class="toggle-btn"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="chart3">
+                      <canvas id="barChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="col1">
+                  <div class="col-wrapper center-col">
+                    <!-- Заголовок секции -->
+                    <div class="section-title">Доля закупок по <br> производителям</div>
+                    <div class="chart-wrapper">
+                      <div id="chart4">
+                        <canvas id="procurementChart"></canvas>
+                      </div>
+                      <legend>
+                        <select placeholder="Выберите год">
+                          <option value="" disabled selected>Выберите год</option>
+                          <option value="2017">2017</option>
+                          <option value="2018">2018</option>
+                          <option value="2019">2019</option>
+                          <option value="2020">2020</option>
+                          <option value="2021">2021</option>
+                        </select>
+                        <div class="list">
+                          <div class="item">
+                            <div></div>
+                            <div>BCA</div>
+                          </div>
+                          <div class="item">
+                            <div></div>
+                            <div>Jethwear</div>
+                          </div>
+                          <div class="item">
+                            <div></div>
+                            <div>509</div>
+                          </div>
+                          <div class="item">
+                            <div></div>
+                            <div>FXR</div>
+                          </div>
+                          <div class="item">
+                            <div></div>
+                            <div>Abom</div>
+                          </div>
+                          <div class="item">
+                            <div></div>
+                            <div>Ogio</div>
+                          </div>
+                        </div>
+                      </legend>
+                    </div>
                   </div>
                 </div>
               </div>
