@@ -569,31 +569,19 @@
     <script src ="../js/main.js"></script>
     <script>
       'use strict';
-      sendRequest(`/data.json`)
+      sendRequest(urlRequest.main, {action: 'orderslist'})
       .then(result => {
         var data = JSON.parse(result);
-        console.log(data);
-        window['orderslistData'] = data;
+        if (data.orderslist) {
+          // console.log(data.orderslist);
+          window['orderslistData'] = data.orderslist;
+        }
         initTables();
       })
       .catch(err => {
-        console.log(err);
+        console.log('err');
         initTables();
       });
-
-      // sendRequest(urlRequest.main, {action: 'orderslist'})
-      // .then(result => {
-      //   var data = JSON.parse(result);
-      //   if (data.orderslist) {
-      //     // console.log(data.orderslist);
-      //     window['orderslistData'] = data.orderslist;
-      //   }
-      //   initTables();
-      // })
-      // .catch(err => {
-      //   console.log('err');
-      //   initTables();
-      // });
     </script>
 
   </body>
