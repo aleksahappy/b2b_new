@@ -1,58 +1,27 @@
-/* Перенесено из 404 */
-
-/* @media (max-width: 1493px) {
-  #alerts-body .message .icon {
-    margin-right: 0.7vw;
-  }
-}
-
-@media (max-width: 1376px) {
-  .activate {
-    min-width: 1vw;
-  }
-}
-
-@media (max-width: 1269px) {
-  #menu {
-    display: none;
+@media (max-width: 1575px) {
+  .header .header-top{
+    font-size: 1em;
   }
 
-  .sandwich {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 34px;
-    height: 21px;
-    cursor: pointer;
+  .main .container,
+  .header .container{
+    margin: 0 1.875rem;
   }
 
-  .sandwich span {
-    width: 100%;
-    height: 3px;
-    background: #454D56;
+  .header .header-top{
+    font-size: 1em;
   }
 
-  .header-top .container {
+  .header-top .activate .head {
+    width: 12em!important;
     height: 100%;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
+    border: none;
   }
 
-  .header-top .logo {
-    height: 32px;
-    margin-right: 0;
-    margin-left: 13vw;
-  }
 }
 
-@media (max-width: 700px) {
-  .header-top .logo {
-    margin-right: 3vw;
-  }
 
-  .header-top .logo img {
-    max-height: 32px;
-    max-width: 100%;
-    min-width: 110px;
-  }
-} */
+@media (max-width: 1367px) {
+
+}

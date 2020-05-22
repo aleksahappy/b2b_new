@@ -42,6 +42,9 @@ var website = document.body.dataset.website,
 
 // Динамически изменяемые переменные:
 
+var pageUrl = pageId,
+    scrollTop;
+
 if (isCart) {
   var cartId = pageId,
       cartTotals = [],
@@ -59,10 +62,10 @@ if (message) {
 
 // Запускаем рендеринг страницы:
 
-startPage();
+//startPage();
 
 //=====================================================================================================
-// Общие действия на всех страницах:
+// Обязательные функции для всех страниц:
 //=====================================================================================================
 
 // Запуск страницы:
@@ -70,7 +73,7 @@ startPage();
 function startPage() {
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
   if (path !== '') {
-    //loader.show();  //  запуск работы лоадера
+    loader.show();
   }
   setPaddingToBody();
   showUserInfo();
@@ -90,8 +93,7 @@ function startPage() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(`${urlRequest.new}api/user_logout.php`)
-  // sendRequest(urlRequest.new, {action: 'logout'})
+  sendRequest(urlRequest.main, {action: 'logout'})
   .then(result => {
     clearLocal();
     document.location.href = '/';
@@ -300,7 +302,7 @@ function getDataFromTotals(type) {
 }
 
 //=====================================================================================================
-// Сортировка массива:
+// Сортировка массивов:
 //=====================================================================================================
 
 // Сортировка массива объектов по указанному значению:
@@ -326,7 +328,7 @@ function dynamicSort(prop) {
 }
 
 //=====================================================================================================
-// Сортировка объекта:
+// Сортировка объектов:
 //=====================================================================================================
 
 // Сортировка по ключу:
@@ -376,7 +378,7 @@ function sortObjByValue(obj, type = 'string') {
 }
 
 //=====================================================================================================
-// Сохранение и извлечение данных на компьютере пользователя:
+// Работа со storage и cookie:
 //=====================================================================================================
 
 // Получение данных о странице по ключу:
@@ -551,7 +553,7 @@ function deleteCookie(key) {
 }
 
 //=====================================================================================================
-// Визуальное отображение контента на странице:
+// Функции для работы с контентом на странице:
 //=====================================================================================================
 
 // Установка отступов документа:
@@ -593,8 +595,6 @@ function hideElement(el) {
 
 // Получение текущей прокрутки документа:
 
-var scrollTop;
-
 function getDocumentScroll() {
   scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 }
@@ -604,18 +604,6 @@ function getDocumentScroll() {
 function setDocumentScroll(top = scrollTop) {
   document.documentElement.scrollTop = top;
   document.body.scrollTop = top;
-}
-
-// Открытие/закрытие поля формы для добавления адреса вручную:
-
-function toggleAddByHand() {
-  getEl('add-hand').classList.toggle('displayNone')
-}
-
-// Отображение количества знаков, оставшихся в поле комментариев:
-
-function countSigns(textarea) {
-  getEl('textarea-counter').textContent = 300 - textarea.value.length;
 }
 
 // Удаление значения из инпута при его фокусе:
@@ -632,6 +620,18 @@ function onBlurInput(input) {
   input.value = input.dataset.value;
 }
 
+// Отображение количества знаков, оставшихся для заполнения в textarea:
+
+function textareaCounter(textarea) {
+  var maxLength = textarea.getAttribute('maxlength');
+  if (maxLength) {
+    var counter = getEl('.counter', textarea.nextElementSibling);
+    if (counter) {
+      counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
+    }
+  }
+}
+
 // Добавление всплывающих подсказок:
 
 function addTooltips(key) {
@@ -640,6 +640,79 @@ function addTooltips(key) {
     elements.forEach(el => {
       el.setAttribute('tooltip', el.textContent.trim());
     });
+  }
+}
+
+//=====================================================================================================
+// Функции сворачивания/разворачивания контейнеров:
+//=====================================================================================================
+
+// Свернуть/развернуть контейнер:
+
+function toggleEl(name) {
+  if (!name) {
+    return;
+  }
+  var el = getEl(name);
+  if (el) {
+    el.classList.toggle('displayNone');
+  }
+}
+
+// Свернуть/развернуть содержимое контейнера:
+
+function toggleContent(event) {
+  var container = event.currentTarget.closest('.toggle');
+  if (!container || container.classList.contains('disabled')) {
+    return;
+  }
+  var toggleIcon = getEl('.toggle-icon', container);
+  if (!toggleIcon || toggleIcon.style.display === 'none') {
+    return;
+  }
+  container.classList.toggle('close');
+  if (container.id && container.classList.contains('save')) {
+    if (container.classList.contains('close')) {
+      savePosition(container.id, 'close');
+    } else {
+      savePosition(container.id, 'open');
+    }
+  }
+}
+
+// Сохранение данных о состоянии контейнера (открыт/закрыт):
+
+function savePosition(key, value) {
+  var positions = getInfo('positions', 'sessionStorage');
+  if (!positions[pageUrl]) {
+    positions[pageUrl] = {};
+  }
+  positions[pageUrl][key] = value;
+  saveInfo('positions', positions, 'sessionStorage');
+}
+
+// Удаление данных о состоянии контейнеров (открыты/закрыты):
+
+function removePositions() {
+  var positions = getInfo('positions', 'sessionStorage');
+  positions[pageUrl] = {};
+  saveInfo(`positions`, positions, 'sessionStorage');
+}
+
+// Проверка сохраненных положений контейнеров (открыты/закрыты):
+
+function checkPositions() {
+  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
+      el;
+  for (var key in positions) {
+    el = getEl(key);
+    if (el) {
+      if (positions[key] === 'close') {
+        el.classList.add('close');
+      } else {
+        el.classList.remove('close');
+      }
+    }
   }
 }
 
@@ -753,6 +826,57 @@ function getEl(el, area = document) {
   return el || undefined;
 }
 
+// Проверка пустой ли объект:
+
+function isEmptyObj(obj) {
+  if (Object.keys(obj).length) {
+    return false;
+  }
+  return true;
+}
+
+// Изменение свойств css непосредственно в css-документе:
+
+function changeCss(selector, key, value) {
+  var docStyles = Array.from(document.styleSheets),
+      docPath = location.href.replace('index.html', '').replace(/\?.*/gi, '') + 'index.css',
+      curStyle = docStyles.find(el => el.href === docPath);
+  if (curStyle) {
+    var rules = curStyle.cssRules || curStyle.rules,
+        rule;
+    for (var el of rules) {
+      if (el.selectorText === selector) {
+        rule = el;
+        break;
+      }
+    }
+    if (!rule) {
+      curStyle.insertRule(selector + '{}', curStyle.rules.length);
+      rule = rules[rules.length - 1];
+    }
+    if (Array.isArray(key)) {
+      key.forEach(curKey => rule.style[curKey] = value);
+    } else if (typeof key === 'string') {
+      rule.style[key] = value;
+    }
+  }
+}
+
+// Ограничение частоты вызова функций:
+
+function throttle(callback) {
+  let isWaiting = false;
+    return function () {
+    if (!isWaiting) {
+      callback.apply(this, arguments);
+      isWaiting = true;
+      requestAnimationFrame(() => {
+        isWaiting = false;
+    });
+    }
+  }
+}
+
 // Динамическая загрузка скриптов:
 
 function loadScript(url) {
@@ -763,6 +887,52 @@ function loadScript(url) {
     script.onerror = reject();
     document.body.appendChild(script);
   });
+}
+
+// Проверка актуальности даты в периоде:
+
+function checkDate(start, end) {
+  var curDate = new Date(),
+      dateStart, dateEnd;
+  if (!start) {
+    dateStart = new Date(data[0], + data[1] - 1, + data[2] - 1, 0, 0, 0, 0);
+  } else {
+    dateStart = start.split('-');
+    dateStart = new Date(dateStart[0], dateStart[1] - 1, dateStart[2], 0, 0, 0, 0);
+  }
+  if (!end) {
+    dateEnd = new Date(data[0], + data[1] - 1, + data[2] + 1, 0, 0, 0, 0);
+  } else {
+    dateEnd = end.split('-');
+    dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], 23, 59, 59, 999);
+  }
+  if (curDate > dateStart && curDate < dateEnd) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//=====================================================================================================
+// Конвертирующие функции:
+//=====================================================================================================
+
+// Кросс-браузерная функция для получения символа из события keypress:
+
+function getChar(event) {
+  if (event.which == null) { // IE
+    if (event.keyCode < 32) {
+      return null; // спец. символ
+    }
+    return String.fromCharCode(event.keyCode);
+  }
+  if (event.which != 0 && event.charCode != 0) { // все кроме IE
+    if (event.which < 32) {
+      return null; // спец. символ
+    }
+    return String.fromCharCode(event.which); // остальные
+  }
+  return null; // спец. символ
 }
 
 // Конвертация всей вложенности свойств объекта в строку:
@@ -783,33 +953,6 @@ function convertToString(obj) {
       }
     }
   }
-}
-
-// Кросс-браузерная функция для получения символа из события keypress:
-
-function getChar(event) {
-  if (event.which == null) { // IE
-    if (event.keyCode < 32) {
-      return null; // спец. символ
-    }
-    return String.fromCharCode(event.keyCode);
-  }
-  if (event.which != 0 && event.charCode != 0) { // все кроме IE
-    if (event.which < 32) {
-      return null; // спец. символ
-    }
-    return String.fromCharCode(event.which); // остальные
-  }
-  return null; // спец. символ
-}
-
-// Проверка пустой ли объект:
-
-function isEmptyObj(obj) {
-  if (Object.keys(obj).length) {
-    return false;
-  }
-  return true;
 }
 
 // Отображение правильного окончания в слове:
@@ -864,30 +1007,6 @@ function convertYears(stringYears) {
   return resultYears = resultYears.join('');
 }
 
-// Проверка актуальности даты в периоде:
-
-function checkDate(start, end) {
-  var curDate = new Date(),
-      dateStart, dateEnd;
-  if (!start) {
-    dateStart = new Date(data[0], + data[1] - 1, + data[2] - 1, 0, 0, 0, 0);
-  } else {
-    dateStart = start.split('-');
-    dateStart = new Date(dateStart[0], dateStart[1] - 1, dateStart[2], 0, 0, 0, 0);
-  }
-  if (!end) {
-    dateEnd = new Date(data[0], + data[1] - 1, + data[2] + 1, 0, 0, 0, 0);
-  } else {
-    dateEnd = end.split('-');
-    dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], 23, 59, 59, 999);
-  }
-  if (curDate > dateStart && curDate < dateEnd) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 //=====================================================================================================
 // Переход на другие страницы:
 //=====================================================================================================
@@ -895,7 +1014,7 @@ function checkDate(start, end) {
 // Переход на страницу заказа:
 
 function showOrder(id) {
-  location.href = '/order/?order_id=' + id;
+  window.open(`/order/?${id}`);
 }
 
 // Переход на страницу рекламации:
@@ -1146,6 +1265,93 @@ function goToTop() {
   } else if (scrolled > 5000) {
     window.scrollTo(0, 5000);
     goToTop();
+  }
+}
+
+//=====================================================================================================
+// Работа c полной карточкой товара и изображением на весь экран:
+//=====================================================================================================
+
+// Отображение полной карточки товара:
+
+function showFullCard(id) {
+  event.preventDefault();
+  loader.show();
+  var fullCardContainer = getEl('full-card-container');
+  fullCardContainer.style.opacity = 0;
+  openPopUp(fullCardContainer);
+
+  fillTemplate({
+    area: fullCardContainer,
+    items: curItems.find(item => item.object_id == id),
+    sub: [{
+      area: '.carousel-item',
+      items: 'images'
+    }, {
+      area: '.card-size',
+      items: 'sizes'
+    }, {
+      area: '.card-option',
+      items: 'options'
+    }, {
+      area: '.manuf-row',
+      items: 'manuf_table'
+    }]
+  });
+  checkCart(getEl('.full-card'));
+
+  var curCarousel = getEl('.carousel', fullCardContainer);
+  renderCarousel(curCarousel)
+  .then(
+    result => {
+      if (getEl('img', curCarousel).src.indexOf('/no_img.jpg') === -1) {
+        getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
+        getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
+      }
+    }
+  );
+  fullCardContainer.style.opacity = 1;
+  loader.hide();
+}
+
+// Открытие картинки полного размера:
+
+function showFullImg(event, id) {
+  if (event.target.classList.contains('control')) {
+    return;
+  }
+  loader.show();
+  var fullImgContainer = getEl('full-img-container');
+  fullImgContainer.style.opacity = 0;
+  openPopUp(fullImgContainer);
+
+  fillTemplate({
+    area: fullImgContainer,
+    items: curItems.find(item => item.object_id == id),
+    sub: [{
+      area: '.carousel-item',
+      items: 'images'
+    }]
+  });
+
+  var curCarousel = getEl('.carousel', fullImgContainer),
+      curImg = event.currentTarget.closest('.carousel').dataset.img;
+
+  renderCarousel(curCarousel, curImg)
+  .then(
+    result => {
+      getEl('full-card-container').style.opacity = 0;
+      fullImgContainer.style.opacity = 1;
+      loader.hide();
+    }
+  );
+}
+
+// Закрытие картинки полного размера:
+
+function closeFullImg(event) {
+  if (closePopUp(event)) {
+    getEl('full-card-container').style.opacity = 1;
   }
 }
 
@@ -1545,13 +1751,13 @@ function Table(obj) {
   // Элементы для работы:
   this.table = obj;
   this.tab = getEl(`.tab.${obj.id}`);
-  this.head = getEl('.table-head', obj);
+  this.head = getEl('thead', obj);
   this.results = getEl('.results', this.head);
-  this.body = getEl('.table-body', obj);
-  this.resizeBtns = this.head.querySelectorAll('.resize-btn');
-  this.dropDown = obj.querySelectorAll('.activate');
-  this.sort = obj.querySelectorAll('.sort');
-  this.search = obj.querySelectorAll('.search');
+  this.body = getEl('tbody', obj);
+  // this.resizeBtns = this.head.querySelectorAll('.resize-btn');
+  // this.dropDown = obj.querySelectorAll('.activate');
+  // this.sort = obj.querySelectorAll('.sort');
+  // this.search = obj.querySelectorAll('.search');
 
   // Динамические переменные:
   this.countItems = 0;
@@ -1569,26 +1775,26 @@ function Table(obj) {
 
     this.table.addEventListener('scroll', () => this.scrollTable());
 
-    if (this.resizeBtns.length > 0) {
-      this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
-      this.table.addEventListener('mouseleave', () => this.stopResize());
-      document.addEventListener('mousemove', event => this.resize(event));
-      document.addEventListener('mouseup', () => this.stopResize());
-    }
+    // if (this.resizeBtns.length > 0) {
+    //   this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
+    //   this.table.addEventListener('mouseleave', () => this.stopResize());
+    //   document.addEventListener('mousemove', event => this.resize(event));
+    //   document.addEventListener('mouseup', () => this.stopResize());
+    // }
 
-    this.dropDown.forEach(el => {
-      el.addEventListener('change', event => this.filterData(event, el.dataset.key));
-    });
+    // this.dropDown.forEach(el => {
+    //   el.addEventListener('change', event => this.filterData(event, el.dataset.key));
+    // });
 
-    this.sort.forEach(el => {
-      el.addEventListener('click', event => this.sortData(event, el.dataset.key, el.dataset.type));
-    });
+    // this.sort.forEach(el => {
+    //   el.addEventListener('click', event => this.sortData(event, el.dataset.key, el.dataset.type));
+    // });
 
-    this.search.forEach(el => {
-      el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
-      getEl('.search.icon', el).addEventListener(event => this.searchData(event, el.dataset.key));
-      getEl('.close.icon', el).addEventListener(event => this.clearSearch(event, el.dataset.key));
-    });
+    // this.search.forEach(el => {
+    //   el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
+    //   getEl('.search.icon', el).addEventListener(event => this.searchData(event, el.dataset.key));
+    //   getEl('.close.icon', el).addEventListener(event => this.clearSearch(event, el.dataset.key));
+    // });
   }
   this.setEventListeners();
 
@@ -1597,6 +1803,7 @@ function Table(obj) {
     if (this.tab) {
       showElement(this.tab, 'flex');
       if (!this.data.length) {
+
         if (!this.tab.classList.contains('nomen')) {
           this.tab.classList.add('disabled');
         }
@@ -1656,7 +1863,7 @@ function Table(obj) {
       this.body.innerHTML = list;
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
-      this.alignBody();
+      this.align();
     };
   }
 
@@ -1672,54 +1879,28 @@ function Table(obj) {
     if (!this.results || !this.itemsToLoad || !this.itemsToLoad.length) {
       return;
     }
-    this.results.querySelectorAll('.result').forEach(result => {
+    this.results.querySelectorAll('[data-key]').forEach(result => {
       var total = 0;
       this.itemsToLoad.forEach(el => {
         if (el[result.dataset.key]) {
           total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
         }
       });
-      result.textContent = Math.round(total).toLocaleString('ru-RU');
+      // console.log(total);
+      result.textContent = (Math.round(total * 100)/100).toLocaleString('ru-RU');
     });
   }
 
-  // Выравнивание столбцов таблицы при загрузке:
-  this.alignHead = function() {
-    if (!this.head) {
-      return;
-    }
-    var headCells = this.head.querySelectorAll('tr:first-child > th');
-    headCells.forEach(headCell => {
-      var bodyCell = getEl(`tr:first-child > td:nth-child(${headCell.id})`, this.body);
-      if (bodyCell) {
-        var newWidth = bodyCell.offsetWidth;
-        headCell.style.width = newWidth + 'px';
-        headCell.style.minWidth = newWidth + 'px';
-        headCell.style.maxWidth = newWidth + 'px';
-        this.body.querySelectorAll(`td:nth-child(${headCell.id})`).forEach(bodyCell => {
-          var newWidth = headCell.offsetWidth;
-          bodyCell.style.width = newWidth + 'px';
-          bodyCell.style.minWidth = newWidth + 'px';
-          bodyCell.style.maxWidth = newWidth + 'px';
-        });
-      }
-    });
-  }
-
-  // Выравнивание столбцов таблицы при последующей подгрузке:
-  this.alignBody = function() {
-    if (!this.head) {
-      return;
-    }
-    var headCells = this.head.querySelectorAll('tr:first-child > th');
-    headCells.forEach(headCell => {
-      this.body.querySelectorAll(`td:nth-child(${headCell.id})`).forEach(bodyCell => {
-        var newWidth = headCell.offsetWidth;
-        bodyCell.style.width = newWidth + 'px';
-        bodyCell.style.minWidth = newWidth + 'px';
-        bodyCell.style.maxWidth = newWidth + 'px';
+  // Выравнивание столбцов таблицы:
+  this.align = function() {
+    var bodyCells = this.body.querySelectorAll('tr:first-child > td');
+    if (bodyCells) {
+      bodyCells.forEach((el, index) => {
+        var newWidth = el.offsetWidth  + 'px';
+        changeCss(`#${this.table.id} th:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+        changeCss(`#${this.table.id} td:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
       });
-    });
+    }
   }
 
   // Открытие таблицы при клике на вкладку:
@@ -1773,25 +1954,14 @@ function Table(obj) {
   }
 
   // Перетаскивание столбца:
-  this.resize = function(event) {
+  this.resize = throttle((event) => {
     if (this.curColumn) {
       var newWidth = this.startOffset + event.pageX;
-          newWidth = newWidth > 3 ? newWidth + 'px' : '3px';
-      this.curColumn.style.width = newWidth;
-      this.curColumn.style.minWidth = newWidth;
-      this.curColumn.style.maxWidth = newWidth;
-      this.head.querySelectorAll(`th:nth-child(${this.curColumn.id})`).forEach(el => {
-        el.style.width = newWidth;
-        el.style.minWidth = newWidth;
-        el.style.maxWidth = newWidth;
-      });
-      this.body.querySelectorAll(`td:nth-child(${this.curColumn.id})`).forEach(el => {
-        el.style.width = newWidth;
-        el.style.minWidth = newWidth;
-        el.style.maxWidth = newWidth;
-      });
+          newWidth = newWidth > 36 ? newWidth + 'px' : '36px';
+      changeCss(`#${this.table.id} th:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+      changeCss(`#${this.table.id} td:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
     }
-  }
+  });
 
   // Остановка перетаскивания столбца:
   this.stopResize = function() {
@@ -1802,7 +1972,7 @@ function Table(obj) {
   this.show = function() {
     showElement(this.table);
     loader.hide();
-    this.alignHead();
+    this.align();
     this.table.classList.add('active');
   }
 

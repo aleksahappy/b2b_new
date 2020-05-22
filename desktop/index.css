@@ -4,6 +4,32 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
+.center-col{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn{
+  padding: 10px 30px;
+  border: 0;
+  border-radius: 3px;
+  font-size: 0.875em;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.action-btn{
+  background: #34495E;
+}
+
+.fullWidth{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 /* Контейнер с баннерами */
 aside{
 	display: flex;
@@ -143,6 +169,7 @@ section{
 /* Основной график и таблица */
 
 .info-graphic{
+	display: blockresponsive: true, // адаптивностьresponsive: true, // адаптивность;	/**/
 	width: 100%;
 	padding: 20px 20px 30px 20px;
 	background: #ffffff;
@@ -267,8 +294,38 @@ section{
 	display: block;
 	width: 100%;
 	height: 621px;
-	overflow: hidden;
-	overflow-y: auto;
+	/* overflow: hidden;
+	overflow-y: auto; */
+}
+
+#desktop-table td:nth-child(1) {
+  min-width: calc(100% / 6);
+  text-align: center;
+}
+
+#desktop-table td:nth-child(2) {
+  min-width: calc(100% / 6);
+	text-align: center;
+}
+
+#desktop-table td:nth-child(3) {
+  min-width: calc(100% / 6);
+	text-align: center;
+}
+
+#desktop-table td:nth-child(4) {
+  min-width: calc(100% / 6);
+	text-align: center;
+}
+
+#desktop-table td:nth-child(5) {
+  min-width: calc(100% / 6);
+	text-align: center;
+}
+
+#desktop-table td:nth-child(6) {
+  min-width: calc(100% / 6);
+	text-align: center;
 }
 
 .table-body::-webkit-scrollbar {
@@ -285,8 +342,6 @@ section{
 .table-body::-webkit-scrollbar-track {
   background: #ffffff;
 }
-
-
 
 #desktop-table .row{
 	font-size: 0.875em;
@@ -330,14 +385,15 @@ section{
 
 /* Вторая секция с графикми */
 .info-graphic-1{
+	display: block; /**/
 	margin-top: 20px;
 }
 
 .orders-info{
 	z-index: 0;
 	position: absolute;
-	top: 36%;
-	left: 25%;
+	top: 39%;
+	left: 28%;
 	width: 200px;
 	height: 100px;
 	text-align: center;
@@ -516,6 +572,7 @@ section{
 }
 
 .info-graphic-2{
+	display: block; /**/
 	/* border: 1px solid #000; */
 }
 

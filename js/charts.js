@@ -1,4 +1,5 @@
 'use strict';
+
 //  Находит сумму элементов массива
 
 function arraySum(arr) {
@@ -20,10 +21,11 @@ const ordersProgress = () => {
   let test2 = arraySum(data1Sum);
 
   const ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
-  ordersInfo.textContent = `${test1} активных заказов на общую сумму ${test2} руб.`;
+  ordersInfo.textContent = `${test1} активных заказов на общую сумму ${test2.toLocaleString('ru-RU')} руб.`;
   const ordersChart = document.getElementById('myChart').getContext('2d');  //  canvas диаграммы
+  ordersChart.canvas.parentNode.style.width = '100%';
   ordersChart.canvas.parentNode.style.height = '393px';
-  ordersChart.canvas.parentNode.style.width = '393px';
+
 
   const chart = new Chart(ordersChart, {
       type: 'doughnut', // тип графика
@@ -41,7 +43,7 @@ const ordersProgress = () => {
               //  цвет бордера шкал и графика
               borderColor: 'transparent',
               //  данные для отображения
-              data: [data1[0], data1[1], data1[2], data1[3]]
+              data: data1
           }]
       },
 
@@ -64,6 +66,7 @@ const ordersProgress = () => {
             bottom: 10
           }
         },
+        responsive: true, // адаптивность
         //  отклюдчаем лишнее свободное пространство вокруг графика
         maintainAspectRatio: false
       }
@@ -104,8 +107,8 @@ speedChart();
 
 const deliveryProgress = () => {
   //  тестовые данные
-  let data1 = [540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000]; // данные для синей линии
-  let data2 = [350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400]; // данные для оранжевой линии
+  let data1 = [0, 540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000]; // данные для синей линии
+  let data2 = [0, 350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400]; // данные для оранжевой линии
   let data3 = [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000]; // данные для зеленой линии
 
   //let test1 = arraySum(data1);
@@ -158,6 +161,8 @@ const deliveryProgress = () => {
       responsive: true, // адаптивность
       maintainAspectRatio: false, // отклюдчаем лишнее свободное пространство вокруг графика
     }
+
+    //console.log(chart.data);
 });
 
 }
@@ -171,8 +176,15 @@ const productsBarChart = () => {
   //  тестовые данные
   let data = [1400000, 7980548, 4100675, 15880000, 10245014];
   const barChart = document.getElementById('barChart').getContext('2d'); //  canvas диаграмм
-  barChart.canvas.parentNode.style.width = '100%';
-  barChart.canvas.parentNode.style.height = '258px';
+
+  if (window.innerWidth > 1361) {
+    barChart.canvas.parentNode.style.width = '100%';
+    barChart.canvas.parentNode.style.height = '258px';
+  }
+  // else if (window.innerWidth > 1361) {
+  //   barChart.canvas.parentNode.style.width = '50%';
+  //   barChart.canvas.parentNode.style.height = '258px';
+  // }
 
   const cart = new Chart(barChart, {
     type: 'bar',  // тип графика
@@ -245,6 +257,7 @@ const procurementPieChart = () => {
               backgroundColor: ['#96B6D3', '#CDC9CB', '#F8AD94', '#B5A6BB', '#9FCB93', '#FBCD80'],
               //  цвет бордера шкал и графика
               borderColor: '#ffffff',
+              borderWidth: 1,
               //  данные для отображения
               data: [data1[0], data1[1], data1[2], data1[3], data1[4], data1[5]]
           }]
