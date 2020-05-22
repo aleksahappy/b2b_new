@@ -2,6 +2,8 @@
 Стили страницы "Один заказ":
 ===================================================================================================== */
 
+/* Стили вкладок таблицы */
+
 .tabs .tab {
   justify-content: center;
   align-items: center;
@@ -65,7 +67,196 @@
   background-image: url(../img/reclm_disabled.svg);
 }
 
+/* Стили таблицы "Номенклатура" */
+
+#nomen td:nth-child(1) {
+  min-width: 8em;
+}
+
+#nomen td:nth-child(2) {
+  min-width: 10em;
+}
+
+/* #nomen td:nth-child(3) {
+  min-width: 8em;
+} */
+
+#nomen td:nth-child(3) {
+  min-width: 7em;
+  text-align: right;
+}
+
+#nomen td:nth-child(4) {
+  min-width: 11em;
+  text-align: right;
+}
+
+#nomen td:nth-child(5) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#nomen td:nth-child(6) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* #nomen td:nth-child(8) {
+  min-width: 14em;
+} */
+
+/* Стили таблицы "Товар ожидается" */
+
+#vputi td:nth-child(1) {
+  min-width: 8em;
+}
+
+#vputi td:nth-child(2) {
+  min-width: 10em;
+}
+
+#vputi td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#vputi td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#vputi td:nth-child(5) {
+  min-width: 13em;
+  text-align: right;
+}
+
+#vputi td:nth-child(6) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#vputi td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* Стили таблицы "Товар в наличии" */
+
+#vnali td:nth-child(1) {
+  min-width: 8em;
+}
+
+#vnali td:nth-child(2) {
+  min-width: 10em;
+}
+
+#vnali td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#vnali td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#vnali td:nth-child(5) {
+  min-width: 13em;
+  text-align: right;
+}
+
+#vnali td:nth-child(6) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#vnali td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* Стили таблицы "Товар собран" */
+
+#sobrn td:nth-child(1) {
+  min-width: 8em;
+}
+
+#sobrn td:nth-child(2) {
+  min-width: 10em;
+}
+
+#sobrn td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#sobrn td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#sobrn td:nth-child(5) {
+  min-width: 13em;
+  text-align: right;
+}
+
+#sobrn td:nth-child(6) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#sobrn td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* Стили таблицы "Товар отгружен" */
+
+#otgrz td:nth-child(1) {
+  min-width: 8em;
+}
+
+#otgrz td:nth-child(2) {
+  min-width: 10em;
+}
+
+#otgrz td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#otgrz td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#otgrz td:nth-child(5) {
+  min-width: 10em;
+}
+
+#otgrz td:nth-child(6) {
+  min-width: 14em;
+  text-align: right;
+}
+
+#otgrz td:nth-child(7) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#otgrz td:nth-child(8) {
+  min-width: 13em;
+  text-align: right;
+}
+
+/* #otgrz td:nth-child(9) {
+  min-width: 13em;
+  text-align: center;
+} */
+
 .recl.btn {
+  position: absolute;
+  right: 1.2em;
   min-width: 0;
   padding: 0.2em 1.3em;
   font-size: 0.785em;
@@ -73,6 +264,63 @@
   background-color: #A89271;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+/* Стили таблицы "Непоставка" */
+
+#nedop td:nth-child(1) {
+  min-width: 8em;
+}
+
+#nedop td:nth-child(2) {
+  min-width: 10em;
+}
+
+#nedop td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#nedop td:nth-child(4) {
+  min-width: 14em;
+  text-align: right;
+}
+
+#nedop td:nth-child(5) {
+  min-width: 14em;
+}
+
+/* Стили таблицы "Рекламации" */
+
+#reclm td:nth-child(1) {
+  min-width: 10em;
+}
+
+#reclm td:nth-child(2) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#reclm td:nth-child(3) {
+  min-width: 8em;
+}
+
+#reclm td:nth-child(4) {
+  min-width: 10em;
+}
+
+#reclm td:nth-child(5) {
+  min-width: 9em;
+  text-align: right;
+}
+
+/* #reclm td:nth-child(6) {
+  min-width: 14em;
+  text-align: right;
+} */
+
+#reclm td:nth-child(6) {
+  min-width: 7em;
 }
 
 /* =====================================================================================================

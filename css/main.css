@@ -15,10 +15,6 @@
 :-moz-placeholder {color: #8596A6;}
 ::placeholder {color: #8596A6; }
 
-:focus {
-  outline: #34495E auto 5px;
-}
-
 html {
   font-size: 10px;
   -moz-text-size-adjust: none;
@@ -169,6 +165,42 @@ body.no-scroll {
   align-items: flex-start;
 }
 
+.visible-xs {
+  display: none;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.displayNone {
+  display: none;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.template {
+  visibility: hidden;
+}
+
+.toggle.close .toggle-cont {
+  display: none;
+}
+
+.err {
+  display: none;
+  font-size: 0.857em;
+  color: #CE0014;
+}
+
+/* =====================================================================================================
+Цветовые гаммы сайта:
+===================================================================================================== */
+
+/* Цветовая гаммы текста */
+
 .title {
   color: #34495E;
 }
@@ -200,34 +232,82 @@ body.no-scroll {
   color: #D97E00;
 }
 
-.err {
-  display: none;
-  font-size: 0.857em;
-  color: #CE0014;
+/* Цветовая гамма статусов заказа */
+
+.nomen {
+  background-color: #53606F;
 }
 
-.visible-xs {
-  display: none;
+.vputi {
+  background-color: #2A659D;
 }
 
-.fixed {
-  position: fixed;
+.vnali {
+  background-color: #DFA12A;
 }
 
-.displayNone {
-  display: none;
+.sobrn {
+  background-color: #6C4D77;
 }
 
-.hidden {
-  visibility: hidden;
+.otgrz {
+  background-color: #009F84;
 }
 
-.template {
-  visibility: hidden;
+.nedop {
+  background-color: #778A95;
 }
 
-.toggle.close .toggle-cont {
-  display: none;
+.reclm {
+  background-color: #A89271;
+}
+
+/* Цветовая гамма статусов заказа - 80% */
+
+.vputi.op80 {
+  background-color: rgba(42, 101, 157, 0.8);
+}
+
+.vnali.op80 {
+  background-color: rgba(223, 161, 42, 0.8);
+}
+
+.sobrn.op80 {
+  background-color: rgba(108, 77, 119, 0.8);
+}
+
+.otgrz.op80 {
+  background-color: rgba(0, 159, 132, 0.8);
+}
+
+.nedop.op80 {
+  background-color: rgba(119, 138, 149, 0.8);
+}
+
+.reclm.op80 {
+  background-color: rgba(168, 146, 113, 0.8);
+}
+
+/* Цветовая гамма статусов заказа - ???% */
+
+.vputi- {
+  background-color: #6A93BB;
+}
+
+.vnali- {
+  background-color: #E9BD6A;
+}
+
+.sobrn- {
+  background-color: #9882A0;
+}
+
+.otgrz- {
+  background-color: #4DBCA9;
+}
+
+.nedop- {
+  background-color: #A5AFAF;
 }
 
 /* =====================================================================================================
@@ -559,7 +639,7 @@ a.btn {
 
 .btn.active.disabled {
   color: rgb(255,255,255, 0.6);
-  background-color: rgb#EBBAAA;
+  background-color: #EBBAAA;
 }
 
 .btn.unactive {
@@ -587,9 +667,17 @@ a.btn {
 
 .icon {
   background-size: cover;
-  cursor: pointer;
   width: 1em;
   height: 1em;
+  cursor: pointer;
+}
+
+.triangle.icon {
+  background-image: url(../img/triangle_blue.svg);
+}
+
+.triangle.white.icon {
+  background-image: url(../img/triangle_white.svg);
 }
 
 .close.icon {
@@ -712,13 +800,16 @@ a.btn {
   background-image: url(../img/download.svg);
 }
 
+.star.white.icon {
+  background-image: url(../img/star_white.svg);
+}
+
 .star.icon {
   background-image: url(../img/star_white_gray.svg);
 }
 
-.active .star.icon {
+.in-work .star.icon {
   background-image: url(../img/star_gray.svg);
-  background-size: cover;
 }
 
 .done .status.icon {
@@ -1013,6 +1104,12 @@ form.search .search-area {
   border-radius: 3px;
 }
 
+form.search:hover .search-area,
+form.search.show .search-area,
+form.search:focus-within .search-area {
+  border-color: #34495E;
+}
+
 form.search.positioned .search-area {
   /* display: none; */
   max-width: 0;
@@ -1035,7 +1132,12 @@ form.search.positioned:hover .search-area,
 form.search.positioned.show .search-area {
   /* display: flex; */
   max-width: 50em;
+  border-color: #34495E;
   opacity: 1;
+}
+
+form.search:focus-within {
+  border-color: #34495E;
 }
 
 form.search input:not([type="submit"]) {
@@ -2360,7 +2462,7 @@ form.registr-form .unactive {
 Основные стили таблиц:
 ===================================================================================================== */
 
-/* Основные стили */
+/* Основные стили вкладок таблиц */
 
 .tabs .tab {
   display: none;
@@ -2368,10 +2470,23 @@ form.registr-form .unactive {
   cursor: pointer;
 }
 
+.tabs .tab.disabled {
+  color: #818A94;
+  background-color: #D4D7DB;
+  cursor: default;
+}
+
+.tabs .tab.disabled .icon {
+  cursor: default;
+}
+
+/* Основные стили обертки */
+
 .table-wrap {
   display: none;
   width: 100%;
   max-height: 80vh;
+  color: #FFFFFF;
   overflow-x: auto;
   overflow-y: auto;
   visibility: hidden;
@@ -2396,7 +2511,9 @@ form.registr-form .unactive {
   border-radius: 10px;
 }
 
-.table {
+/* Общие стили для таблицы-заголовка и таблицы-содержимого */
+
+table {
   min-width: 100%;
   border-collapse: collapse;
   border: none;
@@ -2404,139 +2521,112 @@ form.registr-form .unactive {
   direction: ltr;
 }
 
-.table.positioned {
+table.head {
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.table-head th,
-.table-body td {
+th, td {
   position: relative;
+  padding: 0.7em 1.2em;
+  white-space: nowrap;
+  text-align: left;
+}
+
+th {
+  overflow: visible;
+  padding: 0;
+}
+
+th:not(.activate) {
+  line-height: 0;
+}
+
+th > div:first-child{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  height: 100%;
+  padding: 0.7em 1.2em;
+  line-height: normal;
+}
+
+td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table th > .row,
-.table td > .row {
-  align-items: center;
-  white-space: nowrap;
-  padding: 0.715em 1.2em;
+th > *, td > * {
+  display: inline-block;
 }
 
-.table th > .row div,
-.table td > .row div {
+/* Общие стили для выпадающих списков в таблице-заголовке */
+
+th.activate {
+  padding: 0;
+}
+
+th.activate .head {
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.7em 1.2em;
+  background-color: initial;
+  border: none;
+  white-space: nowrap;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+th.activate .head .title {
   flex-grow: 0;
   flex-shrink: 0;
   max-width: 100%;
+  color: #FFFFFF;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-head {
+th.activate .drop-down {
+  width: fit-content;
+  max-width: fit-content;
+  min-width: fit-content;
+  color: #666666;
+}
+
+/* th.activate .drop-down .icon {
+  min-width: 1em;
+  min-height: 1em;
+} */
+
+/* Основные стили таблицы-заголовка */
+
+thead {
   color: #FFFFFF;
   background-color: #FFFFFF;
 }
 
-.table-head .titles {
+thead tr {
   background-color: #53606F;
 }
 
-.table-head .results {
+thead .results {
   background-color: #778A95;
 }
 
-.tabs .tab.nomen,
-#nomen .titles {
-  background-color: #53606F;
+thead .results th {
+  text-align: right;
 }
 
-#nomen .results {
-  background-color: #778A95;
-}
-
-.tabs .tab.vputi,
-#vputi .titles  {
-  background-color: #2A659D;
-}
-
-#vputi .results {
-  background-color: rgba(42, 101, 157, 0.8);
-}
-
-.tabs .tab.vnali,
-#vnali .titles  {
-  background-color: #DFA12A;
-}
-
-#vnali .results {
-  background-color: rgba(223, 161, 42, 0.8);
-}
-
-.tabs .tab.sobrn,
-#sobrn .titles  {
-  background-color: #6C4D77;
-}
-
-#sobrn .results {
-  background-color: rgba(108, 77, 119, 0.8);
-}
-
-.tabs .tab.otgrz,
-#otgrz .titles  {
-  background-color: #009F84;
-}
-
-#otgrz .results {
-  background-color: rgba(0, 159, 132, 0.8);
-}
-
-.tabs .tab.nedop,
-#nedop .titles  {
-  background-color: #778A95;
-}
-
-#nedop .results {
-  background-color: rgba(119, 138, 149, 0.8);
-}
-
-.tabs .tab.reclm,
-#reclm .titles,
-#reclamations .titles  {
-  background-color: #A89271;
-}
-
-#reclm .results {
-  background-color: rgba(168, 146, 113, 0.8);
-}
-
-.tabs .tab.disabled {
-  color: #818A94;
-  background-color: #D4D7DB;
-  cursor: default;
-}
-
-.tabs .tab.disabled .icon {
-  cursor: default;
-}
-
-.table-head > .row {
-  width: 100%;
-  cursor: pointer;
-}
-
-.table-head .title {
-  color: #FFFFFF;
-}
-
-.table-head .triangle {
+thead .triangle {
   width: 0.57em;
   height: 0.36em;
   margin-left: 0.5em;
 }
 
-.table-head .resize-btn {
+thead .resize-btn {
   display: block;
   position: absolute;
   top: 5%;
@@ -2547,7 +2637,7 @@ form.registr-form .unactive {
   cursor: col-resize;
 }
 
-.table-head .resize-btn::before {
+thead .resize-btn::before {
   content: '';
   display: inline-block;
   position: absolute;
@@ -2558,7 +2648,7 @@ form.registr-form .unactive {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* .table-head .resize-btn::after {
+thead .resize-btn::after {
   content: '';
   display: inline-block;
   position: absolute;
@@ -2571,106 +2661,56 @@ form.registr-form .unactive {
   -moz-transition: opacity 200ms;
   -o-transition: opacity 200ms;
   transition: opacity 200ms;
-} */
+}
 
-/* .table-head .resize-btn:hover::after {
-  height: 75vh;
+thead .resize-btn:hover::after {
+  height: 10000px;
   opacity: 1;
-} */
-
-.table-head .activate .head {
-  background-color: initial;
-  border: none;
 }
 
-.table-head .activate .head .title {
-  color: #FFFFFF;
-}
+/* Основные стили таблицы-содержимого */
 
-.table-body {
+tbody {
   color: #666666;
   background-color: #FFFFFF;
 }
 
-.table-body td {
+tbody td {
   border-bottom: 1px solid #DCDCDC;
 }
 
-.table-body tr:hover {
+tbody tr:hover {
   background-color: #EFEEF1;
 }
 
 #orderslist td,
-#reclm td,
-#reclamations td {
+#reclm td {
   cursor: pointer;
 }
 
-/* Общие стили контента */
+/* Стили иконок таблиц */
 
-.table .star.icon {
+table .star.icon {
   width: 1.25em;
   height: 1.17em;
 }
 
-.table .download.icon {
+table .download.icon {
   width: 1em;
   height: 1em;
   margin-right: 0.714em;
 }
 
-.table .toggle.icon {
+table .toggle.icon {
   width: 2em;
   height: 2em;
-}
-
-.table .right {
-  justify-content: flex-end;
-}
-
-.table .center {
-  justify-content: center;
-}
-
-/* Cтили для минимальной ширины колонки */
-
-.table-body .w7em {
-  min-width: 7em;
-}
-
-.table-body .w8em {
-  min-width: 8em;
-}
-
-.table-body .w9em {
-  min-width: 9em;
-}
-
-.table-body .w10em {
-  min-width: 10em;
-}
-
-.table-body .w11em {
-  min-width: 11em;
-}
-
-.table-body .w12em {
-  min-width: 13em;
-}
-
-.table-body .w13em {
-  min-width: 13em;
-}
-
-.table-body .w14em {
-  min-width: 14em;
 }
 
 /* =====================================================================================================
 Стили страницы авторизации:
 ===================================================================================================== */
 
-body#auth #error {
+body#auth .err {
   font-size: 1em;
   margin-bottom: 1em;
   text-align: center;

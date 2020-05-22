@@ -2,6 +2,8 @@
 Стили страницы "Заказы":
 ===================================================================================================== */
 
+/* Стили строки с легендами */
+
 #main-header .legend-row {
   justify-content: space-between;
   align-items: center;
@@ -21,16 +23,14 @@
   cursor: default;
 }
 
-.table .download.icon {
+/* Стили таблицы */
+
+table .download.icon {
   margin-right: 0;
   margin-left: 0.714em;
 }
 
-.table-head .statistics {
-  overflow: visible;
-}
-
-.table-head .percent {
+thead .percent {
   display: block;
   position: absolute;
   bottom: 0;
@@ -38,7 +38,7 @@
   height: 1em;
 }
 
-.table-head .percent::before {
+thead .percent::before {
   display: inline-block;
   position: absolute;
   top: 0;
@@ -48,48 +48,48 @@
   text-align: center;
 }
 
-.table-head .twenty {
+thead .twenty {
   left: 20%;
 }
 
-.table-head .twenty::before {
+thead .twenty::before {
   content: '20%';
 }
 
-.table-head .forty {
+thead .forty {
   left: 40%;
 }
 
-.table-head .forty::before {
+thead .forty::before {
   content: '40%';
 }
 
-.table-head .sixty {
+thead .sixty {
   left: 60%;
 }
 
-.table-head .sixty::before {
+thead .sixty::before {
   content: '60%';
 }
 
-.table-head .eighty {
+thead .eighty {
   left: 80%;
 }
 
-.table-head .eighty::before {
+thead .eighty::before {
   content: '80%';
 }
 
-.table-head .hundred {
+thead .hundred {
   left: 100%;
 }
 
-.table-head .hundred::before {
+thead .hundred::before {
   content: '100%';
   right: 0;
 }
 
-.table-head .percent::after {
+thead .percent::after {
   content: '';
   display: inline-block;
   position: absolute;
@@ -99,50 +99,63 @@
   background-color: #E4E4E4;
 }
 
-.table-head .legend {
+thead .legend {
   width: 0.71em;
   height: 0.71em;
   margin-right: 1em;
 }
 
-.table-body td:nth-child(7) > .row {
-  align-items: baseline;
+#orderslist td:nth-child(1) {
+  min-width: 3.7em;
 }
 
-.table-body .statistics {
-  min-width: 70em;
+#orderslist td:nth-child(2) {
+  min-width: 7em;
+}
+
+#orderslist td:nth-child(3) {
+  min-width: 10em;
+}
+
+#orderslist td:nth-child(4) {
+  min-width: 10em;
+}
+
+#orderslist td:nth-child(5) {
+  min-width: 10em;
+}
+
+#orderslist td:nth-child(6) {
+  min-width: 10em;
+}
+
+#orderslist td:nth-child(7) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#orderslist td:nth-child(8) {
+  min-width: 10em;
+}
+
+#orderslist td:nth-child(9) {
+  min-width: 50em;
+  padding: 0;
   border-left: 1px solid #DCDCDC;
   border-bottom: none;
 }
 
-.table-body .statistics .row {
-  padding: 0;
+#orderslist td:nth-child(9) > div {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
 }
 
-.table-body .statistics > .row > div {
+#orderslist td:nth-child(9) > div > div {
   height: 1.25em;
 }
 
-.table-body .expected {
-  background-color: #6A93BB;
-}
-
-.table-body .available {
-  background-color: #E9BD6A;
-}
-
-.table-body .ready {
-  background-color: #9882A0;
-}
-
-.table-body .shipped {
-  background-color: #4DBCA9;
-}
-
-.table-body .non-delivery {
-  background-color: #A5AFAF;
-}
-
-.table-body tr.disabled .statistics > .row > div {
+#orderslist tr.disabled td:nth-child(9) {
   background-color: #DDDDDD;
 }

@@ -6,18 +6,19 @@
 
 // Константы:
 
-var ordtabs = ["nomen", "vputi", "vnali", "sobrn", "otgrz", "nedop", "reclm"];
+var ordtabs = ['nomen', 'vputi', 'vnali', 'sobrn', 'otgrz', 'nedop', 'reclm'];
 
 // Список ключей для их включения в таблицы:
-// var TF = [];
-// TF["nomen"] = "artc,titl,kolv,pric,summ,sned,skid,lnk,preview,titllnk"; //Номенклатура
-// TF["vputi"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; //Ожидается
-// TF["vnali"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk";  //В наличии
-// TF["sobrn"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,treb,kdop,lnk,preview,titllnk"; // Собран
-// TF["otgrz"] = "artc,titl,kolv,pric,summ,dpst,paid,prcp,kdop,nakl,cods,naklid,dotg,harid,lnk,preview,titllnk"; // Отгружен
-// TF["nedop"] = "artc,titl,kolv,summ,stat,lnk,preview,titllnk"; //Недопоставка
-// TF["reclm"] = "artc,titl,kolv,pric,summ,trac,nakl,recl_id,recl_num,recl_date,lnk,preview,titllnk"; //Рекламации
-// TF["debzd"] = "artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk"; //Долг
+
+var TF = [];
+TF['nomen'] = ['artc', 'titl', 'skid', 'pric', 'kolv', 'summ']; //Номенклатура
+TF['vputi'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; //Ожидается
+TF['vnali'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ'];  //В наличии
+TF['sobrn'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; // Собран
+TF['otgrz'] = ['artc', 'titl', 'kolv', 'dotg', 'nakl', 'summ', 'paid', 'kdop', 'preview', 'cods', 'harid', 'naklid']; // Отгружен
+TF['nedop'] = ['artc', 'titl', 'kolv', 'summ', 'stat']; //Недопоставка
+TF['reclm'] = ['recl_num', 'recl_date', 'artc', 'titl', 'kolv', 'trac']; //Рекламации
+// TF['debzd'] = 'artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk'; //Долг
 
 // Динамическе переменные:
 
@@ -34,7 +35,7 @@ startPage();
 // Запуск страницы заказа:
 
 function startPage() {
-  sendRequest(`${urlRequest.new}api/order.php${document.location.search}`)
+  sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);
@@ -55,12 +56,12 @@ function startPage() {
       }
       initTables();
     } else {
-      // location.href = '/err404.html';
+      location.href = '/err404.html';
     }
   })
   .catch(err => {
     console.log(err);
-    // location.href = '/err404.html';
+    location.href = '/err404.html';
   });
 }
 
@@ -82,23 +83,32 @@ function restoreArray(k, v) {
   for (var i = 0; i < vv.length; i++) {
     var vvv = vv[i].split(d),
         obj = {};
+    for (var ti = 0; ti < ordtabs.length; ti++) {
+      window[ordtabs[ti] + "outin"] = {};
+    }
     for (var ii = 0; ii < vvv.length; ii++) {
+      for (var ti = 0; ti < ordtabs.length; ti++) {
+        if (TF[ordtabs[ti]].indexOf(kk[ii]) != -1) {
+          window[ordtabs[ti] + "outin"][kk[ii]] = vvv[ii];
+        }
+      }
       obj[kk[ii]] = vvv[ii];
     }
+    // console.log(fullObj);
     for (var ti = 0; ti < ordtabs.length; ti++) {
       if (checkInclusion(ordtabs[ti], obj)) {
-        var copy = Object.assign({}, obj);
+        window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
+        var current = window[ordtabs[ti] + "Data"][i];
         if (ordtabs[ti] == "otgrz") {
           // добавляем в данные стиль для степпера:
-          if (copy.kolv > 1) {
-            copy.qtyStyle = 'added';
+          if (current.kolv > 1) {
+            current.qtyStyle = 'added';
           } else {
-            copy.qtyStyle = 'disabled';
+            current.qtyStyle = 'disabled';
           }
           // добавляем в данные id товара:
-          copy.object_id = parseInt(copy.preview.match(/\d+/));
+          current.object_id = parseInt(current.preview.match(/\d+/));
         }
-        window[ordtabs[ti] + "Data"].push(copy);
       }
     }
     result.push(obj);
