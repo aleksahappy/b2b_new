@@ -1,8 +1,34 @@
+@media (min-width: 1368px) {
+  section.banners-carousel{
+    display: none!important;
+  }
+}
+
 @media (max-width: 1367px) {
+
+  .new-container {
+    margin: 0 1.185em!important;
+  }
+
   main{
     margin-right: 0;
   }
   aside{
     display: none;
   }
+
+  section.banners-carousel{
+    display: block!important;
+  }
+
+  .carousel-gallery .carousel-item{
+    max-width: 420px;
+    width: 34%!important;
+    margin-right: 20px;
+  }
+
+  .carousel-gallery .carousel-item:nth-child(3n + 3){
+    margin-right: 0;
+  }
+
 }

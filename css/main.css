@@ -393,7 +393,7 @@ body.no-scroll {
 
 .carousel .left-btn {
   left: 0;
-  background: url(../img/left_btn.png) no-repeat center;
+  background: red url(../img/left_btn.png) no-repeat center;
 }
 
 .carousel .right-btn {
@@ -1380,6 +1380,7 @@ form.file input[type="submit"] {
 .header-top .logo img {
   max-height: 2em;
   max-width: 100%;
+  min-width: 190px;
 }
 
 .header-top .left-side {
@@ -1679,7 +1680,7 @@ form.file input[type="submit"] {
 ===================================================================================================== */
 
 #main-header {
-  padding: 1em 0;
+  padding: 1.5em 0;
 }
 
 #main-nav  {
@@ -2319,6 +2320,7 @@ form.registr-form .unactive {
   min-width: 70px;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
+  background: green;
 }
 
 .full-card .carousel-nav .carousel-item:nth-child(4n) {

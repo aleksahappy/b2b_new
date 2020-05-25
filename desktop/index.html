@@ -93,7 +93,7 @@
     </div>
 
     <div class="main">
-			<div class="container">
+			<div class="container new-container">
 				<div id="main-header">
 					<div class="main-title row">
 						<div class="title-row row">
@@ -147,6 +147,47 @@
                 </div>
               </div>
             </section>
+            <!-- Карусель с баннерами -->
+            <section class="banners-carousel">
+              <div id="banners-carousel" class="carousel">
+                <div class="carousel-gallery-wrap">
+                  <div class="left-btn"></div>
+                  <div class="right-btn"></div>
+                  <div class="carousel-gallery">
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
             <!-- Секция "Заказы в работе"-->
             <section class="info-graphic">
               <div class="section-head">
@@ -154,8 +195,8 @@
                 <div class="graphic-btns">
                   <div class="preorder-toggle">
                     <div class="toggle-name">Только предзаказы</div>
-                    <div class="toggle">
-                      <div class="toggle-btn"></div>
+                    <div class="new-toggle">
+                      <div class="new-toggle-btn"></div>
                     </div>
                   </div>
                   <div class="table-btns">
@@ -183,30 +224,10 @@
                         <tr>
                           <td>#name#</td>
                           <td>#order#</td>
-                          <td>#wait#</td>
-                          <td>#stoke#</td>
-                          <td>#done#</td>
-                          <td>#delivered#</td>
-                          <!-- <td>
-                            <div class="row">
-                              <div class="data-sticker sticker1">118 950</div>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="row">
-                              <div class="data-sticker sticker2">118 950</div>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="row">
-                              <div class="data-sticker sticker3">8 950</div>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="row">
-                              <div class="data-sticker sticker4">228 950</div>
-                            </div>
-                          </td> -->
+                          <td><div class="data-sticker sticker1">#wait#</div></td>
+                          <td><div class="data-sticker sticker2">#stoke#</div></td>
+                          <td><div class="data-sticker sticker3">#done#</div></td>
+                          <td><div class="data-sticker sticker4">#delivered#</div></td>
                         </tr>
                       </tbody>
                     </table>
@@ -250,8 +271,8 @@
                       <div class="section-title">График поставок</div>
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div class="toggle">
-                          <div class="toggle-btn"></div>
+                        <div class="new-toggle">
+                          <div class="new-toggle-btn"></div>
                         </div>
                       </div>
                     </div>
@@ -280,8 +301,8 @@
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div class="toggle">
-                          <div class="toggle-btn"></div>
+                        <div class="new-toggle">
+                          <div class="new-toggle-btn"></div>
                         </div>
                       </div>
                     </div>
@@ -654,24 +675,42 @@
 
     <script src="../js/main.js"></script>
     <script src="../js/charts.js"></script>
+    <script src="../js/carousel.js"></script>
+    <script>
+    'use strict';
+      let productCarousel = {
+        isNav: true,
+        isLoupe: true,
+        isInfinitie: true,
+        isAvtoScroll: false,
+        interval: 1000,
+        // isLoupeOutside: true,
+        isCenter: true,
+        isAvtoScroll: true,
+        isStopAvtoScroll: true
+      }
+
+      const curCarousels = document.querySelectorAll('.carousel');
+      startCarouselInit(curCarousels);
+    </script>
     <script>
       const tbl = document.querySelector('#desktop-table');
-      window['desktop-tableData'] = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 },
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 }, 
-                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-FXR', wait: 25555, stoke: 43534, done: 230000, delivered: 10000 }
+      window['desktop-tableData'] = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 509', wait: 118950, stoke: 118950, done: 8950, delivered: 228950 },
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA',wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 Jethwear', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'ЗИП', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'ЗИП', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                                      {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950}
                                     ];
       initTables();
     </script>

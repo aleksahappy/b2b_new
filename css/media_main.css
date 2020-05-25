@@ -1,22 +1,8 @@
 @media (max-width: 1575px) {
-  .header .header-top{
-    font-size: 1em;
-  }
 
-  .main .container,
-  .header .container{
-    margin: 0 1.875rem;
-  }
-
-  .header .header-top{
-    font-size: 1em;
-  }
-
-  .header-top .activate .head {
-    width: 12em!important;
-    height: 100%;
-    justify-content: flex-start;
-    border: none;
+  .header-top .logo img {
+    max-height: 2em;
+    max-width: 100%;
   }
 
 }
