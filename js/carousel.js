@@ -59,6 +59,7 @@ function Carousel(obj, start) {
     loupeHeight: 200         // Высота лупы (если лупа - отдельны блок)
   };
 
+
   // ЭЛЕМЕНТЫ:
 
   this.carousel = obj;
@@ -584,6 +585,7 @@ function Carousel(obj, start) {
     this.setEventListeners();
     this.carousel.style.visibility = 'visible';
   };
+
 
   // ЗАПУСК ИНИЦИАЛИЗАЦИИ:
 

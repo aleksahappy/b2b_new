@@ -1657,6 +1657,16 @@ form.file input[type="submit"] {
   right: -1em;
 }
 
+.mob-menu {
+  display: none;
+  width: 1.5em;
+  height: 1.5em;
+  background-image: url(../img/desktop/menu-ic-tablet.svg);
+  background-repeat: no-repeat;;
+  background-size: contain;
+  cursor: pointer;
+}
+
 /* =====================================================================================================
 Стили для футера и его содержимого:
 ===================================================================================================== */

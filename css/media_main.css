@@ -1,13 +1,88 @@
 @media (max-width: 1575px) {
 
-  .header-top .logo img {
-    max-height: 2em;
-    max-width: 100%;
+  .header-top .alerts.icon {
+    position: relative;
+    width: 2.25em;
+    height: 2.25em;
+    margin-left: 0;
+  }
+
+  .header-top .activate .head{
+    width: 13em;
   }
 
 }
 
 
-@media (max-width: 1367px) {
+@media (max-width: 1299px) {
+
+  .header-top .container{
+    height: 2.5em;
+  }
+
+  .header-top .logo{
+    display: flex;
+    align-items: center;
+  }
+
+  .header-top .logo img {
+    max-height: 2em;
+    max-width: 139px;
+    min-width: 139px;
+  }
+
+  .header-top .left-side > .row{
+    display: none;
+  }
+
+  .header-top .activate .head{
+    width: 4em;
+  }
+
+  .header-top .activate{
+    height: 2.4em;
+  }
+
+  #profile{
+    display: none;
+    width: 0;
+  }
+
+  .header-top .profile.icon{
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .header-top .alerts.icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .icon {
+    background-size: contain;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+  }
+
+  .profile.icon {
+    background-image: url(../img/desktop/user-ic-tablet.svg);
+    background-repeat: no-repeat;
+  }
+
+  .alerts.icon{
+    background-image: url(../img/desktop/alert-ic-tablet.svg);
+    background-repeat: no-repeat;
+  }
+
+  .qty.in-circle{
+    top: -0.4em;
+    right: -0.5em;
+  }
+
+  .mob-menu {
+    display: block;
+    margin-left: 1.55em;
+  }
 
 }

@@ -86,7 +86,7 @@ section{
 .settle-title{
 	text-transform: uppercase;
 	font-weight: normal;
-	font-size: 1.5em;
+	font-size: 1.75em;
 	line-height: 2.15em;
 	color: #ffffff;
 }
@@ -131,6 +131,11 @@ section{
 	background: #D70C17 url('../img/desktop/set-attention.svg') no-repeat 12px center;
 }
 
+.sets{
+  display: flex;
+  flex-direction: column;
+}
+
 .set{
 	display: flex;
 	align-items: center;
@@ -141,6 +146,19 @@ section{
 .set:last-child,
 .set:nth-child(4){
 	margin-bottom: 0;
+}
+
+.set-status{
+  display: flex;
+  flex-direction: column;
+  height: 35px;
+  justify-content: space-between;
+}
+
+.set4{
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 35px;
 }
 
 .set-ic{
@@ -173,7 +191,7 @@ section{
 /* Основной график и таблица */
 
 .info-graphic{
-	display: blockresponsive: true, // адаптивностьresponsive: true, // адаптивность;	/**/
+	display: none;
 	width: 100%;
 	padding: 20px 20px 30px 20px;
 	background: #ffffff;
@@ -360,7 +378,7 @@ section{
 
 /* Вторая секция с графикми */
 .info-graphic-1{
-	display: block; /**/
+	display: none; /**/
 	margin-top: 20px;
 }
 
@@ -547,7 +565,7 @@ section{
 }
 
 .info-graphic-2{
-	display: block; /**/
+	display: none; /**/
 	/* border: 1px solid #000; */
 }
 
@@ -622,9 +640,3 @@ legend select{
 }
 
 /* Карусель с баннерами */
-
-#banners-carousel{
-	/* width: 100%;
-	height: 262px; */
-	/* background: green; */
-}

@@ -27,8 +27,93 @@
     margin-right: 20px;
   }
 
-  .carousel-gallery .carousel-item:nth-child(3n + 3){
-    margin-right: 0;
+}
+
+
+@media (max-width: 1299px) {
+
+  .settle{
+    padding: 0;
+  }
+
+  .settle-title{
+    padding: 20px 30px 20px 30px;
+    line-height: 1em;
+  }
+
+  .settle-blocks{
+  	display: block;
+  	width: 100%;
+    padding: 0 30px 10px 30px;
+    background: #8596A6;
+  }
+
+  .settle-block{
+    display: block;
+  	width: 100%;
+  	border-right: 0;
+    padding: 0;
+    padding-top: 20px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #ffffff;
+  }
+
+  .settle-block .attention{
+    right: 250px;
+  }
+
+  .set{
+    margin-bottom: 0;
+    font-size: 1em;
+  }
+
+  .set-title{
+    font-size: 1.7em;
+  }
+
+  .set-money{
+    justify-content: flex-end;
+  }
+
+  .set span{
+    display: none;
+  }
+
+  .sets .set:first-child{
+    order: 1;
+    color: red;
+  }
+
+  .sets .set:nth-child(2){
+    order: 2;
+    color: blue;
+  }
+
+  .sets .set:nth-child(3){
+    order: 3;
+    color: green;
+    justify-content: flex-end;
+    margin-top: 30px;
+  }
+  .sets .set:last-child{
+    order: 4;
+    color: yellow;
+    /* margin-top: -50px; */
+  }
+
+  .set4{
+    justify-content: flex-end;
+  }
+
+  .set-status{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .set-status div:first-child{
+
   }
 
 }

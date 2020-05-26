@@ -12,6 +12,7 @@
     <script src="../js/check_auth.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="media_index.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -21,7 +22,7 @@
     <!-- ХЕДЕР -->
     <div class="header">
       <div class="header-top">
-        <div class="container row">
+        <div class="container new-container row">
           <div class="left-side row">
             <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
             <div class="row">
@@ -87,6 +88,7 @@
             <div class="alerts icon" onclick="openPopUp('alerts-container')">
               <div class="qty in-circle row">#qty#</div>
             </div>
+            <div class="mob-menu"></div>
           </div>
         </div>
       </div>
@@ -109,47 +111,70 @@
               <div class="settle-title">Взаиморасчеты</div>
               <div class="settle-blocks">
                 <div class="settle-block">
-                  <div class="set">
-                    <div class="set-ic"></div>
-                    <div class="set-title">Оплата до отгрузки</div>
+                  <div class="sets">
+                    <div class="set">
+                      <div class="set-ic"></div>
+                      <div class="set-title">Оплата до отгрузки</div>
+                    </div>
+                    <div class="set">
+                      <div class="set-status">
+                        <div class="">Активных заказов: 6</div>
+                        <div class=""></div>
+                      </div>
+                    </div>
+                    <!-- <div class="set"></div> -->
+                    <div class="set set-money"><span>Итого:</span><div class="money">1 202 987 руб.</div></div>
                   </div>
-                  <div class="set">Активных заказов: 6</div>
-                  <div class="set"></div>
-                  <div class="set set-money">Итого: <div class="money">1 202 987 руб.</div></div>
                 </div>
                 <div class="settle-block">
                   <div class="attention">Просрочено!</div>
-                  <div class="set">
-                    <div class="set-ic"></div>
-                    <div class="set-title">Оплата за отгруженный товар</div>
+                  <div class="sets">
+                    <div class="set">
+                      <div class="set-ic"></div>
+                      <div class="set-title">Оплата за отгруженный товар</div>
+                    </div>
+                    <div class="set">
+                      <div class="set-status">
+                        <div class="">Активных заказов: 1</div>
+                        <div class="">Оплата до: 20.11.20</div>
+                      </div>
+                    </div>
+                    <!-- <div class="set"></div> -->
+                    <div class="set set-money"><span>Итого:</span> <div class="money">99 000 руб.</div></div>
                   </div>
-                  <div class="set">Активных заказов: 1</div>
-                  <div class="set">Оплата до: 20.11.20</div>
-                  <div class="set set-money">Итого: <div class="money">99 000 руб.</div></div>
                 </div>
                 <div class="settle-block">
-                  <div class="set">
-                    <div class="set-ic"></div>
-                    <div class="set-title">Переплаты в заказах</div>
+                  <div class="sets">
+                    <div class="set">
+                      <div class="set-ic"></div>
+                      <div class="set-title">Переплаты в заказах</div>
+                    </div>
+                    <div class="set">
+                      <div class="set-status">
+                        <div class="">Активных заказов: &mdash;</div>
+                        <div class=""></div>
+                      </div>
+                    </div>
+                    <!-- <div class="set"></div> -->
+                    <div class="set set-money"><span>Итого:</span><div class="money">&mdash; руб.</div></div>
                   </div>
-                  <div class="set">Активных заказов: -</div>
-                  <div class="set"></div>
-                  <div class="set set-money">Итого: <div class="money">- руб.</div></div>
                 </div>
                 <div class="settle-block">
-                  <div class="set">
-                    <div class="set-ic"></div>
-                    <div class="set-title">Депозиты</div>
+                  <div class="sets">
+                    <div class="set">
+                      <div class="set-ic"></div>
+                      <div class="set-title">Депозиты</div>
+                    </div>
+                    <div class="set set4">Неснижаемый остаток: 50 000 руб.</div>
+                    <!-- <div class="set"></div> -->
+                    <div class="set set-money"><span>Итого:</span><div class="money">278 500 руб.</div></div>
                   </div>
-                  <div class="set">Неснижаемый остаток: 50 000 руб.</div>
-                  <div class="set"></div>
-                  <div class="set set-money">Итого: <div class="money">278 500 руб.</div></div>
                 </div>
               </div>
             </section>
             <!-- Карусель с баннерами -->
             <section class="banners-carousel">
-              <div id="banners-carousel" class="carousel">
+              <div id="banners" class="carousel">
                 <div class="carousel-gallery-wrap">
                   <div class="left-btn"></div>
                   <div class="right-btn"></div>
@@ -678,20 +703,21 @@
     <script src="../js/carousel.js"></script>
     <script>
     'use strict';
-      let productCarousel = {
-        isNav: true,
-        isLoupe: true,
-        isInfinitie: true,
-        isAvtoScroll: false,
-        interval: 1000,
-        // isLoupeOutside: true,
-        isCenter: true,
-        isAvtoScroll: true,
-        isStopAvtoScroll: true
-      }
+    const curCarousels = document.querySelectorAll('#banners');
+    let bannersCarousel = {
+      isNav: false,
+      isLoupe: true,
+      isInfinitie: true,
+      isAvtoScroll: false,
+      interval: 1000,
+      // isLoupeOutside: true,
+      isCenter: true,
+      isAvtoScroll: true,
+      isStopAvtoScroll: true
+    }
 
-      const curCarousels = document.querySelectorAll('.carousel');
-      startCarouselInit(curCarousels);
+
+    startCarouselInit(curCarousels);
     </script>
     <script>
       const tbl = document.querySelector('#desktop-table');
