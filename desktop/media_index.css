@@ -4,6 +4,7 @@
   }
 }
 
+
 @media (max-width: 1367px) {
 
   .new-container {
@@ -60,6 +61,11 @@
 
   .settle-block .attention{
     right: 250px;
+    height: 19px;
+    line-height: 19px;
+    padding: 0 10px;
+    font-size: 0.75em;
+    background: #D70C17 url(../img/desktop/set-attention.svg) no-repeat 8px center;
   }
 
   .set{
@@ -85,20 +91,19 @@
   }
 
   .sets .set:nth-child(2){
-    order: 2;
+    order: 3;
+    margin: 10px 0;
     color: blue;
   }
 
   .sets .set:nth-child(3){
     order: 3;
-    color: green;
     justify-content: flex-end;
-    margin-top: 30px;
+    margin-top: -28px;
   }
   .sets .set:last-child{
-    order: 4;
+    order: 2;
     color: yellow;
-    /* margin-top: -50px; */
   }
 
   .set4{
@@ -110,10 +115,7 @@
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-  }
-
-  .set-status div:first-child{
-
+    height: 10px;
   }
 
 }
