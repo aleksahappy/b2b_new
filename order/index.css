@@ -67,6 +67,12 @@
   background-image: url(../img/reclm_disabled.svg);
 }
 
+/* Стили для всех таблиц */
+
+.table-wrap {
+  max-height: 50vh;
+}
+
 /* Стили таблицы "Номенклатура" */
 
 #nomen td:nth-child(1) {
@@ -218,20 +224,43 @@
 
 #otgrz td:nth-child(2) {
   min-width: 10em;
+  max-width: 40em;
+}
+
+#otgrz td:nth-child(2) .row {
+  justify-content: space-between;
+  align-items: center;
+}
+
+#otgrz td:nth-child(2) .row > div:first-child{
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recl.btn {
+  min-width: auto;
+  padding: 0.15em 1.15em;
+  font-size: 0.785em;
+  color: #FFFFFF;
+  background-color: #A89271;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  overflow: visible;
 }
 
 #otgrz td:nth-child(3) {
-  min-width: 9em;
+  min-width: 10em;
   text-align: right;
 }
 
 #otgrz td:nth-child(4) {
-  min-width: 13em;
+  min-width: 11em;
   text-align: center;
 }
 
 #otgrz td:nth-child(5) {
-  min-width: 10em;
+  min-width: 11em;
 }
 
 #otgrz td:nth-child(6) {
@@ -240,7 +269,7 @@
 }
 
 #otgrz td:nth-child(7) {
-  min-width: 10em;
+  min-width: 14em;
   text-align: right;
 }
 

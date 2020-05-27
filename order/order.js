@@ -6,19 +6,17 @@
 
 // Константы:
 
-var ordtabs = ['nomen', 'vputi', 'vnali', 'sobrn', 'otgrz', 'nedop', 'reclm'];
-
-// Список ключей для их включения в таблицы:
-
-var TF = [];
-TF['nomen'] = ['artc', 'titl', 'skid', 'pric', 'kolv', 'summ']; //Номенклатура
-TF['vputi'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; //Ожидается
-TF['vnali'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ'];  //В наличии
-TF['sobrn'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; // Собран
-TF['otgrz'] = ['artc', 'titl', 'kolv', 'dotg', 'nakl', 'summ', 'paid', 'kdop', 'preview', 'cods', 'harid', 'naklid']; // Отгружен
-TF['nedop'] = ['artc', 'titl', 'kolv', 'summ', 'stat']; //Недопоставка
-TF['reclm'] = ['recl_num', 'recl_date', 'artc', 'titl', 'kolv', 'trac']; //Рекламации
-// TF['debzd'] = 'artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk'; //Долг
+var tableNames = ['nomen', 'vputi', 'vnali', 'sobrn', 'otgrz', 'nedop', 'reclm'],
+    tableKeys = {}, // Список ключей для их включения в таблицы
+    reclmData;
+tableKeys['nomen'] = ['artc', 'titl', 'skid', 'pric', 'kolv', 'summ']; //Номенклатура
+tableKeys['vputi'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; //Ожидается
+tableKeys['vnali'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ'];  //В наличии
+tableKeys['sobrn'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; // Собран
+tableKeys['otgrz'] = ['artc', 'titl', 'kolv', 'dotg', 'nakl', 'summ', 'paid', 'kdop', 'preview', 'cods', 'harid', 'naklid']; // Отгружен
+tableKeys['nedop'] = ['artc', 'titl', 'kolv', 'summ', 'stat']; //Недопоставка
+tableKeys['reclm'] = ['recl_num', 'recl_date', 'artc', 'titl', 'kolv', 'trac']; //Рекламации
+// tableKeys['debzd'] = 'artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk'; //Долг
 
 // Динамическе переменные:
 
@@ -35,7 +33,8 @@ startPage();
 // Запуск страницы заказа:
 
 function startPage() {
-  sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
+  sendRequest(`/data_ord.json`)
+  // sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);
@@ -51,22 +50,23 @@ function startPage() {
         area: getEl('.pop-up-body', 'reclm-container'),
         items: data
       })
+      var result = {};
       if (data.orderitems) {
-        restoreArray(data.orderitems.arlistk, data.orderitems.arlistv);
+        result = restoreArray(data.orderitems.arlistk, data.orderitems.arlistv);
       }
-      initTables();
+      tableNames.forEach(el => initTable(el, result[el]));
     } else {
-      location.href = '/err404.html';
+      // location.href = '/err404.html';
     }
   })
   .catch(err => {
     console.log(err);
-    location.href = '/err404.html';
+    // location.href = '/err404.html';
   });
 }
 
 //=====================================================================================================
-// Преобразование получаемых данных:
+// Преобразование полученных данных:
 //=====================================================================================================
 
 // Преобразование данных из csv-формата:
@@ -76,44 +76,51 @@ function restoreArray(k, v) {
       dd = "^@^",
       kk = k.split(d),
       vv = v.split(dd),
-      result = [];
-  for (var ti = 0; ti < ordtabs.length; ti++) {
-    window[ordtabs[ti] + "Data"] = [];
-  }
+      fullInfo = [],
+      result = {}
+  tableNames.forEach(el => result[el] = []);
   for (var i = 0; i < vv.length; i++) {
     var vvv = vv[i].split(d),
-        obj = {};
-    for (var ti = 0; ti < ordtabs.length; ti++) {
-      window[ordtabs[ti] + "outin"] = {};
-    }
+        obj = {},
+        list = {};
+    tableNames.forEach(el => {
+      list[el] = {};
+    });
     for (var ii = 0; ii < vvv.length; ii++) {
-      for (var ti = 0; ti < ordtabs.length; ti++) {
-        if (TF[ordtabs[ti]].indexOf(kk[ii]) != -1) {
-          window[ordtabs[ti] + "outin"][kk[ii]] = vvv[ii];
+      tableNames.forEach(el => {
+        if (tableKeys[el].indexOf(kk[ii]) != -1) {
+          if (vvv[ii]) {
+            vvv[ii] = vvv[ii].toString().trim();
+            if (kk[ii] === 'skid' && vvv[ii]) {
+              vvv[ii] = vvv[ii] + '%';
+            }
+          }
+          list[el][kk[ii]] = vvv[ii];
         }
-      }
+      });
       obj[kk[ii]] = vvv[ii];
     }
-    // console.log(fullObj);
-    for (var ti = 0; ti < ordtabs.length; ti++) {
-      if (checkInclusion(ordtabs[ti], obj)) {
-        window[ordtabs[ti] + "Data"][i] = window[ordtabs[ti] + "outin"];
-        var current = window[ordtabs[ti] + "Data"][i];
-        if (ordtabs[ti] == "otgrz") {
+    tableNames.forEach(el => {
+      if (checkInclusion(el, obj)) {
+        var currentObj = list[el];
+        if (el == 'otgrz') {
           // добавляем в данные стиль для степпера:
-          if (current.kolv > 1) {
-            current.qtyStyle = 'added';
+          if (currentObj.kolv > 1) {
+            currentObj.qtyStyle = 'added';
           } else {
-            current.qtyStyle = 'disabled';
+            currentObj.qtyStyle = 'disabled';
           }
           // добавляем в данные id товара:
-          current.object_id = parseInt(current.preview.match(/\d+/));
+          currentObj.object_id = parseInt(currentObj.preview.match(/\d+/));
         }
+        result[el].push(list[el]);
       }
-    }
-    result.push(obj);
+    });
+    fullInfo.push(obj);
   }
-  // console.log(result);
+  // console.log(fullInfo);
+  reclmData = result.otgrz;
+  return result;
 }
 
 // Проверка включения в данные таблицы объекта данных:
@@ -137,7 +144,7 @@ function checkInclusion(name, obj) {
 
 function openReclmPopUp(id) {
   loader.show();
-  var data = otgrzData.find(el => el.object_id == id);
+  var data = reclmData.find(el => el.object_id == id);
   showReclPopUp(data);
   // if (!data.image) {
   //   getItems(data.object_id)

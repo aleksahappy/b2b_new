@@ -82,22 +82,25 @@
 Стили для таблицы
 !!! Обязательно нужно указать min-width для всех столбцов таблицы
     через отдельный селектор с id таблицы и :nth-child()
-    в файле index.css, лежащем вместе с файлом html страницы
+    в файле index.css, лежащем вместе с файлом html страницы.
+    Это необходимо для того, чтобы после загрузки все заголовки были видны целиком, даже если контент колонки уже.
 
-    Если необходимо сменить выравнивание в колонках, то нужно делать через :nth-child() и text-align
+    Также при необходимости в селекторе можно указать:
+    - max-width (чтобы после загрузки не было скролла)
+    - text-align (когда необходимо установить выравнивание отличное от left)
 */
 
 #table td:nth-child(1) {
   min-width: 27em;
-  text-align: right;
+  text-align: center;
 }
 
 #table td:nth-child(2) {
-  min-width: 20em;
+  min-width: 28em;
 }
 
 #table td:nth-child(3) {
-  min-width: 27em;
+  min-width: 28em;
 }
 
 #table td:nth-child(4) {
@@ -105,7 +108,7 @@
 }
 
 #table td:nth-child(5) {
-  min-width: 27em;
+  min-width: 10em;
 }
 
 #table td:nth-child(6) {

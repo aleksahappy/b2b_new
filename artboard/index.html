@@ -205,44 +205,53 @@
 
         <!-- Чтобы таблица отобразилась на странице корректно нужно:
         1) присвоить ей id (в примере - table)
-        2) указать min-width для всех столбцов таблицы через отдельный селектор (см. index.css)
-        3) получить данные для таблицы и записать их в глобальную переменную, названную как "id + Data" (в примере window.tableData = ...)
-        4) инициализировать таблицу, вызвав функцию initTables() -->
+        2) добавить <div class="resize-btn"></div> всем столбцам, которые должны изменяться, даже последнему
+        3) указать min-width для всех столбцов таблицы через отдельный селектор (см. index.css)
+        4) инициализировать таблицу, вызвав функцию initTables(), куда передать первым параметром id таблицы, а вторым данные (см.скрипт внизу) -->
 
         <div id="table" class="table-wrap active">
           <table class="head">
             <thead>
               <tr>
                 <th id="1">
-                  <div>Столбец без ресайза и без выпадающего списка</div>
+                  <div>1. Столбец без ресайза и без выпадающего списка</div>
                 </th>
                 <th id="2">
-                  <div>Столбец без выпадающего списка</div>
+                  <div>2. Столбец с ресайзом, но без выпадающего списка</div>
                   <div class="resize-btn"></div>
                 </th>
                 <th id="3" class="activate">
                   <div class="head row">
-                    <div class="title">Столбец с ресайзом, но без выпадающего списка</div>
-                    <div class="triangle white icon"></div>
+                    <div class="title">3. Столбец без ресайза, но с выпадающим списком</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">4. Столбец с ресайзом и выпадающим списком</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
                   </div>
                   <div class="resize-btn"></div>
                 </th>
-                <th id="4" class="activate">
-                  <div class="head row">
-                    <div class="title">Столбец без ресайза, но с выпадающим списком</div>
-                    <div class="triangle white icon"></div>
-                  </div>
-                  <div class="drop-down">
-                    <div class="item row"></div>
-                  </div>
-                </th>
                 <th id="5" class="activate">
                   <div class="head row">
-                    <div class="title">Столбец с ресайзом и выпадающим списком</div>
-                    <div class="triangle white icon"></div>
+                    <div class="title">Столбец №5</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
@@ -252,7 +261,10 @@
                 <th id="6" class="activate">
                   <div class="head row">
                     <div class="title">Столбец №6</div>
-                    <div class="triangle white icon"></div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
@@ -262,7 +274,10 @@
                 <th id="7" class="activate">
                   <div class="head row">
                     <div class="title">Столбец №7</div>
-                    <div class="triangle white icon"></div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
@@ -272,7 +287,10 @@
                 <th id="8" class="activate">
                   <div class="head row">
                     <div class="title">Столбец №8</div>
-                    <div class="triangle white icon"></div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
@@ -282,7 +300,10 @@
                 <th id="9" class="activate">
                   <div class="head row">
                     <div class="title">Столбец №9</div>
-                    <div class="triangle white icon"></div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
@@ -291,12 +312,13 @@
                 </th>
                 <th id="10" class="activate">
                   <div class="head row">
-                    <div class="title">Последний столбец без ресайза</div>
+                    <div class="title">Последний столбец с ресайзом</div>
                     <div class="triangle white icon"></div>
                   </div>
                   <div class="drop-down">
                     <div class="item row"></div>
                   </div>
+                  <div class="resize-btn"></div>
                 </th>
               </tr>
             </thead>
@@ -310,7 +332,7 @@
                 <td>#data#</td>
                 <td>#data#</td>
                 <td>#data#</td>
-                <td>#data#<div class="download icon"></div></td>
+                <td>#data#</td>
                 <td>#data#</td>
                 <td>#data#</td>
                 <td>#data#</td>
@@ -404,7 +426,7 @@
 
         <div class="free-qty icon"></div>
 
-        <div class="wait-qty icon"></div>
+        <div class="arrive-qty icon"></div>
 
         <div class="download icon"></div>
 
@@ -923,8 +945,11 @@
     <script>
       initDropDown('select');
       initDropDown('checkbox');
-      window.tableData = [{data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}, {data: 'Сюда подставляем данные'}];
-      initTables();
+      var data = [];
+      for (var i = 0; i < 120; i++) {
+        data.push({data: 'Сюда подставляем данные'});
+      }
+      initTable('table', data);
     </script>
 
   </body>

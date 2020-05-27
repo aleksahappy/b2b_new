@@ -680,6 +680,10 @@ a.btn {
   background-image: url(../img/triangle_white.svg);
 }
 
+.filter.icon {
+  background-image: url(../img/filter.svg);
+}
+
 .close.icon {
   background-image: url(../img/close.svg);
 }
@@ -798,6 +802,11 @@ a.btn {
 
 .download.icon {
   background-image: url(../img/download.svg);
+  background-size: 1em;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 2em;
+  height: 2em;
 }
 
 .star.white.icon {
@@ -975,6 +984,7 @@ a.btn {
   background-color: #FFFFFF;
   border: 1px solid #D5D5D5;
   border-radius: 3px;
+  white-space: nowrap;
 }
 
 .activate:not([disabled]):hover .head,
@@ -987,6 +997,7 @@ a.btn {
 }
 
 .activate .head .title {
+  max-width: 100%;
   color: #666666;
   white-space: nowrap;
   overflow: hidden;
@@ -997,10 +1008,27 @@ a.btn {
   color: rgb(113,129,145, 0.4);
 }
 
-.activate .triangle {
+.activate .icons {
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-top: 0.3em;
+}
+
+.activate .triangle,
+.activate .filter {
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 0.57em;
-  height: 0.36em;
   margin-left: 0.5em;
+}
+
+.activate .triangle {
+  height: 0.36em;
+}
+
+.activate .filter {
+  height: 0.64em;
+  visibility: hidden;
 }
 
 .activate[disabled] .triangle path {
@@ -1697,7 +1725,7 @@ form.file input[type="submit"] {
   text-decoration: none;
 }
 
-#main-nav  a:last-child {
+#main-nav a:last-child {
   cursor: default;
 }
 
@@ -1983,39 +2011,37 @@ form.registr-form .unactive {
 ===================================================================================================== */
 
 #alerts-container {
+  display: flex;
   justify-content: flex-start;
   align-items: flex-end;
+  width: 0px;
+  height: 0px;
+}
+
+#alerts-container.open {
+  width: auto;
+  height: auto;
 }
 
 #alerts-container .row {
   align-items: center;
 }
 
-#alerts-container a {
-  display: inline-block;
-  text-decoration: underline;
-}
-
-#alerts-container .close-btn {
-  font-size: 1.143em;
-  align-items: center;
-  height: 4em;
-  background-color: #F2F2F2;
-}
-
-#alerts-container .alerts.icon {
-  position: relative;
-  width: 2.25em;
-  height: 2.25em;
-  margin: 0 4rem;
-}
-
 #alerts-container .pop-up {
   width: 50vw;
-  height: calc(100% - 4em);
-  max-height: 100%;
+  height: 100%;
   max-width: 50vw;
-  background-color: #F2F2F2;
+  max-height: 100%;
+  transform-origin: 0 0;
+  -webkit-transition: transform 0.5s linear;
+  -moz-transition: transform 0.5s linear;
+  -o-transition: transform 0.5s linear;
+  transition: transform 0.5s linear;
+  transform: translate(50vw);
+}
+
+#alerts-container.open .pop-up {
+  transform: translate(0);
 }
 
 #alerts-container .pop-up-title .title {
@@ -2023,6 +2049,7 @@ form.registr-form .unactive {
 }
 
 #alerts-container .pop-up-body {
+  max-height: calc(100% - 5em);
   padding: 0;
   padding-bottom: 1em;
 }
@@ -2034,7 +2061,7 @@ form.registr-form .unactive {
   border-bottom: 1px solid #DBDBDB;
 }
 
-#alerts-container .pop-up-body > .message:last-child .wrap{
+#alerts-container .pop-up-body > .message:last-child .wrap {
   border-bottom: none;
 }
 
@@ -2409,11 +2436,6 @@ form.registr-form .unactive {
  Стили для изображения на весь экран:
 ===================================================================================================== */
 
-#full-img-container {
-  padding: 3em 0;
-  z-index: 500;
-}
-
 #full-img-container .close-btn {
   position: absolute;
   top: 0;
@@ -2466,17 +2488,19 @@ form.registr-form .unactive {
 
 .tabs .tab {
   display: none;
+  justify-content: space-between;
+  align-items: center;
   color: #FFFFFF;
   cursor: pointer;
 }
 
-.tabs .tab.disabled {
+.tabs .tab.disabled:not(#nomen) {
   color: #818A94;
   background-color: #D4D7DB;
   cursor: default;
 }
 
-.tabs .tab.disabled .icon {
+.tabs .tab.disabled:not(#nomen) .icon {
   cursor: default;
 }
 
@@ -2529,35 +2553,27 @@ table.head {
 
 th, td {
   position: relative;
-  padding: 0.7em 1.2em;
+  padding: 0.7em 1em;
   white-space: nowrap;
   text-align: left;
 }
 
 th {
   overflow: visible;
-  padding: 0;
 }
 
-th:not(.activate) {
-  line-height: 0;
-}
-
-th > div:first-child{
+th div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
-  height: 100%;
-  padding: 0.7em 1.2em;
-  line-height: normal;
 }
 
 td {
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-th > *, td > * {
+td > * {
   display: inline-block;
 }
 
@@ -2565,28 +2581,18 @@ th > *, td > * {
 
 th.activate {
   padding: 0;
+  overflow: visible;
 }
 
 th.activate .head {
   justify-content: flex-start;
-  align-items: center;
-  padding: 0.7em 1.2em;
+  padding: 0.7em 1em;
   background-color: initial;
   border: none;
-  white-space: nowrap;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 th.activate .head .title {
-  flex-grow: 0;
-  flex-shrink: 0;
-  max-width: 100%;
   color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 th.activate .drop-down {
@@ -2595,11 +2601,6 @@ th.activate .drop-down {
   min-width: fit-content;
   color: #666666;
 }
-
-/* th.activate .drop-down .icon {
-  min-width: 1em;
-  min-height: 1em;
-} */
 
 /* Основные стили таблицы-заголовка */
 
@@ -2620,17 +2621,11 @@ thead .results th {
   text-align: right;
 }
 
-thead .triangle {
-  width: 0.57em;
-  height: 0.36em;
-  margin-left: 0.5em;
-}
-
 thead .resize-btn {
   display: block;
   position: absolute;
-  top: 5%;
-  height: 90%;
+  top: 0;
+  height: 100%;
   right: -4px;
   width: 10px;
   z-index: 1;
@@ -2641,10 +2636,10 @@ thead .resize-btn::before {
   content: '';
   display: inline-block;
   position: absolute;
-  top: 10%;
+  top: 0.33em;
   right: 4px;
   width: 1px;
-  height: 80%;
+  height: 75%;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -2664,8 +2659,13 @@ thead .resize-btn::after {
 }
 
 thead .resize-btn:hover::after {
-  height: 10000px;
   opacity: 1;
+}
+
+th:last-child .resize-btn,
+th:last-child .resize-btn::before,
+th:last-child .resize-btn::after {
+  right: 0px;
 }
 
 /* Основные стили таблицы-содержимого */
@@ -2693,12 +2693,6 @@ tbody tr:hover {
 table .star.icon {
   width: 1.25em;
   height: 1.17em;
-}
-
-table .download.icon {
-  width: 1em;
-  height: 1em;
-  margin-right: 0.714em;
 }
 
 table .toggle.icon {

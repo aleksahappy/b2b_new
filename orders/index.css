@@ -25,9 +25,8 @@
 
 /* Стили таблицы */
 
-table .download.icon {
-  margin-right: 0;
-  margin-left: 0.714em;
+.table-wrap {
+  max-height: 76vh;
 }
 
 thead .percent {
@@ -81,7 +80,7 @@ thead .eighty::before {
 }
 
 thead .hundred {
-  left: 100%;
+  right: 0;
 }
 
 thead .hundred::before {
@@ -106,11 +105,11 @@ thead .legend {
 }
 
 #orderslist td:nth-child(1) {
-  min-width: 3.7em;
+  min-width: 9em;
 }
 
 #orderslist td:nth-child(2) {
-  min-width: 7em;
+  min-width: 10em;
 }
 
 #orderslist td:nth-child(3) {
@@ -126,36 +125,44 @@ thead .legend {
 }
 
 #orderslist td:nth-child(6) {
-  min-width: 10em;
+  min-width: 11em;
+  padding: 0;
+  text-align: right;
+}
+
+#orderslist td:nth-child(6) .row {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#orderslist td:nth-child(6) .row > div:first-child {
+  padding: 0.7em 0 0.7em 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #orderslist td:nth-child(7) {
   min-width: 10em;
-  text-align: right;
 }
 
 #orderslist td:nth-child(8) {
-  min-width: 10em;
-}
-
-#orderslist td:nth-child(9) {
-  min-width: 50em;
+  min-width: 30em;
   padding: 0;
   border-left: 1px solid #DCDCDC;
   border-bottom: none;
 }
 
-#orderslist td:nth-child(9) > div {
+#orderslist td:nth-child(8) > div {
   display: flex;
   justify-content: start;
   align-items: center;
   width: 100%;
 }
 
-#orderslist td:nth-child(9) > div > div {
+#orderslist td:nth-child(8) > div > div {
   height: 1.25em;
 }
 
-#orderslist tr.disabled td:nth-child(9) {
+#orderslist tr.disabled td:nth-child(8) {
   background-color: #DDDDDD;
 }
