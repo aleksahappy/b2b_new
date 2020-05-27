@@ -33,12 +33,16 @@
 
 @media (max-width: 1299px) {
 
+  section{
+    margin-bottom: 10px;
+  }
+
   .settle{
     padding: 0;
   }
 
   .settle-title{
-    padding: 0.65em 0.75em;
+    padding: 0.65em 1em;
     line-height: 1em;
   }
 
@@ -68,7 +72,7 @@
     line-height: 20px;
     padding: 0 10px;
     font-size: 0.75em;
-    background: #D70C17 url(../img/desktop/line-attention.svg) no-repeat 8px center;
+    background: #D70C17 url(../img/desktop/set-attention.svg) no-repeat 8px center;
   }
 
   .line{
@@ -116,6 +120,92 @@
     width: 100%;
     justify-content: space-between;
     height: 10px;
+  }
+
+  .info-graphic{
+    padding: 0 0 30px 0;
+  }
+
+  .info-graphic .col1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .graphic-btns{
+    display: none;
+  }
+
+  .graphic-btns1{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .graphic-btns1 .table-btns{
+    order: 1;
+    flex-direction: column;
+  }
+
+  .graphic-btns1 .table-btns > * {
+    margin-bottom: 1.25em;
+  }
+
+  .preorder-toggle{
+    order: 2;
+    margin-top: 0.5em;
+  }
+
+  .section-head{
+    padding: 1.25em 1.25em 0.9375em 1.25em;
+    background: #53606F;
+  }
+
+  .section-title{
+    color: red;
+  }
+
+  .col2{
+    flex: 1;
+  }
+
+  .graphics{
+    flex-direction: column;
+    margin-top: 0;
+  }
+
+  .border-title{
+    border: 0;
+  }
+
+
+  .info-graphic-1{
+    margin-top: 10px;
+  }
+
+  .info-graphic-1 .graphics > *{
+    margin-bottom: 10px;
+  }
+
+  .info-graphic-1 .col1,
+  .info-graphic-2 .col2{
+    margin-right: 0;
+  }
+
+  .col-wrapper{
+    padding: 0;
+  }
+
+  .fullWidth{
+    display: none;
+  }
+
+  .orders-info{
+  	z-index: 0;
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+    transform: translate(-50%, -50%);
   }
 
 }

@@ -22,9 +22,15 @@ const ordersProgress = () => {
 
   const ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
   ordersInfo.textContent = `${test1} активных заказов на общую сумму ${test2.toLocaleString('ru-RU')} руб.`;
-  const ordersChart = document.getElementById('myChart').getContext('2d');  //  canvas диаграммы
-  ordersChart.canvas.parentNode.style.width = '100%';
-  ordersChart.canvas.parentNode.style.height = '393px';
+  const ordersChart = document.getElementById('orders-chart').getContext('2d');  //  canvas диаграммы
+
+  if (window.innerWidth > 1299) {
+    ordersChart.canvas.parentNode.style.width = '100%';
+    ordersChart.canvas.parentNode.style.height = '393px';
+  } else if (window.innerWidth < 1299) {
+    ordersChart.canvas.parentNode.style.width = '50%';
+    ordersChart.canvas.parentNode.style.height = '349px';
+  }
 
 
   const chart = new Chart(ordersChart, {

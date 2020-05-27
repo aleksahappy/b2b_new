@@ -128,7 +128,7 @@ section{
 	line-height: 1.8875em;
 	text-align: right;
 	color: #ffffff;
-	background: #D70C17 url('../img/desktop/line-attention.svg') no-repeat 12px center;
+	background: #D70C17 url('../img/desktop/set-attention.svg') no-repeat 12px center;
 }
 
 .lines{
@@ -206,6 +206,10 @@ section{
 .graphic-btns{
 	display: flex;
 	align-items: center;
+}
+
+.graphic-btns1{
+  display: none;
 }
 
 .graphics{

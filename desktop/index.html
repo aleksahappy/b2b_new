@@ -210,7 +210,7 @@
               </div>
             </section>
             <!-- Секция "Заказы в работе"-->
-            <section class="info-graphic">
+            <section class="info-graphic toggle" onclick="toggleContent(event)">
               <div class="section-head">
                 <div class="section-title">Заказы в работе</div>
                 <div class="graphic-btns">
@@ -227,15 +227,30 @@
                     <div class="table-btn status4">Отгружен</div>
                   </div>
                 </div>
+                <div class="open white icon toggle-icon"></div>
               </div>
-              <div class="graphics">
+              <div class="graphics toggle-cont">
                 <div class="col1 border-title">
                   <div id="chart1">
                     <div class="orders-info">тест тест тест</div>
-                    <canvas id="myChart"></canvas>
+                    <canvas id="orders-chart"></canvas>
                   </div>
                   <div class="fullWidth">
                     <button class="btn action-btn">Перейти к заказам</button>
+                  </div>
+                  <div class="graphic-btns1">
+                    <div class="preorder-toggle">
+                      <div class="toggle-name">Только предзаказы</div>
+                      <div class="new-toggle">
+                        <div class="new-toggle-btn"></div>
+                      </div>
+                    </div>
+                    <div class="table-btns">
+                      <div class="table-btn status1">Ожидается</div>
+                      <div class="table-btn status2">В наличии</div>
+                      <div class="table-btn status3">Собран</div>
+                      <div class="table-btn status4">Отгружен</div>
+                    </div>
                   </div>
                 </div>
                 <div class="col2 border-title">
@@ -264,7 +279,9 @@
                 <div class="col1">
                   <div class="col-wrapper center-col">
                     <!-- Заголовок секции -->
-                    <div class="section-title">Рекламации в работе</div>
+                    <div class="section-head">
+                      <div class="section-title">Рекламации в работе</div>
+                    </div>
                     <!-- Диаграмма рекламаций -->
                     <div class="speed-chart">
                       <div class="gauge">
@@ -291,7 +308,9 @@
                   <div class="col-wrapper">
                     <div class="col-body">
                       <!-- Заголовок секции -->
-                      <div class="section-title">График поставок</div>
+                      <div class="section-head">
+                        <div class="section-title">График поставок</div>
+                      </div>
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
                         <div class="new-toggle">
@@ -320,7 +339,9 @@
                   <div class="col-wrapper center-col">
                     <div class="col-body">
                       <!-- Заголовок секции -->
-                      <div class="section-title">Ежегодная динамика товарооборота</div>
+                      <div class="section-head">
+                        <div class="section-title">Ежегодная динамика товарооборота</div>
+                      </div>
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
@@ -337,7 +358,9 @@
                 <div class="col1">
                   <div class="col-wrapper center-col">
                     <!-- Заголовок секции -->
-                    <div class="section-title">Доля закупок по <br> производителям</div>
+                    <div class="section-head">
+                      <div class="section-title">Доля закупок по <br> производителям</div>
+                    </div>
                     <div class="chart-wrapper">
                       <div id="chart4">
                         <canvas id="procurementChart"></canvas>
