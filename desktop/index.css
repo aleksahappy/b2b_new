@@ -16,7 +16,7 @@
 }
 
 .btn{
-  padding: 10px 30px;
+  padding: 0.825em  1.875em;
   border: 0;
   border-radius: 3px;
   font-size: 0.875em;
@@ -79,7 +79,7 @@ section{
 
 .settle{
 	width: 100%;
-	padding: 0 10px 15px 20px;
+	padding: 0 0.625em  0.9375em  1.25em;
 	background: #53606F;
 }
 
@@ -102,7 +102,7 @@ section{
 	flex-direction: column;
 	justify-content: space-between;
 	width: calc(100% / 4);
-	padding: 0 15px;
+	padding: 0 0.9375em;
 	border-right: 1px solid #ffffff;
 	color: #ffffff;
 }
@@ -117,64 +117,65 @@ section{
 
 .settle-block .attention{
 	position: absolute;
-	right: 10px;
-	bottom: 30px;
+  right: 10px;
+  bottom: 30px;
 	display: block;
 	width: 136px;
-	height: 27px;
+	height: 1.8875em;
 	padding: 0 10px;
 	border-radius: 37px;
-	font-size: 0.85em;
-	line-height: 27px;
+	font-size: 1em;
+	line-height: 1.8875em;
 	text-align: right;
 	color: #ffffff;
-	background: #D70C17 url('../img/desktop/set-attention.svg') no-repeat 12px center;
+	background: #D70C17 url('../img/desktop/line-attention.svg') no-repeat 12px center;
 }
 
-.sets{
+.lines{
   display: flex;
   flex-direction: column;
 }
 
-.set{
+.line{
 	display: flex;
 	align-items: center;
 	font-size: 0.75em;
-	margin-bottom: 8px;
+	margin-bottom: 0.5em;
 }
 
-.set:last-child,
-.set:nth-child(4){
+.line:last-child,
+.line:nth-child(4){
 	margin-bottom: 0;
 }
 
-.set-status{
+.line-status{
   display: flex;
   flex-direction: column;
-  height: 35px;
+  height: 3.3875em;
   justify-content: space-between;
 }
 
-.set4{
+.line4{
   align-items: flex-start;
   justify-content: flex-start;
-  height: 35px;
+  height: 3.3875em;
 }
 
-.set-ic{
+.line-ic{
+  min-width: 30px;
 	width: 30px;
 	height: 30px;
-	margin-right: 8px;
+	margin-right: 0.8em;
 	background: url('../img/desktop/money-ic.svg') no-repeat center center;
 	background-size: contain;
 }
 
-.set-title{
+.line-title{
 	font-size: 1.35em;
 	font-weight: 600;
 }
 
-.set-money{
+.line-money{
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
@@ -191,9 +192,9 @@ section{
 /* Основной график и таблица */
 
 .info-graphic{
-	display: none;
+	display: block;
 	width: 100%;
-	padding: 20px 20px 30px 20px;
+	padding: 1.25em 1.25em  0.9375em  1.25em;
 	background: #ffffff;
 }
 
@@ -220,7 +221,7 @@ section{
 
 .toggle-name{
 	padding-bottom: 1px;
-	margin-right: 6px;
+	margin-right: 0.5em;
 	font-size: 0.875em;
 	color: #666666;
 }
@@ -248,11 +249,11 @@ section{
 .table-btns{
 	display: flex;
 	justify-content: space-between;
-	margin-left: 50px;
+	margin-left: 3.225em;
 }
 
 .table-btns > * {
-	margin-right: 20px;
+	margin-right: 1.6em;
 }
 
 .table-btn:last-child{
@@ -311,6 +312,8 @@ section{
 	border-top: 1px solid #cccccc;
 }
 
+
+/* Таблица "Заказы в работе" на Сашином шаблоне */
 #desktop-table{
 	overflow: hidden;
 	overflow-y: auto;
@@ -373,12 +376,12 @@ section{
 
 #chart1{
 	position: relative;
-	height: 621px;
+	height: 32.3437vw;
 }
 
 /* Вторая секция с графикми */
 .info-graphic-1{
-	display: none; /**/
+	display: block; /**/
 	margin-top: 20px;
 }
 
@@ -553,20 +556,19 @@ section{
 }
 
 #chart3{
-	margin-top: 50px;
+	margin-top: 3.225em;
 	margin-bottom: 20px;
 }
 
 .txt{
-	padding-top: 20px;
-	padding-left: 10px;
+	padding-top: 1.85em;
+	padding-left: 0.625em;
 	font-size: 0.875em;
 	color: #666666;
 }
 
 .info-graphic-2{
-	display: none; /**/
-	/* border: 1px solid #000; */
+	display: block; /**/
 }
 
 .info-graphic-2 .graphics{
@@ -583,8 +585,8 @@ section{
 
 
 legend select{
-	width: 125px;
-	height: 21px;
+	width: 11.0125em;
+	height: 2.0125em;
 	font-size: 0.785em;
 	border: 1px solid #C6C6C6;
 	border-radius: 3px;
@@ -592,8 +594,8 @@ legend select{
 }
 
 .info-graphic-2 .list{
-	margin-top: 10px;
-	margin-left: 40px;
+	margin-top: 1.25em;
+	margin-left: 2.5em;
 }
 
 .info-graphic-2 .item{

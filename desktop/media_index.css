@@ -38,14 +38,14 @@
   }
 
   .settle-title{
-    padding: 20px 30px 20px 30px;
+    padding: 0.65em 0.75em;
     line-height: 1em;
   }
 
   .settle-blocks{
   	display: block;
   	width: 100%;
-    padding: 0 30px 10px 30px;
+    padding: 0 1.875em 0.625em 1.875em;
     background: #8596A6;
   }
 
@@ -54,68 +54,128 @@
   	width: 100%;
   	border-right: 0;
     padding: 0;
-    padding-top: 20px;
-    padding-bottom: 7px;
+    padding-top: 1.25em;
+    padding-bottom: 0.4375em;
     border-bottom: 1px solid #ffffff;
   }
 
   .settle-block .attention{
-    right: 250px;
+    right: 200px;
+    bottom: 10px;
     height: 19px;
-    line-height: 19px;
+    width: 110px;
+    height: 20px;
+    line-height: 20px;
     padding: 0 10px;
     font-size: 0.75em;
-    background: #D70C17 url(../img/desktop/set-attention.svg) no-repeat 8px center;
+    background: #D70C17 url(../img/desktop/line-attention.svg) no-repeat 8px center;
   }
 
-  .set{
+  .line{
     margin-bottom: 0;
     font-size: 1em;
   }
 
-  .set-title{
+  .line-title{
     font-size: 1.7em;
   }
 
-  .set-money{
+  .line-money{
     justify-content: flex-end;
   }
 
-  .set span{
+  .line span{
     display: none;
   }
 
-  .sets .set:first-child{
+  .lines .line:first-child{
     order: 1;
-    color: red;
   }
 
-  .sets .set:nth-child(2){
+  .lines .line:nth-child(2){
     order: 3;
-    margin: 10px 0;
-    color: blue;
+    margin: 0.625em 0;
   }
 
-  .sets .set:nth-child(3){
+  .lines .line:nth-child(3){
     order: 3;
     justify-content: flex-end;
-    margin-top: -28px;
+    margin-top: -1.75em;
   }
-  .sets .set:last-child{
+  .lines .line:last-child{
     order: 2;
-    color: yellow;
   }
-
-  .set4{
+  .line4{
     justify-content: flex-end;
+    height: 0.625em;
   }
 
-  .set-status{
+  .line-status{
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
     height: 10px;
+  }
+
+}
+
+
+@media(max-width: 685px) {
+
+  .settle-blocks{
+    padding: 0 1.875em;
+  }
+
+  .settle-block{
+    padding-bottom: 1.25em;
+  }
+
+  .lines .line:nth-child(2) {
+    display: none;
+  }
+
+  .lines .line:nth-child(3) {
+    order: 3;
+    justify-content: flex-end;
+    margin-top: 1.25em;
+  }
+
+  .settle-block .attention{
+    width: 120px;
+    left: 0;
+    bottom: 20px;
+    padding: 0 6px;
+  }
+
+  .money{
+    font-size: 2em;
+  }
+
+}
+
+
+@media (max-width: 499px) {
+
+  .line-title{
+    font-size: 1.2em;
+  }
+
+  .money{
+    font-size: 1.6em;
+  }
+
+  .settle-block .attention{
+    width: 100px;
+    padding: 0 5px;
+  }
+
+  .settle-title{
+    font-size: 1.45em;
+  }
+
+  .header-top .logo{
+    margin-right: 0;
   }
 
 }

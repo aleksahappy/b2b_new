@@ -16,6 +16,10 @@
 
 @media (max-width: 1299px) {
 
+  body{
+    padding-top: 40px;
+  }
+
   .header-top .container{
     height: 2.5em;
   }
@@ -83,6 +87,18 @@
   .mob-menu {
     display: block;
     margin-left: 1.55em;
+  }
+
+}
+
+@media (max-width: 499px) {
+
+  .main-title{
+    justify-content: center;
+  }
+
+  .main-title .title{
+    font-size: 1.4em;
   }
 
 }
