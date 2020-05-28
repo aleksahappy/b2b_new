@@ -276,37 +276,40 @@
             <!-- Секция "Рекламация в работе" и "График поставок" -->
             <section class="info-graphic-1">
               <div class="graphics">
-                <div class="col1">
-                  <div class="col-wrapper center-col">
+                <div class="col1" onclick="toggleContent(event)">
+                  <div class="col-wrapper center-col toggle-cont">
                     <!-- Заголовок секции -->
                     <div class="section-head">
                       <div class="section-title">Рекламации в работе</div>
+                      <div class="open white icon toggle-icon"></div>
                     </div>
-                    <!-- Диаграмма рекламаций -->
-                    <div class="speed-chart">
-                      <div class="gauge">
-                        <div class="g-body">
-                          <div class="g-fill"></div>
-                          <div class="g-cover"></div>
+                    <div class="section-body toggle-cont">
+                      <!-- Диаграмма рекламаций -->
+                      <div class="speed-chart">
+                        <div class="gauge">
+                          <div class="g-body">
+                            <div class="g-fill"></div>
+                            <div class="g-cover"></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="speed-point">
-                      <div class="speed-pointer"></div>
-                    </div>
-                    <!-- Текст результата рекламаций -->
-                    <div class="recl-result">
-                      тест тест тест
-                    </div>
-                    <!-- Копка перейти к рекламациям -->
-                    <div class="fullWidth">
-                      <button class="btn action-btn">Перейти к рекламациям</button>
+                      <div class="speed-point">
+                        <div class="speed-pointer"></div>
+                      </div>
+                      <!-- Текст результата рекламаций -->
+                      <div class="recl-result">
+                        тест тест тест
+                      </div>
+                      <!-- Копка перейти к рекламациям -->
+                      <div class="fullWidth">
+                        <button class="btn action-btn">Перейти к рекламациям</button>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="col2">
                   <div class="col-wrapper">
-                    <div class="col-body">
+                    <div class="col-head">
                       <!-- Заголовок секции -->
                       <div class="section-head">
                         <div class="section-title">График поставок</div>
@@ -324,6 +327,12 @@
                         <div class="brand-btn status-2">509</div>
                         <div class="brand-btn status-4">FXR</div>
                       </div>
+                      <div class="preorder-toggle">
+                        <div class="toggle-name">Только предзаказы</div>
+                        <div class="new-toggle">
+                          <div class="new-toggle-btn"></div>
+                        </div>
+                      </div>
                     </div>
                     <div id="chart2">
                       <canvas id="deliveryChart"></canvas>
@@ -337,7 +346,7 @@
               <div class="graphics">
                 <div class="col2 ">
                   <div class="col-wrapper center-col">
-                    <div class="col-body">
+                    <div class="col-head">
                       <!-- Заголовок секции -->
                       <div class="section-head">
                         <div class="section-title">Ежегодная динамика товарооборота</div>
@@ -359,7 +368,7 @@
                   <div class="col-wrapper center-col">
                     <!-- Заголовок секции -->
                     <div class="section-head">
-                      <div class="section-title">Доля закупок по <br> производителям</div>
+                      <div class="section-title">Доля закупок по производителям</div>
                     </div>
                     <div class="chart-wrapper">
                       <div id="chart4">
@@ -729,7 +738,7 @@
       isNav: false,
       isLoupe: true,
       isInfinitie: true,
-      isAvtoScroll: false,
+      isAvtoScroll: true,
       interval: 1000,
       // isLoupeOutside: true,
       isCenter: true,
@@ -739,8 +748,9 @@
 
 
     startCarouselInit(curCarousels);
+    window.onresize = startCarouselInit(curCarousels);
     </script>
-    <!-- <script>
+    <script>
       const tbl = document.querySelector('#desktop-table');
       window['desktop-tableData'] = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
                                       {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 509', wait: 118950, stoke: 118950, done: 8950, delivered: 228950 },
@@ -760,6 +770,6 @@
                                       {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950}
                                     ];
       initTables();
-    </script> -->
+    </script>
   </body>
 </html>

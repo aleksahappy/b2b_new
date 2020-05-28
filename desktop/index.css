@@ -1,3 +1,7 @@
+.open.icon{
+  display: none;
+}
+
 .new-container {
   margin: 0 3.125em!important;
 }
@@ -419,7 +423,7 @@ section{
 	background: #ffffff;
 }
 
-.col-body{
+.col-head{
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
@@ -429,6 +433,10 @@ section{
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 20px;
+}
+
+.brands-btns .preorder-toggle{
+  display: none;
 }
 
 .brand-btn{
@@ -544,7 +552,7 @@ section{
 .recl-result{
 	margin: 0 auto;
 	width: 78%;
-	font-size: 1.125em;
+	font-size: 1.325em;
 	line-height: 1.35em;
 	text-align: center;
 	letter-spacing: -1px;
@@ -553,6 +561,10 @@ section{
 
 .info-graphic-1 .fullWidth{
 	margin-bottom: 10px;
+}
+
+.info-graphic-2 .col1 .section-title{
+  width: 50%;
 }
 
 #chart2{

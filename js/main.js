@@ -666,8 +666,13 @@ function toggleContent(event) {
   if (!container || container.classList.contains('disabled')) {
     return;
   }
+
+  if (event.target.closest('.toggle-cont')) {
+    return;
+  }
   var toggleIcon = getEl('.toggle-icon', container);
-  if (!toggleIcon || toggleIcon.style.display === 'none') {
+  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
+
     return;
   }
   container.classList.toggle('close');

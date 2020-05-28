@@ -4,7 +4,7 @@
   }
 }
 
-
+/* Медиа-стили для laptop */
 @media (max-width: 1367px) {
 
   .new-container {
@@ -31,7 +31,12 @@
 }
 
 
+/* Медиа-стили для tablet */
 @media (max-width: 1299px) {
+
+  .open.icon{
+    display: block;
+  }
 
   section{
     margin-bottom: 10px;
@@ -123,7 +128,7 @@
   }
 
   .info-graphic{
-    padding: 0 0 30px 0;
+    padding: 0;
   }
 
   .info-graphic .col1{
@@ -162,7 +167,7 @@
   }
 
   .section-title{
-    color: red;
+    color: #ffffff;
   }
 
   .col2{
@@ -174,22 +179,29 @@
     margin-top: 0;
   }
 
+  .info-graphic .graphics{
+    padding-bottom: 1.875em;
+  }
+
   .border-title{
     border: 0;
   }
-
 
   .info-graphic-1{
     margin-top: 10px;
   }
 
-  .info-graphic-1 .graphics > *{
+  .info-graphic-1 .graphics .col1{
     margin-bottom: 10px;
   }
 
   .info-graphic-1 .col1,
   .info-graphic-2 .col2{
     margin-right: 0;
+  }
+
+  .info-graphic-1 .col2 .col-wrapper{
+    height: 92%;
   }
 
   .col-wrapper{
@@ -208,10 +220,106 @@
     transform: translate(-50%, -50%);
   }
 
+  .gauge{
+    min-width: 455px;
+  }
+
+  .speed-point{
+    top: 70%;
+    left: 47%;
+  }
+
+  .recl-result{
+    padding-bottom: 2.375em;
+  }
+
+  .info-graphic-1 .graphics{
+    padding-bottom: 0;
+  }
+
+  .info-graphic-1 .col2 .col-head{
+    flex-direction: column;
+  }
+
+  .info-graphic-1 .col2 .col-head .section-head{
+    width: 100%;
+  }
+
+  .info-graphic-1 .col-head .preorder-toggle{
+    display: none;
+  }
+
+  .brands-btns .preorder-toggle{
+    display: flex;
+  }
+
+  .brands-btns .table-btns{
+    margin-left: 0;
+  }
+
+  .brands-btns{
+    justify-content: space-between;
+    padding: 0 1.25em 0.9375em 1.25em;
+  }
+
+  #chart2{
+    padding: 0 1.25em 0.9375em 1.25em;
+  }
+
+  .txt{
+    display: none;
+  }
+
+  /* "Ежегодная динамика товарооборота" и "Доля закупок по производителям" */
+
+  .info-graphic-2 .col1{
+    margin-bottom: 10px;
+  }
+
+  .info-graphic-2 .graphics .col1{
+    order: 1;
+  }
+
+  .info-graphic-2 .graphics .col2{
+    order: 2;
+  }
+
+  .info-graphic-2 .col-head{
+    flex-direction: column;
+  }
+
+  .info-graphic-2 .col1 .section-title{
+    width: 100%;
+  }
+
+  .info-graphic-2 .section-head{
+    width: 100%;
+  }
+
+  .info-graphic-2 .chart-wrapper{
+    justify-content: space-evenly;
+    padding: 1.875em 0 1.475em 0;
+  }
+
+  .info-graphic-2 .preorder-toggle{
+    padding: 1.575em 1.24em 0 0;
+  }
+
+  .info-graphic-2 .list{
+    margin-left: 0;
+  }
+
+
 }
 
 
+/* Медиа-стили для mobile */
 @media(max-width: 685px) {
+
+  .orders-info{
+    font-size: 1em;
+    width: 50%;
+  }
 
   .settle-blocks{
     padding: 0 1.875em;
@@ -242,10 +350,50 @@
     font-size: 2em;
   }
 
+  .carousel-gallery .carousel-item{
+    max-width: 100%;
+    width: 100%!important;
+    margin-right: 20px;
+  }
+
+}
+
+@media(max-width: 540px) {
+  .gauge{
+    min-width: 310px;
+    width: 100%;
+    max-width: 90%
+  }
 }
 
 
 @media (max-width: 499px) {
+
+  .info-graphic{
+    display: none;
+  }
+
+  .info-graphic-1 .col1{
+    display: none;
+  }
+
+  .info-graphic-1 .col2{
+    display: none;
+  }
+
+  .orders-info{
+    font-size: 0.9em;
+    width: 25%;
+  }
+
+  .info-graphic .col1{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-graphic-2{
+    display: none;
+  }
 
   .line-title{
     font-size: 1.2em;
