@@ -201,7 +201,7 @@
   }
 
   .info-graphic-1 .col2 .col-wrapper{
-    height: 92%;
+    /* height: 92%; */
   }
 
   .col-wrapper{
@@ -220,17 +220,22 @@
     transform: translate(-50%, -50%);
   }
 
+  .section-body{
+    margin-top: 3em;
+  }
+
   .gauge{
     min-width: 455px;
   }
 
   .speed-point{
-    top: 70%;
-    left: 47%;
+    top: 60%;
+    left: 49%;
   }
 
   .recl-result{
-    padding-bottom: 2.375em;
+    margin: 3.75em auto 0 auto;
+    padding-bottom: 1.375em;
   }
 
   .info-graphic-1 .graphics{

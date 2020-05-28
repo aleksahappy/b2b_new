@@ -276,8 +276,8 @@
             <!-- Секция "Рекламация в работе" и "График поставок" -->
             <section class="info-graphic-1">
               <div class="graphics">
-                <div class="col1" onclick="toggleContent(event)">
-                  <div class="col-wrapper center-col toggle-cont">
+                <div class="col1" >
+                  <div class="col-wrapper center-col toggle" onclick="toggleContent(event)">
                     <!-- Заголовок секции -->
                     <div class="section-head">
                       <div class="section-title">Рекламации в работе</div>
@@ -307,12 +307,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="col2">
+                <div class="col2 toggle" onclick="toggleContent(event)">
                   <div class="col-wrapper">
                     <div class="col-head">
                       <!-- Заголовок секции -->
                       <div class="section-head">
                         <div class="section-title">График поставок</div>
+                        <div class="open white icon toggle-icon"></div>
                       </div>
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
@@ -321,23 +322,26 @@
                         </div>
                       </div>
                     </div>
-                    <div class="brands-btns">
-                      <div class="table-btns">
-                        <div class="brand-btn status-1">BCA</div>
-                        <div class="brand-btn status-2">509</div>
-                        <div class="brand-btn status-4">FXR</div>
-                      </div>
-                      <div class="preorder-toggle">
-                        <div class="toggle-name">Только предзаказы</div>
-                        <div class="new-toggle">
-                          <div class="new-toggle-btn"></div>
+                    <div class="section-body-1 toggle-cont">
+                      <div class="brands-btns">
+                        <div class="table-btns">
+                          <div class="brand-btn status-1">BCA</div>
+                          <div class="brand-btn status-2">509</div>
+                          <div class="brand-btn status-4">FXR</div>
+                        </div>
+                        <div class="preorder-toggle">
+                          <div class="toggle-name">Только предзаказы</div>
+                          <div class="new-toggle">
+                            <div class="new-toggle-btn"></div>
+                          </div>
                         </div>
                       </div>
+                      <!-- График поставок -->
+                      <div id="chart2">
+                        <canvas id="deliveryChart"></canvas>
+                      </div>
+                      <div class="txt">Оплатить товар необходимо в течение 5 рабочих дней, с момента получения уведомления о поступлении на склад.</div>
                     </div>
-                    <div id="chart2">
-                      <canvas id="deliveryChart"></canvas>
-                    </div>
-                    <div class="txt">Оплатить товар необходимо в течение 5 рабочих дней, с момента получения уведомления о поступлении на склад.</div>
                   </div>
                 </div>
               </div>
@@ -345,11 +349,12 @@
             <section class="info-graphic-2">
               <div class="graphics">
                 <div class="col2 ">
-                  <div class="col-wrapper center-col">
+                  <div class="col-wrapper center-col toggle" onclick="toggleContent(event)">
                     <div class="col-head">
                       <!-- Заголовок секции -->
                       <div class="section-head">
                         <div class="section-title">Ежегодная динамика товарооборота</div>
+                        <div class="open white icon toggle-icon"></div>
                       </div>
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
@@ -365,12 +370,13 @@
                   </div>
                 </div>
                 <div class="col1">
-                  <div class="col-wrapper center-col">
+                  <div class="col-wrapper center-col toggle" onclick="toggleContent(event)">
                     <!-- Заголовок секции -->
                     <div class="section-head">
                       <div class="section-title">Доля закупок по производителям</div>
+                      <div class="open white icon toggle-icon"></div>
                     </div>
-                    <div class="chart-wrapper">
+                    <div class="chart-wrapper toggle-cont">
                       <div id="chart4">
                         <canvas id="procurementChart"></canvas>
                       </div>
