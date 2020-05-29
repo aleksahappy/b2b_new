@@ -235,15 +235,15 @@ body.no-scroll {
 /* Цветовая гамма статусов заказа */
 
 .nomen {
-  background-color: #53606F;
+  background-color: #8596A6;
 }
 
 .vputi {
-  background-color: #2A659D;
+  background-color: #2C6DA8;
 }
 
 .vnali {
-  background-color: #DFA12A;
+  background-color: #F69C00;
 }
 
 .sobrn {
@@ -251,63 +251,77 @@ body.no-scroll {
 }
 
 .otgrz {
-  background-color: #009F84;
+  background-color: #3F9726;
 }
 
 .nedop {
-  background-color: #778A95;
+  background-color:#8596A6;
 }
 
 .reclm {
-  background-color: #A89271;
+  background-color: #8596A6;
 }
 
 /* Цветовая гамма статусов заказа - 80% */
 
-.vputi.op80 {
-  background-color: rgba(42, 101, 157, 0.8);
+.nomen.c80 {
+  background-color: #9DABB8;
 }
 
-.vnali.op80 {
-  background-color: rgba(223, 161, 42, 0.8);
+.vputi.c80 {
+  background-color: #568AB9;
 }
 
-.sobrn.op80 {
-  background-color: rgba(108, 77, 119, 0.8);
+.vnali.c80 {
+  background-color: #F8B033;;
 }
 
-.otgrz.op80 {
-  background-color: rgba(0, 159, 132, 0.8);
+.sobrn.c80 {
+  background-color: #897192;
 }
 
-.nedop.op80 {
-  background-color: rgba(119, 138, 149, 0.8);
+.otgrz.c80 {
+  background-color: #65AC51;
 }
 
-.reclm.op80 {
-  background-color: rgba(168, 146, 113, 0.8);
+.nedop.c80 {
+  background-color: #9DABB8;
 }
 
-/* Цветовая гамма статусов заказа - ???% */
-
-.vputi- {
-  background-color: #6A93BB;
+.reclm.c80 {
+  background-color: #9DABB8;
 }
 
-.vnali- {
-  background-color: #E9BD6A;
+/* Цветовая гамма статусов заказа - 10% */
+
+.vputi.c10 {
+  color: #2C6DA8;
+  background-color: #EAF0F6;
+  border: 1px solid #2C6DA8;
 }
 
-.sobrn- {
-  background-color: #9882A0;
+.vnali.c10 {
+  color: #F69C00;
+  background-color: #FEF5E5;
+  border: 1px solid #F69C00;
 }
 
-.otgrz- {
-  background-color: #4DBCA9;
+.sobrn.c10 {
+  color: #6C4D77;
+  background-color: #F0EDF1;
+  border: 1px solid #6C4D77;
 }
 
-.nedop- {
-  background-color: #A5AFAF;
+.otgrz.c10 {
+  color: #3F9726;
+  background-color: #ECF5E9;
+  border: 1px solid #3F9726;
+}
+
+.nedop.c10 {
+  color: #8596A6;
+  background-color: #F3F4F6;
+  border: 1px solid #8596A6;
 }
 
 /* =====================================================================================================
@@ -1043,6 +1057,7 @@ a.btn {
 .activate .drop-down {
   position: absolute;
   top: 100%;
+  right: 0;
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -2510,7 +2525,6 @@ form.registr-form .unactive {
   display: none;
   width: 100%;
   max-height: 80vh;
-  color: #FFFFFF;
   overflow-x: auto;
   overflow-y: auto;
   visibility: hidden;
@@ -2596,9 +2610,7 @@ th.activate .head .title {
 }
 
 th.activate .drop-down {
-  width: fit-content;
-  max-width: fit-content;
-  min-width: fit-content;
+  min-width: 14em;
   color: #666666;
 }
 

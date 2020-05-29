@@ -34,13 +34,17 @@ function convertData(data) {
     return [];
   }
   data.forEach(el => {
-    el.vputi = getPercent(el.objects_status[1], el.count);
-    el.vnali = getPercent(el.objects_status[3], el.count);
-    el.sobrn = getPercent(el.objects_status[2], el.count);
-    el.otgrz = getPercent(el.objects_status[6], el.count);
-    el.nedop = getPercent(el.objects_status[4] + el.objects_status[5], el.count);
+    el.order_sum = convertPrice(el.order_sum);
+    var sum;
+    for (var i = 1; i <= 5; i++) {
+      sum = el[`sum${i}`];
+      if (sum && sum != 0) {
+        el[`sum${i}`] = convertPrice(sum);
+        el[`display${i}`] = '';
+      } else {
+        el[`display${i}`] = 'displayNone';
+      }
+    }
   });
   return data;
 }
-
-

@@ -662,12 +662,15 @@ function toggleEl(name) {
 // Свернуть/развернуть содержимое контейнера:
 
 function toggleContent(event) {
+  if (event.target.closest('.toggle-cont')) {
+    return;
+  }
   var container = event.currentTarget.closest('.toggle');
   if (!container || container.classList.contains('disabled')) {
     return;
   }
   var toggleIcon = getEl('.toggle-icon', container);
-  if (!toggleIcon || toggleIcon.style.display === 'none') {
+  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
     return;
   }
   container.classList.toggle('close');
@@ -982,7 +985,13 @@ function getWordEnd(word, qty) {
 // Функция преобразования цены к формату с пробелами:
 
 function convertPrice(price) {
-  return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+  if (isNaN(Number(price))) {
+    return price;
+  }
+  price = Number(price).toFixed(2);
+  return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', ',');
+  // второй вариант (менее кросс-браузерный):
+  // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 // Функция преобразования строки с годами к укороченному формату:
@@ -1894,7 +1903,7 @@ function Table(obj, data) {
         });
       }
       if (/\d+\.\d{2}/.test(result.textContent)) {
-        total = total.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        total = convertPrice(total);
       }
       result.textContent = total;
     });
@@ -1920,7 +1929,7 @@ function Table(obj, data) {
     if (!this.head) {
       return;
     }
-    changeCss('thead .resize-btn:hover::after', 'height', this.body.offsetHeight + 'px');
+    changeCss('thead .resize-btn:hover::after', 'height', this.body.offsetHeight - 5 + 'px');
   }
 
   // Открытие таблицы при клике на вкладку:
@@ -1977,7 +1986,7 @@ function Table(obj, data) {
     if (this.curColumn) {
       var newWidth = this.startOffset + event.pageX,
           fontSize = parseFloat(getComputedStyle(this.curColumn).fontSize, 10);
-      newWidth = (newWidth > fontSize * 4.14) ? (newWidth + 'px') : (fontSize * 4.14 + 'px');
+      newWidth = (newWidth > fontSize * 4.14) ? (newWidth + 'px') : (Math.floor(fontSize * 4.14) + 'px');
       changeCss(`#${this.table.id} th:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
       changeCss(`#${this.table.id} td:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
     }

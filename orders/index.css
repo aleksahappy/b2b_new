@@ -29,75 +29,6 @@
   max-height: 76vh;
 }
 
-thead .percent {
-  display: block;
-  position: absolute;
-  bottom: 0;
-  width: 1px;
-  height: 1em;
-}
-
-thead .percent::before {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  right: -1.5em;
-  width: 3em;
-  font-size: 0.67em;
-  text-align: center;
-}
-
-thead .twenty {
-  left: 20%;
-}
-
-thead .twenty::before {
-  content: '20%';
-}
-
-thead .forty {
-  left: 40%;
-}
-
-thead .forty::before {
-  content: '40%';
-}
-
-thead .sixty {
-  left: 60%;
-}
-
-thead .sixty::before {
-  content: '60%';
-}
-
-thead .eighty {
-  left: 80%;
-}
-
-thead .eighty::before {
-  content: '80%';
-}
-
-thead .hundred {
-  right: 0;
-}
-
-thead .hundred::before {
-  content: '100%';
-  right: 0;
-}
-
-thead .percent::after {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  top: 100%;
-  width: 1px;
-  height: 75vh;
-  background-color: #E4E4E4;
-}
-
 thead .legend {
   width: 0.71em;
   height: 0.71em;
@@ -146,23 +77,22 @@ thead .legend {
 }
 
 #orderslist td:nth-child(8) {
-  min-width: 30em;
+  min-width: 25em;
   padding: 0;
-  border-left: 1px solid #DCDCDC;
-  border-bottom: none;
+  vertical-align: middle;
 }
 
-#orderslist td:nth-child(8) > div {
-  display: flex;
-  justify-content: start;
+#orderslist td:nth-child(8) > .row {
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
+  padding: 0 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-#orderslist td:nth-child(8) > div > div {
-  height: 1.25em;
-}
-
-#orderslist tr.disabled td:nth-child(8) {
-  background-color: #DDDDDD;
+#orderslist td:nth-child(8) > .row > div {
+  margin-right: 1.3em;
+  padding: 0em 1em;
+  border-radius: 30px;
 }
