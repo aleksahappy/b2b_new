@@ -34,6 +34,11 @@
 /* Медиа-стили для tablet */
 @media (max-width: 1299px) {
 
+  .col1{
+    min-width: 100%;
+    max-width: 500px;
+  }
+
   .open.icon{
     display: block;
   }

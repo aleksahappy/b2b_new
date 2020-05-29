@@ -9,7 +9,6 @@
 .desktop-wrap {
 	display: flex;
 	width: 100%;
-	font-family: 'Open Sans', sans-serif;
 }
 
 .center-col{
@@ -205,6 +204,7 @@ section{
 .section-head{
 	display: flex;
 	justify-content: space-between;
+  align-items: center;
 }
 
 .graphic-btns{

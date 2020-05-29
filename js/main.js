@@ -671,6 +671,7 @@ function toggleContent(event) {
     return;
   }
   var toggleIcon = getEl('.toggle-icon', container);
+  console.log(getComputedStyle(container).width);
   if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
 
     return;

@@ -297,7 +297,6 @@ const charts = () => {
     });
   };
   procurementPieChart();
-
 }
 
 charts();
