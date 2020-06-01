@@ -89,9 +89,14 @@ const charts = () => {
   //  Диаграмма "Рекламации в работе"
 
   const speedChart = () => {
+    const speedChartDiv = document.querySelector('.speed-chart');
     const gaugeEl = document.querySelector('.gauge'); //  сама диаграмма
     const reclResult = document.querySelector('.recl-result');  //  надпись с результатом под диаграммой
     const speedPointer = document.querySelector('.speed-point');  //  стрелка указатьель в диаграмме
+
+    speedPointer.style.left = speedChartDiv.clientWidth / 2 + 'px';
+    speedPointer.style.top = gaugeEl.clientHeight + 'px';
+
     let test = 2; //  данные для примера, так как источник оригинальных данных для этого значения неизвестен
     //const pointerPositive = 60;
 
@@ -305,19 +310,20 @@ const charts = () => {
 
     for (let i = 0; i < toggleHeads.length; i++) {
       for (let j = 0; j < toggleBodies.length; j++) {
-        console.log(toggleBodies[i]);
         if (toggleBodies[i]) {
           if (toggleBodies[i].offsetWidth > 0) {
             toggleHeads[j].style.width = toggleBodies[i].offsetWidth + 'px';
-            console.log(toggleBodies[i].offsetWidth);
-            console.log(toggleHeads[i].offsetWidth);
           }
         }
       }
     }
   }
-  holdSectionWidth();
-  window.onresize = holdSectionWidth;
+
+
+  if (window.innerWidth < 1299) {
+    holdSectionWidth();
+    window.onresize = holdSectionWidth;
+  }
 }
 
 charts();

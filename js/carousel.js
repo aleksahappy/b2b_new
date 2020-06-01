@@ -1,6 +1,25 @@
 'use strict';
 
 //=====================================================================================================
+// Смена настроек карусели:
+//=====================================================================================================
+
+// Создаем переменную с названием: произвольное название + Carousel.
+// Сохраняем в переменную объект с теми свойствами, которые хотим изменить, и записываем новые знаения.
+
+// Пример:
+
+// var productCarousel = {
+//   isNav: true,
+//   navType: 'dot',
+//   isLoupe: true,
+//   // isLoupeOutside: true,
+//   isCenter: true,
+//   isAvtoScroll: true,
+//   isStopAvtoScroll: true
+// }
+
+//=====================================================================================================
 // Запуск инициализации карусели(ей):
 //=====================================================================================================
 
@@ -13,23 +32,11 @@ function startCarouselInit(obj, start) {
 }
 
 // Пример запуска инициализации:
+// (можно запустить инициализацию всех каруселей страницы одновременно как в примере ниже,
+// а можно запускать их отдельно, передавая один елемент)
 
-// var сarousels = document.querySelectorAll('.carousel');
-// startCarouselInit(сarousels);
-
-//=====================================================================================================
-// Смена настроек карусели:
-//=====================================================================================================
-
-// Создаем переменную с названием: произвольное название + Carousel.
-// Сохраняем в переменную объект с теми свойствами, которые хотим изменить, и записываем новые знаения.
-
-// Пример:
-
-// firstCarousel = {
-//   duration: 400
-// };
-
+// var curCarousels = document.querySelectorAll('.carousel');
+// startCarouselInit(curCarousels);
 
 //=====================================================================================================
 // Конструктор карусели с настройками по умолчанию:
@@ -40,11 +47,12 @@ function Carousel(obj, start) {
   // НАСТРОЙКИ ПО УМОЛЧАНИЮ:
 
   this.settings = {
-    isNav: false,            // Наличие навигации
+    isNav: false,            // Наличие навигации (точек или картинок под каруселью)
+    navType: 'img',         // Тип навигации ('img' или 'dot')
     isInfinitie: true,       // Бесконечное зацикливание карусели
-    isAnimate: true,         // Анимация переключения слайдов
-    toggleAmount: 1,         // Количество перелистываемых слайдов
-    isCenter: false,         // Активная картинка всегда по центру (работает только для бесконечной карусели)
+    isAnimate: true,         // Анимация смены слайдов (анимировать смену слайдов или нет)
+    toggleAmount: 1,         // Количество перелистываемых слайдов за раз
+    isCenter: false,         // Активная картинка всегда по центру карусели (работает только для бесконечной карусели)
     isHoverToggle: false,    // Листание при наведении на картинку (если false, то будет листание по клику)
     durationBtns: 600,       // Продолжительность анимации при переключении кнопками вперед/назад (мc)
     durationNav: 400,        // Продолжительность анимации при переключении миниатюрами/индикаторами(мс)
@@ -58,7 +66,6 @@ function Carousel(obj, start) {
     loupeWidth: 200,         // Ширина лупы (если лупа - отдельны блок)
     loupeHeight: 200         // Высота лупы (если лупа - отдельны блок)
   };
-
 
   // ЭЛЕМЕНТЫ:
 
@@ -142,10 +149,20 @@ function Carousel(obj, start) {
     this.nav = document.createElement('div');
     this.nav.classList.add('carousel-nav');
     this.itemsGallery.forEach((el, index) => {
-      this.newEl = el.cloneNode(true);
+      if (this.settings.navType === 'dot') {
+        this.newEl = document.createElement('div');
+        this.newEl.dataset.numb = index;
+      } else {
+        this.newEl = el.cloneNode(true);
+      }
       this.nav.appendChild(this.newEl);
     });
     this.carousel.appendChild(this.nav);
+    if (this.settings.navType === 'dot') {
+      this.itemsNav = this.nav.querySelectorAll('div');
+    } else {
+      this.itemsNav = this.nav.querySelectorAll('.carousel-item');
+    }
   };
 
   // Инициализация кнопок карусели:
@@ -566,7 +583,6 @@ function Carousel(obj, start) {
     }
     if (this.settings.isNav) {
       this.createNav();
-      this.itemsNav = this.nav.querySelectorAll('.carousel-item');
     }
     if (this.settings.isLoupe) {
       this.createLoupe();
@@ -585,7 +601,6 @@ function Carousel(obj, start) {
     this.setEventListeners();
     this.carousel.style.visibility = 'visible';
   };
-
 
   // ЗАПУСК ИНИЦИАЛИЗАЦИИ:
 

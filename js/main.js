@@ -662,21 +662,20 @@ function toggleEl(name) {
 // Свернуть/развернуть содержимое контейнера:
 
 function toggleContent(event) {
+  if (event.target.closest('.toggle-cont')) {
+    return;
+  }
   var container = event.currentTarget.closest('.toggle');
   if (!container || container.classList.contains('disabled')) {
     return;
   }
-
-  if (event.target.closest('.toggle-cont')) {
-    return;
-  }
   var toggleIcon = getEl('.toggle-icon', container);
-  //console.log(getComputedStyle(container).width);
   if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
-
     return;
   }
+
   container.classList.toggle('close');
+
   if (container.id && container.classList.contains('save')) {
     if (container.classList.contains('close')) {
       savePosition(container.id, 'close');
@@ -721,6 +720,17 @@ function checkPositions() {
     }
   }
 }
+
+//  Работа обновленных кнопок-тогглов на Рабочем Восстановление
+
+function toggleOnOff(event) {
+  if (event.currentTarget.closest('.new-toggle')) {
+    var toggleBtn = event.currentTarget.closest('.new-toggle');
+    toggleBtn.firstElementChild.classList.toggle('on');
+  }
+}
+
+
 
 //=====================================================================================================
 // Функции степпера:

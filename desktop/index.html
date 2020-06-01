@@ -170,40 +170,34 @@
             </section>
             <!-- Карусель с баннерами -->
             <section class="banners-carousel">
-              <div id="banners" class="carousel">
+              <div id="banners" class="carousel" data-type="product">
                 <div class="carousel-gallery-wrap">
                   <div class="left-btn"></div>
                   <div class="right-btn"></div>
                   <div class="carousel-gallery">
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner1.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner2.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner3.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner1.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner2.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner3.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner1.jpg" data-src="" alt="баннер акции">
                     </div>
                     <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="../img/desktop/banner-desk.svg" alt="banner">
+                      <img src="../img/content/banner2.jpg" data-src="" alt="баннер акции">
                     </div>
                   </div>
                 </div>
@@ -214,9 +208,10 @@
               <div class="section-head">
                 <div class="section-title">Заказы в работе</div>
                 <div class="graphic-btns">
+                  <!-- тоггл "Только предзаказы" -->
                   <div class="preorder-toggle">
                     <div class="toggle-name">Только предзаказы</div>
-                    <div class="new-toggle">
+                    <div class="new-toggle" onclick="toggleOnOff(event)">
                       <div class="new-toggle-btn"></div>
                     </div>
                   </div>
@@ -236,12 +231,13 @@
                     <canvas id="orders-chart"></canvas>
                   </div>
                   <div class="fullWidth">
-                    <button class="btn action-btn">Перейти к заказам</button>
+                    <a href="#">Перейти к заказам</a>
                   </div>
                   <div class="graphic-btns1">
+                    <!-- тоггл "Только предзаказы" -->
                     <div class="preorder-toggle">
                       <div class="toggle-name">Только предзаказы</div>
-                      <div class="new-toggle">
+                      <div class="new-toggle" onclick="toggleOnOff(event)">
                         <div class="new-toggle-btn"></div>
                       </div>
                     </div>
@@ -302,7 +298,7 @@
                       </div>
                       <!-- Копка перейти к рекламациям -->
                       <div class="fullWidth">
-                        <button class="btn action-btn">Перейти к рекламациям</button>
+                        <a href="#">Перейти к рекламациям</a>
                       </div>
                     </div>
                   </div>
@@ -315,9 +311,10 @@
                         <div class="section-title">График поставок</div>
                         <div class="open white icon toggle-icon"></div>
                       </div>
+                      <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div class="new-toggle">
+                        <div class="new-toggle" onclick="toggleOnOff(event)">
                           <div class="new-toggle-btn"></div>
                         </div>
                       </div>
@@ -329,9 +326,10 @@
                           <div class="brand-btn status-2">509</div>
                           <div class="brand-btn status-4">FXR</div>
                         </div>
+                        <!-- тоггл "Только предзаказы" -->
                         <div class="preorder-toggle">
                           <div class="toggle-name">Только предзаказы</div>
-                          <div class="new-toggle">
+                          <div class="new-toggle" onclick="toggleOnOff(event)">
                             <div class="new-toggle-btn"></div>
                           </div>
                         </div>
@@ -359,13 +357,22 @@
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div class="new-toggle">
+                        <div class="new-toggle" onclick="toggleOnOff(event)">
                           <div class="new-toggle-btn"></div>
                         </div>
                       </div>
                     </div>
-                    <div id="chart3">
-                      <canvas id="barChart"></canvas>
+                    <div class="section-body toggle-cont">
+                      <!-- тоггл "Только предзаказы" -->
+                      <div class="preorder-toggle">
+                        <div class="toggle-name">Только предзаказы</div>
+                        <div class="new-toggle" onclick="toggleOnOff(event)">
+                          <div class="new-toggle-btn"></div>
+                        </div>
+                      </div>
+                      <div id="chart3">
+                        <canvas id="barChart"></canvas>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -734,7 +741,7 @@
       </div>
     </div>
 
-    
+
     <!-- Общие скрипты -->
     <script src="../js/main.js"></script>
     <!-- Настройка графиков -->
@@ -743,21 +750,24 @@
     <script src="../js/carousel.js"></script>
     <!-- Настройка карусели -->
     <script>
-    'use strict';
-    const curCarousels = document.querySelectorAll('#banners');
-    let bannersCarousel = {
-      isNav: false,
-      isLoupe: true,
-      isInfinitie: true,
-      isAvtoScroll: true,
-      interval: 1000,
-      // isLoupeOutside: true,
-      isCenter: true,
-      isAvtoScroll: true,
-      isStopAvtoScroll: true
+
+    var productCarousel = {
+      isNav: true,            // Наличие навигации (точек или картинок под каруселью)
+      navType: 'dot',         // Тип навигации ('img' или 'dot')
+      isInfinitie: true,       // Бесконечное зацикливание карусели
+      isAnimate: true,         // Анимация смены слайдов (анимировать смену слайдов или нет)
+      toggleAmount: 1,         // Количество перелистываемых слайдов за раз
+      isCenter: true,         // Активная картинка всегда по центру карусели (работает только для бесконечной карусели)
+      isHoverToggle: false,    // Листание при наведении на картинку (если false, то будет листание по клику)
+      durationBtns: 600,       // Продолжительность анимации при переключении кнопками вперед/назад (мc)
+      durationNav: 400,        // Продолжительность анимации при переключении миниатюрами/индикаторами(мс)
+      animateFunc: 'ease',     // Эффект анимации
+      isAvtoScroll: true,     // Автоматическая прокрутка
+      interval: 6000          // Интервал между автоматической прокруткой (мс)
     }
-    startCarouselInit(curCarousels);
-    window.onresize = startCarouselInit(curCarousels);
+
+    const banCarousel = document.querySelector('#banners');
+    startCarouselInit(banCarousel);
     </script>
     <!-- Тестовые данные для таблицы -->
     <script>

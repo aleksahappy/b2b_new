@@ -310,23 +310,58 @@ body.no-scroll {
   background-color: #A5AFAF;
 }
 
-/* =====================================================================================================
-Общие стили для карусели:
-===================================================================================================== */
+/* Стили для карусели */
 
 .carousel {
-  visibility: hidden;
-  position: relative;
+  visibility: hidden; /* обязательный стиль */
+  position: relative; /* обязательный стиль */
+  width: 100%; /* можно установить в % для адаптивности или в px */
   cursor: pointer;
+}
+
+.left-btn {
+  left: 0;
+  background: url(../img/slider_nav_left_grey.png) no-repeat center;
+}
+
+.right-btn {
+  right: 0;
+  background: url(../img/slider_nav_righ_grey.png) no-repeat center;
+}
+
+.left-btn, .right-btn {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 3em;
+  z-index: 1;
+  cursor: pointer;
+  transition: opacity 0.3s linear;
+}
+
+.carousel-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item img { /* все стили обязательные */
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .carousel-gallery-wrap {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  margin-bottom: 0.5em;
+  overflow: hidden; /* обязательный стиль */
 }
 
-.carousel-gallery {
+.carousel-gallery { /* все стили обязательные кроме padding */
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -335,83 +370,71 @@ body.no-scroll {
   width: 100%;
 }
 
-.carousel-gallery .carousel-item {
+.carousel-gallery .carousel-item { /* все стили обязательные */
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   flex: 0 0 auto;
-  width: 100%;
+  width: 100%; /* можно установить в % для адаптивности или в px */
 }
 
-.carousel-nav {
+.carousel-nav { /* навигация не является обязательной, это пример стилей для навигации картинками */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.carousel-nav .carousel-item {
+.carousel-nav .carousel-item { /* пример стилей для навигации картинками */
+  width: 25%;
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
   opacity: 0.6;
 }
 
-.carousel-nav .carousel-item.active {
+
+.carousel-nav { /* навигация не является обязательной, это пример стилей для навигации точками */
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  bottom: 1em;
+  width: 100%;
+}
+
+.carousel-nav > div:not(.carousel-item) { /* пример стилей для навигации точками */
+  width: 1.5em;
+  height: 1.5em;
+  background-color: grey;
+  border: 1px solid #FFFFFF;
+  border-radius: 50%;
+  margin-right: 1em;
+  opacity: 0.6;
+}
+
+.carousel-nav .carousel-item:nth-child(4n) {
+  padding-right: 0;
+}
+
+.carousel-nav > div.active {
   opacity: 1;
 }
 
-.carousel-item img {
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.carousel .loupe {
+.loupe { /* если включаем лупу, то все стили обязательные */
   position: absolute;
   overflow: hidden;
+  background-color: rgba(85,85,85, 0.25);
   cursor: zoom-in;
 }
 
-.carousel .big-img {
+.big-img { /* если включаем лупу, то все стили обязательные */
   position: absolute;
-}
-
-.carousel .left-btn,
-.carousel .right-btn {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  -webkit-transition: opacity 0.3s linear;
-  -moz-transition: opacity 0.3s linear;
-  -o-transition: opacity 0.3s linear;
-  transition: opacity 0.3s linear;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.carousel .left-btn {
-  left: 0;
-  background: red url(../img/left_btn.png) no-repeat center;
-}
-
-.carousel .right-btn {
-  right: 0;
-  background: url(../img/right_btn.png) no-repeat center;
-}
-
-.carousel .left-btn,
-.carousel .right-btn {
-  width: 1.5em;
-  background-size: 1.2em;
-  background-color: rgba(255, 255, 255, 0.5);
-  opacity: 0;
-}
-
-.carousel-gallery-wrap:hover .left-btn,
-.carousel-gallery-wrap:hover .right-btn {
-  opacity: 0.5;
 }
 
 /* =====================================================================================================
