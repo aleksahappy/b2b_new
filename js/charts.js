@@ -297,6 +297,27 @@ const charts = () => {
     });
   };
   procurementPieChart();
+
+  // Костыль для переопределения правильной ширины секции с toggle
+  const holdSectionWidth = () => {
+    let toggleHeads = document.querySelectorAll('.toggle');
+    let toggleBodies = document.querySelectorAll('.toggle-cont');
+
+    for (let i = 0; i < toggleHeads.length; i++) {
+      for (let j = 0; j < toggleBodies.length; j++) {
+        console.log(toggleBodies[i]);
+        if (toggleBodies[i]) {
+          if (toggleBodies[i].offsetWidth > 0) {
+            toggleHeads[j].style.width = toggleBodies[i].offsetWidth + 'px';
+            console.log(toggleBodies[i].offsetWidth);
+            console.log(toggleHeads[i].offsetWidth);
+          }
+        }
+      }
+    }
+  }
+  holdSectionWidth();
+  window.onresize = holdSectionWidth;
 }
 
 charts();

@@ -734,9 +734,14 @@
       </div>
     </div>
 
+    
+    <!-- Общие скрипты -->
     <script src="../js/main.js"></script>
+    <!-- Настройка графиков -->
     <script src="../js/charts.js"></script>
+    <!-- Подключение карусели -->
     <script src="../js/carousel.js"></script>
+    <!-- Настройка карусели -->
     <script>
     'use strict';
     const curCarousels = document.querySelectorAll('#banners');
@@ -751,11 +756,10 @@
       isAvtoScroll: true,
       isStopAvtoScroll: true
     }
-
-
     startCarouselInit(curCarousels);
     window.onresize = startCarouselInit(curCarousels);
     </script>
+    <!-- Тестовые данные для таблицы -->
     <script>
       const tbl = document.querySelector('#desktop-table');
       window['desktop-tableData'] = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
