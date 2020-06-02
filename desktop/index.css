@@ -233,8 +233,8 @@ section{
 }
 
 .toggle-name{
+  padding-right: 8px;
 	padding-bottom: 1px;
-	margin-right: 0.5em;
 	font-size: 0.875em;
 	color: #666666;
 }
@@ -245,8 +245,14 @@ section{
 	height: 10px;
 	border: 1px solid #8596A6;
 	border-radius: 43px;
-	background: #F8F8F8;
+	background: #F2F2F2;
+  transition: .3s ease;
 	cursor: pointer;
+}
+
+.new-toggle.on{
+  border: 1px solid #8596A6;
+  background: #D3D6D9!important;
 }
 
 .new-toggle-btn{
@@ -262,6 +268,7 @@ section{
 
 .new-toggle-btn.on{
   left: 12px!important;
+  border: 1px solid #34495E;
 }
 
 .table-btns{
@@ -536,16 +543,13 @@ section{
 .speed-point{
 	z-index: 10;
 	position: absolute;
-	/* top: 48%;
-	left: 46%; */
 	width: 30px;
 	height: 30px;
 	border: 6px solid #34495E;
 	border-radius: 50%;
 	background: #ffffff;
-	transition: .3s linear;
-	transform: rotate(0.21turn);
-	animation: spin 1s linear;
+	transition: .8s linear;
+	transform: rotate(-0.25turn);
   outline: none;
 }
 
@@ -562,14 +566,14 @@ section{
   outline: none;
 }
 
-@keyframes spin {
+/* @keyframes spin {
 	0%{
 		transform: rotate(-0.25turn);
 	}
 	100% {
 		transform: rotate(0.21turn);
 		}
-	}
+	} */
 
 .recl-result{
 	margin: 0 auto;
@@ -630,9 +634,9 @@ legend select{
 	width: 11.0125em;
 	height: 2.0125em;
 	font-size: 0.785em;
-	border: 1px solid #C6C6C6;
+	border: 1px solid #D5D5D5;
 	border-radius: 3px;
-	color: #34495E;
+	color: #C6C6C6;
 }
 
 .info-graphic-2 .list{

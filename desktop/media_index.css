@@ -141,6 +141,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
+    margin-bottom: 1.25em;
   }
 
   .graphic-btns{
@@ -150,14 +151,23 @@
   .graphic-btns1{
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    margin-right: 1.25em;
+  }
+
+  .graphic-btns1 .preorder-toggle{
+    justify-content: space-between;
   }
 
   .graphic-btns1 .table-btns{
     order: 1;
     flex-direction: column;
+    align-items: flex-end;
+    margin-left: 0;
   }
 
   .graphic-btns1 .table-btns > * {
+    margin-right: 0;
     margin-bottom: 1.25em;
   }
 
@@ -181,7 +191,7 @@
 
   .graphics{
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 0.875em;
   }
 
   .info-graphic .graphics{
@@ -233,11 +243,6 @@
     min-width: 455px;
   }
 
-  /* .speed-point{
-    top: 60%;
-    left: 48%;
-  } */
-
   .recl-result{
     margin: 3.75em auto 0 auto;
     padding-bottom: 1.375em;
@@ -278,6 +283,41 @@
 
   .txt{
     display: none;
+  }
+
+  .new-toggle{
+  	position: relative;
+  	width: 44px;
+  	height: 18px;
+  	border-radius: 100px;
+    border: 1px solid #B3B3B3;
+    background: #B3B3B3;
+  	cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .new-toggle.on{
+    border: 1px solid #34495E;
+    background: #34495E!important;
+  }
+
+  .new-toggle-btn{
+  	position: absolute;
+  	left: -1px;
+  	top: -4px;
+  	width: 25px;
+  	height: 25px;
+    border: 1px solid #B3B3B3;
+  	border-radius: 50%;
+  	background: #ffffff;
+    transition: .3s ease;
+    outline: none;
+  }
+
+  .new-toggle-btn.on{
+    left: 19px!important;
   }
 
   /* "Ежегодная динамика товарооборота" и "Доля закупок по производителям" */
@@ -386,12 +426,6 @@
     margin-right: 20px;
   }
 
-  /* .speed-point{
-    top: 56%;
-    left: 48%;
-  } */
-
-}
 
 @media(max-width: 540px) {
   .gauge{
@@ -399,12 +433,6 @@
     width: 100%;
     max-width: 90%
   }
-
-  /* .speed-point{
-    top: 52%;
-    left: 48%;
-  } */
-}
 
 
 @media (max-width: 499px) {

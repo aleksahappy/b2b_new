@@ -32,8 +32,8 @@
 
   .header-top .logo img {
     max-height: 2em;
-    max-width: 139px;
-    min-width: 139px;
+    max-width: 103px;
+    min-width: 103px;
   }
 
   .header-top .left-side > .row{
@@ -90,6 +90,13 @@
     margin-left: 1.55em;
   }
 
+}
+
+@media(max-width: 685px) {
+  .header-top .logo img {
+    max-width: 88px;
+    min-width: 88px;
+  }
 }
 
 @media (max-width: 499px) {

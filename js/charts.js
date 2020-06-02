@@ -94,11 +94,19 @@ const charts = () => {
     const reclResult = document.querySelector('.recl-result');  //  надпись с результатом под диаграммой
     const speedPointer = document.querySelector('.speed-point');  //  стрелка указатьель в диаграмме
 
+    //  Автовыравнивание стрелки диаграммы
     speedPointer.style.left = speedChartDiv.clientWidth / 2 + 'px';
     speedPointer.style.top = gaugeEl.clientHeight + 'px';
 
-    let test = 2; //  данные для примера, так как источник оригинальных данных для этого значения неизвестен
-    //const pointerPositive = 60;
+
+    //  данные для примера, так как источник оригинальных данных для этого значения неизвестен
+    let totalRecls = "20";  //  количество поданных всего рекламаций пользователем
+    let doneRecls = "17"; //  колличество обработанных рекламаций пользователя
+    let reclsInWork = totalRecls - doneRecls; //  рекламации в работе
+    let result = doneRecls / totalRecls;  //  коэффицент обработанных рекламаций
+    let pointerStep = 0.005 * (result * 100).toFixed(0);
+    let pointerDeg = -0.25 + pointerStep;
+
 
     //  функция для динамического запуска диаграммы с данными
     function setGaugeValue(gauge, value) {  //  gauge - диаграмма, value - данные (в формате от 0.01 (1%) до 1 (100%))
@@ -106,13 +114,23 @@ const charts = () => {
         return;
       }
 
-      gauge.querySelector('.g-fill').style.transform = `rotate(${value / 2}turn)`;  //  динамическое отображение данных в диаграмме
-      reclResult.innerHTML = `Мы обработали ${Math.round(value * 100)}% ваших обращений. В работе ${test} обращения`; //  отображение результата
-      //speedPointer.style.transform =`rotate(${Math.round(value * 100) * 0.6}turn)`;
+      gauge.querySelector('.g-fill').style.transform = `rotate(${value / 2}turn)`;  //  работа спид-диагараммы согласно переданным данным данными
+      speedPointer.style.transform = `rotate(-0.25turn)`; //  поворот стрекли согласно данным шкалы
+      setTimeout(() => {
+        speedPointer.style.transform = `rotate(${pointerDeg}turn)`; //  поворот стрекли согласно данным шкалы
+      }, 500);
+
+      //  отображение результата в надписи
+
+      if (Number(totalRecls) > 0) {
+        reclResult.innerHTML = `Мы обработали ${Math.round(value * 100)}% ваших обращений. В работе ${reclsInWork} ${declOfNum(reclsInWork,['обращение','обращения','обращений'])}`;
+      } else if (Number(totalRecls) <= 0) {
+        reclResult.innerHTML = 'Вы не подавали рекламаций';
+      }
     }
 
     //  вызов функции с пользовательскими данными
-    setGaugeValue(gaugeEl, 0.92);
+    setGaugeValue(gaugeEl, result.toFixed(2));
   }
   speedChart();
 

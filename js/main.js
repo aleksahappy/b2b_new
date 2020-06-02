@@ -726,6 +726,7 @@ function checkPositions() {
 function toggleOnOff(event) {
   if (event.currentTarget.closest('.new-toggle')) {
     var toggleBtn = event.currentTarget.closest('.new-toggle');
+    toggleBtn.classList.toggle('on');
     toggleBtn.firstElementChild.classList.toggle('on');
   }
 }
@@ -984,6 +985,16 @@ function getWordEnd(word, qty) {
   } else {
     return word + 'ов';
   }
+}
+
+
+//  Склонение числительных
+// @использование:
+// @declOfNum(count, ['найдена', 'найдено', 'найдены']);
+
+function declOfNum(number, titles) {
+  let cases = [2, 0, 1, 1, 1, 2];
+  return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 }
 
 // Функция преобразования цены к формату с пробелами:

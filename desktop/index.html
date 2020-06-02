@@ -388,14 +388,29 @@
                         <canvas id="procurementChart"></canvas>
                       </div>
                       <legend>
-                        <select placeholder="Выберите год">
+                        <!-- <select placeholder="Выберите год">
                           <option value="" disabled selected>Выберите год</option>
                           <option value="2017">2017</option>
                           <option value="2018">2018</option>
                           <option value="2019">2019</option>
                           <option value="2020">2020</option>
                           <option value="2021">2021</option>
-                        </select>
+                        </select> -->
+                        <div id="select" class="activate select">
+                          <div class="head row">
+                            <div class="title">Select</div>
+                            <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"></path>
+                            </svg>
+                          </div>
+                          <div class="drop-down">
+                            <div class="item" data-value="1">Значение 1</div>
+                            <div class="item" data-value="2">Значение 2</div>
+                            <div class="item" data-value="3">Значение 3</div>
+                            <div class="item" data-value="4">Значение 4</div>
+                            <div class="item" data-value="5">Значение 5</div>
+                          </div>
+                        </div>
                         <div class="list">
                           <div class="item">
                             <div></div>
