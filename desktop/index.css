@@ -271,6 +271,29 @@ section{
   border: 1px solid #34495E;
 }
 
+.open.white.icon{
+  background-image: url(../img/desktop/toggle-btn-ic.svg);
+  background-repeat: no-repeat;
+  transform-origin: center;
+  transform: rotate(180deg);
+}
+
+.close .open.white.icon {
+  background-image: url(../img/desktop/toggle-btn-ic.svg);
+  background-repeat: no-repeat;
+  transform-origin: center;
+  transform: rotate(0deg);
+}
+
+.open.white.icon {
+  background-size: contain;
+  width: 1.1875em;
+  height: 0.625em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
 .table-btns{
 	display: flex;
 	justify-content: space-between;
@@ -566,15 +589,6 @@ section{
   outline: none;
 }
 
-/* @keyframes spin {
-	0%{
-		transform: rotate(-0.25turn);
-	}
-	100% {
-		transform: rotate(0.21turn);
-		}
-	} */
-
 .recl-result{
 	margin: 0 auto;
 	width: 78%;
@@ -591,6 +605,19 @@ section{
 
 .info-graphic-2 .col1 .section-title{
   width: 50%;
+}
+
+.info-graphic-2 .col1  .activate .head .title{
+  font-size: 0.875em;
+  color: #C6C6C6;
+}
+
+.info-graphic-2 .col1 .activate .head{
+  padding: 0.125em 0.325em;
+}
+
+.info-graphic-2 .col1 .activate .drop-down .item{
+  padding: 0.125em 0.325em;
 }
 
 .info-graphic-2 .section-body .preorder-toggle{
