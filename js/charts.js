@@ -21,21 +21,43 @@ const charts = () => {
     let test1 = arraySum(data1);
     let test2 = arraySum(data1Sum);
 
+    const chart1 = document.querySelector('#chart1');
     const ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
+
     ordersInfo.textContent = `${test1} активных заказов на общую сумму ${test2.toLocaleString('ru-RU')} руб.`;
     const ordersChart = document.getElementById('orders-chart').getContext('2d');  //  canvas диаграммы
 
-    if (window.innerWidth > 1299) {
-      ordersChart.canvas.parentNode.style.width = '100%';
-      ordersChart.canvas.parentNode.style.height = '393px';
-    } else if (window.innerWidth < 1299 && window.innerWidth > 499) {
-      ordersChart.canvas.parentNode.style.width = '50%';
-      ordersChart.canvas.parentNode.style.height = '349px';
-    } else if (window.innerWidth < 499) {
-      ordersChart.canvas.parentNode.style.width = '60%';
-      ordersChart.canvas.parentNode.style.height = '256px';
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      if (window.innerWidth > 1299) {
+        ordersChart.canvas.parentNode.style.width = '100%';
+        ordersChart.canvas.parentNode.style.height = '393px';
+        ordersInfo.style.left = chart1.offsetWidth / 3 + 'px';
+        ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
+      } else if (window.innerWidth < 1299 && window.innerWidth > 499) {
+        ordersChart.canvas.parentNode.style.width = '50%';
+        ordersChart.canvas.parentNode.style.height = '349px';
+        ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
+        ordersInfo.style.top = chart1.offsetHeight / 2 + 'px';
+      } else if (window.innerWidth < 499) {
+        ordersChart.canvas.parentNode.style.width = '60%';
+        ordersChart.canvas.parentNode.style.height = '256px';
+      }
+    } else {
+      if (window.innerWidth > 1299) {
+        ordersChart.canvas.parentNode.style.width = '100%';
+        ordersChart.canvas.parentNode.style.height = '393px';
+        ordersInfo.style.left = chart1.offsetWidth / 3.5 + 'px';
+        ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
+      } else if (window.innerWidth < 1299 && window.innerWidth > 499) {
+        ordersChart.canvas.parentNode.style.width = '50%';
+        ordersChart.canvas.parentNode.style.height = '349px';
+        ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
+        ordersInfo.style.top = chart1.offsetHeight / 2 + 'px';
+      } else if (window.innerWidth < 499) {
+        ordersChart.canvas.parentNode.style.width = '60%';
+        ordersChart.canvas.parentNode.style.height = '256px';
+      }
     }
-
 
     const chart = new Chart(ordersChart, {
         type: 'doughnut', // тип графика

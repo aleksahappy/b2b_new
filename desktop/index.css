@@ -436,8 +436,6 @@ section{
 .orders-info{
 	z-index: 0;
 	position: absolute;
-	top: 39%;
-	left: 28%;
 	width: 200px;
 	height: 100px;
 	text-align: center;
