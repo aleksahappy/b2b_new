@@ -33,8 +33,8 @@ startPage();
 // Запуск страницы заказа:
 
 function startPage() {
-  sendRequest(`/data_ord.json`)
-  // sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
+  // sendRequest(`/data_ord.json`)
+  sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);
@@ -56,12 +56,12 @@ function startPage() {
       }
       tableNames.forEach(el => initTable(el, result[el]));
     } else {
-      // location.href = '/err404.html';
+      location.href = '/err404.html';
     }
   })
   .catch(err => {
     console.log(err);
-    // location.href = '/err404.html';
+    location.href = '/err404.html';
   });
 }
 

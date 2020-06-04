@@ -64,12 +64,16 @@ function initCart() {
   if (isCart) {
     window.addEventListener('focus', updateCart);
     getCart()
-      .then(result => createCartData())
-      .then(result => initPage())
-      .catch(err => {
-        console.log(err);
-        initPage();
-      });
+    .then(result => createCartData(),
+          reject => console.log(reject))
+    .then(result => {
+      fillOrderForm();
+      initPage();
+    })
+    .catch(err => {
+      console.log(err);
+      initPage();
+    });
   } else {
     initPage();
   }
@@ -242,6 +246,7 @@ function addSizeInfo(item) {
     size.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
 
     var sizeObj = cartItems['id_' + size.object_id] = Object.assign({}, size);
+    sizeObj.id = item.object_id;
     sizeObj.isAvailable = size.total_qty > 0 ? '' : 'not-available';
     sizeObj.image = item.image;
     sizeObj.title = item.title;

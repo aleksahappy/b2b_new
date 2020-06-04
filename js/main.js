@@ -36,6 +36,7 @@ var website = document.body.dataset.website,
       new: 'https://new.topsports.ru/',
       api: 'https://api.topsports.ru/'
     },
+    items,
     loader = getEl('loader'),
     message = getEl('message-container'),
     upBtn = getEl('up-btn');
@@ -48,7 +49,8 @@ var pageUrl = pageId,
 if (isCart) {
   var cartId = pageId,
       cartTotals = [],
-      cart = {};
+      cart = {},
+      userData = {};
 }
 
 // Инициализация прелоадера и поля с сообщениями:
@@ -79,7 +81,7 @@ function startPage() {
   showUserInfo();
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
-    getCart('totals')
+    getTotals()
     .then(result => {
       renderTotals();
     }, reject => {
@@ -118,12 +120,8 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
     });
     if (data) {
       if (type === 'application/json; charset=utf-8') {
-        data.sessid = getCookie('iam');
         data = JSON.stringify(data);
-      } else if (type === 'multipart/form-data') {
-        data.append('sessid', getCookie('iam'));
       }
-      // console.log(data);
       request.open('POST', url);
       request.setRequestHeader('Content-type', type);
       request.send(data);
@@ -134,37 +132,51 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
   });
 }
 
-// Получение данных корзины с сервера:
+// Получение данных об итогах всех корзин с сервера:
 
-function getCart(totals = false) {
-  var url, data;
-  if (totals) {
-    url = `${urlRequest.api}baskets/get_total.php`;
-    data = {};
-  } else {
-    url = `${urlRequest.api}baskets/get_cart.php`;
-    data = {'cart_type': cartId};
-  }
+function getTotals() {
   return new Promise((resolve, reject) => {
-    sendRequest(url, data)
+    sendRequest(urlRequest.main, {action: 'get_total'})
     .then(
       result => {
         console.log(result);
         if (!result || JSON.parse(result).err) {
-          result = "{}";
+          reject('Итоги не пришли');
         }
-        if (totals && JSON.stringify(cartTotals) === result) {
+        if (JSON.stringify(cartTotals) === result) {
           reject('Итоги не изменились');
-        } else if (!totals && JSON.stringify(cart) === result) {
+        } else {
+          console.log('Итоги обновились');
+          cartTotals = JSON.parse(result);
+          resolve();
+        }
+      }
+    )
+    .catch(error => {
+      reject(error);
+    })
+  });
+}
+
+// Получение данных конкретной корзины с сервера:
+
+function getCart() {
+  return new Promise((resolve, reject) => {
+    sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
+    .then(
+      result => {
+        console.log(result);
+        if (!result || JSON.parse(result).err) {
+          reject('Корзина не пришла');
+        }
+        result = JSON.parse(result);
+        userData.contr = result.user_contr,
+        userData.address = result.user_address_list;
+        if (cart === result.cart) {
           reject('Корзина не изменилась');
         } else {
-          if (totals) {
-            console.log('Итоги обновились');
-            cartTotals = JSON.parse(result);
-          } else {
-            console.log('Корзина обновилась');
-            cart = JSON.parse(result);
-          }
+          console.log('Корзина обновилась');
+          cart = result.cart;
           resolve();
         }
       }
@@ -177,17 +189,17 @@ function getCart(totals = false) {
 
 // Получение данных о товарах/товаре:
 
-function getItems(data) {
+function getItems(id) {
   return new Promise((resolve, reject) => {
-    var info = {
+    var data = {
       action: 'items',
-      cat_type: cartId
+      data: {cat_type: cartId}
     }
-    if (data) {
-      info.data = data;
+    if (id) {
+      data.data.list = id;
     }
-    console.log(info);
-    sendRequest(urlRequest.main, info)
+    console.log(data);
+    sendRequest(urlRequest.main, data)
     .then(result => {
       var data = JSON.parse(result);
       console.log(data);
@@ -229,7 +241,7 @@ function showUserInfo() {
 // Обновление итогов корзины при возвращении на страницу:
 
 function updateCartTotals() {
-  getCart('totals')
+  getTotals()
   .then(result => {
     renderTotals();
   }, reject => {
@@ -967,19 +979,11 @@ function convertToString(obj) {
   }
 }
 
-// Отображение правильного окончания в слове:
-// * без окончания (товар, файл) - 1 | 21 | 31 | 41 | 51 | 61 |71 | 81 | 91 | 101 ...
-// * окончание "а" (товара, файла) - 2 | 3 | 4 | 22 | 23 | 24 | 32 | 33 | 34 ...
-// * окончание "ов" (товаров, файлов) - 0 | 5 | 6 | 7 | 8 | 9 | 10-20 | 25-30 | 35-40 ...
+// Выбор правильного склонения слова в соответствии с числительным:
 
-function getWordEnd(word, qty) {
-  if ((qty === 1) || (qty > 20 && qty % 10 === 1)) {
-    return word;
-  } else if ((qty >= 2 && qty <= 4) || (qty > 20 && qty % 10 >= 2 && qty % 10 <= 4)) {
-    return word + 'а';
-  } else {
-    return word + 'ов';
-  }
+function declOfNum(number, titles) {
+  var cases = [2, 0, 1, 1, 1, 2];
+  return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
 }
 
 // Функция преобразования цены к формату с пробелами:
@@ -1304,7 +1308,7 @@ function showFullCard(id) {
 
   fillTemplate({
     area: fullCardContainer,
-    items: curItems.find(item => item.object_id == id),
+    items: items.find(item => item.object_id == id),
     sub: [{
       area: '.carousel-item',
       items: 'images'
@@ -1348,7 +1352,7 @@ function showFullImg(event, id) {
 
   fillTemplate({
     area: fullImgContainer,
-    items: curItems.find(item => item.object_id == id),
+    items: items.find(item => item.object_id == id),
     sub: [{
       area: '.carousel-item',
       items: 'images'
@@ -1436,7 +1440,7 @@ function showFiles(input) {
       var text = '',
           files = event.currentTarget.files;
       if (files && files.length > 1) {
-        text = `${files.length} ${getWordEnd('файл', files.length)} выбрано`;
+        text = `${files.length} ${declOfNum(files.length, ['файл', 'файла', 'файлов'])} выбрано`;
       } else {
         text = event.currentTarget.value.split('\\').pop();
       }

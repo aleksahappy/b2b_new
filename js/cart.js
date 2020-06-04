@@ -22,7 +22,7 @@ function cartSentServer() {
   clearTimeout(cartTimer);
   cartTimer = setTimeout(function () {
     console.log(JSON.stringify(cartChanges));
-    sendRequest(`${urlRequest.api}baskets/set_cart.php`, {data: cartChanges})
+    sendRequest(urlRequest.main, {action: 'set_cart', data: cartChanges})
       .then(response => {
         cartChanges[cartId] = {};
         console.log(response);
@@ -39,10 +39,10 @@ function cartSentServer() {
 window.addEventListener('unload', () => {
   if(!isEmptyObj(cartChanges[cartId])) {
     var data = {
-      sessid: getCookie('iam'),
+      action: 'set_cart',
       data: cartChanges
     };
-    navigator.sendBeacon(`${urlRequest.api}baskets/set_cart.php`, JSON.stringify(data));
+    navigator.sendBeacon(urlRequest.main, JSON.stringify(data));
   }
 }, false);
 
@@ -67,7 +67,7 @@ function orderSentServer(event) {
     cart: cartInfo
   };
   // console.log(data);
-  sendRequest(`${urlRequest.api}baskets/???`, data)
+  sendRequest(urlRequest.main, {action: '???', data: data})
   .then(result => {
     // var orderId = JSON.parse(result);
     deleteFormCart(idList);
@@ -104,6 +104,7 @@ function updateCart() {
   .then(result => createCartData(),
         reject => console.log(reject))
   .then(result => {
+    fillOrderForm();
     if (location.search === '?cart') {
       createCart();
     } else {
@@ -135,7 +136,6 @@ function createCartData() {
           }
         }
       }
-      // console.log(cartData);
       resolve();
     })
   });
@@ -245,7 +245,7 @@ function changeCartName(qty) {
       var curTotal = cartTotals.find(el => el.id === cartId);
       qty = curTotal ? curTotal.qty : 0;
     };
-    cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + getWordEnd('товар', qty);
+    cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + declOfNum(qty, ['товар', 'товара', 'товаров']);
   }
 }
 
@@ -969,45 +969,42 @@ function getConfirmDeleteFromCart() {
 // Работа с формой заказа:
 //=====================================================================================================
 
+// Заполнение формы заказа данными:
+
+function fillOrderForm() {
+  fillTemplate({
+    area: 'select-contr',
+    items: userData,
+    sub: [{
+      area: '.item',
+      items: 'contr'
+    }]
+  });
+  fillTemplate({
+    area: 'select-address',
+    items: userData,
+    sub: [{
+      area: '.item',
+      items: 'address'
+    }]
+  });
+}
+
 // Открытие формы заказа:
 
 function openOrderForm() {
-  sendRequest(`${urlRequest.api}baskets/ajax.php?action=get_contr_delivery`)
-  .then(result => {
-    var data = JSON.parse(result);
-    // console.log(data);
-    if (data.user_contr && data.user_address_list) {
-      fillTemplate({
-        area: 'select-contr',
-        items: data,
-        sub: [{
-          area: '.item',
-          items: 'user_contr'
-        }]
-      });
-      fillTemplate({
-        area: 'select-address',
-        items: data,
-        sub: [{
-          area: '.item',
-          items: 'user_address_list'
-        }]
-      });
-      showElement('order-form', 'flex');
-      hideElement('.cart-make-order');
-      document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
-    } else {
-      if (!data.user_contr) {
-        message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в <a href="http://new.topsports.ru/cabinet">профиль</a> для их добавления/включения.')
-      } else {
-        message.show('Оформление заказа невозможно: отсутствуют активные адреса!<br>Перейдите в <a href="http://new.topsports.ru/cabinet">профиль</a> для их добавления/включения.')
-      }
-    }
-  })
-  .catch(error => {
-    console.log(error);
-    // openOrderForm();
-  })
+  if (!userData.contr) {
+    message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors">Контрагенты</a> для их добавления/включения.');
+    return;
+  }
+  if (!userData.address) {
+    var deliverySelect = getEl('[name="delivery_type"]', 'order-form');
+    getEl('option[value="2"]', deliverySelect).style.display = 'none';
+    getEl('option[value="3"]', deliverySelect).style.display = 'none';
+  }
+  showElement('order-form', 'flex');
+  hideElement('.cart-make-order');
+  document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
 }
 
 // Закрытие формы заказа:
@@ -1016,7 +1013,7 @@ function closeOrderForm() {
   var orderForm = getEl('order-form');
   orderForm.querySelectorAll('select').forEach(el => el.value = '');
   orderForm.querySelectorAll('textarea').forEach(el => el.value = '');
-  toggleOrderAddress(getEl('[name="delivery_type"]'), 'order-form');
+  toggleOrderAddress(getEl('[name="delivery_type"]', orderForm));
   hideElement('order-form');
   showElement('.cart-make-order');
   document.querySelectorAll('.cart-list').forEach(el => showElement(el));
