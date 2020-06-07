@@ -235,15 +235,15 @@ body.no-scroll {
 /* Цветовая гамма статусов заказа */
 
 .nomen {
-  background-color: #53606F;
+  background-color: #8596A6;
 }
 
 .vputi {
-  background-color: #2A659D;
+  background-color: #2C6DA8;
 }
 
 .vnali {
-  background-color: #DFA12A;
+  background-color: #F69C00;
 }
 
 .sobrn {
@@ -251,117 +251,96 @@ body.no-scroll {
 }
 
 .otgrz {
-  background-color: #009F84;
+  background-color: #3F9726;
 }
 
 .nedop {
-  background-color: #778A95;
+  background-color:#8596A6;
 }
 
 .reclm {
-  background-color: #A89271;
+  background-color: #8596A6;
 }
 
 /* Цветовая гамма статусов заказа - 80% */
 
-.vputi.op80 {
-  background-color: rgba(42, 101, 157, 0.8);
+.nomen.c80 {
+  background-color: #9DABB8;
 }
 
-.vnali.op80 {
-  background-color: rgba(223, 161, 42, 0.8);
+.vputi.c80 {
+  background-color: #568AB9;
 }
 
-.sobrn.op80 {
-  background-color: rgba(108, 77, 119, 0.8);
+.vnali.c80 {
+  background-color: #F8B033;;
 }
 
-.otgrz.op80 {
-  background-color: rgba(0, 159, 132, 0.8);
+.sobrn.c80 {
+  background-color: #897192;
 }
 
-.nedop.op80 {
-  background-color: rgba(119, 138, 149, 0.8);
+.otgrz.c80 {
+  background-color: #65AC51;
 }
 
-.reclm.op80 {
-  background-color: rgba(168, 146, 113, 0.8);
+.nedop.c80 {
+  background-color: #9DABB8;
 }
 
-/* Цветовая гамма статусов заказа - ???% */
-
-.vputi- {
-  background-color: #6A93BB;
+.reclm.c80 {
+  background-color: #9DABB8;
 }
 
-.vnali- {
-  background-color: #E9BD6A;
+/* Цветовая гамма статусов заказа - 10% */
+
+.vputi.c10 {
+  color: #2C6DA8;
+  background-color: #EAF0F6;
+  border: 1px solid #2C6DA8;
 }
 
-.sobrn- {
-  background-color: #9882A0;
+.vnali.c10 {
+  color: #F69C00;
+  background-color: #FEF5E5;
+  border: 1px solid #F69C00;
 }
 
-.otgrz- {
-  background-color: #4DBCA9;
+.sobrn.c10 {
+  color: #6C4D77;
+  background-color: #F0EDF1;
+  border: 1px solid #6C4D77;
 }
 
-.nedop- {
-  background-color: #A5AFAF;
+.otgrz.c10 {
+  color: #3F9726;
+  background-color: #ECF5E9;
+  border: 1px solid #3F9726;
 }
 
-/* Стили для карусели */
+.nedop.c10 {
+  color: #8596A6;
+  background-color: #F3F4F6;
+  border: 1px solid #8596A6;
+}
+
+/* =====================================================================================================
+Общие стили для карусели:
+===================================================================================================== */
 
 .carousel {
-  visibility: hidden; /* обязательный стиль */
-  position: relative; /* обязательный стиль */
-  width: 100%; /* можно установить в % для адаптивности или в px */
+  visibility: hidden;
+  position: relative;
   cursor: pointer;
-}
-
-.left-btn {
-  left: 0;
-  background: url(../img/slider_nav_left_grey.png) no-repeat center;
-}
-
-.right-btn {
-  right: 0;
-  background: url(../img/slider_nav_righ_grey.png) no-repeat center;
-}
-
-.left-btn, .right-btn {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 3em;
-  z-index: 1;
-  cursor: pointer;
-  transition: opacity 0.3s linear;
-}
-
-.carousel-item {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.carousel-item img { /* все стили обязательные */
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto;
 }
 
 .carousel-gallery-wrap {
   position: relative;
   width: 100%;
-  margin-bottom: 0.5em;
-  overflow: hidden; /* обязательный стиль */
+  overflow: hidden;
 }
 
-.carousel-gallery { /* все стили обязательные кроме padding */
-  position: relative;
+.carousel-gallery {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -370,71 +349,83 @@ body.no-scroll {
   width: 100%;
 }
 
-.carousel-gallery .carousel-item { /* все стили обязательные */
+.carousel-gallery .carousel-item {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   flex: 0 0 auto;
-  width: 100%; /* можно установить в % для адаптивности или в px */
+  width: 100%;
 }
 
-.carousel-nav { /* навигация не является обязательной, это пример стилей для навигации картинками */
+.carousel-nav {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
 }
 
-.carousel-nav .carousel-item { /* пример стилей для навигации картинками */
-  width: 25%;
-  padding-right: 0.5em;
-  padding-bottom: 0.5em;
+.carousel-nav .carousel-item {
   opacity: 0.6;
 }
 
-
-.carousel-nav { /* навигация не является обязательной, это пример стилей для навигации точками */
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  bottom: 1em;
-  width: 100%;
-}
-
-.carousel-nav > div:not(.carousel-item) { /* пример стилей для навигации точками */
-  width: 1.5em;
-  height: 1.5em;
-  background-color: grey;
-  border: 1px solid #FFFFFF;
-  border-radius: 50%;
-  margin-right: 1em;
-  opacity: 0.6;
-}
-
-.carousel-nav .carousel-item:nth-child(4n) {
-  padding-right: 0;
-}
-
-.carousel-nav > div.active {
+.carousel-nav .carousel-item.active {
   opacity: 1;
 }
 
-.loupe { /* если включаем лупу, то все стили обязательные */
+.carousel-item img {
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.carousel .loupe {
   position: absolute;
   overflow: hidden;
-  background-color: rgba(85,85,85, 0.25);
   cursor: zoom-in;
 }
 
-.big-img { /* если включаем лупу, то все стили обязательные */
+.carousel .big-img {
   position: absolute;
+}
+
+.carousel .left-btn,
+.carousel .right-btn {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.carousel .left-btn {
+  left: 0;
+  background: url(../img/left_btn.png) no-repeat center;
+}
+
+.carousel .right-btn {
+  right: 0;
+  background: url(../img/right_btn.png) no-repeat center;
+}
+
+.carousel .left-btn,
+.carousel .right-btn {
+  width: 1.5em;
+  background-size: 1.2em;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+}
+
+.carousel-gallery-wrap:hover .left-btn,
+.carousel-gallery-wrap:hover .right-btn {
+  opacity: 0.5;
 }
 
 /* =====================================================================================================
@@ -703,6 +694,10 @@ a.btn {
   background-image: url(../img/triangle_white.svg);
 }
 
+.filter.icon {
+  background-image: url(../img/filter.svg);
+}
+
 .close.icon {
   background-image: url(../img/close.svg);
 }
@@ -821,6 +816,11 @@ a.btn {
 
 .download.icon {
   background-image: url(../img/download.svg);
+  background-size: 1em;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 2em;
+  height: 2em;
 }
 
 .star.white.icon {
@@ -998,6 +998,7 @@ a.btn {
   background-color: #FFFFFF;
   border: 1px solid #D5D5D5;
   border-radius: 3px;
+  white-space: nowrap;
 }
 
 .activate:not([disabled]):hover .head,
@@ -1010,6 +1011,7 @@ a.btn {
 }
 
 .activate .head .title {
+  max-width: 100%;
   color: #666666;
   white-space: nowrap;
   overflow: hidden;
@@ -1020,10 +1022,27 @@ a.btn {
   color: rgb(113,129,145, 0.4);
 }
 
-.activate .triangle {
+.activate .icons {
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-top: 0.3em;
+}
+
+.activate .triangle,
+.activate .filter {
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 0.57em;
-  height: 0.36em;
   margin-left: 0.5em;
+}
+
+.activate .triangle {
+  height: 0.36em;
+}
+
+.activate .filter {
+  height: 0.64em;
+  visibility: hidden;
 }
 
 .activate[disabled] .triangle path {
@@ -1038,6 +1057,7 @@ a.btn {
 .activate .drop-down {
   position: absolute;
   top: 100%;
+  right: 0;
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -1403,7 +1423,6 @@ form.file input[type="submit"] {
 .header-top .logo img {
   max-height: 2em;
   max-width: 100%;
-  min-width: 190px;
 }
 
 .header-top .left-side {
@@ -1680,16 +1699,6 @@ form.file input[type="submit"] {
   right: -1em;
 }
 
-.mob-menu {
-  display: none;
-  width: 1.5em;
-  height: 1.5em;
-  background-image: url(../img/desktop/menu-ic-tablet.svg);
-  background-repeat: no-repeat;;
-  background-size: contain;
-  cursor: pointer;
-}
-
 /* =====================================================================================================
 Стили для футера и его содержимого:
 ===================================================================================================== */
@@ -1713,7 +1722,7 @@ form.file input[type="submit"] {
 ===================================================================================================== */
 
 #main-header {
-  padding: 1.5em 0;
+  padding: 1em 0;
 }
 
 #main-nav  {
@@ -1731,7 +1740,7 @@ form.file input[type="submit"] {
   text-decoration: none;
 }
 
-#main-nav  a:last-child {
+#main-nav a:last-child {
   cursor: default;
 }
 
@@ -2017,39 +2026,37 @@ form.registr-form .unactive {
 ===================================================================================================== */
 
 #alerts-container {
+  display: flex;
   justify-content: flex-start;
   align-items: flex-end;
+  width: 0px;
+  height: 0px;
+}
+
+#alerts-container.open {
+  width: auto;
+  height: auto;
 }
 
 #alerts-container .row {
   align-items: center;
 }
 
-#alerts-container a {
-  display: inline-block;
-  text-decoration: underline;
-}
-
-#alerts-container .close-btn {
-  font-size: 1.143em;
-  align-items: center;
-  height: 4em;
-  background-color: #F2F2F2;
-}
-
-#alerts-container .alerts.icon {
-  position: relative;
-  width: 2.25em;
-  height: 2.25em;
-  margin: 0 4rem;
-}
-
 #alerts-container .pop-up {
   width: 50vw;
-  height: calc(100% - 4em);
-  max-height: 100%;
+  height: 100%;
   max-width: 50vw;
-  background-color: #F2F2F2;
+  max-height: 100%;
+  transform-origin: 0 0;
+  -webkit-transition: transform 0.5s linear;
+  -moz-transition: transform 0.5s linear;
+  -o-transition: transform 0.5s linear;
+  transition: transform 0.5s linear;
+  transform: translate(50vw);
+}
+
+#alerts-container.open .pop-up {
+  transform: translate(0);
 }
 
 #alerts-container .pop-up-title .title {
@@ -2057,6 +2064,7 @@ form.registr-form .unactive {
 }
 
 #alerts-container .pop-up-body {
+  max-height: calc(100% - 5em);
   padding: 0;
   padding-bottom: 1em;
 }
@@ -2068,7 +2076,7 @@ form.registr-form .unactive {
   border-bottom: 1px solid #DBDBDB;
 }
 
-#alerts-container .pop-up-body > .message:last-child .wrap{
+#alerts-container .pop-up-body > .message:last-child .wrap {
   border-bottom: none;
 }
 
@@ -2353,7 +2361,6 @@ form.registr-form .unactive {
   min-width: 70px;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
-  background: green;
 }
 
 .full-card .carousel-nav .carousel-item:nth-child(4n) {
@@ -2444,11 +2451,6 @@ form.registr-form .unactive {
  Стили для изображения на весь экран:
 ===================================================================================================== */
 
-#full-img-container {
-  padding: 3em 0;
-  z-index: 500;
-}
-
 #full-img-container .close-btn {
   position: absolute;
   top: 0;
@@ -2501,17 +2503,19 @@ form.registr-form .unactive {
 
 .tabs .tab {
   display: none;
+  justify-content: space-between;
+  align-items: center;
   color: #FFFFFF;
   cursor: pointer;
 }
 
-.tabs .tab.disabled {
+.tabs .tab.disabled:not(#nomen) {
   color: #818A94;
   background-color: #D4D7DB;
   cursor: default;
 }
 
-.tabs .tab.disabled .icon {
+.tabs .tab.disabled:not(#nomen) .icon {
   cursor: default;
 }
 
@@ -2521,7 +2525,6 @@ form.registr-form .unactive {
   display: none;
   width: 100%;
   max-height: 80vh;
-  color: #FFFFFF;
   overflow-x: auto;
   overflow-y: auto;
   visibility: hidden;
@@ -2564,35 +2567,27 @@ table.head {
 
 th, td {
   position: relative;
-  padding: 0.7em 1.2em;
+  padding: 0.7em 1em;
   white-space: nowrap;
   text-align: left;
 }
 
 th {
   overflow: visible;
-  padding: 0;
 }
 
-th:not(.activate) {
-  line-height: 0;
-}
-
-th > div:first-child{
+th div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
-  height: 100%;
-  padding: 0.7em 1.2em;
-  line-height: normal;
 }
 
 td {
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-th > *, td > * {
+td > * {
   display: inline-block;
 }
 
@@ -2600,41 +2595,24 @@ th > *, td > * {
 
 th.activate {
   padding: 0;
+  overflow: visible;
 }
 
 th.activate .head {
   justify-content: flex-start;
-  align-items: center;
-  padding: 0.7em 1.2em;
+  padding: 0.7em 1em;
   background-color: initial;
   border: none;
-  white-space: nowrap;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 th.activate .head .title {
-  flex-grow: 0;
-  flex-shrink: 0;
-  max-width: 100%;
   color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 th.activate .drop-down {
-  width: fit-content;
-  max-width: fit-content;
-  min-width: fit-content;
+  min-width: 14em;
   color: #666666;
 }
-
-/* th.activate .drop-down .icon {
-  min-width: 1em;
-  min-height: 1em;
-} */
 
 /* Основные стили таблицы-заголовка */
 
@@ -2655,17 +2633,11 @@ thead .results th {
   text-align: right;
 }
 
-thead .triangle {
-  width: 0.57em;
-  height: 0.36em;
-  margin-left: 0.5em;
-}
-
 thead .resize-btn {
   display: block;
   position: absolute;
-  top: 5%;
-  height: 90%;
+  top: 0;
+  height: 100%;
   right: -4px;
   width: 10px;
   z-index: 1;
@@ -2676,10 +2648,10 @@ thead .resize-btn::before {
   content: '';
   display: inline-block;
   position: absolute;
-  top: 10%;
+  top: 0.33em;
   right: 4px;
   width: 1px;
-  height: 80%;
+  height: 75%;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -2699,8 +2671,13 @@ thead .resize-btn::after {
 }
 
 thead .resize-btn:hover::after {
-  height: 10000px;
   opacity: 1;
+}
+
+th:last-child .resize-btn,
+th:last-child .resize-btn::before,
+th:last-child .resize-btn::after {
+  right: 0px;
 }
 
 /* Основные стили таблицы-содержимого */
@@ -2728,12 +2705,6 @@ tbody tr:hover {
 table .star.icon {
   width: 1.25em;
   height: 1.17em;
-}
-
-table .download.icon {
-  width: 1em;
-  height: 1em;
-  margin-right: 0.714em;
 }
 
 table .toggle.icon {

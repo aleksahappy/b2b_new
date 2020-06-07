@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
   <head>
     <meta charset="UTF-8">
@@ -209,8 +209,8 @@
                 <div class="section-title">Заказы в работе</div>
                 <div class="graphic-btns">
                   <!-- тоггл "Только предзаказы" -->
-                  <div class="preorder-toggle">
-                    <div class="toggle-name">Только предзаказы</div>
+                  <div class="preorder-toggle" id="wtf">
+                    <div class="toggle-name" id="test">Только предзаказы</div>
                     <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
                       <div class="new-toggle-btn"></div>
                     </div>
@@ -250,22 +250,92 @@
                   </div>
                 </div>
                 <div class="col2 border-title">
-                  <!-- Мой вариант адаптивной таблицы на дивах с кастомным Викиным функционалом -->
-                  <!-- Таблица "Заказы в работе" на Сашином шаблоне -->
-                  <div id="desktop-table2" class="table-wrap active">
-                    <table class="table">
-                      <tbody class="table-body">
+                  <!-- Таблица "Заказы в работе" на Сашином новом шаблоне из orders-->
+                  <div id="desktopTable" class="table-wrap active">
+                    <table class="head">
+                      <thead>
                         <tr>
-                          <td>#name#</td>
-                          <td>#order#</td>
-                          <td><div class="data-sticker sticker1">#wait#</div></td>
-                          <td><div class="data-sticker sticker2">#stoke#</div></td>
-                          <td><div class="data-sticker sticker3">#done#</div></td>
-                          <td><div class="data-sticker sticker4">#delivered#</div></td>
+                          <th id="1" class="activate">
+                            <div class="head row">
+                              <div class="title">№ заказа</div>
+                              <div class="icons row">
+                                <div class="triangle white icon"></div>
+                                <div class="filter icon"></div>
+                              </div>
+                            </div>
+                            <div class="drop-down">
+                              <div class="item row"></div>
+                            </div>
+                            <div class="resize-btn"></div>
+                          </th>
+                          <th id="2" class="activate">
+                            <div class="head row">
+                              <div class="title">Дата заказа</div>
+                              <div class="icons row">
+                                <div class="triangle white icon"></div>
+                                <div class="filter icon"></div>
+                              </div>
+                            </div>
+                            <div class="drop-down">
+                              <div class="item row"></div>
+                            </div>
+                            <div class="resize-btn"></div>
+                          </th>
+                          <th id="8" class="activate hover">
+                            <div class="head row">
+                              <div class="title">Состояние товаров</div>
+                              <div class="icons row">
+                                <div class="triangle white icon"></div>
+                                <div class="filter icon"></div>
+                              </div>
+                            </div>
+                            <div class="drop-down">
+                              <div class="item row">
+                                <div class="legend icon expected"></div>
+                                <div>Товар ожидается</div>
+                              </div>
+                              <div class="item row">
+                                <div class="legend icon available"></div>
+                                <div>Товар в наличии</div>
+                              </div>
+                              <div class="item row">
+                                <div class="legend icon ready"></div>
+                                <div>Товар собран</div>
+                              </div>
+                              <div class="item row">
+                                <div class="legend icon shipped"></div>
+                                <div>Товар отгружен</div>
+                              </div>
+                              <div class="item row">
+                                <div class="legend icon non-delivery"></div>
+                                <div>Непоставка</div>
+                              </div>
+                            </div>
+                            <div class="resize-btn"></div>
+                          </th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <table>
+                      <tbody>
+                        <tr onclick=showOrder(event,#id#)>
+                          <td>#order_number#</td>
+                          <td>#order_event#</td>
+                          <td>
+                            <div class="row">
+                              <div class="vputi c10 #display1#">#sum1#</div>
+                              <div class="vnali c10 #display2#">#sum2#</div>
+                              <div class="sobrn c10 #display3#">#sum3#</div>
+                              <div class="otgrz c10 #display4#">#sum4#</div>
+                              <div class="nedop c10 #display5#">#sum5#</div>
+                            </div>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
+
+
                 </div>
               </div>
             </section>

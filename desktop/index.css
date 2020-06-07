@@ -361,7 +361,7 @@ section{
 }
 
 
-/* Таблица "Заказы в работе" на Сашином шаблоне */
+/* Таблица "Заказы в работе" на Сашином старом шаблоне */
 #desktop-table{
 	overflow: hidden;
 	overflow-y: auto;
@@ -390,6 +390,89 @@ section{
 #desktop-table td:nth-child(6) {
   min-width: 7em;
 }*/
+
+
+/* Новая таблица из orders */
+
+/* Стили таблицы */
+
+.table-wrap {
+  max-height: 76vh;
+}
+
+thead .legend {
+  width: 0.71em;
+  height: 0.71em;
+  margin-right: 1em;
+}
+
+#desktopTable td:nth-child(1) {
+  min-width: 9em;
+}
+
+#desktopTable td:nth-child(2) {
+  min-width: 10em;
+}
+
+/* #desktopTable td:nth-child(3) {
+  min-width: 10em;
+}
+
+#desktopTable td:nth-child(4) {
+  min-width: 10em;
+}
+
+#desktopTable td:nth-child(5) {
+  min-width: 10em;
+}
+
+#desktopTable td:nth-child(6) {
+  min-width: 11em;
+  padding: 0;
+  text-align: right;
+}
+
+#desktopTable td:nth-child(6) .row {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#desktopTable td:nth-child(6) .row > div:first-child {
+  padding: 0.7em 0 0.7em 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#desktopTable td:nth-child(7) {
+  min-width: 10em;
+} */
+
+#desktopTable td{
+  cursor: pointer;
+}
+
+#desktopTable td:last-child {
+  min-width: 25em;
+  padding: 0;
+  vertical-align: middle;
+}
+
+#desktopTable td:last-child > .row {
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 0 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#desktopTable td:last-child > .row > div {
+  margin-right: 1.3em;
+  padding: 0em 1em;
+  border-radius: 30px;
+}
+
+/* Цветные обертки-стикеры для сумм в таблице по состояниям */
 
 .data-sticker{
 	padding: 2px 10px;
