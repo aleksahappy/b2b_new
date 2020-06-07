@@ -1761,19 +1761,20 @@ function DropDown(obj) {
 // Работа таблиц:
 //=====================================================================================================
 
-// Инициализация всех таблиц на странице:
+// Инициализация таблицы:
 
-function initTables() {
-  document.querySelectorAll('.table-wrap').forEach(el => {
-    window[`${el.id}Table`] = new Table(el);
-  });
+function initTable(el, data) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Table`] = new Table(el, data);
+  }
 }
 
 // Объект таблицы:
 
-function Table(obj) {
+function Table(obj, data) {
   // Константы:
-  this.data = Array.isArray(window[`${obj.id}Data`]) ? window[`${obj.id}Data`].filter(el => el) : [];
+  this.data = Array.isArray(data) ? data.filter(el => el) : [];
 
   // Элементы для работы:
   this.table = obj;
@@ -1781,10 +1782,12 @@ function Table(obj) {
   this.head = getEl('thead', obj);
   this.results = getEl('.results', this.head);
   this.body = getEl('tbody', obj);
-  // this.resizeBtns = this.head.querySelectorAll('.resize-btn');
-  // this.dropDown = obj.querySelectorAll('.activate');
-  // this.sort = obj.querySelectorAll('.sort');
-  // this.search = obj.querySelectorAll('.search');
+  if (this.head) {
+    this.resizeBtns = this.head.querySelectorAll('.resize-btn');
+    // this.dropDown = obj.querySelectorAll('.activate');
+    // this.sort = obj.querySelectorAll('.sort');
+    // this.search = obj.querySelectorAll('.search');
+  }
 
   // Динамические переменные:
   this.countItems = 0;
@@ -1799,42 +1802,40 @@ function Table(obj) {
     if (this.tab) {
       this.tab.addEventListener('click', (event) => this.open(event));
     }
-
     this.table.addEventListener('scroll', () => this.scrollTable());
+    if (this.head) {
+      if (this.resizeBtns) {
+        this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
+        document.addEventListener('mousemove', event => this.resize(event));
+        document.addEventListener('mouseup', () => this.stopResize());
+      }
 
-    // if (this.resizeBtns.length > 0) {
-    //   this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
-    //   this.table.addEventListener('mouseleave', () => this.stopResize());
-    //   document.addEventListener('mousemove', event => this.resize(event));
-    //   document.addEventListener('mouseup', () => this.stopResize());
-    // }
+      // this.dropDown.forEach(el => {
+      //   el.addEventListener('change', event => this.filterData(event, el.dataset.key));
+      // });
 
-    // this.dropDown.forEach(el => {
-    //   el.addEventListener('change', event => this.filterData(event, el.dataset.key));
-    // });
+      // this.sort.forEach(el => {
+      //   el.addEventListener('click', event => this.sortData(event, el.dataset.key, el.dataset.type));
+      // });
 
-    // this.sort.forEach(el => {
-    //   el.addEventListener('click', event => this.sortData(event, el.dataset.key, el.dataset.type));
-    // });
-
-    // this.search.forEach(el => {
-    //   el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
-    //   getEl('.search.icon', el).addEventListener(event => this.searchData(event, el.dataset.key));
-    //   getEl('.close.icon', el).addEventListener(event => this.clearSearch(event, el.dataset.key));
-    // });
+      // this.search.forEach(el => {
+      //   el.addEventListener('submit', event => this.searchData(event, el.dataset.key));
+      //   getEl('.search.icon', el).addEventListener(event => this.searchData(event, el.dataset.key));
+      //   getEl('.close.icon', el).addEventListener(event => this.clearSearch(event, el.dataset.key));
+      // });
+    }
   }
   this.setEventListeners();
 
   // Включение/отключение вкладки таблицы в зависимости от наличия данных:
-  this.toggleTab = function() {
+  this.initTab = function() {
     if (this.tab) {
-      showElement(this.tab, 'flex');
-      if (!this.data.length) {
-
-        if (!this.tab.classList.contains('nomen')) {
-          this.tab.classList.add('disabled');
-        }
+      if (this.data.length) {
+        this.tab.classList.remove('disabled');
+      } else {
+        this.tab.classList.add('disabled');
       }
+      showElement(this.tab, 'flex');
     }
   }
 
@@ -1842,15 +1843,8 @@ function Table(obj) {
   this.convertData = function() {
     this.data.forEach(el => {
       for (var key in el) {
-        if (el[key]) {
-          el[key] = el[key].toString().trim();
-          if (el[key]) {
-            if (key === 'skid') {
-              el[key] = el[key] + '%';
-            }
-          } else {
-            el[key] = '&ndash;';
-          }
+        if (!el[key]) {
+          el[key] = '&ndash;';
         }
       }
     });
@@ -1890,7 +1884,6 @@ function Table(obj) {
       this.body.innerHTML = list;
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
-      this.align();
     };
   }
 
@@ -1903,23 +1896,30 @@ function Table(obj) {
 
   // Заполнение итогов таблицы:
   this.fillResults = function() {
-    if (!this.results || !this.itemsToLoad || !this.itemsToLoad.length) {
+    if (!this.results) {
       return;
     }
     this.results.querySelectorAll('[data-key]').forEach(result => {
       var total = 0;
-      this.itemsToLoad.forEach(el => {
-        if (el[result.dataset.key]) {
-          total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
-        }
-      });
-      // console.log(total);
-      result.textContent = (Math.round(total * 100)/100).toLocaleString('ru-RU');
+      if (this.itemsToLoad) {
+        this.itemsToLoad.forEach(el => {
+          if (el[result.dataset.key]) {
+            total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
+          }
+        });
+      }
+      if (/\d+\.\d{2}/.test(result.textContent)) {
+        total = total.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+      result.textContent = total;
     });
   }
 
   // Выравнивание столбцов таблицы:
   this.align = function() {
+    if (!this.head) {
+      return;
+    }
     var bodyCells = this.body.querySelectorAll('tr:first-child > td');
     if (bodyCells) {
       bodyCells.forEach((el, index) => {
@@ -1928,6 +1928,14 @@ function Table(obj) {
         changeCss(`#${this.table.id} td:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
       });
     }
+  }
+
+  // Установка высоты подсветки кнопки ресайза (чтобы была видна, но не увеличивала скролл):
+  this.setResizeHeight = function() {
+    if (!this.head) {
+      return;
+    }
+    changeCss('thead .resize-btn:hover::after', 'height', this.body.offsetHeight + 'px');
   }
 
   // Открытие таблицы при клике на вкладку:
@@ -1948,15 +1956,14 @@ function Table(obj) {
   this.filterData = function(event, key) {
     var data = this.data.filter(el => el[key] === event.currentTarget.value);
     this.loadData(data);
+    this.setResizeHeight();
   }
 
   // Сортировка таблицы:
   this.sortData = function(event, key, type) {
     var sortBtn = event.currentTarget;
     getEl('.sort.cheched', this.head).classList.remove('checked');
-    if (sortBtn.classList.contains('checked')) {
-      this.loadData(this.itemsToLoad);
-    } else {
+    if (!sortBtn.classList.contains('checked')) {
       sortBtn.classList.add('checked');
       var copyItems = JSON.parse(JSON.stringify(this.itemsToLoad));
       copy.sort(dynamicSort(key, type));
@@ -1983,8 +1990,9 @@ function Table(obj) {
   // Перетаскивание столбца:
   this.resize = throttle((event) => {
     if (this.curColumn) {
-      var newWidth = this.startOffset + event.pageX;
-          newWidth = newWidth > 36 ? newWidth + 'px' : '36px';
+      var newWidth = this.startOffset + event.pageX,
+          fontSize = parseFloat(getComputedStyle(this.curColumn).fontSize, 10);
+      newWidth = (newWidth > fontSize * 4.14) ? (newWidth + 'px') : (fontSize * 4.14 + 'px');
       changeCss(`#${this.table.id} th:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
       changeCss(`#${this.table.id} td:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
     }
@@ -2000,12 +2008,13 @@ function Table(obj) {
     showElement(this.table);
     loader.hide();
     this.align();
+    this.setResizeHeight();
     this.table.classList.add('active');
   }
 
   // Инициализация таблицы:
   this.init = function() {
-    this.toggleTab();
+    this.initTab();
     this.convertData();
     this.loadData(this.data);
     this.fillResults();

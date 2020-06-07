@@ -211,7 +211,7 @@
                   <!-- тоггл "Только предзаказы" -->
                   <div class="preorder-toggle">
                     <div class="toggle-name">Только предзаказы</div>
-                    <div class="new-toggle" onclick="toggleOnOff(event)">
+                    <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
                       <div class="new-toggle-btn"></div>
                     </div>
                   </div>
@@ -252,7 +252,7 @@
                 <div class="col2 border-title">
                   <!-- Мой вариант адаптивной таблицы на дивах с кастомным Викиным функционалом -->
                   <!-- Таблица "Заказы в работе" на Сашином шаблоне -->
-                  <div id="desktop-table" class="table-wrap active">
+                  <div id="desktop-table2" class="table-wrap active">
                     <table class="table">
                       <tbody class="table-body">
                         <tr>
@@ -755,6 +755,8 @@
     <script src="../js/charts.js"></script>
     <!-- Подключение карусели -->
     <script src="../js/carousel.js"></script>
+    <!-- Функции для функционала Рабочего стола -->
+    <script src="desktop.js"></script>
     <!-- Инициализации подключений -->
     <script>
     // Подключение и настройка карусели
@@ -781,25 +783,43 @@
 
 
     //  Тестовые данные для таблицы
-    const tbl = document.querySelector('#desktop-table');
-    window['desktop-tableData'] = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 509', wait: 118950, stoke: 118950, done: 8950, delivered: 228950 },
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA',wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 Jethwear', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'ЗИП', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'ЗИП', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                                    {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950}
-                                  ];
-    initTables();
+    var data = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 509', wait: 118950, stoke: 118950, done: 8950, delivered: 228950 },
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA',wait: 118950, stoke: 118950,  delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 Jethwear', wait: 118950},
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950},
+                {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950},
+                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950},
+                {name: 'ТС-567 от 20.03.20', order: 'ЗИП', delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'ЗИП', stoke: 118950, done: 8950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, done: 8950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950},
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', stoke: 118950, done: 8950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', done: 8950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA', done: 8950, delivered: 228950},
+                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950}
+              ];
+    initTable('desktop-table2', data);
+
+
+    function detectEmptyCell() {
+      var tbody = document.querySelector('tbody');
+      var trs = tbody.querySelectorAll('tr');
+
+      for (let i = 0; i < trs.length; i++) {
+        let tds = trs[i].querySelectorAll('td');
+        for (let j = 0; j < tds.length; j++) {
+          let stickers = tds[j].querySelectorAll('.data-sticker');
+          for (let k = 0; k < stickers.length; k++) {
+            if (stickers[k].innerHTML.charAt(0) === '#') {
+              stickers[k].remove();
+            }
+          }
+        }
+      }
+    }
+    detectEmptyCell();
     </script>
   </body>
 </html>
