@@ -302,6 +302,12 @@ section{
 
 .table-btns > * {
 	margin-right: 1.6em;
+  user-select: none;
+  cursor: pointer;
+}
+
+.toggleTableBtns{
+  display: none;
 }
 
 .table-btn:last-child{
@@ -471,6 +477,11 @@ thead .legend {
   padding: 0em 1em;
   border-radius: 30px;
 }
+
+#desktopTable th:last-child .resize-btn{
+  display: none;
+}
+
 
 /* Цветные обертки-стикеры для сумм в таблице по состояниям */
 

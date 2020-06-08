@@ -1,5 +1,9 @@
 'use strict';
 
+var desktopTable = document.querySelector('#desktopTable');
+var tbody = desktopTable.querySelector('tbody');
+
+
 // Запускаем рендеринг страницы заказов:
 
 startPage();
@@ -15,10 +19,10 @@ function startPage() {
   //sendRequest(urlRequest.main, {action: 'desktopTable'})
   .then(result => {
     var data = JSON.parse(result);
-    console.log(data);
     data = convertData(data);
     initTable('desktopTable', data);
     correctTable1Width();
+    tableToggleWork();
   })
   .catch(err => {
     console.log(err);
@@ -78,18 +82,48 @@ function toggleOnOff(event) {
 //  Работа кнопок филтрации сумм заказов по состояниям заказов
 
 function tableDataSort() {
-  var tableBtns = document.querySelector('table-btns');
+  var tableBtns = document.querySelector('.table-btns');
+  var status1 = tableBtns.querySelector('#status1');
+  var status2 = tableBtns.querySelector('#status2');
+  var status3 = tableBtns.querySelector('#status3');
+  var status4 = tableBtns.querySelector('#status4');
+
+  status1.addEventListener('click', toggleCertainTableStickers.bind(null, '1','.vputi'));
+  status2.addEventListener('click', toggleCertainTableStickers.bind(null, '2','.vnali'));
+  status3.addEventListener('click', toggleCertainTableStickers.bind(null, '3','.sobrn'));
+  status4.addEventListener('click', toggleCertainTableStickers.bind(null, '4','.otgrz'));
+
+  // Вспомогательная функция для каждой определенной тоглл-кнопки таблицы
+
+  function toggleCertainTableStickers(numStatus, strStatus, event) {
+
+    let targetClass = event.target;
+    if (targetClass.classList.contains(`status${numStatus}`)) {
+      targetClass.classList.remove(`status${numStatus}`);
+    } else {
+      targetClass.classList.add(`status${numStatus}`);
+    }
+
+
+    let rows = tbody.querySelectorAll('.row');
+
+    for (let i = 0; i < rows.length; i++) {
+      let targetBtns = tbody.querySelectorAll(strStatus);
+      for (let j = 0; j < targetBtns.length; j++) {
+        targetBtns[j].classList.toggle('toggleTableBtns');
+      }
+    }
+  }
+
 
 }
+tableDataSort();
 
 
-//  Тестовая работа тоггла диаграммы "Заказы в работе"
+//  По клику на тоггл диаграммы "Заказы в работе" показывает/скрывает данные помимо предзаказов
 
 function tableToggleWork() {
-  var desktopTable = document.querySelector('#desktopTable');
   var tableToggle = document.querySelector('#tableToggle');
-  let tbody = desktopTable.querySelector('tbody');
-
 
   tableToggle.addEventListener('click', () => {
     let trs = tbody.querySelectorAll('tr');
@@ -98,12 +132,10 @@ function tableToggleWork() {
       let tds = trs[i].querySelectorAll('td');
 
       for (let j = 0; j < tds.length; j++) {
-        //console.log(tds[j].innerHTML);
         var tdsContent = tds[j].innerHTML;
 
         if (tds[j].innerHTML.slice(0,9) === 'Предзаказ') {
-          console.log(tds[j].parentElement);
-          tds[j].parentElement.classList.toggle('preorders');
+          tds[j].parentElement.classList.add('preorders');
         }
       }
 
@@ -113,4 +145,3 @@ function tableToggleWork() {
     }
   });
 }
-tableToggleWork();
