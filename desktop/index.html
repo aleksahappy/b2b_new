@@ -237,15 +237,15 @@
                     <!-- тоггл "Только предзаказы" -->
                     <div class="preorder-toggle">
                       <div class="toggle-name">Только предзаказы</div>
-                      <div class="new-toggle" onclick="toggleOnOff(event)">
+                      <div class="new-toggle" id="tableToggle-mob" onclick="toggleOnOff(event)">
                         <div class="new-toggle-btn"></div>
                       </div>
                     </div>
-                    <div class="table-btns">
-                      <div class="table-btn status1">Ожидается</div>
-                      <div class="table-btn status2">В наличии</div>
-                      <div class="table-btn status3">Собран</div>
-                      <div class="table-btn status4">Отгружен</div>
+                    <div class="table-btns" id="table-btns-mob">
+                      <div class="table-btn status1" id="status1-mob">Ожидается</div>
+                      <div class="table-btn status2" id="status2-mob">В наличии</div>
+                      <div class="table-btn status3" id="status3-mob">Собран</div>
+                      <div class="table-btn status4" id="status4-mob">Отгружен</div>
                     </div>
                   </div>
                 </div>
@@ -253,7 +253,7 @@
                   <!-- Таблица "Заказы в работе" на Сашином новом шаблоне из orders-->
                   <div id="desktopTable" class="table-wrap active">
                     <table class="head">
-                      <thead>
+                      <!-- <thead>
                         <tr>
                           <th id="1" class="activate">
                             <div class="head row">
@@ -314,7 +314,7 @@
                             <div class="resize-btn"></div>
                           </th>
                         </tr>
-                      </thead>
+                      </thead> -->
                     </table>
                     <table>
                       <tbody>

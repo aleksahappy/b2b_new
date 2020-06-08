@@ -243,9 +243,8 @@ section{
 	position: relative;
 	width: 25px;
 	height: 12px;
-	border: 1px solid #8596A6;
 	border-radius: 100px;
-	background: #F8F8F8;
+	background: #B3B3B3;
   transition: .3s ease;
 	cursor: pointer;
 }
@@ -256,18 +255,18 @@ section{
 
 .new-toggle-btn{
 	position: absolute;
-	left: -5px;
-	top: -3px;
+	left: -4px;
+	top: -2px;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
-  border: 1px solid #34495E;
+  border: 1px solid #B3B3B3;
 	background: #FFFFFF;
   transition: .3s ease;
 }
 
 .new-toggle-btn.on{
-  left: 11px!important;
+  left: 13px!important;
   border: 1px solid #34495E;
 }
 
@@ -322,23 +321,29 @@ section{
 	border-radius: 37px;
 	text-align: left;
 	font-size: 0.875em;
-	color: #ffffff;
-	background: #E3E3E3 url('../img/desktop/Close.svg') no-repeat 90px center;
+	color: #B3B3B3;
+	background: #E3E3E3 url('../img/desktop/Close-nonactive.svg') no-repeat 90px center;
+  outline: none;
+  user-select: none;
 }
 
 .status1{
+  color: #ffffff;
 	background: #2C6DA8 url('../img/desktop/Close.svg') no-repeat 90px center!important;
 }
 
 .status2{
+  color: #ffffff;
 	background: #F69C00 url('../img/desktop/Close.svg') no-repeat 90px center!important;
 }
 
 .status3{
+  color: #ffffff;
 	background: #6C4D77 url('../img/desktop/Close.svg') no-repeat 90px center!important;
 }
 
 .status4{
+  color: #ffffff;
 	background: #3F9726 url('../img/desktop/Close.svg') no-repeat 90px center!important;
 }
 
@@ -809,13 +814,21 @@ legend select{
 /* Карусель с баннерами */
 
 #banners .left-btn {
-  left: 0;
+  top: 10px;
+  left: 10px;
+  width: 3em;
+  opacity: 1;
   background: url(../img/desktop/leftArrowBanner.svg) no-repeat center!important;
+  background-size: contain;
 }
 
 #banners .right-btn {
-  right: 0;
+  top: 10px;
+  right: 10px;
+  width: 3em;
+  opacity: 1;
   background: url(../img/desktop/rightArrowBanner.svg) no-repeat center!important;
+  background-size: contain;
 }
 
 #banners .carousel-nav { /* навигация не является обязательной, это пример стилей для навигации точками */

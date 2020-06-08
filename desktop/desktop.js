@@ -88,10 +88,21 @@ function tableDataSort() {
   var status3 = tableBtns.querySelector('#status3');
   var status4 = tableBtns.querySelector('#status4');
 
+  var tableBtnsMob = document.querySelector('#table-btns-mob');
+  var status1Mob = tableBtnsMob.querySelector('#status1-mob');
+  var status2Mob = tableBtnsMob.querySelector('#status2-mob');
+  var status3Mob = tableBtnsMob.querySelector('#status3-mob');
+  var status4Mob = tableBtnsMob.querySelector('#status4-mob');
+
   status1.addEventListener('click', toggleCertainTableStickers.bind(null, '1','.vputi'));
   status2.addEventListener('click', toggleCertainTableStickers.bind(null, '2','.vnali'));
   status3.addEventListener('click', toggleCertainTableStickers.bind(null, '3','.sobrn'));
   status4.addEventListener('click', toggleCertainTableStickers.bind(null, '4','.otgrz'));
+
+  status1Mob.addEventListener('click', toggleCertainTableStickers.bind(null, '1','.vputi'));
+  status2Mob.addEventListener('click', toggleCertainTableStickers.bind(null, '2','.vnali'));
+  status3Mob.addEventListener('click', toggleCertainTableStickers.bind(null, '3','.sobrn'));
+  status4Mob.addEventListener('click', toggleCertainTableStickers.bind(null, '4','.otgrz'));
 
   // Вспомогательная функция для каждой определенной тоглл-кнопки таблицы
 
@@ -124,8 +135,12 @@ tableDataSort();
 
 function tableToggleWork() {
   var tableToggle = document.querySelector('#tableToggle');
+  var tableToggleMob = document.querySelector('#tableToggle-mob');
 
-  tableToggle.addEventListener('click', () => {
+  tableToggle.addEventListener('click', sortTableOrders);
+  tableToggleMob.addEventListener('click', sortTableOrders);
+
+  function sortTableOrders() {
     let trs = tbody.querySelectorAll('tr');
 
     for (let i = 0; i < trs.length; i++) {
@@ -143,5 +158,5 @@ function tableToggleWork() {
         trs[i].classList.toggle('displayNone');
       }
     }
-  });
+  }
 }
