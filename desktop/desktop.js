@@ -224,7 +224,7 @@ function charts() {
       const chart1 = document.querySelector('#chart1');
       const ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
 
-      ordersInfo.textContent = `${ordersQtySum} активных заказов на общую сумму ${test2.toLocaleString('ru-RU')} руб.`;
+      ordersInfo.textContent = `${ordersQtySum} ${declOfNum(ordersQtySum, ['активный', 'активных'])} ${declOfNum(ordersQtySum, ['заказ', 'заказа', 'заказов'])} на общую сумму ${test2.toLocaleString('ru-RU')} руб.`;
       const ordersChart = document.getElementById('orders-chart').getContext('2d');  //  canvas диаграммы
 
       if (navigator.appVersion.indexOf("Mac") != -1) {
