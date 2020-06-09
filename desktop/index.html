@@ -821,12 +821,13 @@
 
     <!-- Общие скрипты -->
     <script src="../js/main.js"></script>
-    <!-- Настройка графиков -->
-    <script src="../js/charts.js"></script>
     <!-- Подключение карусели -->
     <script src="../js/carousel.js"></script>
     <!-- Функции для функционала Рабочего стола -->
-    <script src="desktop.js"></script>
+    <!-- <script src="desktop.js"></script> -->
+    <!-- Настройка графиков -->
+    <script src="../js/charts.js"></script>
+
     <!-- Инициализации подключений -->
     <script>
     // Подключение и настройка карусели
@@ -850,46 +851,6 @@
 
     //  инициализации селекта для секции
     initDropDown('procurementSelect');
-
-
-    //  Тестовые данные для таблицы
-    var data = [{name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950, done: 8950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 509', wait: 118950, stoke: 118950, done: 8950, delivered: 228950 },
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA',wait: 118950, stoke: 118950,  delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 Jethwear', wait: 118950},
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950, stoke: 118950},
-                {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950},
-                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950},
-                {name: 'ТС-567 от 20.03.20', order: 'ЗИП', delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'ЗИП', stoke: 118950, done: 8950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, done: 8950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', wait: 118950, stoke: 118950, done: 8950},
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', stoke: 118950, done: 8950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Распродажа', wait: 118950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Экипировка', done: 8950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 BCA', done: 8950, delivered: 228950},
-                {name: 'ТС-567 от 20.03.20', order: 'Предзаказ-20 FXR', wait: 118950}
-              ];
-    initTable('desktop-table2', data);
-
-
-    function detectEmptyCell() {
-      var tbody = document.querySelector('tbody');
-      var trs = tbody.querySelectorAll('tr');
-
-      for (let i = 0; i < trs.length; i++) {
-        let tds = trs[i].querySelectorAll('td');
-        for (let j = 0; j < tds.length; j++) {
-          let stickers = tds[j].querySelectorAll('.data-sticker');
-          for (let k = 0; k < stickers.length; k++) {
-            if (stickers[k].innerHTML.charAt(0) === '#') {
-              stickers[k].remove();
-            }
-          }
-        }
-      }
-    }
-    detectEmptyCell();
     </script>
   </body>
 </html>

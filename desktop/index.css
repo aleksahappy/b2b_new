@@ -89,6 +89,7 @@ section{
 	width: 100%;
 	padding: 0 0.625em  0.9375em  1.25em;
 	background: #53606F;
+  display: none;
 }
 
 .settle-title{

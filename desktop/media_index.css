@@ -19,7 +19,7 @@
   }
 
   section.banners-carousel{
-    display: block!important;
+    display: none!important;
   }
 
   .carousel-gallery .carousel-item{
