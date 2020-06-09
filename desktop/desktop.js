@@ -53,15 +53,6 @@ function convertData(data) {
 }
 
 //=====================================================================================================
-//  Работа обновленных кнопок-тогглов на Рабочем Восстановление
-
-function toggleOnOff(event) {
-  if (event.currentTarget.closest('.new-toggle')) {
-    var toggleBtn = event.currentTarget.closest('.new-toggle');
-    toggleBtn.classList.toggle('on');
-    toggleBtn.firstElementChild.classList.toggle('on');
-  }
-}
 
 
 //  Работа кнопок филтрации сумм заказов по состояниям заказов

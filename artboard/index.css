@@ -1,0 +1,131 @@
+.activate {
+  min-width: 200px;
+}
+
+.artboard-title {
+  font-size: 22px;
+  color: blue;
+  margin-bottom: 1em;
+}
+
+.arboard-block {
+  flex-wrap: wrap;
+  margin-bottom: 2em;
+}
+
+.inform-temp >:first-child {
+  margin-right: 5em;
+}
+
+.text-temp > span {
+  margin-right: 1em;
+}
+
+.table-wrap {
+  max-height: 40vh;
+}
+
+.icons-temp #up-btn {
+  position: static;
+  display: block;
+}
+
+.icons-temp #up-btn,
+.icons-temp > svg,
+.icons-temp > div {
+  margin-right: 1em;
+  font-size: 2em;
+  width: 1em;
+  height: 1em;
+}
+
+.icons-temp > div > div {
+  width: 1em;
+  height: 1em;
+}
+
+.not-found.icon {
+  width: 1.46em;
+  height: 1em;
+}
+
+.check-temp > div {
+  margin-right: 1em;
+  font-size: 1em;
+  width: 1em;
+  height: 1em;
+}
+
+.check-temp > div > div {
+  width: 1em;
+  height: 1em;
+}
+
+.btns-temp > div {
+  margin-right: 1em;
+}
+
+.search-temp {
+  width: 230px;
+}
+
+.drop-down-temp {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.drop-down-temp > div {
+ margin-right: 2em;
+}
+
+/*
+Стили для таблицы
+!!! Обязательно нужно указать min-width для всех столбцов таблицы
+    через отдельный селектор с id таблицы и :nth-child()
+    в файле index.css, лежащем вместе с файлом html страницы.
+    Это необходимо для того, чтобы после загрузки все заголовки были видны целиком, даже если контент колонки уже.
+    Также при необходимости в селекторе можно указать:
+    - max-width (чтобы после загрузки не было скролла)
+    - text-align (когда необходимо установить выравнивание отличное от left)
+*/
+
+#table td:nth-child(1) {
+  min-width: 27em;
+  text-align: center;
+}
+
+#table td:nth-child(2) {
+  min-width: 28em;
+}
+
+#table td:nth-child(3) {
+  min-width: 28em;
+}
+
+#table td:nth-child(4) {
+  min-width: 28em;
+}
+
+#table td:nth-child(5) {
+  min-width: 10em;
+}
+
+#table td:nth-child(6) {
+  min-width: 10em;
+}
+
+#table td:nth-child(7) {
+  min-width: 10em;
+}
+
+#table td:nth-child(8) {
+  min-width: 10em;
+}
+
+#table td:nth-child(9) {
+  min-width: 10em;
+}
+
+#table td:nth-child(10) {
+  min-width: 20em;
+}

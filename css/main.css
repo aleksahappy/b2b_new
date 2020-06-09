@@ -195,6 +195,37 @@ body.no-scroll {
   color: #CE0014;
 }
 
+.new-toggle{
+	position: relative;
+	width: 25px;
+	height: 12px;
+	border-radius: 100px;
+	background: #B3B3B3;
+  transition: .3s ease;
+	cursor: pointer;
+}
+
+.new-toggle.on{
+  background: #34495E!important;
+}
+
+.new-toggle-btn{
+	position: absolute;
+	left: -4px;
+	top: -2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+  border: 1px solid #B3B3B3;
+	background: #FFFFFF;
+  transition: .3s ease;
+}
+
+.new-toggle-btn.on{
+  left: 13px!important;
+  border: 1px solid #34495E;
+}
+
 /* =====================================================================================================
 Цветовые гаммы сайта:
 ===================================================================================================== */

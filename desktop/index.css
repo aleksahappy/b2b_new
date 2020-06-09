@@ -378,35 +378,6 @@ section{
 	overflow-y: auto;
 }
 
-/* #desktop-table td:nth-child(1) {
-  min-width: 10em;
-}
-
-#desktop-table td:nth-child(2) {
-  min-width: 10em;
-}
-
-#desktop-table td:nth-child(3) {
-  min-width: 7em;
-}
-
-#desktop-table td:nth-child(4) {
-  min-width: 7em;
-}
-
-#desktop-table td:nth-child(5) {
-  min-width: 7em;
-}
-
-#desktop-table td:nth-child(6) {
-  min-width: 7em;
-}*/
-
-
-/* Новая таблица из orders */
-
-/* Стили таблицы */
-
 .table-wrap {
   max-height: 76vh;
 }
@@ -424,39 +395,6 @@ thead .legend {
 #desktopTable td:nth-child(2) {
   min-width: 10em;
 }
-
-/* #desktopTable td:nth-child(3) {
-  min-width: 10em;
-}
-
-#desktopTable td:nth-child(4) {
-  min-width: 10em;
-}
-
-#desktopTable td:nth-child(5) {
-  min-width: 10em;
-}
-
-#desktopTable td:nth-child(6) {
-  min-width: 11em;
-  padding: 0;
-  text-align: right;
-}
-
-#desktopTable td:nth-child(6) .row {
-  justify-content: flex-end;
-  align-items: center;
-}
-
-#desktopTable td:nth-child(6) .row > div:first-child {
-  padding: 0.7em 0 0.7em 1em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#desktopTable td:nth-child(7) {
-  min-width: 10em;
-} */
 
 #desktopTable td{
   cursor: pointer;
