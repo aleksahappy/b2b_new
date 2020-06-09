@@ -13,6 +13,7 @@
   <link rel="stylesheet" type="text/css" href="../css/main.css">
   <link rel="stylesheet" type="text/css" href="../css/media_main.css">
   <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="media_index.css">
 </head>
 <body data-website="ts_b2b" data-cart="true">
   <!-- ХЕДЕР -->
@@ -99,9 +100,8 @@
           </div>
         </div>
       </div>
-
-      <div class="container">
-        <div id="table" class="table-wrap active">
+      <!-- Таблица контрагентов -->
+      <div id="contraTable" class="table-wrap active">
           <table class="head">
             <thead>
               <tr>
@@ -147,13 +147,16 @@
                     <div class="new-toggle-btn"></div>
                   </div>
                 </td>
-                <td>#data#</td>
-                <td>#data#</td>
-                <td>#data#</td>
-                <td>#data#</td>
-                <td>#data#</td>
-                <td>#data#</td>
-                <td>#data#</td>
+                <td>#contr_inn#</td>
+                <td>#contr_agent#</td>
+                <td>#contr_sys#</td>
+                <td>#contr_date#</td>
+                <td>#contr_add#</td>
+                <td>#contr_user#</td>
+                <td valign="middle">
+                  <div class="download icon"></div>
+                  <a href="#">#doc#</a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -176,14 +179,49 @@
   </div>
 
     <script src ="../js/main.js"></script>
+    <script src ="index.js"></script>
     <script>
       initDropDown('select');
       initDropDown('checkbox');
-      var data = [];
-      for (var i = 0; i < 120; i++) {
-        data.push({data: 'Сюда подставляем данные'});
-      }
-      initTable('table', data);
+      var data = [
+        {
+          contr_inn: "9731002289/637584",
+          contr_agent: "ООО, Пилот ",
+          contr_sys: "Упрощенная",
+          contr_date: "31.10.2016",
+          contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
+          contr_user: "Семенов И.О.",
+          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+        },
+        {
+          contr_inn: "9731002289/637584",
+          contr_agent: "ООО, Пилот ",
+          contr_sys: "Прочая",
+          contr_date: "31.10.2016",
+          contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
+          contr_user: "Семенов И.О.",
+          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+        },
+        {
+          contr_inn: "9731002289/637584",
+          contr_agent: "ООО, Пилот ",
+          contr_sys: "Общая",
+          contr_date: "31.10.2016",
+          contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
+          contr_user: "Семенов И.О.",
+          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+        },
+        {
+          contr_inn: "9731002289/637584",
+          contr_agent: "ООО, Пилот ",
+          contr_sys: "Общая",
+          contr_date: "31.10.2016",
+          contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
+          contr_user: "Семенов И.О.",
+          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+        }
+      ];
+      initTable('contraTable', data);
     </script>
 
   </body>
