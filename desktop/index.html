@@ -531,8 +531,8 @@
       </div>
 		</div>
 
-
-    <div id="alerts-container" class="pop-up-container col" onclick="closePopUp(event)">
+    <!-- Шаблон окна уведомлений -->
+    <div id="alerts-container" class="pop-up-container col">
       <div class="close-btn row">
         <div class="alerts icon">
           <div class="qty in-circle row">#qty#</div>
@@ -545,6 +545,18 @@
           </div>
         </div>
         <div class="pop-up-body">
+          <!-- <div class="message #status# template">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">#text#</div>
+              </div>
+              <div class="row">
+                <div class="date text light">#date#, #time#</div>
+                <div class="close icon" onclick="deleteMessage()"></div>
+              </div>
+            </div>
+          </div> -->
           <div class="message cart">
             <div class="wrap row">
               <div class="row">

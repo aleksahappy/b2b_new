@@ -114,6 +114,50 @@
   display: none;
 }
 
+/* Модальное окно "Добавление контрагента" */
+#contraModal{
+  position: relative;
+}
+#addContra{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46.875vw;
+  height: 28.64vw;
+  /* padding: 1.25em; */
+  border: 0;
+  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
+  background: #F8F8F8;
+  transform: translate(-50%,-50%);
+}
+
+#addContra .pop-up-title .title {
+  font-size: 1.715em;
+}
+
+#addContra .main-title .title-row .title {
+  margin-bottom: 0;
+}
+
+.modal-body{
+  padding: 1.3em 1.5em 1.5em 1.5em;
+}
+
+.modal-body .title{
+  font-size: 0.9em;
+}
+
+#addContra form input{
+  height: 2.125em;
+  border-radius: 3px;
+  border: 1px solid #D5D5D5;
+  background: #ffffff;
+}
+
+#contraINN{
+  width: 14vw;
+}
+
 /* Вынужденное переопределение главных стилей */
 
 #contras .add.icon{

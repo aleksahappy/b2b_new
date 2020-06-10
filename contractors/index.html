@@ -102,7 +102,7 @@
             <div class="add icon" tooltip="Добавить"></div>
           </div>
         </div>
-        <div class="basic btn">Добавить</div>
+        <div class="basic btn" id="addContraBtn">Добавить</div>
       </div>
       <!-- Таблица контрагентов -->
       <div id="contraTable" class="table-wrap active">
@@ -260,6 +260,308 @@
       <div class="wrap">
         <div>Отдел продаж: +7 (846) 300-44-99</div>
         <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Шаблон окна уведомлений -->
+  <div id="alerts-container" class="pop-up-container col" onclick="closePopUp(event)">
+    <div class="close-btn row">
+      <div class="alerts icon">
+        <div class="qty in-circle row">#qty#</div>
+      </div>
+    </div>
+    <div class="pop-up">
+      <div class="pop-up-title main-title row">
+        <div class="title-row row">
+          <div class="title">Уведомления</div>
+        </div>
+      </div>
+      <div class="pop-up-body">
+        <!-- <div class="message #status# template">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">#text#</div>
+            </div>
+            <div class="row">
+              <div class="date text light">#date#, #time#</div>
+              <div class="close icon" onclick="deleteMessage()"></div>
+            </div>
+          </div>
+        </div> -->
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message action">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message attention">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message action">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message attention">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message action">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message attention">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message action">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message attention">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message cart">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно "Добавление контрагента" -->
+  <div id="contraModal" class="pop-up-container col" onclick="closePopUp(event)">
+    <div id="addContra">
+      <div class="pop-up-title main-title row">
+        <div class="title-row row">
+          <div class="title">Добавление контрагента</div>
+        </div>
+        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
+          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <div class="modal-body">
+        <div class="comment">
+          <div class="title">Добавьте ИНН, данные юридического лица загрузятся автоматически</div>
+        </div>
+        <form>
+          <div class="row">
+            <div class="col">
+              <label>ИНН**</label>
+              <input type="text" id="contraINN">
+            </div>
+            <div class="col">
+              <label>КПП**</label>
+              <input type="text" id="contraKPP" disabled>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
