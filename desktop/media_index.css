@@ -7,10 +7,6 @@
 /* Медиа-стили для laptop */
 @media (max-width: 1367px) {
 
-  .new-container {
-    margin: 0 1.185em!important;
-  }
-
   main{
     margin-right: 0;
   }

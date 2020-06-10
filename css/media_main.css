@@ -14,6 +14,15 @@
 }
 
 
+/* Медиа-стили для laptop */
+@media (max-width: 1367px) {
+
+  .new-container {
+    margin: 0 1.98em!important;
+  }
+
+}
+
 @media (max-width: 1299px) {
 
   body{
@@ -100,12 +109,20 @@
 
 @media (max-width: 499px) {
 
-  .main-title{
-    justify-content: center;
+  .new-container {
+    margin: 0!important;
+  }
+
+  .header-top{
+    padding: 0 1em;
+  }
+
+  #main-header{
+    padding: 1em;
   }
 
   .main-title .title{
-    font-size: 1.4em;
+    font-size: 1.5em;
   }
 
 }

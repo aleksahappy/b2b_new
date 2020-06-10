@@ -1,3 +1,4 @@
+/* tablet */
 @media (max-width: 768px) {
 
   .info-graphic {
@@ -89,4 +90,19 @@
     left: 19px!important;
     border: 1px solid #ffffff;
   }
+
+  #contras .main-title .row {
+    margin-bottom: 0;
+  }
+
+}
+
+/* mobile */
+@media (max-width: 499px) {
+
+  #contras .graphics span{
+    display: block;
+    width: 80%;
+  }
+
 }

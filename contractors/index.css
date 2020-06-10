@@ -71,37 +71,41 @@
 Стили для таблицы
 */
 
-#table td:nth-child(1) {
+#contraTable td:nth-child(1) {
   min-width: 6em;
   text-align: center;
 }
 
-#table td:nth-child(2) {
+#contraTable td:nth-child(2) {
   min-width: 12em;
 }
 
-#table td:nth-child(3) {
+#contraTable td:nth-child(3) {
   min-width: 10em;
 }
 
-#table td:nth-child(4) {
+#contraTable td:nth-child(4) {
   min-width: 10em;
 }
 
-#table td:nth-child(5) {
+#contraTable td:nth-child(5) {
   min-width: 4em;
 }
 
-#table td:nth-child(6) {
+#contraTable td:nth-child(6) {
   min-width: 28em;
 }
 
-#table td:nth-child(7) {
+#contraTable td:nth-child(7) {
   min-width: 9em;
 }
 
-#table td:nth-child(8) {
+#contraTable td:nth-child(8) {
   min-width: 25em;
+}
+
+#contraTable td .row{
+  align-items: center;
 }
 
 /* Стили для tablet таблицы */
@@ -119,6 +123,7 @@
 }
 
 #contras .main-title .row{
+  align-items: flex-start;
   margin-bottom: 1em;
 }
 
@@ -135,6 +140,11 @@
   margin-bottom: 1.25em;
 }
 
+#contras .graphics > .row{
+  align-items: center;
+  margin-bottom: 0;
+}
+
 #contras .graphics div{
   font-size: 14px;
   color: #34495E;
@@ -148,7 +158,6 @@
   align-items: center;
 }
 
-#tablet .section-head .row .section-title {
-  margin-left: 1.5em;
+#tablet .section-head .section-title {
   font-size: 1em;
 }

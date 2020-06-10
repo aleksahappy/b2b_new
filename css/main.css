@@ -129,6 +129,10 @@ body.no-scroll {
   margin: 0 4rem;
 }
 
+.new-container {
+  margin: 0 3.125em!important;
+}
+
 .container.center {
   display: flex;
   justify-content: center;
