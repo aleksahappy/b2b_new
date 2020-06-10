@@ -226,6 +226,14 @@ body.no-scroll {
   border: 1px solid #34495E;
 }
 
+.mob-menu{
+  display: none;
+  width: 1.5em;
+  height: 1.5em;
+  background: url('../img/mob-menu-ic.svg') no-repeat center center;
+  cursor: pointer;
+}
+
 /* =====================================================================================================
 Цветовые гаммы сайта:
 ===================================================================================================== */
@@ -835,6 +843,10 @@ a.btn {
 
 .settings.icon {
   background-image: url(../img/settings.svg);
+}
+
+.add.icon {
+  background-image: url(../img/add-ic.svg);
 }
 
 .clear-filter.icon {

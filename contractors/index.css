@@ -2,21 +2,6 @@
   margin-bottom: 0.6em;
 }
 
-.activate {
-  min-width: 200px;
-}
-
-.artboard-title {
-  font-size: 22px;
-  color: blue;
-  margin-bottom: 1em;
-}
-
-.arboard-block {
-  flex-wrap: wrap;
-  margin-bottom: 2em;
-}
-
 .inform-temp >:first-child {
   margin-right: 5em;
 }
@@ -84,13 +69,6 @@
 
 /*
 Стили для таблицы
-!!! Обязательно нужно указать min-width для всех столбцов таблицы
-    через отдельный селектор с id таблицы и :nth-child()
-    в файле index.css, лежащем вместе с файлом html страницы.
-    Это необходимо для того, чтобы после загрузки все заголовки были видны целиком, даже если контент колонки уже.
-    Также при необходимости в селекторе можно указать:
-    - max-width (чтобы после загрузки не было скролла)
-    - text-align (когда необходимо установить выравнивание отличное от left)
 */
 
 #table td:nth-child(1) {
@@ -124,4 +102,53 @@
 
 #table td:nth-child(8) {
   min-width: 25em;
+}
+
+/* Стили для tablet таблицы */
+
+#tablet{
+  display: none;
+}
+
+/* Вынужденное переопределение главных стилей */
+
+#contras .add.icon{
+  display: none;
+  width: 2.125em;
+  height: 2.125em;
+}
+
+#contras .main-title .row{
+  margin-bottom: 1em;
+}
+
+#contras .main-title .title-row .title{
+  margin-bottom: 0;
+}
+
+#contras .graphics{
+  padding: 1.25em;
+  margin: 0;
+}
+
+#contras .graphics > * {
+  margin-bottom: 1.25em;
+}
+
+#contras .graphics div{
+  font-size: 14px;
+  color: #34495E;
+}
+
+#contras .graphics span{
+  color: #666666;
+}
+
+#tablet .section-head .row{
+  align-items: center;
+}
+
+#tablet .section-head .row .section-title {
+  margin-left: 1.5em;
+  font-size: 1em;
 }

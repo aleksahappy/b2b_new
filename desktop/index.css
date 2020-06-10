@@ -271,14 +271,14 @@ section{
 }
 
 .open.white.icon{
-  background-image: url(../img/desktop/toggle-btn-ic.svg);
+  background-image: url(../img/toggle-btn-ic.svg);
   background-repeat: no-repeat;
   transform-origin: center;
   transform: rotate(180deg);
 }
 
 .close .open.white.icon {
-  background-image: url(../img/desktop/toggle-btn-ic.svg);
+  background-image: url(../img/toggle-btn-ic.svg);
   background-repeat: no-repeat;
   transform-origin: center;
   transform: rotate(0deg);

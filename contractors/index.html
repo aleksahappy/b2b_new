@@ -12,6 +12,7 @@
   <link rel="stylesheet" type="text/css" href="../css/fonts.css">
   <link rel="stylesheet" type="text/css" href="../css/main.css">
   <link rel="stylesheet" type="text/css" href="../css/media_main.css">
+  <link rel="stylesheet" type="text/css" href="../desktop/index.css">
   <link rel="stylesheet" type="text/css" href="index.css">
   <link rel="stylesheet" type="text/css" href="media_index.css">
 </head>
@@ -91,82 +92,169 @@
     </div>
   </div>
   <div class="main">
-    <div class="container new-container">
+    <div id="contras" class="container new-container">
       <div id="main-header">
         <div class="main-title row">
-          <div class="title-row col">
+          <div class="title-row row">
             <div class="title">Контрагенты</div>
-            <div class="basic btn">Добавить</div>
+          </div>
+          <div class="left-row row">
+            <div class="add icon" tooltip="Добавить"></div>
           </div>
         </div>
+        <div class="basic btn">Добавить</div>
       </div>
       <!-- Таблица контрагентов -->
       <div id="contraTable" class="table-wrap active">
-          <table class="head">
-            <thead>
-              <tr>
-                <th id="1">
-                  <div>Доступ</div>
-                </th>
-                <th id="2">
-                  <div>ИНН/КПП</div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="3">
-                  <div>Контрагенты</div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="4">
-                  <div>Система налогооблажения</div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="5">
-                  <div>Дата заведения</div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="6">
-                  <div>Юридический адрес</div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="7">
-                  <div>Пользователь</div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="8">
-                  <div>Документы</div>
-                  <div class="resize-btn"></div>
-                </th>
-              </tr>
-            </thead>
-          </table>
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
-                    <div class="new-toggle-btn"></div>
-                  </div>
-                </td>
-                <td>#contr_inn#</td>
-                <td>#contr_agent#</td>
-                <td>#contr_sys#</td>
-                <td>#contr_date#</td>
-                <td>#contr_add#</td>
-                <td>#contr_user#</td>
-                <td valign="middle">
-                  <div class="download icon"></div>
-                  <a href="#">#doc#</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="head">
+          <thead>
+            <tr>
+              <th id="1">
+                <div>Доступ</div>
+              </th>
+              <th id="2">
+                <div>ИНН/КПП</div>
+                <div class="resize-btn"></div>
+              </th>
+              <th id="3">
+                <div>Контрагенты</div>
+                <div class="resize-btn"></div>
+              </th>
+              <th id="4">
+                <div>Система налогооблажения</div>
+                <div class="resize-btn"></div>
+              </th>
+              <th id="5">
+                <div>Дата заведения</div>
+                <div class="resize-btn"></div>
+              </th>
+              <th id="6">
+                <div>Юридический адрес</div>
+                <div class="resize-btn"></div>
+              </th>
+              <th id="7">
+                <div>Пользователь</div>
+                <div class="resize-btn"></div>
+              </th>
+              <th id="8">
+                <div>Документы</div>
+                <div class="resize-btn"></div>
+              </th>
+            </tr>
+          </thead>
+        </table>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
+                  <div class="new-toggle-btn"></div>
+                </div>
+              </td>
+              <td>#contr_inn#</td>
+              <td>#contr_agent#</td>
+              <td>#contr_sys#</td>
+              <td>#contr_date#</td>
+              <td>#contr_add#</td>
+              <td>#contr_user#</td>
+              <td valign="middle">
+                <div class="download icon"></div>
+                <a href="#">#doc#</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Шаблон прелоадера -->
       <div id="loader" class="loader">
         <div class="loader icon"></div>
         <div class="text"></div>
       </div>
+
+      <div id="tablet" class="contras">
+        <!-- Секция контрагента-->
+        <section class="info-graphic toggle" onclick="toggleContent(event)">
+          <div class="section-head">
+            <div class="row">
+              <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
+                <div class="new-toggle-btn"></div>
+              </div>
+              <div class="section-title">#contr_agent#</div>
+            </div>
+            <div class="open white icon toggle-icon"></div>
+          </div>
+          <div class="graphics toggle-cont col">
+            <div>ИНН/КПП: <span>9731002289/637584</span></div>
+            <div>Система налогооблажения: <span>Упрощенная</span></div>
+            <div>Дата заведения: <span>31.10.2016</span></div>
+            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
+            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
+          </div>
+        </section>
+        <!-- Секция контрагента-->
+        <section class="info-graphic toggle" onclick="toggleContent(event)">
+          <div class="section-head">
+            <div class="row">
+              <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
+                <div class="new-toggle-btn"></div>
+              </div>
+              <div class="section-title">#contr_agent#</div>
+            </div>
+            <div class="open white icon toggle-icon"></div>
+          </div>
+          <div class="graphics toggle-cont col">
+            <div>ИНН/КПП: <span>9731002289/637584</span></div>
+            <div>Система налогооблажения: <span>Упрощенная</span></div>
+            <div>Дата заведения: <span>31.10.2016</span></div>
+            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
+            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
+          </div>
+        </section>
+        <!-- Секция контрагента-->
+        <section class="info-graphic toggle" onclick="toggleContent(event)">
+          <div class="section-head">
+            <div class="row">
+              <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
+                <div class="new-toggle-btn"></div>
+              </div>
+              <div class="section-title">#contr_agent#</div>
+            </div>
+            <div class="open white icon toggle-icon"></div>
+          </div>
+          <div class="graphics toggle-cont col">
+            <div>ИНН/КПП: <span>9731002289/637584</span></div>
+            <div>Система налогооблажения: <span>Упрощенная</span></div>
+            <div>Дата заведения: <span>31.10.2016</span></div>
+            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
+            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
+          </div>
+        </section>
+        <!-- Секция контрагента-->
+        <section class="info-graphic toggle" onclick="toggleContent(event)">
+          <div class="section-head">
+            <div class="row">
+              <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
+                <div class="new-toggle-btn"></div>
+              </div>
+              <div class="section-title">#contr_agent#</div>
+            </div>
+            <div class="open white icon toggle-icon"></div>
+          </div>
+          <div class="graphics toggle-cont col">
+            <div>ИНН/КПП: <span>9731002289/637584</span></div>
+            <div>Система налогооблажения: <span>Упрощенная</span></div>
+            <div>Дата заведения: <span>31.10.2016</span></div>
+            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
+            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
+          </div>
+        </section>
+      </div>
+
+
+
+
+
     </div>
   </div>
   <div class="footer">
