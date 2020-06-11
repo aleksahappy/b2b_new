@@ -167,11 +167,13 @@
 
 #addContra form .col:first-child{
   width: 14vw;
-  margin-right: 5em;
+  min-width: 180px;
+  margin-right: 4vw;
 }
 
 .contraKPP{
   width: 7vw!important;
+  min-width: 60px;
 }
 
 .contraField{
