@@ -99,7 +99,7 @@
             <div class="title">Контрагенты</div>
           </div>
           <div class="left-row row">
-            <div class="add icon" tooltip="Добавить"></div>
+            <div id="addContraBtnMob" class="add icon" tooltip="Добавить"></div>
           </div>
         </div>
         <div class="basic btn" id="addContraBtn">Добавить</div>
@@ -535,7 +535,7 @@
   </div>
 
   <!-- Модальное окно "Добавление контрагента" -->
-  <div id="contraModal" class="pop-up-container col" onclick="closePopUp(event)">
+  <div id="contraModal" class="pop-up-container col">
     <div id="addContra">
       <div class="pop-up-title main-title row">
         <div class="title-row row">
@@ -556,10 +556,36 @@
               <label>ИНН**</label>
               <input type="text" id="contraINN">
             </div>
-            <div class="col">
+            <div class="col contraKPP">
               <label>КПП**</label>
               <input type="text" id="contraKPP" disabled>
             </div>
+          </div>
+          <div class="col contraField">
+              <label>Название:</label>
+              <input type="text" id="contraName" disabled>
+          </div>
+          <div class="col contraField">
+              <label>Юридический адрес*</label>
+              <textarea id="contraName" cols="30" rows="10" disabled></textarea>
+          </div>
+          <div class="col contraField">
+            <label>Система налогооблажения*</label>
+            <div id="contraSelect" class="activate select">
+              <div class="head row">
+                <div class="title">Выберите</div>
+                <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                </svg>
+              </div>
+              <div class="drop-down">
+                <div class="item" data-value="1">Упрощенная</div>
+                <div class="item" data-value="2">Общая</div>
+              </div>
+            </div>
+          </div>
+          <div class="row contraConfirm contraField">
+            <div class="basic btn disabled" id="contraConfirm">Отправить</div>
           </div>
         </form>
       </div>
@@ -569,8 +595,7 @@
     <script src ="../js/main.js"></script>
     <script src ="index.js"></script>
     <script>
-      initDropDown('select');
-      initDropDown('checkbox');
+      initDropDown('contraSelect');
       var data = [
         {
           contr_inn: "9731002289/637584",

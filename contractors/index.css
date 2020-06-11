@@ -115,16 +115,13 @@
 }
 
 /* Модальное окно "Добавление контрагента" */
-#contraModal{
-  position: relative;
-}
+
 #addContra{
   position: absolute;
   top: 50%;
   left: 50%;
   width: 46.875vw;
-  height: 28.64vw;
-  /* padding: 1.25em; */
+  min-width: 435px;
   border: 0;
   box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
   background: #F8F8F8;
@@ -143,19 +140,55 @@
   padding: 1.3em 1.5em 1.5em 1.5em;
 }
 
-.modal-body .title{
+.modal-body .comment{
+  padding-bottom: 2.4em;
   font-size: 0.9em;
 }
 
 #addContra form input{
+  width: 100%;
   height: 2.125em;
-  border-radius: 3px;
+  padding: 11px 9px;
   border: 1px solid #D5D5D5;
+  border-radius: 3px;
+  font-size: 1em;
   background: #ffffff;
 }
 
-#contraINN{
+#addContra form input[disabled],
+#addContra form textarea[disabled]
+{
+  background: #ECECEC;
+}
+
+#addContra form label{
+  margin-bottom: 0.675em;
+}
+
+#addContra form .col:first-child{
   width: 14vw;
+  margin-right: 5em;
+}
+
+.contraKPP{
+  width: 7vw!important;
+}
+
+.contraField{
+  padding-top: 30px;
+}
+
+#addContra form .col:nth-child(2){
+  width: 100%;
+}
+
+#addContra form textarea{
+  width: 100%;
+  height: 3.6875em;
+}
+
+.contraConfirm{
+  justify-content: center;
 }
 
 /* Вынужденное переопределение главных стилей */
