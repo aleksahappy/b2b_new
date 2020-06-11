@@ -110,7 +110,7 @@
 
 /* Стили для tablet таблицы */
 
-#tablet{
+#contrasTable{
   display: none;
 }
 
@@ -233,10 +233,10 @@
   color: #666666;
 }
 
-#tablet .section-head .row{
+#contrasTable .section-head .row{
   align-items: center;
 }
 
-#tablet .section-head .section-title {
+#contrasTable .section-head .section-title {
   font-size: 1em;
 }
