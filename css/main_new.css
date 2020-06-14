@@ -1,0 +1,354 @@
+.center-col{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn{
+  padding: 0.825em  1.875em;
+  border: 0;
+  border-radius: 3px;
+  font-size: 0.875em;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.action-btn{
+  background: #34495E;
+}
+
+.fullWidth{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.open.icon{
+  display: none;
+}
+
+section{
+	margin-bottom: 20px;
+}
+
+.section-title{
+	font-size: 1.5em;
+	line-height: 1.4em;
+	text-transform: uppercase;
+	color: #34495E;
+}
+
+legend select{
+	width: 11.0125em;
+	height: 2.0125em;
+	font-size: 0.785em;
+	border: 1px solid #D5D5D5;
+	border-radius: 3px;
+	color: #C6C6C6;
+}
+
+.txt{
+	padding-top: 1.85em;
+	padding-left: 0.625em;
+	font-size: 0.875em;
+	color: #666666;
+}
+
+/* новые тогглы  */
+
+.new-toggle{
+	position: relative;
+	width: 25px;
+	height: 12px;
+	border-radius: 100px;
+	background: #B3B3B3;
+  transition: .3s ease;
+	cursor: pointer;
+}
+
+.new-toggle.on{
+  background: #34495E!important;
+}
+
+.new-toggle-btn{
+	position: absolute;
+	left: -4px;
+	top: -2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+  border: 1px solid #B3B3B3;
+	background: #FFFFFF;
+  transition: .3s ease;
+}
+
+.new-toggle-btn.on{
+  left: 13px!important;
+  border: 1px solid #34495E;
+}
+
+/* мобильная версия новых тогглов в шапке секции */
+
+.new-toggle.mobHead{
+  width: 44px;
+  height: 17px;
+  border: 2px solid #B3B3B3;
+  background: #B3B3B3;
+}
+
+.new-toggle.mobHead.on{
+  border: 2px solid #FFFFFF;
+  background: #53606F!important;
+}
+
+.new-toggle-btn.mobHead{
+  left: -2px;
+  top: -6px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #b3b3b3;
+  background: #ffffff;
+}
+
+ .new-toggle-btn.mobHead.on{
+  left: 19px!important;
+  border: 1px solid #ffffff;
+}
+
+/* универсальные новые блоки для данных */
+
+.infoblock{
+	display: block;
+	width: 100%;
+	padding: 1.25em 1.25em  0.9375em  1.25em;
+	background: #ffffff;
+}
+
+.section-head{
+	display: flex;
+	justify-content: space-between;
+  align-items: center;
+}
+
+.info-wrap{
+	display: flex;
+	width: 100%;
+	margin-top: 20px;
+}
+
+/* Цветовая гамма статусов доступа пользователей */
+/* частичный */
+.limited{
+  color: #F69C00;
+  background-color: #FEF5E5;
+  border: 1px solid #F69C00;
+}
+
+/* полный */
+.boundless{
+  border: 1px solid #3F9726;
+  color: #3F9726;
+  background-color: #ECF5E9;
+}
+
+/* отключен */
+.denied{
+  border: 1px solid #B3BAC2;
+  color: #B3BAC2;
+  background-color: #E7EAED;
+}
+
+.access{
+  width: 100px;
+  padding: 0 1em;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  text-align: center;
+  color: #666666;
+  background-color: #fff;
+  cursor: default;
+}
+
+
+/* медиа стили */
+
+@media (max-width: 1575px) {
+
+  .header-top .alerts.icon {
+    position: relative;
+    width: 2.25em;
+    height: 2.25em;
+    margin-left: 0;
+  }
+
+  .header-top .activate .head{
+    width: 13em;
+  }
+
+}
+
+
+
+
+
+
+/* Медиа-стили для laptop */
+@media (max-width: 1367px) {
+
+  .new-container {
+    margin: 0 1.98em!important;
+  }
+
+}
+
+@media (max-width: 1299px) {
+
+  body{
+    padding-top: 40px;
+    padding-bottom: 78px;
+  }
+
+  .header-top .container{
+    height: 2.5em;
+  }
+
+  .header-top .logo{
+    display: flex;
+    align-items: center;
+  }
+
+  .header-top .logo img {
+    max-height: 2em;
+    max-width: 103px;
+    min-width: 103px;
+  }
+
+  .header-top .left-side > .row{
+    display: none;
+  }
+
+  .header-top .activate .head{
+    width: 4em;
+  }
+
+  .header-top .activate{
+    height: 2.4em;
+  }
+
+  #profile{
+    display: none;
+    width: 0;
+  }
+
+  .header-top .profile.icon{
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .header-top .alerts.icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .icon {
+    background-size: contain;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+  }
+
+  .profile.icon {
+    background-image: url(../img/newDesign/user-ic-tablet.svg);
+    background-repeat: no-repeat;
+  }
+
+  .alerts.icon{
+    background-image: url(../img/newDesign/alert-ic-tablet.svg);
+    background-repeat: no-repeat;
+  }
+
+  .qty.in-circle{
+    top: -0.4em;
+    right: -0.5em;
+  }
+
+  .mob-menu {
+    display: block;
+    margin-left: 1.55em;
+  }
+
+  .infoblock{
+    padding: 0;
+  }
+
+  .section-head{
+    padding: 1.25em 1.25em 0.9375em 1.25em;
+    background: #53606F;
+  }
+
+  .section-title{
+    color: #ffffff;
+  }
+
+  .new-toggle{
+    width: 44px;
+    height: 18px;
+    border-radius: 100px;
+    border: 1px solid #B3B3B3;
+    background: #B3B3B3;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .new-toggle.on{
+    border: 1px solid #34495E;
+    background: #34495E!important;
+  }
+
+  .new-toggle-btn{
+    position: absolute;
+    left: -1px;
+    top: -4px;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #B3B3B3;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: .3s ease;
+    outline: none;
+  }
+
+  .new-toggle-btn.on{
+    left: 19px!important;
+  }
+
+}
+
+@media(max-width: 685px) {
+  .header-top .logo img {
+    max-width: 88px;
+  }
+}
+
+@media (max-width: 499px) {
+
+  .new-container {
+    margin: 0!important;
+  }
+
+  .header-top{
+    padding: 0 1em;
+  }
+
+  #main-header{
+    padding: 1em;
+  }
+
+  .main-title .title{
+    font-size: 1.5em;
+  }
+
+}

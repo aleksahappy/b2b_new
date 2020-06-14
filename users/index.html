@@ -12,9 +12,7 @@
   <link rel="stylesheet" type="text/css" href="../css/fonts.css">
   <link rel="stylesheet" type="text/css" href="../css/main.css">
   <link rel="stylesheet" type="text/css" href="../css/media_main.css">
-  <link rel="stylesheet" type="text/css" href="../desktop/index.css">
-  <link rel="stylesheet" type="text/css" href="../contractors/index.css">
-  <link rel="stylesheet" type="text/css" href="../contractors/media_index.css">
+  <link rel="stylesheet" type="text/css" href="../css/main_new.css">
   <link rel="stylesheet" type="text/css" href="index.css">
   <link rel="stylesheet" type="text/css" href="media_index.css">
 </head>
@@ -94,11 +92,11 @@
     </div>
   </div>
   <div class="main">
-    <div id="contras" class="container new-container">
+    <div id="users" class="container new-container">
       <div id="main-header">
         <div class="main-title row">
           <div class="title-row row">
-            <div class="title">Контрагенты</div>
+            <div class="title">Пользователи</div>
           </div>
           <div class="left-row row">
             <div id="addContraBtnMob" class="add icon" tooltip="Добавить"></div>
@@ -107,7 +105,7 @@
         <div class="basic btn" id="addContraBtn">Добавить</div>
       </div>
       <!-- Таблица контрагентов -->
-      <div id="contraTable" class="table-wrap active">
+      <div id="usersTable" class="table-wrap active">
         <table class="head">
           <thead>
             <tr>
@@ -158,7 +156,11 @@
               <td>#contr_birth#</td>
               <td>#contr_tel#</td>
               <td>#contr_mail#</td>
-              <td>#contr_access#</td>
+              <td>
+                <div class="row">
+                  <div class="access">#contr_access#</div>
+                </div>
+              </td>
               <td>#contr_date#</td>
             </tr>
           </tbody>
@@ -170,10 +172,10 @@
         <div class="loader icon"></div>
         <div class="text"></div>
       </div>
-
-      <div id="contrasTable" class="tablet">
-        <!-- Секция контрагента-->
-        <section class="info-graphic">
+      <!-- Секции пользователей -->
+      <div id="usersTableMob" class="tablet">
+        <!-- Секция пользователя-->
+        <section class="infoblock">
           <div class="section-head">
             <div class="section-title">#contr_fio#</div>
             <div class="row">
@@ -182,20 +184,21 @@
               </div>
             </div>
           </div>
-          <div class="graphics col">
-            <div>ИНН/КПП: <span>9731002289/637584</span></div>
-            <div>Система налогооблажения: <span>Упрощенная</span></div>
-            <div>Дата заведения: <span>31.10.2016</span></div>
-            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
-            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
+          <div class="info-wrap col">
+            <div class="row">
+              <div class="col">
+                <div>Должность: <span>Генеральный директор</span></div>
+                <div>Дата рождения: <span>25.11.69</span></div>
+                <div>Телефон: <a href="#">+7(987)765-65-65</a></div>
+              </div>
+              <div class="col">
+                <div>Email: <span>semenov@gmail.com</span></div>
+                <div>Дата заведения: <span>25.11.2018</span></div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
-
-
-
-
-
     </div>
   </div>
   <div class="footer">
@@ -536,7 +539,7 @@
   </div>
 
     <script src ="../js/main.js"></script>
-    <script src ="index.js"></script>
+    <script src ="users.js"></script>
     <script>
       initDropDown('contraSelect');
       var data = [
@@ -546,7 +549,7 @@
           contr_birth: "25.11.69",
           contr_tel: "+7(987)765-65-65",
           contr_mail: "semenov@gmail.com",
-          contr_access: "полный",
+          contr_access: "частичный",
           contr_date: "31.10.2016"
         },
         {
@@ -564,7 +567,7 @@
           contr_birth: "25.11.69",
           contr_tel: "+7(987)765-65-65",
           contr_mail: "semenov@gmail.com",
-          contr_access: "полный",
+          contr_access: "отключен",
           contr_date: "31.10.2016"
         },
         {
@@ -577,7 +580,7 @@
           contr_date: "31.10.2016"
         }
       ];
-      initTable('contraTable', data);
+      initTable('usersTable', data);
     </script>
 
   </body>

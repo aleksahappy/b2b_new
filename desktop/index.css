@@ -8,36 +8,6 @@
 	width: 100%;
 }
 
-.center-col{
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.btn{
-  padding: 0.825em  1.875em;
-  border: 0;
-  border-radius: 3px;
-  font-size: 0.875em;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.action-btn{
-  background: #34495E;
-}
-
-.fullWidth{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.open.icon{
-  display: none;
-}
-
 /* Контейнер с баннерами */
 aside{
 	display: flex;
@@ -66,17 +36,6 @@ aside{
 main{
 	flex: 3;
 	margin-right: 20px;
-}
-
-section{
-	margin-bottom: 20px;
-}
-
-.section-title{
-	font-size: 1.5em;
-	line-height: 1.4em;
-	text-transform: uppercase;
-	color: #34495E;
 }
 
 /* Взаиморасчеты */
@@ -132,7 +91,7 @@ section{
 	line-height: 1.8875em;
 	text-align: right;
 	color: #ffffff;
-	background: #D70C17 url('../img/desktop/set-attention.svg') no-repeat 12px center;
+	background: #D70C17 url('../img/newDesign/set-attention.svg') no-repeat 12px center;
 }
 
 .lines{
@@ -170,7 +129,7 @@ section{
 	width: 30px;
 	height: 30px;
 	margin-right: 0.8em;
-	background: url('../img/desktop/money-ic.svg') no-repeat center center;
+	background: url('../img/newDesign/money-ic.svg') no-repeat center center;
 	background-size: contain;
 }
 
@@ -195,19 +154,6 @@ section{
 
 /* Основной график и таблица */
 
-.info-graphic{
-	display: block;
-	width: 100%;
-	padding: 1.25em 1.25em  0.9375em  1.25em;
-	background: #ffffff;
-}
-
-.section-head{
-	display: flex;
-	justify-content: space-between;
-  align-items: center;
-}
-
 .graphic-btns{
 	display: flex;
 	align-items: center;
@@ -215,12 +161,6 @@ section{
 
 .graphic-btns1{
   display: none;
-}
-
-.graphics{
-	display: flex;
-	width: 100%;
-	margin-top: 20px;
 }
 
 .preorder-toggle{
@@ -233,37 +173,6 @@ section{
 	padding-bottom: 1px;
 	font-size: 0.875em;
 	color: #666666;
-}
-
-.new-toggle{
-	position: relative;
-	width: 25px;
-	height: 12px;
-	border-radius: 100px;
-	background: #B3B3B3;
-  transition: .3s ease;
-	cursor: pointer;
-}
-
-.new-toggle.on{
-  background: #34495E!important;
-}
-
-.new-toggle-btn{
-	position: absolute;
-	left: -4px;
-	top: -2px;
-	width: 16px;
-	height: 16px;
-	border-radius: 50%;
-  border: 1px solid #B3B3B3;
-	background: #FFFFFF;
-  transition: .3s ease;
-}
-
-.new-toggle-btn.on{
-  left: 13px!important;
-  border: 1px solid #34495E;
 }
 
 .open.white.icon{
@@ -318,31 +227,30 @@ section{
 	text-align: left;
 	font-size: 0.875em;
 	color: #B3B3B3;
-	background: #E3E3E3 url('../img/desktop/Close-nonactive.svg') no-repeat 90px center;
+	background: #E3E3E3 url('../img/newDesign/Close-nonactive.svg') no-repeat 90px center;
   outline: none;
   user-select: none;
 }
 
 .status1{
   color: #ffffff;
-	background: #2C6DA8 url('../img/desktop/Close.svg') no-repeat 90px center!important;
+	background: #2C6DA8 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
 }
 
 .status2{
   color: #ffffff;
-	background: #F69C00 url('../img/desktop/Close.svg') no-repeat 90px center!important;
+	background: #F69C00 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
 }
 
 .status3{
   color: #ffffff;
-	background: #6C4D77 url('../img/desktop/Close.svg') no-repeat 90px center!important;
+	background: #6C4D77 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
 }
 
 .status4{
   color: #ffffff;
-	background: #3F9726 url('../img/desktop/Close.svg') no-repeat 90px center!important;
+	background: #3F9726 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
 }
-
 
 .col1,
 .col2{
@@ -517,7 +425,7 @@ thead .legend {
 	text-align: left;
 	font-size: 0.875em;
 	color: #ffffff;
-	background: url('../img/desktop/Close.svg') no-repeat right center;
+	background: url('../img/newDesign/Close.svg') no-repeat right center;
 }
 
 .brand-btn:last-child{
@@ -525,19 +433,19 @@ thead .legend {
 }
 
 .status-1{
-	background: #34495E url('../img/desktop/Close.svg') no-repeat 44px center!important;
+	background: #34495E url('../img/newDesign/Close.svg') no-repeat 44px center!important;
 }
 
 .status-2{
-	background: #F69C00 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+	background: #F69C00 url('../img/newDesign/Close.svg') no-repeat 44px center!important;
 }
 
 .status-3{
-	background: #6C4D77 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+	background: #6C4D77 url('../img/newDesign/Close.svg') no-repeat 44px center!important;
 }
 
 .status-4{
-	background: #3F9726 url('../img/desktop/Close.svg') no-repeat 44px center!important;
+	background: #3F9726 url('../img/newDesign/Close.svg') no-repeat 44px center!important;
 }
 
 /* График для рекламаций в работе */
@@ -664,18 +572,11 @@ thead .legend {
 	margin-bottom: 20px;
 }
 
-.txt{
-	padding-top: 1.85em;
-	padding-left: 0.625em;
-	font-size: 0.875em;
-	color: #666666;
-}
-
 .info-graphic-2{
 	display: block; /**/
 }
 
-.info-graphic-2 .graphics{
+.info-graphic-2 .info-wrap{
 	margin-top: 0;
 }
 
@@ -685,16 +586,6 @@ thead .legend {
 
 .chart-wrapper{
 	display: flex;
-}
-
-
-legend select{
-	width: 11.0125em;
-	height: 2.0125em;
-	font-size: 0.785em;
-	border: 1px solid #D5D5D5;
-	border-radius: 3px;
-	color: #C6C6C6;
 }
 
 .info-graphic-2 .list{
@@ -752,7 +643,7 @@ legend select{
   left: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/desktop/leftArrowBanner.svg) no-repeat center!important;
+  background: url(../img/newDesign/leftArrowBanner.svg) no-repeat center!important;
   background-size: contain;
 }
 
@@ -761,7 +652,7 @@ legend select{
   right: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/desktop/rightArrowBanner.svg) no-repeat center!important;
+  background: url(../img/newDesign/rightArrowBanner.svg) no-repeat center!important;
   background-size: contain;
 }
 

@@ -78,7 +78,7 @@
     line-height: 20px;
     padding: 0 10px;
     font-size: 0.75em;
-    background: #D70C17 url(../img/desktop/set-attention.svg) no-repeat 8px center;
+    background: #D70C17 url(../img/newDesign/set-attention.svg) no-repeat 8px center;
   }
 
   .line{
@@ -128,11 +128,7 @@
     height: 10px;
   }
 
-  .info-graphic{
-    padding: 0;
-  }
-
-  .info-graphic .col1{
+  .infoblock .col1{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -172,25 +168,16 @@
     margin-top: 0.5em;
   }
 
-  .section-head{
-    padding: 1.25em 1.25em 0.9375em 1.25em;
-    background: #53606F;
-  }
-
-  .section-title{
-    color: #ffffff;
-  }
-
   .col2{
     flex: 1;
   }
 
-  .graphics{
+  .info-wrap{
     flex-direction: column;
     margin-top: 0.875em;
   }
 
-  .info-graphic .graphics{
+  .infoblock .info-wrap{
     padding-bottom: 1.875em;
   }
 
@@ -202,7 +189,7 @@
     margin-top: 10px;
   }
 
-  .info-graphic-1 .graphics .col1{
+  .info-graphic-1 .info-wrap .col1{
     margin-bottom: 10px;
   }
 
@@ -244,7 +231,7 @@
     padding-bottom: 1.375em;
   }
 
-  .info-graphic-1 .graphics{
+  .info-graphic-1 .info-wrap{
     padding-bottom: 0;
   }
 
@@ -281,52 +268,17 @@
     display: none;
   }
 
-  .new-toggle{
-  	position: relative;
-  	width: 44px;
-  	height: 18px;
-  	border-radius: 100px;
-    border: 1px solid #B3B3B3;
-    background: #B3B3B3;
-  	cursor: pointer;
-    outline: none;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .new-toggle.on{
-    border: 1px solid #34495E;
-    background: #34495E!important;
-  }
-
-  .new-toggle-btn{
-  	position: absolute;
-  	left: -1px;
-  	top: -4px;
-  	width: 25px;
-  	height: 25px;
-    border: 1px solid #B3B3B3;
-  	border-radius: 50%;
-  	background: #ffffff;
-    transition: .3s ease;
-    outline: none;
-  }
-
-  .new-toggle-btn.on{
-    left: 19px!important;
-  }
-
   /* "Ежегодная динамика товарооборота" и "Доля закупок по производителям" */
 
   .info-graphic-2 .col1{
     margin-bottom: 10px;
   }
 
-  .info-graphic-2 .graphics .col1{
+  .info-graphic-2 .info-wrap .col1{
     order: 1;
   }
 
-  .info-graphic-2 .graphics .col2{
+  .info-graphic-2 .info-wrap .col2{
     order: 2;
   }
 
@@ -432,25 +384,12 @@
 
 @media (max-width: 499px) {
 
-  /* .info-graphic{
-    display: none;
-  }
-
-  .info-graphic-1 .col1{
-    display: none;
-  } */
-
-  /* .info-graphic-1 .col2{
-    display: none;
-  } */
-
-
   .orders-info{
     font-size: 0.9em;
     width: 35%;
   }
 
-  .info-graphic .col1{
+  .infoblock .col1{
     flex-direction: column;
     align-items: center;
   }

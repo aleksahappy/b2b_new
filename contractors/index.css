@@ -67,9 +67,11 @@
  margin-right: 2em;
 }
 
-/*
-Стили для таблицы
-*/
+/* Стили для таблицы */
+
+#contraTable td{
+  cursor: default;
+}
 
 #contraTable td:nth-child(1) {
   min-width: 6em;
@@ -193,7 +195,7 @@
   justify-content: center;
 }
 
-/* Вынужденное переопределение главных стилей */
+/* Вынужденное переопределение главных стилей для конктретной страницы */
 
 #contras .add.icon{
   display: none;
@@ -210,26 +212,26 @@
   margin-bottom: 0;
 }
 
-#contras .graphics{
+#contras .info-wrap{
   padding: 1.25em;
   margin: 0;
 }
 
-#contras .graphics > * {
+#contras .info-wrap > * {
   margin-bottom: 1.25em;
 }
 
-#contras .graphics > .row{
+#contras .info-wrap > .row{
   align-items: center;
   margin-bottom: 0;
 }
 
-#contras .graphics div{
+#contras .info-wrap div{
   font-size: 14px;
   color: #34495E;
 }
 
-#contras .graphics span{
+#contras .info-wrap span{
   color: #666666;
 }
 

@@ -1,0 +1,115 @@
+/* Стили для таблицы */
+#usersTable td{
+  cursor: default;
+}
+#usersTable td:nth-child(1) {
+  min-width: 6em;
+  text-align: center;
+}
+
+#usersTable td:nth-child(2) {
+  min-width: 20em;
+}
+
+#usersTable td:nth-child(3) {
+  min-width: 10em;
+}
+
+#usersTable td:nth-child(4) {
+  min-width: 10em;
+}
+
+#usersTable td:nth-child(5) {
+  min-width: 4em;
+}
+
+#usersTable td:nth-child(6) {
+  min-width: 20em;
+}
+
+#usersTable td:nth-child(7) {
+  min-width: 9em;
+}
+
+#usersTable td:nth-child(8) {
+  min-width: 12  em;
+}
+
+#usersTable td .row{
+  align-items: center;
+}
+
+#usersTableMob{
+  display: none;
+}
+
+#usersTableMob .info-wrap{
+  padding-bottom: 0;
+}
+
+#usersTableMob .info-wrap > .row {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+#usersTableMob .info-wrap .row .col > div{
+  padding-bottom: 0.875em;
+}
+
+/* Размер шрифта в заголовках адаптивной таблицы */
+
+#users .section-head .section-title {
+    font-size: 1em;
+}
+
+.main-title .title-row .title{
+  margin-bottom: 0.6em;
+}
+
+/* Вынужденное переопределение главных стилей для конктретной страницы */
+
+#users .add.icon{
+  display: none;
+  width: 2.125em;
+  height: 2.125em;
+}
+
+#users .main-title .row{
+  align-items: flex-start;
+  margin-bottom: 1em;
+}
+
+#users .main-title .title-row .title{
+  margin-bottom: 0;
+}
+
+#users .info-wrap{
+  padding: 1.25em;
+  margin: 0;
+}
+
+#users .info-wrap > * {
+  margin-bottom: 1.25em;
+}
+
+#users .info-wrap > .row{
+  align-items: center;
+  margin-bottom: 0;
+}
+
+#users .info-wrap div{
+  font-size: 14px;
+  color: #34495E;
+}
+
+#users .info-wrap span{
+  color: #666666;
+}
+
+#usersTable .section-head .row{
+  align-items: center;
+}
+
+#usersTable .section-head .section-title {
+  font-size: 1em;
+}
