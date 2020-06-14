@@ -1,3 +1,18 @@
+.main a{
+  font-size: 1em;
+  color: #117FED;
+}
+
+.add.icon{
+  display: none;
+  width: 2.125em;
+  height: 2.125em;
+}
+
+#main-header .btn{
+  margin-top: 1em;
+}
+
 .center-col{
   position: relative;
   display: flex;
@@ -139,21 +154,21 @@ legend select{
 
 /* Цветовая гамма статусов доступа пользователей */
 /* частичный */
-.limited{
+.access.limited{
   color: #F69C00;
   background-color: #FEF5E5;
   border: 1px solid #F69C00;
 }
 
 /* полный */
-.boundless{
+.access.boundless{
   border: 1px solid #3F9726;
   color: #3F9726;
   background-color: #ECF5E9;
 }
 
 /* отключен */
-.denied{
+.access.denied{
   border: 1px solid #B3BAC2;
   color: #B3BAC2;
   background-color: #E7EAED;
@@ -165,6 +180,7 @@ legend select{
   border: 1px solid transparent;
   border-radius: 30px;
   text-align: center;
+  font-size: 1em;
   color: #666666;
   background-color: #fff;
   cursor: default;
@@ -187,11 +203,6 @@ legend select{
   }
 
 }
-
-
-
-
-
 
 /* Медиа-стили для laptop */
 @media (max-width: 1367px) {
@@ -326,6 +337,23 @@ legend select{
   }
 
 }
+
+@media (max-width: 768px) {
+
+  .main-title .row {
+    margin-bottom: 0;
+  }
+
+  #main-header .btn{
+    display: none;
+  }
+
+  .add.icon{
+    display: block;
+  }
+
+}
+
 
 @media(max-width: 685px) {
   .header-top .logo img {

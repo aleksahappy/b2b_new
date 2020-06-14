@@ -1,7 +1,32 @@
 @media (max-width: 768px) {
 
+  #usersTableTablet{
+    display: block;
+  }
+
+  .open.icon {
+    display: block;
+  }
+
+}
+
+@media (max-width: 499px) {
+
+  #usersTableTablet{
+    display: none;
+  }
+
   #usersTableMob{
     display: block;
+  }
+
+  .user-status.row:first-child{
+    width: 80%;
+  }
+
+  .user-status.row:last-child{
+    justify-content: flex-end;
+    width: 20%;
   }
 
 }

@@ -39,20 +39,21 @@
   align-items: center;
 }
 
+#usersTableTablet,
 #usersTableMob{
   display: none;
 }
 
-#usersTableMob .info-wrap{
+.adaptive .info-wrap{
   padding-bottom: 0;
 }
 
-#usersTableMob .info-wrap > .row {
+.adaptive .info-wrap > .row {
   align-items: flex-start;
   margin-bottom: 0;
 }
 
-#usersTableMob .info-wrap .row .col > div{
+.adaptive .info-wrap .row .col > div{
   padding-bottom: 0.875em;
 }
 
@@ -68,15 +69,8 @@
 
 /* Вынужденное переопределение главных стилей для конктретной страницы */
 
-#users .add.icon{
-  display: none;
-  width: 2.125em;
-  height: 2.125em;
-}
-
 #users .main-title .row{
   align-items: flex-start;
-  margin-bottom: 1em;
 }
 
 #users .main-title .title-row .title{
@@ -93,7 +87,6 @@
 }
 
 #users .info-wrap > .row{
-  align-items: center;
   margin-bottom: 0;
 }
 
@@ -112,4 +105,31 @@
 
 #usersTable .section-head .section-title {
   font-size: 1em;
+}
+
+.wrap.row{
+  width: 100%;
+}
+
+.user-status.row{
+  width: 50%;
+}
+
+.user-status.row:last-child{
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-status.icon{
+  width: 12px;
+  height: 15px;
+  margin-right: 1em;
+  background: url('../img/newDesign/user_denied-ic.svg') no-repeat;
+}
+
+.user-status.edit{
+  width: 24px;
+  height: 24px;
+  background: url('../img/newDesign/user_edit-ic.svg') no-repeat;
+  cursor: pointer;
 }

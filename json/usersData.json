@@ -1,0 +1,38 @@
+[
+  {
+    "contr_fio": "Семенов Иван Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.69",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "semenov@gmail.com",
+    "contr_access": "частичный",
+    "contr_date": "31.10.2016"
+  },
+  {
+    "contr_fio": "Семенов Иван Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.69",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "semenov@gmail.com",
+    "contr_access": "полный",
+    "contr_date": "31.10.2016"
+  },
+  {
+    "contr_fio": "Семенов Иван Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.69",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "semenov@gmail.com",
+    "contr_access": "отключен",
+    "contr_date": "31.10.2016"
+  },
+  {
+    "contr_fio": "Семенов Иван Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.69",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "semenov@gmail.com",
+    "contr_access": "полный",
+    "contr_date": "31.10.2016"
+  }
+]

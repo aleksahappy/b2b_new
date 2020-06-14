@@ -5,20 +5,8 @@
     display: block;
   }
 
-  #contras #main-header .btn{
-    display: none;
-  }
-
-  #contras .add.icon{
-    display: block;
-  }
-
   #contrasTable.tablet{
     display: block;
-  }
-
-  #contras .main-title .row {
-    margin-bottom: 0;
   }
 
 }

@@ -197,15 +197,8 @@
 
 /* Вынужденное переопределение главных стилей для конктретной страницы */
 
-#contras .add.icon{
-  display: none;
-  width: 2.125em;
-  height: 2.125em;
-}
-
 #contras .main-title .row{
   align-items: flex-start;
-  margin-bottom: 1em;
 }
 
 #contras .main-title .title-row .title{
