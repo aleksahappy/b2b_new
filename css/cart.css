@@ -164,7 +164,7 @@
   font-weight: 700;
 }
 
-#order-comment {
+[name="comment"] {
   width: 100%;
   height: 5em;
 }

@@ -48,10 +48,9 @@ window.addEventListener('unload', () => {
 
 // Отправка данных о заказе на сервер:
 
-function orderSentServer(event) {
-  event.preventDefault()
+function sendOrder(formData) {
   loader.show();
-  var info = getOrderData();
+
   var idList = getIdList('cart', false);
   if (!idList) {
     return;
@@ -61,36 +60,29 @@ function orderSentServer(event) {
   idList.forEach(id => {
     cartInfo[cartId]['id_' + id] = cart['id_' + id];
   });
-
+  formData.cart_name = cartId;
   var data = {
-    info: info,
+    info: formData,
     cart: cartInfo
   };
-  // console.log(data);
-  sendRequest(urlRequest.main, {action: '???', data: data})
+  console.log(data);
+
+  sendRequest(urlRequest.main, {action: 'send_order', data: data})
   .then(result => {
-    // var orderId = JSON.parse(result);
-    deleteFormCart(idList);
-    // document.location.href = `../order/?order_id=${orderId}`;
+    console.log(result);
+    if (result) {
+      var orderId = JSON.parse(result);
+      if (orderId.length !== idList.length) {
+        message.show('Были отправлены не все позиции из заказа.');
+      }
+      deleteFormCart(orderId);
+      document.location.href = '../orders';
+    }
   })
   .catch(error => {
     console.log(error);
     message.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
-}
-
-// Получение данных о заказе из формы:
-
-function getOrderData() {
-  var info = {
-    cart_name: cartId
-  }
-  var formData = new FormData(event.currentTarget);
-  formData.forEach((value, key) => {
-    info[key] = value;
-  });
-  // console.log(info);
-  return info;
 }
 
 //=====================================================================================================
@@ -101,24 +93,32 @@ function getOrderData() {
 
 function updateCart() {
   getCart()
-  .then(result => createCartData(),
-        reject => console.log(reject))
   .then(result => {
-    fillOrderForm();
-    if (location.search === '?cart') {
-      createCart();
+    if (result === 'cart') {
+      fillOrderForm();
+      createCartData()
+      .then(result => {
+        if (location.search === '?cart') {
+          createCart();
+          if (getComputedStyle(getEl('order-form')).display === 'none') {
+            showActualCart();
+          }
+        } else {
+          var cards;
+          if (view === 'list') {
+            cards = document.querySelectorAll('.big-card');
+          } else if (view === 'blocks') {
+            cards = document.querySelectorAll('.min-card');
+          } else if (view === 'product') {
+            cards = document.querySelectorAll('.product-card');
+          }
+          cards.forEach(card => checkCart(card));
+        }
+      });
     } else {
-      var cards;
-      if (view === 'list') {
-        cards = document.querySelectorAll('.big-card');
-      } else if (view === 'blocks') {
-        cards = document.querySelectorAll('.min-card');
-      } else if (view === 'product') {
-        cards = document.querySelectorAll('.product-card');
-      }
-      cards.forEach(card => checkCart(card));
+      fillOrderForm();
     }
-  })
+  }, reject => console.log(reject))
 }
 
 // Создание данных для рендеринга корзины:
@@ -263,7 +263,7 @@ function saveInCart(id, qty) {
   cart[id].qty = qty;
   cart[id].cartId = cartId;
   cart[id].actionId = cartItems[id].action_id;
-  cart[id].actionName = cartItems[id].actiontitle || 'Cклад';
+  cart[id].actionName = cartItems[id].actiontitle || 'Склад';
 
   cartChanges[cartId][id] = cart[id];
   cartSentServer();
@@ -702,6 +702,7 @@ function renderCart() {
   toggleEventListeners('off');
   changeCartName();
   createCart();
+  showActualCart();
   showElement('cart-name');
   showElement('cart');
 }
@@ -719,7 +720,6 @@ function createCart() {
     data.area = 'cart-table';
     fillTemplate (data);
   }
-  showActualCart();
 }
 
 // Отображение контента пустой или полной корзины:
@@ -831,6 +831,7 @@ function loadInCart() {
     saveInCart(el.id, el.qty);
   });
   createCart();
+  showActualCart();
   loader.hide();
   closePopUp(null, 'load-container');
   if (addInCart.length < strings.length) {
@@ -857,6 +858,7 @@ function addInCart(event) {
       closePopUp(null, 'load-container');
       changeCartInHeader(countFromCart());
       createCart();
+      showActualCart();
     } else {
       message.show('Файл не загружен. Неверный формат данных.', 2000);
       showElement(loadBtn);
@@ -973,31 +975,25 @@ function getConfirmDeleteFromCart() {
 
 function fillOrderForm() {
   fillTemplate({
-    area: 'select-contr',
-    items: userData,
-    sub: [{
-      area: '.item',
-      items: 'contr'
-    }]
+    area: '[name="contr_id"] .drop-down',
+    items: userData.contr
   });
   fillTemplate({
-    area: 'select-address',
-    items: userData,
-    sub: [{
-      area: '.item',
-      items: 'address'
-    }]
+    area: '[name="delivery_address"] .drop-down',
+    items: userData.address,
   });
+  toggleOrderAddress(getEl('[name="delivery_type"]', 'order-form'));
 }
 
 // Открытие формы заказа:
 
 function openOrderForm() {
   if (!userData.contr) {
-    message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors">Контрагенты</a> для их добавления/включения.');
+    message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors" target="_blank">Контрагенты</a> для их добавления/включения.');
     return;
   }
   if (!userData.address) {
+    message.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses" target="_blank">Адреса доставки</a> для их добавления/включения.');
     var deliverySelect = getEl('[name="delivery_type"]', 'order-form');
     getEl('option[value="2"]', deliverySelect).style.display = 'none';
     getEl('option[value="3"]', deliverySelect).style.display = 'none';
@@ -1010,12 +1006,10 @@ function openOrderForm() {
 // Закрытие формы заказа:
 
 function closeOrderForm() {
-  var orderForm = getEl('order-form');
-  orderForm.querySelectorAll('select').forEach(el => el.value = '');
-  orderForm.querySelectorAll('textarea').forEach(el => el.value = '');
-  toggleOrderAddress(getEl('[name="delivery_type"]', orderForm));
+  clearForm('order-form');
+  toggleOrderAddress(getEl('[name="delivery_type"]'));
   hideElement('order-form');
-  showElement('.cart-make-order');
+  showElement('.cart-make-order', 'flex');
   document.querySelectorAll('.cart-list').forEach(el => showElement(el));
 }
 
@@ -1023,7 +1017,7 @@ function closeOrderForm() {
 
 function toggleOrderAddress(el) {
   var address = getEl('.address', 'order-form'),
-      addressSelect = getEl('select', address);
+      addressSelect = getEl('[name="delivery_address"]', address);
   if (el.value === '3') {
     addressSelect.required = true;
     showElement(address);

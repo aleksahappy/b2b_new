@@ -162,9 +162,7 @@
               <div id="gallery-sort" class="activate select">
                 <div class="head row">
                   <div class="title">Сортировать по</div>
-                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-                  </svg>
+                  <div class="triangle icon"></div>
                 </div>
                 <div class="drop-down">
                   <div class="item" data-value="default">По умолчанию</div>
@@ -529,52 +527,83 @@
                   <div id="warning-btn"></div>
                 </div>
               </div>
-              <form id="order-form" class="row" method="post" enctype="multipart/form-data" onsubmit="orderSentServer(event)">
+              <form id="order-form" class="row">
                 <div class="input-wrap">
                   <div class="title">Способ оплаты</div>
-                  <select name="payment_type" required>
-                    <option value="" default selected hidden disabled>Выберите тип оплаты</option>
-                    <option value="1">Безналичный расчет</option>
-                    <option value="2">Наличный расчет</option>
-                    <option value="4">Депозит</option>
-                    <option value="3">Прочее</option>
-                  </select>
+                  <div class="activate select" name="payment_type" required>
+                    <div class="head row">
+                      <div class="title">Выберите тип оплаты</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="1">Безналичный расчет</div>
+                      <div class="item" data-value="2">Наличный расчетю</div>
+                      <div class="item" data-value="4">Депозит</div>
+                      <div class="item" data-value="3">Прочее</div>
+                    </div>
+                  </div>
+                  <div class="err" data-err="payment_type">Поле не заполнено</div>
                 </div>
                 <div class="input-wrap">
                   <div class="title">Название контрагента</div>
-                  <select id="select-contr" name="contr_id" required>
-                    <option value="" default selected hidden disabled>Выберите контрагента</option>
-                    <option class="item" value="#id#">#title#</option>
-                  </select>
+                  <div class="activate select" name="contr_id" required>
+                    <div class="head row">
+                      <div class="title">Выберите контрагента</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="#id#">#title#</div>
+                    </div>
+                  </div>
+                  <div class="err" data-err="contr_id">Поле не заполнено</div>
                 </div>
                 <div class="input-wrap">
                   <div class="title">Отгрузочные документы</div>
-                  <select name="shipping_docs" required>
-                    <option value="" default selected hidden disabled>Выберите</option>
-                    <option value="0">Не вкладывать</option>
-                    <option value="1">Вкладывать</option>
-                  </select>
+                  <div class="activate select" name="shipping_docs" required>
+                    <div class="head row">
+                      <div class="title">Выберите</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="0">Не вкладывать</div>
+                      <div class="item" data-value="1">Вкладывать</div>
+                    </div>
+                  </div>
+                  <div class="err" data-err="shipping_docs">Поле не заполнено</div>
                 </div>
                 <div class="input-wrap">
                   <div class="title">Тип доставки</div>
-                  <select name="delivery_type" required onchange="toggleOrderAddress(this)">
-                    <option value="" default selected hidden disabled="">Выберите тип доставки</option>
-                    <option value="1">Самовывоз</option>
-                    <option value="2">Курьер</option>
-                    <option value="3">Транспортная компания</option>
-                  </select>
+                  <div class="activate select" name="delivery_type" required onchange="toggleOrderAddress(this)">
+                    <div class="head row">
+                      <div class="title">Выберите тип доставки</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="1">Самовывоз</div>
+                      <div class="item" data-value="2">Курьер</div>
+                      <div class="item" data-value="3">Транспортная компания</div>
+                    </div>
+                  </div>
+                  <div class="err" data-err="delivery_type">Поле не заполнено</div>
                 </div>
                 <div class="input-wrap address">
                   <div class="title">Адрес доставки</div>
-                  <select id="select-address" name="shop_address">
-                    <option value="" default selected hidden disabled>Выберите адрес доставки</option>
-                    <option class="item" value="#id#">#title#</option>
-                  </select>
+                  <div class="activate select" name="delivery_address">
+                    <div class="head row">
+                      <div class="title">Выберите адрес доставки</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="#id#">#title#</div>
+                    </div>
+                  </div>
+                  <div class="err" data-err="delivery_address">Поле не заполнено</div>
                 </div>
                 <div class="comment">
                   <div class="title">Комментарий к заказу</div>
-                  <textarea id="order-comment" name="comment" maxlength="300" oninput="textareaCounter(this)"></textarea>
-                  <div class="text light">Знаков осталось: <span class="counter">300</span></div>
+                  <textarea name="comment" maxlength="300" oninput="textareaCounter(this)"></textarea>
+                  <div class="text light">Знаков осталось: <span data-count="comment">300</span></div>
+                  <div class="err" data-err="comment">Поле не заполнено</div>
                 </div>
                 <div id="order-info" class="text red">Обратите внимание!<br/>Будет создано несколько заказов: (<span id="order-names"></span>)</div>
                 <div class="basic btn" onclick="closeOrderForm()">Отменить</div>

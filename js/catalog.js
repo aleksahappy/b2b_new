@@ -64,10 +64,11 @@ function initCart() {
   if (isCart) {
     window.addEventListener('focus', updateCart);
     getCart()
-    .then(result => createCartData(),
-          reject => console.log(reject))
     .then(result => {
+      createCartData();
       fillOrderForm();
+    }, reject => console.log(reject))
+    .then(result => {
       initPage();
     })
     .catch(err => {
@@ -95,6 +96,7 @@ function initPage() {
   initSearch('page-search', selectCards);
   initSearch('oem', selectCards);
   initDropDown('gallery-sort', sortItems);
+  initForm('order-form', sendOrder);
 }
 
 //=====================================================================================================
@@ -175,6 +177,7 @@ function addActionInfo(item) {
       if (action && checkDate(action.begin, action.expire)) {
         item.actiontitle = action.title;
         item.actioncolor = '#' + action.color;
+        item.action_tooltip = '';
         if (action.descr) {
           item.action_descr = action.descr;
           item.action_tooltip = action.descr.replace(/<br>/gi, '&#10')
@@ -256,7 +259,8 @@ function addSizeInfo(item) {
     sizeObj.price_user = item.price_user ;
     sizeObj.price_user1 = item.price_user1;
     sizeObj.action_id = item.action_id;
-    sizeObj.action_name = sizeObj.total_qty > 0 ? (item.actiontitle || 'Cклад') : 'Нет в наличии';
+    sizeObj.actiontitle = item.actiontitle;
+    sizeObj.action_name = sizeObj.total_qty > 0 ? (item.actiontitle || 'Склад') : 'Нет в наличии';
   }
 }
 

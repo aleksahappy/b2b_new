@@ -52,18 +52,14 @@ input, textarea, select {
   background: none;
   background-color: #FFFFFF;
   border: none;
+  outline: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
 }
 
-input:not([type="submit"]) {
-  outline: none;
-}
-
 input:disabled {
   opacity: 1;
-  outline: none;
 }
 
 textarea {
@@ -72,7 +68,6 @@ textarea {
   line-height: 1.5;
   border: 1px solid #D5D5D5;
   border-radius: 3px;
-  outline: none;
   resize: none;
 }
 
@@ -84,7 +79,6 @@ select {
   background-image: url(../img/ico_drop_down.png);
   background-repeat: no-repeat;
   background-position: right;
-  outline: none;
 }
 
 textarea:hover,
