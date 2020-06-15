@@ -16,7 +16,7 @@
 }
 
 #usersTable td:nth-child(4) {
-  min-width: 10em;
+  min-width: 7em;
 }
 
 #usersTable td:nth-child(5) {
@@ -24,7 +24,7 @@
 }
 
 #usersTable td:nth-child(6) {
-  min-width: 20em;
+  min-width: 16em;
 }
 
 #usersTable td:nth-child(7) {
@@ -32,7 +32,12 @@
 }
 
 #usersTable td:nth-child(8) {
-  min-width: 12  em;
+  min-width: 10em;
+}
+
+#usersTable td:nth-child(9) {
+  min-width: 10em;
+  text-align: center;
 }
 
 #usersTable td .row{
@@ -132,4 +137,37 @@
   height: 24px;
   background: url('../img/newDesign/user_edit-ic.svg') no-repeat;
   cursor: pointer;
+}
+
+
+/* Модальное окно "Добавление пользователя" */
+
+#addUser{
+  width: 38.54vw;
+  min-width: 576px;
+}
+
+.col .modal-col{
+  width: 50%;
+}
+
+#addUser .modal-col > .col{
+  width: 91%;
+}
+
+.radio-access{
+  display: flex;
+  align-items: center;
+}
+
+.radio-access:first-child{
+  margin-right: 4vw;
+}
+
+.radio-text{
+  margin-left: 0.8em;
+}
+
+#userConfirm{
+  margin-top: 6em;
 }

@@ -99,10 +99,10 @@
             <div class="title">Пользователи</div>
           </div>
           <div class="left-row row">
-            <div id="addContraBtnMob" class="add icon" tooltip="Добавить"></div>
+            <div id="addUserBtnMob" class="add icon" tooltip="Добавить"></div>
           </div>
         </div>
-        <div class="basic btn" id="addContraBtn">Добавить</div>
+        <div class="basic btn" id="addUserBtn">Добавить</div>
       </div>
       <!-- Таблица контрагентов -->
       <div id="usersTable" class="table-wrap active">
@@ -140,6 +140,10 @@
                 <div>Дата заведения</div>
                 <div class="resize-btn"></div>
               </th>
+              <th id="8">
+                <div>Редактировать</div>
+                <div class="resize-btn"></div>
+              </th>
             </tr>
           </thead>
         </table>
@@ -152,7 +156,7 @@
                 </div>
               </td>
               <td>#contr_fio#</td>
-              <td>#contr_stutus#</td>
+              <td>#contr_status#</td>
               <td>#contr_birth#</td>
               <td>
                 <a href="">#contr_tel#</a>
@@ -166,6 +170,9 @@
                 </div>
               </td>
               <td>#contr_date#</td>
+              <td>
+                <div class="user-status edit"></div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -193,105 +200,15 @@
               <div class="user-status row">
                 <div class="user-status icon"></div>
                 <div class="col">
-                  <div>Должность: <span>Менеджер</span></div>
-                  <div>Дата рождения: <span>25.11.69</span></div>
-                  <div>Телефон: <a href="">+7(987)765-65-65</a></div>
+                  <div>Должность: <span>#contr_status#</span></div>
+                  <div>Дата рождения: <span>#contr_birth#</span></div>
+                  <div>Телефон: <a href="">#contr_tel#</a></div>
                 </div>
               </div>
               <div class="user-status row">
                 <div class="col">
-                  <div>Email: <a href="">semenov@gmail.com</a></div>
-                  <div>Дата заведения: <span>25.11.2018</span></div>
-                </div>
-                <div class="user-status edit"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Секция пользователя-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_fio#</div>
-            <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div class="wrap row">
-              <div class="user-status row">
-                <div class="user-status icon"></div>
-                <div class="col">
-                  <div>Должность: <span>Менеджер</span></div>
-                  <div>Дата рождения: <span>25.11.69</span></div>
-                  <div>Телефон: <a href="">+7(987)765-65-65</a></div>
-                </div>
-              </div>
-              <div class="user-status row">
-                <div class="col">
-                  <div>Email: <a href="">semenov@gmail.com</a></div>
-                  <div>Дата заведения: <span>25.11.2018</span></div>
-                </div>
-                <div class="user-status edit"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Секция пользователя-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_fio#</div>
-            <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div class="wrap row">
-              <div class="user-status row">
-                <div class="user-status icon"></div>
-                <div class="col">
-                  <div>Должность: <span>Менеджер</span></div>
-                  <div>Дата рождения: <span>25.11.69</span></div>
-                  <div>Телефон: <a href="">+7(987)765-65-65</a></div>
-                </div>
-              </div>
-              <div class="user-status row">
-                <div class="col">
-                  <div>Email: <a href="">semenov@gmail.com</a></div>
-                  <div>Дата заведения: <span>25.11.2018</span></div>
-                </div>
-                <div class="user-status edit"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Секция пользователя-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_fio#</div>
-            <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div class="wrap row">
-              <div class="user-status row">
-                <div class="user-status icon"></div>
-                <div class="col">
-                  <div>Должность: <span>Менеджер</span></div>
-                  <div>Дата рождения: <span>25.11.69</span></div>
-                  <div>Телефон: <a href="">+7(987)765-65-65</a></div>
-                </div>
-              </div>
-              <div class="user-status row">
-                <div class="col">
-                  <div>Email: <a href="">semenov@gmail.com</a></div>
-                  <div>Дата заведения: <span>25.11.2018</span></div>
+                  <div>Email: <a href="">#contr_mail#</a></div>
+                  <div>Дата заведения: <span>#contr_date#</span></div>
                 </div>
                 <div class="user-status edit"></div>
               </div>
@@ -316,10 +233,10 @@
               <div class="user-status row">
                 <div class="user-status icon"></div>
                 <div class="col">
-                  <div>Должность: <span>Менеджер</span></div>
-                  <div>Дата рождения: <span>25.11.69</span></div>
-                  <div>Телефон: <a href="">+7(987)765-65-65</a></div>
-                  <div>Email: <a href="">semenov@gmail.com</a></div>
+                  <div>Должность: <span>#contr_status#</span></div>
+                  <div>Дата рождения: <span>#contr_birth#</span></div>
+                  <div>Телефон: <a href="">#contr_tel#</a></div>
+                  <div>Email: <a href="">#contr_mail#</a></div>
                 </div>
               </div>
               <div class="user-status row">
@@ -610,12 +527,12 @@
     </div>
   </div>
 
-  <!-- Модальное окно "Добавление контрагента" -->
-  <div id="contraModal" class="pop-up-container col">
-    <div id="addContra">
+  <!-- Модальное окно "Добавить пользователя" -->
+  <div id="usersModal" class="pop-up-container col">
+    <div id="addUser" class="modal">
       <div class="pop-up-title main-title row">
         <div class="title-row row">
-          <div class="title">Добавление контрагента</div>
+          <div class="title">Новый пользователь</div>
         </div>
         <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
@@ -623,59 +540,143 @@
         </svg>
       </div>
       <div class="modal-body">
-        <div class="comment">
-          <div class="title">Добавьте ИНН, данные юридического лица загрузятся автоматически</div>
-        </div>
         <form>
-          <div class="row">
-            <div class="col">
-              <label>ИНН**</label>
-              <input type="text" id="contraINN">
-            </div>
-            <div class="col contraKPP">
-              <label>КПП**</label>
-              <input type="text" id="contraKPP" disabled>
-            </div>
-          </div>
-          <div class="col contraField">
-              <label>Название:</label>
-              <input type="text" id="contraName" disabled>
-          </div>
-          <div class="col contraField">
-              <label>Юридический адрес*</label>
-              <textarea id="contraName" cols="30" rows="10" disabled></textarea>
-          </div>
-          <div class="col contraField">
-            <label>Система налогооблажения*</label>
-            <div id="contraSelect" class="activate select">
-              <div class="head row">
-                <div class="title">Выберите</div>
-                <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-                </svg>
+          <div class="row block-shift">
+            <div class="col modal-col">
+              <div class="col">
+                <label>Имя*</label>
+                <input type="text" placeholder="Введите имя">
               </div>
-              <div class="drop-down">
-                <div class="item" data-value="1">Упрощенная</div>
-                <div class="item" data-value="2">Общая</div>
+              <div class="col topSpace">
+                <label>Фамилия*</label>
+                <input type="text" placeholder="Введите фамилию">
+              </div>
+              <div class="col topSpace">
+                <label>Отчество*</label>
+                <input type="text" placeholder="Введите отчество">
+              </div>
+              <div class="col topSpace">
+                <label>Должность*</label>
+                <input type="text" placeholder="Менеджер">
               </div>
             </div>
+            <div class="col modal-col">
+              <div class="col">
+                <label>Телефон*</label>
+                <input type="text" placeholder="_  _ _ _  _ _ _  _ _ _">
+              </div>
+              <div class="col topSpace">
+                <label>Email*</label>
+                <input type="text" placeholder="name@domain.ru">
+              </div>
+              <div class="col topSpace">
+                <label>Тип доступа</label>
+                <div class="row">
+                  <div class="row radio-access">
+                    <div class="select icon"></div>
+                    <div class="radio-text">Полный</div>
+                  </div>
+                  <div class="row radio-access">
+                    <div class="checked">
+                      <div class="select icon"></div>
+                    </div>
+                    <div class="radio-text">Частичный</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <p>Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</p>
+                <p>Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</p>
+              </div>
+            </div>
           </div>
-          <div class="row contraConfirm contraField">
-            <div class="basic btn disabled" id="contraConfirm">Отправить</div>
+          <div class="row modalConfirm topSpace">
+            <div class="basic btn disabled" id="userConfirm">Отправить</div>
           </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- Модальное окно "Редактировать пользователя" -->
+  <div id="editUsersModal" class="pop-up-container col">
+    <div id="editUser" class="modal">
+      <div class="pop-up-title main-title row">
+        <div class="title-row row">
+          <div class="title">Новый пользователь</div>
+        </div>
+        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
+          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row block-shift">
+            <div class="col modal-col">
+              <div class="col">
+                <label>Имя*</label>
+                <input type="text" placeholder="Введите имя">
+              </div>
+              <div class="col topSpace">
+                <label>Фамилия*</label>
+                <input type="text" placeholder="Введите фамилию">
+              </div>
+              <div class="col topSpace">
+                <label>Отчество*</label>
+                <input type="text" placeholder="Введите отчество">
+              </div>
+              <div class="col topSpace">
+                <label>Должность*</label>
+                <input type="text" placeholder="Менеджер">
+              </div>
+            </div>
+            <div class="col modal-col">
+              <div class="col">
+                <label>Телефон*</label>
+                <input type="text" placeholder="_  _ _ _  _ _ _  _ _ _">
+              </div>
+              <div class="col topSpace">
+                <label>Email*</label>
+                <input type="text" placeholder="name@domain.ru">
+              </div>
+              <div class="col topSpace">
+                <label>Тип доступа</label>
+                <div class="row">
+                  <div class="row radio-access">
+                    <div class="select icon"></div>
+                    <div class="radio-text">Полный</div>
+                  </div>
+                  <div class="row radio-access">
+                    <div class="checked">
+                      <div class="select icon"></div>
+                    </div>
+                    <div class="radio-text">Частичный</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <p>Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</p>
+                <p>Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</p>
+              </div>
+            </div>
+          </div>
+          <div class="row modalConfirm topSpace">
+            <div class="basic btn disabled" id="userConfirm">Отправить</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
     <script src ="../js/main.js"></script>
+    <script src="../js/main_new.js"></script>
     <script src ="users.js"></script>
     <script>
-      initDropDown('contraSelect');
+    'use strict';
       var data = [
         {
           contr_fio: "Семенов Иван Петрович",
-          contr_stutus: "Менеджер",
+          contr_status: "Менеджер",
           contr_birth: "25.11.69",
           contr_tel: "+7(987)765-65-65",
           contr_mail: "semenov@gmail.com",
@@ -684,7 +685,7 @@
         },
         {
           contr_fio: "Семенов Иван Петрович",
-          contr_stutus: "Менеджер",
+          contr_status: "Менеджер",
           contr_birth: "25.11.69",
           contr_tel: "+7(987)765-65-65",
           contr_mail: "semenov@gmail.com",
@@ -693,7 +694,7 @@
         },
         {
           contr_fio: "Семенов Иван Петрович",
-          contr_stutus: "Менеджер",
+          contr_status: "Менеджер",
           contr_birth: "25.11.69",
           contr_tel: "+7(987)765-65-65",
           contr_mail: "semenov@gmail.com",
@@ -702,7 +703,7 @@
         },
         {
           contr_fio: "Семенов Иван Петрович",
-          contr_stutus: "Менеджер",
+          contr_status: "Менеджер",
           contr_birth: "25.11.69",
           contr_tel: "+7(987)765-65-65",
           contr_mail: "semenov@gmail.com",
@@ -711,7 +712,23 @@
         }
       ];
       initTable('usersTable', data);
-    </script>
+      var usersTabletData = {
+        area: 'usersTableTablet',
+        items: data,
+        action: 'replace'
+      }
+      var usersMobData = {
+        area: 'usersTableMob',
+        items: data,
+        action: 'replace'
+      }
 
+      async function test() {
+        await fillTemplate(usersTabletData);
+        await fillTemplate(usersMobData);
+      }
+
+      test();
+    </script>
   </body>
 </html>

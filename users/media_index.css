@@ -29,4 +29,22 @@
     width: 20%;
   }
 
+  .col .modal-col{
+    width: 100%;
+  }
+
+  .col .modal-col:last-child{
+    width: 100%;
+    margin-top: 1.875em;
+  }
+
+  #addUser{
+    width: 100%;
+    min-width: 100%;
+  }
+
+  #userConfirm{
+    margin-top: 0;
+  }
+
 }

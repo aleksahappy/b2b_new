@@ -1,3 +1,7 @@
+td {
+  vertical-align: middle!important;
+}
+
 .main a{
   font-size: 1em;
   color: #117FED;
@@ -39,6 +43,10 @@
   justify-content: center;
 }
 
+.halfWidth{
+  width: 50%;
+}
+
 .open.icon{
   display: none;
 }
@@ -77,6 +85,7 @@ legend select{
 	width: 25px;
 	height: 12px;
 	border-radius: 100px;
+  margin-top: 4px;
 	background: #B3B3B3;
   transition: .3s ease;
 	cursor: pointer;
@@ -186,6 +195,80 @@ legend select{
   cursor: default;
 }
 
+
+/* Модальное окно "Добавление контрагента" */
+
+.modal{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 435px;
+  border: 0;
+  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
+  background: #F8F8F8;
+  transform: translate(-50%,-50%);
+}
+
+.modal .pop-up-title .title {
+  font-size: 1.715em;
+}
+
+.modal .main-title .title-row .title {
+  margin-bottom: 0;
+}
+
+.modal-body{
+  padding: 1.3em 1.5em 1.5em 1.5em;
+}
+
+.modal-body .comment{
+  padding-bottom: 2.4em;
+  font-size: 0.9em;
+}
+
+.modal form input{
+  width: 100%;
+  height: 2.425em;
+  padding: 11px 9px;
+  border: 1px solid #D5D5D5;
+  border-radius: 3px;
+  font-size: 1em;
+  background: #ffffff;
+}
+
+.modal form input::placeholder{
+  color: #B3B3B3;
+}
+
+.modal form textarea[disabled]
+{
+  background: #ECECEC;
+}
+
+.modal form label{
+  margin-bottom: 0.675em;
+}
+
+.modal p:first-child{
+  padding-top: 2.5em;
+}
+
+.modal p{
+  padding-top: 1.5em;
+  font-size: 0.85em;
+}
+
+.modalConfirm{
+  justify-content: center;
+}
+
+.topSpace{
+  padding-top: 1.875em;
+}
+
+.block-shift{
+
+}
 
 /* медиа стили */
 
@@ -377,6 +460,20 @@ legend select{
 
   .main-title .title{
     font-size: 1.5em;
+  }
+
+}
+
+@media (max-width: 499px) {
+  .modal{
+    width: 100%;
+    min-width: 100%;
+    height: 100vh;
+  }
+
+  .block-shift{
+    flex-direction: column!important;
+    align-items: center;
   }
 
 }

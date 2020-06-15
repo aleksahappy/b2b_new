@@ -178,7 +178,7 @@
         <!-- Секция контрагента-->
         <section class="infoblock">
           <div class="section-head">
-            <div class="section-title">#contr_agent#</div>
+            <div class="section-title">#contr_name#</div>
             <div class="row">
               <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
                 <div class="new-toggle-btn mobHead"></div>
@@ -186,65 +186,13 @@
             </div>
           </div>
           <div class="info-wrap col">
-            <div>ИНН/КПП: <span>9731002289/637584</span></div>
-            <div>Система налогооблажения: <span>Упрощенная</span></div>
-            <div>Дата заведения: <span>31.10.2016</span></div>
-            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
-            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
-          </div>
-        </section>
-        <!-- Секция контрагента-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_agent#</div>
-            <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
-              </div>
+            <div>ИНН/КПП: <span>#contr_inn#</span></div>
+            <div>Система налогооблажения: <span>#contr_sys#</span></div>
+            <div>Дата заведения: <span>#contr_date#</span></div>
+            <div>Юридический адрес: <span>#contr_add#</span></div>
+            <div class="row docs">
+              <div class="download icon"></div><a href="">#doc_title#</a>
             </div>
-          </div>
-          <div class="info-wrap col">
-            <div>ИНН/КПП: <span>9731002289/637584</span></div>
-            <div>Система налогооблажения: <span>Упрощенная</span></div>
-            <div>Дата заведения: <span>31.10.2016</span></div>
-            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
-            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
-            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
-            <div class="row"><div class="download icon"></div><a href="#">Договор с ООО «ТОП СПОРТС» от 31.10.2017</a></div>
-          </div>
-        </section>
-        <!-- Секция контрагента-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_agent#</div>
-            <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div>ИНН/КПП: <span>9731002289/637584</span></div>
-            <div>Система налогооблажения: <span>Упрощенная</span></div>
-            <div>Дата заведения: <span>31.10.2016</span></div>
-            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
-          </div>
-        </section>
-        <!-- Секция контрагента-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_agent#</div>
-            <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div>ИНН/КПП: <span>9731002289/637584</span></div>
-            <div>Система налогооблажения: <span>Упрощенная</span></div>
-            <div>Дата заведения: <span>31.10.2016</span></div>
-            <div>Юридический адрес: <span>119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4</span></div>
           </div>
         </section>
       </div>
@@ -531,7 +479,7 @@
 
   <!-- Модальное окно "Добавление контрагента" -->
   <div id="contraModal" class="pop-up-container col">
-    <div id="addContra">
+    <div id="addContra" class="modal">
       <div class="pop-up-title main-title row">
         <div class="title-row row">
           <div class="title">Добавление контрагента</div>
@@ -548,23 +496,23 @@
         <form>
           <div class="row">
             <div class="col">
-              <label>ИНН**</label>
+              <label>ИНН*</label>
               <input type="text" id="contraINN">
             </div>
             <div class="col contraKPP">
-              <label>КПП**</label>
+              <label>КПП*</label>
               <input type="text" id="contraKPP" disabled>
             </div>
           </div>
-          <div class="col contraField">
+          <div class="col topSpace">
               <label>Название:</label>
               <input type="text" id="contraName" disabled>
           </div>
-          <div class="col contraField">
+          <div class="col topSpace">
               <label>Юридический адрес*</label>
               <textarea id="contraName" cols="30" rows="10" disabled></textarea>
           </div>
-          <div class="col contraField">
+          <div class="col topSpace">
             <label>Система налогооблажения*</label>
             <div id="contraSelect" class="activate select">
               <div class="head row">
@@ -579,7 +527,7 @@
               </div>
             </div>
           </div>
-          <div class="row contraConfirm contraField">
+          <div class="row modalConfirm topSpace">
             <div class="basic btn disabled" id="contraConfirm">Отправить</div>
           </div>
         </form>
@@ -588,48 +536,103 @@
   </div>
 
     <script src ="../js/main.js"></script>
+    <script src="../js/main_new.js"></script>
     <script src ="contractors.js"></script>
     <script>
       initDropDown('contraSelect');
       var data = [
         {
+          contr_name: "Семенов Иван Петрович",
           contr_inn: "9731002289/637584",
           contr_agent: "ООО, Пилот ",
           contr_sys: "Упрощенная",
           contr_date: "31.10.2016",
           contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
           contr_user: "Семенов И.О.",
-          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+          doc: [
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            },
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            },
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            }
+          ]
         },
         {
+          contr_name: "Семенов Иван Петрович",
           contr_inn: "9731002289/637584",
           contr_agent: "ООО, Пилот ",
           contr_sys: "Прочая",
           contr_date: "31.10.2016",
           contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
           contr_user: "Семенов И.О.",
-          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+          doc: [
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            }
+          ]
         },
         {
+          contr_name: "Семенов Иван Петрович",
           contr_inn: "9731002289/637584",
           contr_agent: "ООО, Пилот ",
           contr_sys: "Общая",
           contr_date: "31.10.2016",
           contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
           contr_user: "Семенов И.О.",
-          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+          doc: [
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            },
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            },
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            },
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            }
+          ]
         },
         {
+          contr_name: "Семенов Иван Петрович",
           contr_inn: "9731002289/637584",
           contr_agent: "ООО, Пилот ",
           contr_sys: "Общая",
           contr_date: "31.10.2016",
           contr_add: "119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4",
           contr_user: "Семенов И.О.",
-          doc: "Договор с ООО «ТОП СПОРТС» от 31.10.2017"
+          doc: [
+            {
+              doc_title: "Договор с ООО «ТОП СПОРТС» от 31.10.2017",
+              doc_url: "http://b2b.topsports.ru/test/testdoc"
+            }
+          ]
         }
       ];
       initTable('contraTable', data);
+
+      var contrasAdaptiveData = {
+        area: 'contrasTable',
+        items: data,
+        sub: [{
+          area: '.docs',
+          items: 'doc'
+        }]
+      }
+      fillTemplate(contrasAdaptiveData);
     </script>
 
   </body>
