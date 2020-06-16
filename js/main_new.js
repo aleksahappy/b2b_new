@@ -1,5 +1,16 @@
 'use strict';
 
+//  Работа обновленных кнопок-тогглов
+
+function toggleOnOff(event) {
+  if (event.currentTarget.closest('.new-toggle')) {
+    var toggleBtn = event.currentTarget.closest('.new-toggle');
+    toggleBtn.classList.toggle('on');
+    toggleBtn.firstElementChild.classList.toggle('on');
+  }
+}
+
+
 //  Работа универсального модального окна
 
 function modalWin(btn, close, modal) {

@@ -92,6 +92,7 @@
 
 #contraTable td:nth-child(5) {
   min-width: 4em;
+  text-align: center;
 }
 
 #contraTable td:nth-child(6) {
