@@ -195,6 +195,10 @@ legend select{
   cursor: default;
 }
 
+.check-access{
+  display: none;
+}
+
 
 /* Модальное окно "Добавление контрагента" */
 
@@ -409,7 +413,7 @@ legend select{
   }
 
   .section-head{
-    padding: 1.25em 1.25em 0.9375em 1.25em;
+    padding: 1.25em 1.25em 1.25em 1.25em;
     background: #53606F;
   }
 

@@ -81,6 +81,8 @@ function accessTableType() {
   var tbody = usersTable.querySelector('tbody');
   var trs = tbody.querySelectorAll('tr');
   var access = tbody.querySelectorAll('.access');
+  var usersTableTablet = document.querySelector('#usersTableTablet');
+  var usersTableMob = document.querySelector('#usersTableMob');
 
   for (let i = 0; i < access.length; i++) {
     if (access[i].innerHTML === 'частичный') {
@@ -90,7 +92,28 @@ function accessTableType() {
     } else if (access[i].innerHTML === 'отключен') {
       access[i].classList.add('denied');
     }
-
   }
+
+
+  //  Вспомогательная функция для подсветки иконок статусов в таблицах в соответствии с данными
+
+  function checkStatusIcon(table) {
+    var infoblocks = table.querySelectorAll('.infoblock');
+
+    for (let i = 0; i < infoblocks.length; i++) {
+      var statusIc = infoblocks[i].querySelector('.user-status .icon');
+      var checkAccessVal = infoblocks[i].querySelector('.check-access-value');
+
+      if (checkAccessVal.innerHTML == 'частичный') {
+        statusIc.classList.add('limited');
+      } else if (checkAccessVal.innerHTML == 'полный') {
+        statusIc.classList.add('boundless');
+      } else if (checkAccessVal.innerHTML == 'отключен') {
+        statusIc.classList.add('denied');
+      }
+    }
+  }
+  checkStatusIcon(usersTableTablet);
+  checkStatusIcon(usersTableMob);
 
 }

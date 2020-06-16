@@ -132,6 +132,17 @@
   background: url('../img/newDesign/user_denied-ic.svg') no-repeat;
 }
 
+.user-status.icon.limited{
+  background: url('../img/newDesign/user_limited-ic.svg') no-repeat!important;
+}
+
+.user-status.icon.boundless{
+  background: url('../img/newDesign/user_boundless-ic.svg') no-repeat!important;
+}
+
+
+
+
 .user-status.edit{
   width: 24px;
   height: 24px;
