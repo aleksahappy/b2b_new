@@ -54,7 +54,7 @@ function initModals() {
     if(event.key === 'Escape') {
       editUsersModal.style.display = 'none';
     }
-});
+  });
 
   document.addEventListener('click', function(event) {
     var edit = event.target.matches('.edit');
