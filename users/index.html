@@ -166,7 +166,7 @@
               </td>
               <td>
                 <div class="row">
-                  <div class="access limited">#contr_access#</div>
+                  <div class="access">#contr_access#</div>
                 </div>
               </td>
               <td>#contr_date#</td>
@@ -603,7 +603,7 @@
     <div id="editUser" class="modal">
       <div class="pop-up-title main-title row">
         <div class="title-row row">
-          <div class="title">Новый пользователь</div>
+          <div class="title">Редактирование пользователя</div>
         </div>
         <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
@@ -671,64 +671,5 @@
     <script src ="../js/main.js"></script>
     <script src="../js/main_new.js"></script>
     <script src ="users.js"></script>
-    <script>
-    'use strict';
-      var data = [
-        {
-          contr_fio: "Семенов Иван Петрович",
-          contr_status: "Менеджер",
-          contr_birth: "25.11.69",
-          contr_tel: "+7(987)765-65-65",
-          contr_mail: "semenov@gmail.com",
-          contr_access: "частичный",
-          contr_date: "31.10.2016"
-        },
-        {
-          contr_fio: "Семенов Иван Петрович",
-          contr_status: "Менеджер",
-          contr_birth: "25.11.69",
-          contr_tel: "+7(987)765-65-65",
-          contr_mail: "semenov@gmail.com",
-          contr_access: "полный",
-          contr_date: "31.10.2016"
-        },
-        {
-          contr_fio: "Семенов Иван Петрович",
-          contr_status: "Менеджер",
-          contr_birth: "25.11.69",
-          contr_tel: "+7(987)765-65-65",
-          contr_mail: "semenov@gmail.com",
-          contr_access: "отключен",
-          contr_date: "31.10.2016"
-        },
-        {
-          contr_fio: "Семенов Иван Петрович",
-          contr_status: "Менеджер",
-          contr_birth: "25.11.69",
-          contr_tel: "+7(987)765-65-65",
-          contr_mail: "semenov@gmail.com",
-          contr_access: "полный",
-          contr_date: "31.10.2016"
-        }
-      ];
-      initTable('usersTable', data);
-      var usersTabletData = {
-        area: 'usersTableTablet',
-        items: data,
-        action: 'replace'
-      }
-      var usersMobData = {
-        area: 'usersTableMob',
-        items: data,
-        action: 'replace'
-      }
-
-      async function test() {
-        await fillTemplate(usersTabletData);
-        await fillTemplate(usersMobData);
-      }
-
-      test();
-    </script>
   </body>
 </html>

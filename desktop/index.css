@@ -213,40 +213,6 @@ main{
 	margin-right: 0;
 }
 
-.table-btn{
-	width: 110px;
-	height: 28px;
-	padding-left: 10px;
-	line-height: 28px;
-	border-radius: 37px;
-	text-align: left;
-	font-size: 0.875em;
-	color: #B3B3B3;
-	background: #E3E3E3 url('../img/newDesign/Close-nonactive.svg') no-repeat 90px center;
-  outline: none;
-  user-select: none;
-}
-
-.status1{
-  color: #ffffff;
-	background: #2C6DA8 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
-}
-
-.status2{
-  color: #ffffff;
-	background: #F69C00 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
-}
-
-.status3{
-  color: #ffffff;
-	background: #6C4D77 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
-}
-
-.status4{
-  color: #ffffff;
-	background: #3F9726 url('../img/newDesign/Close.svg') no-repeat 90px center!important;
-}
-
 .col1,
 .col2{
 	display: flex;
@@ -269,7 +235,6 @@ main{
 .border-title{
 	border-top: 1px solid #cccccc;
 }
-
 
 /* Таблица "Заказы в работе" на Сашином старом шаблоне */
 #desktop-table{
