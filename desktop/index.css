@@ -595,6 +595,14 @@ thead .legend {
 	color: #666666;
 }
 
+#procurementSelect{
+	width: 8.925em;
+}
+
+#procurementSelect .title{
+	color: #C6C6C6;
+}
+
 /* Карусель с баннерами */
 
 #banners .left-btn {

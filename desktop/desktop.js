@@ -3,6 +3,7 @@
 // var data;
 var desktopTable = document.querySelector('#desktopTable');
 var tbody = desktopTable.querySelector('tbody');
+var testTest = 0;
 
 
 // Запуск данных таблицы Рабочего стола:
@@ -36,14 +37,16 @@ function tableDataSort() {
   var btnInx = 0;
   for (let i = 0; i < tableBtns.length; i++) {
     btnInx++;
-    tableBtns[i].addEventListener('click', toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
+    tableBtns[i].addEventListener('click',
+      toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
   }
 
   //  навешиваем события на кнопки таблицы для tablet
   var btnInx = 0;
   for (let i = 0; i < tableBtnsMob.length; i++) {
     btnInx++;
-    tableBtnsMob[i].addEventListener('click', toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
+    tableBtnsMob[i].addEventListener('click',
+      toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
   }
 
   // Вспомогательная функция для каждой определенной тоглл-кнопки таблицы
@@ -66,9 +69,6 @@ function tableDataSort() {
 tableDataSort();
 
 
-
-
-
 // Обертка для графиков и диагарамм для их адаптивности
 function charts() {
 
@@ -83,7 +83,7 @@ function charts() {
   }
 
 
-  //==============================================Диаграммы======================================================//
+  //================================Диаграммы=================================//
   // Диаграмма "Заказы в работе"
 
   function ordersProgress() {
@@ -149,7 +149,10 @@ function charts() {
 
       const chart1 = document.querySelector('#chart1');
       const ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
-      ordersInfo.textContent = `${totalOrdersQty} ${declOfNum(totalOrdersQty, ['активный', 'активных'])} ${declOfNum(totalOrdersQty, ['заказ', 'заказа', 'заказов'])} на общую сумму ${totalOrdersSum.toLocaleString('ru-RU')} руб.`;
+      ordersInfo.textContent = `${totalOrdersQty}
+        ${declOfNum(totalOrdersQty, ['активный', 'активных'])}
+        ${declOfNum(totalOrdersQty, ['заказ', 'заказа', 'заказов'])} на общую сумму
+        ${totalOrdersSum.toLocaleString('ru-RU')} руб.`;
 
       const ordersChart = document.getElementById('orders-chart').getContext('2d');  //  canvas диаграммы
 
@@ -187,7 +190,7 @@ function charts() {
         }
       }
 
-      //  сам экземпляр объекта диаграммы
+      //  сам экземпляр класса диаграммы
       const chart = new Chart(ordersChart, {
           type: 'doughnut', // тип графика
 
@@ -282,14 +285,18 @@ function charts() {
           }
           //  Показать только предзаказные позиции в диаграмме
           if (tableToggle.classList.contains('on') || tableToggleMob.classList.contains('on')) {
-            ordersInfo.textContent = `${toggleCount} ${declOfNum(toggleCount, ['активный', 'активных', 'активных'])}
-                                      ${declOfNum(toggleCount, ['заказ', 'заказа', 'заказов'])} на общую сумму
-                                      ${preordersSum.toLocaleString('ru-RU')} руб.`;
+            ordersInfo.textContent = `
+              ${toggleCount} ${declOfNum(toggleCount, ['активный', 'активных', 'активных'])}
+              ${declOfNum(toggleCount, ['заказ', 'заказа', 'заказов'])} на общую сумму
+              ${preordersSum.toLocaleString('ru-RU')} руб.`;
+
             toggleCount = 0;
           } else {
-            ordersInfo.textContent = `${totalOrdersQty} ${declOfNum(totalOrdersQty, ['активный', 'активных'])}
-                                      ${declOfNum(totalOrdersQty, ['заказ', 'заказа', 'заказов'])} на общую сумму
-                                      ${totalOrdersSum.toLocaleString('ru-RU')} руб.`;
+            ordersInfo.textContent = `
+              ${totalOrdersQty} ${declOfNum(totalOrdersQty, ['активный', 'активных'])}
+              ${declOfNum(totalOrdersQty, ['заказ', 'заказа', 'заказов'])} на общую сумму
+              ${totalOrdersSum.toLocaleString('ru-RU')} руб.`;
+
             toggleCount = 0;
           }
         }
@@ -300,8 +307,24 @@ function charts() {
   ordersProgress();
 
 
-
   //  Диаграмма "Рекламации в работе"
+
+  // Запуск данных таблицы пользователей:
+
+  // function startSpeedChart() {
+  //   sendRequest(`../json/usersData.json`)
+  //     //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  //     .then((result) => {
+  //       var data = JSON.parse(result);
+  //       data = convertData(data);
+  //
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //
+  //     });
+  // }
+  // startSpeedChart();
 
   function speedChart() {
     const speedChartDiv = document.querySelector('.speed-chart');
@@ -474,63 +497,78 @@ function charts() {
 
   //  Диаграмма "Доля закупок по производителям"
 
-  function procurementPieChart() {
-    //  тестовые данные
-    let data1 = [5000000, 2400333, 5600450, 3500400,4005600,5000000]; // кол-во заказов
-    let data1Sum = [203600, 50000, 530000, 1000000, 10000, 200000];  //  суммы состояний заказов
-    let test1 = arraySum(data1);
-    let test2 = arraySum(data1Sum);
-
-    const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
-    procurementChart.canvas.parentNode.style.height = '280px';
-    procurementChart.canvas.parentNode.style.width = '280px';
-
-    const chart = new Chart(procurementChart, {
-        type: 'doughnut', // тип графика
-
-        // Отображение данных
-        data: {
-            //  Название линии
-            labels: ['BCA', 'Jethwear', '509', 'FXR', 'Abom', 'Ogio'],
-            //  Настройка отображения данных
-            datasets: [{
-                //
-                label: false,
-                //  цвета шкал графика
-                backgroundColor: ['#96B6D3', '#CDC9CB', '#F8AD94', '#B5A6BB', '#9FCB93', '#FBCD80'],
-                //  цвет бордера шкал и графика
-                borderColor: '#ffffff',
-                borderWidth: 1,
-                //  данные для отображения
-                data: [data1[0], data1[1], data1[2], data1[3], data1[4], data1[5]]
-            }]
-        },
-
-        // Настройки отображения графика
-        options: {
-          // ширина "кольца"
-          cutoutPercentage: 70,
-          // отключение легенды
-          legend: {
-            display: false
-          },
-          //  поворот угла стартового значения
-          rotation: 4,
-          //  отступы графика
-          layout: {
-            padding: {
-              left: 10,
-              right: 10,
-              top: 10,
-              bottom: 10
-            }
-          },
-          //  отклюдчаем лишнее свободное пространство вокруг графика
-          maintainAspectRatio: false
-        }
+  function startProcurementPieChart() {
+    // запрос
+    sendRequest(`../json/procurementData.json`)
+    //sendRequest(urlRequest.main, {action: 'desktopTable'})
+    .then(result => {
+      var procurements = JSON.parse(result);
+      procurements = convertData(procurements);
+      procurementPieChart();
+    })
+    .catch(err => {
+      console.log(err);
     });
+
+
+    function procurementPieChart() {
+      //  тестовые данные
+      let data1 = [5000000, 2400333, 5600450, 3500400,4005600,5000000]; // суммы заказов по брендам
+      //let data1Sum = [203600, 50000, 530000, 1000000, 10000, 200000];  //  суммы состояний заказов
+      let test1 = arraySum(data1);
+      //let test2 = arraySum(data1Sum);
+
+      const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
+      procurementChart.canvas.parentNode.style.height = '280px';
+      procurementChart.canvas.parentNode.style.width = '280px';
+
+      const chart = new Chart(procurementChart, {
+          type: 'doughnut', // тип графика
+
+          // Отображение данных
+          data: {
+              //  Название линии
+              labels: ['BCA', 'Jethwear', '509', 'FXR', 'Abom', 'Ogio'],
+              //  Настройка отображения данных
+              datasets: [{
+                  //
+                  label: false,
+                  //  цвета шкал графика
+                  backgroundColor: ['#96B6D3', '#CDC9CB', '#F8AD94', '#B5A6BB', '#9FCB93', '#FBCD80'],
+                  //  цвет бордера шкал и графика
+                  borderColor: '#ffffff',
+                  borderWidth: 1,
+                  //  данные для отображения
+                  data: [data1[0], data1[1], data1[2], data1[3], data1[4], data1[5]]
+              }]
+          },
+
+          // Настройки отображения графика
+          options: {
+            // ширина "кольца"
+            cutoutPercentage: 65,
+            // отключение легенды
+            legend: {
+              display: false
+            },
+            //  поворот угла стартового значения
+            rotation: 4,
+            //  отступы графика
+            layout: {
+              padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+              }
+            },
+            //  отклюдчаем лишнее свободное пространство вокруг графика
+            maintainAspectRatio: false
+          }
+      });
+    }
   };
-  procurementPieChart();
+  startProcurementPieChart();
 
   // Костыль для переопределения правильной ширины секции с toggle
   function holdSectionWidth() {
