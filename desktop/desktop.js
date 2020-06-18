@@ -3,7 +3,16 @@
 // var data;
 var desktopTable = document.querySelector('#desktopTable');
 var tbody = desktopTable.querySelector('tbody');
-var testTest = 0;
+//  данные "ДОЛЯ ЗАКУПОК ПО ПРОИЗВОДИТЕЛЯМ" сохраненная в глобальную
+//  область видимости для работы с ними из любого участка кода
+var procurementData;
+let totalPrcPerBrand = [];
+var procuBrand1 = [];  //  509
+var procuBrand2 = [];  //  BCA
+var procuBrand3 = [];  //  Jethwear
+var procuBrand4 = [];  //  Abom
+var procuBrand5 = [];  //  Ogio
+var procuBrand6 = [];  //  FXR
 
 
 // Запуск данных таблицы Рабочего стола:
@@ -69,6 +78,7 @@ function tableDataSort() {
 tableDataSort();
 
 
+
 // Обертка для графиков и диагарамм для их адаптивности
 function charts() {
 
@@ -81,7 +91,6 @@ function charts() {
     }
     return sum;
   }
-
 
   //================================Диаграммы=================================//
   // Диаграмма "Заказы в работе"
@@ -503,20 +512,71 @@ function charts() {
     //sendRequest(urlRequest.main, {action: 'desktopTable'})
     .then(result => {
       var procurements = JSON.parse(result);
-      procurements = convertData(procurements);
+      procurementData = procurements;
+      getProcuBrandSum();
       procurementPieChart();
     })
     .catch(err => {
       console.log(err);
     });
 
+    function getProcurementYears() {
+      //  Получаем только год
+      for (let k in procurementData[0]) {
+        var pYear = k.toString();
+        //console.log(pYear);
+      }
+    }
+
+    //  Найти сумму заказов по бреду за все время
+    function getProcuBrandSum() {
+
+      for (let i = 0; i < procurementData.length; i++) {
+        for (let key in procurementData[i]) {
+          for (let k in procurementData[i][key]) {
+            //  k - все ключи брендов
+            //  procurementData[i][key][k] - все суммы брендов
+            if (k === '509') {
+              procuBrand1.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'BCA') {
+              procuBrand2.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'Jethwear') {
+              procuBrand3.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'Abom') {
+              procuBrand4.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'Ogio') {
+              procuBrand5.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'FXR') {
+              procuBrand6.push(parseInt(procurementData[i][key][k]));
+            }
+          }
+        }
+      }
+    }
 
     function procurementPieChart() {
-      //  тестовые данные
-      let data1 = [5000000, 2400333, 5600450, 3500400,4005600,5000000]; // суммы заказов по брендам
-      //let data1Sum = [203600, 50000, 530000, 1000000, 10000, 200000];  //  суммы состояний заказов
-      let test1 = arraySum(data1);
-      //let test2 = arraySum(data1Sum);
+      // суммы заказов по брендам
+      totalPrcPerBrand = [
+        arraySum(procuBrand1), //  509
+        arraySum(procuBrand2), //  BCA
+        arraySum(procuBrand3), //  Jethwear
+        arraySum(procuBrand4), //  Abom
+        arraySum(procuBrand5), //  Ogio
+        arraySum(procuBrand6)  //  FXR
+      ];
+
+      console.log(procuBrand1);
+      console.log(procuBrand2);
+      console.log(procuBrand3);
+      console.log(procuBrand4);
+      console.log(procuBrand5);
+      console.log(procuBrand6);
+      //console.log(totalPrcPerBrand);
 
       const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
       procurementChart.canvas.parentNode.style.height = '280px';
@@ -539,7 +599,7 @@ function charts() {
                   borderColor: '#ffffff',
                   borderWidth: 1,
                   //  данные для отображения
-                  data: [data1[0], data1[1], data1[2], data1[3], data1[4], data1[5]]
+                  data: [totalPrcPerBrand[1], totalPrcPerBrand[2], totalPrcPerBrand[0], totalPrcPerBrand[5], totalPrcPerBrand[3], totalPrcPerBrand[4]]
               }]
           },
 
@@ -586,7 +646,6 @@ function charts() {
     }
   }
 
-
   if (window.innerWidth < 1299) {
     holdSectionWidth();
     window.onresize = holdSectionWidth;
@@ -594,3 +653,97 @@ function charts() {
 }
 charts();
 window.onresize = charts;
+
+
+function sortProcurement(event) {
+  //  Удаляет дубликаты в масивах с данными
+
+  procuBrand1 = [];  //  509
+  procuBrand2 = [];  //  BCA
+  procuBrand3 = [];  //  Jethwear
+  procuBrand4 = [];  //  Abom
+  procuBrand5 = [];  //  Ogio
+  procuBrand6 = [];  //  FXR
+
+  function selecProcYear(selectedKey) {
+    for (let i = 0; i < procurementData.length; i++) {
+      for (let key in procurementData[i]) {
+        for (let k in procurementData[i][selectedKey]) {
+          //  k - все ключи брендов
+          //  procurementData[i][key][k] - все суммы брендов
+          if (k === '509') {
+            procuBrand1 = []; // удаляет предыдущее значение для обновления данных
+            procuBrand1.push(parseInt(procurementData[i][selectedKey][k]));
+          }
+          if (k === 'BCA') {
+            procuBrand2 = []; // удаляет предыдущее значение для обновления данных
+            procuBrand2.push(parseInt(procurementData[i][selectedKey][k]));
+          }
+          if (k === 'Jethwear') {
+            procuBrand3 = []; // удаляет предыдущее значение для обновления данных
+            procuBrand3.push(parseInt(procurementData[i][selectedKey][k]));
+          }
+          if (k === 'Abom') {
+            procuBrand4 = []; // удаляет предыдущее значение для обновления данных
+            procuBrand4.push(parseInt(procurementData[i][selectedKey][k]));
+          }
+          if (k === 'Ogio') {
+            procuBrand5 = []; // удаляет предыдущее значение для обновления данных
+            procuBrand5.push(parseInt(procurementData[i][selectedKey][k]));
+          }
+          if (k === 'FXR') {
+            procuBrand6 = []; // удаляет предыдущее значение для обновления данных
+            procuBrand6.push(parseInt(procurementData[i][selectedKey][k]));
+          }
+        }
+      }
+    }
+    console.log(procuBrand1);
+    console.log(procuBrand2);
+    console.log(procuBrand3);
+    console.log(procuBrand4);
+    console.log(procuBrand5);
+    console.log(procuBrand6);
+  }
+
+  //  Выбор данных за год в селекте
+  var prop = parseInt(event.currentTarget.value);
+  switch (prop) {
+    case -1:
+      console.log('ничего');
+      break;
+    case 0:
+      console.log('ноль');
+      break;
+    case 1:
+      console.log('выбрано за все время');
+      break;
+    case 2:
+      console.log('выбран 2020');
+      selecProcYear('2020');
+      charts();
+      break;
+    case 3:
+      console.log('выбран 2019');
+      selecProcYear('2019');
+      charts();
+      break;
+    case 4:
+      console.log('выбран 2018');
+      selecProcYear('2018');
+      charts();
+      break;
+    case 5:
+      console.log('выбран 2017');
+      selecProcYear('2017');
+      charts();
+      break;
+    case 6:
+      console.log('выбран 2016');
+      selecProcYear('2016');
+      charts();
+      break;
+    default:
+      console.log('Выберите год');
+  }
+}
