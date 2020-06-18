@@ -570,12 +570,12 @@ function charts() {
         arraySum(procuBrand6)  //  FXR
       ];
 
-      console.log(procuBrand1);
-      console.log(procuBrand2);
-      console.log(procuBrand3);
-      console.log(procuBrand4);
-      console.log(procuBrand5);
-      console.log(procuBrand6);
+      // console.log(procuBrand1);
+      // console.log(procuBrand2);
+      // console.log(procuBrand3);
+      // console.log(procuBrand4);
+      // console.log(procuBrand5);
+      // console.log(procuBrand6);
       //console.log(totalPrcPerBrand);
 
       const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
@@ -657,13 +657,20 @@ window.onresize = charts;
 
 function sortProcurement(event) {
   //  Удаляет дубликаты в масивах с данными
+  // procuBrand1 = [];  //  509
+  // procuBrand2 = [];  //  BCA
+  // procuBrand3 = [];  //  Jethwear
+  // procuBrand4 = [];  //  Abom
+  // procuBrand5 = [];  //  Ogio
+  // procuBrand6 = [];  //  FXR
+  console.log(procuBrand1);
+  console.log(procuBrand2);
+  console.log(procuBrand3);
+  console.log(procuBrand4);
+  console.log(procuBrand5);
+  console.log(procuBrand6);
+  console.log('-----------------------------------');
 
-  procuBrand1 = [];  //  509
-  procuBrand2 = [];  //  BCA
-  procuBrand3 = [];  //  Jethwear
-  procuBrand4 = [];  //  Abom
-  procuBrand5 = [];  //  Ogio
-  procuBrand6 = [];  //  FXR
 
   function selecProcYear(selectedKey) {
     for (let i = 0; i < procurementData.length; i++) {
@@ -673,6 +680,7 @@ function sortProcurement(event) {
           //  procurementData[i][key][k] - все суммы брендов
           if (k === '509') {
             procuBrand1 = []; // удаляет предыдущее значение для обновления данных
+            console.log(procuBrand1);
             procuBrand1.push(parseInt(procurementData[i][selectedKey][k]));
           }
           if (k === 'BCA') {
@@ -698,12 +706,13 @@ function sortProcurement(event) {
         }
       }
     }
-    console.log(procuBrand1);
-    console.log(procuBrand2);
-    console.log(procuBrand3);
-    console.log(procuBrand4);
-    console.log(procuBrand5);
-    console.log(procuBrand6);
+    // console.log(procuBrand1);
+    // console.log(procuBrand2);
+    // console.log(procuBrand3);
+    // console.log(procuBrand4);
+    // console.log(procuBrand5);
+    // console.log(procuBrand6);
+    // console.log('-----------------------------------');
   }
 
   //  Выбор данных за год в селекте
