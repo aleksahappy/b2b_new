@@ -520,39 +520,44 @@ function charts() {
       console.log(err);
     });
 
-    function getProcurementYears() {
-      //  Получаем только год
-      for (let k in procurementData[0]) {
-        var pYear = k.toString();
-        //console.log(pYear);
-      }
-    }
+    // function getProcurementYears() {
+    //   //  Получаем только год
+    //   for (let k in procurementData[0]) {
+    //     var pYear = k.toString();
+    //     //console.log(pYear);
+    //   }
+    // }
 
     //  Найти сумму заказов по бреду за все время
+    //  (Запускается при загрузке страницы)
     function getProcuBrandSum() {
-
-      for (let i = 0; i < procurementData.length; i++) {
-        for (let key in procurementData[i]) {
-          for (let k in procurementData[i][key]) {
-            //  k - все ключи брендов
-            //  procurementData[i][key][k] - все суммы брендов
-            if (k === '509') {
-              procuBrand1.push(parseInt(procurementData[i][key][k]));
-            }
-            if (k === 'BCA') {
-              procuBrand2.push(parseInt(procurementData[i][key][k]));
-            }
-            if (k === 'Jethwear') {
-              procuBrand3.push(parseInt(procurementData[i][key][k]));
-            }
-            if (k === 'Abom') {
-              procuBrand4.push(parseInt(procurementData[i][key][k]));
-            }
-            if (k === 'Ogio') {
-              procuBrand5.push(parseInt(procurementData[i][key][k]));
-            }
-            if (k === 'FXR') {
-              procuBrand6.push(parseInt(procurementData[i][key][k]));
+      console.log(procuBrand1.length);
+      if (procuBrand1.length > 0 ) {
+        console.log('Данные в глобальной области обновились')
+      } else {
+        for (let i = 0; i < procurementData.length; i++) {
+          for (let key in procurementData[i]) {
+            for (let k in procurementData[i][key]) {
+              //  k - все ключи брендов
+              //  procurementData[i][key][k] - все суммы брендов
+              if (k === '509') {
+                procuBrand1.push(parseInt(procurementData[i][key][k]));
+              }
+              if (k === 'BCA') {
+                procuBrand2.push(parseInt(procurementData[i][key][k]));
+              }
+              if (k === 'Jethwear') {
+                procuBrand3.push(parseInt(procurementData[i][key][k]));
+              }
+              if (k === 'Abom') {
+                procuBrand4.push(parseInt(procurementData[i][key][k]));
+              }
+              if (k === 'Ogio') {
+                procuBrand5.push(parseInt(procurementData[i][key][k]));
+              }
+              if (k === 'FXR') {
+                procuBrand6.push(parseInt(procurementData[i][key][k]));
+              }
             }
           }
         }
@@ -570,13 +575,15 @@ function charts() {
         arraySum(procuBrand6)  //  FXR
       ];
 
-      // console.log(procuBrand1);
-      // console.log(procuBrand2);
-      // console.log(procuBrand3);
-      // console.log(procuBrand4);
-      // console.log(procuBrand5);
-      // console.log(procuBrand6);
-      //console.log(totalPrcPerBrand);
+      console.log('brands array from chart:');
+      console.log(procuBrand1);
+      console.log(procuBrand2);
+      console.log(procuBrand3);
+      console.log(procuBrand4);
+      console.log(procuBrand5);
+      console.log(procuBrand6);
+      // console.log(totalPrcPerBrand);
+      console.log('----------------------------');
 
       const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
       procurementChart.canvas.parentNode.style.height = '280px';
@@ -663,13 +670,13 @@ function sortProcurement(event) {
   // procuBrand4 = [];  //  Abom
   // procuBrand5 = [];  //  Ogio
   // procuBrand6 = [];  //  FXR
-  console.log(procuBrand1);
-  console.log(procuBrand2);
-  console.log(procuBrand3);
-  console.log(procuBrand4);
-  console.log(procuBrand5);
-  console.log(procuBrand6);
-  console.log('-----------------------------------');
+  // console.log(procuBrand1);
+  // console.log(procuBrand2);
+  // console.log(procuBrand3);
+  // console.log(procuBrand4);
+  // console.log(procuBrand5);
+  // console.log(procuBrand6);
+  // console.log('-----------------------------------');
 
 
   function selecProcYear(selectedKey) {
@@ -680,7 +687,6 @@ function sortProcurement(event) {
           //  procurementData[i][key][k] - все суммы брендов
           if (k === '509') {
             procuBrand1 = []; // удаляет предыдущее значение для обновления данных
-            console.log(procuBrand1);
             procuBrand1.push(parseInt(procurementData[i][selectedKey][k]));
           }
           if (k === 'BCA') {
@@ -726,33 +732,64 @@ function sortProcurement(event) {
       break;
     case 1:
       console.log('выбрано за все время');
+      charts();
+      procuBrand1 = [];  //  509
+      procuBrand2 = [];  //  BCA
+      procuBrand3 = [];  //  Jethwear
+      procuBrand4 = [];  //  Abom
+      procuBrand5 = [];  //  Ogio
+      procuBrand6 = [];  //  FXR
       break;
     case 2:
       console.log('выбран 2020');
-      selecProcYear('2020');
       charts();
+      selecProcYear('2020');
+
+      testGlobalBrandsArr()
       break;
     case 3:
       console.log('выбран 2019');
-      selecProcYear('2019');
       charts();
+      selecProcYear('2019');
+
+      testGlobalBrandsArr()
       break;
     case 4:
       console.log('выбран 2018');
-      selecProcYear('2018');
       charts();
+      selecProcYear('2018');
+
+      testGlobalBrandsArr()
       break;
     case 5:
       console.log('выбран 2017');
-      selecProcYear('2017');
       charts();
+      selecProcYear('2017');
+
+      testGlobalBrandsArr()
       break;
     case 6:
       console.log('выбран 2016');
-      selecProcYear('2016');
       charts();
+      selecProcYear('2016');
+
+      testGlobalBrandsArr()
       break;
     default:
       console.log('Выберите год');
   }
 }
+
+function testGlobalBrandsArr() {
+  setTimeout(() => {
+    console.log('Brands arrays from global scope:')
+    console.log(procuBrand1);
+    console.log(procuBrand2);
+    console.log(procuBrand3);
+    console.log(procuBrand4);
+    console.log(procuBrand5);
+    console.log(procuBrand6);
+    console.log('-----------------------------------');
+  }, 3000)
+}
+testGlobalBrandsArr();
