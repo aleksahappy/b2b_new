@@ -324,7 +324,7 @@ legend select{
 }
 
 /* Медиа-стили для laptop */
-@media (max-width: 1367px) {
+@media (max-width: 1600px) {
 
   .new-container {
     margin: 0 1.98em!important;
@@ -332,7 +332,7 @@ legend select{
 
 }
 
-@media (max-width: 1299px) {
+@media (max-width: 1337px) {
 
   body{
     padding-top: 40px;

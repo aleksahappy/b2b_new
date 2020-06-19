@@ -1,11 +1,12 @@
 'use strict';
 
-// var data;
 var desktopTable = document.querySelector('#desktopTable');
 var tbody = desktopTable.querySelector('tbody');
+
 //  данные "ДОЛЯ ЗАКУПОК ПО ПРОИЗВОДИТЕЛЯМ" сохраненная в глобальную
 //  область видимости для работы с ними из любого участка кода
 var procurementData;
+var procurementYears = [];
 let totalPrcPerBrand = [];
 var procuBrand1 = [];  //  509
 var procuBrand2 = [];  //  BCA
@@ -13,6 +14,47 @@ var procuBrand3 = [];  //  Jethwear
 var procuBrand4 = [];  //  Abom
 var procuBrand5 = [];  //  Ogio
 var procuBrand6 = [];  //  FXR
+
+charts();
+startDesktopTable();
+tableDataSort();
+startProcurementPieChart();
+
+window.onresize = charts;
+window.onresize = startProcurementPieChart;
+if (window.innerWidth < 1299) {
+  holdSectionWidth();
+  window.onresize = holdSectionWidth;
+}
+
+
+//  Находит сумму элементов массива
+
+function arraySum(arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  return sum;
+}
+
+
+// Костыль для переопределения правильной ширины секции с toggle
+
+function holdSectionWidth() {
+  let toggleHeads = document.querySelectorAll('.toggle');
+  let toggleBodies = document.querySelectorAll('.toggle-cont');
+
+  for (let i = 0; i < toggleHeads.length; i++) {
+    for (let j = 0; j < toggleBodies.length; j++) {
+      if (toggleBodies[i]) {
+        if (toggleBodies[i].offsetWidth > 0) {
+          toggleHeads[j].style.width = toggleBodies[i].offsetWidth + 'px';
+        }
+      }
+    }
+  }
+}
 
 
 // Запуск данных таблицы Рабочего стола:
@@ -30,7 +72,6 @@ function startDesktopTable() {
     initTable('desktopTable');
   });
 }
-startDesktopTable();
 
 
 //  Работа кнопок фильтрации сумм заказов по состояниям заказов в таблице Рабочего стола
@@ -75,23 +116,10 @@ function tableDataSort() {
     }
   }
 }
-tableDataSort();
-
 
 
 // Обертка для графиков и диагарамм для их адаптивности
 function charts() {
-
-  //  Находит сумму элементов массива
-
-  function arraySum(arr) {
-    let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
-      sum += arr[i];
-    }
-    return sum;
-  }
-
   //================================Диаграммы=================================//
   // Диаграмма "Заказы в работе"
 
@@ -168,12 +196,12 @@ function charts() {
       //  Корректировка отображения подписи внутри диаграммы на Mac и на остальных платформах
 
       if (navigator.appVersion.indexOf("Mac") != -1) {
-        if (window.innerWidth > 1299) {
+        if (window.innerWidth > 1337) {
           ordersChart.canvas.parentNode.style.width = '100%';
           ordersChart.canvas.parentNode.style.height = '393px';
           ordersInfo.style.left = chart1.offsetWidth / 3 + 'px';
           ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
-        } else if (window.innerWidth < 1299 && window.innerWidth > 499) {
+        } else if (window.innerWidth < 1337 && window.innerWidth > 499) {
           ordersChart.canvas.parentNode.style.width = '50%';
           ordersChart.canvas.parentNode.style.height = '349px';
           ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
@@ -183,12 +211,12 @@ function charts() {
           ordersChart.canvas.parentNode.style.height = '256px';
         }
       } else {
-        if (window.innerWidth > 1299) {
+        if (window.innerWidth > 1337) {
           ordersChart.canvas.parentNode.style.width = '100%';
           ordersChart.canvas.parentNode.style.height = '393px';
           ordersInfo.style.left = chart1.offsetWidth / 3.5 + 'px';
           ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
-        } else if (window.innerWidth < 1299 && window.innerWidth > 499) {
+        } else if (window.innerWidth < 1337 && window.innerWidth > 499) {
           ordersChart.canvas.parentNode.style.width = '50%';
           ordersChart.canvas.parentNode.style.height = '349px';
           ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
@@ -381,17 +409,14 @@ function charts() {
   speedChart();
 
 
-
   //  График поставок
 
   function deliveryProgress() {
     //  тестовые данные
-    let data1 = [0, 540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000]; // данные для синей линии
-    let data2 = [0, 350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400]; // данные для оранжевой линии
-    let data3 = [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000]; // данные для зеленой линии
-
-    //let test1 = arraySum(data1);
-    //let test2 = arraySum(data1Sum);
+    var data1 = [0, 540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000]; // данные для синей линии
+    var data2 = [0, 350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400]; // данные для оранжевой линии
+    var data3 = [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000]; // данные для зеленой линии
+    var deliveryLabels = ["21 нед.",	"22 нед.",	"23 нед.",	"24 нед.",	"25 нед.",	"26 нед.",	"27 нед.", "28 нед."];
 
     const deliveryСhart = document.getElementById('deliveryChart').getContext('2d'); //  canvas диаграммы
       deliveryСhart.canvas.parentNode.style.width = '100%';
@@ -401,25 +426,25 @@ function charts() {
       type: 'line',
       // Отображение данных
       data: {
-        labels: ["21 нед.",	"22 нед.",	"23 нед.",	"24 нед.",	"25 нед.",	"26 нед.",	"27 нед.", "28 нед."],
+        labels: deliveryLabels,
         //  Настройка отображения данных
         datasets: [{
             label: 'BCA', //  Название линии
-            data: [0, 540000, 261000, 510000, 488000, 402987, 499900, 523000, 250000], // подключение данных
+            data: data1, // подключение данных
             fill: false,
             borderColor: '#34495E', // цвет линии
             backgroundColor: '#ffffff', // заливка поинта
             borderWidth: 3 // толщина линии
         }, {
             label: '509', //  Название линии
-            data: [0, 350004, 259000, 300300, 290000, 88000, 441560, 260000, 239400], // подключение данных
+            data: data2, // подключение данных
             fill: false,
             borderColor: '#F69C00', // цвет линии
             backgroundColor: '#ffffff', // заливка поинта
             borderWidth: 3 // толщина линии
         }, {
             label: 'FXR', //  Название линии
-            data: [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000], // подключение данных
+            data: data3, // подключение данных
             fill: false,
             borderColor: '#3F9726', // цвет линии
             backgroundColor: '#ffffff', // заливка поинта
@@ -441,16 +466,25 @@ function charts() {
         maintainAspectRatio: false, // отклюдчаем лишнее свободное пространство вокруг графика
       }
     });
+
+    function addData(chart, label, data) {
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+      });
+      chart.update();
+    }
+
   }
   deliveryProgress();
-
 
 
   //  График "Ежегодная динамика товарооборота"
 
   function productsBarChart() {
     //  тестовые данные
-    let data = [1400000, 7980548, 4100675, 15880000, 10245014];
+    const data = [1400000, 7980548, 4100675, 15880000, 10245014];
+    const productsLabels = ['2016','2017', '2018', '2019', '2020'];
     const barChart = document.getElementById('barChart').getContext('2d'); //  canvas диаграмм
 
     if (window.innerWidth > 1299) {
@@ -465,7 +499,7 @@ function charts() {
       type: 'bar',  // тип графика
       // Отображение данных
       data: {
-        labels: ['2017','2018', '2019', '2020', '2021'],
+        labels: productsLabels,
         //  Настройка отображения данных
         datasets: [{
           label: 'test',  //  название диаграммы
@@ -473,7 +507,7 @@ function charts() {
           barThickness: 6,
           maxBarThickness: 8,
           minBarLength: 1,
-          data: [1400000, 7980548, 4100675, 15880000, 10245014],
+          data: data,
           backgroundColor: ['#9FCB93', '#F7AC93', '#96B6D3', '#B5A6BB', '#FBCD80']
         }]
       },
@@ -502,181 +536,160 @@ function charts() {
     });
   }
   productsBarChart();
+}
 
 
-  //  Диаграмма "Доля закупок по производителям"
+//  Диаграмма "Доля закупок по производителям"
 
-  function startProcurementPieChart() {
-    // запрос
-    sendRequest(`../json/procurementData.json`)
-    //sendRequest(urlRequest.main, {action: 'desktopTable'})
-    .then(result => {
-      var procurements = JSON.parse(result);
-      procurementData = procurements;
-      getProcuBrandSum();
-      procurementPieChart();
-    })
-    .catch(err => {
-      console.log(err);
-    });
+function startProcurementPieChart() {
+  // запрос
+  sendRequest(`../json/procurementData.json`)
+  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  .then(result => {
+    var procurements = JSON.parse(result);
+    procurementData = procurements;
+    createProcYears();
+    getProcuBrandSum();
+    procurementPieChart();
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
-    // function getProcurementYears() {
-    //   //  Получаем только год
-    //   for (let k in procurementData[0]) {
-    //     var pYear = k.toString();
-    //     //console.log(pYear);
-    //   }
-    // }
-
-    //  Найти сумму заказов по бреду за все время
-    //  (Запускается при загрузке страницы)
-    function getProcuBrandSum() {
-      console.log(procuBrand1.length);
-      if (procuBrand1.length > 0 ) {
-        console.log('Данные в глобальной области обновились')
-      } else {
-        for (let i = 0; i < procurementData.length; i++) {
-          for (let key in procurementData[i]) {
-            for (let k in procurementData[i][key]) {
-              //  k - все ключи брендов
-              //  procurementData[i][key][k] - все суммы брендов
-              if (k === '509') {
-                procuBrand1.push(parseInt(procurementData[i][key][k]));
-              }
-              if (k === 'BCA') {
-                procuBrand2.push(parseInt(procurementData[i][key][k]));
-              }
-              if (k === 'Jethwear') {
-                procuBrand3.push(parseInt(procurementData[i][key][k]));
-              }
-              if (k === 'Abom') {
-                procuBrand4.push(parseInt(procurementData[i][key][k]));
-              }
-              if (k === 'Ogio') {
-                procuBrand5.push(parseInt(procurementData[i][key][k]));
-              }
-              if (k === 'FXR') {
-                procuBrand6.push(parseInt(procurementData[i][key][k]));
-              }
+  //  Найти сумму заказов по бреду за все время
+  //  (Запускается при загрузке страницы)
+  function getProcuBrandSum() {
+    console.log(procuBrand1.length);
+    if (procuBrand1.length > 0 ) {
+      console.log('Данные в глобальной области обновились')
+    } else {
+      for (let i = 0; i < procurementData.length; i++) {
+        for (let key in procurementData[i]) {
+          var obj = new Object();
+          obj.year = key;
+          procurementYears.push(obj);
+          for (let k in procurementData[i][key]) {
+            //  k - все ключи брендов
+            //  procurementData[i][key][k] - все суммы брендов
+            if (k === '509') {
+              procuBrand1.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'BCA') {
+              procuBrand2.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'Jethwear') {
+              procuBrand3.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'Abom') {
+              procuBrand4.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'Ogio') {
+              procuBrand5.push(parseInt(procurementData[i][key][k]));
+            }
+            if (k === 'FXR') {
+              procuBrand6.push(parseInt(procurementData[i][key][k]));
             }
           }
         }
       }
     }
+  }
 
-    function procurementPieChart() {
-      // суммы заказов по брендам
-      totalPrcPerBrand = [
-        arraySum(procuBrand1), //  509
-        arraySum(procuBrand2), //  BCA
-        arraySum(procuBrand3), //  Jethwear
-        arraySum(procuBrand4), //  Abom
-        arraySum(procuBrand5), //  Ogio
-        arraySum(procuBrand6)  //  FXR
-      ];
+  function createProcYears() {
+    var procurementSelect = getEl('procurementSelect');
+    var test = getEl('test');
+    console.log(procurementYears);
+    var yearsForProc = {
+      area: "test",
+      items: procurementYears,
+      action: 'replace'
+    }
+    fillTemplate(yearsForProc);
+    console.log(instanceOf(procurementYears));
+    console.log(yearsForProc);
+    console.log('done');
+  }
 
-      console.log('brands array from chart:');
-      console.log(procuBrand1);
-      console.log(procuBrand2);
-      console.log(procuBrand3);
-      console.log(procuBrand4);
-      console.log(procuBrand5);
-      console.log(procuBrand6);
-      // console.log(totalPrcPerBrand);
-      console.log('----------------------------');
+  function procurementPieChart() {
+    // суммы заказов по брендам
+    totalPrcPerBrand = [
+      arraySum(procuBrand1), //  509
+      arraySum(procuBrand2), //  BCA
+      arraySum(procuBrand3), //  Jethwear
+      arraySum(procuBrand4), //  Abom
+      arraySum(procuBrand5), //  Ogio
+      arraySum(procuBrand6)  //  FXR
+    ];
 
-      const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
-      procurementChart.canvas.parentNode.style.height = '280px';
-      procurementChart.canvas.parentNode.style.width = '280px';
+    console.log('brands array from chart:');
+    console.log(procuBrand1);
+    console.log(procuBrand2);
+    console.log(procuBrand3);
+    console.log(procuBrand4);
+    console.log(procuBrand5);
+    console.log(procuBrand6);
+    // console.log(totalPrcPerBrand);
+    console.log('----------------------------');
 
-      const chart = new Chart(procurementChart, {
-          type: 'doughnut', // тип графика
+    const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
+    procurementChart.canvas.parentNode.style.height = '280px';
+    procurementChart.canvas.parentNode.style.width = '280px';
 
-          // Отображение данных
-          data: {
-              //  Название линии
-              labels: ['BCA', 'Jethwear', '509', 'FXR', 'Abom', 'Ogio'],
-              //  Настройка отображения данных
-              datasets: [{
-                  //
-                  label: false,
-                  //  цвета шкал графика
-                  backgroundColor: ['#96B6D3', '#CDC9CB', '#F8AD94', '#B5A6BB', '#9FCB93', '#FBCD80'],
-                  //  цвет бордера шкал и графика
-                  borderColor: '#ffffff',
-                  borderWidth: 1,
-                  //  данные для отображения
-                  data: [totalPrcPerBrand[1], totalPrcPerBrand[2], totalPrcPerBrand[0], totalPrcPerBrand[5], totalPrcPerBrand[3], totalPrcPerBrand[4]]
-              }]
+    const chart = new Chart(procurementChart, {
+        type: 'doughnut', // тип графика
+
+        // Отображение данных
+        data: {
+            //  Название линии
+            labels: ['BCA', 'Jethwear', '509', 'FXR', 'Abom', 'Ogio'],
+            //  Настройка отображения данных
+            datasets: [{
+                //
+                label: false,
+                //  цвета шкал графика
+                backgroundColor: ['#96B6D3', '#CDC9CB', '#F8AD94', '#B5A6BB', '#9FCB93', '#FBCD80'],
+                //  цвет бордера шкал и графика
+                borderColor: '#ffffff',
+                borderWidth: 1,
+                //  данные для отображения
+                data: [totalPrcPerBrand[1], totalPrcPerBrand[2], totalPrcPerBrand[0], totalPrcPerBrand[5], totalPrcPerBrand[3], totalPrcPerBrand[4]]
+            }]
+        },
+
+        // Настройки отображения графика
+        options: {
+          // ширина "кольца"
+          cutoutPercentage: 65,
+          // отключение легенды
+          legend: {
+            display: false
           },
-
-          // Настройки отображения графика
-          options: {
-            // ширина "кольца"
-            cutoutPercentage: 65,
-            // отключение легенды
-            legend: {
-              display: false
-            },
-            //  поворот угла стартового значения
-            rotation: 4,
-            //  отступы графика
-            layout: {
-              padding: {
-                left: 10,
-                right: 10,
-                top: 10,
-                bottom: 10
-              }
-            },
-            //  отклюдчаем лишнее свободное пространство вокруг графика
-            maintainAspectRatio: false
-          }
-      });
-    }
-  };
-  startProcurementPieChart();
-
-  // Костыль для переопределения правильной ширины секции с toggle
-  function holdSectionWidth() {
-    let toggleHeads = document.querySelectorAll('.toggle');
-    let toggleBodies = document.querySelectorAll('.toggle-cont');
-
-    for (let i = 0; i < toggleHeads.length; i++) {
-      for (let j = 0; j < toggleBodies.length; j++) {
-        if (toggleBodies[i]) {
-          if (toggleBodies[i].offsetWidth > 0) {
-            toggleHeads[j].style.width = toggleBodies[i].offsetWidth + 'px';
-          }
+          //  поворот угла стартового значения
+          rotation: 4,
+          //  отступы графика
+          layout: {
+            padding: {
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: 10
+            }
+          },
+          //  отклюдчаем лишнее свободное пространство вокруг графика
+          maintainAspectRatio: false
         }
-      }
-    }
+    });
   }
-
-  if (window.innerWidth < 1299) {
-    holdSectionWidth();
-    window.onresize = holdSectionWidth;
-  }
-}
-charts();
-window.onresize = charts;
+};
 
 
 function sortProcurement(event) {
-  //  Удаляет дубликаты в масивах с данными
   // procuBrand1 = [];  //  509
   // procuBrand2 = [];  //  BCA
   // procuBrand3 = [];  //  Jethwear
   // procuBrand4 = [];  //  Abom
   // procuBrand5 = [];  //  Ogio
   // procuBrand6 = [];  //  FXR
-  // console.log(procuBrand1);
-  // console.log(procuBrand2);
-  // console.log(procuBrand3);
-  // console.log(procuBrand4);
-  // console.log(procuBrand5);
-  // console.log(procuBrand6);
-  // console.log('-----------------------------------');
 
 
   function selecProcYear(selectedKey) {
@@ -732,7 +745,8 @@ function sortProcurement(event) {
       break;
     case 1:
       console.log('выбрано за все время');
-      charts();
+      startProcurementPieChart();
+      //  удаляем повторяющиеся значения в массивах брендов
       procuBrand1 = [];  //  509
       procuBrand2 = [];  //  BCA
       procuBrand3 = [];  //  Jethwear
@@ -742,37 +756,32 @@ function sortProcurement(event) {
       break;
     case 2:
       console.log('выбран 2020');
-      charts();
+      startProcurementPieChart();
       selecProcYear('2020');
-
       testGlobalBrandsArr()
       break;
     case 3:
       console.log('выбран 2019');
-      charts();
+      startProcurementPieChart();
       selecProcYear('2019');
-
       testGlobalBrandsArr()
       break;
     case 4:
       console.log('выбран 2018');
-      charts();
+      startProcurementPieChart();
       selecProcYear('2018');
-
       testGlobalBrandsArr()
       break;
     case 5:
       console.log('выбран 2017');
-      charts();
+      startProcurementPieChart();
       selecProcYear('2017');
-
       testGlobalBrandsArr()
       break;
     case 6:
       console.log('выбран 2016');
-      charts();
+      startProcurementPieChart();
       selecProcYear('2016');
-
       testGlobalBrandsArr()
       break;
     default:

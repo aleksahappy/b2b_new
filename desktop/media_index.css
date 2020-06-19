@@ -1,11 +1,11 @@
-@media (min-width: 1368px) {
+@media (min-width: 1601px) {
   section.banners-carousel{
     display: none!important;
   }
 }
 
 /* Медиа-стили для laptop */
-@media (max-width: 1367px) {
+@media (max-width: 1600px) {
 
   main{
     margin-right: 0;
@@ -28,7 +28,7 @@
 
 
 /* Медиа-стили для tablet */
-@media (max-width: 1299px) {
+@media (max-width: 1337px) {
 
   .col1{
     min-width: 100%;
