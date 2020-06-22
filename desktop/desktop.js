@@ -3,6 +3,16 @@
 var desktopTable = document.querySelector('#desktopTable');
 var tbody = desktopTable.querySelector('tbody');
 
+//  кнопка desktop тоггла
+var toggleBar1 = getEl('barChartTgl-1');
+var toggleBar2 = getEl('barChartTgl-2');
+//  canvas диаграмм
+const barChart = document.getElementById('barChart').getContext('2d');
+//  Данные и зарезервированные переменные для работы с ними
+var barData = []; //  procurementData
+var barDataStor = [];
+var barDataToggle = [];
+var barLabels = [];
 //  данные "ДОЛЯ ЗАКУПОК ПО ПРОИЗВОДИТЕЛЯМ" сохраненная в глобальную
 //  область видимости для работы с ними из любого участка кода
 var procurementData;
@@ -479,13 +489,134 @@ function charts() {
   deliveryProgress();
 
 
+
+
+
+
   //  График "Ежегодная динамика товарооборота"
 
-  function productsBarChart() {
-    //  тестовые данные
-    const data = [1400000, 7980548, 4100675, 15880000, 10245014];
-    const productsLabels = ['2016','2017', '2018', '2019', '2020'];
-    const barChart = document.getElementById('barChart').getContext('2d'); //  canvas диаграмм
+function startBarChart() {
+
+  // запрос
+  sendRequest(`../json/procurementData.json`)
+  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  .then(result => {
+    var bar = JSON.parse(result);
+    barData = bar;
+    getBarLabels();
+    fillBarDataStor();
+    fillBarDataStorToggle();
+    runBarChart();
+  })
+  .catch(err => {
+    console.log(err);
+  });
+}
+startBarChart();
+
+
+function getBarLabels() {
+  for (let i = 0; i < barData.length; i++) {
+    for (let key in barData[i]) {
+      //  Лейблы шкал с годами
+      barLabels.push(key);
+    }
+  }
+}
+
+
+//  Общая сумма в шкалах
+
+function getFullSumByYear(year) {
+  var iterSum = [];
+  for (let i = 0; i < barData.length; i++) {
+    for (let key in barData[i]) {
+
+      if (key === year) {
+        for (let k in barData[i][key]) {
+          if (k !== 'preorder_sum') {
+            var iter = parseInt(barData[i][key][k]);
+            iterSum.push(iter);
+          }
+        }
+      }
+    }
+  }
+  return arraySum(iterSum);
+}
+
+
+function fillBarDataStor() {
+  for (let i = 0; i < barLabels.length; i++) {
+    barDataStor.push(getFullSumByYear(barLabels[i]));
+  }
+  return barDataStor;
+}
+
+
+function getOnlyPreorderSumByYear(year) {
+  var iterPreorder = [];
+  for (let i = 0; i < barData.length; i++) {
+    for (let key in barData[i]) {
+      if (key === year) {
+        for (let k in barData[i][key]) {
+          if (k === 'preorder_sum') {
+            var iter = parseInt(barData[i][key][k]);
+            iterPreorder.push(iter);
+          }
+        }
+      }
+    }
+  }
+  return arraySum(iterPreorder);
+}
+
+
+function fillBarDataStorToggle() {
+  for (let i = 0; i < barLabels.length; i++) {
+    barDataToggle.push(getOnlyPreorderSumByYear(barLabels[i]));
+  }
+  return barDataToggle;
+}
+
+  function runBarChart() {
+
+    console.log(barDataStor);
+    console.log(barDataToggle);
+
+    function displayToggleDate() {
+      toggleBar1.addEventListener('click', () => {
+        if (toggleBar1.classList.contains('on')) {
+          barChartObj.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+            dataset.data = barDataToggle;
+          });
+          barChartObj.update();
+        } else {
+          barChartObj.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+            dataset.data = barDataStor;
+          });
+          barChartObj.update();
+        }
+      });
+      toggleBar2.addEventListener('click', () => {
+        if (toggleBar2.classList.contains('on')) {
+          barChartObj.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+            dataset.data = barDataToggle;
+          });
+          barChartObj.update();
+        } else {
+          barChartObj.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+            dataset.data = barDataStor;
+          });
+          barChartObj.update();
+        }
+      });
+    }
+    displayToggleDate();
 
     if (window.innerWidth > 1299) {
       barChart.canvas.parentNode.style.width = '100%';
@@ -495,11 +626,11 @@ function charts() {
       barChart.canvas.parentNode.style.height = '226px';
     }
 
-    const cart = new Chart(barChart, {
+    const barChartObj = new Chart(barChart, {
       type: 'bar',  // тип графика
       // Отображение данных
       data: {
-        labels: productsLabels,
+        labels: barLabels,
         //  Настройка отображения данных
         datasets: [{
           label: 'test',  //  название диаграммы
@@ -507,7 +638,7 @@ function charts() {
           barThickness: 6,
           maxBarThickness: 8,
           minBarLength: 1,
-          data: data,
+          data: barDataStor,
           backgroundColor: ['#9FCB93', '#F7AC93', '#96B6D3', '#B5A6BB', '#FBCD80']
         }]
       },
@@ -517,26 +648,48 @@ function charts() {
           xAxes: [{
             gridLines: {
               offsetGridLines: true,
-              drawOnChartArea: false  //  убрать/показать сетку
+              //  Убрать/показать сетку
+              drawOnChartArea: true
             }
           }],
           yAxes: [{
             ticks: {
-              beginAtZero: true //  начало всегда с нуля
+              //  Начало всегда с нуля
+              beginAtZero: true
             },
             gridLines: {
               offsetGridLines: true,
-              drawOnChartArea: false  //  убрать/показать сетку
+              //  Убрать/показать сетку
+              drawOnChartArea: false
             }
           }]
         },
-        responsive: true, // адаптивность
+        // адаптивность
+        responsive: true,
         maintainAspectRatio: false, // отклюдчаем лишнее свободное пространство вокруг графика
       }
     });
   }
-  productsBarChart();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //  Диаграмма "Доля закупок по производителям"
@@ -605,7 +758,7 @@ function startProcurementPieChart() {
       action: 'replace'
     }
     fillTemplate(yearsForProc);
-    console.log(instanceOf(procurementYears));
+
     console.log(yearsForProc);
     console.log('done');
   }
