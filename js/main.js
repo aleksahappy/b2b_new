@@ -37,7 +37,7 @@ var website = document.body.dataset.website,
       api: 'https://api.topsports.ru/'
     },
     items,
-    loader = getEl('loader'),
+    loader = getEl('page-loader'),
     message = getEl('message-container'),
     upBtn = getEl('up-btn');
 
@@ -53,15 +53,6 @@ if (isCart) {
       userData = {};
 }
 
-// Инициализация прелоадера и поля с сообщениями:
-
-if (loader) {
-  loader = new Loader(loader);
-}
-if (message) {
-  message = new Message(message);
-}
-
 // Запускаем рендеринг страницы:
 
 startPage();
@@ -73,6 +64,12 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
+  if (loader) {
+    loader = new Loader(loader);
+  }
+  if (message) {
+    message = new Message(message);
+  }
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
   if (path !== '') {
     loader.show();
@@ -647,7 +644,7 @@ function onBlurInput(input) {
 function textareaCounter(textarea) {
   var maxLength = textarea.getAttribute('maxlength');
   if (maxLength) {
-    var counter = getEl(`[data-count="${textarea.getAttribute('name')}"]`);
+    var counter = getEl('span',`[data-count="${textarea.getAttribute('name')}"]`);
     if (counter) {
       counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
     }
@@ -747,7 +744,7 @@ function checkPositions() {
 
 // Запрет на ввод в инпут любого значения кроме цифр:
 
-function checkValue(event) {
+function onlyNumb(event) {
   if (event.ctrlKey || event.altKey || event.metaKey) {
     return;
   }
@@ -766,11 +763,23 @@ function changeQty(event, maxQty, minQty = 0, text) {
   if (minQty === maxQty) {
     return;
   }
-  var current = event.currentTarget,
-      sign = current.textContent,
+  var current = event.currentTarget;
+  if (current.closest('.qty-box.disabled')) {
+    return;
+  }
+  var sign = undefined,
       qtyWrap = current.closest('.qty'),
       input = getEl('.choiced-qty', qtyWrap),
       qty = parseInt(input.value, 10);
+  if (input.hasAttribute('disabled')) {
+    return;
+  }
+  if (event.currentTarget.classList.contains('btn-minus')) {
+    sign = '-';
+  }
+  if (event.currentTarget.classList.contains('btn-plus')) {
+    sign = '+';
+  }
   qty = countQty(sign, qty, maxQty, minQty);
   input.value = qty;
   input.dataset.value = qty;
@@ -1227,16 +1236,12 @@ function Loader(obj) {
   // Отображение лоадера (можно с текстом):
   this.show = function(text = '') {
     this.text.textContent = text;
-    if (document.querySelector('.pop-up-container.open')) {
-      this.loader.classList.add('over');
-    }
     showElement(this.loader, 'flex');
   }
 
   // Скрытие лоадера:
   this.hide = function() {
     hideElement(this.loader);
-    this.loader.classList.remove('over');
   }
 }
 
@@ -1411,7 +1416,7 @@ function openPopUp(el) {
 
 function closePopUp(event, el) {
   if (event) {
-    if (!event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
+    if (!event.target.closest('.pop-up-title .close') && event.target.closest('.pop-up')) {
       return;
     }
     el = event.currentTarget;
@@ -1496,11 +1501,13 @@ function clearForm(el) {
 function Form(obj, func) {
   // Элементы для работы:
   this.form = obj;
+  this.submitBtn = getEl('input[type="submit"]', obj)
   this.dropDowns = this.form.querySelectorAll('.activate');
+
+  // Инициализация выпадающих списков если они есть:
   this.dropDowns.forEach((el, index) => {
     this[`dropDown${index}`] = new DropDown(el);
   });
-  this.errors = this.form.querySelectorAll('.err');
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -1511,7 +1518,9 @@ function Form(obj, func) {
   // Отправка формы:
   this.send = function(event) {
     event.preventDefault();
-    this.errors.forEach(el => hideElement(el));
+    if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
+      return;
+    }
     var send = this.check();
     console.log(send);
     if (send) {
@@ -1525,13 +1534,17 @@ function Form(obj, func) {
   this.check = function() {
     var isSend = true;
     this.form.querySelectorAll('[required]').forEach(el => {
+      var value;
       el.classList.remove('error');
-      if (!el.value || el.value === '') {
+      el.querySelectorAll('input[type="radio"]').forEach(el => value = el.checked ? true : undefined);
+      el.querySelectorAll('input[type="checkbox"]').forEach(el => value = el.checked ? true : undefined);
+      el.querySelectorAll('input[type="text"]').forEach(el => value = el.value);
+      el.querySelectorAll('textarea').forEach(el => value = el.value);
+      el.querySelectorAll('.activate').forEach(el => value = el.value);
+      console.log(value);
+      if (!value) {
+        console.log(el);
         el.classList.add('error');
-        var err = getEl(`[data-err="${el.getAttribute('name')}"]`);
-        if (err) {
-          showElement(err);
-        }
         isSend = false;
       }
     });
@@ -1556,7 +1569,6 @@ function Form(obj, func) {
     this.form.querySelectorAll('textarea').forEach(el => el.value = '');
     this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
-    this.errors.forEach(el => hideElement(el));
   }
 }
 
@@ -1578,7 +1590,7 @@ function initSearch(el, func) {
 function clearSearch(el) {
   var el = getEl(el);
   if (window[`${el.id}Search`]) {
-    window[`${el.id}Search`].clear(true);
+    window[`${el.id}Search`].clear();
   }
 }
 
@@ -1590,7 +1602,7 @@ function Search(obj, func) {
   this.input = getEl('input[type="text"]', obj);
   this.cancelBtn = getEl('.close', obj);
   this.dropDown = getEl('.drop-down', obj);
-  this.info = getEl(`${this.form.id}-info`);
+  this.result = getEl(`${this.form.id}-info`);
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -1598,7 +1610,6 @@ function Search(obj, func) {
       event.preventDefault();
       this.search();
     });
-    this.form.addEventListener('input', () => this.toggle());
     if (this.dropDown) {
       this.form.addEventListener('input', () => this.showHints());
       this.form.addEventListener('click', event => this.selectHint(event));
@@ -1606,19 +1617,9 @@ function Search(obj, func) {
     this.input.addEventListener('focus', () => this.onFocus());
     this.input.addEventListener('blur', () => this.onBlur());
     this.cancelBtn.addEventListener('click', () => this.cancel());
-    if (this.info) {
-      getEl('.close', this.info).addEventListener('click', () => this.cancel());
+    if (this.result) {
+      getEl('.close', this.result).addEventListener('click', () => this.cancel());
     }
-  }
-
-  // Отображение/скрытие формы поиска:
-  this.toggle = function() {
-    var textToFind = this.input.value.trim();
-    if (textToFind === '') {
-      this.form.classList.remove('show');
-      return;
-    }
-    this.form.classList.add('show');
   }
 
   // Отображение подсказок:
@@ -1669,7 +1670,6 @@ function Search(obj, func) {
     setTimeout(() => {
       onBlurInput(this.input);
       this.closeHints();
-      this.toggle();
     }, 100);
   }
 
@@ -1689,11 +1689,19 @@ function Search(obj, func) {
     if (textToFind === '') {
       return;
     }
-    var length = func(this.form.id, textToFind);
+    var length = func(textToFind, this.form.id);
     this.input.dataset.value = this.input.value;
     this.toggleInfo(textToFind, length);
     showElement(this.cancelBtn);
   }
+
+    // Очистка поля поиска:
+    this.clear = function(isFull) {
+      this.input.value = this.input.dataset.value = '';
+      this.toggleInfo();
+      this.closeHints();
+      hideElement(this.cancelBtn);
+    }
 
   // Сброс поиска:
   this.cancel = function() {
@@ -1701,28 +1709,17 @@ function Search(obj, func) {
     func();
   }
 
-  // Очистка поля поиска:
-  this.clear = function(isFull) {
-    this.input.value = this.input.dataset.value = '';
-    this.toggleInfo();
-    this.closeHints();
-    hideElement(this.cancelBtn);
-    if (isFull) {
-      this.form.classList.remove('show');
-    }
-  }
-
   // Отображение/скрытие информации о поиске:
   this.toggleInfo = function(text, count) {
-    if (!this.info) {
+    if (!this.result) {
       return;
     }
     if (text) {
-      getEl('.search-text', this.info).textContent = text;
-      getEl('.search-count', this.info).textContent = count;
-      showElement(this.info, 'flex');
+      getEl('.search-text', this.result).textContent = text;
+      getEl('.search-count', this.result).textContent = count;
+      showElement(this.result, 'flex');
     } else {
-      hideElement(this.info);
+      hideElement(this.result);
     }
   }
 
@@ -1821,8 +1818,12 @@ function DropDown(obj) {
     }
 
     if (this.filter.classList.contains('select')) {
-      this.title.textContent = curItem.textContent;
-      this.filter.value = curItem.dataset.value;
+      if (curItem.dataset.value === 'default') {
+        this.clear(event);
+      } else {
+        this.title.textContent = curItem.textContent;
+        this.filter.value = curItem.dataset.value;
+      }
       this.filter.classList.remove('open');
     }
 
@@ -1830,7 +1831,7 @@ function DropDown(obj) {
       curItem.classList.toggle('checked');
       var checked = this.filter.querySelectorAll('.item.checked');
       if (checked.length === 0) {
-        this.clearFilter(event);
+        this.clear(event);
       } else {
         this.title.textContent = 'Выбрано: ' + checked.length;
         var value = [];

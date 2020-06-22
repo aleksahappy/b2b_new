@@ -1,7 +1,3 @@
-.activate {
-  min-width: 200px;
-}
-
 .artboard-title {
   font-size: 22px;
   color: blue;
@@ -17,65 +13,86 @@
   margin-right: 5em;
 }
 
-.text-temp > span {
+.text-white-temp {
+  background-color: #34495E;
+}
+
+.icons-temp {
+  font-size: 40px;
+}
+
+.btns-temp .btn {
   margin-right: 1em;
 }
 
-.table-wrap {
-  max-height: 40vh;
-}
-
-.icons-temp #up-btn {
-  position: static;
-  display: block;
-}
-
-.icons-temp #up-btn,
-.icons-temp > svg,
-.icons-temp > div {
+.icons-temp > div,
+.check-temp > div,
+.toggle-temp > div,
+.radio-temp > div,
+.drop-down-temp > div,
+.tooltips-temp > div {
   margin-right: 1em;
-  font-size: 2em;
-  width: 1em;
-  height: 1em;
-}
-
-.icons-temp > div > div {
-  width: 1em;
-  height: 1em;
 }
 
 .not-found.icon {
-  width: 1.46em;
-  height: 1em;
+  width: 133px;
+  height: 90px;
 }
 
-.check-temp > div {
-  margin-right: 1em;
-  font-size: 1em;
-  width: 1em;
-  height: 1em;
+.check-temp .row,
+.radio-temp .row {
+  align-items: center;
+  cursor: pointer;
 }
 
-.check-temp > div > div {
-  width: 1em;
-  height: 1em;
+.search-temp .example {
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  height: 40px;
+  width: 360px;
+  background-color: #53606F;
 }
 
-.btns-temp > div {
-  margin-right: 1em;
+form.search.positioned {
+  right: 5px;
 }
 
-.search-temp {
-  width: 230px;
+.scroll-temp .exapmle {
+  height: 150px;
+  overflow: auto;
 }
 
-.drop-down-temp {
-  align-items: flex-start;
-  justify-content: flex-start;
+/* Стили для всплывающей формы (образец из раздела Контрагенты): */
+
+#form-example form.post > .title {
+  font-size: 0.857em;
+  margin-bottom: 2em;
 }
 
-.drop-down-temp > div {
- margin-right: 2em;
+#form-example form.post > .row > .row {
+  align-items: center;
+}
+
+#form-example form.post > .row .form-wrap {
+  width: 16.5em;
+}
+
+#form-example form.post > .row .form-wrap:last-child {
+  width: 8em;
+}
+
+#inn-loader {
+  width: 2.4em;
+  height: 2.4em;
+  margin-right: 2em;
+  visibility: hidden;
+}
+
+@media only screen and (max-width: 480px) {
+  #form-example form.post > .row {
+    display: block;
+  }
 }
 
 /*
@@ -89,6 +106,10 @@
     - max-width (чтобы после загрузки не было скролла)
     - text-align (когда необходимо установить выравнивание отличное от left)
 */
+
+.table-wrap {
+  max-height: 40vh;
+}
 
 #table td:nth-child(1) {
   min-width: 27em;
