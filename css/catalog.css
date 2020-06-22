@@ -7,6 +7,38 @@ body {
 }
 
 /* =====================================================================================================
+Иконки:
+===================================================================================================== */
+
+.view-list.icon {
+  background-image: url(../img/view_list.svg);
+}
+
+.view-blocks.icon {
+  background-image: url(../img/view_blocks.svg);
+}
+
+.view-list.icon.active {
+  background-image: url(../img/view_list_active.svg);
+}
+
+.view-blocks.icon.active {
+  background-image: url(../img/view_blocks_active.svg);
+}
+
+.free-qty.icon {
+  background-image: url(../img/qty_free.svg);
+}
+
+.arrive-qty.icon {
+  background-image: url(../img/qty_arrive.svg);
+}
+
+.warehouse-qty.icon {
+  background-image: url(../img/qty_warehouse.svg);
+}
+
+/* =====================================================================================================
 Стили для "прилипающей" части каталога:
 ===================================================================================================== */
 
@@ -145,22 +177,6 @@ body {
 
 #filters:hover {
   overflow-y: auto;
-}
-
-#filters::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-
-#filters::-webkit-scrollbar-track {
-  background-color: #D4D7DB;
-}
-
-#filters::-webkit-scrollbar-thumb {
-  background-color: rgb(52,73,94,0.5);
-  border: 1px solid #D4D7DB;
-  border-radius: 3px;
-  cursor: pointer;
 }
 
 .filter {
@@ -386,27 +402,27 @@ body {
 }
 
 #filter-color .filter-item[data-value="white"] .filter-item-title {
-  background-image: url(../img/color_white.png);
+  background-image: url(../img/colors/color_white.png);
 }
 
 #filter-color .filter-item[data-value="black"] .filter-item-title {
-  background-image: url(../img/color_black.png);
+  background-image: url(../img/colors/color_black.png);
 }
 
 #filter-color .filter-item[data-value="grey"] .filter-item-title {
-  background-image: url(../img/color_gray.png);
+  background-image: url(../img/colors/color_gray.png);
 }
 
 #filter-color .filter-item[data-value="brown"] .filter-item-title {
-  background-image: url(../img/color_brown.png);
+  background-image: url(../img/colors/color_brown.png);
 }
 
 #filter-color .filter-item[data-value="blue"] .filter-item-title {
-  background-image: url(../img/color_blue.png);
+  background-image: url(../img/colors/color_blue.png);
 }
 
 #filter-color .filter-item[data-value="cyan"] .filter-item-title {
-  background-image: url(../img/color_lightblue.png);
+  background-image: url(../img/colors/color_lightblue.png);
 }
 
 #filter-color .filter-item[data-value="turquoise"] .filter-item-title {
@@ -420,27 +436,27 @@ body {
 }
 
 #filter-color .filter-item[data-value="red"] .filter-item-title {
-  background-image: url(../img/color_red.png);
+  background-image: url(../img/colors/color_red.png);
 }
 
 #filter-color .filter-item[data-value="pink"] .filter-item-title {
-  background-image: url(../img/color_pink.png);
+  background-image: url(../img/colors/color_pink.png);
 }
 
 #filter-color .filter-item[data-value="green"] .filter-item-title {
-  background-image: url(../img/color_green.png);
+  background-image: url(../img/colors/color_green.png);
 }
 
 #filter-color .filter-item[data-value="yellow"] .filter-item-title {
-  background-image: url(../img/color_yellow.png);
+  background-image: url(../img/colors/color_yellow.png);
 }
 
 #filter-color .filter-item[data-value="orange"] .filter-item-title {
-  background-image: url(../img/color_orange.png);
+  background-image: url(../img/colors/color_orange.png);
 }
 
 #filter-color .filter-item[data-value="fiol"] .filter-item-title {
-  background-image: url(../img/color_purple.png);
+  background-image: url(../img/colors/color_purple.png);
 }
 
 #filter-color .filter-item[data-value="fuxy"] .filter-item-title {
@@ -454,15 +470,15 @@ body {
 }
 
 #filter-color .filter-item[data-value="haki"] .filter-item-title {
-  background-image: url(../img/color_khaki.png);
+  background-image: url(../img/colors/color_khaki.png);
 }
 
 #filter-color .filter-item[data-value="multicolor"] .filter-item-title {
-  background-image: url(../img/color_colorful.png);
+  background-image: url(../img/colors/color_colorful.png);
 }
 
 #filter-color .filter-item[data-value="transparent"] .filter-item-title {
-  background-image: url(../img/color_transparent.png);
+  background-image: url(../img/colors/color_transparent.png);
 }
 
 #filter-color .filter-item[data-value="black/pink"] .filter-item-title {
