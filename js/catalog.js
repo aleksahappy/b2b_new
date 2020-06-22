@@ -1471,7 +1471,7 @@ function closeBigCard(event) {
 
 // Запуск отбора карточек или его отмена:
 
-function selectCards(type, textToFind) {
+function selectCards(textToFind, type) {
   if (type) {
     clearCurSelect(type);
     curSelect = type;
@@ -1618,7 +1618,6 @@ function sortItems(event) {
     if (curSelect) {
       startSelect(curSelect);
     }
-    clearDropDown('gallery-sort');
   } else {
     curItems.sort(dynamicSort(prop));
     if (selectedItems !== '') {
