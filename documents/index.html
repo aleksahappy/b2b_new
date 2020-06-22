@@ -443,14 +443,11 @@
       sendRequest(`${urlRequest.api}files/files.php?type=docs`)
       .then(result => {
         var data = JSON.parse(result);
-        if (data) {
-          window['docsData'] = data;
-        }
-        initTables();
+        initTable('docs', data);
       })
       .catch(err => {
         console.log('err');
-        initTables();
+        initTable('docs');
       });
     </script>
 

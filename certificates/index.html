@@ -490,14 +490,11 @@
       sendRequest(`${urlRequest.api}files/files.php?type=cert`)
       .then(result => {
         var data = JSON.parse(result);
-        if (data) {
-          window['certifData'] = data;
-        }
-        initTables();
+        initTable('certif', data);
       })
       .catch(err => {
         console.log('err');
-        initTables();
+        initTable('certif');
       });
     </script>
 
