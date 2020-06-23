@@ -352,11 +352,17 @@
               <div class="toggle-in"></div>
             </div>
           </div>
+          <div class="toggle checked">
+            <div class="toggle-in"></div>
+          </div>
           <div>Тогл, который можно попереключать:</div>
           <div onclick="toggle(event)">
             <div class="toggle">
               <div class="toggle-in"></div>
             </div>
+          </div>
+          <div class="toggle" onclick="toggle(event)">
+            <div class="toggle-in"></div>
           </div>
           <br>
           <div style="font-size: 20px;">Толгы на темный фон:</div>
@@ -483,7 +489,7 @@
           <div>Раскрывающаяся форма поиска</div>
           <div class="example row">
             <form class="search positioned row">
-              <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+              <input type="text" data-value="" autocomplete="off"> <!-- здесь нельзя использовать placeholder -->
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
             </form>
