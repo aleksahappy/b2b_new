@@ -1,36 +1,10 @@
-@media all and (orientation:portrait) {
-  #full-img-container .carousel {
-    max-width: 90vw;
-    max-height: 90vw;
-  }
-  #full-img-container .carousel-gallery img {
-    max-width: 90vw;
-    max-height: 90vw;
-  }
-}
-
-@media all and (orientation:landscape) {
-  #full-img-container .carousel {
-    max-width: 90vh;
-    max-height: 90vh;
-  }
-  #full-img-container .carousel-gallery img {
-    max-width: 90vh;
-    max-height: 90vh;
-  }
-}
-
 @media (pointer:coarse){
   #filters {
     overflow-y: scroll;
   }
 }
 
-@media only screen and  (min-width: 1824px) {
-
-}
-
-@media only screen and (max-width: 1439px) {
+@media only screen and (max-width: 1360px) {
 
 }
 
@@ -39,21 +13,10 @@
 }
 
 @media only screen and (max-width: 1080px) {
-  #full-img-container .carousel .left-btn {
-    background: url(../img/slider/slider_nav_left.png) no-repeat center;
-    left: -3em;
-    background-color: transparent;
-    opacity: 1 !important;
-  }
-  #full-img-container .carousel .right-btn {
-    background: url(../img/slider/slider_nav_right.png) no-repeat center;
-    right: -3em;
-    background-color: transparent;
-    opacity: 1 !important;
-  }
+
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
 
 }
 

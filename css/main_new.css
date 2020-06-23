@@ -1,3 +1,13 @@
+.mob-menu{
+  display: none;
+  width: 1.5em;
+  height: 1.5em;
+  background: url('../img/mob-menu-ic.svg') no-repeat center center;
+  background-size: contain;
+  cursor: pointer;
+}
+
+
 td {
   vertical-align: middle!important;
 }
@@ -324,13 +334,6 @@ legend select{
 }
 
 /* Медиа-стили для laptop */
-@media (max-width: 1600px) {
-
-  .new-container {
-    margin: 0 1.98em!important;
-  }
-
-}
 
 @media (max-width: 1337px) {
 
@@ -481,10 +484,6 @@ legend select{
 }
 
 @media (max-width: 499px) {
-
-  .new-container {
-    margin: 0!important;
-  }
 
   .header-top{
     padding: 0 1em;

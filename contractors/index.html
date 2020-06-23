@@ -20,7 +20,7 @@
   <!-- ХЕДЕР -->
   <div class="header">
     <div class="header-top">
-      <div class="container new-container row">
+      <div class="container row">
         <div class="left-side row">
           <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
           <div class="row">
@@ -92,18 +92,18 @@
     </div>
   </div>
   <div class="main">
-    <div id="contras" class="container new-container">
+    <div id="contras" class="container">
       <div id="main-header">
         <div class="main-title row">
           <div class="title-row row">
-            <div class="title">Контрагенты</div>
+            <div class="title h0">Контрагенты</div>
           </div>
           <div class="left-row row">
             <div id="addContraBtnMob" class="add icon" tooltip="Добавить"></div>
           </div>
         </div>
-        <div class="basic btn" id="addContraBtn">Добавить</div>
       </div>
+      <div class="basic btn" id="addContraBtn">Добавить</div>
       <!-- Таблица контрагентов -->
       <div id="contraTable" class="table-wrap active">
         <table class="head">
@@ -147,8 +147,8 @@
           <tbody>
             <tr>
               <td>
-                <div class="new-toggle" onclick="toggleOnOff(event)">
-                  <div class="new-toggle-btn"></div>
+                <div class="toggle" onclick="toggle(event)">
+                  <div class="toggle-in"></div>
                 </div>
               </td>
               <td>#contr_inn#</td>
@@ -180,8 +180,8 @@
           <div class="section-head">
             <div class="section-title">#contr_name#</div>
             <div class="row">
-              <div class="new-toggle mobHead" onclick="toggleOnOff(event)">
-                <div class="new-toggle-btn mobHead"></div>
+              <div class="toggle dark" onclick="toggle(event)">
+                <div class="toggle-in"></div>
               </div>
             </div>
           </div>
@@ -201,8 +201,8 @@
   <div class="footer">
     <div class="container">
       <div class="wrap">
-        <div>Отдел продаж: +7 (846) 300-44-99</div>
-        <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+        <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
+        <div>© 2020 TOP SPORTS</div>
       </div>
     </div>
   </div>

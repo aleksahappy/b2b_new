@@ -101,20 +101,17 @@ function accessTableType() {
     for (let i = 0; i < infoblocks.length; i++) {
       var statusIc = infoblocks[i].querySelector(".user-status .icon");
       var checkAccessVal = infoblocks[i].querySelector(".check-access-value");
-      var headToggle = infoblocks[i].querySelector(".new-toggle.mobHead");
-      var headToggleBtn = infoblocks[i].querySelector(
-        ".new-toggle-btn.mobHead"
-      );
+      var headToggle = infoblocks[i].querySelector(".toggle.dark");
 
       if (!headToggle.classList.contains("on")) {
         if (checkAccessVal.innerHTML == "частичный") {
           statusIc.classList.add("limited");
-          headToggle.classList.add("on");
-          headToggleBtn.classList.add("on");
+          headToggle.classList.add("checked");
+
         } else if (checkAccessVal.innerHTML == "полный") {
           statusIc.classList.add("boundless");
-          headToggle.classList.add("on");
-          headToggleBtn.classList.add("on");
+          headToggle.classList.add("checked");
+
         } else if (checkAccessVal.innerHTML == "отключен") {
           statusIc.classList.add("denied");
         }

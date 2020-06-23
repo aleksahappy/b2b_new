@@ -23,7 +23,7 @@
     <!-- ХЕДЕР -->
     <div class="header">
       <div class="header-top">
-        <div class="container new-container row">
+        <div class="container row">
           <div class="left-side row">
             <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
             <div class="row">
@@ -96,12 +96,10 @@
     </div>
 
     <div class="main">
-			<div id="desktop" class="container new-container">
+			<div id="desktop" class="container">
 				<div id="main-header">
 					<div class="main-title row">
-						<div class="title-row row">
-							<div class="title">Рабочий стол дилера</div>
-						</div>
+						<div class="title h0">Рабочий стол дилера</div>
 					</div>
 				</div>
 				<div class="desktop-wrap">
@@ -205,15 +203,15 @@
               </div>
             </section>
             <!-- Секция "Заказы в работе"-->
-            <section class="infoblock toggle" onclick="toggleContent(event)">
+            <section class="infoblock switch" onclick="switchContent(event)">
               <div class="section-head">
                 <div class="section-title">Заказы в работе</div>
                 <div class="graphic-btns">
                   <!-- тоггл "Только предзаказы" -->
-                  <div class="preorder-toggle" id="wtf">
+                  <div class="preorder-toggle">
                     <div class="toggle-name">Только предзаказы</div>
-                    <div class="new-toggle" id="tableToggle" onclick="toggleOnOff(event)">
-                      <div class="new-toggle-btn"></div>
+                    <div class="toggle" id="tableToggle" onclick="toggle(event)">
+                      <div class="toggle-in"></div>
                     </div>
                   </div>
                   <div class="table-btns">
@@ -223,9 +221,9 @@
                     <div class="table-btn status4" id="status4">Отгружен</div>
                   </div>
                 </div>
-                <div class="open white icon toggle-icon"></div>
+                <div class="open white icon switch-icon"></div>
               </div>
-              <div class="info-wrap toggle-cont">
+              <div class="info-wrap switch-cont">
                 <div class="col1 border-title">
                   <div id="chart1">
                     <div class="orders-info"></div>
@@ -238,8 +236,8 @@
                     <!-- тоггл "Только предзаказы" -->
                     <div class="preorder-toggle">
                       <div class="toggle-name">Только предзаказы</div>
-                      <div class="new-toggle" id="tableToggle-mob" onclick="toggleOnOff(event)">
-                        <div class="new-toggle-btn"></div>
+                      <div class="toggle" id="tableToggle-mob" onclick="toggle(event)">
+                        <div class="toggle-in"></div>
                       </div>
                     </div>
                     <div class="table-btns" id="table-btns-mob">
@@ -280,13 +278,13 @@
             <section class="info-graphic-1">
               <div class="info-wrap">
                 <div class="col1" >
-                  <div class="col-wrapper center-col toggle" onclick="toggleContent(event)">
+                  <div class="col-wrapper center-col switch" onclick="switchContent(event)">
                     <!-- Заголовок секции -->
                     <div class="section-head">
                       <div class="section-title">Рекламации в работе</div>
-                      <div class="open white icon toggle-icon"></div>
+                      <div class="open white icon switch-icon"></div>
                     </div>
-                    <div class="section-body toggle-cont">
+                    <div class="section-body switch-cont">
                       <!-- Диаграмма рекламаций -->
                       <div class="speed-chart">
                         <div class="gauge">
@@ -310,23 +308,23 @@
                     </div>
                   </div>
                 </div>
-                <div class="col2 toggle" onclick="toggleContent(event)">
+                <div class="col2 switch" onclick="switchContent(event)">
                   <div class="col-wrapper">
                     <div class="col-head">
                       <!-- Заголовок секции -->
                       <div class="section-head">
                         <div class="section-title">График поставок</div>
-                        <div class="open white icon toggle-icon"></div>
+                        <div class="open white icon switch-icon"></div>
                       </div>
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div class="new-toggle" onclick="toggleOnOff(event)">
-                          <div class="new-toggle-btn"></div>
+                        <div class="toggle" onclick="toggle(event)">
+                          <div class="toggle-in"></div>
                         </div>
                       </div>
                     </div>
-                    <div class="section-body-1 toggle-cont">
+                    <div class="section-body-1 switch-cont">
                       <div class="brands-btns">
                         <div class="table-btns">
                           <div class="brand-btn status-1">BCA</div>
@@ -336,8 +334,8 @@
                         <!-- тоггл "Только предзаказы" -->
                         <div class="preorder-toggle">
                           <div class="toggle-name">Только предзаказы</div>
-                          <div class="new-toggle" onclick="toggleOnOff(event)">
-                            <div class="new-toggle-btn"></div>
+                          <div class="toggle" onclick="toggle(event)">
+                            <div class="toggle-in"></div>
                           </div>
                         </div>
                       </div>
@@ -354,27 +352,27 @@
             <section class="info-graphic-2">
               <div class="info-wrap">
                 <div class="col2 ">
-                  <div class="col-wrapper center-col toggle" onclick="toggleContent(event)">
+                  <div class="col-wrapper center-col switch" onclick="switchContent(event)">
                     <div class="col-head">
                       <!-- Заголовок секции -->
                       <div class="section-head">
                         <div class="section-title">Ежегодная динамика товарооборота</div>
-                        <div class="open white icon toggle-icon"></div>
+                        <div class="open white icon switch-icon"></div>
                       </div>
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div id="barChartTgl-1" class="new-toggle" onclick="toggleOnOff(event)">
-                          <div class="new-toggle-btn"></div>
+                        <div class="toggle" id="barChartTgl-1" onclick="toggle(event)">
+                          <div class="toggle-in"></div>
                         </div>
                       </div>
                     </div>
-                    <div class="section-body toggle-cont">
+                    <div class="section-body switch-cont">
                       <!-- тоггл "Только предзаказы" -->
                       <div class="preorder-toggle">
                         <div class="toggle-name">Только предзаказы</div>
-                        <div id="barChartTgl-2" class="new-toggle" onclick="toggleOnOff(event)">
-                          <div class="new-toggle-btn"></div>
+                        <div class="toggle" id="barChartTgl-2" onclick="toggle(event)">
+                          <div class="toggle-in"></div>
                         </div>
                       </div>
                       <div id="chart3">
@@ -384,13 +382,13 @@
                   </div>
                 </div>
                 <div class="col1">
-                  <div class="col-wrapper center-col toggle" onclick="toggleContent(event)">
+                  <div class="col-wrapper center-col switch" onclick="switchContent(event)">
                     <!-- Заголовок секции -->
                     <div class="section-head">
                       <div class="section-title">Доля закупок по производителям</div>
-                      <div class="open white icon toggle-icon"></div>
+                      <div class="open white icon switch-icon"></div>
                     </div>
-                    <div class="chart-wrapper toggle-cont">
+                    <div class="chart-wrapper switch-cont">
                       <div id="chart4">
                         <canvas id="procurementChart"></canvas>
                       </div>
@@ -766,8 +764,8 @@
     <div class="footer">
       <div class="container">
         <div class="wrap">
-          <div>Отдел продаж: +7 (846) 300-44-99</div>
-          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
+          <div>© 2020 TOP SPORTS</div>
         </div>
       </div>
     </div>
@@ -789,7 +787,7 @@
       navType: 'dot',         // Тип навигации ('img' или 'dot')
       isInfinitie: true,       // Бесконечное зацикливание карусели
       isAnimate: true,         // Анимация смены слайдов (анимировать смену слайдов или нет)
-      toggleAmount: 1,         // Количество перелистываемых слайдов за раз
+      switchAmount: 1,         // Количество перелистываемых слайдов за раз
       isCenter: true,         // Активная картинка всегда по центру карусели (работает только для бесконечной карусели)
       isHoverToggle: false,    // Листание при наведении на картинку (если false, то будет листание по клику)
       durationBtns: 600,       // Продолжительность анимации при переключении кнопками вперед/назад (мc)

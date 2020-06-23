@@ -41,7 +41,7 @@ var website = document.body.dataset.website,
     message = getEl('message-container'),
     upBtn = getEl('up-btn');
 
-// Динамически изменяемые переменные:
+    // Динамически изменяемые переменные:
 
 var pageUrl = pageId,
     scrollTop;
@@ -51,15 +51,6 @@ if (isCart) {
       cartTotals = [],
       cart = {},
       userData = {};
-}
-
-// Инициализация прелоадера и поля с сообщениями:
-
-if (loader) {
-  loader = new Loader(loader);
-}
-if (message) {
-  message = new Message(message);
 }
 
 // Запускаем рендеринг страницы:
@@ -73,6 +64,12 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
+  if (loader) {
+    loader = new Loader(loader);
+  }
+  if (message) {
+    message = new Message(message);
+  }
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
   if (path !== '') {
     loader.show();
@@ -90,6 +87,7 @@ function startPage() {
     });
   }
 }
+
 
 // Выход из авторизации:
 
@@ -167,17 +165,27 @@ function getCart() {
       result => {
         console.log(result);
         if (!result || JSON.parse(result).err) {
-          reject('Корзина не пришла');
+          reject('Корзина и данные для заказа не пришли');
         }
         result = JSON.parse(result);
-        userData.contr = result.user_contr,
-        userData.address = result.user_address_list;
-        if (cart === result.cart) {
-          reject('Корзина не изменилась');
+        if (!result.cart || result.cart === null) {
+          result.cart = {};
+        }
+        if (JSON.stringify(cart) === JSON.stringify(result.cart)) {
+          if (JSON.stringify(userData.contr) !== JSON.stringify(result.user_contr) || JSON.stringify(userData.address) !== JSON.stringify(result.user_address_list)) {
+            console.log('Данные для заказа обновились');
+            userData.contr = result.user_contr,
+            userData.address = result.user_address_list;
+            resolve();
+          } else {
+            reject('Корзина и данные для заказа не изменились');
+          }
         } else {
           console.log('Корзина обновилась');
           cart = result.cart;
-          resolve();
+          userData.contr = result.user_contr,
+          userData.address = result.user_address_list;
+          resolve('cart');
         }
       }
     )
@@ -637,7 +645,7 @@ function onBlurInput(input) {
 function textareaCounter(textarea) {
   var maxLength = textarea.getAttribute('maxlength');
   if (maxLength) {
-    var counter = getEl('.counter', textarea.nextElementSibling);
+    var counter = getEl('span',`[data-count="${textarea.getAttribute('name')}"]`);
     if (counter) {
       counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
     }
@@ -673,15 +681,15 @@ function toggleEl(name) {
 
 // Свернуть/развернуть содержимое контейнера:
 
-function toggleContent(event) {
-  if (event.target.closest('.toggle-cont')) {
+function switchContent(event) {
+  if (event.target.closest('.switch-cont')) {
     return;
   }
-  var container = event.currentTarget.closest('.toggle');
+  var container = event.currentTarget.closest('.switch');
   if (!container || container.classList.contains('disabled')) {
     return;
   }
-  var toggleIcon = getEl('.toggle-icon', container);
+  var toggleIcon = getEl('.switch-icon', container);
   if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
     return;
   }
@@ -737,7 +745,7 @@ function checkPositions() {
 
 // Запрет на ввод в инпут любого значения кроме цифр:
 
-function checkValue(event) {
+function onlyNumb(event) {
   if (event.ctrlKey || event.altKey || event.metaKey) {
     return;
   }
@@ -756,11 +764,23 @@ function changeQty(event, maxQty, minQty = 0, text) {
   if (minQty === maxQty) {
     return;
   }
-  var current = event.currentTarget,
-      sign = current.textContent,
+  var current = event.currentTarget;
+  if (current.closest('.qty-box.disabled')) {
+    return;
+  }
+  var sign = undefined,
       qtyWrap = current.closest('.qty'),
       input = getEl('.choiced-qty', qtyWrap),
       qty = parseInt(input.value, 10);
+  if (input.hasAttribute('disabled')) {
+    return;
+  }
+  if (event.currentTarget.classList.contains('btn-minus')) {
+    sign = '-';
+  }
+  if (event.currentTarget.classList.contains('btn-plus')) {
+    sign = '+';
+  }
   qty = countQty(sign, qty, maxQty, minQty);
   input.value = qty;
   input.dataset.value = qty;
@@ -1217,16 +1237,12 @@ function Loader(obj) {
   // Отображение лоадера (можно с текстом):
   this.show = function(text = '') {
     this.text.textContent = text;
-    if (document.querySelector('.pop-up-container.open')) {
-      this.loader.classList.add('over');
-    }
     showElement(this.loader, 'flex');
   }
 
   // Скрытие лоадера:
   this.hide = function() {
     hideElement(this.loader);
-    this.loader.classList.remove('over');
   }
 }
 
@@ -1401,7 +1417,7 @@ function openPopUp(el) {
 
 function closePopUp(event, el) {
   if (event) {
-    if (!event.target.closest('.close-btn') && event.target.closest('.pop-up')) {
+    if (!event.target.closest('.pop-up-title .close') && event.target.closest('.pop-up')) {
       return;
     }
     el = event.currentTarget;
@@ -1460,6 +1476,106 @@ function showFiles(input) {
 }
 
 //=====================================================================================================
+// Работа с формами:
+//=====================================================================================================
+
+// Инициализация формы:
+
+function initForm(el, func) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Form`] = new Form(el, func);
+  }
+}
+
+// Очистка формы:
+
+function clearForm(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Form`]) {
+    window[`${el.id}Form`].clear();
+  }
+}
+
+// Объект формы:
+
+function Form(obj, func) {
+  // Элементы для работы:
+  this.form = obj;
+  this.submitBtn = getEl('input[type="submit"]', obj)
+  this.dropDowns = this.form.querySelectorAll('.activate');
+
+  // Инициализация выпадающих списков если они есть:
+  this.dropDowns.forEach((el, index) => {
+    this[`dropDown${index}`] = new DropDown(el);
+  });
+
+  // Установка обработчиков событий:
+  this.setEventListeners = function() {
+    this.form.addEventListener('submit', event => this.send(event));
+  }
+  this.setEventListeners();
+
+  // Отправка формы:
+  this.send = function(event) {
+    event.preventDefault();
+    if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
+      return;
+    }
+    var send = this.check();
+    console.log(send);
+    if (send) {
+      var data = this.getData();
+      if (func) {
+        func(data);
+      }
+      // console.log(data);
+    }
+  }
+
+  // Проверка на заполнение всех обязательных полей:
+  this.check = function() {
+    var isSend = true;
+    this.form.querySelectorAll('[required]').forEach(el => {
+      var value;
+      el.classList.remove('error');
+      el.querySelectorAll('input[type="radio"]').forEach(el => value = el.checked ? true : undefined);
+      el.querySelectorAll('input[type="checkbox"]').forEach(el => value = el.checked ? true : undefined);
+      el.querySelectorAll('input[type="text"]').forEach(el => value = el.value);
+      el.querySelectorAll('textarea').forEach(el => value = el.value);
+      el.querySelectorAll('.activate').forEach(el => value = el.value);
+      console.log(value);
+      if (!value) {
+        console.log(el);
+        el.classList.add('error');
+        isSend = false;
+      }
+    });
+    return(isSend);
+  }
+
+  // Получение данных формы:
+  this.getData = function() {
+    var data = {};
+    this.form.querySelectorAll('[name]').forEach(el => {
+      console.log(el.value);
+      if (el.value && el.value !== '') {
+        var key = el.getAttribute('name');
+        data[key] = el.value;
+      }
+    });
+    return data;
+  }
+
+  // Очистка формы поиска:
+  this.clear = function() {
+    this.form.querySelectorAll('textarea').forEach(el => el.value = '');
+    this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
+    this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
+  }
+}
+
+//=====================================================================================================
 // Работа полей поиска:
 //=====================================================================================================
 
@@ -1477,7 +1593,7 @@ function initSearch(el, func) {
 function clearSearch(el) {
   var el = getEl(el);
   if (window[`${el.id}Search`]) {
-    window[`${el.id}Search`].clear(true);
+    window[`${el.id}Search`].clear();
   }
 }
 
@@ -1487,9 +1603,10 @@ function Search(obj, func) {
   // Элементы для работы:
   this.form = obj;
   this.input = getEl('input[type="text"]', obj);
+  this.searchBtn = getEl('.search', obj);
   this.cancelBtn = getEl('.close', obj);
   this.dropDown = getEl('.drop-down', obj);
-  this.info = getEl(`${this.form.id}-info`);
+  this.result = getEl(`${this.form.id}-info`);
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -1497,7 +1614,6 @@ function Search(obj, func) {
       event.preventDefault();
       this.search();
     });
-    this.form.addEventListener('input', () => this.toggle());
     if (this.dropDown) {
       this.form.addEventListener('input', () => this.showHints());
       this.form.addEventListener('click', event => this.selectHint(event));
@@ -1505,19 +1621,9 @@ function Search(obj, func) {
     this.input.addEventListener('focus', () => this.onFocus());
     this.input.addEventListener('blur', () => this.onBlur());
     this.cancelBtn.addEventListener('click', () => this.cancel());
-    if (this.info) {
-      getEl('.close', this.info).addEventListener('click', () => this.cancel());
+    if (this.result) {
+      getEl('.close', this.result).addEventListener('click', () => this.cancel());
     }
-  }
-
-  // Отображение/скрытие формы поиска:
-  this.toggle = function() {
-    var textToFind = this.input.value.trim();
-    if (textToFind === '') {
-      this.form.classList.remove('show');
-      return;
-    }
-    this.form.classList.add('show');
   }
 
   // Отображение подсказок:
@@ -1568,13 +1674,12 @@ function Search(obj, func) {
     setTimeout(() => {
       onBlurInput(this.input);
       this.closeHints();
-      this.toggle();
     }, 100);
   }
 
   // Поиск по подсказке:
   this.selectHint = function(event) {
-    var curItem = event.target.closest('.item');
+    var curItem = event.target.closest('.item:not(.not-found)');
     if (!curItem) {
       return;
     }
@@ -1588,40 +1693,43 @@ function Search(obj, func) {
     if (textToFind === '') {
       return;
     }
-    var length = func(this.form.id, textToFind);
+    if (func) {
+      var length = func(textToFind, this.form.id);
+    }
     this.input.dataset.value = this.input.value;
     this.toggleInfo(textToFind, length);
+    hideElement(this.searchBtn);
     showElement(this.cancelBtn);
   }
+
+    // Очистка поля поиска:
+    this.clear = function(isFull) {
+      this.input.value = this.input.dataset.value = '';
+      this.toggleInfo();
+      this.closeHints();
+      hideElement(this.cancelBtn);
+      showElement(this.searchBtn);
+    }
 
   // Сброс поиска:
   this.cancel = function() {
     this.clear();
-    func();
-  }
-
-  // Очистка поля поиска:
-  this.clear = function(isFull) {
-    this.input.value = this.input.dataset.value = '';
-    this.toggleInfo();
-    this.closeHints();
-    hideElement(this.cancelBtn);
-    if (isFull) {
-      this.form.classList.remove('show');
+    if (func) {
+      func();
     }
   }
 
   // Отображение/скрытие информации о поиске:
   this.toggleInfo = function(text, count) {
-    if (!this.info) {
+    if (!this.result) {
       return;
     }
     if (text) {
-      getEl('.search-text', this.info).textContent = text;
-      getEl('.search-count', this.info).textContent = count;
-      showElement(this.info, 'flex');
+      getEl('.search-text', this.result).textContent = text;
+      getEl('.search-count', this.result).textContent = count;
+      showElement(this.result, 'flex');
     } else {
-      hideElement(this.info);
+      hideElement(this.result);
     }
   }
 
@@ -1638,7 +1746,9 @@ function initDropDown(el, handler) {
   var el = getEl(el);
   if (el && el.id) {
     window[`${el.id}Dropdown`] = new DropDown(el);
-    el.addEventListener('change', event => handler(event));
+    if (handler) {
+      el.addEventListener('change', event => handler(event));
+    }
   }
 }
 
@@ -1718,8 +1828,12 @@ function DropDown(obj) {
     }
 
     if (this.filter.classList.contains('select')) {
-      this.title.textContent = curItem.textContent;
-      this.filter.value = curItem.dataset.value;
+      if (curItem.dataset.value === 'default') {
+        this.clear(event);
+      } else {
+        this.title.textContent = curItem.textContent;
+        this.filter.value = curItem.dataset.value;
+      }
       this.filter.classList.remove('open');
     }
 
@@ -1727,7 +1841,7 @@ function DropDown(obj) {
       curItem.classList.toggle('checked');
       var checked = this.filter.querySelectorAll('.item.checked');
       if (checked.length === 0) {
-        this.clearFilter(event);
+        this.clear(event);
       } else {
         this.title.textContent = 'Выбрано: ' + checked.length;
         var value = [];

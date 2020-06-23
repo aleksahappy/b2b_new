@@ -52,8 +52,8 @@ function arraySum(arr) {
 // Костыль для переопределения правильной ширины секции с toggle
 
 function holdSectionWidth() {
-  let toggleHeads = document.querySelectorAll('.toggle');
-  let toggleBodies = document.querySelectorAll('.toggle-cont');
+  let toggleHeads = document.querySelectorAll('.switch');
+  let toggleBodies = document.querySelectorAll('.switch-cont');
 
   for (let i = 0; i < toggleHeads.length; i++) {
     for (let j = 0; j < toggleBodies.length; j++) {
@@ -489,10 +489,6 @@ function charts() {
   deliveryProgress();
 
 
-
-
-
-
   //  График "Ежегодная динамика товарооборота"
 
 function startBarChart() {
@@ -586,7 +582,7 @@ function fillBarDataStorToggle() {
 
     function displayToggleDate() {
       toggleBar1.addEventListener('click', () => {
-        if (toggleBar1.classList.contains('on')) {
+        if (toggleBar1.classList.contains('checked')) {
           barChartObj.data.datasets.forEach((dataset) => {
             dataset.data = [];
             dataset.data = barDataToggle;
@@ -601,7 +597,7 @@ function fillBarDataStorToggle() {
         }
       });
       toggleBar2.addEventListener('click', () => {
-        if (toggleBar2.classList.contains('on')) {
+        if (toggleBar2.classList.contains('checked')) {
           barChartObj.data.datasets.forEach((dataset) => {
             dataset.data = [];
             dataset.data = barDataToggle;

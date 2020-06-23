@@ -22,7 +22,7 @@ function cartSentServer() {
   clearTimeout(cartTimer);
   cartTimer = setTimeout(function () {
     console.log(JSON.stringify(cartChanges));
-    sendRequest(`${urlRequest.api}baskets/set_cart.php`, {data: cartChanges})
+    sendRequest(urlRequest.main, {action: 'set_cart', data: cartChanges})
       .then(response => {
         cartChanges[cartId] = {};
         console.log(response);
@@ -39,19 +39,18 @@ function cartSentServer() {
 window.addEventListener('unload', () => {
   if(!isEmptyObj(cartChanges[cartId])) {
     var data = {
-      sessid: getCookie('iam'),
+      action: 'set_cart',
       data: cartChanges
     };
-    navigator.sendBeacon(`${urlRequest.api}baskets/set_cart.php`, JSON.stringify(data));
+    navigator.sendBeacon(urlRequest.main, JSON.stringify(data));
   }
 }, false);
 
 // Отправка данных о заказе на сервер:
 
-function orderSentServer(event) {
-  event.preventDefault()
+function sendOrder(formData) {
   loader.show();
-  var info = getOrderData();
+
   var idList = getIdList('cart', false);
   if (!idList) {
     return;
@@ -61,36 +60,29 @@ function orderSentServer(event) {
   idList.forEach(id => {
     cartInfo[cartId]['id_' + id] = cart['id_' + id];
   });
-
+  formData.cart_name = cartId;
   var data = {
-    info: info,
+    info: formData,
     cart: cartInfo
   };
-  // console.log(data);
-  sendRequest(`${urlRequest.api}baskets/???`, data)
+  console.log(data);
+
+  sendRequest(urlRequest.main, {action: 'send_order', data: data})
   .then(result => {
-    // var orderId = JSON.parse(result);
-    deleteFormCart(idList);
-    // document.location.href = `../order/?order_id=${orderId}`;
+    console.log(result);
+    if (result) {
+      var orderId = JSON.parse(result);
+      if (orderId.length !== idList.length) {
+        message.show('Были отправлены не все позиции из заказа.');
+      }
+      deleteFormCart(orderId);
+      document.location.href = '../orders';
+    }
   })
   .catch(error => {
     console.log(error);
     message.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
-}
-
-// Получение данных о заказе из формы:
-
-function getOrderData() {
-  var info = {
-    cart_name: cartId
-  }
-  var formData = new FormData(event.currentTarget);
-  formData.forEach((value, key) => {
-    info[key] = value;
-  });
-  // console.log(info);
-  return info;
 }
 
 //=====================================================================================================
@@ -101,23 +93,32 @@ function getOrderData() {
 
 function updateCart() {
   getCart()
-  .then(result => createCartData(),
-        reject => console.log(reject))
   .then(result => {
-    if (location.search === '?cart') {
-      createCart();
+    if (result === 'cart') {
+      fillOrderForm();
+      createCartData()
+      .then(result => {
+        if (location.search === '?cart') {
+          createCart();
+          if (getComputedStyle(getEl('order-form')).display === 'none') {
+            showActualCart();
+          }
+        } else {
+          var cards;
+          if (view === 'list') {
+            cards = document.querySelectorAll('.big-card');
+          } else if (view === 'blocks') {
+            cards = document.querySelectorAll('.min-card');
+          } else if (view === 'product') {
+            cards = document.querySelectorAll('.product-card');
+          }
+          cards.forEach(card => checkCart(card));
+        }
+      });
     } else {
-      var cards;
-      if (view === 'list') {
-        cards = document.querySelectorAll('.big-card');
-      } else if (view === 'blocks') {
-        cards = document.querySelectorAll('.min-card');
-      } else if (view === 'product') {
-        cards = document.querySelectorAll('.product-card');
-      }
-      cards.forEach(card => checkCart(card));
+      fillOrderForm();
     }
-  })
+  }, reject => console.log(reject))
 }
 
 // Создание данных для рендеринга корзины:
@@ -135,7 +136,6 @@ function createCartData() {
           }
         }
       }
-      // console.log(cartData);
       resolve();
     })
   });
@@ -245,7 +245,7 @@ function changeCartName(qty) {
       var curTotal = cartTotals.find(el => el.id === cartId);
       qty = curTotal ? curTotal.qty : 0;
     };
-    cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + getWordEnd('товар', qty);
+    cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + declOfNum(qty, ['товар', 'товара', 'товаров']);
   }
 }
 
@@ -263,7 +263,7 @@ function saveInCart(id, qty) {
   cart[id].qty = qty;
   cart[id].cartId = cartId;
   cart[id].actionId = cartItems[id].action_id;
-  cart[id].actionName = cartItems[id].actiontitle || 'Cклад';
+  cart[id].actionName = cartItems[id].actiontitle || 'Склад';
 
   cartChanges[cartId][id] = cart[id];
   cartSentServer();
@@ -702,6 +702,7 @@ function renderCart() {
   toggleEventListeners('off');
   changeCartName();
   createCart();
+  showActualCart();
   showElement('cart-name');
   showElement('cart');
 }
@@ -719,7 +720,6 @@ function createCart() {
     data.area = 'cart-table';
     fillTemplate (data);
   }
-  showActualCart();
 }
 
 // Отображение контента пустой или полной корзины:
@@ -831,6 +831,7 @@ function loadInCart() {
     saveInCart(el.id, el.qty);
   });
   createCart();
+  showActualCart();
   loader.hide();
   closePopUp(null, 'load-container');
   if (addInCart.length < strings.length) {
@@ -857,6 +858,7 @@ function addInCart(event) {
       closePopUp(null, 'load-container');
       changeCartInHeader(countFromCart());
       createCart();
+      showActualCart();
     } else {
       message.show('Файл не загружен. Неверный формат данных.', 2000);
       showElement(loadBtn);
@@ -969,56 +971,45 @@ function getConfirmDeleteFromCart() {
 // Работа с формой заказа:
 //=====================================================================================================
 
+// Заполнение формы заказа данными:
+
+function fillOrderForm() {
+  fillTemplate({
+    area: '[name="contr_id"] .drop-down',
+    items: userData.contr
+  });
+  fillTemplate({
+    area: '[name="delivery_address"] .drop-down',
+    items: userData.address,
+  });
+  toggleOrderAddress(getEl('[name="delivery_type"]', 'order-form'));
+}
+
 // Открытие формы заказа:
 
 function openOrderForm() {
-  sendRequest(`${urlRequest.api}baskets/ajax.php?action=get_contr_delivery`)
-  .then(result => {
-    var data = JSON.parse(result);
-    // console.log(data);
-    if (data.user_contr && data.user_address_list) {
-      fillTemplate({
-        area: 'select-contr',
-        items: data,
-        sub: [{
-          area: '.item',
-          items: 'user_contr'
-        }]
-      });
-      fillTemplate({
-        area: 'select-address',
-        items: data,
-        sub: [{
-          area: '.item',
-          items: 'user_address_list'
-        }]
-      });
-      showElement('order-form', 'flex');
-      hideElement('.cart-make-order');
-      document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
-    } else {
-      if (!data.user_contr) {
-        message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в <a href="http://new.topsports.ru/cabinet">профиль</a> для их добавления/включения.')
-      } else {
-        message.show('Оформление заказа невозможно: отсутствуют активные адреса!<br>Перейдите в <a href="http://new.topsports.ru/cabinet">профиль</a> для их добавления/включения.')
-      }
-    }
-  })
-  .catch(error => {
-    console.log(error);
-    // openOrderForm();
-  })
+  if (!userData.contr) {
+    message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors" target="_blank">Контрагенты</a> для их добавления/включения.');
+    return;
+  }
+  if (!userData.address) {
+    message.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses" target="_blank">Адреса доставки</a> для их добавления/включения.');
+    var deliverySelect = getEl('[name="delivery_type"]', 'order-form');
+    getEl('option[value="2"]', deliverySelect).style.display = 'none';
+    getEl('option[value="3"]', deliverySelect).style.display = 'none';
+  }
+  showElement('order-form', 'flex');
+  hideElement('.cart-make-order');
+  document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
 }
 
 // Закрытие формы заказа:
 
 function closeOrderForm() {
-  var orderForm = getEl('order-form');
-  orderForm.querySelectorAll('select').forEach(el => el.value = '');
-  orderForm.querySelectorAll('textarea').forEach(el => el.value = '');
-  toggleOrderAddress(getEl('[name="delivery_type"]'), 'order-form');
+  clearForm('order-form');
+  toggleOrderAddress(getEl('[name="delivery_type"]'));
   hideElement('order-form');
-  showElement('.cart-make-order');
+  showElement('.cart-make-order', 'flex');
   document.querySelectorAll('.cart-list').forEach(el => showElement(el));
 }
 
@@ -1026,7 +1017,7 @@ function closeOrderForm() {
 
 function toggleOrderAddress(el) {
   var address = getEl('.address', 'order-form'),
-      addressSelect = getEl('select', address);
+      addressSelect = getEl('[name="delivery_address"]', address);
   if (el.value === '3') {
     addressSelect.required = true;
     showElement(address);

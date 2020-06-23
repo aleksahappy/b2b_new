@@ -1,0 +1,150 @@
+/* =====================================================================================================
+Все разрешения по ориентации экрана:
+===================================================================================================== */
+
+@media all and (orientation:portrait) {
+  #full-img-container .carousel {
+    max-width: 90vw;
+    max-height: 90vw;
+  }
+  #full-img-container .carousel-gallery img {
+    max-width: 90vw;
+    max-height: 90vw;
+  }
+}
+
+@media all and (orientation:landscape) {
+  #full-img-container .carousel {
+    max-width: 90vh;
+    max-height: 90vh;
+  }
+  #full-img-container .carousel-gallery img {
+    max-width: 90vh;
+    max-height: 90vh;
+  }
+}
+
+/* =====================================================================================================
+Свыше 1920px:
+===================================================================================================== */
+
+@media only screen and (min-width: 1921px) {
+  .container {
+    margin: 0 3%;
+  }
+}
+
+/* =====================================================================================================
+Laptop:
+===================================================================================================== */
+
+
+/* Стили на ширину до 0 до 1360px включительно: */
+
+@media only screen and (max-width: 1360px) {
+  .container {
+    margin: 0 3rem;
+  }
+}
+
+/* Стили на ширину до 0 до 1080px включительно: */
+
+@media only screen and (max-width: 1080px) {
+  /* #full-img-container .carousel .left-btn {
+    background: url(../img/slider/slider_nav_left.png) no-repeat center;
+    left: -3em;
+    background-color: transparent;
+    opacity: 1 !important;
+  }
+  #full-img-container .carousel .right-btn {
+    background: url(../img/slider/slider_nav_right.png) no-repeat center;
+    right: -3em;
+    background-color: transparent;
+    opacity: 1 !important;
+  } */
+}
+
+/* =====================================================================================================
+Tablet:
+===================================================================================================== */
+
+/* Стили на ширину до 0 до 768px включительно: */
+
+@media only screen and (max-width: 768px) {
+  .container {
+    margin: 0 2.4rem;
+  }
+
+  #main-header {
+    padding: 2.4rem 0;
+  }
+
+  [tooltip]:hover::before,
+  [tooltip]:hover::after {
+    display: none;
+  }
+
+  .toggle {
+    width: 40px;
+    height: 20px;
+    margin: 7px;
+  }
+
+  .toggle .toggle-in {
+    top: -4px;
+    left: -7px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .checked .toggle .toggle-in {
+    left: 18px;
+  }
+}
+
+/* =====================================================================================================
+Mobile:
+===================================================================================================== */
+
+/* Стили на ширину до 0 до 480px включительно: */
+
+@media only screen and (max-width: 480px) {
+  .container {
+    margin: 0 1.6rem;
+  }
+
+  #main-header {
+    padding: 1.6rem 0;
+  }
+
+  .pop-up-container {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .pop-up {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: none;
+    min-height: 100%;
+  }
+
+  .pop-up-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: auto;
+    max-height: none;
+  }
+
+  form.post {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}
