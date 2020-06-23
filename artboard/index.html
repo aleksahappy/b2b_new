@@ -153,39 +153,28 @@
           <div disabled>
             <div class="triangle dark icon"></div>
           </div>
-          <div>
-            <div class="close icon"></div>
-          </div>
-          <div>
-            <div class="close white icon"></div>
-          </div>
+          <div class="close icon"></div>
+          <div class="close white icon"></div>
+          <div class="close dark icon"></div>
           <div class="disabled">
             <div class="close white icon"></div>
           </div>
           <div class="search icon"></div>
           <div class="search white icon"></div>
           <div class="search dark icon"></div>
-          <div>
-            <div class="open icon"></div>
-          </div>
-          <div>
-            <div class="open white icon"></div>
-          </div>
+          <div class="open icon"></div>
+          <div class="open white icon"></div>
           <div class="close">
             <div class="open icon"></div>
           </div>
           <div class="close">
             <div class="open white icon"></div>
           </div>
-          <div>
-            <div class="sort down icon"></div>
-          </div>
+          <div class="sort down icon"></div>
           <div class="checked">
             <div class="sort down icon"></div>
           </div>
-          <div>
-            <div class="sort up icon"></div>
-          </div>
+          <div class="sort up icon"></div>
           <div class="checked">
             <div class="sort up icon"></div>
           </div>
@@ -195,18 +184,14 @@
           <div class="cart in-circle icon"></div>
           <div class="attention icon"></div>
           <div class="attention white icon"></div>
-          <div>
-            <div class="plus icon"></div>
-          </div>
+          <div class="plus icon"></div>
           <div class="added">
             <div class="plus icon"></div>
           </div>
           <div class="disabled">
             <div class="plus icon"></div>
           </div>
-          <div>
-            <div class="minus icon"></div>
-          </div>
+          <div class="minus icon"></div>
           <div class="added">
             <div class="minus icon"></div>
           </div>
@@ -388,11 +373,17 @@
                 <div class="toggle-in"></div>
               </div>
             </div>
+            <div class="toggle dark checked">
+              <div class="toggle-in"></div>
+            </div>
             <div class="text-white">Тогл, который можно попереключать:</div>
             <div onclick="toggle(event)">
               <div class="toggle dark">
                 <div class="toggle-in"></div>
               </div>
+            </div>
+            <div class="toggle dark" onclick="toggle(event)">
+              <div class="toggle-in"></div>
             </div>
             <br>
           </div>
@@ -460,7 +451,7 @@
 
         <!-- Поле ввода -->
         <div class="artboard-title">Поле ввода</div>
-        <div class="arboard-block search-temp">
+        <div class="arboard-block input-temp">
 
           <div>Поле ввода:</div>
           <input type="text" autocomplete="off" placeholder="Введите текст">
@@ -491,12 +482,35 @@
           </form>
           <div>Раскрывающаяся форма поиска</div>
           <div class="example row">
-            <form id="search" class="search positioned row">
-              <input type="text" data-value="" autocomplete="off">
+            <form class="search positioned row">
+              <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
             </form>
           </div>
+          <div>Форма поиска с подсказками</div>
+          <form id="search" class="search activate select row">
+            <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+            <input class="search icon" type="submit" value="">
+            <div class="close icon"></div>
+            <div class="drop-down">
+              <div class="item not-found">Совпадений не найдено</div>
+              <div class="list">
+                <!-- <div class="item" data-value="#item#">#item#</div> при заполнении динамически -->
+                <div class="item" data-value="1">1</div>
+                <div class="item" data-value="11">11</div>
+                <div class="item" data-value="12">12</div>
+                <div class="item" data-value="2">2</div>
+                <div class="item" data-value="3">3</div>
+                <div class="item" data-value="4">4</div>
+                <div class="item" data-value="5">5</div>
+                <div class="item" data-value="6">6</div>
+                <div class="item" data-value="7">7</div>
+                <div class="item" data-value="8">8</div>
+                <div class="item" data-value="9">9</div>
+              </div>
+            </div>
+          </form>
 
         </div>
 
@@ -627,6 +641,32 @@
           </div>
 
         </div>
+
+        <!-- Раскрывающийся блок -->
+        <div class="artboard-title">Раскрывающийся блок</div>
+        <div class="arboard-block switch-temp">
+
+          <div class="switch" onclick="switchContent(event)">
+            <div class="row">
+              <div class="title-white h1">Нажми, чтобы скрыть / раскрыть</div>
+              <div class="open white icon switch-icon"></div>
+            </div>
+            <div class="switch-cont">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, ipsa dolore alias ipsam odit quas impedit doloribus, provident magnam architecto explicabo laborum blanditiis vero perferendis tempora fugiat nostrum ratione minus.
+              Totam, nostrum doloremque laboriosam facere fugiat, minima impedit itaque fuga voluptates adipisci sed soluta voluptas, quisquam laudantium. Veritatis dicta itaque quia aut optio expedita cupiditate deserunt pariatur et? Culpa, molestiae!
+              Reprehenderit accusantium harum assumenda possimus, excepturi quasi earum eligendi adipisci id repudiandae iste voluptate suscipit perspiciatis tempore. Veniam corporis impedit sunt quae vero, vitae, sint est, iusto deleniti eligendi quos.
+              Officia temporibus reiciendis dolores aliquam odio alias eius non recusandae eligendi, minima, possimus earum? Recusandae dolore accusamus deserunt reprehenderit necessitatibus, iure corporis, tempora nostrum excepturi magnam aut illo ut libero!
+              Quisquam, repellendus. Ducimus iusto necessitatibus repellendus voluptates doloribus sapiente enim similique ad qui id velit accusantium numquam odio amet quis sequi fuga tempore, odit modi. Animi, ipsa expedita! Nihil, inventore?
+              Facere recusandae corrupti, sed reiciendis aliquam ut, voluptates quia cumque velit beatae temporibus totam nesciunt nisi veniam enim repudiandae quidem delectus sunt similique inventore perspiciatis! Laborum esse minima debitis maxime.
+              Veniam corporis inventore ipsam molestiae amet. Deleniti molestiae nihil aperiam sed vitae qui labore harum aliquam. Dicta iusto nisi illum, assumenda corrupti ab harum aperiam totam. Sapiente veniam eligendi atque.
+              Maiores iste a quo. Aliquid, placeat cum obcaecati culpa ex accusantium. Natus libero obcaecati rerum, mollitia cum eos quisquam ex nulla molestiae sequi ducimus, laboriosam odit dolor? Doloremque, odio ullam.
+              Nobis, fugit. Ipsum eaque quibusdam autem officia ipsa nemo nulla aperiam dolore recusandae quos, similique sed rem nihil perspiciatis laboriosam. Quas animi recusandae id. A voluptate quaerat illo aut blanditiis?
+              Eaque quaerat non odio dolore tempore quo laboriosam consequuntur dignissimos provident delectus iure saepe, blanditiis ea ut ex molestiae voluptas sequi corporis illum distinctio similique ullam tenetur velit. Exercitationem, quisquam.
+            </div>
+          </div>
+
+        </div>
+
 
         <!-- Всплывающее окно -->
         <div class="artboard-title">Всплывающее окно</div>
@@ -1366,7 +1406,7 @@
     <script>
       var data = [];
       for (var i = 0; i < 120; i++) {
-        data.push({data: 'Сюда подставляем данные'});
+        data.push({data: 'Сюда подставляем данные ' + 1+i});
       }
       document.querySelectorAll('.template').forEach(el => el.classList.remove('template'));
       initSearch('search');
@@ -1375,6 +1415,7 @@
       initForm('form1');
       initForm('form2');
       initTable('table', data);
+      loader.hide();
 
       function toggle(event) {
         event.currentTarget.classList.toggle('checked');

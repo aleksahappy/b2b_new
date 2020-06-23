@@ -97,7 +97,8 @@ Tablet:
     height: 26px;
   }
 
-  .checked .toggle .toggle-in {
+  .checked .toggle .toggle-in,
+  .checked.toggle .toggle-in {
     left: 18px;
   }
 }

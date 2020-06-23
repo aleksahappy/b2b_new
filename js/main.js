@@ -680,15 +680,15 @@ function toggleEl(name) {
 
 // Свернуть/развернуть содержимое контейнера:
 
-function toggleContent(event) {
-  if (event.target.closest('.toggle-cont')) {
+function switchContent(event) {
+  if (event.target.closest('.switch-cont')) {
     return;
   }
-  var container = event.currentTarget.closest('.toggle');
+  var container = event.currentTarget.closest('.switch');
   if (!container || container.classList.contains('disabled')) {
     return;
   }
-  var toggleIcon = getEl('.toggle-icon', container);
+  var toggleIcon = getEl('.switch-icon', container);
   if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
     return;
   }
@@ -1525,8 +1525,10 @@ function Form(obj, func) {
     console.log(send);
     if (send) {
       var data = this.getData();
-      console.log(data);
-      func(data);
+      if (func) {
+        func(data);
+      }
+      // console.log(data);
     }
   }
 
@@ -1600,6 +1602,7 @@ function Search(obj, func) {
   // Элементы для работы:
   this.form = obj;
   this.input = getEl('input[type="text"]', obj);
+  this.searchBtn = getEl('.search', obj);
   this.cancelBtn = getEl('.close', obj);
   this.dropDown = getEl('.drop-down', obj);
   this.result = getEl(`${this.form.id}-info`);
@@ -1675,7 +1678,7 @@ function Search(obj, func) {
 
   // Поиск по подсказке:
   this.selectHint = function(event) {
-    var curItem = event.target.closest('.item');
+    var curItem = event.target.closest('.item:not(.not-found)');
     if (!curItem) {
       return;
     }
@@ -1689,9 +1692,12 @@ function Search(obj, func) {
     if (textToFind === '') {
       return;
     }
-    var length = func(textToFind, this.form.id);
+    if (func) {
+      var length = func(textToFind, this.form.id);
+    }
     this.input.dataset.value = this.input.value;
     this.toggleInfo(textToFind, length);
+    hideElement(this.searchBtn);
     showElement(this.cancelBtn);
   }
 
@@ -1701,12 +1707,15 @@ function Search(obj, func) {
       this.toggleInfo();
       this.closeHints();
       hideElement(this.cancelBtn);
+      showElement(this.searchBtn);
     }
 
   // Сброс поиска:
   this.cancel = function() {
     this.clear();
-    func();
+    if (func) {
+      func();
+    }
   }
 
   // Отображение/скрытие информации о поиске:

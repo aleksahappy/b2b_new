@@ -261,7 +261,7 @@ body.no-scroll {
   visibility: hidden;
 }
 
-.toggle.close .toggle-cont {
+.switch.close .switch-cont {
   display: none;
 }
 
@@ -271,7 +271,7 @@ body.no-scroll {
   align-items: flex-end;
   flex-grow: 1;
   width: 100%;
-  margin-top: 2.142em;
+  padding-top: 1.428em;
 }
 
 .btns-wrap > div {
@@ -943,11 +943,15 @@ a.btn {
 /* Крестик (закрытие, сброс) */
 
 .close.icon {
-  background-image: url(../img/close_blue.svg);
+  background-image: url(../img/close_grey.svg);
 }
 
 .close.white.icon {
   background-image: url(../img/close_white.svg);
+}
+
+.close.dark.icon {
+  background-image: url(../img/close_blue.svg);
 }
 
 .disabled .close.icon {
@@ -976,6 +980,10 @@ a.btn {
   width: 19px;
   height: 10px;
   background-image: url(../img/open_blue.svg);
+  -webkit-transition: 100ms;
+  -moz-transition: 100ms;
+  -o-transition: 100ms;
+  transition: 200ms;
 }
 
 .open.white.icon {
@@ -983,11 +991,7 @@ a.btn {
 }
 
 .close .open.icon {
-  transform: rotate(180deg);
-  -webkit-transition: 100ms;
-  -moz-transition: 100ms;
-  -o-transition: 100ms;
-  transition: 100ms;
+  transform: rotate(-180deg);
 }
 
 /* Сортировка (сверху вниз/снизу вверх) */
@@ -1281,20 +1285,24 @@ div.option input:checked ~ .radio.icon {
   border: 1px solid #FFFFFF;
 }
 
-.checked .toggle {
+.checked .toggle,
+.checked.toggle {
   background-color: #53606F;
 }
 
-.checked .toggle.dark {
+.checked .toggle.dark,
+.checked.toggle.dark {
   background-color: #FFFFFF;
 }
 
-.checked .toggle .toggle-in {
+.checked .toggle .toggle-in,
+.checked.toggle .toggle-in {
   left: 13px;
   border: 1px solid #53606F;
 }
 
-.checked .toggle.dark .toggle-in {
+.checked .toggle.dark .toggle-in,
+.checked.toggle.dark .toggle-in {
   border: 1px solid #FFFFFF;
 }
 
@@ -1306,11 +1314,6 @@ div.option input:checked ~ .radio.icon {
   position: relative;
   width: 16.5em;
   overflow: visible;
-  cursor: pointer;
-}
-
-.activate[disabled] {
-  cursor: default;
 }
 
 .activate .head {
@@ -1322,6 +1325,7 @@ div.option input:checked ~ .radio.icon {
   border: 1px solid #D5D5D5;
   border-radius: 3px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .activate:not([disabled]):hover .head,
@@ -1331,6 +1335,7 @@ div.option input:checked ~ .radio.icon {
 
 .activate[disabled] .head {
   background-color: #ECECEC;
+  cursor: default;
 }
 
 .activate .head .title {
@@ -1365,6 +1370,11 @@ div.option input:checked ~ .radio.icon {
 .activate.hover:hover .triangle,
 .activate.open .triangle {
   transform: rotate(180deg);
+}
+
+.activate[disabled] .triangle,
+.activate[disabled] .filter {
+  cursor: default;
 }
 
 .activate .drop-down {
@@ -1407,9 +1417,9 @@ div.option input:checked ~ .radio.icon {
 
 .activate .drop-down .item {
   justify-content: space-between;
-  border-bottom: 1px solid #FFFFFF;
   align-items: center;
   padding: 0.4em 0.714em;
+  border-bottom: 1px solid #FFFFFF;
   cursor: pointer;
 }
 
@@ -1417,7 +1427,7 @@ div.option input:checked ~ .radio.icon {
   border-bottom: none;
 }
 
-.activate .drop-down .item:hover {
+.activate .drop-down .item:not(.not-found):hover {
   background-color: #E7EAED;
 }
 
@@ -1467,15 +1477,18 @@ form.search .close.icon {
   display: none;
 }
 
-form.search .not-found {
+form.search .drop-down .item {
+  border: none;
+}
+
+form.search .item.not-found {
   display: none;
   background-color: #ECECEC;
-  border: 1px solid #D5D5D5;
+  cursor: default;
 }
 
 form.search .list {
   display: none;
-  border: 1px solid #D5D5D5;
 }
 
 /* =====================================================================================================
@@ -1663,6 +1676,7 @@ form.post .form-col3 {
 
 form.post .form-wrap {
   position: relative;
+  width: 100%;
   margin-bottom: 1.93em;
 }
 
@@ -1907,7 +1921,7 @@ tbody tr:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -1919,10 +1933,6 @@ tbody tr:hover {
 
 .loader .text {
   text-align: center;
-}
-
-.pop-up > .loader {
-  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* =====================================================================================================
@@ -1989,7 +1999,7 @@ tbody tr:hover {
 .pop-up-title {
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1.428em 1.428em 2.143em 1.428em;
+  padding: 1.428em 1.428em 2em 1.428em;
 }
 
 .pop-up-title .title {
@@ -2001,6 +2011,7 @@ tbody tr:hover {
   flex-shrink: 0;
   width: 1.357em;
   height: 1.357em;
+  background-image: url(../img/close_blue.svg);
 }
 
 .pop-up-body {
@@ -2012,77 +2023,9 @@ tbody tr:hover {
   overflow-y: auto;
 }
 
-/* =====================================================================================================
-Окно уведомлений:
-===================================================================================================== */
-
-#alerts-container {
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-
-#alerts-container .row {
-  align-items: center;
-}
-
-#alerts-container .pop-up {
-  width: 50vw;
-  height: 100%;
-  max-width: 50vw;
-  max-height: 100%;
-  -webkit-transition: transform 0.5s linear;
-  -moz-transition: transform 0.5s linear;
-  -o-transition: transform 0.5s linear;
-  transition: transform 0.5s linear;
-  transform: translate(50vw);
-}
-
-#alerts-container.open .pop-up {
-  transform: translate(0);
-}
-
-#alerts-container .pop-up-title .title {
-  font-size: 1.715em;
-}
-
-#alerts-container .pop-up-body {
-  max-height: calc(100% - 5em);
-  padding: 0;
-  padding-bottom: 1em;
-}
-
-#alerts-container .wrap {
-  justify-content: space-between;
-  margin: 0 1.5em;
-  padding: 0.5em 0;
-  border-bottom: 1px solid #C6C6C6;
-}
-
-#alerts-container .pop-up-body > .message:last-child .wrap {
-  border-bottom: none;
-}
-
-#alerts-container .pop-up-body .message.icon {
-  margin-right: 1em;
-  width: 2em;
-  height: 2em;
-}
-
-#alerts-container .pop-up-body .message-text {
-  width: 90%;
-  padding-right: 1em;
-}
-
-#alerts-container .pop-up-body .date {
-  font-size: 0.643em;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-#alerts-container .pop-up-body .close.icon {
-  margin-left: 1em;
-  width: 0.75em;
-  height: 0.75em;
+.pop-up > .loader {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* =====================================================================================================
@@ -2818,6 +2761,79 @@ tbody tr:hover {
 
 .footer .wrap {
   padding: 1.6rem 0;
+}
+
+/* =====================================================================================================
+Окно уведомлений:
+===================================================================================================== */
+
+#alerts-container {
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+#alerts-container .row {
+  align-items: center;
+}
+
+#alerts-container .pop-up {
+  width: 50vw;
+  height: 100%;
+  max-width: 50vw;
+  max-height: 100%;
+  -webkit-transition: transform 0.5s linear;
+  -moz-transition: transform 0.5s linear;
+  -o-transition: transform 0.5s linear;
+  transition: transform 0.5s linear;
+  transform: translate(50vw);
+}
+
+#alerts-container.open .pop-up {
+  transform: translate(0);
+}
+
+#alerts-container .pop-up-title .title {
+  font-size: 1.715em;
+}
+
+#alerts-container .pop-up-body {
+  max-height: calc(100% - 5em);
+  padding: 0;
+  padding-bottom: 1em;
+}
+
+#alerts-container .wrap {
+  justify-content: space-between;
+  margin: 0 1.5em;
+  padding: 0.5em 0;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+#alerts-container .pop-up-body > .message:last-child .wrap {
+  border-bottom: none;
+}
+
+#alerts-container .pop-up-body .message.icon {
+  margin-right: 1em;
+  width: 2em;
+  height: 2em;
+}
+
+#alerts-container .pop-up-body .message-text {
+  width: 90%;
+  padding-right: 1em;
+}
+
+#alerts-container .pop-up-body .date {
+  font-size: 0.643em;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+#alerts-container .pop-up-body .close.icon {
+  margin-left: 1em;
+  width: 0.75em;
+  height: 0.75em;
 }
 
 /* =====================================================================================================

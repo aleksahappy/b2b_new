@@ -63,6 +63,13 @@ form.search.positioned {
   overflow: auto;
 }
 
+.switch-temp .row {
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  background-color: #53606F;
+}
+
 /* Стили для всплывающей формы (образец из раздела Контрагенты): */
 
 #form-example form.post > .title {
