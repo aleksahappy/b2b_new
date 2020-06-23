@@ -1989,7 +1989,7 @@ tbody tr:hover {
 .pop-up-title {
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1.428em;
+  padding: 1.428em 1.428em 2.143em 1.428em;
 }
 
 .pop-up-title .title {
