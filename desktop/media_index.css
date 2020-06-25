@@ -8,6 +8,7 @@
 @media (max-width: 1600px) {
 
   main{
+    width: 100%;
     margin-right: 0;
   }
   aside{

@@ -236,10 +236,6 @@ main{
 }
 
 /* Таблица "Заказы в работе" на Сашином старом шаблоне */
-#desktop-table{
-	overflow: hidden;
-	overflow-y: auto;
-}
 
 .table-wrap {
   max-height: 76vh;
