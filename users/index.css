@@ -154,14 +154,13 @@
 
 /* Модальное окно "Добавление пользователя" */
 
-#addUser{
-  width: 38.54vw;
-  min-width: 576px;
-}
-
+#addUser,
 #editUser{
-  width: 38.54vw;
-  min-width: 576px;
+  /* width: 560px;
+  height: 753px;
+  width: 29.54vw; */
+  height: 753px;
+  width: 560px;
 }
 
 .col .modal-col{

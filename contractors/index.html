@@ -99,11 +99,11 @@
             <div class="title h0">Контрагенты</div>
           </div>
           <div class="left-row row">
-            <div id="addContraBtnMob" class="add icon" tooltip="Добавить"></div>
+            <div class="add icon" tooltip="Добавить" onclick="openPopUp('contraModal')"></div>
           </div>
         </div>
       </div>
-      <div class="basic btn" id="addContraBtn">Добавить</div>
+      <div class="basic btn" onclick="openPopUp('contraModal')">Добавить</div>
       <!-- Таблица контрагентов -->
       <div id="contraTable" class="table-wrap active">
         <table class="head">
@@ -478,59 +478,63 @@
   </div>
 
   <!-- Модальное окно "Добавление контрагента" -->
-  <div id="contraModal" class="pop-up-container col">
-    <div id="addContra" class="modal">
-      <div class="pop-up-title main-title row">
-        <div class="title-row row">
-          <div class="title">Добавление контрагента</div>
-        </div>
-        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
-          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"></path>
-        </svg>
+  <div id="contraModal" class="pop-up-container" onclick="closePopUp(event)">
+    <div class="pop-up">
+      <div class="pop-up-title row">
+        <div class="title h1">Добавление контрагента</div>
+        <div class="close icon"></div>
       </div>
-      <div class="modal-body">
-        <div class="comment">
+      <div class="pop-up-body">
+        <form class="post">
           <div class="title">Добавьте ИНН, данные юридического лица загрузятся автоматически</div>
-        </div>
-        <form>
           <div class="row">
-            <div class="col">
-              <label>ИНН*</label>
-              <input type="text" id="contraINN">
+            <div class="row">
+              <div class="form-wrap" required>
+                <div class="title">ИНН*</div>
+                <input type="text" value="" name="" placeholder="" maxlength="12" onkeypress="return onlyNumb(event)">
+                <div class="err">Поле не заполнено</div>
+              </div>
+              <div id="inn-loader" class="loader icon"></div>
             </div>
-            <div class="col contraKPP">
-              <label>КПП*</label>
-              <input type="text" id="contraKPP" disabled>
+            <div class="form-wrap">
+              <div class="title">КПП</div>
+              <input type="text" value="" name="" placeholder="" disabled>
+              <div class="err">Поле не заполнено</div>
             </div>
           </div>
-          <div class="col topSpace">
-              <label>Название:</label>
-              <input type="text" id="contraName" disabled>
+          <div class="form-wrap">
+            <div class="title">Название</div>
+            <input type="text" value="" name="" placeholder="" disabled>
+            <div class="err">Поле не заполнено</div>
           </div>
-          <div class="col topSpace">
-              <label>Юридический адрес*</label>
-              <textarea id="contraName" cols="30" rows="10" disabled></textarea>
+          <div class="form-wrap" required>
+            <div class="title">Юридический адрес*</div>
+            <textarea name="" maxlength="" autocomplete="off" placeholder="" disabled></textarea>
+            <div class="err">Поле не заполнено</div>
           </div>
-          <div class="col topSpace">
-            <label>Система налогооблажения*</label>
-            <div id="contraSelect" class="activate select">
+          <div class="form-wrap" required>
+            <div class="title">Система налогообложения*</div>
+            <div class="activate select" value="" name="" disabled>
               <div class="head row">
-                <div class="title">Выберите</div>
-                <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
-                </svg>
+                <div class="title">Закупки</div>
+                <div class="triangle icon"></div>
               </div>
               <div class="drop-down">
-                <div class="item" data-value="1">Упрощенная</div>
-                <div class="item" data-value="2">Общая</div>
+                <div class="item" data-value="Общая">Общая</div>
+                <div class="item" data-value="УСН">Урощенная</div>
+                <div class="item" data-value="УСН">Прочая</div>
               </div>
             </div>
+            <div class="err">Поле не заполнено</div>
           </div>
-          <div class="row modalConfirm topSpace">
-            <div class="basic btn disabled" id="contraConfirm">Отправить</div>
+          <div class="btns-wrap">
+            <input class="btn sub-act" type="submit" value="Отправить" disabled>
           </div>
         </form>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
       </div>
     </div>
   </div>

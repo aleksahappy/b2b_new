@@ -99,11 +99,11 @@
             <div class="title h0">Пользователи</div>
           </div>
           <div class="left-row row">
-            <div id="addUserBtnMob" class="add icon" tooltip="Добавить"></div>
+            <div class="add icon" onclick="openPopUp('newUserModal')"></div>
           </div>
         </div>
       </div>
-      <div class="basic btn" id="addUserBtn">Добавить</div>
+      <div class="btn" onclick="openPopUp('newUserModal')">Добавить</div>
       <!-- Таблица контрагентов -->
       <div id="usersTable" class="table-wrap active">
         <table class="head">
@@ -530,143 +530,211 @@
   </div>
 
   <!-- Модальное окно "Добавить пользователя" -->
-  <div id="usersModal" class="pop-up-container col">
-    <div id="addUser" class="modal">
-      <div class="pop-up-title main-title row">
-        <div class="title-row row">
-          <div class="title">Новый пользователь</div>
-        </div>
-        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
-          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"></path>
-        </svg>
+  <div id="newUserModal" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="addUser" class="pop-up">
+      <div class="pop-up-title row">
+        <div class="title h1">Новый пользователь</div>
+        <div class="close icon"></div>
       </div>
-      <div class="modal-body">
-        <form>
-          <div class="row block-shift">
-            <div class="col modal-col">
-              <div class="col">
-                <label>Имя*</label>
-                <input type="text" placeholder="Введите имя">
-              </div>
-              <div class="col topSpace">
-                <label>Фамилия*</label>
-                <input type="text" placeholder="Введите фамилию">
-              </div>
-              <div class="col topSpace">
-                <label>Отчество*</label>
-                <input type="text" placeholder="Введите отчество">
-              </div>
-              <div class="col topSpace">
-                <label>Должность*</label>
-                <input type="text" placeholder="Менеджер">
+      <div class="pop-up-body">
+        <form class="post">
+          <div class="form-wrap" required>
+            <div class="title">Имя*</div>
+            <input type="text" value="" name="" placeholder="Введите имя">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Фамилия*</div>
+            <input type="text" value="" name="" placeholder="Введите фамилию">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Отчество*</div>
+            <input type="text" value="" name="" placeholder="Введите отчество">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols mob-cols">
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">День рождения</div>
+                <input type="text" value="" name="" placeholder="28.10.1980">
+                <div class="err">Поле не заполнено</div>
               </div>
             </div>
-            <div class="col modal-col">
-              <div class="col">
-                <label>Телефон*</label>
-                <input type="text" placeholder="_  _ _ _  _ _ _  _ _ _">
-              </div>
-              <div class="col topSpace">
-                <label>Email*</label>
-                <input type="text" placeholder="name@domain.ru">
-              </div>
-              <div class="col topSpace">
-                <label>Тип доступа</label>
-                <div class="row">
-                  <div class="row radio-access">
-                    <div class="select icon"></div>
-                    <div class="radio-text">Полный</div>
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">Пол</div>
+                <div class="row select-choice">
+                  <div class="option row select-qty">
+                    <input type="radio" value="Мужской" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Мужской</div>
                   </div>
-                  <div class="row radio-access">
-                    <div class="checked">
-                      <div class="select icon"></div>
-                    </div>
-                    <div class="radio-text">Частичный</div>
+                  <div class="option row">
+                    <input type="radio" value="Женский" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Женский</div>
                   </div>
                 </div>
-              </div>
-              <div class="col">
-                <p>Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</p>
-                <p>Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</p>
+                <div class="err">Необходимо выбрать значение</div>
               </div>
             </div>
           </div>
-          <div class="row modalConfirm topSpace">
-            <div class="basic btn disabled" id="userConfirm">Отправить</div>
+          <div class="form-wrap">
+            <div class="title">Должность</div>
+            <input type="text" value="" name="" placeholder="Введите должность">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols">
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Телефон*</div>
+                <input type="text" value="" name="" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Email*</div>
+                <input type="text" value="" name="" placeholder="Введите email">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap">
+            <div class="title">Тип доступа</div>
+            <div class="form-cols">
+              <div class="form-col2">
+                <div class="option row">
+                  <input type="radio" value="Полный" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Полный</div>
+                </div>
+                <div class="option row">
+                  <input type="radio" value="" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Частичный</div>
+                </div>
+              </div>
+              <div class="form-col2">
+                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
+                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+              </div>
+            </div>
+          </div>
+          <div class="btns-wrap">
+            <input class="btn sub-act" type="submit" value="Отправить" disabled>
           </div>
         </form>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
       </div>
     </div>
   </div>
 
   <!-- Модальное окно "Редактировать пользователя" -->
-  <div id="editUsersModal" class="pop-up-container col">
-    <div id="editUser" class="modal">
-      <div class="pop-up-title main-title row">
-        <div class="title-row row">
-          <div class="title">Редактирование пользователя</div>
-        </div>
-        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"></path>
-          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"></path>
-        </svg>
+  <div id="editUserModal" class="pop-up-container col">
+    <div id="editUser" class="pop-up">
+      <div class="pop-up-title row">
+        <div class="title h1">Новый пользователь</div>
+        <div class="close icon"></div>
       </div>
-      <div class="modal-body">
-        <form>
-          <div class="row block-shift">
-            <div class="col modal-col">
-              <div class="col">
-                <label>Имя*</label>
-                <input type="text" placeholder="Введите имя">
-              </div>
-              <div class="col topSpace">
-                <label>Фамилия*</label>
-                <input type="text" placeholder="Введите фамилию">
-              </div>
-              <div class="col topSpace">
-                <label>Отчество*</label>
-                <input type="text" placeholder="Введите отчество">
-              </div>
-              <div class="col topSpace">
-                <label>Должность*</label>
-                <input type="text" placeholder="Менеджер">
+      <div class="pop-up-body">
+        <form class="post">
+          <div class="form-wrap" required>
+            <div class="title">Имя*</div>
+            <input type="text" value="" name="" placeholder="Введите имя">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Фамилия*</div>
+            <input type="text" value="" name="" placeholder="Введите фамилию">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Отчество*</div>
+            <input type="text" value="" name="" placeholder="Введите отчество">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols mob-cols">
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">День рождения</div>
+                <input type="text" value="" name="" placeholder="28.10.1980">
+                <div class="err">Поле не заполнено</div>
               </div>
             </div>
-            <div class="col modal-col">
-              <div class="col">
-                <label>Телефон*</label>
-                <input type="text" placeholder="_  _ _ _  _ _ _  _ _ _">
-              </div>
-              <div class="col topSpace">
-                <label>Email*</label>
-                <input type="text" placeholder="name@domain.ru">
-              </div>
-              <div class="col topSpace">
-                <label>Тип доступа</label>
-                <div class="row">
-                  <div class="row radio-access">
-                    <div class="select icon"></div>
-                    <div class="radio-text">Полный</div>
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">Пол</div>
+                <div class="row select-choice">
+                  <div class="option row select-qty">
+                    <input type="radio" value="Мужской" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Мужской</div>
                   </div>
-                  <div class="row radio-access">
-                    <div class="checked">
-                      <div class="select icon"></div>
-                    </div>
-                    <div class="radio-text">Частичный</div>
+                  <div class="option row">
+                    <input type="radio" value="Женский" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Женский</div>
                   </div>
                 </div>
-              </div>
-              <div class="col">
-                <p>Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</p>
-                <p>Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</p>
+                <div class="err">Необходимо выбрать значение</div>
               </div>
             </div>
           </div>
-          <div class="row modalConfirm topSpace">
-            <div class="basic btn disabled" id="userConfirm">Отправить</div>
+          <div class="form-wrap">
+            <div class="title">Должность</div>
+            <input type="text" value="" name="" placeholder="Введите должность">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols">
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Телефон*</div>
+                <input type="text" value="" name="" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Email*</div>
+                <input type="text" value="" name="" placeholder="Введите email">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap">
+            <div class="title">Тип доступа</div>
+            <div class="form-cols">
+              <div class="form-col2">
+                <div class="option row">
+                  <input type="radio" value="Полный" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Полный</div>
+                </div>
+                <div class="option row">
+                  <input type="radio" value="" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Частичный</div>
+                </div>
+              </div>
+              <div class="form-col2">
+                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
+                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+              </div>
+            </div>
+          </div>
+          <div class="btns-wrap">
+            <input class="btn sub-act" type="submit" value="Сохранить" disabled>
           </div>
         </form>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
       </div>
     </div>
   </div>

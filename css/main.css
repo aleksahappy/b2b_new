@@ -855,7 +855,8 @@ a.btn {
 ===================================================================================================== */
 
 .icon {
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
   width: 1em;
   height: 1em;
   cursor: pointer;

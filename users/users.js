@@ -1,14 +1,10 @@
 "use strict";
 var usersTable = document.querySelector("#usersTable");
-var addUserBtn = document.querySelector("#addUserBtn");
-var addUserBtnMob = document.querySelector("#addUserBtnMob");
-var usersModal = document.querySelector("#usersModal");
-var closeUserModal = document.querySelector("#addUser .close-btn");
-var editUsersModal = document.querySelector("#editUsersModal");
-var closeEditUserModal = document.querySelector("#editUser .close-btn");
+var usersModal = document.querySelector("#newUserModal");
+var editUserModal = document.querySelector("#editUserModal");
+var closeEditUserModal = document.querySelector("#editUserModal .close");
 
-modalWin(addUserBtn, closeUserModal, usersModal);
-modalWin(addUserBtnMob, closeUserModal, usersModal);
+
 initDropDown("contraSelect");
 
 // Запуск данных таблицы пользователей:
@@ -51,7 +47,7 @@ function initModals() {
 
   window.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
-      editUsersModal.style.display = "none";
+      editUserModal.style.display = "none";
     }
   });
 
@@ -59,17 +55,19 @@ function initModals() {
     var edit = event.target.matches(".edit");
     if (edit) {
       var editBtn = event.target;
-      editUsersModal.style.display = "block";
+      editUserModal.style.display = "flex";
+      editUserModal.style.opacity = "1";
+      editUserModal.style.visibility = "visible";
     }
   },false);
 
   closeEditUserModal.addEventListener("click", () => {
-    editUsersModal.style.display = "none";
+    editUserModal.style.display = "none";
   });
 
-  editUsersModal.addEventListener("click", function (event) {
+  editUserModal.addEventListener("click", function (event) {
     if (event.target === this) {
-      editUsersModal.style.display = "none";
+      editUserModal.style.display = "none";
     }
   });
 }

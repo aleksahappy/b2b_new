@@ -70,7 +70,7 @@ Tablet:
 
 /* Стили на ширину до 0 до 768px включительно: */
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 960px) {
   .container {
     margin: 0 2.4rem;
   }
@@ -97,7 +97,8 @@ Tablet:
     height: 26px;
   }
 
-  .checked .toggle .toggle-in {
+  .checked .toggle .toggle-in,
+  .checked.toggle .toggle-in {
     left: 18px;
   }
 }
