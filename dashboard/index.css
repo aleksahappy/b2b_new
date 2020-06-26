@@ -247,25 +247,25 @@ thead .legend {
   margin-right: 1em;
 }
 
-#dashboardTable td:nth-child(1) {
+#dashboard-table td:nth-child(1) {
   min-width: 9em;
 }
 
-#dashboardTable td:nth-child(2) {
+#dashboard-table td:nth-child(2) {
   min-width: 10em;
 }
 
-#dashboardTable td{
+#dashboard-table td{
   cursor: pointer;
 }
 
-#dashboardTable td:last-child {
+#dashboard-table td:last-child {
   min-width: 25em;
   padding: 0;
   vertical-align: middle;
 }
 
-#dashboardTable td:last-child > .row {
+#dashboard-table td:last-child > .row {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
@@ -274,13 +274,13 @@ thead .legend {
   text-overflow: ellipsis;
 }
 
-#dashboardTable td:last-child > .row > div {
+#dashboard-table td:last-child > .row > div {
   margin-right: 1.3em;
   padding: 0em 1em;
   border-radius: 30px;
 }
 
-#dashboardTable th:last-child .resize-btn{
+#dashboard-table th:last-child .resize-btn{
   display: none;
 }
 
@@ -591,11 +591,11 @@ thead .legend {
 	color: #666666;
 }
 
-#procurementSelect{
+#procurement-select{
 	width: 8.925em;
 }
 
-#procurementSelect .title{
+#procurement-select .title{
 	color: #C6C6C6;
 }
 

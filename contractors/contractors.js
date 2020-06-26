@@ -8,9 +8,9 @@ function startUsersTable() {
   .then(result => {
     var data = JSON.parse(result);
     data = convertData(data);
-    initTable('contraTable', data);
+    initTable('contra-table', data);
     var contrasAdaptiveData = {
-      area: 'contrasTable',
+      area: 'contras-table',
       items: data,
       sub: [{
         area: '.docs',
@@ -21,7 +21,7 @@ function startUsersTable() {
   })
   .catch(err => {
     console.log(err);
-    initTable('contraTable');
+    initTable('contra-table');
   });
 }
 startUsersTable();

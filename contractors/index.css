@@ -69,51 +69,51 @@
 
 /* Стили для таблицы */
 
-#contraTable td{
+#contra-table td{
   cursor: default;
 }
 
-#contraTable td:nth-child(1) {
+#contra-table td:nth-child(1) {
   min-width: 6em;
   text-align: center;
 }
 
-#contraTable td:nth-child(2) {
+#contra-table td:nth-child(2) {
   min-width: 12em;
 }
 
-#contraTable td:nth-child(3) {
+#contra-table td:nth-child(3) {
   min-width: 10em;
 }
 
-#contraTable td:nth-child(4) {
+#contra-table td:nth-child(4) {
   min-width: 10em;
 }
 
-#contraTable td:nth-child(5) {
+#contra-table td:nth-child(5) {
   min-width: 4em;
   text-align: center;
 }
 
-#contraTable td:nth-child(6) {
+#contra-table td:nth-child(6) {
   min-width: 28em;
 }
 
-#contraTable td:nth-child(7) {
+#contra-table td:nth-child(7) {
   min-width: 9em;
 }
 
-#contraTable td:nth-child(8) {
+#contra-table td:nth-child(8) {
   min-width: 25em;
 }
 
-#contraTable td .row{
+#contra-table td .row{
   align-items: center;
 }
 
 /* Стили для tablet таблицы */
 
-#contrasTable{
+#contras-table{
   display: none;
 }
 
@@ -121,20 +121,20 @@
 
 /* Стили для всплывающей формы (образец из раздела Контрагенты): */
 
-#contraModal form.post > .title {
+#contra-modal form.post > .title {
   font-size: 0.857em;
   margin-bottom: 2em;
 }
 
-#contraModal form.post > .row > .row {
+#contra-modal form.post > .row > .row {
   align-items: center;
 }
 
-#contraModal form.post > .row .form-wrap input {
+#contra-modal form.post > .row .form-wrap input {
   width: 16.5em;
 }
 
-#contraModal form.post > .row .form-wrap:last-child input {
+#contra-modal form.post > .row .form-wrap:last-child input {
   width: 8em;
 }
 
@@ -178,10 +178,10 @@
   color: #666666;
 }
 
-#contrasTable .section-head .row{
+#contras-table .section-head .row{
   align-items: center;
 }
 
-#contrasTable .section-head .section-title {
+#contras-table .section-head .section-title {
   font-size: 1em;
 }

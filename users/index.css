@@ -1,53 +1,53 @@
 /* Стили для таблицы */
-#usersTable td{
+#users-table td{
   cursor: default;
 }
-#usersTable td:nth-child(1) {
+#users-table td:nth-child(1) {
   min-width: 6em;
   text-align: center;
 }
 
-#usersTable td:nth-child(2) {
+#users-table td:nth-child(2) {
   min-width: 20em;
 }
 
-#usersTable td:nth-child(3) {
+#users-table td:nth-child(3) {
   min-width: 10em;
 }
 
-#usersTable td:nth-child(4) {
+#users-table td:nth-child(4) {
   min-width: 7em;
   text-align: center;
 }
 
-#usersTable td:nth-child(5) {
+#users-table td:nth-child(5) {
   min-width: 4em;
 }
 
-#usersTable td:nth-child(6) {
+#users-table td:nth-child(6) {
   min-width: 16em;
 }
 
-#usersTable td:nth-child(7) {
+#users-table td:nth-child(7) {
   min-width: 9em;
 }
 
-#usersTable td:nth-child(8) {
+#users-table td:nth-child(8) {
   min-width: 10em;
   text-align: center;
 }
 
-#usersTable td:nth-child(9) {
+#users-table td:nth-child(9) {
   min-width: 10em;
   text-align: center;
 }
 
-#usersTable td .row{
+#users-table td .row{
   align-items: center;
 }
 
-#usersTableTablet,
-#usersTableMob{
+#users-table-tablet,
+#users-table-mob{
   display: none;
 }
 
@@ -106,11 +106,11 @@
   color: #666666;
 }
 
-#usersTable .section-head .row{
+#users-table .section-head .row{
   align-items: center;
 }
 
-#usersTable .section-head .section-title {
+#users-table .section-head .section-title {
   font-size: 1em;
 }
 
@@ -154,13 +154,13 @@
 
 /* Модальное окно "Добавление пользователя" */
 
-#addUser,
-#editUser{
+#add-user,
+#edit-user{
   width: 40em;
 }
 
-#addUser .text-light,
-#editUser .text-light{
+#add-user .text-light,
+#edit-user .text-light{
   font-size: 12px;
   line-height: 16px;
 }
@@ -169,16 +169,16 @@
   width: 50%;
 }
 
-#addUser .modal-col > .col{
+#add-user .modal-col > .col{
   width: 91%;
 }
 
-#editUser .modal-col > .col {
+#edit-user .modal-col > .col {
   width: 91%;
 }
 
-#addUser .form-col2 .title,
-#editUser .form-col2 .title{
+#add-user .form-col2 .title,
+#edit-user .form-col2 .title{
   margin-bottom: 0.45em;
 }
 
@@ -193,8 +193,4 @@
 
 .radio-text{
   margin-left: 0.8em;
-}
-
-#userConfirm{
-  margin-top: 6em;
 }

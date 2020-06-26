@@ -1,13 +1,13 @@
 'use strict';
 
-var dashboardTable = document.querySelector('#dashboardTable');
+var dashboardTable = document.querySelector('#dashboard-table');
 var tbody = dashboardTable.querySelector('tbody');
 
 //  кнопка dashboard тоггла
-var toggleBar1 = getEl('barChartTgl-1');
-var toggleBar2 = getEl('barChartTgl-2');
+var toggleBar1 = getEl('bar-chart-tgl-1');
+var toggleBar2 = getEl('bar-chart-tgl-2');
 //  canvas диаграмм
-const barChart = document.getElementById('barChart').getContext('2d');
+const barChart = document.getElementById('bar-chart').getContext('2d');
 //  Данные и зарезервированные переменные для работы с ними
 var barData = []; //  procurementData
 var barDataStor = [];
@@ -26,13 +26,13 @@ var procuBrand5 = [];  //  Ogio
 var procuBrand6 = [];  //  FXR
 
 charts();
-startdashboardTable();
+startDashboardTable();
 tableDataSort();
-startProcurementPieChart();
+startProcurementDonutChart();
 
 //window.onresize = charts;
 
-window.onresize = startProcurementPieChart;
+window.onresize = startProcurementDonutChart;
 
 if (window.innerWidth < 1299) {
   holdSectionWidth();
@@ -80,17 +80,17 @@ function holdSectionWidth() {
 
 // Запуск данных таблицы Рабочего стола:
 
-function startdashboardTable() {
-  sendRequest(`../json/dashboardTableData.json`)
-  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
+function startDashboardTable() {
+  sendRequest(`../json/desktopTableData.json`)
+  //sendRequest(urlRequest.main, {action: 'desktopTable'})
   .then(result => {
     var data = JSON.parse(result);
     data = convertData(data);
-    initTable('dashboardTable', data);
+    initTable('dashboard-table', data);
   })
   .catch(err => {
     console.log(err);
-    initTable('dashboardTable');
+    initTable('dashboard-table');
   });
 }
 
@@ -158,8 +158,8 @@ function charts() {
     var preordersSum = 0;
 
     // запрос
-    sendRequest(`../json/dashboardTableData.json`)
-    //sendRequest(urlRequest.main, {action: 'dashboardTable'})
+    sendRequest(`../json/desktopTableData.json`)
+    //sendRequest(urlRequest.main, {action: 'desktopTable'})
     .then(result => {
       var ordersProgressData = JSON.parse(result);
       ordersProgressData = convertData(ordersProgressData);
@@ -299,11 +299,11 @@ function charts() {
       //  По клику на тоггл диаграммы "Заказы в работе" показывает/скрывает данные помимо предзаказов
 
       function tableToggleWork() {
-        var tableToggle = document.querySelector('#tableToggle');
-        var tableToggleMob = document.querySelector('#tableToggle-mob');
+        var tableToggle = document.querySelector('#table-toggle');
+        var tableToggleMob = document.querySelector('#table-toggle-mob');
         var toggleCount = 0;
 
-        tableToggle.addEventListener('click', sortTableOrders); // dashboard-тоггл
+        tableToggle.addEventListener('click', sortTableOrders); // desktop-тоггл
         tableToggleMob.addEventListener('click', sortTableOrders);  //  mobile-тоггл
 
         function sortTableOrders() {
@@ -371,7 +371,7 @@ function charts() {
 
   // function startSpeedChart() {
   //   sendRequest(`../json/usersData.json`)
-  //     //sendRequest(urlRequest.main, {action: 'dashboardTable'})
+  //     //sendRequest(urlRequest.main, {action: 'desktopTable'})
   //     .then((result) => {
   //       var data = JSON.parse(result);
   //       data = convertData(data);
@@ -439,7 +439,7 @@ function charts() {
     var data3 = [0, 0, 350494, 473200, 501000, 550000, 260100, 240000, 23000]; // данные для зеленой линии
     var deliveryLabels = ["21 нед.",	"22 нед.",	"23 нед.",	"24 нед.",	"25 нед.",	"26 нед.",	"27 нед.", "28 нед."];
 
-    const deliveryСhart = document.getElementById('deliveryChart').getContext('2d'); //  canvas диаграммы
+    const deliveryСhart = document.getElementById('delivery-chart').getContext('2d'); //  canvas диаграммы
       deliveryСhart.canvas.parentNode.style.width = '100%';
       deliveryСhart.canvas.parentNode.style.height = '258px';
 
@@ -506,7 +506,7 @@ function startBarChart() {
 
   // запрос
   sendRequest(`../json/procurementData.json`)
-  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
+  //sendRequest(urlRequest.main, {action: 'desktopTable'})
   .then(result => {
     var bar = JSON.parse(result);
     barData = bar;
@@ -701,16 +701,16 @@ function fillBarDataStorToggle() {
 
 //  Диаграмма "Доля закупок по производителям"
 
-function startProcurementPieChart() {
+function startProcurementDonutChart() {
   // запрос
   sendRequest(`../json/procurementData.json`)
-  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
+  //sendRequest(urlRequest.main, {action: 'desktopTable'})
   .then(result => {
     var procurements = JSON.parse(result);
     procurementData = procurements;
     createProcYears();
     getProcuBrandSum();
-    procurementPieChart();
+    procurementDonutChart();
   })
   .catch(err => {
     console.log(err);
@@ -756,7 +756,7 @@ function startProcurementPieChart() {
   }
 
   function createProcYears() {
-    var procurementSelect = getEl('procurementSelect');
+    var procurementSelect = getEl('procurement-select');
     var test = getEl('test');
     console.log(procurementYears);
     var yearsForProc = {
@@ -770,7 +770,7 @@ function startProcurementPieChart() {
     console.log('done');
   }
 
-  function procurementPieChart() {
+  function procurementDonutChart() {
     // суммы заказов по брендам
     totalPrcPerBrand = [
       arraySum(procuBrand1), //  509
@@ -791,7 +791,7 @@ function startProcurementPieChart() {
     // console.log(totalPrcPerBrand);
     console.log('----------------------------');
 
-    const procurementChart = document.getElementById('procurementChart').getContext('2d');  //  canvas диаграммы
+    const procurementChart = document.getElementById('procurement-chart').getContext('2d');  //  canvas диаграммы
     procurementChart.canvas.parentNode.style.height = '280px';
     procurementChart.canvas.parentNode.style.width = '280px';
 
@@ -905,7 +905,7 @@ function sortProcurement(event) {
       break;
     case 1:
       console.log('выбрано за все время');
-      startProcurementPieChart();
+      startProcurementDonutChart();
       //  удаляем повторяющиеся значения в массивах брендов
       procuBrand1 = [];  //  509
       procuBrand2 = [];  //  BCA
@@ -916,31 +916,31 @@ function sortProcurement(event) {
       break;
     case 2:
       console.log('выбран 2020');
-      startProcurementPieChart();
+      startProcurementDonutChart();
       selecProcYear('2020');
       testGlobalBrandsArr()
       break;
     case 3:
       console.log('выбран 2019');
-      startProcurementPieChart();
+      startProcurementDonutChart();
       selecProcYear('2019');
       testGlobalBrandsArr()
       break;
     case 4:
       console.log('выбран 2018');
-      startProcurementPieChart();
+      startProcurementDonutChart();
       selecProcYear('2018');
       testGlobalBrandsArr()
       break;
     case 5:
       console.log('выбран 2017');
-      startProcurementPieChart();
+      startProcurementDonutChart();
       selecProcYear('2017');
       testGlobalBrandsArr()
       break;
     case 6:
       console.log('выбран 2016');
-      startProcurementPieChart();
+      startProcurementDonutChart();
       selecProcYear('2016');
       testGlobalBrandsArr()
       break;

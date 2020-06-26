@@ -1,11 +1,9 @@
 "use strict";
-var usersTable = document.querySelector("#usersTable");
-var usersModal = document.querySelector("#newUserModal");
-var editUserModal = document.querySelector("#editUserModal");
-var closeEditUserModal = document.querySelector("#editUserModal .close");
+var usersTable = document.querySelector("#users-table");
+var usersModal = document.querySelector("#new-user-modal");
+var editUserModal = document.querySelector("#edit-user-modal");
+var closeEditUserModal = document.querySelector("#edit-user-modal .close");
 
-
-initDropDown("contraSelect");
 
 // Запуск данных таблицы пользователей:
 
@@ -15,14 +13,14 @@ function startUsersTable() {
     .then((result) => {
       var data = JSON.parse(result);
       data = convertData(data);
-      initTable("usersTable", data);
+      initTable("users-table", data);
       var usersTabletData = {
-        area: "usersTableTablet",
+        area: "users-table-tablet",
         items: data,
         action: "replace",
       };
       var usersMobData = {
-        area: "usersTableMob",
+        area: "users-table-mob",
         items: data,
         action: "replace",
       };
@@ -33,7 +31,7 @@ function startUsersTable() {
     })
     .catch((err) => {
       console.log(err);
-      initTable("usersTable");
+      initTable("users-table");
     });
 }
 startUsersTable();
@@ -78,8 +76,8 @@ function accessTableType() {
   var tbody = usersTable.querySelector("tbody");
   var trs = tbody.querySelectorAll("tr");
   var access = tbody.querySelectorAll(".access");
-  var usersTableTablet = document.querySelector("#usersTableTablet");
-  var usersTableMob = document.querySelector("#usersTableMob");
+  var usersTableTablet = document.querySelector("#users-table-tablet");
+  var usersTableMob = document.querySelector("#users-table-mob");
 
   for (let i = 0; i < access.length; i++) {
     if (access[i].innerHTML === "частичный") {
