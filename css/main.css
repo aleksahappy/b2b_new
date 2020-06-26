@@ -1663,7 +1663,16 @@ form.post .form-cols {
 }
 
 form.post .form-cols > div {
-  padding-right: 1.428em;
+  padding-right: 0.714em;
+  padding-left: 0.714em;
+}
+
+form.post .form-cols > div:first-child {
+  padding-left: 0;
+}
+
+form.post .form-cols > div:last-child {
+  padding-right: 0;
 }
 
 form.post .form-col2 {
