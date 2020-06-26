@@ -109,7 +109,7 @@ Mobile:
 
 /* Стили на ширину до 0 до 480px включительно: */
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 499px) {
   .container {
     margin: 0 1.6rem;
   }
@@ -147,5 +147,14 @@ Mobile:
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+  }
+
+  form.post .form-cols {
+    display: block;
+  }
+
+  form.post .form-cols > div {
+    width: 100%;
+    padding: 0;
   }
 }

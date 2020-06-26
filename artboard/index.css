@@ -81,6 +81,10 @@ form.search.positioned {
   align-items: center;
 }
 
+#form-example form.post > .row {
+  flex-wrap: wrap;
+}
+
 #form-example form.post > .row .form-wrap input {
   width: 16.5em;
 }
