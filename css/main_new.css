@@ -7,11 +7,6 @@
   cursor: pointer;
 }
 
-.mob-cols{
-  display: flex;
-  flex-direction: row;
-}
-
 td {
   vertical-align: middle!important;
 }

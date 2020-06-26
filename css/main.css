@@ -271,7 +271,7 @@ body.no-scroll {
   align-items: flex-end;
   flex-grow: 1;
   width: 100%;
-  padding-top: 1.428em;
+  margin-top: 1.785em;
 }
 
 .btns-wrap > div {
@@ -351,6 +351,11 @@ body.no-scroll {
   color: #F05A28;
 }
 
+.err,
+.text-counter {
+  font-size: 0.857em;
+}
+
 .err {
   display: none;
   font-size: 0.857em;
@@ -359,10 +364,6 @@ body.no-scroll {
 
 .error .err {
   display: block;
-}
-
-.text-counter {
-  font-size: 0.857em;
 }
 
 .error .text-counter {
@@ -855,8 +856,7 @@ a.btn {
 ===================================================================================================== */
 
 .icon {
-  background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   width: 1em;
   height: 1em;
   cursor: pointer;
@@ -1664,7 +1664,16 @@ form.post .form-cols {
 }
 
 form.post .form-cols > div {
-  padding-right: 1.428em;
+  padding-right: 0.714em;
+  padding-left: 0.714em;
+}
+
+form.post .form-cols > div:first-child {
+  padding-left: 0;
+}
+
+form.post .form-cols > div:last-child {
+  padding-right: 0;
 }
 
 form.post .form-col2 {
@@ -1678,11 +1687,11 @@ form.post .form-col3 {
 form.post .form-wrap {
   position: relative;
   width: 100%;
-  margin-bottom: 1.93em;
+  margin-bottom: 1.785em;
 }
 
 form.post .form-wrap > .title {
-  margin-bottom: 0.45em;
+  margin-bottom: 0.35em;
 }
 
 form.post input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty),
@@ -1694,6 +1703,7 @@ form.post .form-wrap .err,
 form.post .form-wrap .text-counter {
   position: absolute;
   top: 100%;
+  white-space: nowrap;
 }
 
 /* =====================================================================================================
@@ -2000,10 +2010,11 @@ tbody tr:hover {
 .pop-up-title {
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1.428em 1.428em 2em 1.428em;
+  padding: 2.5em 2.5em 1.785em 2.5em;
 }
 
 .pop-up-title .title {
+  margin-top: -5px;
   margin-right: 0.83em;
 }
 
@@ -2018,7 +2029,7 @@ tbody tr:hover {
 .pop-up-body {
   height: calc(100% - 5.5em);
   max-height: calc(90vh - 9em);
-  padding: 1.428em;
+  padding: 2.5em;
   padding-top: 0;
   overflow-x: hidden;
   overflow-y: auto;

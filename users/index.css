@@ -156,11 +156,13 @@
 
 #addUser,
 #editUser{
-  /* width: 560px;
-  height: 753px;
-  width: 29.54vw; */
-  height: 753px;
-  width: 560px;
+  width: 40em;
+}
+
+#addUser .text-light,
+#editUser .text-light{
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .col .modal-col{
@@ -173,6 +175,11 @@
 
 #editUser .modal-col > .col {
   width: 91%;
+}
+
+#addUser .form-col2 .title,
+#editUser .form-col2 .title{
+  margin-bottom: 0.45em;
 }
 
 .radio-access{

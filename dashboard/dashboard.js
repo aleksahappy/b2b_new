@@ -30,11 +30,22 @@ startDesktopTable();
 tableDataSort();
 startProcurementPieChart();
 
-window.onresize = charts;
+//window.onresize = charts;
+
 window.onresize = startProcurementPieChart;
+
 if (window.innerWidth < 1299) {
   holdSectionWidth();
   window.onresize = holdSectionWidth;
+}
+
+
+// костыль перезагрузки страницы для адаптива
+
+window.addEventListener("resize", pageReload);
+
+function pageReload() {
+  window.location.reload(true);
 }
 
 
