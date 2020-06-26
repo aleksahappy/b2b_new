@@ -1,4 +1,4 @@
-.desktop-wrap {
+.dashboard-wrap {
 	display: flex;
 	width: 100%;
 }
@@ -247,25 +247,25 @@ thead .legend {
   margin-right: 1em;
 }
 
-#desktopTable td:nth-child(1) {
+#dashboardTable td:nth-child(1) {
   min-width: 9em;
 }
 
-#desktopTable td:nth-child(2) {
+#dashboardTable td:nth-child(2) {
   min-width: 10em;
 }
 
-#desktopTable td{
+#dashboardTable td{
   cursor: pointer;
 }
 
-#desktopTable td:last-child {
+#dashboardTable td:last-child {
   min-width: 25em;
   padding: 0;
   vertical-align: middle;
 }
 
-#desktopTable td:last-child > .row {
+#dashboardTable td:last-child > .row {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
@@ -274,13 +274,13 @@ thead .legend {
   text-overflow: ellipsis;
 }
 
-#desktopTable td:last-child > .row > div {
+#dashboardTable td:last-child > .row > div {
   margin-right: 1.3em;
   padding: 0em 1em;
   border-radius: 30px;
 }
 
-#desktopTable th:last-child .resize-btn{
+#dashboardTable th:last-child .resize-btn{
   display: none;
 }
 

@@ -1,9 +1,9 @@
 'use strict';
 
-var desktopTable = document.querySelector('#desktopTable');
-var tbody = desktopTable.querySelector('tbody');
+var dashboardTable = document.querySelector('#dashboardTable');
+var tbody = dashboardTable.querySelector('tbody');
 
-//  кнопка desktop тоггла
+//  кнопка dashboard тоггла
 var toggleBar1 = getEl('barChartTgl-1');
 var toggleBar2 = getEl('barChartTgl-2');
 //  canvas диаграмм
@@ -26,7 +26,7 @@ var procuBrand5 = [];  //  Ogio
 var procuBrand6 = [];  //  FXR
 
 charts();
-startDesktopTable();
+startdashboardTable();
 tableDataSort();
 startProcurementPieChart();
 
@@ -80,17 +80,17 @@ function holdSectionWidth() {
 
 // Запуск данных таблицы Рабочего стола:
 
-function startDesktopTable() {
-  sendRequest(`../json/desktopTableData.json`)
-  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+function startdashboardTable() {
+  sendRequest(`../json/dashboardTableData.json`)
+  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     var data = JSON.parse(result);
     data = convertData(data);
-    initTable('desktopTable', data);
+    initTable('dashboardTable', data);
   })
   .catch(err => {
     console.log(err);
-    initTable('desktopTable');
+    initTable('dashboardTable');
   });
 }
 
@@ -158,8 +158,8 @@ function charts() {
     var preordersSum = 0;
 
     // запрос
-    sendRequest(`../json/desktopTableData.json`)
-    //sendRequest(urlRequest.main, {action: 'desktopTable'})
+    sendRequest(`../json/dashboardTableData.json`)
+    //sendRequest(urlRequest.main, {action: 'dashboardTable'})
     .then(result => {
       var ordersProgressData = JSON.parse(result);
       ordersProgressData = convertData(ordersProgressData);
@@ -303,7 +303,7 @@ function charts() {
         var tableToggleMob = document.querySelector('#tableToggle-mob');
         var toggleCount = 0;
 
-        tableToggle.addEventListener('click', sortTableOrders); // desktop-тоггл
+        tableToggle.addEventListener('click', sortTableOrders); // dashboard-тоггл
         tableToggleMob.addEventListener('click', sortTableOrders);  //  mobile-тоггл
 
         function sortTableOrders() {
@@ -371,7 +371,7 @@ function charts() {
 
   // function startSpeedChart() {
   //   sendRequest(`../json/usersData.json`)
-  //     //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  //     //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   //     .then((result) => {
   //       var data = JSON.parse(result);
   //       data = convertData(data);
@@ -506,7 +506,7 @@ function startBarChart() {
 
   // запрос
   sendRequest(`../json/procurementData.json`)
-  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     var bar = JSON.parse(result);
     barData = bar;
@@ -704,7 +704,7 @@ function fillBarDataStorToggle() {
 function startProcurementPieChart() {
   // запрос
   sendRequest(`../json/procurementData.json`)
-  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     var procurements = JSON.parse(result);
     procurementData = procurements;

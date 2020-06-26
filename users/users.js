@@ -11,7 +11,7 @@ initDropDown("contraSelect");
 
 function startUsersTable() {
   sendRequest(`../json/usersData.json`)
-    //sendRequest(urlRequest.main, {action: 'desktopTable'})
+    //sendRequest(urlRequest.main, {action: 'dashboardTable'})
     .then((result) => {
       var data = JSON.parse(result);
       data = convertData(data);
