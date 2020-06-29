@@ -2,7 +2,6 @@
 
 var dashboardTable = document.querySelector('#dashboard-table');
 var tbody = dashboardTable.querySelector('tbody');
-
 //  кнопка dashboard тоггла
 var toggleBar1 = getEl('bar-chart-tgl-1');
 var toggleBar2 = getEl('bar-chart-tgl-2');
@@ -61,6 +60,7 @@ function arraySum(arr) {
 
 
 // Костыль для переопределения правильной ширины секции с toggle
+//  Это важная функция!!!
 
 function holdSectionWidth() {
   let toggleHeads = document.querySelectorAll('.switch');
@@ -134,6 +134,34 @@ function tableDataSort() {
       for (let j = 0; j < targetBtns.length; j++) {
         targetBtns[j].classList.toggle('toggleTableBtns');
       }
+    }
+    hideEmptyTR(strStatus);
+  }
+
+
+  function toggleOnHiddenChildren(div) {
+    div.style.display = Array.prototype.slice.call(div.children)
+    .every(function(child) {
+      return window.getComputedStyle(child, null).display === 'none';
+    }) ? 'none' : 'block';
+  }
+
+
+  function hideEmptyTR(strStatus) {
+    let rows = tbody.querySelectorAll('.row');
+
+    for (let i = 0; i < rows.length; i++) {
+      let targetBtnsArr = Array.prototype.slice.call(rows[i].querySelectorAll('div'));
+      let result = targetBtnsArr.every(function(div) {
+        let targetSt = getComputedStyle(div);
+        return targetSt.display === 'none';
+      });
+      console.log(result);
+
+      if (result) {
+        rows[i].closest('tr').classList.add('displayNone');
+      }
+      console.log('---------------------');
     }
   }
 }
