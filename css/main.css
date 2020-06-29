@@ -361,7 +361,7 @@ body.no-scroll {
   color: #CE0014;
 }
 
-.error .err {
+.error.err {
   display: block;
 }
 
