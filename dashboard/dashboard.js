@@ -107,6 +107,7 @@ function tableDataSort() {
   function hideEmptyTR(strStatus) {
     let rows = tbody.querySelectorAll('.row');
     let btnInx = 0;
+
     for (let b = 0; b < tableBtnsMob.length; b++) {
       btnInx++;
       if (tableBtnsMob[b].classList.contains(`status${btnInx}`)) {
@@ -122,9 +123,9 @@ function tableDataSort() {
       });
 
       if (result) {
-        rows[i].closest('tr').style.display = 'none';
+        rows[i].closest('tr').classList.add('displayNone');
       } else {
-        rows[i].closest('tr').style.display = 'table-row';
+        rows[i].closest('tr').classList.remove('displayNone');
       }
     }
   }
@@ -132,10 +133,14 @@ function tableDataSort() {
   // Вспомогательная функция для каждой определенной тоглл-кнопки таблицы
   function toggleCertainTableStickers(numStatus, strStatus, event) {
     let targetClass = event.target;
+    let correctClassName = strStatus.slice(1);
+
     if (targetClass.classList.contains(`status${numStatus}`)) {
       targetClass.classList.remove(`status${numStatus}`);
+      targetClass.classList.add(correctClassName);
     } else {
       targetClass.classList.add(`status${numStatus}`);
+      targetClass.classList.remove(correctClassName);
     }
     let rows = tbody.querySelectorAll('.row');
     for (let i = 0; i < rows.length; i++) {
@@ -144,9 +149,7 @@ function tableDataSort() {
         targetBtns[j].classList.toggle('toggleTableBtns');
       }
     }
-    // console.log(document.querySelector('#status1-mob'));
     hideEmptyTR(strStatus);
-    console.log('*****************************');
   }
 
   function addEventToTblBtns(btns) {
@@ -333,42 +336,70 @@ function charts() {
         tableToggleMob.addEventListener('click', sortTableOrders);  //  mobile-тоггл
 
         function sortTableOrders() {
-          //  обнуляем значение суммы всех предзаказов перед запускам пересчета
-          preordersSum = 0;
-          //  Показать только предзаказные позиции в таблице
-          let trs = tbody.querySelectorAll('tr');
+          if (tableToggle.classList.contains('checked')
+          || tableToggleMob.classList.contains('checked')) {
+            //  обнуляем значение суммы всех предзаказов перед запускам пересчета
+            preordersSum = 0;
+            //  Показать только предзаказные позиции в таблице
+            let trs = tbody.querySelectorAll('tr');
 
-          for (let i = 0; i < trs.length; i++) {
-            let tds = trs[i].querySelectorAll('td');
+            for (let i = 0; i < trs.length; i++) {
+              let tds = trs[i].querySelectorAll('td');
 
-            for (let j = 0; j < tds.length; j++) {
-              var tdsContent = tds[j].innerHTML;
-
-              if (tds[j].innerHTML.slice(0,9) === 'Предзаказ') {
-                tds[j].parentElement.classList.add('preorders');
-                toggleCount++;
-              }
-            }
-            if (!trs[i].classList.contains('preorders')) {
-              trs[i].classList.toggle('displayNone');
-            }
-            if (trs[i].classList.contains('preorders')) {
               for (let j = 0; j < tds.length; j++) {
-                let rows = tds[j].firstElementChild;
-                if (rows) {
-                  let divs = rows.children;
-                  for (let n = 0; n < divs.length; n++) {
-                    if (!divs[n].classList.contains('displayNone')) {
-                      let preorderSum = divs[n].innerHTML.replace(/ /g,'');
-                      preordersSum += parseInt(preorderSum);
+                var tdsContent = tds[j].innerHTML;
+
+                if (tds[j].innerHTML.slice(0,9) === 'Предзаказ') {
+                  console.log(tds[j]);
+                  tds[j].parentElement.classList.add('preorders');
+                  toggleCount++;
+                }
+              }
+              if (!trs[i].classList.contains('preorders')) {
+                trs[i].classList.add('displayNone');
+              }
+              if (trs[i].classList.contains('preorders')) {
+                for (let j = 0; j < tds.length; j++) {
+                  let rows = tds[j].firstElementChild;
+                  if (rows) {
+                    let divs = rows.children;
+                    for (let n = 0; n < divs.length; n++) {
+                      if (!divs[n].classList.contains('displayNone')) {
+                        let preorderSum = divs[n].innerHTML.replace(/ /g,'');
+                        preordersSum += parseInt(preorderSum);
+                      }
                     }
                   }
                 }
               }
             }
+          } else {
+            //  обнуляем значение суммы всех предзаказов перед запускам пересчета
+            preordersSum = 0;
+            //  Показать только предзаказные позиции в таблице
+            let trs = tbody.querySelectorAll('tr');
+
+            for (let i = 0; i < trs.length; i++) {
+              let tds = trs[i].querySelectorAll('td');
+
+              for (let j = 0; j < tds.length; j++) {
+                var tdsContent = tds[j].innerHTML;
+
+                if (tds[j].innerHTML.slice(0,9) === 'Предзаказ') {
+                  console.log(tds[j]);
+                  tds[j].parentElement.classList.add('preorders');
+                  toggleCount++;
+                }
+              }
+              if (!trs[i].classList.contains('preorders')) {
+                trs[i].classList.remove('displayNone');
+              }
+            }
           }
+
+
           //  Показать только предзаказные позиции в диаграмме
-          if (tableToggle.classList.contains('on') || tableToggleMob.classList.contains('on')) {
+          if (tableToggle.classList.contains('checked') || tableToggleMob.classList.contains('checked')) {
             ordersInfo.textContent = `
               ${toggleCount} ${declOfNum(toggleCount, ['активный', 'активных', 'активных'])}
               ${declOfNum(toggleCount, ['заказ', 'заказа', 'заказов'])} на общую сумму
