@@ -721,24 +721,6 @@ function fillBarDataStorToggle() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //  Диаграмма "Доля закупок по производителям"
 
 function startProcurementDonutChart() {
