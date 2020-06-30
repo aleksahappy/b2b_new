@@ -424,23 +424,6 @@ function charts() {
 
   //  Диаграмма "Рекламации в работе"
 
-  // Запуск данных таблицы пользователей:
-
-  // function startSpeedChart() {
-  //   sendRequest(`../json/usersData.json`)
-  //     //sendRequest(urlRequest.main, {action: 'desktopTable'})
-  //     .then((result) => {
-  //       var data = JSON.parse(result);
-  //       data = convertData(data);
-  //
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //
-  //     });
-  // }
-  // startSpeedChart();
-
   function speedChart() {
     const speedChartDiv = document.querySelector('.speed-chart');
     const gaugeEl = document.querySelector('.gauge'); //  сама диаграмма
