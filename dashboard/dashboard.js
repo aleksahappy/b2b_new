@@ -104,20 +104,29 @@ function tableDataSort() {
   var tableBtnsMobCont = document.querySelector('#table-btns-mob');
   var tableBtnsMob = tableBtnsMobCont.querySelectorAll('.table-btn');
 
-  //  навешиваем события на кнопки таблицы
-  var btnInx = 0;
-  for (let i = 0; i < tableBtns.length; i++) {
-    btnInx++;
-    tableBtns[i].addEventListener('click',
-      toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
-  }
+  function hideEmptyTR(strStatus) {
+    let rows = tbody.querySelectorAll('.row');
+    let btnInx = 0;
+    for (let b = 0; b < tableBtnsMob.length; b++) {
+      btnInx++;
+      if (tableBtnsMob[b].classList.contains(`status${btnInx}`)) {
+        console.log(tableBtnsMob[b]);
+      }
+    }
 
-  //  навешиваем события на кнопки таблицы для tablet
-  var btnInx = 0;
-  for (let i = 0; i < tableBtnsMob.length; i++) {
-    btnInx++;
-    tableBtnsMob[i].addEventListener('click',
-      toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
+    for (let i = 0; i < rows.length; i++) {
+      let targetBtnsArr = Array.prototype.slice.call(rows[i].querySelectorAll('div'));
+      let result = targetBtnsArr.every(function(div) {
+        let targetSt = getComputedStyle(div);
+        return targetSt.display === 'none';
+      });
+
+      if (result) {
+        rows[i].closest('tr').style.display = 'none';
+      } else {
+        rows[i].closest('tr').style.display = 'table-row';
+      }
+    }
   }
 
   // Вспомогательная функция для каждой определенной тоглл-кнопки таблицы
@@ -135,35 +144,24 @@ function tableDataSort() {
         targetBtns[j].classList.toggle('toggleTableBtns');
       }
     }
+    // console.log(document.querySelector('#status1-mob'));
     hideEmptyTR(strStatus);
+    console.log('*****************************');
   }
 
-
-  function toggleOnHiddenChildren(div) {
-    div.style.display = Array.prototype.slice.call(div.children)
-    .every(function(child) {
-      return window.getComputedStyle(child, null).display === 'none';
-    }) ? 'none' : 'block';
-  }
-
-
-  function hideEmptyTR(strStatus) {
-    let rows = tbody.querySelectorAll('.row');
-
-    for (let i = 0; i < rows.length; i++) {
-      let targetBtnsArr = Array.prototype.slice.call(rows[i].querySelectorAll('div'));
-      let result = targetBtnsArr.every(function(div) {
-        let targetSt = getComputedStyle(div);
-        return targetSt.display === 'none';
-      });
-      console.log(result);
-
-      if (result) {
-        rows[i].closest('tr').classList.add('displayNone');
-      }
-      console.log('---------------------');
+  function addEventToTblBtns(btns) {
+    var btnInx = 0;
+    for (let i = 0; i < btns.length; i++) {
+      btnInx++;
+      btns[i].addEventListener('click',
+        toggleCertainTableStickers.bind(null, btnInx.toString(), orderStatuses[i]));
     }
   }
+
+  //  навешиваем события на кнопки таблицы
+  addEventToTblBtns(tableBtns);
+  //  навешиваем события на кнопки таблицы для tablet
+  addEventToTblBtns(tableBtnsMob);
 }
 
 
