@@ -26,8 +26,8 @@ function startUsersTable() {
       };
       fillTemplate(usersTabletData);
       fillTemplate(usersMobData);
-      initModals();
       accessTableType();
+      initForm2('new-user-modal');
     })
     .catch((err) => {
       console.log(err);
@@ -36,39 +36,6 @@ function startUsersTable() {
 }
 startUsersTable();
 
-//  Работа модальных окон по клику на любую иконку .user-status .edit
-
-function initModals() {
-  var tbody = usersTable.querySelector("tbody");
-  var trs = tbody.querySelectorAll("tr");
-  var editUserIcs = document.querySelectorAll(".user-status .edit");
-
-  window.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-      editUserModal.style.display = "none";
-    }
-  });
-
-  document.addEventListener("click", function (event) {
-    var edit = event.target.matches(".edit");
-    if (edit) {
-      var editBtn = event.target;
-      editUserModal.style.display = "flex";
-      editUserModal.style.opacity = "1";
-      editUserModal.style.visibility = "visible";
-    }
-  },false);
-
-  closeEditUserModal.addEventListener("click", () => {
-    editUserModal.style.display = "none";
-  });
-
-  editUserModal.addEventListener("click", function (event) {
-    if (event.target === this) {
-      editUserModal.style.display = "none";
-    }
-  });
-}
 
 //  Определение расцветки стикера статуса доступа в зависсимости от поданных
 
@@ -121,4 +88,121 @@ function accessTableType() {
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////ФОРМА ДОБАВЛЕНИЯ КОНТРАГЕНТА///////////////////////////
+//=====================================================================================================
+// Работа с формами:
+//=====================================================================================================
+
+// Инициализация формы:
+
+function initForm2(el, func) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Form`] = new Form(el, func);
+  }
+}
+
+// Очистка формы:
+
+function clearForm(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Form`]) {
+    window[`${el.id}Form`].clear();
+  }
+}
+
+// Объект формы:
+
+function Form(obj, func) {
+  //  Используемые для проверки регулярные выражения
+  var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
+  var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+
+  // Элементы для работы:
+  this.form = obj;
+  this.submitBtn = getEl('input[type="submit"]', obj)
+  this.dropDowns = this.form.querySelectorAll('.activate');
+
+  // Инициализация выпадающих списков если они есть:
+  this.dropDowns.forEach((el, index) => {
+    this[`dropDown${index}`] = new DropDown(el);
+  });
+
+  // Установка обработчиков событий:
+  this.setEventListeners = function() {
+    this.form.addEventListener('submit', event => this.send(event));
+  }
+  this.setEventListeners();
+
+  // Отправка формы:
+  this.send = function(event) {
+    event.preventDefault();
+    if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
+      return;
+    }
+    var send = this.check();
+    console.log(send);
+    if (send) {
+      var data = this.getData();
+      if (func) {
+        func(data);
+      }
+      // console.log(data);
+    }
+  }
+
+  this.setInputEvents = function() {
+    this.form.querySelectorAll('input[type="text"]').forEach(el => {
+      el.addEventListener('input', function() {
+        console.log(el);
+      });
+    });
+  }
+  this.setInputEvents();
+
+  this.inputCheck = function() {
+    console.log('test inputCheck');
+  }
+
+  // Проверка на заполнение всех обязательных полей:
+  this.check = function() {
+    var isSend = true;
+    this.form.querySelectorAll('[required]').forEach(el => {
+      var value;
+      el.classList.remove('error');
+      el.querySelectorAll('input[type="radio"]').forEach(el => value = el.checked ? true : undefined);
+      el.querySelectorAll('input[type="checkbox"]').forEach(el => value = el.checked ? true : undefined);
+      el.querySelectorAll('input[type="text"]').forEach(el => value = el.value);
+      el.querySelectorAll('textarea').forEach(el => value = el.value);
+      el.querySelectorAll('.activate').forEach(el => value = el.value);
+      console.log(value);
+      if (!value) {
+        console.log(el);
+        el.classList.add('error');
+        isSend = false;
+      }
+    });
+    return(isSend);
+  }
+
+  // Получение данных формы:
+  this.getData = function() {
+    var data = {};
+    this.form.querySelectorAll('[name]').forEach(el => {
+      console.log(el.value);
+      if (el.value && el.value !== '') {
+        var key = el.getAttribute('name');
+        data[key] = el.value;
+      }
+    });
+    return data;
+  }
+
+  // Очистка формы поиска:
+  this.clear = function() {
+    this.form.querySelectorAll('textarea').forEach(el => el.value = '');
+    this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
+    this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
+  }
+}

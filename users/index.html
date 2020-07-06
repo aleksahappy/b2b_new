@@ -171,7 +171,7 @@
               </td>
               <td>#contr_date#</td>
               <td>
-                <div class="user-status edit"></div>
+                <div class="user-status edit"  onclick="openPopUp('edit-user-modal')"></div>
               </td>
             </tr>
           </tbody>
@@ -211,7 +211,7 @@
                   <div>Дата заведения: <span>#contr_date#</span></div>
                   <div class="check-access">Доступ: <span class="check-access-value">#contr_access#</span></div>
                 </div>
-                <div class="user-status edit"></div>
+                <div class="user-status edit" onclick="openPopUp('edit-user-modal')"></div>
               </div>
             </div>
           </div>
@@ -242,7 +242,7 @@
                 </div>
               </div>
               <div class="user-status row">
-                <div class="user-status edit"></div>
+                <div class="user-status edit"  onclick="openPopUp('edit-user-modal')"></div>
               </div>
             </div>
           </div>
@@ -635,7 +635,7 @@
   </div>
 
   <!-- Модальное окно "Редактировать пользователя" -->
-  <div id="edit-user-modal" class="pop-up-container col">
+  <div id="edit-user-modal" class="pop-up-container col" onclick="closePopUp(event)">
     <div id="edit-user" class="pop-up">
       <div class="pop-up-title row">
         <div class="title h1">Новый пользователь</div>

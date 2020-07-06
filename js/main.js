@@ -1481,99 +1481,99 @@ function showFiles(input) {
 
 // Инициализация формы:
 
-function initForm(el, func) {
-  var el = getEl(el);
-  if (el && el.id) {
-    window[`${el.id}Form`] = new Form(el, func);
-  }
-}
-
-// Очистка формы:
-
-function clearForm(el) {
-  var el = getEl(el);
-  if (window[`${el.id}Form`]) {
-    window[`${el.id}Form`].clear();
-  }
-}
-
-// Объект формы:
-
-function Form(obj, func) {
-  // Элементы для работы:
-  this.form = obj;
-  this.submitBtn = getEl('input[type="submit"]', obj)
-  this.dropDowns = this.form.querySelectorAll('.activate');
-
-  // Инициализация выпадающих списков если они есть:
-  this.dropDowns.forEach((el, index) => {
-    this[`dropDown${index}`] = new DropDown(el);
-  });
-
-  // Установка обработчиков событий:
-  this.setEventListeners = function() {
-    this.form.addEventListener('submit', event => this.send(event));
-  }
-  this.setEventListeners();
-
-  // Отправка формы:
-  this.send = function(event) {
-    event.preventDefault();
-    if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
-      return;
-    }
-    var send = this.check();
-    console.log(send);
-    if (send) {
-      var data = this.getData();
-      if (func) {
-        func(data);
-      }
-      // console.log(data);
-    }
-  }
-
-  // Проверка на заполнение всех обязательных полей:
-  this.check = function() {
-    var isSend = true;
-    this.form.querySelectorAll('[required]').forEach(el => {
-      var value;
-      el.classList.remove('error');
-      el.querySelectorAll('input[type="radio"]').forEach(el => value = el.checked ? true : undefined);
-      el.querySelectorAll('input[type="checkbox"]').forEach(el => value = el.checked ? true : undefined);
-      el.querySelectorAll('input[type="text"]').forEach(el => value = el.value);
-      el.querySelectorAll('textarea').forEach(el => value = el.value);
-      el.querySelectorAll('.activate').forEach(el => value = el.value);
-      console.log(value);
-      if (!value) {
-        console.log(el);
-        el.classList.add('error');
-        isSend = false;
-      }
-    });
-    return(isSend);
-  }
-
-  // Получение данных формы:
-  this.getData = function() {
-    var data = {};
-    this.form.querySelectorAll('[name]').forEach(el => {
-      console.log(el.value);
-      if (el.value && el.value !== '') {
-        var key = el.getAttribute('name');
-        data[key] = el.value;
-      }
-    });
-    return data;
-  }
-
-  // Очистка формы поиска:
-  this.clear = function() {
-    this.form.querySelectorAll('textarea').forEach(el => el.value = '');
-    this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
-    this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
-  }
-}
+// function initForm(el, func) {
+//   var el = getEl(el);
+//   if (el && el.id) {
+//     window[`${el.id}Form`] = new Form(el, func);
+//   }
+// }
+//
+// // Очистка формы:
+//
+// function clearForm(el) {
+//   var el = getEl(el);
+//   if (window[`${el.id}Form`]) {
+//     window[`${el.id}Form`].clear();
+//   }
+// }
+//
+// // Объект формы:
+//
+// function Form(obj, func) {
+//   // Элементы для работы:
+//   this.form = obj;
+//   this.submitBtn = getEl('input[type="submit"]', obj)
+//   this.dropDowns = this.form.querySelectorAll('.activate');
+//
+//   // Инициализация выпадающих списков если они есть:
+//   this.dropDowns.forEach((el, index) => {
+//     this[`dropDown${index}`] = new DropDown(el);
+//   });
+//
+//   // Установка обработчиков событий:
+//   this.setEventListeners = function() {
+//     this.form.addEventListener('submit', event => this.send(event));
+//   }
+//   this.setEventListeners();
+//
+//   // Отправка формы:
+//   this.send = function(event) {
+//     event.preventDefault();
+//     if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
+//       return;
+//     }
+//     var send = this.check();
+//     console.log(send);
+//     if (send) {
+//       var data = this.getData();
+//       if (func) {
+//         func(data);
+//       }
+//       // console.log(data);
+//     }
+//   }
+//
+//   // Проверка на заполнение всех обязательных полей:
+//   this.check = function() {
+//     var isSend = true;
+//     this.form.querySelectorAll('[required]').forEach(el => {
+//       var value;
+//       el.classList.remove('error');
+//       el.querySelectorAll('input[type="radio"]').forEach(el => value = el.checked ? true : undefined);
+//       el.querySelectorAll('input[type="checkbox"]').forEach(el => value = el.checked ? true : undefined);
+//       el.querySelectorAll('input[type="text"]').forEach(el => value = el.value);
+//       el.querySelectorAll('textarea').forEach(el => value = el.value);
+//       el.querySelectorAll('.activate').forEach(el => value = el.value);
+//       console.log(value);
+//       if (!value) {
+//         console.log(el);
+//         el.classList.add('error');
+//         isSend = false;
+//       }
+//     });
+//     return(isSend);
+//   }
+//
+//   // Получение данных формы:
+//   this.getData = function() {
+//     var data = {};
+//     this.form.querySelectorAll('[name]').forEach(el => {
+//       console.log(el.value);
+//       if (el.value && el.value !== '') {
+//         var key = el.getAttribute('name');
+//         data[key] = el.value;
+//       }
+//     });
+//     return data;
+//   }
+//
+//   // Очистка формы поиска:
+//   this.clear = function() {
+//     this.form.querySelectorAll('textarea').forEach(el => el.value = '');
+//     this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
+//     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
+//   }
+// }
 
 //=====================================================================================================
 // Работа полей поиска:
