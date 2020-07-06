@@ -126,11 +126,32 @@
 
         <!-- Подсказки при наведении -->
         <div class="artboard-title">Подсказки при наведении</div>
-        <div class="arboard-block tooltips-temp row">
+        <div class="arboard-block tooltips-temp">
 
-          <div tooltip="Подсказка" help>Обычная подсказка</div>
-          <div tooltip="Подсказка">Желтая подсказка</div>
-          <div tooltip="Подсказка &#10 в несколько строк">Подcказка в несколько строк</div>
+          <div class="row">
+            <div tooltip="Подсказка">Обычная подсказка сверху</div>
+            <div tooltip="Подсказка" flow="down">Обычная подсказка снизу</div>
+            <div tooltip="Подсказка" flow="left">Обычная подсказка слева</div>
+            <div tooltip="Подсказка" flow="right">Обычная подсказка справа</div>
+            <div tooltip="Подсказка" help>Желтая подсказка</div>
+            <div tooltip="Договор от 31.10.2016&#10Дата завершения 04.12.2019&#10Заключен с ООО «ТОП СПОРТС»">Подcказка в несколько строк</div>
+            <div tooltip="Подсказка&#10в несколько строк&#10с текстом слева" text="left">Подcказка в несколько строк c текстом слева</div>
+          </div>
+
+          <br>
+          <br>
+          <br>
+
+          <div class="row">
+            <div data-tooltip="Подсказка">Обычная подсказка сверху</div>
+            <div data-tooltip="Подсказка" flow="down">Обычная подсказка снизу</div>
+            <div data-tooltip="Подсказка" flow="left">Обычная подсказка слева</div>
+            <div data-tooltip="Подсказка" flow="right">Обычная подсказка справа</div>
+            <div data-tooltip="Подсказка" help>Желтая подсказка</div>
+            <div data-tooltip="<div>Договор от 31.10.2016</div><div>Дата завершения 04.12.2019</div><div>Заключен с ООО «ТОП СПОРТС»</div>">Подcказка в несколько строк</div>
+            <div data-tooltip="<div>Подсказка</div><div>в несколько строк</div><div>с текстом слева</div>" text="left">Подcказка в несколько строк c текстом слева</div>
+            <div id="tooltip" data-tooltip="Подсказка<br>в несколько строк">Подсказка с html-таблицей (текст добавлен через js)</div>
+          </div>
 
         </div>
 
@@ -184,6 +205,8 @@
           <div class="cart in-circle icon"></div>
           <div class="attention icon"></div>
           <div class="attention white icon"></div>
+          <div class="mark icon"></div>
+          <div class="mark icon active"></div>
           <div class="plus icon"></div>
           <div class="added">
             <div class="plus icon"></div>
@@ -339,7 +362,7 @@
         <div class="artboard-title">Тогглы</div>
         <div class="arboard-block toggle-temp">
 
-          <div style="font-size: 20px;">Толгы на светлый фон:</div>
+          <div style="font-size: 20px;">Тоглы на светлый фон:</div>
           <div>Тоггл в состоянии "выключен":</div>
           <div>
             <div class="toggle">
@@ -365,7 +388,7 @@
             <div class="toggle-in"></div>
           </div>
           <br>
-          <div style="font-size: 20px;">Толгы на темный фон:</div>
+          <div style="font-size: 20px;">Тоглы на темный фон:</div>
           <div style="background-color: #53606F;">
             <div class="text-white">Тоггл в состоянии "выключен":</div>
             <div>
@@ -590,6 +613,69 @@
                 <div class="check icon"></div>
               </div>
             </div>
+          </div>
+
+          <div>Кастомный выпадающий список с сортировкой, поиском и чекбоксом</div>
+          <div id="dropDown" class="activate box checkbox">
+            <div class="head row">
+              <div class="title">Drop-down</div>
+              <div class="icons row">
+                <div class="triangle icon"></div>
+                <div class="filter icon"></div>
+              </div>
+            </div>
+            <div class="drop-down">
+              <div class="sort-box">
+                <div class="title">Сортировка</div>
+                <div class="sort-down row">
+                  <div class="sort down icon"></div>
+                  <div>От А до Я</div>
+                </div>
+                <div class="sort-up row">
+                  <div class="sort up icon"></div>
+                  <div>От Я до А</div>
+                </div>
+              </div>
+              <div class="filter-box">
+                <div class="title">Фильтр</div>
+                <form class="search row">
+                  <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                  <input class="search icon" type="submit" value="">
+                  <div class="close icon"></div>
+                </form>
+                <div class="items">
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item1#</div>
+                  </div>
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item2#</div>
+                  </div>
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item3#</div>
+                  </div>
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item4#</div>
+                  </div>
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item5#</div>
+                  </div>
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item6#</div>
+                  </div>
+                  <div class="item row" data-value="#item#">
+                    <div class="checkbox icon"></div>
+                    <div>#item7#</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="resize-btn"></div>
           </div>
 
           <div>Кастомный список заблокированный</div>
@@ -961,7 +1047,7 @@
         </div>
 
         <!-- Таблица -->
-        <div class="artboard-title">Таблица</div>
+        <div class="artboard-title">Таблицы</div>
         <div class="arboard-block table-temp">
 
           <!-- Чтобы таблица отобразилась на странице корректно нужно:
@@ -970,122 +1056,356 @@
           3) указать min-width для всех столбцов таблицы через отдельный селектор (см. index.css)
           4) инициализировать таблицу, вызвав функцию initTable(), куда передать первым параметром id таблицы, а вторым данные (см.скрипт внизу) -->
 
-          <div id="table" class="table-wrap active">
+          <div class="title h1">Таблица, созданная в html</div>
+          <div id="table1" class="table-wrap active">
             <table class="head">
               <thead>
                 <tr>
-                  <th id="1">
-                    <div>1. Столбец без ресайза и без выпадающего списка</div>
-                  </th>
-                  <th id="2">
-                    <div>2. Столбец с ресайзом, но без выпадающего списка</div>
-                    <div class="resize-btn"></div>
-                  </th>
-                  <th id="3" class="activate">
+                  <th id="1" class="activate box checkbox" data-key="data">
                     <div class="head row">
-                      <div class="title">3. Столбец без ресайза, но с выпадающим списком</div>
+                      <div class="title">1. Столбец с ресайзом, полным выпадающим списком и текстовой сортировкой</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>От А до Я</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>От Я до А</div>
+                        </div>
+                      </div>
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
                     </div>
+                    <div class="resize-btn"></div>
                   </th>
-                  <th id="4" class="activate">
+                  <th id="2" class="activate box checkbox" data-key="data">
                     <div class="head row">
-                      <div class="title">4. Столбец с ресайзом и выпадающим списком</div>
+                      <div class="title">2. Столбец с ресайзом, полным выпадающим списком и численной сортировкой</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="box sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>По возрастанию</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>По убыванию</div>
+                        </div>
+                      </div>
+                      <div class="box filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
                     </div>
                     <div class="resize-btn"></div>
                   </th>
-                  <th id="5" class="activate">
+                  <th id="3" class="activate box checkbox" data-key="data">
                     <div class="head row">
-                      <div class="title">Столбец №5</div>
+                      <div class="title">3. Столбец с ресайзом, полным выпадающим списком и сортировкой по дате</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="box sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>Сначала новые</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>Сначала старые</div>
+                        </div>
+                      </div>
+                      <div class="box filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
                     </div>
                     <div class="resize-btn"></div>
                   </th>
-                  <th id="6" class="activate">
+                  <th id="4" class="activate box checkbox" data-key="data">
                     <div class="head row">
-                      <div class="title">Столбец №6</div>
+                      <div class="title">4. Столбец с ресайзом и выпадающим списком без сортировки</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
                     </div>
                     <div class="resize-btn"></div>
                   </th>
-                  <th id="7" class="activate">
+                  <th id="5" class="activate box checkbox" data-key="data">
                     <div class="head row">
-                      <div class="title">Столбец №7</div>
+                      <div class="title">5. Столбец с ресайзом и выпадающим списком без поиска</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="box sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>От А до Я</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>От Я до А</div>
+                        </div>
+                      </div>
+                      <div class="box filter-box">
+                        <div class="title">Фильтр</div>
+                        <div class="items"></div>
+                      </div>
                     </div>
                     <div class="resize-btn"></div>
                   </th>
-                  <th id="8" class="activate">
+                  <th id="6" class="activate box" data-key="data">
                     <div class="head row">
-                      <div class="title">Столбец №8</div>
+                      <div class="title">6. Столбец с ресайзом и выпадающим списком без чекбокса</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="box sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>Сначала новые</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>Сначала старые</div>
+                        </div>
+                      </div>
+                      <div class="box filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                      </div>
                     </div>
                     <div class="resize-btn"></div>
                   </th>
-                  <th id="9" class="activate">
+                  <th id="7" class="activate box" data-key="data">
                     <div class="head row">
-                      <div class="title">Столбец №9</div>
+                      <div class="title">7. Столбец с ресайзом и выпадающим списком только с сортировкой</div>
                       <div class="icons row">
                         <div class="triangle icon"></div>
                         <div class="filter icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>От А до Я</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>От Я до А</div>
+                        </div>
+                      </div>
                     </div>
                     <div class="resize-btn"></div>
                   </th>
-                  <th id="10" class="activate">
+                  <th id="8" class="activate box" data-key="data">
                     <div class="head row">
-                      <div class="title">Последний столбец с ресайзом</div>
-                      <div class="triangle icon"></div>
+                      <div class="title">8. Столбец с ресайзом и выпадающим списком только с поиском</div>
+                      <div class="icons row">
+                        <div class="triangle icon"></div>
+                        <div class="filter icon"></div>
+                      </div>
                     </div>
                     <div class="drop-down">
-                      <div class="item row"></div>
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                      </div>
                     </div>
+                    <div class="resize-btn"></div>
+                  </th>
+                  <th id="9" class="activate box checkbox" data-key="data">
+                    <div class="head row">
+                      <div class="title">9. Столбец с ресайзом и выпадающим списком только с чекбоксом</div>
+                      <div class="icons row">
+                        <div class="triangle icon"></div>
+                        <div class="filter icon"></div>
+                      </div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <div class="items"></div>
+                      </div>
+                    </div>
+                    <div class="resize-btn"></div>
+                  </th>
+                  <th id="10">
+                    <div>10. Столбец с ресайзом, но без выпадающего списка</div>
+                    <div class="resize-btn"></div>
+                  </th>
+                  <th id="11" class="activate box checkbox" data-key="data">
+                    <div class="head row">
+                      <div class="title">11. Столбец без ресайза, но с выпадающим списком</div>
+                      <div class="icons row">
+                        <div class="triangle icon"></div>
+                        <div class="filter icon"></div>
+                      </div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>От А до Я</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>От Я до А</div>
+                        </div>
+                      </div>
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
+                    </div>
+                  </th>
+                  <th id="12">
+                    <div>12. Столбец без ресайза и без выпадающего списка</div>
+                  </th>
+                  <th id="13" class="activate box checkbox" data-key="data">
+                    <div class="head row">
+                      <div class="title">13. Столбец c cодержимым из строки (иконка + текст)</div>
+                      <div class="icons row">
+                        <div class="triangle icon"></div>
+                        <div class="filter icon"></div>
+                      </div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>От А до Я</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>От Я до А</div>
+                        </div>
+                      </div>
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
+                    </div>
+                    <div class="resize-btn"></div>
+                  </th>
+                  <th id="14" class="activate box checkbox" data-key="docs" data-subkey="title">
+                    <div class="head row">
+                      <div class="title">14. Столбец cо сложным cодержимым (подшаблоном)</div>
+                      <div class="icons row">
+                        <div class="triangle icon"></div>
+                        <div class="filter icon"></div>
+                      </div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="sort-box">
+                        <div class="title">Сортировка</div>
+                        <div class="sort-down row">
+                          <div class="sort down icon"></div>
+                          <div>От А до Я</div>
+                        </div>
+                        <div class="sort-up row">
+                          <div class="sort up icon"></div>
+                          <div>От Я до А</div>
+                        </div>
+                      </div>
+                      <div class="filter-box">
+                        <div class="title">Фильтр</div>
+                        <form class="search row">
+                          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                          <input class="search icon" type="submit" value="">
+                          <div class="close icon"></div>
+                        </form>
+                        <div class="items"></div>
+                      </div>
+                    </div>
+                    <div class="resize-btn"></div>
+                  </th>
+                  <th id="15">
+                    <div>15. Последний столбец просто с ресайзом</div>
                     <div class="resize-btn"></div>
                   </th>
                 </tr>
               </thead>
             </table>
             <table>
-              <tbody>
+              <tbody id="table1-body">
                 <tr>
                   <td>#data#</td>
                   <td>#data#</td>
@@ -1097,8 +1417,33 @@
                   <td>#data#</td>
                   <td>#data#</td>
                   <td>#data#</td>
+                  <td>#data#</td>
+                  <td>#data#</td>
+                  <td>
+                    <div class="row">
+                      <div class="download icon"></div>
+                      <div>#data#</div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="docs row">
+                      <div class="mark icon #status#" data-tooltip="#status_info#"></div>
+                      <a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a>
+                    </div>
+                  </td>
+                  <td>#data#</td>
                 </tr>
               </tbody>
+            </table>
+          </div>
+
+          <div class="title h1">Таблица, созданная динамически</div>
+          <div id="table2" class="table-wrap active">
+            <table class="head">
+              <thead></thead>
+            </table>
+            <table>
+              <tbody id="table2-body"></tbody>
             </table>
           </div>
 
@@ -1106,8 +1451,6 @@
 
       </div>
     </div>
-
-
 
     <!-- Шаблон окна уведомлений -->
     <div id="alerts-container" class="pop-up-container" onclick="closePopUp(event)">
@@ -1410,19 +1753,154 @@
 
     <script src ="../js/main.js"></script>
     <script>
-      var data = [];
-      for (var i = 0; i < 120; i++) {
-        data.push({data: 'Сюда подставляем данные ' + 1+i});
-      }
+      // Добавление всплывающей html-подсказки:
+      getEl('tooltip').dataset.tooltip = `<table style="width:100% !important;border-spacing: 2px;border-collapse: separate;font-size:12px;text-align:center;"><thead><tr><th>Сумма заказа в РРЦ</th><th>Размер  скидки</th></tr></thead><tbody><tr><td>до 35 000</td><td>30%</td></tr><tr><td>от 35 000 до 70 000</td><td>35%</td></tr><tr><td>от 70 000 до 100 000</td><td>45%</td></tr><tr><td>от 100 000</td><td>65%</td></tr></tbody></table>`;
+
+      // Отображение всех незаполненных шаблонов, чтобы их можно было видеть в артборде:
       document.querySelectorAll('.template').forEach(el => el.classList.remove('template'));
+
+      // Инициализация поиска, выпадающих списков и форм:
       initSearch('search');
       initDropDown('select');
       initDropDown('checkbox');
+      initDropDown('dropDown');
       initForm('form1');
       initForm('form2');
-      initTable('table', data);
-      loader.hide();
 
+      // Созание примера данных для первой таблицы и запуск ее инициализации:
+      var data1 = [];
+      for (var i = 0; i < 120; i++) {
+        data1.push({
+          data: 'Сюда подставляем данные ' + (parseInt(i, 10) + 1),
+          docs: [{
+            title: 'Договор с ООО «ТОП СПОРТС» от 31.10.2016',
+            status: 'active',
+            date_start: '31.10.2016',
+            date_end: '04.12.2019',
+            contr: 'ООО «ТОП СПОРТС»',
+            url: 'bla-bla',
+            status_info: 'действует',
+            info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
+          },{
+            title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
+            status: '',
+            date_start: '31.10.2017',
+            contr: 'ООО «ТОП СПОРТС-1»',
+            url: 'bla-bla',
+            status_info: 'не действует',
+            info: 'Договор от 31.10.2017<br>Заключен с ООО «ТОП СПОРТС»'
+          }]
+        });
+      }
+      initTable('table1', {data: data1, sub: [{area: '.docs', items: 'docs'}]});
+
+      // Созание примера данных для второй таблицы и запуск ее инициализации:
+      var data2 = [];
+      for (var i = 0; i < 60; i++) {
+        data2.push({
+          access: 'checked',
+          inn: '9731002289/637584',
+          contr: 'ООО, Пилот' + (parseInt(i, 10) + 1),
+          system: 'Упрощенная',
+          date: '31.10.2016',
+          address: '119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4',
+          user: 'Семенов И.О.',
+          docs: [{
+            title: 'Договор с ООО «ТОП СПОРТС» от 31.10.2016',
+            status: 'active',
+            date_start: '31.10.2016',
+            date_end: '04.12.2019',
+            contr: 'ООО «ТОП СПОРТС»',
+            url: 'bla-bla',
+            status_info: 'действует',
+            info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
+          },{
+            title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
+            status: '',
+            date_start: '31.10.2017',
+            contr: 'ООО «ТОП СПОРТС-1»',
+            url: 'bla-bla',
+            status_info: 'не действует',
+            info: 'Договор от 31.10.2017<br>Заключен с ООО «ТОП СПОРТС»'
+          }]
+        });
+        data2.push({
+          access: '',
+          inn: '9731002289/637584',
+          contr: 'ООО, Пилот' + (1 + i),
+          system: 'Основная',
+          date: '31.10.2016',
+          address: '119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4',
+          user: 'Петров Б.Е.',
+          docs: [{
+            title: 'Договор с ООО «ТОП СПОРТС» от 31.10.2016',
+            status: 'active',
+            date_start: '31.10.2016',
+            date_end: '04.12.2019',
+            contr: 'ООО «ТОП СПОРТС»',
+            url: 'bla-bla',
+            status_info: 'действует',
+            info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
+          },{
+            title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
+            status: '',
+            date_start: '31.10.2017',
+            contr: 'ООО «ТОП СПОРТС-1»',
+            url: 'bla-bla',
+            status_info: 'не действует',
+            info: 'Договор от 31.10.2017<br>Заключен с ООО «ТОП СПОРТС»'
+          }]
+        });
+      }
+      var settings = {
+        data: data2,
+        head: true,
+        result: false,
+        cols: [{
+          key: 'access',
+          title: 'Доступ',
+          content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
+        }, {
+          key: 'inn',
+          title: 'ИНН/КПП',
+          sort: 'numb',
+          filter: 'search'
+        }, {
+          key: 'contr',
+          title: 'Контрагент',
+          sort: 'text',
+          filter: 'full'
+        }, {
+          key: 'system',
+          title: 'Система налогообложения',
+          sort: 'text',
+          filter: 'full'
+        }, {
+          key: 'date',
+          title: 'Дата заведения',
+          sort: 'date',
+          filter: 'search'
+        }, {
+          key: 'address',
+          title: 'Юридический адрес',
+          filter: 'search'
+        }, {
+          key: 'user',
+          title: 'Пользователь',
+          sort: 'text',
+          filter: 'full'
+        }, {
+          key: 'docs',
+          subkey: 'status_info',
+          title: 'Документы',
+          content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
+          filter: 'checkbox'
+        }],
+        sub: [{area: '.docs', items: 'docs'}]
+      }
+      initTable('table2', settings);
+
+      // Функция, переключающая класс "checked" в целях визуализации работы элементов:
       function toggle(event) {
         event.currentTarget.classList.toggle('checked');
       }
@@ -1431,71 +1909,20 @@
   </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-
-
- <!-- Блок с информацией -->
-<!-- <div class="artboard-title">Блок с информацией</div>
-<div class="arboard-block inform-temp row">
-
-  Блок без выравнивания инфорации по краям
-  <div class="information">
-    <div class="head">Детали заказа</div>
-    <div class="row">
-      <div>
-        <div class="title">Способ оплаты: <span class="text">Безналичный расчет</span></div>
-        <div class="title">Контрагент: <span class="text"><a href="#">ИП Трохименко</a></span></div>
-        <div class="title">Тип заказа: <span class="text"><a href="#">Предзаказ-19 Spy Optic</a></span></div>
-        <div class="title">Менеджер заказа: <span class="text">Ольга Петрова</span></div>
-        <div class="title">Заказчик: <span class="text">Геннадий Трохименко</span></div>
-        <div class="title">Тип доставки: <span class="text">Транспортная компания</span></div>
-        <div class="title">Оплата доставки: <span class="text">Получатель</span></div>
-        <div class="title">Отгрузочные документы: <span class="text">Вкладывать</span></div>
-      </div>
-      <div class="comment">
-        <div class="title">Комментарий:</div>
-        <div class="text light">На всех коробках прошу написать маркером или наклеить лист бумаги с кодом TS-0027&#34; Получателем указать ИП Петренко Сергей Анатольевич, телефон 8-499-653-91-08 Плательщик пересылки ООО «Ритм -8»</div>
-      </div>
-    </div>
-  </div>
-
-  Блок с выравниванием инфорации по краям
-  <div class="information">
-    <div class="head title">Оплаты</div>
-    <div>
-      <div class="item row">
-        <div class="title">Оплатить сейчас:</div>
-        <div class="text">1 060 000,00 ₽</div>
-      </div>
-      <div class="item row">
-        <div class="title">Сумма заказа:</div>
-        <div class="text">9 000 000,00 ₽</div>
-      </div>
-      <div class="item row">
-        <div class="title">Оплачено:</div>
-        <div class="text">1 800 000,00 ₽</div>
-      </div>
-      <div class="item row">
-        <div class="title">Осталось оплатить:</div>
-        <div class="text">7 200 000,00 ₽</div>
-      </div>
-      <div class="item row">
-        <div class="title">Дебиторская задолженность:</div>
-        <div class="text">100 000,00 ₽</div>
-      </div>
-      <div class="item row">
-        <div class="title">Кредиторская задолженность:</div>
-        <div class="text">240 000,00 ₽</div>
-      </div>
-    </div>
-  </div>
-
-</div> -->
+<!--
+settings = {
+  data: данные для заполнения таблицы
+  head: true или false (по умолчанию false)
+  result: true или false (по умолчанию false)
+  cols: [{
+    key: 'key' (ключ в данных по которому находится информация для данного столбца)
+    subkey: 'subkey' (если данные в основном ключе содержат массив объектов, тогда необходимо указать подраздел на основании которого будет идти поиск и фильтрация)
+    title: 'Заголовок' (заголовок столбца)
+    resize: true или false (по умолчанию true)
+    result: 'kolv' или 'price' (по умолчанию false)
+    sort: 'text', 'numb' или 'date' (по умолчанию false),
+    filter: 'full', 'search' или'checkbox' (по умолчанию false)
+    content: готовый innerHTML(если отличается от #key#) или пропускаем (по умолчанию #key#)
+  }]
+  sub: [{area: id / селектор, items: название ключа в data}]
+}; -->
