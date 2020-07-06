@@ -154,15 +154,21 @@ function Form(obj, func) {
 
   this.setInputEvents = function() {
     this.form.querySelectorAll('input[type="text"]').forEach(el => {
-      el.addEventListener('input', function() {
-        console.log(el);
-      });
+      el.addEventListener('input', event => this.inputCheck(event));
     });
   }
   this.setInputEvents();
 
-  this.inputCheck = function() {
-    console.log('test inputCheck');
+
+  this.inputCheck = function(event) {
+    var inpType = event.target.getAttribute('name');
+    var val = event.target.value;
+    if (val !== 0 && val.length < 4) {
+      event.target.closest('.form-wrap').classList.add('error');
+    }
+    if (val.length < 1 || val.length > 4) {
+      event.target.closest('.form-wrap').classList.remove('error');
+    }
   }
 
   // Проверка на заполнение всех обязательных полей:
