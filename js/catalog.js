@@ -174,7 +174,7 @@ function addActionInfo(item) {
   if (item.action_id > 0) {
     if (window.actions) {
       var action = actions[item.action_id];
-      if (action && checkDate(action.begin, action.expire)) {
+      if (action && (action.unending || checkDate(action.begin, action.expire))) {
         item.actiontitle = action.title;
         item.actioncolor = '#' + action.color;
         item.action_tooltip = '';
@@ -742,7 +742,10 @@ function setFilterOnPage(filter) {
 
 // Очистка фильтров:
 
-function clearFilters() {
+function clearFilters(event) {
+  if (event.currentTarget.classList.contains('disabled')) {
+    return;
+  }
   if (curSelect === 'catalog' || curSelect === 'zip') {
     getDocumentScroll();
     if (curSelect === 'catalog') {
@@ -758,9 +761,6 @@ function clearFilters() {
         el.classList.add('close');
       }
     });
-    removeAllFilters();
-    removePositions();
-    clearFiltersInfo();
     selectCards();
     setDocumentScroll();
   }
@@ -787,6 +787,18 @@ function initFiltersCatalog() {
     }]
   });
   addTooltips('color');
+}
+
+// Добавление всплывающих подсказок к фильтрам каталога:
+
+function addTooltips(key) {
+  var elements = document.querySelectorAll(`[data-key=${key}]`);
+  if (elements) {
+    elements.forEach(el => {
+      // el.setAttribute('tooltip', el.textContent.trim());
+      el.dataset.tooltip = el.textContent.trim();
+    });
+  }
 }
 
 // Проверка необходимости фильтров на странице и добавление необходимых данных:
@@ -879,6 +891,7 @@ function selectFilterCatalog(event) {
   if (!filters || isEmptyObj(filters)) {
     selectedItems = '';
     showCards();
+    getEl('.clear-filter').classList.add('disabled');
   } else {
     selectCards('catalog');
   }
@@ -1020,9 +1033,13 @@ function toggleToActualFilters(filter) {
 
 function clearFiltersCatalog() {
   getEl('catalog-filters').querySelectorAll('.filter-item').forEach(el => {
-    el.classList.remove('checked', 'disabled', );
+    el.classList.remove('checked', 'disabled');
     el.classList.add('close');
   });
+  removeAllFilters();
+  removePositions();
+  clearFiltersInfo();
+  getEl('.clear-filter').classList.add('disabled');
 }
 
 // Выбор сохраненных фильтров на странице или их удаление если их больше нет на странице:
@@ -1268,6 +1285,7 @@ function clearFiltersZip() {
     lockFilterZip(nextFilter);
     nextFilter = nextFilter.nextElementSibling;
   }
+  getEl('.clear-filter').classList.add('disabled');
 }
 
 //=====================================================================================================
@@ -1471,7 +1489,8 @@ function closeBigCard(event) {
 
 // Запуск отбора карточек или его отмена:
 
-function selectCards(textToFind, type) {
+function selectCards(search, textToFind) {
+  var type = search.id;
   if (type) {
     clearCurSelect(type);
     curSelect = type;
@@ -1541,6 +1560,7 @@ function selectCardsByFilterCatalog(filters) {
     }
     return true;
   });
+  getEl('.clear-filter').classList.remove('disabled');
 }
 
 // Отбор карточек фильтром запчастей:
@@ -1569,6 +1589,7 @@ function selectCardsByFilterZip() {
       }
     }
   });
+  getEl('.clear-filter').classList.remove('disabled');
 }
 
 // Получение значений выбранных фильтров:
