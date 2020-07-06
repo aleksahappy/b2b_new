@@ -1,5 +1,5 @@
 'use strict';
-// Костыль для переопределения правильной ширины секции с toggle
+//  Функция для переопределения правильной ширины секции с toggle
 //  Это важная функция!!!
 
 function holdSectionWidth() {
@@ -20,8 +20,11 @@ function holdSectionWidth() {
 
 ///////////////////////////////СЕКЦИЯ "ЗАКАЗЫ В РАБОТЕ"/////////////////////////
 // Запуск данных таблицы Рабочего стола:
+
 var dashboardTable = document.querySelector('#dashboard-table');
 var tbody = dashboardTable.querySelector('tbody');
+
+
 function startDashboardTable() {
   sendRequest(`../json/desktopTableData.json`)
   //sendRequest(urlRequest.main, {action: 'desktopTable'})
@@ -30,6 +33,7 @@ function startDashboardTable() {
     dataOrders = convertData(dataOrders);
     initTable('dashboard-table', dataOrders);
     startOrdersProgress(dataOrders);
+    getOrdersInfo();
     tableDataSort();
   })
   .catch(err => {
@@ -44,6 +48,15 @@ var ordersChart = document.getElementById('orders-chart').getContext('2d');
 //  тогглы
 var tableToggle = document.querySelector('#table-toggle');
 var tableToggleMob = document.querySelector('#table-toggle-mob');
+
+var orderStatuses = ['.vputi', '.vnali', '.sobrn', '.otgrz'];
+
+var tableBtnsCont = document.querySelector('.table-btns');
+var tableBtns = tableBtnsCont.querySelectorAll('.table-btn');
+
+var tableBtnsMobCont = document.querySelector('#table-btns-mob');
+var tableBtnsMob = tableBtnsMobCont.querySelectorAll('.table-btn');
+
 tableToggle.addEventListener('click', togglePreorders); // desktop-тоггл
 tableToggleMob.addEventListener('click', togglePreorders);  //  mobile-тоггл
 
@@ -51,7 +64,6 @@ tableToggleMob.addEventListener('click', togglePreorders);  //  mobile-тогг�
 //  запроса в диаграмму
 var dataOrders;
 var dataPreorders;
-var preordersCounter = 0;
 
 // "Ожидается"
 var pendingOrders = 0;
@@ -80,7 +92,6 @@ var totalOrdersSum = 0;
 //  Натройка отображения и выравнивания текста внутри диаграммы
 var chart1 = document.querySelector('#chart1');
 var ordersInfo = document.querySelector('.orders-info');  //  контейнер с текстом внутри диаграммы
-
 //  сам экземпляр класса диаграммы
 var chart = new Chart(ordersChart, {
     type: 'doughnut', // тип графика
@@ -210,9 +221,8 @@ function getOrdersChartSums(arr) {
 
 //  Отбор только предзаказов
 
-function filterPreorders(item) {
+function preordersOnly(item) {
   if (item.order_event.slice(0,9) === 'Предзаказ') {
-    preordersCounter++;
     return true;
   }
   return false;
@@ -222,19 +232,34 @@ function filterPreorders(item) {
 //  По клику на тоггл диаграммы "Только предзаказы" показывает/скрывает данные
 
 function togglePreorders() {
-  dataPreorders = dataOrders.filter(filterPreorders);
+  dataPreorders = dataOrders.filter(preordersOnly);
+  restartBtns(tableBtns);
+  restartBtns(tableBtnsMob);
 
   if (tableToggle.classList.contains('checked')
   || tableToggleMob.classList.contains('checked')) {
-    preordersCounter = 0;
     initTable('dashboard-table', dataPreorders);
     startOrdersProgress(dataPreorders);
+    getOrdersInfo();
   } else {
-    preordersCounter = 0;
     initTable('dashboard-table', dataOrders);
     startOrdersProgress(dataOrders);
+    getOrdersInfo();
   }
 }
+
+
+//  Сбросить тоггл-кнопки статусов таблицы в начальное состояние
+
+function restartBtns(btns) {
+  var inx = 0;
+  for (let i = 0; i < btns.length; i++) {
+    inx++
+    btns[i].classList.remove(orderStatuses[i].slice(1));
+    btns[i].classList.add(`status${inx}`);
+  }
+}
+
 
 
 
@@ -242,9 +267,9 @@ function startOrdersProgress(arr) {
 
   getOrdersChartSums(arr);
   // кол-во заказов по статусам
-  ordersQty = [pendingOrders, stockOrders, readyOrders, doneOrders];
+  ordersQty = [pendingOrders, doneOrders, readyOrders, stockOrders];
   //  суммы состояний заказов
-  ordersSum = [pendingOrdersSum, stockOrdersSum, readyOrdersSum, doneOrdersSum];
+  ordersSum = [pendingOrdersSum, doneOrdersSum, readyOrdersSum, stockOrdersSum];
   //  общее кол-во заказов
   totalOrdersQty = arraySum(ordersQty);
   //  общая сумма заказов
@@ -255,10 +280,23 @@ function startOrdersProgress(arr) {
     dataset.data = ordersQty;
   });
   chart.update();
+}
 
-  ordersInfo.textContent = `${totalOrdersQty}
-    ${declOfNum(totalOrdersQty, ['активный', 'активных'])}
-    ${declOfNum(totalOrdersQty, ['заказ', 'заказа', 'заказов'])} на общую сумму
+
+//  Получить текст с информацией о заказах внутри кольцевой диаграммы "Заказы в
+//  работе"
+
+function getOrdersInfo() {
+  var totalOrders = 0;
+  var trs = tbody.querySelectorAll('tr');
+
+  for (let i = 0; i < trs.length; i++) {
+    totalOrders++;
+  }
+
+  ordersInfo.textContent = `${totalOrders}
+    ${declOfNum(totalOrders, ['активный', 'активных', 'активных'])}
+    ${declOfNum(totalOrders, ['заказ', 'заказа', 'заказов'])} на общую сумму
     ${totalOrdersSum.toLocaleString('ru-RU')} руб.`;
 }
 
@@ -266,22 +304,10 @@ function startOrdersProgress(arr) {
 //  Работа кнопок фильтрации сумм заказов по состояниям заказов в таблице Рабочего стола
 
 function tableDataSort() {
-  var orderStatuses = ['.vputi', '.vnali', '.sobrn', '.otgrz'];
-  var tableBtnsCont = document.querySelector('.table-btns');
-  var tableBtns = tableBtnsCont.querySelectorAll('.table-btn');
-  var tableBtnsMobCont = document.querySelector('#table-btns-mob');
-  var tableBtnsMob = tableBtnsMobCont.querySelectorAll('.table-btn');
-
+  //  Очитстить строки, где везде "display:none"
   function hideEmptyTR(strStatus) {
     let rows = tbody.querySelectorAll('.row');
     let btnInx = 0;
-
-    for (let b = 0; b < tableBtnsMob.length; b++) {
-      btnInx++;
-      if (tableBtnsMob[b].classList.contains(`status${btnInx}`)) {
-        console.log(tableBtnsMob[b]);
-      }
-    }
 
     for (let i = 0; i < rows.length; i++) {
       let targetBtnsArr = Array.prototype.slice.call(rows[i].querySelectorAll('div'));
@@ -311,16 +337,41 @@ function tableDataSort() {
       targetClass.classList.remove(correctClassName);
     }
     let rows = tbody.querySelectorAll('.row');
-    for (let i = 0; i < rows.length; i++) {
-      let targetBtns = tbody.querySelectorAll(strStatus);
-      for (let j = 0; j < targetBtns.length; j++) {
-        targetBtns[j].classList.toggle('toggleTableBtns');
+
+
+    if (targetClass.classList.contains(correctClassName)) {
+      for (let i = 0; i < rows.length; i++) {
+        let targetBtns = tbody.querySelectorAll(strStatus);
+        for (let j = 0; j < targetBtns.length; j++) {
+          targetBtns[j].classList.add('toggleTableBtns');
+        }
+      }
+    } else {
+      for (let i = 0; i < rows.length; i++) {
+        let targetBtns = tbody.querySelectorAll(strStatus);
+        for (let j = 0; j < targetBtns.length; j++) {
+          targetBtns[j].classList.remove('toggleTableBtns');
+        }
       }
     }
+
+    //  показать/скрыть стикеры с кликнутым статусом
+    // for (let i = 0; i < rows.length; i++) {
+    //   let targetBtns = tbody.querySelectorAll(strStatus);
+    //   if (targetBtns) {
+    //     console.log('add')
+    //     for (let j = 0; j < targetBtns.length; j++) {
+    //       targetBtns[j].classList.toggle('toggleTableBtns');
+    //     }
+    //   } else {
+    //     console.log('remove')
+    //   }
+    //
+    // }
     hideEmptyTR(strStatus);
   }
 
-  function addEventToTblBtns(btns) {
+  function addEvent(btns) {
     var btnInx = 0;
     for (let i = 0; i < btns.length; i++) {
       btnInx++;
@@ -330,10 +381,11 @@ function tableDataSort() {
   }
 
   //  навешиваем события на кнопки таблицы
-  addEventToTblBtns(tableBtns);
+  addEvent(tableBtns);
   //  навешиваем события на кнопки таблицы для tablet
-  addEventToTblBtns(tableBtnsMob);
+  addEvent(tableBtnsMob);
 }
+
 
 
 /////////////////////////ДИАГРАММА "РЕКЛАМАЦИИ В РАБОТЕ"////////////////////////
@@ -655,6 +707,7 @@ function runBarChart() {
     }
   });
 }
+
 
 
 /////////////////ДИАГРАММА "ДОЛЯ ЗАКУПОК ПО ПРОИЗВЛДИТЕЛЯМ"/////////////////////
