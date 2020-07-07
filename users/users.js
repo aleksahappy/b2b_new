@@ -27,7 +27,8 @@ function startUsersTable() {
       fillTemplate(usersTabletData);
       fillTemplate(usersMobData);
       accessTableType();
-      initForm2('new-user-modal');
+      initForm2('new-user-modal', testNewUser);
+      //initCalendar();
     })
     .catch((err) => {
       console.log(err);
@@ -35,6 +36,14 @@ function startUsersTable() {
     });
 }
 startUsersTable();
+
+function initCalendar() {
+  let testCalend = document.querySelector('#user-birth');
+  console.log(testCalend);
+  //  инстанциирование нового экземпляра календаря
+  let calendar = new Calendar({ id: "#user-birth" });
+  return calendar;
+}
 
 
 //  Определение расцветки стикера статуса доступа в зависсимости от поданных
@@ -98,7 +107,7 @@ function accessTableType() {
 function initForm2(el, func) {
   var el = getEl(el);
   if (el && el.id) {
-    window[`${el.id}Form`] = new Form(el, func);
+    window[`${el.id}Form`] = new Form2(el, func);
   }
 }
 
@@ -113,12 +122,7 @@ function clearForm(el) {
 
 // Объект формы:
 
-function Form(obj, func) {
-  //  Используемые для проверки регулярные выражения
-  var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
-  var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
-
+function Form2(obj, func) {
   // Элементы для работы:
   this.form = obj;
   this.submitBtn = getEl('input[type="submit"]', obj)
@@ -137,21 +141,25 @@ function Form(obj, func) {
 
   // Отправка формы:
   this.send = function(event) {
+    //  на нашем сайте все отправки формы будут идти через sendRequest c параметрами
+    //  поэтому event.preventDefault(); на все событие сабмит
     event.preventDefault();
     if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
+      //event.preventDefault();
       return;
     }
     var send = this.check();
-    console.log(send);
+    //console.log(send);
     if (send) {
       var data = this.getData();
       if (func) {
         func(data);
       }
-      // console.log(data);
+      //console.log(data);
     }
   }
 
+  //  Добавить событие input на все вводимые поля для валидации
   this.setInputEvents = function() {
     this.form.querySelectorAll('input[type="text"]').forEach(el => {
       el.addEventListener('input', event => this.inputCheck(event));
@@ -159,21 +167,79 @@ function Form(obj, func) {
   }
   this.setInputEvents();
 
-
+  //  Определить тип поля, и в зависимости от него, применить необходимый RegExp
   this.inputCheck = function(event) {
     var inpType = event.target.getAttribute('name');
     var val = event.target.value;
-    if (val !== 0 && val.length < 4) {
-      event.target.closest('.form-wrap').classList.add('error');
+
+    // cyril
+    if (inpType === 'cyril') {
+      var elVal = capitalizeFirstLetter(event.target.value);
+      event.target.value = elVal;
+      let test = elVal.length === 0 || cyrilRegExp.test(elVal);
+      if (test) {
+        event.target.closest('.form-wrap').classList.remove('error');
+      } else {
+        event.target.closest('.form-wrap').classList.add('error');
+        this.submitBtn.setAttribute('disabled','disabled');
+      }
+
+    // birth
+    } else if (inpType === 'birth') {
+      //  rules
+
+    // tel
+    } else if (inpType === 'tel') {
+      let test = val.length === 0 || telRegExp.test(val);
+      if (test) {
+        event.target.closest('.form-wrap').classList.remove('error');
+        //  при вводе без пробелов и без "+7" приводит все равно к нужному формату
+        var x = val.replace(/\D/g, '').match(telRegExp);
+        event.target.value = !x[3] ? x[2] : '+7 (' + x[2] + ') ' + x[3] + (x[4]
+                             ? '-' + x[4] + '-' + x[5] : '');
+      } else {
+        event.target.closest('.form-wrap').classList.add('error');
+        this.submitBtn.setAttribute('disabled','disabled');
+      }
+
+    // email
+    } else if (inpType === 'email') {
+      let test = val.length === 0 || emailRegExp.test(val);
+      if (test) {
+        event.target.closest('.form-wrap').classList.remove('error');
+
+      } else {
+        event.target.closest('.form-wrap').classList.add('error');
+        this.submitBtn.setAttribute('disabled','disabled');
+      }
     }
-    if (val.length < 1 || val.length > 4) {
-      event.target.closest('.form-wrap').classList.remove('error');
+    this.checkSubmit();
+  }
+
+  //  Проверить все ли поля required заполнены и если все, то разрешить submit
+  this.checkSubmit = function() {
+    var testingArr = [];
+    var requiredWraps = this.form.querySelectorAll('.form-wrap');
+
+    for (let i = 0; i < requiredWraps.length; i++) {
+        if (requiredWraps[i].hasAttribute('required')) {
+        var valItem = isValid(requiredWraps[i].querySelector('input'));
+        testingArr.push(valItem);
+      }
+    }
+    var isAllEqual = testingArr.every((val, i, arr) => val === arr[0] && val !== false);
+    if (isAllEqual) {
+      var disabledBtn = this.form.querySelector('input[type="submit"]');
+      this.submitBtn.removeAttribute('disabled');
+    } else {
+      return;
     }
   }
 
   // Проверка на заполнение всех обязательных полей:
   this.check = function() {
     var isSend = true;
+    console.log('isSend', isSend);
     this.form.querySelectorAll('[required]').forEach(el => {
       var value;
       el.classList.remove('error');
@@ -184,7 +250,7 @@ function Form(obj, func) {
       el.querySelectorAll('.activate').forEach(el => value = el.value);
       console.log(value);
       if (!value) {
-        console.log(el);
+        //console.log(el);
         el.classList.add('error');
         isSend = false;
       }
@@ -211,4 +277,10 @@ function Form(obj, func) {
     this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
   }
+}
+
+
+function testNewUser() {
+  console.log('sending data');
+  clearForm('new-user-modal');
 }

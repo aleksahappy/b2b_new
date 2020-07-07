@@ -540,24 +540,24 @@
         <form class="post">
           <div class="form-wrap" required>
             <div class="title">Имя*</div>
-            <input type="text" value="" name="cyril" placeholder="Введите имя">
+            <input type="text" value="" name="cyril" placeholder="Введите имя" maxlength="40">
             <div class="err">Поле не заполнено</div>
           </div>
           <div class="form-wrap" required>
             <div class="title">Фамилия*</div>
-            <input type="text" value="" name="cyril" placeholder="Введите фамилию">
+            <input type="text" value="" name="cyril" placeholder="Введите фамилию" maxlength="40">
             <div class="err">Поле не заполнено</div>
           </div>
           <div class="form-wrap" required>
             <div class="title">Отчество*</div>
-            <input type="text" value="" name="cyril" placeholder="Введите отчество">
+            <input type="text" value="" name="cyril" placeholder="Введите отчество" maxlength="40">
             <div class="err">Поле не заполнено</div>
           </div>
           <div class="form-cols">
             <div class="form-col2">
               <div class="form-wrap">
                 <div class="title">День рождения</div>
-                <input type="text" value="" name="birth" placeholder="28.10.1980">
+                <input id="user-birth" type="text" value="" name="birth" placeholder="28.10.1980" maxlength="10">
                 <div class="err">Поле не заполнено</div>
               </div>
             </div>
@@ -582,21 +582,21 @@
           </div>
           <div class="form-wrap">
             <div class="title">Должность</div>
-            <input type="text" value="" name="" placeholder="Введите должность">
+            <input type="text" value="" name="cyril" placeholder="Введите должность">
             <div class="err">Поле не заполнено</div>
           </div>
           <div class="form-cols">
             <div class="form-col2">
               <div class="form-wrap" required="">
                 <div class="title">Телефон*</div>
-                <input type="text" value="" name="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
+                <input type="text" value="" name="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
                 <div class="err">Поле не заполнено</div>
               </div>
             </div>
             <div class="form-col2">
               <div class="form-wrap" required="">
                 <div class="title">Email*</div>
-                <input type="text" value="" name="email" placeholder="Введите email">
+                <input type="text" value="" name="email" placeholder="Введите email" maxlength="50">
                 <div class="err">Поле не заполнено</div>
               </div>
             </div>
@@ -623,7 +623,7 @@
             </div>
           </div>
           <div class="btns-wrap">
-            <input class="btn sub-act" type="submit" value="Отправить" >
+            <input class="btn sub-act" type="submit" value="Отправить" disabled>
           </div>
         </form>
       </div>
@@ -738,8 +738,14 @@
       </div>
     </div>
   </div>
+
     <script src ="../js/main.js"></script>
     <script src="../js/main_new.js"></script>
     <script src ="users.js"></script>
+    <script src ="../js/calendar.js"></script>
+    <script>
+    'use strict';
+      var calendar = new Calendar({ id: "#user-birth" });
+    </script>
   </body>
 </html>

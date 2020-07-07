@@ -175,10 +175,6 @@ ul {
   margin-left: 15px;
 }
 
-th {
-  font-weight: 400;
-}
-
 /* =====================================================================================================
 Основные стили:
 ===================================================================================================== */
@@ -622,6 +618,16 @@ body.no-scroll {
 Всплывающие подсказки:
 ===================================================================================================== */
 
+/* Общие стили всплывающих подсказок: */
+
+@keyframes tooltips-animation {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Всплывающие подсказки на чистом css (атрибут tooltip="текст" - нельзя вставлять html): */
+
 [tooltip] {
   position: relative;
 }
@@ -641,7 +647,7 @@ body.no-scroll {
 
 [tooltip]::before {
   content: '';
-  border: 5px solid transparent;
+  border: 7px solid transparent;
   z-index: 1001;
 }
 
@@ -658,7 +664,7 @@ body.no-scroll {
   z-index: 1000;
 }
 
-[tooltip][text-align="left"]::after {
+[tooltip][text="left"]::after {
   text-align: left;
 }
 
@@ -675,20 +681,22 @@ body.no-scroll {
 .disabled [tooltip]::after,
 .disabled[tooltip]::before,
 .disabled[tooltip]::after,
+:disabled[tooltip]::before,
+:disabled[tooltip]::after,
 [tooltip='']::before,
 [tooltip='']::after {
   display: none !important;
 }
 
-/* FLOW: UP */
+/* Позиционирование сверху: */
 
 [tooltip]:not([flow])::before,
 [tooltip][flow^="up"]::before {
   bottom: 100%;
   left: 50%;
   border-bottom-width: 0;
-  border-top-color: #D4D7DB;
-  transform: translate(-50%, -0.1em);
+  border-top-color: #D3D6D9;
+  transform: translate(-50%, 0);
 }
 
 [tooltip][help]:not([flow])::before,
@@ -699,18 +707,18 @@ body.no-scroll {
 [tooltip]:not([flow])::after,
 [tooltip][flow^="up"]::after {
   left: 50%;
-  bottom: calc(100% + 5px);
-  transform: translate(-50%, -0em);
+  bottom: calc(100% + 7px);
+  transform: translate(-50%, 0);
 }
 
-/* FLOW: DOWN */
+/* Позиционирование снизу: */
 
 [tooltip][flow^="down"]::before {
   top: 100%;
   left: 50%;
   border-top-width: 0;
-  border-bottom-color: #D4D7DB;
-  transform: translate(-50%, 0.1em);
+  border-bottom-color: #D3D6D9;
+  transform: translate(-50%, 0);
 }
 
 [tooltip][help][flow^="down"]::before {
@@ -719,18 +727,18 @@ body.no-scroll {
 
 [tooltip][flow^="down"]::after {
   left: 50%;
-  top: calc(100% + 5px);
-  transform: translate(-50%, 0em);
+  top: calc(100% + 7px);
+  transform: translate(-50%, 0);
 }
 
-/* FLOW: LEFT */
+/* Позиционирование слева: */
 
 [tooltip][flow^="left"]::before {
   top: 50%;
   border-right-width: 0;
-  border-left-color: #D4D7DB;
-  left: calc(0em - 5px);
-  transform: translate(-0.1em, -50%);
+  border-left-color: #D3D6D9;
+  left: calc(0em - 7px);
+  transform: translate(0, -50%);
 }
 
 [tooltip][help][flow^="left"]::before {
@@ -739,18 +747,18 @@ body.no-scroll {
 
 [tooltip][flow^="left"]::after {
   top: 50%;
-  right: calc(100% + 5px);
-  transform: translate(-0em, -50%);
+  right: calc(100% + 7px);
+  transform: translate(0, -50%);
 }
 
-/* FLOW: RIGHT */
+/* Позиционирование справа: */
 
 [tooltip][flow^="right"]::before {
   top: 50%;
   border-left-width: 0;
-  border-right-color: #D4D7DB;
-  right: calc(0em - 5px);
-  transform: translate(0.1em, -50%);
+  border-right-color: #D3D6D9;
+  right: calc(0em - 7px);
+  transform: translate(0, -50%);
 }
 
 [tooltip][help][flow^="right"]::before {
@@ -759,22 +767,8 @@ body.no-scroll {
 
 [tooltip][flow^="right"]::after {
   top: 50%;
-  left: calc(100% + 5px);
-  transform: translate(0em, -50%);
-}
-
-@keyframes tooltips-vert {
-  to {
-    opacity: 1;
-    /* transform: translate(-50%, 0); */
-  }
-}
-
-@keyframes tooltips-horz {
-  to {
-    opacity: 1;
-    /* transform: translate(0, -50%); */
-  }
+  left: calc(100% + 7px);
+  transform: translate(0, -50%);
 }
 
 [tooltip]:not([flow]):hover::before,
@@ -783,14 +777,121 @@ body.no-scroll {
 [tooltip][flow^="up"]:hover::after,
 [tooltip][flow^="down"]:hover::before,
 [tooltip][flow^="down"]:hover::after {
-  animation: tooltips-vert 300ms ease-out forwards;
+  animation: tooltips-animation 300ms ease-out forwards;
 }
 
 [tooltip][flow^="left"]:hover::before,
 [tooltip][flow^="left"]:hover::after,
 [tooltip][flow^="right"]:hover::before,
 [tooltip][flow^="right"]:hover::after {
-  animation: tooltips-horz 300ms ease-out forwards;
+  animation: tooltips-animation 300ms ease-out forwards;
+}
+
+/* Всплывающие подсказки на js (атрибут data-tooltip="текст" - можно вставлять html): */
+
+.tooltip {
+  position: fixed;
+  padding: 0.5em 0.7em;
+  font-size: 12px;
+  line-height: 14px;
+  background-color: #D3D6D9;
+  border-radius: 3px;
+  text-align: center;
+  overflow: visible;
+  user-select: none;
+  pointer-events: none;
+  text-transform: none;
+  white-space: pre;
+  opacity: 0;
+  z-index: 1001;
+}
+
+.tooltip[help] {
+  background-color: #FFF1C1;
+}
+
+.tooltip[text="left"] {
+  text-align: left;
+}
+
+.tooltip[text="right"] {
+  text-align: right;
+}
+
+.tooltip::before {
+  position: absolute;
+  content: '';
+  border: 7px solid transparent;
+  z-index: 1001;
+}
+
+/* Позиционирование сверху: */
+
+.tooltip:not([flow])::before,
+.tooltip[flow^="up"]::before {
+  bottom: -7px;
+  left: 50%;
+  border-bottom-width: 0;
+  border-top-color: #D3D6D9;
+  transform: translate(-50%, 0);
+}
+
+.tooltip:not([flow])[help]::before,
+.tooltip[flow^="up"][help]::before {
+  border-top-color: #FFF1C1;
+}
+
+/* Позиционирование снизу: */
+
+.tooltip[flow^="down"]::before {
+  top: -7px;
+  left: 50%;
+  border-top-width: 0;
+  border-bottom-color: #D3D6D9;
+  transform: translate(-50%, 0);
+}
+
+.tooltip[flow^="down"][help]::before {
+  border-top-color: #FFF1C1;
+}
+
+/* Позиционирование слева: */
+
+.tooltip[flow^="left"]::before {
+  top: 50%;
+  right: -7px;
+  border-right-width: 0;
+  border-left-color: #D3D6D9;
+  transform: translate(0, -50%);
+}
+
+.tooltip[flow^="left"][help]::before {
+  border-left-color: #FFF1C1;
+}
+
+/* Позиционирование справа: */
+
+.tooltip[flow^="right"]::before {
+  top: 50%;
+  left: -7px;
+  border-left-width: 0;
+  border-right-color: #D3D6D9;
+  transform: translate(0, -50%);
+}
+
+.tooltip[flow^="right"][help]::before {
+  border-right-color: #FFF1C1;
+}
+
+.tooltip:not([flow]),
+.tooltip[flow^="up"],
+.tooltip[flow^="down"] {
+  animation: tooltips-animation 300ms ease-out forwards;
+}
+
+.tooltip[flow^="left"],
+.tooltip[flow^="right"] {
+  animation: tooltips-animation 300ms ease-out forwards;
 }
 
 /* =====================================================================================================
@@ -855,9 +956,11 @@ a.btn {
 ===================================================================================================== */
 
 .icon {
-  background-size: cover;
   width: 1em;
   height: 1em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   cursor: pointer;
 }
 
@@ -994,6 +1097,18 @@ a.btn {
   transform: rotate(-180deg);
 }
 
+/* Отметка (действует/ не действует) */
+
+.mark.icon {
+  width: 10px;
+  height: 10px;
+  background-image: url(../img/circle_red.svg);
+}
+
+.mark.icon.active {
+  background-image: url(../img/circle_green.svg);
+}
+
 /* Сортировка (сверху вниз/снизу вверх) */
 
 .sort.icon {
@@ -1005,7 +1120,8 @@ a.btn {
   background-image: url(../img/sort_down.svg);
 }
 
-.checked .sort.down.icon {
+:hover > .sort.down.icon,
+.checked > .sort.down.icon {
   background-image: url(../img/sort_down_checked.svg);
 }
 
@@ -1013,7 +1129,8 @@ a.btn {
   background-image: url(../img/sort_up.svg);
 }
 
-.checked .sort.up.icon {
+:hover > .sort.up.icon,
+.checked > .sort.up.icon {
   background-image: url(../img/sort_up_checked.svg);
 }
 
@@ -1084,8 +1201,8 @@ a.btn {
 /* Фильтрация в таблице */
 
 .filter.icon {
-  width: 16px;
-  height: 18px;
+  width: 9px;
+  height: 9px;
   background-image: url(../img/filter.svg);
 }
 
@@ -1126,11 +1243,6 @@ a.btn {
 
 .download.icon {
   background-image: url(../img/download.svg);
-  background-size: 1em;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 2em;
-  height: 2em;
 }
 
 /* Лоадер */
@@ -1233,12 +1345,17 @@ div.option input:checked ~ .checkbox.orange.icon {
   background-image: url(../img/checkbox_checked_orange.svg);
 }
 
-div.option input:disabled ~ .checkbox.icon {
-  background-image: url(../img/checkbox_disabled.svg);
-}
-
 div.option input:checked ~ .radio.icon {
   background-image: url(../img/radio_btn_checked.svg);
+}
+
+div.option input:disabled {
+  cursor: default;
+}
+
+div.option input:disabled ~ .checkbox.icon {
+  background-image: url(../img/checkbox_disabled.svg);
+  cursor: default;
 }
 
 /* =====================================================================================================
@@ -1360,7 +1477,10 @@ div.option input:checked ~ .radio.icon {
 .activate .filter {
   flex-grow: 0;
   flex-shrink: 0;
-  margin-left: 0.5em;
+}
+
+.activate .triangle {
+  margin-left: 0.714em;
 }
 
 .activate .filter {
@@ -1385,7 +1505,7 @@ div.option input:checked ~ .radio.icon {
   min-width: 100%;
   max-width: 100%;
   max-height: 0px;
-  background-color: #FFFFFF;
+  background-color: #F8F8F8;
   border: 1px solid #D5D5D5;
   border-top: none;
   border-radius: 0 0 3px 3px;
@@ -1419,7 +1539,7 @@ div.option input:checked ~ .radio.icon {
   justify-content: space-between;
   align-items: center;
   padding: 0.4em 0.714em;
-  border-bottom: 1px solid #FFFFFF;
+  border-bottom: 1px solid #F8F8F8;
   cursor: pointer;
 }
 
@@ -1428,11 +1548,91 @@ div.option input:checked ~ .radio.icon {
 }
 
 .activate .drop-down .item:not(.not-found):hover {
-  background-color: #E7EAED;
+  background-color: #E2E2E2;
 }
 
 .activate .drop-down .item.checked {
-  background-color: #E2E2E2;
+  background-color: #E7EAED;
+}
+
+.activate.box .drop-down {
+  min-width: 14em;
+  color: #666666;
+}
+
+.activate.box.open .drop-down {
+  max-height: 19.57em;
+  overflow-y: hidden;
+}
+
+.activate.box .drop-down > div > .title {
+  padding: 0.55em 1.14em;
+  color: #53606F;
+}
+
+.activate.box .drop-down > div > div:not(.title) {
+  font-size: 0.857em;
+}
+
+.activate.box .drop-down .row {
+  justify-content: start;
+  align-items: center;
+}
+
+.activate.box .drop-down .sort-box {
+  padding-bottom: 0.7em;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.activate.box .drop-down .sort-box .row {
+  padding: 0.3em 1.33em;
+  cursor: pointer;
+}
+
+.activate.box .drop-down .sort-box .row:last-child {
+  cursor: pointer;
+}
+
+.activate.box .drop-down .sort-box .row:hover {
+  color: #34495E;
+}
+
+.activate.box .drop-down .sort-box .row.checked {
+  color: #34495E;
+}
+
+.activate.box .drop-down .sort.icon {
+  margin-right: 1em;
+}
+
+.activate.box form.search {
+  width: 100%;
+  padding: 0 1.14em;
+  margin-bottom: 0.714em;
+}
+
+.activate.box form.search input[type="text"] {
+  padding-top: 0.11em;
+  padding-bottom: 0.11em;
+}
+
+.activate.box form.search .search.icon,
+.activate.box form.search .close.icon {
+  right: 17px;
+  background-size: 14px;
+}
+
+.activate.box .items {
+  max-height: 8.3em;
+  margin-bottom: 0.714em;
+}
+
+.activate.box.open .items {
+  overflow-y: auto;
+}
+
+.activate.box .items .item {
+  padding: 0.3em 1.33em;
 }
 
 /* =====================================================================================================
@@ -1469,8 +1669,6 @@ form.search .close.icon {
   width: 2.7em;
   height: 90%;
   background-size: 16px;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 form.search .close.icon {
@@ -1745,44 +1943,42 @@ form.post .form-wrap .text-counter {
 
 /* Общие стили для таблицы-заголовка и таблицы-содержимого */
 
-table {
+.table-wrap table {
   min-width: 100%;
   border-collapse: collapse;
   border: none;
   border-spacing: 0;
+  text-align: left;
   direction: ltr;
 }
 
-table.head {
+.table-wrap table.head {
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-th, td {
+.table-wrap th,
+.table-wrap td {
   position: relative;
-  padding: 0.7em 1em;
+  padding: 0.75em 1.14em;
   white-space: nowrap;
-  text-align: left;
 }
 
-th {
+.table-wrap th {
+  font-weight: 400;
   overflow: visible;
 }
 
-th div:first-child {
+.table-wrap th div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-td {
+.table-wrap td {
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-td > * {
-  display: inline-block;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
@@ -1794,7 +1990,7 @@ th.activate {
 
 th.activate .head {
   justify-content: flex-start;
-  padding: 0.7em 1em;
+  padding: 0.75em 1.14em;
   background-color: initial;
   border: none;
 }
@@ -1807,19 +2003,14 @@ th.activate .head .triangle {
   background-image: url(../img/triangle_white.svg);
 }
 
-th.activate .drop-down {
-  min-width: 14em;
-  color: #666666;
-}
-
 /* Основные стили таблицы-заголовка */
 
-thead {
+.table-wrap thead {
   color: #FFFFFF;
   background-color: #FFFFFF;
 }
 
-thead tr {
+.table-wrap thead tr {
   background-color: #53606F;
 }
 
@@ -1880,17 +2071,39 @@ th:last-child .resize-btn::after {
 
 /* Основные стили таблицы-содержимого */
 
-tbody {
+.table-wrap tbody {
   color: #666666;
   background-color: #FFFFFF;
 }
 
-tbody td {
+.table-wrap tbody tr:hover {
+  background-color: #EFEEF1;
+}
+
+.table-wrap tbody td {
   border-bottom: 1px solid #D5D5D5;
 }
 
-tbody tr:hover {
-  background-color: #EFEEF1;
+tbody td > .row {
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+tbody td > .row > .icon {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+tbody td > .row > .icon:first-child {
+  margin-right: 1em;
+}
+
+tbody td > .row > * {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #orderslist td,
@@ -1951,7 +2164,7 @@ tbody tr:hover {
 #up-btn {
   display: none;
   position: fixed;
-  right: 4rem;
+  right: 5rem;
   bottom: 1.5em;
   width: 2.57em;
   height: 2em;
@@ -2504,9 +2717,10 @@ tbody tr:hover {
   background-image: url(../img/triangle_blue.svg);
 }
 
-.header-top .drop-down {
+.header-top .activate .drop-down {
   width: initial;
   max-width: initial;
+  background-color: #FFFFFF;
   border: none;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.09);
 }

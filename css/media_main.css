@@ -32,6 +32,10 @@
   .container {
     margin: 0 3%;
   }
+
+  #up-btn {
+    right: 3%;
+  }
 }
 
 /* =====================================================================================================
@@ -44,6 +48,10 @@ Laptop:
 @media only screen and (max-width: 1360px) {
   .container {
     margin: 0 3rem;
+  }
+
+  #up-btn {
+    right: 3rem;
   }
 }
 
@@ -101,6 +109,10 @@ Tablet:
   .checked.toggle .toggle-in {
     left: 18px;
   }
+
+  #up-btn {
+    right: 2.4rem;
+  }
 }
 
 /* =====================================================================================================
@@ -112,6 +124,10 @@ Mobile:
 @media only screen and (max-width: 499px) {
   .container {
     margin: 0 1.6rem;
+  }
+
+  .container.mobile {
+    margin: 0;
   }
 
   #main-header {
