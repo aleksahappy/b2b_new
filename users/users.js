@@ -28,6 +28,7 @@ function startUsersTable() {
       fillTemplate(usersMobData);
       accessTableType();
       initForm2('new-user-modal', testNewUser);
+      initForm2('edit-user-modal', testNewUser);
     })
     .catch((err) => {
       console.log(err);
@@ -35,15 +36,6 @@ function startUsersTable() {
     });
 }
 startUsersTable();
-
-function initCalendar() {
-  let testCalend = document.querySelector('#user-birth');
-  console.log(testCalend);
-  //  инстанциирование нового экземпляра календаря
-  let calendar = new Calendar({ id: "#user-birth" });
-  return calendar;
-}
-
 
 //  Определение расцветки стикера статуса доступа в зависсимости от поданных
 
