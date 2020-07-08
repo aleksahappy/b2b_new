@@ -231,86 +231,131 @@ legend select{
 }
 
 /* Стили календаря */
-.ab-calendar {
+.calendar {
   z-index: 420;
 	position: absolute;
-  width: 258px;
   box-shadow: 0px 0px 10px grey;
-  font-family: Arial, Helvetica, sans-serif;
 	background-color: white;
 }
 
-.ab-calendar .input-area {
+.calendar .input-area {
   position: relative;
-  background: #ffffff;
+  background: #F8F8F8;
 }
 
-.ab-calendar .input-area .month-navigator {
+.calendar .input-area .month-navigator {
 	display: flex;
 	justify-content: space-between;
+  background: #F2F2F2;
 }
 
-.ab-calendar .input-area .month-navigator .month-previous, .ab-calendar .input-area .month-navigator .month-next {
+.calendar .input-area .month-navigator .month-previous, .calendar .input-area .month-navigator .month-next {
   display: block;
   width: 30px;
   height: 30px;
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: center center;
-  cursor: pointer;
 }
 
-.ab-calendar .input-area .month-navigator .month-previous {
+.calendar .input-area .month-navigator .month-previous {
+  margin-top: 5px;
   background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
   -webkit-background-size: contain;
   background-size: 35%;
 
 }
 
-.ab-calendar .input-area .month-navigator .month-next {
+.calendar .input-area .month-navigator .month-next {
+  margin-top: 5px;
   background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
   -webkit-background-size: contain;
   background-size: 35%;
   transform: rotate(180deg);
 }
 
-.ab-calendar .input-area .month-navigator .month {
-  font-size: 14px;
-  text-align: center;
-  padding: 10px 0px;
+.calendar .input-area .month-navigator .nav-center{
+  display: flex;
 }
 
-.ab-calendar .input-area .tbl-calendar {
+.calendar .input-area .month-navigator .month {
+  width: 104px;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 0px;
+  color: #34495E;
+}
+
+.calendar .input-area .month-navigator .years-nav{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 7px;
+  margin-left: 6px;
+  width: 20px;
+  height: 26px;
+}
+
+.calendar .input-area .month-navigator .years-nav .prev-year{
+  width: 100%;
+  height: 10px;
+  background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
+  background-size: contain;
+  transform: rotate(90deg);
+}
+
+.calendar .input-area .month-navigator .years-nav .next-year{
+  width: 100%;
+  height: 10px;
+  background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
+  background-size: contain;
+  transform: rotate(270deg);
+}
+
+.calendar .input-area .tbl-calendar {
   font-size: 12px;
-  width: 240px;
+  width: 100%;
   margin: 0px auto;
 }
 
-.ab-calendar .input-area .tbl-calendar thead th {
-  color: #777777;
-  text-transform: uppercase;
+.tbl-calendar{
+  border-spacing: 0;
 }
 
-.ab-calendar .input-area .tbl-calendar tbody tr td {
+.calendar .tbl-calendar thead{
+  line-height: 3em;
+  background: #F2F2F2;
+}
+
+.calendar .input-area .tbl-calendar thead th {
+  color: #53606F;
+}
+
+.calendar .input-area .tbl-calendar tbody tr td {
   width: 30px;
   height: 30px;
   text-align: center;
   vertical-align: middle;
+  color: #666666;
 }
 
-.ab-calendar .input-area .tbl-calendar tbody tr td.date-cell {
+.calendar .input-area .tbl-calendar tbody tr td.date-cell {
   cursor: pointer;
 }
 
-.ab-calendar .input-area .tbl-calendar tbody tr td.date-cell:hover {
+.calendar .input-area .tbl-calendar tbody tr td.date-cell:hover {
   background-color: #ebebeb;
   border-radius: 100%;
 }
 
-.ab-calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-active {
+.calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-active {
   background-color: lightseagreen;
   border-radius: 100%;
   color: white;
+}
+
+input[name="birth"] {
+  background: #ffffff url('../img/newDesign/calendar-ic.svg') no-repeat 95%;
 }
 
 

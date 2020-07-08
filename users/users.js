@@ -28,7 +28,6 @@ function startUsersTable() {
       fillTemplate(usersMobData);
       accessTableType();
       initForm2('new-user-modal', testNewUser);
-      //initCalendar();
     })
     .catch((err) => {
       console.log(err);
@@ -97,7 +96,7 @@ function accessTableType() {
 }
 
 
-/////////////////////////ФОРМА ДОБАВЛЕНИЯ КОНТРАГЕНТА///////////////////////////
+//////////////////////////////ФОРМА ДОБАВЛЕНИЯ C ВАЛИДАЦИЕЙ/////////////////////
 //=====================================================================================================
 // Работа с формами:
 //=====================================================================================================
@@ -169,7 +168,7 @@ function Form2(obj, func) {
 
   //  Определить тип поля, и в зависимости от него, применить необходимый RegExp
   this.inputCheck = function(event) {
-    var inpType = event.target.getAttribute('name');
+    var inpType = event.target.getAttribute('data-intype');
     var val = event.target.value;
 
     // cyril
@@ -186,7 +185,12 @@ function Form2(obj, func) {
 
     // birth
     } else if (inpType === 'birth') {
-      //  rules
+      let test = val.length === 0 || birthRegExp.test(val);
+      if (test) {
+        event.target.closest('.form-wrap').classList.remove('error');
+      } else {
+        event.target.closest('.form-wrap').classList.add('error');
+      }
 
     // tel
     } else if (inpType === 'tel') {

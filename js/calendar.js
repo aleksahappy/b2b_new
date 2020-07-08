@@ -1,12 +1,17 @@
 //  Класс календаря
-console.log('test calendar');
 class Calendar {
   //  разметка для календаря
   markup = `
       <div class="input-area">
           <div class="month-navigator">
               <div class="month-previous"></div>
-              <div class="month">October 2019</div>
+              <div class="nav-center">
+                <div class="month">October 2019</div>
+                <div class="years-nav">
+                  <div class="prev-year"></div>
+                  <div class="next-year"></div>
+                </div>
+              </div>
               <div class="month-next"></div>
           </div>
           <table class="tbl-calendar">
@@ -21,8 +26,7 @@ class Calendar {
                       <th class="th-day">Вс</th>
                   </tr>
               </thead>
-              <tbody class="tbody">
-              </tbody>
+              <tbody class="tbody"></tbody>
           </table>
       </div>
       `;
@@ -31,8 +35,8 @@ class Calendar {
     this.id = options.id;
     this.element = document.querySelector(this.id);
     this.element.addEventListener("focus", (e) => {
-      if (document.getElementsByClassName("ab-calendar")[0]) {
-        document.getElementsByClassName("ab-calendar")[0].remove();
+      if (document.getElementsByClassName("calendar")[0]) {
+        document.getElementsByClassName("calendar")[0].remove();
       }
       this.init();
     });
@@ -41,7 +45,6 @@ class Calendar {
   //  Инициализируем календарь
 
   init() {
-    console.log('it is working');
     if (this.element.value == "") {
       this.savedDate = new Date();
     } else {
@@ -90,12 +93,14 @@ class Calendar {
   getDOMs() {
     // Создаем DOM-контейнер для разметки календаря
     this.cContainer = document.createElement("div");
-    this.cContainer.classList.add("ab-calendar");
+    this.cContainer.classList.add("calendar");
     document.body.appendChild(this.cContainer);
     //  Находим координаты созданного контейнера, чтобы размещать каждый календарь под своим полем ввода
     let rect = this.element.getBoundingClientRect();
+    let inputWidth = this.element.offsetWidth;
     this.cContainer.style.left = rect.x + "px";
     this.cContainer.style.top = rect.y + rect.height + "px";
+    this.cContainer.style.width = inputWidth + "px";
     this.cContainer.innerHTML = this.markup;
 
     //  Получаем необходимые DOM-элементы календаря
@@ -111,7 +116,14 @@ class Calendar {
     this.cMonthNext = this.cMonthNavigator.getElementsByClassName(
       "month-next"
     )[0];
-
+    this.cYearPrev = this.cMonthNavigator.getElementsByClassName(
+      "prev-year"
+    )[0];
+    this.cYearNext = this.cMonthNavigator.getElementsByClassName(
+      "next-year"
+    )[0];
+    this.cNavCenter = this.cInputArea.getElementsByClassName("nav-center")[0];
+    this.cYearsNav = this.cInputArea.getElementsByClassName("years-nav")[0];
     this.tBody = this.cInputArea.getElementsByClassName("tbody")[0];
   }
 
@@ -122,6 +134,10 @@ class Calendar {
     this.cMonthPrevious.addEventListener("click", () => this.previous());
     //  кнопка вперед
     this.cMonthNext.addEventListener("click", () => this.next());
+    //  год назад
+    this.cYearPrev.addEventListener('click', () => this.previousYear());
+    //  год вперед
+    this.cYearNext.addEventListener('click', () => this.nextYear());
     //  запоминать дату и убирать календарь при клике по телу таблицы с календарем
     this.tBody.addEventListener('click', () => {
       this.element.value =
@@ -131,16 +147,39 @@ class Calendar {
         "/" +
         this.selectedDate.getFullYear();
       document.body.removeChild(this.cContainer);
+      //  Нужно убрать как-то обработчик событий
+      // window.removeEventListener('click', (event) => {
+      //   const hasChild = document.body.querySelector(".calendar") != null;
+      //   if (hasChild) {
+      //     if (event.target === this.cMonthNavigator
+      //     || event.target === this.element
+      //     || event.target === this.cMonthPrevious
+      //     || event.target === this.cMonthNav
+      //     || event.target === this.cMonthNext
+      //     || event.target === this.cYearPrev
+      //     || event.target === this.cYearNext
+      //     || event.target === this.cNavCenter
+      //     || event.target === this.cYearsNav) {
+      //       return;
+      //     } else {
+      //       document.body.removeChild(this.cContainer);
+      //     }
+      //   }
+      // });
     });
     //  скрывать календарь при клике вне него или при выборе дня
     window.addEventListener('click', (event) => {
-      const hasChild = document.body.querySelector(".ab-calendar") != null;
+      const hasChild = document.body.querySelector(".calendar") != null;
       if (hasChild) {
         if (event.target === this.cMonthNavigator
         || event.target === this.element
         || event.target === this.cMonthPrevious
         || event.target === this.cMonthNav
-        || event.target === this.cMonthNext) {
+        || event.target === this.cMonthNext
+        || event.target === this.cYearPrev
+        || event.target === this.cYearNext
+        || event.target === this.cNavCenter
+        || event.target === this.cYearsNav) {
           return;
         } else {
           document.body.removeChild(this.cContainer);
@@ -167,6 +206,21 @@ class Calendar {
     this.currentYear =
       this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = this.currentMonth === 11 ? 0 : this.currentMonth + 1;
+    this.updateCalendar(this.currentMonth, this.currentYear);
+  }
+
+  //  Переключить предыдущий/следующий год
+  //  Работа кнопки год назад
+  previousYear() {
+    this.currentYear--;
+    this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth;
+    this.updateCalendar(this.currentMonth, this.currentYear);
+  }
+
+  //  Работа кнопки год вперед
+  nextYear() {
+    this.currentYear++;
+    this.currentMonth = this.currentMonth === 11 ? 0 : this.currentMonth;
     this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
