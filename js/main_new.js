@@ -93,7 +93,7 @@ function checkInput(input, regExp) {
 //  Проверить валидный ли импут
 
 function isValid(input) {
-  var inpAttr = input.getAttribute('name');
+  var inpAttr = input.getAttribute('data-intype');
 
   //  cyril
   if (inpAttr === 'cyril') {

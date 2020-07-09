@@ -22,7 +22,7 @@ function checkAuth() {
       console.log(xhr.response);
       if (xhr.response) {
         if (path === '' || path === 'registr') {
-          location.href = '/dashboard';
+          location.href = '/desktop';
         } else {
           window.userInfo = JSON.parse(xhr.response);
         }

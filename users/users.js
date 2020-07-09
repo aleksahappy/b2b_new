@@ -13,7 +13,7 @@ function startUsersTable() {
     .then((result) => {
       var data = JSON.parse(result);
       data = convertData(data);
-      initTable("users-table", data);
+      initTable("users-table", {data: data});
       var usersTabletData = {
         area: "users-table-tablet",
         items: data,
@@ -37,6 +37,7 @@ function startUsersTable() {
 }
 startUsersTable();
 
+
 //  Определение расцветки стикера статуса доступа в зависсимости от поданных
 
 function accessTableType() {
@@ -49,12 +50,19 @@ function accessTableType() {
   for (let i = 0; i < access.length; i++) {
     if (access[i].innerHTML === "частичный") {
       access[i].classList.add("limited");
+      var trr = access[i].closest('tr');
+      var tggll = trr.querySelector('.toggle');
+      tggll.classList.add('checked');
     } else if (access[i].innerHTML === "полный") {
       access[i].classList.add("boundless");
+      var trr = access[i].closest('tr');
+      var tggll = trr.querySelector('.toggle');
+      tggll.classList.add('checked');
     } else if (access[i].innerHTML === "отключен") {
       access[i].classList.add("denied");
     }
   }
+
 
   //  Вспомогательная функция для подсветки иконок статусов в таблицах в соответствии с данными
 
