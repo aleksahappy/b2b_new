@@ -76,7 +76,7 @@ function startPage() {
     loader.show();
   }
   setPaddingToBody();
-  enableTooltips();
+  initTooltips();
   showUserInfo();
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
@@ -323,28 +323,49 @@ function getDataFromTotals(type) {
 }
 
 //=====================================================================================================
-// Сортировка массивов:
+// Сортировка массива объектов:
 //=====================================================================================================
 
-// Сортировка массива объектов по указанному значению:
+// Сортировка массива объектов по указанному полю:
 
-function dynamicSort(prop) {
-  var sortOrder = 1,
-      result;
-  if (prop[0] === "-") {
+function sortBy(key, type) {
+  var sortOrder = 1;
+  if (key[0] === "-") {
       sortOrder = -1;
-      prop = prop.substr(1);
+      key = key.substr(1);
   }
-  if (prop == 'price1') {
-    return function (a, b) {
-      result = a[prop] - b[prop];
-      return result * sortOrder;
+
+  function getValue(item) {
+    var value = item[key];
+    if (value === '&ndash;') {
+      return null;
     }
-  } else {
-    return function (a, b) {
-      result = (a[prop] < b[prop]) ? -1 : (a[prop] > b[prop]) ? 1 : 0;
-      return result * sortOrder;
+    switch (type) {
+      case 'text':
+        return '' + value;
+      case 'numb':
+        return +value;
+      case 'date':
+        return getDateObj(value, 'dd.mm.yy');
     }
+  }
+
+  var result;
+  return function (a, b) {
+    a = getValue(a);
+    b = getValue(b);
+    switch (type) {
+      case 'text':
+        result = (a < b) ? -1 : (a > b) ? 1 : 0;
+        break;
+      case 'numb':
+        result = a - b;
+        break;
+      case 'date':
+        result = b - a;
+        break;
+    }
+    return result * sortOrder;
   }
 }
 
@@ -360,6 +381,7 @@ function sortObjByKey(obj, type = 'string') {
   switch (type) {
     case 'string':
       arrayObj = arrayObj.sort();
+      break;
     case 'number':
       arrayObj = arrayObj.sort((a,b) =>  a - b);
       break;
@@ -837,11 +859,9 @@ function changeNameBtn(el, qty, text = 'В корзину') {
 
 // Включение работы подсказок:
 
-function enableTooltips() {
-  document.querySelectorAll('[data-tooltip]').forEach(el => {
-    document.addEventListener('mouseover', event => showTooltip(event));
-    document.addEventListener('mouseout', hideTooltip);
-  });
+function initTooltips() {
+  document.addEventListener('mouseover', event => showTooltip(event));
+  document.addEventListener('mouseout', hideTooltip);
 }
 
 // Отображение подсказки:
@@ -1047,24 +1067,40 @@ function getPercent(item, all) {
   return item * 100 / all;
 }
 
-// Проверка актуальности даты в периоде:
+//=====================================================================================================
+// Работа с датами:
+//=====================================================================================================
 
-function checkDate(start, end) {
-  var curDate = new Date(),
-      dateStart, dateEnd;
+// Создание объекта даты из строки:
+
+function getDateObj(value, format) {
+  if (format === 'yy-mm-dd') {
+    value = value.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1');
+  } else if (format === 'dd.mm.yy'){
+    value = value.replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
+  }
+  return new Date(value);
+}
+
+
+// Проверка актуальности даты в периоде (принимает объекты даты):
+
+function checkDate(date, start, end) {
+  if (!start && !end) {
+    return true;
+  }
+  if (!date) {
+    date = new Date();
+  }
   if (!start) {
-    dateStart = new Date(data[0], + data[1] - 1, + data[2] - 1, 0, 0, 0, 0);
-  } else {
-    dateStart = start.split('-');
-    dateStart = new Date(dateStart[0], dateStart[1] - 1, dateStart[2], 0, 0, 0, 0);
+    start = new Date();
+    start.setDate(date.getDate() - 1);
   }
   if (!end) {
-    dateEnd = new Date(data[0], + data[1] - 1, + data[2] + 1, 0, 0, 0, 0);
-  } else {
-    dateEnd = end.split('-');
-    dateEnd = new Date(dateEnd[0], dateEnd[1] - 1, dateEnd[2], 23, 59, 59, 999);
+    end = new Date();
+    end.setDate(date.getDate() + 1);
   }
-  if (curDate > dateStart && curDate < dateEnd) {
+  if (date > start && date < end) {
     return true;
   } else {
     return false;
@@ -1719,26 +1755,28 @@ function Search(obj, func) {
   this.input = getEl('input[type="text"]', obj);
   this.searchBtn = getEl('.search', obj);
   this.cancelBtn = getEl('.close', obj);
-  this.dropDown = getEl('.drop-down', obj);
-  this.result = getEl(`${this.form.id}-info`);
+  this.items = getEl('.items', obj);
+  this.notFound = getEl('.not-found', obj);
+  this.result = getEl(`.search-info[data-search="${this.form.id}"]`);
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
-    this.form.addEventListener('submit', (event) =>{
+    this.form.addEventListener('submit', event => {
       event.preventDefault();
       this.search();
     });
-    if (this.dropDown) {
-      this.form.addEventListener('input', () => this.showHints());
-      this.form.addEventListener('click', event => this.selectHint(event));
-    }
     this.input.addEventListener('focus', () => this.onFocus());
     this.input.addEventListener('blur', () => this.onBlur());
+    if (this.items) {
+      this.input.addEventListener('input', () => this.showHints());
+      this.items.addEventListener('click', event => this.selectHint(event));
+    }
     this.cancelBtn.addEventListener('click', () => this.cancel());
     if (this.result) {
       getEl('.close', this.result).addEventListener('click', () => this.cancel());
     }
   }
+  this.setEventListeners();
 
   // Отображение подсказок:
   this.showHints = function() {
@@ -1747,58 +1785,53 @@ function Search(obj, func) {
       this.closeHints();
       return;
     }
+
     var regEx = RegExp(textToFind, 'gi'),
-        list = getEl('.list', this.dropDown),
-        notFound = getEl('.not-found', this.dropDown),
-        items = Array.from(list.querySelectorAll('.item')),
+        items = Array.from(this.items.querySelectorAll('.item')),
         curItems = items.filter(el => el.dataset.value.search(regEx) >= 0);
 
     items.forEach(el => hideElement(el));
     if (curItems.length > 0) {
-      hideElement(notFound);
-      showElement(list);
-      curItems.forEach(el => showElement(el));
+      hideElement(this.notFound);
+      curItems.forEach(el => showElement(el, 'flex'));
     } else {
-      showElement(notFound);
-      hideElement(list);
+      showElement(this.notFound);
     }
     this.form.classList.add('open');
   }
 
   // Cкрытие подсказок:
   this.closeHints = function() {
-    if (!this.dropDown) {
+    if (!this.items) {
       return;
     }
-    var list = getEl('.list', this.dropDown),
-        notFound = getEl('.not-found', this.dropDown);
-    hideElement(list);
-    hideElement(notFound);
+    this.items.querySelectorAll('.item').forEach(el => hideElement(el));
+    hideElement(this.notFound);
     this.form.classList.remove('open');
-  }
-
-  // Удаление значения из инпута при его фокусе и скрытие подсказок:
-  this.onFocus = function() {
-    onFocusInput(this.input);
-    this.closeHints();
-  }
-
-  // Восстановление последнего найденного значения в инпуте при потере им фокуса и скрытие подсказок:
-  this.onBlur = function() {
-    setTimeout(() => {
-      onBlurInput(this.input);
-      this.closeHints();
-    }, 100);
   }
 
   // Поиск по подсказке:
   this.selectHint = function(event) {
-    var curItem = event.target.closest('.item:not(.not-found)');
+    var curItem = event.target.closest('.item');
     if (!curItem) {
       return;
     }
     this.input.value = curItem.dataset.value;
     this.search();
+  }
+
+  // Удаление значения из инпута при его фокусе и скрытие/отображение подсказок:
+  this.onFocus = function() {
+    onFocusInput(this.input);
+    this.closeHints();
+  }
+
+  // Восстановление последнего найденного значения в инпуте при потере им фокуса и скрытие/отображение подсказок:
+  this.onBlur = function() {
+    setTimeout(() => {
+      onBlurInput(this.input);
+      this.closeHints();
+    }, 100);
   }
 
   // Поиск:
@@ -1819,8 +1852,8 @@ function Search(obj, func) {
   // Очистка поля поиска:
   this.clear = function() {
     this.input.value = this.input.dataset.value = '';
-    this.toggleInfo();
     this.closeHints();
+    this.toggleInfo();
     hideElement(this.cancelBtn);
     showElement(this.searchBtn);
   }
@@ -1846,8 +1879,74 @@ function Search(obj, func) {
       hideElement(this.result);
     }
   }
+}
 
+// Объект поля поиска для выпадающего списка:
+
+function SearchInBox(obj, func) {
+  Search.apply(this, arguments);
+
+  // Элементы для работы:
+  this.items = obj.closest('.drop-down');
+
+  // Установка обработчиков событий:
+  this.setEventListeners = function() {
+    if (this.items) {
+      this.input.addEventListener('input', () => this.showHints());
+    }
+  }
   this.setEventListeners();
+
+  // Восстановление изначального вида подсказок:
+  this.restoreHints = function() {
+    this.items.querySelectorAll('.item').forEach(el => showElement(el, 'flex'));
+    hideElement(this.notFound);
+  }
+
+  // Отображение подсказок:
+  this.showHints = function() {
+    var textToFind = this.input.value.trim();
+    if (textToFind === '') {
+      this.restoreHints();
+      return;
+    }
+
+    var regEx = RegExp(textToFind, 'gi'),
+        items = Array.from(this.items.querySelectorAll('.item')),
+        curItems = items.filter(el => el.dataset.value.search(regEx) >= 0);
+
+    items.forEach(el => hideElement(el));
+    if (curItems.length > 0) {
+      hideElement(this.notFound);
+      curItems.forEach(el => showElement(el, 'flex'));
+    } else {
+      showElement(this.notFound);
+    }
+    this.form.classList.add('open');
+  }
+
+  // Удаление значения из инпута при его фокусе и отображение подсказок:
+  this.onFocus = function() {
+    onFocusInput(this.input);
+    this.restoreHints();
+  }
+
+  // Восстановление последнего найденного значения в инпуте при потере им фокуса и отображение подсказок:
+  this.onBlur = function() {
+    setTimeout(() => {
+      onBlurInput(this.input);
+      this.showHints();
+    }, 100);
+  }
+
+  // Очистка поля поиска:
+  this.clear = function() {
+    this.input.value = this.input.dataset.value = '';
+    this.restoreHints();
+    this.toggleInfo();
+    hideElement(this.cancelBtn);
+    showElement(this.searchBtn);
+  }
 }
 
 //=====================================================================================================
@@ -1904,6 +2003,9 @@ function DropDown(obj) {
   this.filter = obj;
   this.head = getEl('.head', obj);
   this.title = getEl('.head .title', obj);
+  this.sort = getEl('.sort-box', obj);
+  this.search = getEl('form.search', obj);
+  this.items = getEl('.items', obj) || getEl('.drop-down', obj);
   this.clearBtn = getEl('.clear-btn', obj);
 
   // Константы:
@@ -1914,7 +2016,12 @@ function DropDown(obj) {
     if (this.head) {
       this.head.addEventListener('click', () => this.toggle());
     }
-    this.filter.addEventListener('click', event => this.selectValue(event));
+    if (this.sort) {
+      this.sort.addEventListener('click', event => this.sortValue(event))
+    }
+    if (this.items) {
+      this.items.addEventListener('click', event => this.selectValue(event));
+    }
     if (this.clearBtn) {
       this.clearBtn.addEventListener('click', event => this.clear(event));
     }
@@ -1929,7 +2036,10 @@ function DropDown(obj) {
     if (this.filter.classList.contains('open')) {
       this.filter.classList.remove('open');
     } else {
-      document.querySelectorAll('.activate.open').forEach(el => el.classList.remove('open'));
+      var dropDownOpen = getEl('.activate.open');
+      if (dropDownOpen) {
+        dropDownOpen.classList.remove('open');
+      }
       this.filter.classList.add('open');
     }
   }
@@ -1945,13 +2055,43 @@ function DropDown(obj) {
     }
   }
 
-  // Выбор значения:
-  this.selectValue = function (event, curItem) {
+  // Сортировка значений:
+  this.sortValue = function(event) {
+    var sort = event.target.closest('.row');
+    if (sort.classList.contains('checked')) {
+      sort.classList.remove('checked');
+    } else {
+      var curSort = getEl('.checked.row', this.sort);
+      if (curSort) {
+        curSort.classList.remove('checked');
+      }
+      sort.classList.add('checked');
+    }
+    sort.dispatchEvent(new Event('change', {"bubbles": true}));
+  }
+
+  // Поиск значения:
+  this.searchValue = (search, textToFind) => {
+    if (this.items) {
+      this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+    }
+    if (search) {
+      this.changeTitle('Поиск: ' + textToFind);
+      this.filter.value = textToFind;
+    }
+    search.dispatchEvent(new Event('change', {"bubbles": true}));
+  }
+
+  // Выбор значения из списка:
+  this.selectValue = function(event, curItem) {
     if (event) {
       curItem = event.target.closest('.item');
     }
     if (!curItem) {
       return;
+    }
+    if (this.search) {
+      this.search.clear();
     }
 
     if (this.filter.classList.contains('select')) {
@@ -1962,11 +2102,9 @@ function DropDown(obj) {
         this.filter.value = curItem.dataset.value;
       }
       this.filter.classList.remove('open');
-    }
-
-    if (this.filter.classList.contains('checkbox')) {
+    } else {
       curItem.classList.toggle('checked');
-      var checked = this.filter.querySelectorAll('.item.checked');
+      var checked = this.items.querySelectorAll('.item.checked');
       if (checked.length === 0) {
         this.clear(event);
       } else {
@@ -1976,11 +2114,11 @@ function DropDown(obj) {
         this.filter.value = value;
       }
     }
-    this.filter.dispatchEvent(new Event('change'));
+    curItem.dispatchEvent(new Event('change', {"bubbles": true}));
   }
 
-  // Установка определенного значения фильтра:
-  this.setValue = function (value) {
+  // Установка значения:
+  this.setValue = function(value) {
     this.filter.querySelectorAll('.item').forEach(el => {
       if ((el.dataset.value).toLowerCase() === value.toLowerCase()) {
         this.selectValue(null, el);
@@ -1988,13 +2126,25 @@ function DropDown(obj) {
     });
   }
 
-  // Очистка фильтра:
-  this.clear = function () {
+  // Очистка:
+  this.clear = function() {
     this.changeTitle();
-    this.filter.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+    if (this.search) {
+      this.search.clear();
+    }
+    if (this.items) {
+      this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+    }
     this.filter.value = undefined;
   }
+
+  // Инициализация поиска (если есть):
+  if (this.search) {
+    this.search = new Search(this.search, this.searchValue);
+  }
 }
+
+// Объект выпадающего списка для таблиц:
 
 function DropDownTable(obj) {
   DropDown.apply(this, arguments);
@@ -2082,16 +2232,17 @@ function createTableHead (data, col, index) {
       th.dataset.subkey = col.subkey;
     }
     if (col.sort) {
+      th.dataset.sort = col.sort;
       var sortDown = col.sort === 'numb' ? 'По возрастанию' : (col.sort === 'date' ? 'Сначала новые' : 'От А до Я');
       var sortUp = col.sort === 'numb' ? 'По убыванию' : (col.sort === 'date' ? 'Сначала старые' : 'От Я до А');
       sort =
       `<div class="sort-box">
         <div class="title">Сортировка</div>
-        <div class="sort-down row">
+        <div class="sort down row">
           <div class="sort down icon"></div>
           <div>${sortDown}</div>
         </div>
-        <div class="sort-up row">
+        <div class="sort up row">
           <div class="sort up icon"></div>
           <div>${sortUp}</div>
         </div>
@@ -2109,7 +2260,6 @@ function createTableHead (data, col, index) {
         </form>`;
       }
       if (col.filter !== 'search') {
-        th.classList.add('checkbox');
         items = '<div class="items"></div>';
       }
       var filter =
@@ -2170,7 +2320,7 @@ function createTableBody(col) {
 
 function Table(obj, settings) {
   // Константы:
-  this.data = Array.isArray(settings.data) ? settings.data.filter(el => el) : [];
+  this.initialData = Array.isArray(settings.data) ? settings.data.filter(el => el) : [];
 
   // Элементы для работы:
   this.table = obj;
@@ -2183,13 +2333,12 @@ function Table(obj, settings) {
     this.dropDowns = obj.querySelectorAll('.activate');
   }
 
-  // Инициализация выпадающих списков (если есть):
-  this.dropDowns.forEach(el => new DropDownTable(el));
-
   // Динамические переменные:
+  this.filters = {};
+  this.data = JSON.parse(JSON.stringify(this.initialData));
+  this.dataToLoad;
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.itemsToLoad = this.data;
   this.incr = 60;
   this.curColumn = null;
   this.startOffset = 0;
@@ -2205,7 +2354,7 @@ function Table(obj, settings) {
         this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
       }
       this.dropDowns.forEach(el => {
-        el.addEventListener('change', event => this.filterData(event, el.dataset.key));
+        el.addEventListener('change', event => this.changeData(event));
       });
     }
   }
@@ -2227,7 +2376,7 @@ function Table(obj, settings) {
   this.convertData = function() {
     this.data.forEach(el => {
       for (var key in el) {
-        if (!el[key]) {
+        if (!el[key] && el[key] != 0) {
           el[key] = '&ndash;';
         }
       }
@@ -2241,8 +2390,8 @@ function Table(obj, settings) {
     }
     this.results.querySelectorAll('[data-key]').forEach(result => {
       var total = 0;
-      if (this.itemsToLoad) {
-        this.itemsToLoad.forEach(el => {
+      if (this.dataToLoad && this.dataToLoad.length) {
+        this.dataToLoad.forEach(el => {
           if (el[result.dataset.key]) {
             total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
           }
@@ -2269,7 +2418,7 @@ function Table(obj, settings) {
             unique = [],
             list = '',
             value;
-        this.data.forEach(el => {
+        this.dataToLoad.forEach(el => {
           if (subkey) {
             el[key].forEach(subEl => getValue(subEl[subkey]));
           } else {
@@ -2277,7 +2426,7 @@ function Table(obj, settings) {
           }
         });
         function getValue(el) {
-          value = (typeof el === 'string' || el === 'number') ? el : null;
+          value = (typeof el === 'string' || typeof el === 'number') ? el : null;
           if (value && unique.indexOf(value) === -1) {
             unique.push(value);
           }
@@ -2302,13 +2451,13 @@ function Table(obj, settings) {
     }
     if (data) {
       this.countItems = 0;
-      this.itemsToLoad = data;
+      this.dataToLoad = data;
     } else {
       this.countItems = this.countItemsTo;
     }
     this.countItemsTo = this.countItems + this.incr;
-    if (this.countItemsTo > this.itemsToLoad.length) {
-      this.countItemsTo = this.itemsToLoad.length;
+    if (this.countItemsTo > this.dataToLoad.length) {
+      this.countItemsTo = this.dataToLoad.length;
     }
     if (this.countItems === this.countItemsTo) {
       return;
@@ -2316,7 +2465,7 @@ function Table(obj, settings) {
 
     var tableItems = [];
     for (let i = this.countItems; i < this.countItemsTo; i++) {
-      tableItems.push(this.itemsToLoad[i]);
+      tableItems.push(this.dataToLoad[i]);
     }
     var list = fillTemplate({
       area: this.body,
@@ -2330,6 +2479,7 @@ function Table(obj, settings) {
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
     };
+    this.setResizeHeight();
   }
 
   // Подгрузка таблицы при скролле:
@@ -2376,32 +2526,119 @@ function Table(obj, settings) {
     this.show();
   }
 
-  // Фильтрация таблицы:
-  // this.filterData = function(event, key) {
-  //   var data = this.data.filter(el => el[key] === event.currentTarget.value);
-  //   this.loadData(data);
-  //   this.setResizeHeight();
-  // }
+  // Работа с данными таблицы:
+  this.changeData = function(event) {
+    var dropDown = event.currentTarget,
+        target = event.target,
+        key = dropDown.dataset.key,
+        subkey = dropDown.dataset.subkey;
+    if (target.classList.contains('sort')) {
+      this.sortData(dropDown, target, key);
+    } else {
+      var type = target.classList.contains('search') ? 'search' : 'filter',
+          action = dropDown.value ? 'save' : 'remove',
+          value = type === 'search' ? dropDown.value : target.dataset.value;
+      this.changeFilter(action, type, value, key, subkey);
+      this.filterData();
+    }
+    this.loadData(this.dataToLoad);
+  }
 
-  // Сортировка таблицы:
-  // this.sortData = function(event, key, type) {
-  //   var sortBtn = event.currentTarget;
-  //   getEl('.sort.cheched', this.head).classList.remove('checked');
-  //   if (!sortBtn.classList.contains('checked')) {
-  //     sortBtn.classList.add('checked');
-  //     var copyItems = JSON.parse(JSON.stringify(this.itemsToLoad));
-  //     copy.sort(dynamicSort(key, type));
-  //     this.loadData(copyItems);
-  //   }
-  // }
+  // Сортировка данных:
+  this.sortData = function(dropDown, target, key) {
+    var type = dropDown.dataset.sort,
+        key = target.classList.contains('down') ? key : '-' + key;
+    this.head.querySelectorAll('.sort.checked').forEach(el => {
+      var th = el.closest('.activate');
+      if (th.id !== dropDown.id) {
+        el.classList.remove('checked');
+      }
+    });
+    var curSort = getEl('.sort.checked', this.head);
+    if (curSort) {
+      this.dataToLoad.sort(sortBy(key, type));
+    } else {
+      this.data = JSON.parse(JSON.stringify(this.initialData));
+      this.filterData();
+    }
+    dropDown.classList.remove('open');
+  }
 
-  // Поиск по столбцу таблицы:
-  // this.searchData = function(event, key) {
-  // }
+  // Сохранение/удаление фильтра:
+  this.changeFilter = function(action, type, value, key, subkey) {
+    if (action === 'save') {
+      if (!this.filters[key] || this.filters[key].type !== type) {
+        this.filters[key] = {
+          subkey: subkey,
+          type: type,
+          values: [value]
+        };
+      } else {
+        if (this.filters[key].values.indexOf(value) === -1) {
+          this.filters[key].values.push(value);
+        }
+      }
+    } else {
+      if (this.filters[key] && this.filters[key].type === type) {
+        var index = this.filters[key].values.indexOf(value);
+        if (index !== -1) {
+          if (this.filters[key].values.length === 1) {
+            delete this.filters[key];
+          } else {
+            this.filters[key].values.splice(index, 1)
+          }
+        }
+      }
+    }
+  }
 
-  // Сброс поиска:
-  // this.clearSearch = function(event) {
-  // }
+  // Фильтрация данных:
+  this.filterData = function() {
+    if (!isEmptyObj(this.filters)) {
+      var isFound, filter;
+      this.dataToLoad = this.data.filter(item => {
+        for (var key in this.filters) {
+          filter = this.filters[key];
+          isFound = false;
+          if (filter.subkey) {
+            for (var subitem of item[key]) {
+              if (checkValue(filter.type, filter.values, subitem[filter.subkey])) {
+                isFound = true;
+              }
+            }
+          } else {
+            if (checkValue(filter.type, filter.values, item[key])) {
+              isFound = true;
+            }
+          }
+          if (!isFound) {
+            return false;
+          }
+        }
+        return true;
+      });
+    } else {
+      this.dataToLoad = this.data;
+    }
+  }
+
+  // Проверка совпадения со значениями фильтра:
+  function checkValue(type, filterValues, itemValue) {
+    var isFound = false;
+    for (var value of filterValues) {
+      if (type === 'search') {
+        var regEx = RegExp(value, 'gi');
+        if (itemValue.search(regEx) >= 0) {
+          isFound = true;
+        }
+      } else {
+        if (itemValue == value) {
+          isFound = true;
+        }
+      }
+    }
+    return isFound;
+  }
 
   // Запуск перетаскивания столбца:
   this.startResize = function(event) {
@@ -2423,20 +2660,19 @@ function Table(obj, settings) {
   });
 
   // Остановка перетаскивания столбца:
-  this.stopResize = throttle(() => {
+  this.stopResize = () => {
     if (this.curColumn) {
       this.curColumn = null;
       document.removeEventListener('mousemove', this.resize);
       document.removeEventListener('mouseup', this.stopResize);
     }
-  });
+  };
 
   // Визуальное отображение таблицы:
   this.show = function() {
     showElement(this.table);
     loader.hide();
     this.align();
-    this.setResizeHeight();
     this.table.classList.add('active');
   }
 
@@ -2444,9 +2680,12 @@ function Table(obj, settings) {
   this.init = function() {
     this.initTab();
     this.convertData();
-    this.fillCheckboxes();
-    this.fillResults();
     this.loadData(this.data);
+    if (this.head) {
+      this.dropDowns.forEach(el => new DropDownTable(el));
+      this.fillCheckboxes();
+      this.fillResults();
+    }
     if (this.table.classList.contains('active')) {
       this.show();
     }
