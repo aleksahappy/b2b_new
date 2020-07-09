@@ -1,6 +1,4 @@
 'use strict';
-'use strict';
-console.log('test');
 
 
 function startCertPage() {
