@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ТОП СПОРТС - Документы</title>
+  <title>ТОП СПОРТС - Сертификаты</title>
   <meta name="keywords" content="ТОП СПОРТС">
   <meta name="description" content="ТОП СПОРТС">
   <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
@@ -92,22 +92,60 @@
     </div>
   </div>
   <div class="main">
-    <div id="documents" class="container">
+    <div id="certificates" class="container">
       <div id="main-header">
         <div class="main-title row">
           <div class="title-row row">
-            <div class="title h0">Документы</div>
+            <div class="title h0">Сертификаты</div>
           </div>
         </div>
       </div>
-      <!-- Таблица документов -->
-      <div id="docs-table" class="table-wrap active">
-        <table class="head">
-          <thead></thead>
-        </table>
-        <table>
-          <tbody id="docs-table-body"></tbody>
-        </table>
+      <div class="row">
+        <div class="">
+          <div class="title">Поиск по ключевым словам</div>
+          <form class="search row">
+            <input type="text" data-value="" autocomplete="off" placeholder="Введите слово...">
+            <input class="search icon" type="submit" value="">
+            <div class="close icon"></div>
+          </form>
+        </div>
+        <div class="">
+          <div class="form-wrap">
+            <div class="title">Период реализации</div>
+            <input id="cert-range" type="text" value="" name="" data-intype="range"  placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="24">
+          </div>
+        </div>
+        <div class="">
+          <div class="title">Бренд</div>
+          <div id="brands-select" class="activate select">
+            <div class="head row">
+              <div class="title">Выберите бренд</div>
+              <div class="triangle icon"></div>
+            </div>
+            <div class="drop-down">
+              <div class="item" data-value="default">Сбросить</div>
+              <div class="item" data-value="1">Значение 1</div>
+              <div class="item" data-value="2">Значение 2</div>
+              <div class="item" data-value="3">Значение 3</div>
+              <div class="item" data-value="4">Значение 4</div>
+              <div class="item" data-value="5">Значение 5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="certif-data" class="certif-data">
+        <div class="row item">
+          <div class="view"></div>
+          <div class="cont">
+            <div class="text">#descr#</div>
+            <div class="row">
+              <a href="http://api.topsports.ru/files/files.php?type=cert&id=#id#" target="_blank">
+                <div class="download icon"></div>
+              </a>
+              <div><a href="http://api.topsports.ru/files/files.php?type=cert&mode=view&id=#id#" target="_blank">#title#</a></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Прелоадер страницы -->
@@ -388,6 +426,9 @@
 
     <script src ="../js/main.js"></script>
     <script src="../js/main_new.js"></script>
-    <script src ="documents.js"></script>
+    <script src ="certif.js"></script>
+    <script>
+      initDropDown('brands-select');
+    </script>
   </body>
 </html>

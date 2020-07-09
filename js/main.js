@@ -838,10 +838,8 @@ function changeNameBtn(el, qty, text = 'В корзину') {
 // Включение работы подсказок:
 
 function enableTooltips() {
-  document.querySelectorAll('[data-tooltip]').forEach(el => {
-    document.addEventListener('mouseover', event => showTooltip(event));
-    document.addEventListener('mouseout', hideTooltip);
-  });
+  document.addEventListener('mouseover', event => showTooltip(event));
+  document.addEventListener('mouseout', hideTooltip);
 }
 
 // Отображение подсказки:
