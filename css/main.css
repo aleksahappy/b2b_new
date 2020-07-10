@@ -1834,6 +1834,10 @@ form.file input[type="submit"] {
   cursor: default;
 }
 
+.qty-box .icon {
+  margin-right: 0;
+}
+
 .qty-box .choiced-qty {
   width: 3.857em;
   text-align: center;
@@ -2683,11 +2687,6 @@ tbody td > .row > * {
   height: 4.5em;
 }
 
-.header-top a:not(.title):not(.head) {
-  display: block;
-  color: #666666;
-}
-
 .header-top .logo {
   height: 2em;
   margin-right: 5em;
@@ -2742,8 +2741,14 @@ tbody td > .row > * {
   max-height: 25em;
 }
 
+.header-top .drop-down a {
+  display: block;
+  color: #666666;
+}
+
 .header-top .drop-down .item {
   padding: 0.75em 1em;
+  border-bottom: none;
   white-space: nowrap;
 }
 
@@ -2751,16 +2756,9 @@ tbody td > .row > * {
   width: 100%;
 }
 
-.header-top .catalog:hover {
+.header-top .drop-down .catalog:hover {
   text-decoration: underline;
-}
-
-.header-top .drop-down .item {
-  border-bottom: none;
-}
-
-.header-top .drop-down .row:last-child .item:last-child {
-  border-radius: 0 0 3px 0;
+  background-color: #FFFFFF;
 }
 
 .header-top .item.cart-info {
@@ -2796,6 +2794,11 @@ tbody td > .row > * {
 
 .header-top .drop-down .cart-info:hover {
   border: 1px solid #34495E;
+  background-color: #FFFFFF;
+}
+
+.header-top .drop-down .row:last-child .item:last-child {
+  border-radius: 0 0 3px 0;
 }
 
 .header-top .right-side {
@@ -2841,6 +2844,7 @@ tbody td > .row > * {
   width: 2.25em;
   height: 2.25em;
   margin-left: 1em;
+  margin-right: 0;
 }
 
 .header-menu {

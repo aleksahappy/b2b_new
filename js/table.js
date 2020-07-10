@@ -459,8 +459,6 @@ function Table(obj, settings) {
           value = type === 'search' ? dropDown.value : target.dataset.value;
       this.changeFilter(action, type, value, key, subkey);
       this.filterData();
-      console.log(action, type, value, key, subkey);
-      console.log(this.filters);
     }
     this.loadData(this.dataToLoad);
   }

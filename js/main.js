@@ -2100,7 +2100,6 @@ function DropDown(obj) {
     if (this.items) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
     }
-    console.log(textToFind);
     if (textToFind) {
       this.changeTitle('Поиск: ' + textToFind);
       this.filter.value = textToFind;
