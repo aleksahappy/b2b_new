@@ -459,6 +459,8 @@ function Table(obj, settings) {
           value = type === 'search' ? dropDown.value : target.dataset.value;
       this.changeFilter(action, type, value, key, subkey);
       this.filterData();
+      console.log(action, type, value, key, subkey);
+      console.log(this.filters);
     }
     this.loadData(this.dataToLoad);
   }
@@ -499,12 +501,16 @@ function Table(obj, settings) {
       }
     } else {
       if (this.filters[key] && this.filters[key].type === type) {
-        var index = this.filters[key].values.indexOf(value);
-        if (index !== -1) {
-          if (this.filters[key].values.length === 1) {
-            delete this.filters[key];
-          } else {
-            this.filters[key].values.splice(index, 1)
+        if (type === 'search') {
+          delete this.filters[key];
+        } else {
+          var index = this.filters[key].values.indexOf(value);
+          if (index !== -1) {
+            if (this.filters[key].values.length === 1) {
+              delete this.filters[key];
+            } else {
+              this.filters[key].values.splice(index, 1)
+            }
           }
         }
       }

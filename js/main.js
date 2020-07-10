@@ -1887,7 +1887,7 @@ function Search(obj, func) {
   this.cancel = function() {
     this.clear();
     if (func) {
-      func();
+      func(this.form);
     }
   }
 
@@ -2048,7 +2048,7 @@ function DropDown(obj) {
       this.items.addEventListener('click', event => this.selectValue(event));
     }
     if (this.clearBtn) {
-      this.clearBtn.addEventListener('click', event => this.clear(event));
+      this.clearBtn.addEventListener('click', () => this.clear());
     }
   }
   this.setEventListeners();
@@ -2100,9 +2100,12 @@ function DropDown(obj) {
     if (this.items) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
     }
-    if (search) {
+    console.log(textToFind);
+    if (textToFind) {
       this.changeTitle('Поиск: ' + textToFind);
       this.filter.value = textToFind;
+    } else {
+      this.clear(event);
     }
     search.dispatchEvent(new Event('change', {"bubbles": true}));
   }
@@ -2121,7 +2124,7 @@ function DropDown(obj) {
 
     if (this.filter.classList.contains('select')) {
       if (curItem.dataset.value === 'default') {
-        this.clear(event);
+        this.clear();
       } else {
         this.changeTitle(curItem.textContent);
         this.filter.value = curItem.dataset.value;
@@ -2131,7 +2134,7 @@ function DropDown(obj) {
       curItem.classList.toggle('checked');
       var checked = this.items.querySelectorAll('.item.checked');
       if (checked.length === 0) {
-        this.clear(event);
+        this.clear();
       } else {
         this.changeTitle('Выбрано: ' + checked.length);
         var value = [];
