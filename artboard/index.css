@@ -9,6 +9,10 @@
   margin-bottom: 2em;
 }
 
+.pop-up {
+  width: 64em;
+}
+
 .inform-temp >:first-child {
   margin-right: 5em;
 }

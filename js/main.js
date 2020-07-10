@@ -38,7 +38,7 @@ var website = document.body.dataset.website,
     },
     items,
     loader = getEl('page-loader'),
-    message = getEl('message-container'),
+    message = getEl('alerts'),
     upBtn = getEl('up-btn');
 
 // Динамически изменяемые переменные:
@@ -87,6 +87,7 @@ function startPage() {
       console.log(reject);
       renderTotals();
     });
+    initNotifications();
   }
 }
 
@@ -320,6 +321,30 @@ function getDataFromTotals(type) {
     };
   }
   return data;
+}
+
+//=====================================================================================================
+// Работа всплывающего окна уведомлений:
+//=====================================================================================================
+
+// Инициализация работы окна уведомлений:
+
+function initNotifications() {
+  // sendRequest(urlRequest.main, {action: 'notifications'})
+  sendRequest(`../json/data_notifications.json`)
+  .then(result => {
+    var data = JSON.parse(result),
+        notifications = getEl('notifications'),
+        body = getEl('.pop-up-body', notifications);
+    fillTemplate({
+      area: body,
+      items: data
+    });
+    getEl('.loader', notifications).style.display = 'none';
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 //=====================================================================================================
