@@ -1,0 +1,22 @@
+/* tablet */
+@media (max-width: 768px) {
+
+  .open.icon {
+    display: block;
+  }
+
+  #contras-table.tablet{
+    display: block;
+  }
+
+}
+
+/* mobile */
+@media (max-width: 499px) {
+
+  #contras .info-wrap span{
+    display: block;
+    width: 80%;
+  }
+
+}

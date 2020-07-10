@@ -1,0 +1,38 @@
+[
+  {
+    "contr_fio": "Семенов Иван Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.69",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "semenov@gmail.com",
+    "contr_access": "частичный",
+    "contr_date": "31.10.2016"
+  },
+  {
+    "contr_fio": "Петров Сергей Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.86",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "petrov@yandex.ru",
+    "contr_access": "полный",
+    "contr_date": "11.09.2016"
+  },
+  {
+    "contr_fio": "Деревянко Павел Петрович",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.04.76",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "derev0476@mail.ru",
+    "contr_access": "отключен",
+    "contr_date": "31.10.2016"
+  },
+  {
+    "contr_fio": "Тринадцатко Ярослава Андреевна",
+    "contr_status": "Менеджер",
+    "contr_birth": "25.11.88",
+    "contr_tel": "+7(987)765-65-65",
+    "contr_mail": "33ya@gmail.com",
+    "contr_access": "полный",
+    "contr_date": "20.10.2016"
+  }
+]

@@ -1,0 +1,13 @@
+@media (max-width: 960px) {
+  #profile-page .cart{
+    width: 100%;
+  }
+
+  .cart .row{
+    justify-content: flex-start;
+  }
+
+  #profile-page .cart .block:first-child{
+    margin-right: 4.28em;
+  }
+}

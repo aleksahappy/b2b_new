@@ -21,11 +21,11 @@
       <div class="header-top">
         <div class="container row">
           <div class="left-side row">
-            <a class="logo" href="../desktop"><img src="../img/logo.svg" alt="Логотип"/></a>
+            <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
             <div class="row">
               <div class="activate hover">
                 <div class="head row">
-                  <a class="title" href="../desktop">Рабочий стол</a>
+                  <a class="title" href="../dashboard">Рабочий стол</a>
                 </div>
               </div>
               <div class="activate hover">
@@ -94,7 +94,7 @@
       <div class="container">
         <div id="main-header">
         <div id="main-nav">
-          <a href="../desktop">Главная</a>
+          <a href="../dashboard">Главная</a>
           <a href="../reclamations" class="item">Рекламации</a>
           <a class="item">№ТС-53</a>
         </div>
@@ -735,27 +735,27 @@
         text2.style.color = '#9A9A9A';
         let line22 = progressItem[2].querySelector('.line');
         line22.removeAttribute('style');
-        
+
         let line2 = progressItem[3].querySelector('.line');
         line2.classList.remove('undone');
         let point3 = progressItem[3];
         progressBar.appendChild(point3);
         let point33 = progressItem[3].querySelector('.point');
         point33.classList.remove('done-progress-active');
-        point33.classList.add('done-progress');	
+        point33.classList.add('done-progress');
         let line3 = progressItem[3].querySelector('.line');
         line3.classList.remove('undone');
         line3.removeAttribute('style');
         let text3 = progressItem[3].querySelector('.progress-title');
-        text3.removeAttribute('style');			
+        text3.removeAttribute('style');
       }
     });
 
     /* состояние 2 */
     btn2.addEventListener('click', function() {
       refundList.classList.add('refundList');
-      
-      
+
+
       for (let i = 0; i < progressItem.length; i++) {
 
         let point1 = progressItem[1].querySelector('.point');

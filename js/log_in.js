@@ -19,7 +19,11 @@ function logIn(event) {
     } else {
       var result = JSON.parse(request.response);
       if (result.ok) {
+<<<<<<< HEAD
+        location.href = '/dashboard';
+=======
         location.href = '/desktop';
+>>>>>>> master
       } else {
         showError('Пользователь не найден');
       }

@@ -1,37 +1,173 @@
-.table-head th:last-child .resize-btn {
-  height: 0;
+/* Стили для таблицы */
+#users-table td{
+  cursor: default;
+}
+#users-table td:nth-child(1) {
+  min-width: 6em;
+  text-align: center;
 }
 
-.users .row:first-child {
+#users-table td:nth-child(2) {
+  min-width: 20em;
+}
+
+#users-table td:nth-child(3) {
+  min-width: 10em;
+}
+
+#users-table td:nth-child(4) {
+  min-width: 7em;
+  text-align: center;
+}
+
+#users-table td:nth-child(5) {
+  min-width: 4em;
+}
+
+#users-table td:nth-child(6) {
+  min-width: 16em;
+}
+
+#users-table td:nth-child(7) {
+  min-width: 9em;
+}
+
+#users-table td:nth-child(8) {
+  min-width: 10em;
+  text-align: center;
+}
+
+#users-table td:nth-child(9) {
+  min-width: 10em;
+  text-align: center;
+}
+
+#users-table td .row{
+  align-items: center;
+}
+
+#users-table-tablet,
+#users-table-mob{
+  display: none;
+}
+
+.adaptive .info-wrap{
+  padding-bottom: 0;
+}
+
+.adaptive .info-wrap > .row {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.adaptive .info-wrap .row .col > div{
+  padding-bottom: 0.875em;
+}
+
+/* Размер шрифта в заголовках адаптивной таблицы */
+
+#users .section-head .section-title {
+    font-size: 1em;
+}
+
+.main-title .title-row .title{
+  margin-bottom: 0.6em;
+}
+
+/* Вынужденное переопределение главных стилей для конктретной страницы */
+
+#users .main-title .row{
+  align-items: flex-start;
+}
+
+#users .main-title .title-row .title{
+  margin-bottom: 0;
+}
+
+#users .info-wrap{
+  padding: 1.25em;
+  margin: 0;
+}
+
+#users .info-wrap > * {
+  margin-bottom: 1.25em;
+}
+
+#users .info-wrap > .row{
+  margin-bottom: 0;
+}
+
+#users .info-wrap div{
+  font-size: 14px;
+  color: #34495E;
+}
+
+#users .info-wrap span{
+  color: #666666;
+}
+
+#users-table .section-head .row{
+  align-items: center;
+}
+
+#users-table .section-head .section-title {
+  font-size: 1em;
+}
+
+.wrap.row{
+  width: 100%;
+}
+
+.user-status.row{
+  width: 50%;
+}
+
+.user-status.row:last-child{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.users .icon {
-  width: 2em;
-  height: 2em;
+.user-status.icon.limited{
+  background: url('../img/newDesign/user_limited-ic.svg') no-repeat!important;
 }
 
-.phone {
-  width: 26px;
-  height: 36px;
-  background: url('../img/smartphone_1.svg') no-repeat center center;
-  background-size: contain;
-  margin-right: 5px;
+.user-status.icon.boundless{
+  background: url('../img/newDesign/user_boundless-ic.svg') no-repeat!important;
 }
 
-.seen {
-  margin-left: 20px;
-  width: 30px;
-  height: 21px;
-  background: url('../img/eyeActive.svg') no-repeat center center;
-  background-size: contain;
+.user-status.icon{
+  width: 12px;
+  height: 15px;
+  margin-right: 1em;
+  background: url('../img/newDesign/user_denied-ic.svg') no-repeat;
 }
 
-.unseen {
-  margin-left: 20px;
-  width: 30px;
-  height: 21px;
-  background: url('../img/eyeNonActive.svg') no-repeat center center;
-  background-size: contain;
+/* Модальное окно "Добавление пользователя" */
+
+#add-user,
+#edit-user{
+  width: 40em;
+}
+
+#add-user .text-light,
+#edit-user .text-light{
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.col .modal-col{
+  width: 50%;
+}
+
+#add-user .modal-col > .col{
+  width: 91%;
+}
+
+#edit-user .modal-col > .col {
+  width: 91%;
+}
+
+#add-user .form-col2 .title,
+#edit-user .form-col2 .title{
+  margin-bottom: 0.45em;
 }

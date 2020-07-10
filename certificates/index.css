@@ -1,0 +1,52 @@
+#certificates form.search {
+  width: 19.625em;
+  margin-top: 6px;
+  margin-right: 20px;
+}
+
+#cert-range{
+  width: 16.375em;
+  margin-top: 6px;
+  margin-right: 20px;
+}
+
+#brands-select{
+  width: 16.375em;
+  margin-top: 6px;
+}
+
+#brands-select .title{
+  color: #C6C6C6;
+}
+
+.certif-data{
+  margin-top: 2em;
+}
+
+.certif-data .item{
+  padding: 1.25em;
+  margin-bottom: 0.75em;
+  border: 1px solid #D5D5D5;
+  border-radius: 3px;
+  background: #F8F8F8;
+}
+
+.certif-data .item .view{
+  width: 73px;
+  min-width: 73px;
+  height: 101px;
+  margin-right: 1.25em;
+  background: url(../img/newDesign/cert-view.png) no-repeat;
+  background-size: contain;
+}
+
+.certif-data .item .cont{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 101px;
+}
+
+.certif-data .item .cont > div:first-child{
+  margin-bottom: 0.9em;
+}
