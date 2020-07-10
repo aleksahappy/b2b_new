@@ -968,6 +968,7 @@ a.btn {
   flex-shrink: 0;
   width: 1em;
   height: 1em;
+  margin-right: 1em;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -1624,10 +1625,6 @@ div.option input:disabled ~ .checkbox.icon {
   text-decoration: underline;
 }
 
-.activate.box .drop-down .sort.icon {
-  margin-right: 1em;
-}
-
 .activate.box form.search {
   width: 100%;
   padding: 0 1.14em;
@@ -2118,10 +2115,6 @@ tbody td > .row > * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-tbody td .icon {
-  margin-right: 1em;
 }
 
 #orderslist td,
@@ -3013,10 +3006,6 @@ tbody td .icon {
 
 #notifications .row {
   align-items: center;
-}
-
-#notifications .icon {
-  margin-right: 1em;
 }
 
 #notifications .pop-up {
