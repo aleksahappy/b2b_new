@@ -11,6 +11,11 @@ td {
   vertical-align: middle!important;
 }
 
+.dir{
+  align-items: center;
+  justify-content: space-between;
+}
+
 .main a{
   font-size: 1em;
   color: #117FED;

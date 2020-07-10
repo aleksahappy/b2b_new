@@ -50,3 +50,7 @@
 .certif-data .item .cont > div:first-child{
   margin-bottom: 0.9em;
 }
+
+.certif-data .item .cont .row{
+  align-items: center;
+}
