@@ -7,10 +7,12 @@
 .shops {
   display: flex;
   flex-direction: column;
-  width: 20.36vw;
   height: 37.5187vw;
-  padding: 20px 30px 20px 38px;
-  background: #ffffff;
+  margin-right: 20px;
+}
+
+.shops .wrap{
+  margin-top: 20px;
 }
 
 #map {
@@ -21,17 +23,32 @@
 .shop {
   display: flex;
   flex-direction: column;
-  margin-top: 1.5vw;
+  border-bottom: 1px solid #C6C6C6;
+  padding: 0.7142em 1.4285em 0.7142em 2.1428em;
+  background: #ffffff;
+  transition: .2s;
+  cursor: pointer;
 }
 
-.shop > * {
-  margin-bottom: 5px;
+.shop:hover{
+  background: #E7EAED;;
 }
 
-.shop div:first-child {
+/* .shop .col{
+  justify-content: space-between;
+} */
+
+/* .shop div:first-child {
   display: flex;
   align-items: center;
   margin-right: 4px;
+} */
+
+.shop .edit {
+  width: 24px;
+  height: 24px;
+  background: url(../img/newDesign/edit-shop-ic.svg) no-repeat 50%;
+  cursor: pointer;
 }
 
 .indicate {
@@ -40,24 +57,10 @@
   margin-left: 8px;
 }
 
-.indicate div:first-child {
+.indicate div{
   border-radius: 50%;
-  width: 5px;
-  height: 5px;
-}
-
-.indicate div:last-child {
-  font-size: 0.8em;
-  margin-top: -2px;
-}
-
-.toggle {
-  width: 1.5em;
-  height: 1.5em;
-}
-
-.TS {
-  font-size: 1.1em;
+  width: 10px;
+  height: 10px;
 }
 
 .added {
@@ -65,17 +68,9 @@
   background: #3F9726;
 }
 
-.added-color {
-  color: #3F9726;
-}
-
 .denied {
   fill: #D70C17;
   background: #D70C17;
-}
-
-.denied-color {
-  color: #D70C17;
 }
 
 .processing {
@@ -83,6 +78,27 @@
   background: #F69C00;
 }
 
-.processing-color {
-  color: #F69C00;
+.text-s{
+  font-size: 0.85em;
+  line-height: 1.4em;
+  color: #8596A6;
+}
+
+.text-m{
+  line-height: 2em;
+}
+
+.shop a{
+  text-decoration: none;
+}
+
+.shop .name{
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2em;
+}
+
+.shop img{
+  width: 105px;
 }
