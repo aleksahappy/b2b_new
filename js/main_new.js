@@ -6,6 +6,7 @@ var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}
 var telRegExp = /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/;
 var finTelRegExp = /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/;
 var birthRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
 
 //  Найти сумму элементов массива
 
@@ -118,6 +119,16 @@ function isValid(input) {
   //  tel
   if (inpAttr === 'email') {
     var isvalid = checkInput(input, emailRegExp);
+    if (isvalid) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //  nickname
+  if (inpAttr === 'nickname') {
+    var isvalid = checkInput(input, nicknameRegExp);
     if (isvalid) {
       return true;
     } else {
@@ -247,9 +258,20 @@ function Form2(obj, func) {
         event.target.closest('.form-wrap').classList.add('error');
         this.submitBtn.setAttribute('disabled','disabled');
       }
+
+    // nickname
+    } else if (inpType === 'nickname') {
+        let test = val.length === 0 || nicknameRegExp.test(val);
+        if (test) {
+          event.target.closest('.form-wrap').classList.remove('error');
+
+        } else {
+          event.target.closest('.form-wrap').classList.add('error');
+          this.submitBtn.setAttribute('disabled','disabled');
+        }
+      }
+      this.checkSubmit();
     }
-    this.checkSubmit();
-  }
 
   //  Проверить все ли поля required заполнены и если все, то разрешить submit
   this.checkSubmit = function() {

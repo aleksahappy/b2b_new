@@ -2208,7 +2208,6 @@ tbody td > .row > * {
 
 .pop-up {
   position: relative;
-  width: 64em;
   max-width: 90vw;
   max-height: 90vh;
   background-color: #F8F8F8;
