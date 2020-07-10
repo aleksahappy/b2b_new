@@ -26,8 +26,8 @@ var tbody = dashboardTable.querySelector('tbody');
 
 
 function startDashboardTable() {
-  sendRequest(`../json/desktopTableData.json`)
-  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  sendRequest(`../json/dashboardTableData.json`)
+  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     dataOrders = JSON.parse(result);
     loader.hide();
@@ -59,7 +59,7 @@ var tableBtns = tableBtnsCont.querySelectorAll('.table-btn');
 var tableBtnsMobCont = document.querySelector('#table-btns-mob');
 var tableBtnsMob = tableBtnsMobCont.querySelectorAll('.table-btn');
 
-tableToggle.addEventListener('click', togglePreorders); // desktop-тоггл
+tableToggle.addEventListener('click', togglePreorders); // dashboard-тоггл
 tableToggleMob.addEventListener('click', togglePreorders);  //  mobile-тоггл
 
 //  резервируем переменные для вывода кол-ва заказов по статусам после
@@ -540,7 +540,7 @@ function startBarChart() {
 
   // запрос
   sendRequest(`../json/procurementData.json`)
-  //sendRequest(urlRequest.main, {action: 'desktopTable'})
+  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     barData = JSON.parse(result);
     getBarLabels();
@@ -729,7 +729,7 @@ function startProcurementDonutChart() {
   function startDonutChart() {
     // запрос
     sendRequest(`../json/procurementData.json`)
-    //sendRequest(urlRequest.main, {action: 'desktopTable'})
+    //sendRequest(urlRequest.main, {action: 'dashboardTable'})
     .then(result => {
       inputData = JSON.parse(result);
       getSelectOptions();

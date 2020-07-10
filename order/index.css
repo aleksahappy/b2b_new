@@ -1,0 +1,424 @@
+/* =====================================================================================================
+Стили страницы "Один заказ":
+===================================================================================================== */
+
+/* Стили вкладок таблицы */
+
+.tabs .tab {
+  justify-content: center;
+  align-items: center;
+  width: 12.5em;
+  height: 3.6em;
+  margin-right: 0.7em;
+  border-radius: 5px 5px 0 0;
+}
+
+.tabs .tab .icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.5em;
+}
+
+.tab.vputi .icon {
+  background-image: url(../img/chronometer.svg);
+}
+
+.tab.vputi.disabled .icon {
+  background-image: url(../img/chronometer_disabled.svg);
+}
+
+.tab.vnali .icon {
+  background-image: url(../img/box.svg);
+}
+
+.tab.vnali.disabled .icon {
+  background-image: url(../img/box_disabled.svg);
+}
+
+.tab.sobrn .icon {
+  background-image: url(../img/delivery_trolley.svg);
+}
+
+.tab.sobrn.disabled .icon {
+  background-image: url(../img/delivery_trolley_disabled.svg);
+}
+
+.tab.otgrz .icon {
+  background-image: url(../img/delivery_truck.svg);
+}
+
+.tab.otgrz.disabled .icon {
+  background-image: url(../img/delivery_truck_disabled.svg);
+}
+
+.tab.nedop .icon {
+  background-image: url(../img/stop.svg);
+}
+
+.tab.nedop.disabled .icon {
+  background-image: url(../img/stop_disabled.svg);
+}
+
+.tab.reclm .icon {
+  background-image: url(../img/reclm.svg);
+}
+
+.tab.reclm.disabled .icon {
+  background-image: url(../img/reclm_disabled.svg);
+}
+
+/* Стили для всех таблиц */
+
+.table-wrap {
+  max-height: 50vh;
+}
+
+/* Стили таблицы "Номенклатура" */
+
+#nomen td:nth-child(1) {
+  min-width: 8em;
+}
+
+#nomen td:nth-child(2) {
+  min-width: 10em;
+}
+
+/* #nomen td:nth-child(3) {
+  min-width: 8em;
+} */
+
+#nomen td:nth-child(3) {
+  min-width: 7em;
+  text-align: right;
+}
+
+#nomen td:nth-child(4) {
+  min-width: 11em;
+  text-align: right;
+}
+
+#nomen td:nth-child(5) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#nomen td:nth-child(6) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* #nomen td:nth-child(8) {
+  min-width: 14em;
+} */
+
+/* Стили таблицы "Товар ожидается" */
+
+#vputi td:nth-child(1) {
+  min-width: 8em;
+}
+
+#vputi td:nth-child(2) {
+  min-width: 10em;
+}
+
+#vputi td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#vputi td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#vputi td:nth-child(5) {
+  min-width: 13em;
+  text-align: right;
+}
+
+#vputi td:nth-child(6) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#vputi td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* Стили таблицы "Товар в наличии" */
+
+#vnali td:nth-child(1) {
+  min-width: 8em;
+}
+
+#vnali td:nth-child(2) {
+  min-width: 10em;
+}
+
+#vnali td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#vnali td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#vnali td:nth-child(5) {
+  min-width: 13em;
+  text-align: right;
+}
+
+#vnali td:nth-child(6) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#vnali td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* Стили таблицы "Товар собран" */
+
+#sobrn td:nth-child(1) {
+  min-width: 8em;
+}
+
+#sobrn td:nth-child(2) {
+  min-width: 10em;
+}
+
+#sobrn td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#sobrn td:nth-child(4) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#sobrn td:nth-child(5) {
+  min-width: 13em;
+  text-align: right;
+}
+
+#sobrn td:nth-child(6) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#sobrn td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+/* Стили таблицы "Товар отгружен" */
+
+#otgrz td:nth-child(1) {
+  min-width: 8em;
+}
+
+#otgrz td:nth-child(2) {
+  min-width: 10em;
+  max-width: 40em;
+}
+
+#otgrz td:nth-child(2) .row {
+  justify-content: space-between;
+  align-items: center;
+}
+
+#otgrz td:nth-child(2) .row > div:first-child{
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recl.btn {
+  min-width: auto;
+  padding: 0.15em 1.15em;
+  font-size: 0.785em;
+  color: #FFFFFF;
+  background-color: #A89271;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  overflow: visible;
+}
+
+#otgrz td:nth-child(3) {
+  min-width: 10em;
+  text-align: right;
+}
+
+#otgrz td:nth-child(4) {
+  min-width: 11em;
+  text-align: center;
+}
+
+#otgrz td:nth-child(5) {
+  min-width: 11em;
+}
+
+#otgrz td:nth-child(6) {
+  min-width: 14em;
+  text-align: right;
+}
+
+#otgrz td:nth-child(7) {
+  min-width: 14em;
+  text-align: right;
+}
+
+#otgrz td:nth-child(8) {
+  min-width: 13em;
+  text-align: right;
+}
+
+/* #otgrz td:nth-child(9) {
+  min-width: 13em;
+  text-align: center;
+} */
+
+.recl.btn {
+  position: absolute;
+  right: 1.2em;
+  min-width: 0;
+  padding: 0.2em 1.3em;
+  font-size: 0.785em;
+  color: #FFFFFF;
+  background-color: #A89271;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Стили таблицы "Непоставка" */
+
+#nedop td:nth-child(1) {
+  min-width: 8em;
+}
+
+#nedop td:nth-child(2) {
+  min-width: 10em;
+}
+
+#nedop td:nth-child(3) {
+  min-width: 9em;
+  text-align: right;
+}
+
+#nedop td:nth-child(4) {
+  min-width: 14em;
+  text-align: right;
+}
+
+#nedop td:nth-child(5) {
+  min-width: 14em;
+}
+
+/* Стили таблицы "Рекламации" */
+
+#reclm td:nth-child(1) {
+  min-width: 10em;
+}
+
+#reclm td:nth-child(2) {
+  min-width: 13em;
+  text-align: center;
+}
+
+#reclm td:nth-child(3) {
+  min-width: 8em;
+}
+
+#reclm td:nth-child(4) {
+  min-width: 10em;
+}
+
+#reclm td:nth-child(5) {
+  min-width: 9em;
+  text-align: right;
+}
+
+/* #reclm td:nth-child(6) {
+  min-width: 14em;
+  text-align: right;
+} */
+
+#reclm td:nth-child(6) {
+  min-width: 7em;
+}
+
+/* =====================================================================================================
+Всплывающее окно рекламаций:
+===================================================================================================== */
+
+#reclm-container .pop-up {
+  width: 58em;
+}
+
+#reclm-container .pop-up-title {
+  padding: 1.5em 2em;
+}
+
+#reclm-container .pop-up-body {
+  padding: 0 2em 1.5em 2em;
+}
+
+#reclm-container img {
+  height: 7.3em;
+}
+
+#reclm-container .pop-up-body > .row {
+  justify-content: space-between;
+}
+
+#reclm-container .order-info {
+  margin-bottom: 1em;
+}
+
+#reclm-container .registr-form .title {
+  margin-left: 0;
+  margin-bottom: 1em;
+  font-size: 1em;
+  color: #666666;
+  font-weight: 600;
+}
+
+#reclm-container .left-container {
+  width: 40%;
+  padding-right: 2em;
+}
+
+#error {
+  visibility: hidden;
+}
+
+#reclm-container .right-container {
+  width: 60%;
+}
+
+#reclm-container textarea {
+  margin-bottom: 0;
+  padding: 0.5em 1em;
+  height: 11em;
+}
+
+#reclm-container .btns-wrap {
+  justify-content: space-between;
+}
+
+#reclm-container .btns-wrap > div {
+  margin-right: 1em;
+}
+
+#reclm-container .btns-wrap > input {
+  width: 100%;
+}
+
+#reclm-loader {
+  background-color: #fffc;
+}

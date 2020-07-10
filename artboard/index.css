@@ -9,6 +9,10 @@
   margin-bottom: 2em;
 }
 
+.pop-up {
+  width: 64em;
+}
+
 .inform-temp >:first-child {
   margin-right: 5em;
 }
@@ -128,17 +132,20 @@ form.search.positioned {
   max-height: 100vh;
 }
 
+/* Стили для таблицы 1 */
+
 #table1 td:nth-child(1) {
   min-width: 20em;
-  text-align: center;
 }
 
 #table1 td:nth-child(2) {
   min-width: 20em;
+  text-align: center;
 }
 
 #table1 td:nth-child(3) {
   min-width: 20em;
+  text-align: center;
 }
 
 #table1 td:nth-child(4) {
@@ -158,5 +165,41 @@ form.search.positioned {
 }
 
 #table1 td:nth-child(8) {
+  min-width: 20em;
+}
+
+/* Стили для таблицы 2 */
+
+#table2 td:nth-child(1) {
+  min-width: 5em;
+  text-align: center;
+}
+
+#table2 td:nth-child(2) {
+  min-width: 10em;
+}
+
+#table2 td:nth-child(3) {
+  min-width: 12em;
+}
+
+#table2 td:nth-child(4) {
+  min-width: 20em;
+}
+
+#table2 td:nth-child(5) {
+  min-width: 15em;
+  text-align: center;
+}
+
+#table2 td:nth-child(6) {
+  min-width: 20em;
+}
+
+#table2 td:nth-child(7) {
+  min-width: 12em;
+}
+
+#table2 td:nth-child(8) {
   min-width: 20em;
 }

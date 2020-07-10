@@ -173,8 +173,15 @@ function addImgInfo(item) {
 function addActionInfo(item) {
   if (item.action_id > 0) {
     if (window.actions) {
-      var action = actions[item.action_id];
-      if (action && (action.unending || checkDate(action.begin, action.expire))) {
+      var action = actions[item.action_id],
+          isActual = action && action.unending ? true : false;
+      if (!isActual) {
+        var typeDate = 'yy-mm-dd',
+            start = getDateObj(action.begin, typeDate),
+            end = getDateObj(action.expire, typeDate);
+        isActual = checkDate(new Date(), start, end)
+      }
+      if (isActual) {
         item.actiontitle = action.title;
         item.actioncolor = '#' + action.color;
         item.action_tooltip = '';
@@ -348,10 +355,10 @@ function addManufInfo(item) {
 
 function addSearchInfo(item) {
   item.search = [item.title, item.brand, item.cat, item.subcat];
-  for (let key in item.sizes) {
+  for (var key in item.sizes) {
     item.search.push(item.sizes[key].articul);
   }
-  for (let key in item.options) {
+  for (var key in item.options) {
     item.search.push(item.options[key].option.replace('"', ''));
   }
   if (item.manuf) {
@@ -1229,13 +1236,13 @@ function getFilterZipData(key) {
   var data = [];
   curArray.forEach(item => {
     if (item.manuf) {
-      for (let k in item.manuf[key]) {
+      for (var k in item.manuf[key]) {
         if (key === 'man' || key === 'oem') {
           if (data.indexOf(k.trim()) === -1) {
             data.push(k);
           }
         } else {
-          for (let kk in item.manuf[key][k]) {
+          for (var kk in item.manuf[key][k]) {
             if (kk === getEl('man').value && data.indexOf(k.trim()) === -1) {
               data.push(k);
             }
@@ -1539,11 +1546,11 @@ function selectCardsByFilterCatalog(filters) {
   filters = filters || getInfo('filters')[pageUrl];
   var isFound;
   selectedItems = curItems.filter(card => {
-    for (let k in filters) {
+    for (var k in filters) {
       isFound = false;
-      for (let kk in filters[k]) {
+      for (var kk in filters[k]) {
         if (filters[k][kk] && !isEmptyObj(filters[k][kk])) {
-          for (let kkk in filters[k][kk]) {
+          for (var kkk in filters[k][kk]) {
             if (card.cat == kk && card.subcat == kkk) {
               isFound = true;
             }
@@ -1632,17 +1639,17 @@ function selectCardsBySearchOem(textToFind) {
 // Сортировка карточек товаров на странице:
 
 function sortItems(event) {
-  var prop = event.currentTarget.value;
-  if (prop === 'default') {
+  var key = event.currentTarget.dataset.value;
+  if (key === 'default') {
     curItems = JSON.parse(JSON.stringify(window[`${pageUrl}Items`]));
-    console.log(selectedItems);
     if (curSelect) {
       startSelect(curSelect);
     }
   } else {
-    curItems.sort(dynamicSort(prop));
+    var type = key.indexOf('price') >= 0 ? 'numb': 'text';
+    curItems.sort(sortBy(key, type));
     if (selectedItems !== '') {
-      selectedItems.sort(dynamicSort(prop));
+      selectedItems.sort(sortBy(key, type));
     }
   }
   showCards();

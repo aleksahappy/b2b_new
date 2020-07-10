@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
 
-  <body data-website="ts_b2b">
+  <body id="auth" data-website="ts_b2b">
 
     <div class="header">
       <div class="header-top">
@@ -37,8 +37,8 @@
               </svg> -->
             </div>
             <div class="pop-up-body">
-              <div id="error" class="err">Пользователь не найден</div>
-              <form class="registr-form" action="http://new.topsports.ru/api/user_auth.php" method="post" enctype="multipart/form-data">
+              <div id="error" class="err"></div>
+              <form id="log-in" class="registr-form">
                 <div class="input-wrap">
                   <input type="text" value="" name="login" autocomplete="off" required>
                   <div class="hint">Логин *</span></div>
@@ -47,7 +47,6 @@
                   <input type="password" value="" name="pass" autocomplete="off" required>
                   <div class="hint">Пароль *</div>
                 </div>
-                <input type="hidden" name="redirect" value="">
                 <div class="check-wrap">
                   <label class="check row">
                     <input type="checkbox" value="1" name="remember">
@@ -56,7 +55,7 @@
                   </label>
                 </div>
                 <div class="btns-wrap col">
-                  <input class="active btn" id="enter" type="submit" value="Войти">
+                  <input class="active btn" id="enter" type="submit" value="Войти" onclick="logIn(event)">
                   <a href="registr/" class="unactive btn">Стать дилером</a>
                 </div>
               </form>
@@ -69,11 +68,13 @@
     <div class="footer">
       <div class="container">
         <div class="wrap">
-          <div>Отдел продаж: +7 (846) 300-44-99</div>
+          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
           <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
         </div>
       </div>
     </div>
+
+    <script src ="js/log_in.js"></script>
 
   </body>
 

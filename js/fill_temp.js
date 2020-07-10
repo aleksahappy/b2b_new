@@ -1,20 +1,6 @@
 'use strict';
 
-// Получение элемента по id или селектору:
-
-function getEl(el, area = document) {
-  if (typeof el === 'string') {
-    area = typeof area === 'string' ? getEl(area): area;
-    if (el.indexOf('.') === 0 || el.indexOf('[') === 0) {
-      el = area.querySelector(el);
-    } else if (area === document) {
-      el = area.getElementById(el);
-    } else {
-      el = area.querySelector(el);
-    }
-  }
-  return el || undefined;
-}
+// Для корректной работы скрипта необходимо подключение перед ним main.js (не будет работать без функции getEl)
 
 //=====================================================================================================
 // Универсальное заполнение данных по шаблону:

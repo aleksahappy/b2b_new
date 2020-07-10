@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
+    <title>ТОП СПОРТС - Заказ</title>
+    <meta name="keywords" content="ТОП СПОРТС">
+    <meta name="description" content="ТОП СПОРТС">
+    <script src="../js/check_auth.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+
+  <body data-website="ts_b2b" data-cart="true">
+
+    <div class="header">
+      <div class="header-top">
+        <div class="container row">
+          <div class="left-side row">
+            <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
+            <div class="row">
+              <div class="activate hover">
+                <div class="head row">
+                  <a class="title" href="../dashboard">Рабочий стол</a>
+                </div>
+              </div>
+              <div class="activate hover">
+                <div class="head row">
+                  <div class="title">Каталоги</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div id="catalogs" class="drop-down template">
+                  <div class="row">
+                    <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
+                    <a class="cart-#id# item cart-info row" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
+                      <div class="cart icon"></div>
+                      <div class="qty #isFull#">#qty#</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="activate hover select">
+                <div class="head row">
+                  <div class="title">Закупки</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div class="drop-down">
+                  <a class="item" href="../orders/">Заказы</a>
+                  <a class="item" href="../reclamations/">Рекламации</a>
+                  <a class="item" href="../documents/">Документы</a>
+                  <a class="item" href="../certificates/">Сертификаты</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right-side row">
+            <div class="activate hover select">
+              <div class="head row">
+                <div class="profile icon"></div>
+                <div id="profile" class="template">
+                  <div class="title">#login#</div>
+                  <div class="username text light">#username#</div>
+                </div>
+              </div>
+              <div class="drop-down">
+                <div class="links">
+                  <a class="item" href="../users">Пользователи</a>
+                  <a class="item" href="../contractors">Контрагенты</a>
+                  <a class="item" href="../addresses">Адреса доставки</a>
+                  <a class="item" href="../shops">Магазины</a>
+                  <a class="item" href="../monitoring">Мониторинг</a>
+                  <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
+                </div>
+                <a class="item" onclick="logOut(event)">Выйти</a>
+              </div>
+            </div>
+            <div class="alerts icon" onclick="openPopUp('alerts-container')">
+              <div class="qty in-circle row">#qty#</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <div id="order-info" class="template">
+          <div id="main-header">
+            <div id="main-nav">
+              <a href="../dashboard/">Главная</a>
+              <a class="item" href="../orders/">Заказы</a>
+              <a class="item active">Заказ № #order_number# от #order_date# г.</a>
+            </div>
+            <div class="main-title row">
+              <div class="title-row row">
+                <div class="title">Заказ № #order_number#</div>
+                <div class="question icon" tooltip="Подсказки" help></div>
+              </div>
+            </div>
+          </div>
+          <div class="information">
+            <div class="head">Детали заказа</div>
+            <div class="row">
+              <div>
+                <div class="title">Контрагент: <span class="text">#contr_name#</span></div>
+                <div class="title">Тип заказа: <span class="text">#order_type#</span></div>
+                <div class="title">Менеджер заказа: <span class="text">#manager_fio#</span></div>
+                <div class="title">Заказчик: <span class="text">#user_fio#</span></div>
+                <div class="title">Тип доставки: <span class="text">#delivery_type#</span></div>
+                <div class="title">Оплата доставки: <span class="text">#payment_type#</span></div>
+                <div class="title">Отгрузочные документы: <span class="text">#shipping_docs#</span></div>
+              </div>
+              <div class="comment #isHiddenComment#">
+                <div class="title">Комментарий:</div>
+                <div class="text light">#comment#</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs row">
+          <div class="tab nomen">
+            <div>Итого</div>
+          </div>
+          <div class="tab vputi">
+            <div class="icon"></div>
+            <div>Товар ожидается</div>
+          </div>
+          <div class="tab vnali">
+            <div class="icon"></div>
+            <div>Товар в наличии</div>
+          </div>
+          <div class="tab sobrn">
+            <div class="icon"></div>
+            <div>Товар собран</div>
+          </div>
+          <div class="tab otgrz">
+            <div class="icon"></div>
+            <div>Товар отгружен</div>
+          </div>
+          <div class="tab nedop">
+            <div class="icon"></div>
+            <div>Непоставка</div>
+          </div>
+          <div class="tab reclm">
+            <div class="icon"></div>
+            <div>Рекламации</div>
+          </div>
+        </div>
+        <div id="nomen" class="table-wrap active">
+          <table class="head">
+            <thead>
+              <tr class="nomen">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <!-- <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">РРЦ</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th> -->
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Скидка</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская цена</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская стоимость</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <!-- <th id="8" class="activate">
+                  <div class="head row">
+                    <div class="title">Розничная стоимост</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th> -->
+              </tr>
+              <tr class="results nomen c80">
+                <th></th>
+                <th></th>
+                <!-- <th></th> -->
+                <th></th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kolv">0</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="summ">0.00</span></div>
+                </th>
+                <!-- <th>
+                  <div>Итого:&nbsp;<span data-key="">0</span></div>
+                </th> -->
+              </tr>
+            </thead>
+          </table>
+          <table>
+            <tbody id="nomen-body">
+              <tr>
+                <td>#artc#</td>
+                <td>#titl#</td>
+                <!-- <td>#price_retail#</td> -->
+                <td>#skid#</td>
+                <td>#pric#</td>
+                <td>#kolv#</td>
+                <td>#summ#</td>
+                <!-- <td>#amount_retail#</td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="vputi" class="table-wrap">
+          <table class="head">
+            <thead>
+              <tr class="vputi">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Дата поступления</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">Осталось оплатить</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Оплачено</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="7" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская стоимость</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+              </tr>
+              <tr class="results vputi c80">
+                <th></th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kolv">0</span></div>
+                </th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kdop">0.00</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="paid">0.00</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="summ">0.00</span></div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <table>
+            <tbody id="vputi-body">
+              <tr>
+                <td>#artc#</td>
+                <td>#titl#</td>
+                <td>#kolv#</td>
+                <td>#dpst#</td>
+                <td>#kdop#</td>
+                <td>#paid#</td>
+                <td>#summ#</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="vnali" class="table-wrap">
+          <table class="head">
+            <thead>
+              <tr class="vnali">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Дата поступления</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">Осталось оплатить</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Оплачено</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="7" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская стоимость</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+              </tr>
+              <tr class="results vnali c80">
+                <th></th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kolv">0</span></div>
+                </th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kdop">0.00</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="paid">0.00</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="summ">0.00</span></div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <table>
+            <tbody id="vnali-body">
+              <tr>
+                <td>#artc#</td>
+                <td>#titl#</td>
+                <td>#kolv#</td>
+                <td>#dpst#</td>
+                <td>#kdop#</td>
+                <td>#paid#</td>
+                <td>#summ#</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="sobrn" class="table-wrap">
+          <table class="head">
+            <thead>
+              <tr class="sobrn">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Дата поступления</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">Осталось оплатить</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Оплачено</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="7" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская стоимость</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+              </tr>
+              <tr class="results sobrn c80">
+                <th></th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kolv">0</span></div>
+                </th>
+                <th></th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="kdop">0.00</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="paid">0.00</span></div>
+                </th>
+                <th>
+                  <div>Итого:&nbsp;<span data-key="summ">0.00</span></div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <table>
+            <tbody id="sobrn-body">
+              <tr>
+                <td>#artc#</td>
+                <td>#titl#</td>
+                <td>#kolv#</td>
+                <td>#dpst#</td>
+                <td>#kdop#</td>
+                <td>#paid#</td>
+                <td>#summ#</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="otgrz" class="table-wrap">
+          <table class="head">
+            <thead>
+              <tr class="otgrz">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Дата отгрузки</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">№ Накладной</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская стоимость</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="7" class="activate">
+                  <div class="head row">
+                    <div class="title">Оплачено</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="8" class="activate">
+                  <div class="head row">
+                    <div class="title">Осталось оплатить</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <!-- <th id="9" class="activate">
+                  <div class="head row">
+                    <div class="title">Дата платежа</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th> -->
+              </tr>
+              <tr class="results otgrz c80">
+                <th></th>
+                <th></th>
+                <th><div>Итого:&nbsp;<span data-key="kolv">0</span></div></th>
+                <th></th>
+                <th></th>
+                <th><div>Итого:&nbsp;<span data-key="summ">0.00</span></div></th>
+                <th><div>Итого:&nbsp;<span data-key="paid">0.00</span></div></th>
+                <th><div>Итого:&nbsp;<span data-key="kdop">0.00</span></div></th>
+                <!-- <th></th> -->
+              </tr>
+            </thead>
+          </table>
+          <table>
+            <tbody id="otgrz-body">
+              <tr>
+                <td>#artc#</td>
+                <td>
+                  <div class="row">
+                    <div>#titl#</div>
+                    <div class="recl btn" onclick="openReclmPopUp(#object_id#)">Претензия</div>
+                  </div>
+                </td>
+                <td>#kolv#</td>
+                <td>#dotg#</td>
+                <td>#nakl#</td>
+                <td>#summ#</td>
+                <td>#paid#</td>
+                <td>#kdop#</td>
+                <!-- <td></td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="nedop" class="table-wrap">
+          <table class="head">
+            <thead>
+              <tr class="nedop">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Дилерская стоимость</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">Инициатор отмены</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+              </tr>
+              <tr class="results nedop c80">
+                <th></th>
+                <th></th>
+                <th><div>Итого:&nbsp;<span data-key="kolv">0</span></div></th>
+                <th><div>Итого:&nbsp;<span data-key="summ">0.00</span></div></th>
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+          <table class="table">
+            <tbody id="nedop-body">
+              <tr>
+                <td>#artc#</td>
+                <td>#titl#</td>
+                <td>#kolv#</td>
+                <td>#summ#</td>
+                <td>#stat#</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="reclm" class="table-wrap">
+          <table class="head">
+            <thead>
+              <tr class="reclm">
+                <th id="1" class="activate">
+                  <div class="head row">
+                    <div class="title">№ Рекламации</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="2" class="activate">
+                  <div class="head row">
+                    <div class="title">Дата</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="3" class="activate">
+                  <div class="head row">
+                    <div class="title">Артикул</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="4" class="activate">
+                  <div class="head row">
+                    <div class="title">Наименование</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <th id="5" class="activate">
+                  <div class="head row">
+                    <div class="title">Количество</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+                <!-- <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Сумма компенсации</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th> -->
+                <th id="6" class="activate">
+                  <div class="head row">
+                    <div class="title">Статус</div>
+                    <div class="icons row">
+                      <div class="triangle white icon"></div>
+                      <div class="filter icon"></div>
+                    </div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item row"></div>
+                  </div>
+                  <div class="resize-btn"></div>
+                </th>
+              </tr>
+              <tr class="results reclm c80">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><div>Итого:&nbsp;<span data-key="kolv">0</span></div></th>
+                <!-- <th><div>Итого:&nbsp;<span data-key="">0</span></div></th> -->
+                <th></th>
+              </tr>
+            </thead>
+          </table>
+          <table id="reclm-body">
+            <tbody>
+              <tr onclick=showReclm(#recl_id#)>
+                <td>#recl_num#</td>
+                <td>#recl_date#</td>
+                <td>#artc#</td>
+                <td>#titl#</td>
+                <td>#kolv#</td>
+                <!-- <td></td> -->
+                <td>#trac#</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="full-card-container" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="full-card card manage pop-up" data-id="#object_id#">
+        <div class="card-head row">
+          <div class="card-title">
+            <div class="title">#title#</div>
+            <div class="text light">#articul#</div>
+          </div>
+          <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.42859 1.42847L18.5714 18.5713" stroke="rgb(52,73,94)" stroke-linecap="round"/>
+            <path d="M18.1429 1L1 18.1429" stroke="rgb(52,73,94)" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pop-up-body">
+          <div class="card-body row">
+            <div class="carousel" data-type="fullCard">
+              <div class="maximize icon"></div>
+              <div class="carousel-gallery-wrap">
+                <div class="left-btn control"></div>
+                <div class="right-btn control"></div>
+                <div class="carousel-gallery">
+                  <div class="carousel-item row">
+                    <img src="https://b2b.topsports.ru/c/productpage/#item#.jpg" data-src="https://b2b.topsports.ru/c/source/#item#.jpg">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-choice">
+                <div class="card-price">
+                  <div>
+                    <div class="cur-price row #isBorder#">
+                      <div class="title">Оптовая цена: </div>
+                      <div class="text orange">#price_cur#</div>
+                    </div>
+                    <div class="old-price row">
+                      <div class="card-action #isAction#">
+                        <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
+                      </div>
+                      <div class="text light #isOldPrice#">#price#</div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="user-price row">
+                      <div class="title">Розничная цена: </div>
+                      <div class="text">#price_user#</div>
+                    </div>
+                    <div class="markup row">
+                      <div class="title">Торговая наценка: </div>
+                      <div class="text">#markup#%</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-opt">
+                  <div class="card-options">
+                    <div class="card-option row">
+                      <div class="option-title title">#optitle#</div>
+                      <div class="option-info">#option#</div>
+                    </div>
+                  </div>
+                  <div class="card-manuf #isManuf#">
+                    <div class="manuf-table">
+                      <div id="manuf-headers" class="title row">
+                        <div class="man">Производитель</div>
+                        <div class="oem" >ОЕМ</div>
+                        <div class="model">Модель</div>
+                        <div class="years">Год модели</div>
+                      </div>
+                      <div class="manuf-row row">
+                        <div class="man">#man#</div>
+                        <div class="oem">#oem#</div>
+                        <div class="model">#model#</div>
+                        <div class="years">#years#</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="card-desc #isDesc#">
+              <div class="subtitle">Описание товара</div>
+              <div class="text">#desc#</div>
+            </div>
+            <div class="action-desc #isActionDesc#">
+              <div class="subtitle">Условия акции</div>
+              <div class="text">#action_descr#</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="full-img-container" class="pop-up-container" onclick="closeFullImg(event)">
+      <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
+        <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
+      </svg>
+      <div id="full-img" class="pop-up row">
+        <div class="carousel" data-type="fullImg">
+          <div class="left-btn control"></div>
+          <div class="right-btn control"></div>
+          <div class="carousel-gallery-wrap">
+            <div class="carousel-gallery">
+              <div class="carousel-item">
+                <img src="https://b2b.topsports.ru/c/source/#item#.jpg">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="reclm-container" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="pop-up">
+        <div class="pop-up-title row">
+          <div class="title">Мастер создания рекламации</div>
+          <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.42859 1.42847L18.5714 18.5713" stroke="rgb(52,73,94)" stroke-linecap="round" />
+            <path d="M18.1429 1L1 18.1429" stroke="rgb(52,73,94)" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="pop-up-body">
+          <div class="row">
+            <div class="order-info">
+              <div>К заказу <a href="https://new.topsports.ru/order/?order_id=#id#">№#order_number#</a> от #order_date#</div>
+              <div>#titl#</div>
+              <div class="text light">Артикул #artc#</div>
+            </div>
+            <img src="#image#">
+          </div>
+          <form id="reclm-form" class="registr-form row" method="post" name="reclamation" enctype="multipart/form-data">
+            <input type="hidden" name="recl[order_id]" value="#id#">
+            <input type="hidden" name="recl[code_1c]" value="#object_id#">
+            <input type="hidden" name="recl[code_str]" value="#cods#">
+            <input type="hidden" name="recl[articul]" value="#artc#">
+            <input type="hidden" name="recl[item_code_1c]" value="#harid#">
+            <input type="hidden" name="recl[doc_id]" value="#naklid#">
+            <input type="hidden" name="recl[cnt]" value="#???#">
+            <input type="hidden" name="recl[nakl]" value="#nakl#">
+            <input type="hidden" name="recl[nakl_date]" value="#dotg#">
+            <input type="hidden" name="recl[item_title]" value="#titl#">
+            <input type="hidden" name="recl[max_otgrz]" value="#kolv#">
+            <div class="left-container">
+              <div class="form-wrap">
+                <div class="title">Категория обращения:</div>
+                <label class="check row">
+                  <input type="radio" value="Производственный брак" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Производственный брак</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Некомплектность" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Некомплектность</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Недосдача" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Недосдача</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Пересорт" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Пересорт</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="Несоответствие описанию" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Несоответствие описанию</div>
+                </label>
+                <label class="check row">
+                  <input type="radio" value="" name="recl[group_type]">
+                  <div class="select icon"></div>
+                  <div>Не могу определить</div>
+                </label>
+                <div class="err" data-err="group_type">Необходимо выбрать значение</div>
+              </div>
+              <div class="form-wrap">
+                <div class="title">Количество:</div>
+                <div class="qty qty-box #qtyStyle# row">
+                  <div class="btn-minus" tooltip="Уменьшить" onclick="changeQty(event, #kolv#, 1)">-</div>
+                  <input class="choiced-qty text light" #qtyStyle# name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                  <div class="btn-plus" tooltip="Добавить" onclick="changeQty(event, #kolv#, 1)">+</div>
+                </div>
+              </div>
+            </div>
+            <div class="right-container">
+              <div class="form-wrap">
+                <div class="title">Описание дефекта:</div>
+                <textarea name="recl[comment]" autocomplete="off"></textarea>
+                <div class="err" data-err="comment">Необходимо заполнить</div>
+              </div>
+              <div class="btns-wrap row">
+                <div class="basic btn close-btn" onclick="closePopUp('reclm-container')">Отмена</div>
+                <input class="active btn" type="submit" value="Подать рекламацию" onclick="makeReclm(event)">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="reclm-loader" class="loader">
+          <div class="loader icon"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="alerts-container" class="pop-up-container col" onclick="closePopUp(event)">
+      <div class="close-btn row">
+        <div class="alerts icon">
+          <div class="qty in-circle row">#qty#</div>
+        </div>
+      </div>
+      <div class="pop-up">
+        <div class="pop-up-title main-title row">
+          <div class="title-row row">
+            <div class="title">Уведомления</div>
+          </div>
+        </div>
+        <div class="pop-up-body">
+          <!-- <div class="message #status# template">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">#text#</div>
+              </div>
+              <div class="row">
+                <div class="date text light">#date#, #time#</div>
+                <div class="close icon" onclick="deleteMessage()"></div>
+              </div>
+            </div>
+          </div> -->
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message action">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message attention">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message action">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message attention">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message action">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message attention">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message action">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message attention">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+          <div class="message cart">
+            <div class="wrap row">
+              <div class="row">
+                <div class="message icon"></div>
+                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+              </div>
+              <div class="row">
+                <div class="date text light">26.10.20, 14:00</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="message-container" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="pop-up">
+        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
+          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+        </svg>
+        <div class="text pop-up"></div>
+      </div>
+    </div>
+
+    <div id="loader" class="loader">
+      <div class="loader icon"></div>
+      <div class="text"></div>
+    </div>
+
+    <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white"/>
+      <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
+    </svg>
+
+    <div class="footer">
+      <div class="container">
+        <div class="wrap">
+          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
+          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+        </div>
+      </div>
+    </div>
+
+    <script src ="../js/main.js"></script>
+    <script src ="order.js"></script>
+
+  </body>
+</html>

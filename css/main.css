@@ -338,12 +338,20 @@ body.no-scroll {
   color: #FFFFFF;
 }
 
+.text-midlight {
+  color: #8596A6;
+}
+
 .text-light {
   color: #C6C6C6;
 }
 
 .text-orange {
   color: #F05A28;
+}
+
+.text-red {
+  color: #CE0014;
 }
 
 .err,
@@ -956,6 +964,8 @@ a.btn {
 ===================================================================================================== */
 
 .icon {
+  flex-grow: 0;
+  flex-shrink: 0;
   width: 1em;
   height: 1em;
   background-size: contain;
@@ -978,16 +988,22 @@ a.btn {
   background-image: url(../img/profile_min.svg);
 }
 
-.alerts.icon {
-  background-image: url(../img/alerts.svg);
+.notifications.icon {
+  background-image: url(../img/notifications.svg);
 }
 
-.alerts-min.icon {
-  background-image: url(../img/alerts_min.svg);
+.notifications-min.icon {
+  background-image: url(../img/notifications.svg);
 }
 
 .burger.icon {
   background-image: url(../img/burger_menu.svg);
+}
+
+/* Иконки окна уведомлений */
+
+.message.icon {
+  background-image: url(../img/message.svg);
 }
 
 /* Подсказки */
@@ -1468,15 +1484,7 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 .activate .icons {
-  flex-grow: 0;
-  flex-shrink: 0;
   padding-top: 0.3em;
-}
-
-.activate .triangle,
-.activate .filter {
-  flex-grow: 0;
-  flex-shrink: 0;
 }
 
 .activate .triangle {
@@ -1535,6 +1543,14 @@ div.option input:disabled ~ .checkbox.icon {
   display: none;
 }
 
+.activate .drop-down .not-found {
+  display: none;
+  padding: 0.4em 0.714em;
+  background-color: #ECECEC;
+  border: none;
+  cursor: default;
+}
+
 .activate .drop-down .item {
   justify-content: space-between;
   align-items: center;
@@ -1547,7 +1563,12 @@ div.option input:disabled ~ .checkbox.icon {
   border-bottom: none;
 }
 
-.activate .drop-down .item:not(.not-found):hover {
+.activate .drop-down .item > div:not(.icon) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activate .drop-down .item:hover {
   background-color: #E2E2E2;
 }
 
@@ -1595,10 +1616,12 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate.box .drop-down .sort-box .row:hover {
   color: #34495E;
+  text-decoration: underline;
 }
 
 .activate.box .drop-down .sort-box .row.checked {
   color: #34495E;
+  text-decoration: underline;
 }
 
 .activate.box .drop-down .sort.icon {
@@ -1623,12 +1646,19 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 .activate.box .items {
+  position: relative;
   max-height: 8.3em;
   margin-bottom: 0.714em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .activate.box.open .items {
   overflow-y: auto;
+}
+
+.activate.box .not-found {
+  padding: 0.3em 1.33em;
 }
 
 .activate.box .items .item {
@@ -1676,17 +1706,8 @@ form.search .close.icon {
 }
 
 form.search .drop-down .item {
+  display: none;
   border: none;
-}
-
-form.search .item.not-found {
-  display: none;
-  background-color: #ECECEC;
-  cursor: default;
-}
-
-form.search .list {
-  display: none;
 }
 
 /* =====================================================================================================
@@ -1932,6 +1953,8 @@ form.post .form-wrap .text-counter {
   display: none;
   width: 100%;
   max-height: 80vh;
+  min-height: 23em;
+  background-color: #FFFFFF;
   overflow-x: auto;
   overflow-y: auto;
   visibility: hidden;
@@ -2091,19 +2114,14 @@ tbody td > .row {
   text-overflow: ellipsis;
 }
 
-tbody td > .row > .icon {
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-tbody td > .row > .icon:first-child {
-  margin-right: 1em;
-}
-
 tbody td > .row > * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+tbody td .icon {
+  margin-right: 1em;
 }
 
 #orderslist td,
@@ -2115,7 +2133,7 @@ tbody td > .row > * {
 Системное сообщение:
 ===================================================================================================== */
 
-#message-container .close-btn {
+#alerts .close-btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -2125,7 +2143,7 @@ tbody td > .row > * {
   z-index: 1;
 }
 
-#message-container .text {
+#alerts .text {
   min-width: 400px;
   max-width: 90vw;
   padding: 2em;
@@ -2229,8 +2247,6 @@ tbody td > .row > * {
 }
 
 .pop-up-title .close.icon {
-  flex-grow: 0;
-  flex-shrink: 0;
   width: 1.357em;
   height: 1.357em;
   background-image: url(../img/close_blue.svg);
@@ -2669,7 +2685,7 @@ tbody td > .row > * {
   height: 4.5em;
 }
 
-.header-top a:not(.title) {
+.header-top a:not(.title):not(.head) {
   display: block;
   color: #666666;
 }
@@ -2822,7 +2838,7 @@ tbody td > .row > * {
   align-items: center;
 }
 
-.header-top .alerts.icon {
+.header-top .notifications.icon {
   position: relative;
   width: 2.25em;
   height: 2.25em;
@@ -2990,16 +3006,20 @@ tbody td > .row > * {
 Окно уведомлений:
 ===================================================================================================== */
 
-#alerts-container {
+#notifications {
   justify-content: flex-end;
   align-items: flex-start;
 }
 
-#alerts-container .row {
+#notifications .row {
   align-items: center;
 }
 
-#alerts-container .pop-up {
+#notifications .icon {
+  margin-right: 1em;
+}
+
+#notifications .pop-up {
   width: 50vw;
   height: 100%;
   max-width: 50vw;
@@ -3011,52 +3031,51 @@ tbody td > .row > * {
   transform: translate(50vw);
 }
 
-#alerts-container.open .pop-up {
+#notifications.open .pop-up {
   transform: translate(0);
 }
 
-#alerts-container .pop-up-title .title {
-  font-size: 1.715em;
+#notifications .pop-up-body {
+  max-height: calc(100vh - 5em);
 }
 
-#alerts-container .pop-up-body {
-  max-height: calc(100% - 5em);
-  padding: 0;
-  padding-bottom: 1em;
-}
-
-#alerts-container .wrap {
+#notifications .message.row {
   justify-content: space-between;
-  margin: 0 1.5em;
-  padding: 0.5em 0;
+  padding: 0.714em 0;
   border-bottom: 1px solid #C6C6C6;
 }
 
-#alerts-container .pop-up-body > .message:last-child .wrap {
+#notifications .message.row:last-child {
   border-bottom: none;
 }
 
-#alerts-container .pop-up-body .message.icon {
-  margin-right: 1em;
+#notifications .message.icon {
   width: 2em;
   height: 2em;
 }
 
-#alerts-container .pop-up-body .message-text {
-  width: 90%;
+#notifications .message.text {
+  width: 100%;
   padding-right: 1em;
 }
 
-#alerts-container .pop-up-body .date {
-  font-size: 0.643em;
-  letter-spacing: 0.02em;
+#notifications .message.row > .row {
+  width: 100%;
+}
+
+#notifications .link,
+#notifications .date {
+  font-size: 0.857em;
+}
+
+#notifications .date {
+  flex-grow: 0;
+  flex-shrink: 0;
   white-space: nowrap;
 }
 
-#alerts-container .pop-up-body .close.icon {
-  margin-left: 1em;
-  width: 0.75em;
-  height: 0.75em;
+#notifications .loader {
+  display: flex;
 }
 
 /* =====================================================================================================
