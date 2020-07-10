@@ -1489,6 +1489,7 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 .activate .triangle {
+  margin-right: 0;
   margin-left: 0.714em;
 }
 
@@ -1678,6 +1679,10 @@ form.search {
 form.search:hover,
 form.search:focus-within {
   border-color: #666666;
+}
+
+form.search .icon {
+  margin-right: 0;
 }
 
 form.search input[type="text"] {
