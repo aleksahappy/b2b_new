@@ -30,6 +30,7 @@ function startDashboardTable() {
   //sendRequest(urlRequest.main, {action: 'desktopTable'})
   .then(result => {
     dataOrders = JSON.parse(result);
+    loader.hide();
     dataOrders = convertData(dataOrders);
     initTable('dashboard-table', {data: dataOrders});
     startOrdersProgress(dataOrders);
@@ -38,6 +39,7 @@ function startDashboardTable() {
   })
   .catch(err => {
     console.log(err);
+    loader.hide();
     initTable('dashboard-table', {data: dataOrders});
   });
 }

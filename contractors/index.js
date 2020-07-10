@@ -7,6 +7,7 @@ function startUsersTable() {
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     var data = JSON.parse(result);
+    loader.hide();
     data = convertData(data);
     var settings = {
       data: data,
@@ -66,6 +67,7 @@ function startUsersTable() {
     fillTemplate(contrasAdaptiveData);
   })
   .catch(err => {
+    loader.hide();
     console.log(err);
     initTable('contra-table');
   });

@@ -1,6 +1,5 @@
 'use strict';
 
-
 function startCertPage() {
   sendRequest(`${urlRequest.api}files/files.php?type=cert`)
   .then(result => {

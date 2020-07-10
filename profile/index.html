@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ТОП СПОРТС - Пользователи</title>
+  <title>ТОП СПОРТС - Сертификаты</title>
   <meta name="keywords" content="ТОП СПОРТС">
   <meta name="description" content="ТОП СПОРТС">
   <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="index.css">
   <link rel="stylesheet" type="text/css" href="media_index.css">
 </head>
-<body data-website="ts_b2b" data-cart="true">
+<body data-website="ts_b2b" data-card="true">
   <!-- ХЕДЕР -->
   <div class="header">
     <div class="header-top">
@@ -39,8 +39,8 @@
               <div id="catalogs" class="drop-down template">
                 <div class="row">
                   <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
-                  <a class="cart-#id# item cart-info row" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
-                    <div class="cart icon"></div>
+                  <a class="card-#id# item card-info row" href="../#id#/?card" data-href="card" data-level="2" onclick="#isFunc#">
+                    <div class="card icon"></div>
                     <div class="qty #isFull#">#qty#</div>
                   </a>
                 </div>
@@ -92,90 +92,36 @@
     </div>
   </div>
   <div class="main">
-    <div id="users" class="container">
+    <div id="profile-page" class="container">
       <div id="main-header">
         <div class="main-title row">
           <div class="title-row row">
-            <div class="title h0">Пользователи</div>
-          </div>
-          <div class="left-row row">
-            <div class="add icon" onclick="openPopUp('new-user-modal')"></div>
+            <div class="title h0">Ваш профиль</div>
           </div>
         </div>
       </div>
-      <div class="btn" onclick="openPopUp('new-user-modal')">Добавить</div>
-      <!-- Таблица контрагентов -->
-      <div id="users-table" class="table-wrap active">
-        <table class="head">
-          <thead>
-            <tr>
-              <th id="1">
-                <div>Доступ</div>
-              </th>
-              <th id="2">
-                <div>ФИО</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="3">
-                <div>Должность</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="4">
-                <div>Дата рождения</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="5">
-                <div>Телефон</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="6">
-                <div>Email</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="7">
-                <div>Тип доступа</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="8">
-                <div>Дата заведения</div>
-                <div class="resize-btn"></div>
-              </th>
-              <th id="8">
-                <div>Редактировать</div>
-                <div class="resize-btn"></div>
-              </th>
-            </tr>
-          </thead>
-        </table>
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <div class="toggle" onclick="toggle(event)">
-                  <div class="toggle-in"></div>
-                </div>
-              </td>
-              <td>#contr_fio#</td>
-              <td>#contr_status#</td>
-              <td>#contr_birth#</td>
-              <td>
-                <a href="">#contr_tel#</a>
-              </td>
-              <td>
-                <a href="">#contr_mail#</a>
-              </td>
-              <td>
-                <div class="row">
-                  <div class="access">#contr_access#</div>
-                </div>
-              </td>
-              <td>#contr_date#</td>
-              <td>
-                <div class="user-status edit"  onclick="openPopUp('edit-user-modal')"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="card" id="profile-card">
+        <div class="row head">
+          <div class="title h2">Ваши данные</div>
+          <div class="user-status edit" onclick="openPopUp('edit-profile-modal')"></div>
+        </div>
+        <div class="row">
+          <div class="block">
+            <div class="line">Имя: <span>#name#</span></div>
+            <div class="line">Фамилия: <span>#surname#</span></div>
+            <div class="line">Отчество: <span>#patronymic#</span></div>
+            <div class="line">Дата рождения: <span>#date_birth#</span></div>
+            <div class="line">Должность: <span>#position#</span></div>
+            <div class="line">Пол: <span>#sex#</span></div>
+          </div>
+          <div class="block">
+            <div class="line">Skype: <span>#skype#</span></div>
+            <div class="line">Email: <span>#email#</span></div>
+            <div class="line">Добавочный телефон: <span>#add_phone#</span></div>
+            <div class="line">Рабочий телефон: <span>#work_phone#</span></div>
+            <div class="line">Мобильный телефон: <span>#cell_phone#</span></div>
+          </div>
+        </div>
       </div>
 
       <!-- Прелоадер страницы -->
@@ -183,71 +129,7 @@
         <div class="loader icon"></div>
         <div class="text"></div>
       </div>
-      <!-- Секции пользователей для tablet-разрешения-->
-      <div id="users-table-tablet" class="adaptive">
-        <!-- Секция пользователя-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_fio#</div>
-            <div class="row">
-              <div class="toggle dark" onclick="toggle(event)">
-                <div class="toggle-in"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div class="wrap row">
-              <div class="user-status row">
-                <div class="user-status icon"></div>
-                <div class="col">
-                  <div>Должность: <span>#contr_status#</span></div>
-                  <div>Дата рождения: <span>#contr_birth#</span></div>
-                  <div>Телефон: <a href="">#contr_tel#</a></div>
-                </div>
-              </div>
-              <div class="user-status row">
-                <div class="col">
-                  <div>Email: <a href="">#contr_mail#</a></div>
-                  <div>Дата заведения: <span>#contr_date#</span></div>
-                  <div class="check-access">Доступ: <span class="check-access-value">#contr_access#</span></div>
-                </div>
-                <div class="user-status edit" onclick="openPopUp('edit-user-modal')"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-      <!-- Секции пользователей для tablet-разрешения-->
-      <div id="users-table-mob" class="adaptive">
-        <!-- Секция пользователя-->
-        <section class="infoblock">
-          <div class="section-head">
-            <div class="section-title">#contr_fio#</div>
-            <div class="row">
-              <div class="toggle dark" onclick="toggle(event)">
-                <div class="toggle-in"></div>
-              </div>
-            </div>
-          </div>
-          <div class="info-wrap col">
-            <div class="wrap row">
-              <div class="user-status row">
-                <div class="user-status icon"></div>
-                <div class="col">
-                  <div>Должность: <span>#contr_status#</span></div>
-                  <div>Дата рождения: <span>#contr_birth#</span></div>
-                  <div>Телефон: <a href="">#contr_tel#</a></div>
-                  <div>Email: <a href="">#contr_mail#</a></div>
-                  <div class="check-access">Доступ: <span class="check-access-value">#contr_access#</span></div>
-                </div>
-              </div>
-              <div class="user-status row">
-                <div class="user-status edit"  onclick="openPopUp('edit-user-modal')"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+
     </div>
   </div>
   <div class="footer">
@@ -273,7 +155,7 @@
         </div>
       </div>
       <div class="pop-up-body">
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -309,7 +191,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -321,7 +203,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -333,67 +215,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
-          <div class="wrap row">
-            <div class="row">
-              <div class="message icon"></div>
-              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-            </div>
-            <div class="row">
-              <div class="date text light">26.10.20, 14:00</div>
-              <div class="close icon"></div>
-            </div>
-          </div>
-        </div>
-        <div class="message action">
-          <div class="wrap row">
-            <div class="row">
-              <div class="message icon"></div>
-              <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-            </div>
-            <div class="row">
-              <div class="date text light">26.10.20, 14:00</div>
-              <div class="close icon"></div>
-            </div>
-          </div>
-        </div>
-        <div class="message attention">
-          <div class="wrap row">
-            <div class="row">
-              <div class="message icon"></div>
-              <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-            </div>
-            <div class="row">
-              <div class="date text light">26.10.20, 14:00</div>
-              <div class="close icon"></div>
-            </div>
-          </div>
-        </div>
-        <div class="message cart">
-          <div class="wrap row">
-            <div class="row">
-              <div class="message icon"></div>
-              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-            </div>
-            <div class="row">
-              <div class="date text light">26.10.20, 14:00</div>
-              <div class="close icon"></div>
-            </div>
-          </div>
-        </div>
-        <div class="message cart">
-          <div class="wrap row">
-            <div class="row">
-              <div class="message icon"></div>
-              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-            </div>
-            <div class="row">
-              <div class="date text light">26.10.20, 14:00</div>
-              <div class="close icon"></div>
-            </div>
-          </div>
-        </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -429,7 +251,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -441,7 +263,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -453,7 +275,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -489,7 +311,7 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -501,7 +323,67 @@
             </div>
           </div>
         </div>
-        <div class="message cart">
+        <div class="message card">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message card">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message action">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message attention">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message card">
+          <div class="wrap row">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
+            </div>
+            <div class="row">
+              <div class="date text light">26.10.20, 14:00</div>
+              <div class="close icon"></div>
+            </div>
+          </div>
+        </div>
+        <div class="message card">
           <div class="wrap row">
             <div class="row">
               <div class="message icon"></div>
@@ -517,11 +399,11 @@
     </div>
   </div>
 
-  <!-- Модальное окно "Добавить пользователя" -->
-  <div id="new-user-modal" class="pop-up-container" onclick="closePopUp(event)">
-    <div id="add-user" class="pop-up">
+  <!-- Модальное окно "Изменить профиль -->
+  <div id="edit-profile-modal" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="edit-profile" class="pop-up">
       <div class="pop-up-title row">
-        <div class="title h1">Новый пользователь</div>
+        <div class="title h1">Изменить профиль</div>
         <div class="close icon"></div>
       </div>
       <div class="pop-up-body">
@@ -536,16 +418,21 @@
             <input type="text" value="" name="" data-intype="cyril" placeholder="Введите фамилию" maxlength="40">
             <div class="err">Поле не заполнено</div>
           </div>
-          <div class="form-wrap" required>
-            <div class="title">Отчество*</div>
+          <div class="form-wrap">
+            <div class="title">Отчество</div>
             <input type="text" value="" name="" data-intype="cyril" placeholder="Введите отчество" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap required">
+            <div class="title">Должность*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
             <div class="err">Поле не заполнено</div>
           </div>
           <div class="form-cols">
             <div class="form-col2">
               <div class="form-wrap">
                 <div class="title">День рождения</div>
-                <input id="user-birth" type="text" value="" name="" data-intype="birth"  placeholder="28/10/1980" maxlength="10">
+                <input id="profile-birth" type="text" value="" name="" data-intype="birth"  placeholder="28/10/1980" maxlength="10">
                 <div class="err">Поле не заполнено</div>
               </div>
             </div>
@@ -568,19 +455,7 @@
               </div>
             </div>
           </div>
-          <div class="form-wrap">
-            <div class="title">Должность</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
           <div class="form-cols">
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Телефон*</div>
-                <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
-                <div class="err">Поле не заполнено</div>
-              </div>
-            </div>
             <div class="form-col2">
               <div class="form-wrap" required="">
                 <div class="title">Email*</div>
@@ -588,135 +463,39 @@
                 <div class="err">Поле не заполнено</div>
               </div>
             </div>
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">Skype</div>
+                <input type="text" value="" name="" data-intype="email" placeholder="Введите email" maxlength="50">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap" required="">
+            <div class="title">Мобильный телефон*</div>
+            <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+            <div class="err">Поле не заполнено</div>
           </div>
           <div class="form-wrap">
             <div class="form-cols">
               <div class="form-col2">
-                <div class="title">Тип доступа</div>
-                <div class="option row">
-                  <input type="radio" value="Полный" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Полный</div>
-                </div>
-                <div class="option row">
-                  <input type="radio" value="" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Частичный</div>
+                <div class="form-wrap">
+                  <div class="title">Рабочий телефон</div>
+                  <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                  <div class="err">Поле не заполнено</div>
                 </div>
               </div>
               <div class="form-col2">
-                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
-                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+                <div class="form-wrap">
+                  <div class="title">Доб. телефон</div>
+                  <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                  <div class="err">Поле не заполнено</div>
+                </div>
               </div>
             </div>
           </div>
           <div class="btns-wrap">
             <input class="btn sub-act" type="submit" value="Отправить" disabled>
-          </div>
-        </form>
-      </div>
-      <div class="loader">
-        <div class="loader icon"></div>
-        <div class="text">Пожалуйста, подождите</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Модальное окно "Редактировать пользователя" -->
-  <div id="edit-user-modal" class="pop-up-container col" onclick="closePopUp(event)">
-    <div id="edit-user" class="pop-up">
-      <div class="pop-up-title row">
-        <div class="title h1">Редактировать пользователя</div>
-        <div class="close icon"></div>
-      </div>
-      <div class="pop-up-body">
-        <form class="post">
-          <div class="form-wrap" required>
-            <div class="title">Имя*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите имя" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-wrap" required>
-            <div class="title">Фамилия*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите фамилию" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-wrap" required>
-            <div class="title">Отчество*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите отчество" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-cols mob-cols">
-            <div class="form-col2">
-              <div class="form-wrap">
-                <div class="title">День рождения</div>
-                <input type="text" id="edit-user-birth" value="" name="" data-intype="birth" placeholder="28/10/1980" maxlength="10">
-                <div class="err">Поле не заполнено</div>
-              </div>
-            </div>
-            <div class="form-col2">
-              <div class="form-wrap">
-                <div class="title">Пол</div>
-                <div class="row select-choice">
-                  <div class="option row select-qty">
-                    <input type="radio" value="Мужской" name="some_name[category]">
-                    <div class="radio icon"></div>
-                    <div>Мужской</div>
-                  </div>
-                  <div class="option row">
-                    <input type="radio" value="Женский" name="some_name[category]">
-                    <div class="radio icon"></div>
-                    <div>Женский</div>
-                  </div>
-                </div>
-                <div class="err">Необходимо выбрать значение</div>
-              </div>
-            </div>
-          </div>
-          <div class="form-wrap">
-            <div class="title">Должность</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-cols">
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Телефон*</div>
-                <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
-                <div class="err">Поле не заполнено</div>
-              </div>
-            </div>
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Email*</div>
-                <input type="text" value="" name="" data-intype="email" placeholder="Введите email" maxlength="50">
-                <div class="err">Поле не заполнено</div>
-              </div>
-            </div>
-          </div>
-          <div class="form-wrap">
-            <div class="form-cols">
-              <div class="form-col2">
-                <div class="title">Тип доступа</div>
-                <div class="option row">
-                  <input type="radio" value="Полный" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Полный</div>
-                </div>
-                <div class="option row">
-                  <input type="radio" value="" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Частичный</div>
-                </div>
-              </div>
-              <div class="form-col2">
-                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
-                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
-              </div>
-            </div>
-          </div>
-          <div class="btns-wrap">
-            <input class="btn sub-act" type="submit" value="Сохранить" disabled>
           </div>
         </form>
       </div>
@@ -733,8 +512,7 @@
     <script src ="index.js"></script>
     <script>
     'use strict';
-      var calendar = new Calendar({ id: "#user-birth" });
-      var calendar2 = new Calendar({ id: "#edit-user-birth" });
+      var calendar3 = new Calendar({ id: "#profile-birth" });
     </script>
   </body>
 </html>

@@ -127,13 +127,6 @@
   justify-content: space-between;
 }
 
-.user-status.icon{
-  width: 12px;
-  height: 15px;
-  margin-right: 1em;
-  background: url('../img/newDesign/user_denied-ic.svg') no-repeat;
-}
-
 .user-status.icon.limited{
   background: url('../img/newDesign/user_limited-ic.svg') no-repeat!important;
 }
@@ -142,11 +135,11 @@
   background: url('../img/newDesign/user_boundless-ic.svg') no-repeat!important;
 }
 
-.user-status.edit{
-  width: 24px;
-  height: 24px;
-  background: url('../img/newDesign/user_edit-ic.svg') no-repeat  50%;
-  cursor: pointer;
+.user-status.icon{
+  width: 12px;
+  height: 15px;
+  margin-right: 1em;
+  background: url('../img/newDesign/user_denied-ic.svg') no-repeat;
 }
 
 /* Модальное окно "Добавление пользователя" */
@@ -177,17 +170,4 @@
 #add-user .form-col2 .title,
 #edit-user .form-col2 .title{
   margin-bottom: 0.45em;
-}
-
-.radio-access{
-  display: flex;
-  align-items: center;
-}
-
-.radio-access:first-child{
-  margin-right: 4vw;
-}
-
-.radio-text{
-  margin-left: 0.8em;
 }

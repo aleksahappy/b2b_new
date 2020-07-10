@@ -6,6 +6,7 @@ function startDocsPage() {
   sendRequest(`${urlRequest.api}files/files.php?type=docs`)
   .then(result => {
     var data = JSON.parse(result);
+    loader.hide();
     data = convertData(data);
     console.log(data);
     var settings = {
@@ -21,7 +22,6 @@ function startDocsPage() {
                     	</a>
                       <div><a href="http://api.topsports.ru/files/files.php?type=docs&mode=view&id=#id#" target="_blank">#title#</a></div>
                     </div>`
-          //content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
         }]
       }
       initTable('docs-table', settings);

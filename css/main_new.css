@@ -359,6 +359,25 @@ input[data-intype="range"] {
   background: #ffffff url('../img/newDesign/calendar-ic.svg') no-repeat 95%;
 }
 
+.user-status.edit{
+  width: 24px;
+  height: 24px;
+  background: url('../img/newDesign/user_edit-ic.svg') no-repeat  50%;
+  cursor: pointer;
+}
+
+.radio-access{
+  display: flex;
+  align-items: center;
+}
+
+.radio-access:first-child{
+  margin-right: 4vw;
+}
+
+.radio-text{
+  margin-left: 0.8em;
+}
 
 /* медиа стили */
 
