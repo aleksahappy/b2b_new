@@ -123,7 +123,7 @@ var chart = new Chart(ordersChart, {
 
     // Настройки отображения графика
     options: {
-      // ширина "кольца"
+      // диаметр "кольца"
       cutoutPercentage: 70,
       // отключение легенды
       legend: {
@@ -149,36 +149,19 @@ var chart = new Chart(ordersChart, {
 
 //  Корректировка отображения подписи внутри диаграммы на Mac и на остальных платформах
 
-if (navigator.appVersion.indexOf("Mac") != -1) {
-  if (window.innerWidth > 1337) {
-    ordersChart.canvas.parentNode.style.width = '100%';
-    ordersChart.canvas.parentNode.style.height = '393px';
-    ordersInfo.style.left = chart1.offsetWidth / 3 + 'px';
-    ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
-  } else if (window.innerWidth < 1337 && window.innerWidth > 499) {
-    ordersChart.canvas.parentNode.style.width = '50%';
-    ordersChart.canvas.parentNode.style.height = '349px';
-    ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
-    ordersInfo.style.top = chart1.offsetHeight / 2 + 'px';
-  } else if (window.innerWidth < 499) {
-    ordersChart.canvas.parentNode.style.width = '60%';
-    ordersChart.canvas.parentNode.style.height = '256px';
-  }
-} else {
-  if (window.innerWidth > 1337) {
-    ordersChart.canvas.parentNode.style.width = '100%';
-    ordersChart.canvas.parentNode.style.height = '393px';
-    ordersInfo.style.left = chart1.offsetWidth / 3.5 + 'px';
-    ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
-  } else if (window.innerWidth < 1337 && window.innerWidth > 499) {
-    ordersChart.canvas.parentNode.style.width = '50%';
-    ordersChart.canvas.parentNode.style.height = '349px';
-    ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
-    ordersInfo.style.top = chart1.offsetHeight / 2 + 'px';
-  } else if (window.innerWidth < 499) {
-    ordersChart.canvas.parentNode.style.width = '60%';
-    ordersChart.canvas.parentNode.style.height = '256px';
-  }
+if (window.innerWidth > 1337) {
+  ordersChart.canvas.parentNode.style.width = '100%';
+  ordersChart.canvas.parentNode.style.height = '393px';
+  ordersInfo.style.left = chart1.offsetWidth / 3.5 + 'px';
+  ordersInfo.style.top = chart1.offsetHeight / 2.5 + 'px';
+} else if (window.innerWidth < 1337 && window.innerWidth > 499) {
+  ordersChart.canvas.parentNode.style.width = '50%';
+  ordersChart.canvas.parentNode.style.height = '349px';
+  ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
+  ordersInfo.style.top = chart1.offsetHeight / 2 + 'px';
+} else if (window.innerWidth < 499) {
+  ordersChart.canvas.parentNode.style.width = '60%';
+  ordersChart.canvas.parentNode.style.height = '256px';
 }
 
 //  Получить суммы всех закозов по категориям по переданному массиву данных
@@ -356,20 +339,6 @@ function tableDataSort() {
         }
       }
     }
-
-    //  показать/скрыть стикеры с кликнутым статусом
-    // for (let i = 0; i < rows.length; i++) {
-    //   let targetBtns = tbody.querySelectorAll(strStatus);
-    //   if (targetBtns) {
-    //     console.log('add')
-    //     for (let j = 0; j < targetBtns.length; j++) {
-    //       targetBtns[j].classList.toggle('toggleTableBtns');
-    //     }
-    //   } else {
-    //     console.log('remove')
-    //   }
-    //
-    // }
     hideEmptyTR(strStatus);
   }
 
@@ -891,10 +860,6 @@ function startProcurementDonutChart() {
     }
     updateData();
 
-    //  Принудительные размеры
-    // donutChartElem.canvas.parentNode.style.width = '300px';
-    // donutChartElem.canvas.parentNode.style.height = '300px';
-
     var chart4 = new Chart(donutChartElem, {
       // тип графика
       type: 'doughnut',
@@ -922,10 +887,13 @@ function startProcurementDonutChart() {
             borderColor: [
               '#ffffff'
             ],
-            borderWidth: 5
+            borderWidth: 5,
+            borderAlign: 'inner'
           }]
         },
         options: {
+          // диаметр "кольца"
+          cutoutPercentage: 60,
           //  Отображение/скрытие названия диаграммы
           legend: false,
           // адаптивность
@@ -936,6 +904,10 @@ function startProcurementDonutChart() {
           rotation: 40
         }
     });
+
+    //  Принудительные размеры
+    donutChartElem.canvas.parentNode.style.width = '100%';
+    donutChartElem.canvas.parentNode.style.height = '700px';
   }
 
 };
