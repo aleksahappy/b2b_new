@@ -510,17 +510,6 @@ body.no-scroll {
   border: 1px solid #B3BAC2;
 }
 
-.access{
-  padding: 0 1em;
-  border: 1px solid transparent;
-  border-radius: 30px;
-  text-align: center;
-  font-size: 1em;
-  color: #666666;
-  background-color: #fff;
-  cursor: default;
-}
-
 /* =====================================================================================================
 Заголовок страницы:
 ===================================================================================================== */
@@ -2469,10 +2458,6 @@ tbody td > .row > * {
 	background: #ffffff;
 }
 
-.infoblock .section-head .title {
-  color: #ffffff;
-}
-
 .infoblock .open.icon {
   display: none;
 }
@@ -2481,10 +2466,14 @@ section {
 	margin-bottom: 20px;
 }
 
-.section-head {
+.infoblock .section-head {
 	display: flex;
 	justify-content: space-between;
   align-items: center;
+}
+
+.infoblock .section-head .title {
+  color: #FFFFFF;
 }
 
 .info-wrap {
