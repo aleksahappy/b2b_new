@@ -510,6 +510,17 @@ body.no-scroll {
   border: 1px solid #B3BAC2;
 }
 
+.access{
+  padding: 0 1em;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 1em;
+  color: #666666;
+  background-color: #fff;
+  cursor: default;
+}
+
 /* =====================================================================================================
 Заголовок страницы:
 ===================================================================================================== */
@@ -2456,6 +2467,10 @@ tbody td > .row > * {
 	width: 100%;
 	padding: 1.25em 1.25em  0.9375em  1.25em;
 	background: #ffffff;
+}
+
+.infoblock .section-head .title {
+  color: #ffffff;
 }
 
 .infoblock .open.icon {

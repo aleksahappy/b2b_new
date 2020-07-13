@@ -87,6 +87,7 @@ main{
 	text-align: right;
 	color: #ffffff;
 	background: #D70C17 url('../img/attention_white.svg') no-repeat 12px center;
+	background-size: 17px;
 }
 
 .center-col{
