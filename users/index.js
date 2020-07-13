@@ -45,23 +45,27 @@ startUsersTable();
 function accessTableType() {
   var tbody = usersTable.querySelector("tbody");
   var trs = tbody.querySelectorAll("tr");
-  var access = tbody.querySelectorAll(".access");
+  var access = tbody.querySelectorAll(".pill");
   var usersTableTablet = document.querySelector("#users-table-tablet");
   var usersTableMob = document.querySelector("#users-table-mob");
 
   for (let i = 0; i < access.length; i++) {
     if (access[i].innerHTML === "частичный") {
-      access[i].classList.add("limited");
+      access[i].classList.add("access");
+      access[i].classList.add("limit");
       var trr = access[i].closest('tr');
       var tggll = trr.querySelector('.toggle');
       tggll.classList.add('checked');
+      
     } else if (access[i].innerHTML === "полный") {
-      access[i].classList.add("boundless");
+      access[i].classList.add("full");
       var trr = access[i].closest('tr');
       var tggll = trr.querySelector('.toggle');
       tggll.classList.add('checked');
+
     } else if (access[i].innerHTML === "отключен") {
-      access[i].classList.add("denied");
+      access[i].classList.add("access");
+      access[i].classList.add("disabled");
     }
   }
 
