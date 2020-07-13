@@ -596,6 +596,7 @@ function Table(obj, settings) {
     showElement(this.table);
     loader.hide();
     this.align();
+    this.setResizeHeight();
     this.table.classList.add('active');
   }
 

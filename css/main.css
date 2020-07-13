@@ -491,34 +491,25 @@ body.no-scroll {
 Цветовая гамма статусов доступа:
 ===================================================================================================== */
 
+.limit .access,
 .access.limit {
   color: #F69C00;
   background-color: #FEF5E5;
   border: 1px solid #F69C00;
 }
 
+.full .access,
 .access.full {
   color: #3F9726;
   background-color: #ECF5E9;
   border: 1px solid #3F9726;
 }
 
-.disabled .access
+.disabled .access,
 .access.disabled {
   color: #B3BAC2;
   background-color: #E7EAED;
   border: 1px solid #B3BAC2;
-}
-
-.access{
-  padding: 0 1em;
-  border: 1px solid transparent;
-  border-radius: 30px;
-  text-align: center;
-  font-size: 1em;
-  color: #666666;
-  background-color: #fff;
-  cursor: default;
 }
 
 /* =====================================================================================================
@@ -1151,6 +1142,14 @@ a.btn {
   background-image: url(../img/message.svg);
 }
 
+.question.icon,
+.settings.icon,
+.add.icon,
+.relay.icon {
+  width: 30px;
+  height: 30px;
+}
+
 /* Подсказки */
 
 .question.icon {
@@ -1167,8 +1166,6 @@ a.btn {
 
 .add.icon {
   display: none;
-  width: 2.125em;
-  height: 2.125em;
   background-image: url(../img/add.svg);
 }
 
@@ -1176,14 +1173,6 @@ a.btn {
 
 .relay.icon {
   background-image: url(../img/relay.svg);
-}
-
-.question.icon,
-.settings.icon,
-.add.icon,
-.relay.icon {
-  width: 30px;
-  height: 30px;
 }
 
 /* Треугольник (на выпадающих списках) */
@@ -1263,21 +1252,21 @@ a.btn {
 
 /* Доступ (замочек): */
 
-.accsess.icon {
+.access.icon {
   width: 12px;
   height: 14px;
 }
 
-.full .accsess.icon {
-  background-image: url(../img/accsess_full.svg);
+.full .access.icon {
+  background-image: url(../img/access.svg);
 }
 
-.limit .accsess.icon {
-  background-image: url(../img/accsess_limit.svg);
+.limit .access.icon {
+  background-image: url(../img/access.svg);
 }
 
-.disabled .accsess.icon {
-  background-image: url(../img/accsess_disabled.svg);
+.disabled .access.icon {
+  background-image: url(../img/access.svg);
 }
 
 /* Отметка (кружок) */
@@ -1400,8 +1389,8 @@ a.btn {
 /* Внесение изменений */
 
 .edit.icon {
-  width: 1.714em;
-  height: 1.714em;
+  width: 23px;
+  height: 23px;
   background-image: url(../img/edit.svg);
 }
 
@@ -1880,7 +1869,7 @@ form.search .search.icon,
 form.search .close.icon {
   position: absolute;
   right: 2px;
-  width: 2.7em;
+  width: 38px;
   height: 90%;
   background-size: 16px;
 }
@@ -2439,8 +2428,8 @@ tbody td > .row > * {
 }
 
 .pop-up-title .close.icon {
-  width: 1.357em;
-  height: 1.357em;
+  width: 19px;
+  height: 19px;
   background-image: url(../img/close_blue.svg);
 }
 
@@ -2463,14 +2452,10 @@ tbody td > .row > * {
 ===================================================================================================== */
 
 .infoblock {
-	display: block;
-	width: 100%;
-	padding: 1.25em 1.25em  0.9375em  1.25em;
-	background: #ffffff;
-}
-
-.infoblock .section-head .title {
-  color: #ffffff;
+  display: block;
+  width: 100%;
+  padding: 1.25em 1.25em  0.9375em  1.25em;
+  background: #FFFFFF;
 }
 
 .infoblock .open.icon {
@@ -2478,19 +2463,23 @@ tbody td > .row > * {
 }
 
 section {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.section-head {
-	display: flex;
-	justify-content: space-between;
+.infoblock .section-head {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
+.infoblock .section-head .title {
+  color: #FFFFFF;
+}
+
 .info-wrap {
-	display: flex;
-	width: 100%;
-	margin-top: 20px;
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
 }
 
 /* =====================================================================================================
@@ -2912,32 +2901,15 @@ section {
   height: 64px;
 }
 
-.header-top .logo {
-  height: 2em;
-  margin-right: 5em;
-}
-
-.header-top .logo img {
-  max-height: 2em;
-  max-width: 100%;
-}
-
-.header-top .left-side {
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header-top .left-side > .row {
-  justify-content: space-between;
-}
-
 .header-top .activate {
+  width: 14em;
+  min-width: 14em;
   height: 64px;
   z-index: 10;
 }
 
 .header-top .activate .head {
-  width: 16em;
+  width: 100%;
   height: 100%;
   justify-content: flex-start;
   border: none;
@@ -2955,6 +2927,8 @@ section {
 }
 
 .header-top .activate .drop-down {
+  left: 0;
+  right: auto;
   width: initial;
   max-width: initial;
   background-color: #FFFFFF;
@@ -2977,6 +2951,27 @@ section {
   white-space: nowrap;
 }
 
+.header-top .left-side {
+  align-items: center;
+  width: 100%;
+}
+
+.header-top .logo {
+  width: 13em;
+  min-width: 13em;
+  max-height: 32px;
+  margin-right: 4%;
+}
+
+.header-top .logo img {
+  max-height: 32px;
+  max-width: 100%;
+}
+
+.header-top .left-side .activate {
+  margin-right: 5%;
+}
+
 .header-top .catalog {
   width: 100%;
 }
@@ -2996,8 +2991,8 @@ section {
 }
 
 .header-top .cart-info .cart.icon {
-  width: 1.5em;
-  height: 1.5em;
+  width: 21px;
+  height: 21px;
   margin-right: 0.5em;
 }
 
@@ -3029,6 +3024,13 @@ section {
 .header-top .right-side {
   justify-content: space-between;
   align-items: stretch;
+  flex-shrink: 0;
+  width: 18em;
+}
+
+.header-top .right-side .icon {
+  width: 36px;
+  height: 36px
 }
 
 .header-top .account a {
@@ -3037,19 +3039,15 @@ section {
 
 .header-top .burger.icon {
   display: none;
-  /* width: 1.5em;
-  height: 1.5em;
-  margin-left: 1.55em;*/
+  margin-left: 1.428em;
 }
 
 .header-top .profile.icon {
   margin-right: 0.5em;
-  width: 2.25em;
-  height: 2.25em;
 }
 
 #profile {
-  max-width: 160px;
+  max-width: 11.5em;
 }
 
 #profile .title,
@@ -3073,9 +3071,7 @@ section {
 
 .header-top .notifications.icon {
   position: relative;
-  width: 2.25em;
-  height: 2.25em;
-  margin-left: 1em;
+  margin-left: 1.428em;
   margin-right: 0;
 }
 
@@ -3208,8 +3204,8 @@ section {
 
 #header-cart .cart.icon {
   position: relative;
-  width: 1.5em;
-  height: 1.5em;
+  width: 21px;
+  height: 21px;
   margin-right: 0.7em;
 }
 
@@ -3280,8 +3276,8 @@ section {
 }
 
 #notifications .message.icon {
-  width: 2em;
-  height: 2em;
+  width: 28px;
+  height: 28px;
 }
 
 #notifications .message.text {
