@@ -71,9 +71,9 @@
                 <div class="links">
                   <a class="item" href="../users">Пользователи</a>
                   <a class="item" href="../contractors">Контрагенты</a>
-                  <a class="item" href="../addresses">Адреса доставки</a>
-                  <a class="item" href="../shops">Магазины</a>
-                  <a class="item" href="../monitoring">Мониторинг</a>
+                  <a class="item" href="../addresses">Мои адреса</a>
+                  <!-- <a class="item" href="../shops">Магазины</a> -->
+                  <!-- <a class="item" href="../monitoring">Мониторинг</a> -->
                   <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
                 </div>
                 <a class="item" onclick="logOut(event)">Выйти</a>
@@ -168,21 +168,45 @@
           <div class="settings icon"></div>
           <div class="add icon"></div>
           <div class="relay icon"></div>
+
           <div class="triangle icon"></div>
           <div class="triangle white icon"></div>
           <div class="triangle dark icon"></div>
           <div disabled>
             <div class="triangle dark icon"></div>
           </div>
+
           <div class="close icon"></div>
           <div class="close white icon"></div>
           <div class="close dark icon"></div>
           <div class="disabled">
             <div class="close white icon"></div>
           </div>
+
+          <div class="full">
+            <div class="accsess icon"></div>
+          </div>
+          <div class="limit">
+            <div class="accsess icon"></div>
+          </div>
+          <div class="disabled">
+            <div class="accsess icon"></div>
+          </div>
+
+          <div class="full">
+            <div class="mark icon"></div>
+          </div>
+          <div class="limit">
+            <div class="mark icon"></div>
+          </div>
+          <div class="disabled">
+            <div class="mark icon"></div>
+          </div>
+
           <div class="search icon"></div>
           <div class="search white icon"></div>
           <div class="search dark icon"></div>
+
           <div class="open icon"></div>
           <div class="open white icon"></div>
           <div class="close">
@@ -191,6 +215,7 @@
           <div class="close">
             <div class="open white icon"></div>
           </div>
+
           <div class="sort down icon"></div>
           <div class="checked">
             <div class="sort down icon"></div>
@@ -199,14 +224,15 @@
           <div class="checked">
             <div class="sort up icon"></div>
           </div>
+
           <div class="cart icon"></div>
           <div class="cart white icon"></div>
           <div class="cart red icon"></div>
           <div class="cart in-circle icon"></div>
+
           <div class="attention icon"></div>
           <div class="attention white icon"></div>
-          <div class="mark icon"></div>
-          <div class="mark icon active"></div>
+
           <div class="plus icon"></div>
           <div class="added">
             <div class="plus icon"></div>
@@ -221,13 +247,17 @@
           <div class="disabled">
             <div class="minus icon"></div>
           </div>
+
           <div class="filter icon"></div>
           <div class="edit icon"></div>
           <div class="maximize icon"></div>
           <div class="trash icon"></div>
+          <div class="download icon"></div>
+          <div class="wallet icon"></div>
+
           <div class="arrow right icon"></div>
           <div class="arrow left icon"></div>
-          <div class="download icon"></div>
+
           <div class="loader icon"></div>
           <div class="not-found icon"></div>
 
@@ -1416,8 +1446,8 @@
                     </div>
                   </td>
                   <td>
-                    <div class="docs row">
-                      <div class="mark icon #status#" data-tooltip="#status_info#"></div>
+                    <div class="docs row #status#">
+                      <div class="mark icon" data-tooltip="#status_info#"></div>
                       <a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a>
                     </div>
                   </td>
@@ -1533,7 +1563,7 @@
           price: '10 000,00',
           docs: [{
             title: 'Договор с ООО «ТОП СПОРТС» от 31.10.2016',
-            status: 'active',
+            status: 'full',
             date_start: '31.10.2016',
             date_end: '04.12.2019',
             contr: 'ООО «ТОП СПОРТС»',
@@ -1542,7 +1572,7 @@
             info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
           },{
             title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
-            status: '',
+            status: 'disabled',
             date_start: '31.10.2017',
             contr: 'ООО «ТОП СПОРТС-1»',
             url: 'bla-bla',
@@ -1556,7 +1586,7 @@
           price: '347 976,00',
           docs: [{
             title: 'Договор с ООО «ТОП СПОРТС» от 15.05.2018',
-            status: '',
+            status: 'full',
             date_start: '31.10.2016',
             date_end: '04.12.2019',
             contr: 'ООО «ТОП СПОРТС»',
@@ -1659,7 +1689,7 @@
           key: 'docs',
           subkey: 'status_info',
           title: 'Документы',
-          content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
+          content: '<div class="docs row #status#"><div class="mark icon" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
           filter: 'filter'
         }],
         sub: [{area: '.docs', items: 'docs'}]

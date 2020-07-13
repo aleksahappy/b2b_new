@@ -25,8 +25,10 @@
 }
 
 /* =====================================================================================================
-Свыше 1920px:
+
 ===================================================================================================== */
+
+/* Стили на ширину больше 1920px: */
 
 @media only screen and (min-width: 1921px) {
   .container {
@@ -38,12 +40,29 @@
   }
 }
 
+/* Стили на ширину от 0 до 1575px включительно: */
+
+/* @media (max-width: 1575px) {
+
+  Стили хедера: ПРОВЕРИТЬ!
+
+  .header-top .notifications.icon {
+    position: relative;
+    width: 2.25em;
+    height: 2.25em;
+    margin-left: 0;
+  }
+
+  .header-top .activate .head {
+    width: 13em;
+  }
+} */
+
 /* =====================================================================================================
 Laptop:
 ===================================================================================================== */
 
-
-/* Стили на ширину до 0 до 1360px включительно: */
+/* Стили на ширину от 0 до 1360px включительно: */
 
 @media only screen and (max-width: 1360px) {
   .container {
@@ -55,7 +74,7 @@ Laptop:
   }
 }
 
-/* Стили на ширину до 0 до 1080px включительно: */
+/* Стили на ширину от 0 до 1080px включительно: */
 
 @media only screen and (max-width: 1080px) {
   /* #full-img-container .carousel .left-btn {
@@ -76,7 +95,7 @@ Laptop:
 Tablet:
 ===================================================================================================== */
 
-/* Стили на ширину до 0 до 960px включительно: */
+/* Стили на ширину от 0 до 960px включительно: */
 
 @media only screen and (max-width: 960px) {
   .container {
@@ -115,11 +134,109 @@ Tablet:
   }
 }
 
+/* Стили на ширину от 0 до 768px включительно: */
+
+@media only screen and (max-width: 768px) {
+  body {
+    padding-top: 41px;
+    padding-bottom: 70px;
+  }
+
+  .header-top .container {
+    height: 40px;
+  }
+
+  .header-top .activate {
+    height: 40px;
+  }
+
+  /* Стили хедера: ПРОВЕРИТЬ! */
+
+  /* .header-top .logo {
+    display: flex!important;
+    align-items: center;
+  }
+
+  .header-top .logo img {
+    max-height: 2em;
+    max-width: 103px;
+    min-width: 103px;
+  }
+
+  .header-top .left-side > .row {
+    display: none;
+  }
+
+  .header-top .activate .head {
+    width: 4em;
+  }
+
+  .header-top .burger.icon {
+    display: block;
+  }
+
+  #profile {
+    display: none;
+    width: 0;
+  }
+
+  .header-top .profile.icon {
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url(../img/newDesign/user-ic-tablet.svg);
+  }
+
+  .header-top .notifications.icon {
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url(../img/newDesign/alert-ic-tablet.svg);
+  }
+
+  .header-top .activate {
+    width: 4em;
+  }
+
+  .qty.in-circle {
+    top: -0.4em;
+    right: -0.5em;
+  }
+ */
+
+  #main-header + .btn {
+    display: none;
+  }
+
+  .add.icon {
+    display: block;
+  }
+
+  .infoblock {
+    padding: 0;
+  }
+
+  .section-head {
+    padding: 1.25em 1.25em 1.25em 1.25em;
+    background: #53606F;
+  }
+
+  .section-title {
+    color: #FFFFFF;
+  }
+}
+
+@media only screen and  (max-width: 685px) {
+  /* Стили хедера: ПРОВЕРИТЬ*/
+  /* .header-top .logo img {
+    max-width: 88px;
+  } */
+}
+
+
 /* =====================================================================================================
 Mobile:
 ===================================================================================================== */
 
-/* Стили на ширину до 0 до 480px включительно: */
+/* Стили на ширину от 0 до 480px включительно: */
 
 @media only screen and (max-width: 499px) {
   .container {
@@ -129,6 +246,11 @@ Mobile:
   .container.mobile {
     margin: 0;
   }
+
+  /* Стили хедера: ПРОВЕРИТЬ*/
+  /* .header-top {
+    padding: 0 1em;
+  } */
 
   #main-header {
     padding: 1.6rem 0;
@@ -146,7 +268,7 @@ Mobile:
     width: 100%;
     max-width: 100%;
     min-width: 100%;
-    height: auto;
+    height: 100%;
     max-height: none;
     min-height: 100%;
   }
