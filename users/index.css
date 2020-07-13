@@ -128,18 +128,18 @@
 }
 
 .user-status.icon.limited{
-  background: url('../img/newDesign/access_limit.svg') no-repeat!important;
+  background: url('../img/access_limit.svg') no-repeat!important;
 }
 
 .user-status.icon.boundless{
-  background: url('../img/newDesign/access_full.svg') no-repeat!important;
+  background: url('../img/access_full.svg') no-repeat!important;
 }
 
 .user-status.icon{
   width: 12px;
   height: 15px;
   margin-right: 1em;
-  background: url('../img/newDesign/access_disabled.svg') no-repeat;
+  background: url('../img/access_disabled.svg') no-repeat;
 }
 
 /* Модальное окно "Добавление пользователя" */

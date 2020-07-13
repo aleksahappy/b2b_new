@@ -183,13 +183,13 @@ Tablet:
   .header-top .profile.icon {
     width: 1.5em;
     height: 1.5em;
-    background-image: url(../img/newDesign/user-ic-tablet.svg);
+    background-image: url(../img/user-ic-tablet.svg);
   }
 
   .header-top .notifications.icon {
     width: 1.5em;
     height: 1.5em;
-    background-image: url(../img/newDesign/alert-ic-tablet.svg);
+    background-image: url(../img/alert-ic-tablet.svg);
   }
 
   .header-top .activate {

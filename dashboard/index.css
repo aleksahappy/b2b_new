@@ -86,7 +86,7 @@ main{
 	line-height: 1.8875em;
 	text-align: right;
 	color: #ffffff;
-	background: #D70C17 url('../img/newDesign/attention_white.svg') no-repeat 12px center;
+	background: #D70C17 url('../img/attention_white.svg') no-repeat 12px center;
 }
 
 .center-col{
@@ -138,7 +138,7 @@ main{
 	width: 30px;
 	height: 30px;
 	margin-right: 0.8em;
-	background: url('../img/newDesign/wallet.svg') no-repeat center center;
+	background: url('../img/wallet.svg') no-repeat center center;
 	background-size: contain;
 }
 
@@ -395,7 +395,7 @@ thead .legend {
 	text-align: left;
 	font-size: 0.875em;
 	color: #ffffff;
-	background: url('../img/newDesign/Close.svg') no-repeat right center;
+	background: url('../img/Close.svg') no-repeat right center;
 }
 
 .brand-btn:last-child{
@@ -403,19 +403,19 @@ thead .legend {
 }
 
 .status-1{
-	background: #34495E url('../img/newDesign/Close.svg') no-repeat 44px center!important;
+	background: #34495E url('../img/Close.svg') no-repeat 44px center!important;
 }
 
 .status-2{
-	background: #F69C00 url('../img/newDesign/Close.svg') no-repeat 44px center!important;
+	background: #F69C00 url('../img/Close.svg') no-repeat 44px center!important;
 }
 
 .status-3{
-	background: #6C4D77 url('../img/newDesign/Close.svg') no-repeat 44px center!important;
+	background: #6C4D77 url('../img/Close.svg') no-repeat 44px center!important;
 }
 
 .status-4{
-	background: #3F9726 url('../img/newDesign/Close.svg') no-repeat 44px center!important;
+	background: #3F9726 url('../img/Close.svg') no-repeat 44px center!important;
 }
 
 /* График для рекламаций в работе */
@@ -621,7 +621,7 @@ thead .legend {
   left: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/newDesign/slider_left_btn.svg) no-repeat center!important;
+  background: url(../img/slider_left_btn.svg) no-repeat center!important;
   background-size: contain;
 }
 
@@ -630,7 +630,7 @@ thead .legend {
   right: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/newDesign/slider_right_btn.svg) no-repeat center!important;
+  background: url(../img/slider_right_btn.svg) no-repeat center!important;
   background-size: contain;
 }
 
