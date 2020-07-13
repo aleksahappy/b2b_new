@@ -40,24 +40,6 @@
   }
 }
 
-/* Стили на ширину от 0 до 1575px включительно: */
-
-/* @media (max-width: 1575px) {
-
-  Стили хедера: ПРОВЕРИТЬ!
-
-  .header-top .notifications.icon {
-    position: relative;
-    width: 2.25em;
-    height: 2.25em;
-    margin-left: 0;
-  }
-
-  .header-top .activate .head {
-    width: 13em;
-  }
-} */
-
 /* =====================================================================================================
 Laptop:
 ===================================================================================================== */
@@ -89,6 +71,48 @@ Laptop:
     background-color: transparent;
     opacity: 1 !important;
   } */
+}
+
+/* Стили на ширину от 0 до 1280px включительно: */
+
+@media only screen and (max-width: 1280px) {
+/* Стили хедера: ПРОВЕРИТЬ! */
+
+  /*
+  .header-top .left-side > .row {
+    display: none;
+  }
+
+  .header-top .activate .head {
+    width: 4em;
+  }
+
+  .header-top .right-side .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-top .burger.icon {
+    display: block;
+  }
+
+  #profile {
+    display: none;
+  }
+
+  .header-top .notifications.icon {
+    background-image: url(../img/notifications_min.svg);
+  }
+
+  .header-top .activate {
+    width: 4em;
+  }
+
+  .qty.in-circle {
+    top: -0.4em;
+    right: -0.5em;
+  }
+ */
 }
 
 /* =====================================================================================================
@@ -150,58 +174,6 @@ Tablet:
     height: 40px;
   }
 
-  /* Стили хедера: ПРОВЕРИТЬ! */
-
-  /* .header-top .logo {
-    display: flex!important;
-    align-items: center;
-  }
-
-  .header-top .logo img {
-    max-height: 2em;
-    max-width: 103px;
-    min-width: 103px;
-  }
-
-  .header-top .left-side > .row {
-    display: none;
-  }
-
-  .header-top .activate .head {
-    width: 4em;
-  }
-
-  .header-top .burger.icon {
-    display: block;
-  }
-
-  #profile {
-    display: none;
-    width: 0;
-  }
-
-  .header-top .profile.icon {
-    width: 1.5em;
-    height: 1.5em;
-    background-image: url(../img/user-ic-tablet.svg);
-  }
-
-  .header-top .notifications.icon {
-    width: 1.5em;
-    height: 1.5em;
-    background-image: url(../img/alert-ic-tablet.svg);
-  }
-
-  .header-top .activate {
-    width: 4em;
-  }
-
-  .qty.in-circle {
-    top: -0.4em;
-    right: -0.5em;
-  }
- */
-
   #main-header + .btn {
     display: none;
   }
@@ -224,14 +196,6 @@ Tablet:
   }
 }
 
-@media only screen and  (max-width: 685px) {
-  /* Стили хедера: ПРОВЕРИТЬ*/
-  /* .header-top .logo img {
-    max-width: 88px;
-  } */
-}
-
-
 /* =====================================================================================================
 Mobile:
 ===================================================================================================== */
@@ -246,11 +210,6 @@ Mobile:
   .container.mobile {
     margin: 0;
   }
-
-  /* Стили хедера: ПРОВЕРИТЬ*/
-  /* .header-top {
-    padding: 0 1em;
-  } */
 
   #main-header {
     padding: 1.6rem 0;
