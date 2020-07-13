@@ -75,7 +75,6 @@ function startPage() {
   if (path !== '') {
     loader.show();
   }
-  setPaddingToBody();
   initTooltips();
   showUserInfo();
   if (isCart) {
@@ -626,7 +625,7 @@ function deleteCookie(key) {
 
 // Установка отступов документа:
 
-window.addEventListener('resize', setPaddingToBody);
+// window.addEventListener('resize', setPaddingToBody);
 
 function setPaddingToBody() {
   var headerHeight = getEl('.header').clientHeight;
