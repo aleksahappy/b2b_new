@@ -79,7 +79,7 @@
     line-height: 20px;
     padding: 0 10px;
     font-size: 0.75em;
-    background: #D70C17 url(../img/newDesign/set-attention.svg) no-repeat 8px center;
+    background: #D70C17 url(../img/newDesign/attention_white.svg) no-repeat 8px center;
   }
 
   .line{
@@ -207,7 +207,7 @@
     padding: 0;
   }
 
-  .fullWidth{
+  .full-width{
     display: none;
   }
 

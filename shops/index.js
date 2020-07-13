@@ -1,5 +1,7 @@
 'use strict';
 console.log('index.js')
+
+
 var shops = document.querySelector('.shops');
 
 

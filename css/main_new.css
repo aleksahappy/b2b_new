@@ -2,13 +2,9 @@
   display: none;
   width: 1.5em;
   height: 1.5em;
-  background: url('../img/mob-menu-ic.svg') no-repeat center center;
+  background: url('../img/newDesign/burger.svg') no-repeat center center;
   background-size: contain;
   cursor: pointer;
-}
-
-td {
-  vertical-align: middle!important;
 }
 
 .dir{
@@ -16,54 +12,13 @@ td {
   justify-content: space-between;
 }
 
-.main a{
-  font-size: 1em;
-  color: #117FED;
-}
-
-.main .btn{
-  display: inline-block;
-  margin-bottom: 1.6em;
-}
-
-.add.icon{
-  display: none;
-  width: 2.125em;
-  height: 2.125em;
-}
-
-#main-header .btn{
-  margin-top: 1em;
-}
-
-#main-header .main-title.row{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.center-col{
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.action-btn{
-  background: #34495E;
-}
-
-.fullWidth{
+.full-width{
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.halfWidth{
-  width: 50%;
-}
-
-.open.icon{
+.infoblock .open.icon{
   display: none;
 }
 
@@ -76,22 +31,6 @@ section{
 	line-height: 1.4em;
 	text-transform: uppercase;
 	color: #34495E;
-}
-
-legend select{
-	width: 11.0125em;
-	height: 2.0125em;
-	font-size: 0.785em;
-	border: 1px solid #D5D5D5;
-	border-radius: 3px;
-	color: #C6C6C6;
-}
-
-.txt{
-	padding-top: 1.85em;
-	padding-left: 0.625em;
-	font-size: 0.875em;
-	color: #666666;
 }
 
 .select-choice{
@@ -124,29 +63,32 @@ legend select{
 	margin-top: 20px;
 }
 
+
+
 /* Цветовая гамма статусов доступа пользователей */
 /* частичный */
-.access.limited{
+.access.limit {
   color: #F69C00;
   background-color: #FEF5E5;
   border: 1px solid #F69C00;
 }
 
 /* полный */
-.access.boundless{
+.access.full {
   border: 1px solid #3F9726;
   color: #3F9726;
   background-color: #ECF5E9;
 }
 
 /* отключен */
-.access.denied{
+.disabled .access
+.access.disabled {
   border: 1px solid #B3BAC2;
   color: #B3BAC2;
   background-color: #E7EAED;
 }
 
-.access{
+.access {
   width: 100px;
   padding: 0 1em;
   border: 1px solid transparent;
@@ -180,22 +122,22 @@ legend select{
 
 .status1{
   color: #ffffff;
-	background: #2C6DA8 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #2C6DA8 url('../img/newDesign/close_white.svg') no-repeat 92% center!important;
 }
 
 .status2{
   color: #ffffff;
-	background: #F69C00 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #F69C00 url('../img/newDesign/close_white.svg') no-repeat 92% center!important;
 }
 
 .status3{
   color: #ffffff;
-	background: #6C4D77 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #6C4D77 url('../img/newDesign/close_white.svg') no-repeat 92% center!important;
 }
 
 .status4{
   color: #ffffff;
-	background: #3F9726 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #3F9726 url('../img/newDesign/close_white.svg') no-repeat 92% center!important;
 }
 
 /* Цветовая гамма статусов заказа - неактивные */
@@ -265,7 +207,7 @@ legend select{
 
 .calendar .input-area .month-navigator .month-previous {
   margin-top: 5px;
-  background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
+  background: url("../img/newDesign/arrow_left.svg") no-repeat center center;
   -webkit-background-size: contain;
   background-size: 35%;
 
@@ -273,7 +215,7 @@ legend select{
 
 .calendar .input-area .month-navigator .month-next {
   margin-top: 5px;
-  background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
+  background: url("../img/newDesign/arrow_left.svg") no-repeat center center;
   -webkit-background-size: contain;
   background-size: 35%;
   transform: rotate(180deg);
@@ -304,7 +246,7 @@ legend select{
 .calendar .input-area .month-navigator .years-nav .prev-year{
   width: 100%;
   height: 10px;
-  background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
+  background: url("../img/newDesign/arrow_left.svg") no-repeat center center;
   background-size: contain;
   transform: rotate(90deg);
 }
@@ -312,7 +254,7 @@ legend select{
 .calendar .input-area .month-navigator .years-nav .next-year{
   width: 100%;
   height: 10px;
-  background: url("../img/newDesign/calendar-arrow.svg") no-repeat center center;
+  background: url("../img/newDesign/arrow_left.svg") no-repeat center center;
   background-size: contain;
   transform: rotate(270deg);
 }
@@ -361,27 +303,13 @@ legend select{
 
 input[data-intype="birth"],
 input[data-intype="range"] {
-  background: #ffffff url('../img/newDesign/calendar-ic.svg') no-repeat 95%;
+  background: #ffffff url('../img/newDesign/calendar.svg') no-repeat 95%;
 }
 
-.user-status.edit{
+.edit.icon {
   width: 24px;
   height: 24px;
-  background: url('../img/newDesign/user_edit-ic.svg') no-repeat  50%;
-  cursor: pointer;
-}
-
-.radio-access{
-  display: flex;
-  align-items: center;
-}
-
-.radio-access:first-child{
-  margin-right: 4vw;
-}
-
-.radio-text{
-  margin-left: 0.8em;
+  background: url('../img/edit.svg') no-repeat;
 }
 
 /* медиа стили */
@@ -456,15 +384,8 @@ input[data-intype="range"] {
     width: 4em;
   }
 
-  .icon {
-    background-size: contain;
-    width: 1em;
-    height: 1em;
-    cursor: pointer;
-  }
-
   .profile.icon {
-    background-image: url(../img/newDesign/user-ic-tablet.svg);
+    background-image: url(../img/newDesign/profile_min.svg);
     background-repeat: no-repeat;
   }
 
@@ -501,7 +422,7 @@ input[data-intype="range"] {
 
 @media (max-width: 768px) {
 
-  .main-title .row {
+  /* .main-title .row {
     margin-bottom: 0;
   }
 
@@ -515,7 +436,7 @@ input[data-intype="range"] {
 
   .main .btn{
     display: none;
-  }
+  } */
 
 }
 
@@ -536,27 +457,9 @@ input[data-intype="range"] {
     padding: 1em;
   }
 
-  .main-title .title{
-    font-size: 1.5em;
-  }
-
 }
 
 @media (max-width: 499px) {
-  .modal{
-    width: 100%;
-    min-width: 100%;
-    height: 100vh;
-  }
 
-  .block-shift{
-    flex-direction: column!important;
-    align-items: center;
-  }
-
-  .mob-cols{
-    display: flex;
-    flex-direction: column;
-  }
 
 }

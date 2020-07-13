@@ -34,23 +34,6 @@
   background: #E7EAED;;
 }
 
-/* .shop .col{
-  justify-content: space-between;
-} */
-
-/* .shop div:first-child {
-  display: flex;
-  align-items: center;
-  margin-right: 4px;
-} */
-
-.shop .edit {
-  width: 24px;
-  height: 24px;
-  background: url(../img/newDesign/edit-shop-ic.svg) no-repeat 50%;
-  cursor: pointer;
-}
-
 .indicate {
   display: flex;
   align-items: center;

@@ -86,7 +86,21 @@ main{
 	line-height: 1.8875em;
 	text-align: right;
 	color: #ffffff;
-	background: #D70C17 url('../img/newDesign/set-attention.svg') no-repeat 12px center;
+	background: #D70C17 url('../img/newDesign/attention_white.svg') no-repeat 12px center;
+}
+
+.center-col{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.txt{
+	padding-top: 1.85em;
+	padding-left: 0.625em;
+	font-size: 0.875em;
+	color: #666666;
 }
 
 .lines{
@@ -124,7 +138,7 @@ main{
 	width: 30px;
 	height: 30px;
 	margin-right: 0.8em;
-	background: url('../img/newDesign/money-ic.svg') no-repeat center center;
+	background: url('../img/newDesign/wallet.svg') no-repeat center center;
 	background-size: contain;
 }
 
@@ -170,14 +184,14 @@ main{
 }
 
 .open.white.icon{
-  background-image: url(../img/toggle-btn-ic.svg);
+  background-image: url(../img/open_white.svg);
   background-repeat: no-repeat;
   transform-origin: center;
   transform: rotate(180deg);
 }
 
 .close .open.white.icon {
-  background-image: url(../img/toggle-btn-ic.svg);
+  background-image: url(../img/open_white.svg);
   background-repeat: no-repeat;
   transform-origin: center;
   transform: rotate(0deg);
@@ -494,7 +508,7 @@ thead .legend {
 	color: #34495E;
 }
 
-.info-graphic-1 .fullWidth{
+.info-graphic-1 .full-width{
 	margin-bottom: 10px;
 }
 
@@ -607,7 +621,7 @@ thead .legend {
   left: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/newDesign/leftArrowBanner.svg) no-repeat center!important;
+  background: url(../img/newDesign/slider_left_btn.svg) no-repeat center!important;
   background-size: contain;
 }
 
@@ -616,7 +630,7 @@ thead .legend {
   right: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/newDesign/rightArrowBanner.svg) no-repeat center!important;
+  background: url(../img/newDesign/slider_right_btn.svg) no-repeat center!important;
   background-size: contain;
 }
 
