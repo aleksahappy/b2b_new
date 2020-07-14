@@ -54,6 +54,16 @@ if (isCart) {
       userData = {};
 }
 
+// Используемые для проверки регулярные выражения:
+
+var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
+var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+var telRegExp = /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/;
+var finTelRegExp = /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/;
+var birthRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
+
 // Запускаем рендеринг страницы:
 
 startPage();
@@ -75,8 +85,11 @@ function startPage() {
   if (path !== '') {
     loader.show();
   }
-  initTooltips();
   showUserInfo();
+  initTooltips();
+  initPopUps();
+  initNotifications();
+
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
@@ -86,7 +99,6 @@ function startPage() {
       console.log(reject);
       renderTotals();
     });
-    initNotifications();
   }
 }
 
@@ -1028,6 +1040,31 @@ function isEmptyObj(obj) {
   return true;
 }
 
+// Нахождение суммы элементов массива:
+
+function arraySum(arr) {
+  var sum = 0;
+  for (var i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  return sum;
+}
+
+// Получение сколько процентов составляет часть в целом:
+
+function getPercent(item, all) {
+  if (!item) {
+    return 0;
+  }
+  return parseInt(+item) * 100 / all;
+}
+
+// Изменение первой буквы строки на заглавную:
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // Изменение свойств css непосредственно в css-документе:
 
 function changeCss(selector, key, value) {
@@ -1080,15 +1117,6 @@ function loadScript(url) {
     script.onerror = reject();
     document.body.appendChild(script);
   });
-}
-
-// Получение сколько процентов составляет часть в целом:
-
-function getPercent(item, all) {
-  if (!item) {
-    return '0';
-  }
-  return item * 100 / all;
 }
 
 //=====================================================================================================
@@ -1484,6 +1512,56 @@ function goToTop() {
 }
 
 //=====================================================================================================
+// Работа всплывающих окон:
+//=====================================================================================================
+
+function initPopUps() {
+  document.addEventListener('keydown', (event) => closePopUp(event));
+  document.querySelectorAll('pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
+}
+
+// Открытие всплывающего окна:
+
+function openPopUp(el) {
+  el = getEl(el);
+  if (el) {
+    if (!getEl('.pop-up-container.open')) {
+      getDocumentScroll();
+      document.body.classList.add('no-scroll');
+    }
+    el.classList.add('open');
+  }
+}
+
+// Закрытие всплывающего окна:
+
+function closePopUp(event, el) {
+  if (event) {
+    if (event.type === 'keydown') {
+      if (event.code === 'Escape') {
+        el = getEl('.pop-up-container.open');
+      }
+    } else {
+      if (!event.target.closest('.pop-up-title .close') && event.target.closest('.pop-up')) {
+        return;
+      }
+      el = event.currentTarget;
+    }
+  } else {
+    el = getEl(el);
+  }
+  if (el) {
+    loader.hide();
+    el.classList.remove('open');
+    if (!document.querySelector('.pop-up-container.open')) {
+      document.body.classList.remove('no-scroll');
+      setDocumentScroll();
+    }
+    return true;
+  }
+}
+
+//=====================================================================================================
 // Работа c полной карточкой товара и изображением на весь экран:
 //=====================================================================================================
 
@@ -1571,45 +1649,6 @@ function closeFullImg(event) {
 }
 
 //=====================================================================================================
-// Работа всплывающих окон:
-//=====================================================================================================
-
-// Открытие всплывающего окна:
-
-function openPopUp(el) {
-  el = getEl(el);
-  if (el) {
-    if (!document.querySelector('.pop-up-container.open')) {
-      getDocumentScroll();
-      document.body.classList.add('no-scroll');
-    }
-    el.classList.add('open');
-  }
-}
-
-// Закрытие всплывающего окна:
-
-function closePopUp(event, el) {
-  if (event) {
-    if (!event.target.closest('.pop-up-title .close') && event.target.closest('.pop-up')) {
-      return;
-    }
-    el = event.currentTarget;
-  } else {
-    el = getEl(el);
-  }
-  if (el) {
-    loader.hide();
-    el.classList.remove('open');
-    if (!document.querySelector('.pop-up-container.open')) {
-      document.body.classList.remove('no-scroll');
-      setDocumentScroll();
-    }
-    return true;
-  }
-}
-
-//=====================================================================================================
 // Работа полей для загрузки файлов:
 //=====================================================================================================
 
@@ -1671,61 +1710,133 @@ function clearForm(el) {
   }
 }
 
+// Проверка инпута на валидность:
+
+function checkInput(input) {
+  var type = input.dataset.type,
+      value = input.value,
+      regEx;
+  if (!value.length) {
+    return true;
+  }
+  if (type === 'cyril') {
+    regEx = cyrilRegExp;
+  } else if (type === 'birth') {
+    regEx = birthRegExp;
+  } else if (type === 'tel') {
+    var test = telRegExp.test(value);
+    if (!test) {
+      test = finTelRegExp.test(value);
+    }
+    return test;
+  } else if (type === 'email') {
+    regEx = emailRegExp;
+  } else if (type === 'nickname') {
+    regEx = nicknameRegExp;
+  } else {
+    return true;
+  }
+  return regEx.test(value);
+}
+
 // Объект формы:
 
 function Form(obj, func) {
   // Элементы для работы:
   this.form = obj;
   this.submitBtn = getEl('input[type="submit"]', obj)
-  this.dropDowns = obj.querySelectorAll('.activate');
+  this.dropDowns = this.form.querySelectorAll('.activate');
 
-  // Инициализация выпадающих списков если они есть:
-  this.dropDowns.forEach((el, index) => {
-    this[`dropDown${index}`] = new DropDown(el);
-  });
+  // Динамические переменные:
+  this.isSubmit = false;
+
+  // Инициализация выпадающих списков (если они есть):
+  this.dropDowns.forEach(el => new DropDown(el));
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
-    this.form.addEventListener('submit', event => this.send(event));
+    this.form.querySelectorAll('input[type="text"]').forEach(el => {
+      el.addEventListener('input', event => this.checkInput(event));
+    });
+    this.form.querySelectorAll('[required] [name]').forEach(el => {
+      if (el.tagName.toLowerCase() === 'textarea') {
+        el.addEventListener('input', () => this.checkSubmit());
+      } else {
+        if (el.tagName.toLowerCase() === 'input' && el.getAttribute('type') === 'text') {
+          return;
+        }
+        el.addEventListener('change', () => this.checkSubmit());
+      }
+    });
   }
   this.setEventListeners();
+
+  // Определение типа поля и его проверка по соответствующему регулярному выражению:
+  this.checkInput = function(event) {
+    var input = event.currentTarget,
+        isValid = checkInput(input),
+        type = input.dataset.type;
+    if (type === 'cyril' && input.value.length === 1) {
+      input.value = capitalizeFirstLetter(input.value);
+    }
+    if (isValid) {
+      if (type === 'tel' && input.value.length) {
+        // приведение к формату с "+7" и пробелами
+        var numbs = input.value.replace(/\D/g, '').match(telRegExp);
+        input.value = !numbs[3] ? numbs[2] : ('+7 (' + numbs[2] + ') ' + numbs[3] + (numbs[4] ? '-' + numbs[4] + '-' + numbs[5] : ''));
+      }
+      input.closest('.form-wrap').classList.remove('error');
+      this.checkSubmit();
+    } else {
+      input.closest('.form-wrap').classList.add('error');
+      this.submitBtn.setAttribute('disabled','disabled');
+    }
+  }
+
+  // Проверка на заполнение всех обязательных полей и блокировка/разблокировка кнопки submit:
+  this.checkSubmit = function() {
+    var required = Array.from(this.form.querySelectorAll('[required]'));
+    this.isSubmit = required.every(el => {
+      var fields = el.querySelectorAll('[name]');
+      for (var field of fields) {
+        if (field.tagName.toLowerCase() === 'input') {
+          var type = field.getAttribute('type');
+          if (type === 'text') {
+            var isValid = checkInput(field);
+            if (isValid && field.value.length) {
+              return true;
+            }
+          } else if (type === 'radio' || type === 'checkbox') {
+            if (field.checked) {
+              return true;
+            }
+          }
+        } else if (field.value && field.value.length) {
+          return true;
+        }
+      }
+    });
+    if (this.isSubmit) {
+      this.submitBtn.removeAttribute('disabled');
+    } else {
+      this.submitBtn.setAttribute('disabled', 'disabled');
+    }
+  }
 
   // Отправка формы:
   this.send = function(event) {
     event.preventDefault();
-    if (!this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
+    if (!this.isSubmit || !this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
       return;
     }
-    var send = this.check();
-    console.log(send);
-    if (send) {
+    if (this.isSubmit) {
+      //console.log(isSubmit);
+      //console.log(data);
       var data = this.getData();
       if (func) {
         func(data);
       }
-      // console.log(data);
     }
-  }
-
-  // Проверка на заполнение всех обязательных полей:
-  this.check = function() {
-    var isSend = true;
-    this.form.querySelectorAll('[required]').forEach(el => {
-      var value;
-      el.classList.remove('error');
-      el.querySelectorAll('input[type="radio"]').forEach(el => value = el.checked ? true : undefined);
-      el.querySelectorAll('input[type="checkbox"]').forEach(el => value = el.checked ? true : undefined);
-      el.querySelectorAll('input[type="text"]').forEach(el => value = el.value);
-      el.querySelectorAll('textarea').forEach(el => value = el.value);
-      el.querySelectorAll('.activate').forEach(el => value = el.value);
-      console.log(value);
-      if (!value) {
-        console.log(el);
-        el.classList.add('error');
-        isSend = false;
-      }
-    });
-    return(isSend);
   }
 
   // Получение данных формы:
@@ -1733,7 +1844,7 @@ function Form(obj, func) {
     var data = {};
     this.form.querySelectorAll('[name]').forEach(el => {
       console.log(el.value);
-      if (el.value && el.value !== '') {
+      if (el.value && el.value.length) {
         var key = el.getAttribute('name');
         data[key] = el.value;
       }
