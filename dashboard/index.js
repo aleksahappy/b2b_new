@@ -1,23 +1,4 @@
 'use strict';
-//  Функция для переопределения правильной ширины секции с toggle
-//  Это важная функция!!!
-
-function holdSectionWidth() {
-  let toggleHeads = document.querySelectorAll('.switch');
-  let toggleBodies = document.querySelectorAll('.switch-cont');
-
-  for (let i = 0; i < toggleHeads.length; i++) {
-    for (let j = 0; j < toggleBodies.length; j++) {
-      if (toggleBodies[i]) {
-        if (toggleBodies[i].offsetWidth > 0) {
-          toggleHeads[j].style.width = toggleBodies[i].offsetWidth + 'px';
-        }
-      }
-    }
-  }
-}
-
-
 ///////////////////////////////СЕКЦИЯ "ЗАКАЗЫ В РАБОТЕ"/////////////////////////
 // Запуск данных таблицы Рабочего стола:
 
@@ -506,7 +487,6 @@ var barDataToggle = [];
 var barLabels = [];
 
 function startBarChart() {
-
   // запрос
   sendRequest(`../json/procurementData.json`)
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
@@ -906,8 +886,8 @@ function startProcurementDonutChart() {
     });
 
     //  Принудительные размеры
-    donutChartElem.canvas.parentNode.style.width = '100%';
-    donutChartElem.canvas.parentNode.style.height = '700px';
+    // donutChartElem.canvas.parentNode.style.width = '100%';
+    // donutChartElem.canvas.parentNode.style.height = '700px';
   }
 
 };
@@ -917,15 +897,9 @@ function startProcurementDonutChart() {
 //////////////////Инициализация графиков и таблици на странице//////////////////
 
 startDashboardTable();
-// tableDataSort();
 startProcurementDonutChart();
 
 window.onresize = startProcurementDonutChart;
-
-if (window.innerWidth < 1299) {
-  holdSectionWidth();
-  window.onresize = holdSectionWidth;
-}
 
 // костыль перезагрузки страницы при ресайзе для адаптива
 window.addEventListener("resize", pageReload);

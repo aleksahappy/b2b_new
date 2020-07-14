@@ -185,26 +185,9 @@ main{
 }
 
 .open.white.icon{
-  background-image: url(../img/open_white.svg);
-  background-repeat: no-repeat;
-  transform-origin: center;
-  transform: rotate(180deg);
-}
-
-.close .open.white.icon {
-  background-image: url(../img/open_white.svg);
-  background-repeat: no-repeat;
-  transform-origin: center;
-  transform: rotate(0deg);
-}
-
-.open.white.icon {
-  background-size: contain;
-  width: 1.1875em;
+	display: none;
+	width: 1.1875em;
   height: 0.625em;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  -webkit-tap-highlight-color: transparent;
 }
 
 .table-btns{
@@ -271,25 +254,41 @@ main{
 }
 
 .status1 {
+	position: relative;
   color: #ffffff;
-	background: #2C6DA8 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #2C6DA8;
 }
 
 .status2 {
+	position: relative;
   color: #ffffff;
-	background: #F69C00 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #F69C00;
 }
 
 .status3 {
+	position: relative;
   color: #ffffff;
-	background: #6C4D77 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #6C4D77;
 }
 
 .status4 {
+	position: relative;
   color: #ffffff;
-	background: #3F9726 url('../img/newDesign/close-toggle.svg') no-repeat 92% center!important;
+	background: #3F9726;
 }
 
+.status1 .st-ic,
+.status2 .st-ic,
+.status3 .st-ic,
+.status4 .st-ic{
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	width: 11px;
+	height: 11px;
+	background: url('../img/close_white.svg') no-repeat center right;
+	background-size: contain;
+}
 /* Цветовая гамма статусов заказа - неактивные */
 /* - для чего эти стили, должны ли перекликаться с предыдущими? */
 
@@ -474,7 +473,7 @@ thead .legend {
 	text-align: left;
 	font-size: 0.875em;
 	color: #ffffff;
-	background: url('../img/Close.svg') no-repeat right center;
+	background: url('../img/close_white.svg') no-repeat right center;
 }
 
 .brand-btn:last-child{
@@ -482,19 +481,36 @@ thead .legend {
 }
 
 .status-1{
-	background: #34495E url('../img/Close.svg') no-repeat 44px center!important;
+	position: relative;
+	background: #34495E;
 }
 
 .status-2{
-	background: #F69C00 url('../img/Close.svg') no-repeat 44px center!important;
+	position: relative;
+	background: #F69C00;
 }
 
 .status-3{
-	background: #6C4D77 url('../img/Close.svg') no-repeat 44px center!important;
+	position: relative;
+	background: #6C4D77;
 }
 
 .status-4{
-	background: #3F9726 url('../img/Close.svg') no-repeat 44px center!important;
+	position: relative;
+	background: #3F9726;
+}
+
+.status-1 .st-ic,
+.status-2 .st-ic,
+.status-3 .st-ic,
+.status-4 .st-ic{
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	width: 11px;
+	height: 11px;
+	background: url('../img/close_white.svg') no-repeat center right;
+	background-size: contain;
 }
 
 /* График для рекламаций в работе */

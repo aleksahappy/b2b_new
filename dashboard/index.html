@@ -20,44 +20,43 @@
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
+
     <!-- Хедер -->
     <div class="header">
       <div class="header-top">
         <div class="container row">
           <div class="left-side row">
             <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
-            <div class="row">
-              <div class="activate hover">
-                <div class="head row">
-                  <a class="title" href="../dashboard">Рабочий стол</a>
+            <div class="activate hover">
+              <div class="head row">
+                <a class="title" href="../dashboard">Рабочий стол</a>
+              </div>
+            </div>
+            <div class="activate hover">
+              <div class="head row">
+                <div class="title">Каталоги</div>
+                <div class="triangle icon"></div>
+              </div>
+              <div id="catalogs" class="drop-down template">
+                <div class="row">
+                  <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
+                  <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
+                    <div class="cart icon"></div>
+                    <div class="qty">#qty#</div>
+                  </a>
                 </div>
               </div>
-              <div class="activate hover">
-                <div class="head row">
-                  <div class="title">Каталоги</div>
-                  <div class="triangle icon"></div>
-                </div>
-                <div id="catalogs" class="drop-down template">
-                  <div class="row">
-                    <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
-                    <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
-                      <div class="cart icon"></div>
-                      <div class="qty">#qty#</div>
-                    </a>
-                  </div>
-                </div>
+            </div>
+            <div class="activate hover select">
+              <div class="head row">
+                <div class="title">Закупки</div>
+                <div class="triangle icon"></div>
               </div>
-              <div class="activate hover select">
-                <div class="head row">
-                  <div class="title">Закупки</div>
-                  <div class="triangle icon"></div>
-                </div>
-                <div class="drop-down">
-                  <a class="item" href="../orders/">Заказы</a>
-                  <a class="item" href="../reclamations/">Рекламации</a>
-                  <a class="item" href="../documents/">Документы</a>
-                  <a class="item" href="../certificates/">Сертификаты</a>
-                </div>
+              <div class="drop-down">
+                <a class="item" href="../orders/">Заказы</a>
+                <a class="item" href="../reclamations/">Рекламации</a>
+                <a class="item" href="../documents/">Документы</a>
+                <a class="item" href="../certificates/">Сертификаты</a>
               </div>
             </div>
           </div>
@@ -74,9 +73,9 @@
                 <div class="links">
                   <a class="item" href="../users">Пользователи</a>
                   <a class="item" href="../contractors">Контрагенты</a>
-                  <a class="item" href="../addresses">Адреса доставки</a>
-                  <a class="item" href="../shops">Магазины</a>
-                  <a class="item" href="../monitoring">Мониторинг</a>
+                  <a class="item" href="../addresses">Мои адреса</a>
+                  <!-- <a class="item" href="../shops">Магазины</a> -->
+                  <!-- <a class="item" href="../monitoring">Мониторинг</a> -->
                   <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
                 </div>
                 <a class="item" onclick="logOut(event)">Выйти</a>
@@ -210,10 +209,18 @@
                     </div>
                   </div>
                   <div class="table-btns">
-                    <div class="table-btn status1" id="status1">Ожидается</div>
-                    <div class="table-btn status2" id="status2">В наличии</div>
-                    <div class="table-btn status3" id="status3">Собран</div>
-                    <div class="table-btn status4" id="status4">Отгружен</div>
+                    <div class="table-btn status1" id="status1">
+                      Ожидается <div class="st-ic"></div>
+                    </div>
+                    <div class="table-btn status2" id="status2">
+                      В наличии <div class="st-ic"></div>
+                    </div>
+                    <div class="table-btn status3" id="status3">
+                      Собран <div class="st-ic"></div>
+                    </div>
+                    <div class="table-btn status4" id="status4">
+                      Отгружен <div class="st-ic"></div>
+                    </div>
                   </div>
                 </div>
                 <div class="open white icon switch-icon"></div>
@@ -322,9 +329,15 @@
                     <div class="section-body-1 switch-cont">
                       <div class="brands-btns">
                         <div class="table-btns">
-                          <div class="brand-btn status-1">BCA</div>
-                          <div class="brand-btn status-2">509</div>
-                          <div class="brand-btn status-4">FXR</div>
+                          <div class="brand-btn status-1">
+                            BCA <div class="st-ic"></div>
+                          </div>
+                          <div class="brand-btn status-2">
+                            509 <div class="st-ic"></div>
+                          </div>
+                          <div class="brand-btn status-4">
+                            FXR <div class="st-ic"></div>
+                          </div>
                         </div>
                         <!-- тоггл "Только предзаказы" -->
                         <div class="preorder-toggle">

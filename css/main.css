@@ -1108,6 +1108,8 @@ a.btn {
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .disabled .icon {
