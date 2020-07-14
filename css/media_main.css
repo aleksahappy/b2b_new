@@ -71,12 +71,8 @@ Laptop:
     background-color: transparent;
     opacity: 1 !important;
   } */
-}
 
-/* Стили на ширину от 0 до 1280px включительно: */
-
-@media only screen and (max-width: 1280px) {
-/* Стили хедера: ПРОВЕРИТЬ! */
+  /* Стили хедера: ПРОВЕРИТЬ! */
 
   /*
   .header-top .left-side > .row {

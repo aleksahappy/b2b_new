@@ -1632,6 +1632,8 @@ div.option input:disabled ~ .checkbox.icon {
   border: 1px solid #D5D5D5;
   border-radius: 3px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 
@@ -2904,8 +2906,7 @@ section {
 }
 
 .header-top .activate {
-  width: 14em;
-  min-width: 14em;
+  min-width: 12em;
   height: 64px;
   z-index: 10;
 }
@@ -2954,24 +2955,22 @@ section {
 }
 
 .header-top .left-side {
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 60%;
+  max-width: 100%;
 }
 
 .header-top .logo {
   width: 13em;
   min-width: 13em;
   max-height: 32px;
-  margin-right: 4%;
+  margin-right: 3vw;
 }
 
 .header-top .logo img {
   max-height: 32px;
   max-width: 100%;
-}
-
-.header-top .left-side .activate {
-  margin-right: 5%;
 }
 
 .header-top .catalog {
@@ -3025,14 +3024,19 @@ section {
 
 .header-top .right-side {
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
   flex-shrink: 0;
-  width: 18em;
+  width: auto;
 }
 
 .header-top .right-side .icon {
   width: 36px;
   height: 36px
+}
+
+.header-top .right-side .activate {
+  width: auto;
+  max-width: 18em;
 }
 
 .header-top .account a {
@@ -3048,10 +3052,7 @@ section {
   margin-right: 0.5em;
 }
 
-#profile {
-  max-width: 11.5em;
-}
-
+#profile,
 #profile .title,
 #profile .username {
   overflow: hidden;
@@ -3067,13 +3068,9 @@ section {
   white-space: nowrap;
 }
 
-.header-top .right-side {
-  align-items: center;
-}
-
 .header-top .notifications.icon {
   position: relative;
-  margin-left: 1.428em;
+  margin-left: 1em;
   margin-right: 0;
 }
 
