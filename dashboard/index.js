@@ -1,23 +1,4 @@
 'use strict';
-//  Функция для переопределения правильной ширины секции с toggle
-//  Это важная функция!!!
-
-function holdSectionWidth() {
-  let toggleHeads = document.querySelectorAll('.switch');
-  let toggleBodies = document.querySelectorAll('.switch-cont');
-
-  for (let i = 0; i < toggleHeads.length; i++) {
-    for (let j = 0; j < toggleBodies.length; j++) {
-      if (toggleBodies[i]) {
-        if (toggleBodies[i].offsetWidth > 0) {
-          toggleHeads[j].style.width = toggleBodies[i].offsetWidth + 'px';
-        }
-      }
-    }
-  }
-}
-
-
 ///////////////////////////////СЕКЦИЯ "ЗАКАЗЫ В РАБОТЕ"/////////////////////////
 // Запуск данных таблицы Рабочего стола:
 
@@ -597,21 +578,13 @@ function runBarChart() {
         barChartObj.data.datasets.forEach((dataset) => {
           dataset.data = [];
           dataset.data = barDataToggle;
-          console.log(dataset.data)
         });
-        console.log('checked')
-        console.log(barDataToggle)
-
         barChartObj.update();
       } else {
         barChartObj.data.datasets.forEach((dataset) => {
           dataset.data = [];
           dataset.data = barDataStor;
-          console.log(dataset.data)
         });
-        console.log('unchecked')
-        console.log(barDataStor)
-
         barChartObj.update();
       }
     });
@@ -927,11 +900,6 @@ startDashboardTable();
 startProcurementDonutChart();
 
 window.onresize = startProcurementDonutChart;
-
-if (window.innerWidth < 1299) {
-  holdSectionWidth();
-  window.onresize = holdSectionWidth;
-}
 
 // костыль перезагрузки страницы при ресайзе для адаптива
 window.addEventListener("resize", pageReload);
