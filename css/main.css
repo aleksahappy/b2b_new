@@ -1135,7 +1135,7 @@ a.btn {
 }
 
 .burger.icon {
-  background-image: url(../img/burger_menu.svg);
+  background-image: url(../img/burger.svg);
 }
 
 /* Иконки окна уведомлений */
@@ -1260,15 +1260,15 @@ a.btn {
 }
 
 .full .access.icon {
-  background-image: url(../img/access.svg);
+  background-image: url(../img/access_full.svg);
 }
 
 .limit .access.icon {
-  background-image: url(../img/access.svg);
+  background-image: url(../img/access_limit.svg);
 }
 
 .disabled .access.icon {
-  background-image: url(../img/access.svg);
+  background-image: url(../img/access_disabled.svg);
 }
 
 /* Отметка (кружок) */
