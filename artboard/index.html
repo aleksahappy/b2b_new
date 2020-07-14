@@ -182,13 +182,13 @@
           </div>
 
           <div class="full">
-            <div class="accsess icon"></div>
+            <div class="access icon"></div>
           </div>
           <div class="limit">
-            <div class="accsess icon"></div>
+            <div class="access icon"></div>
           </div>
           <div class="disabled">
-            <div class="accsess icon"></div>
+            <div class="access icon"></div>
           </div>
 
           <div class="full">
@@ -795,7 +795,7 @@
 
           <div class="btn" onclick="openPopUp('pop-up-example')">Открыть pop-up</div>
 
-          <div id="pop-up-example" class="pop-up-container" onclick="closePopUp(event)">
+          <div id="pop-up-example" class="pop-up-container">
             <div class="pop-up">
               <div class="pop-up-title row">
                 <div class="row">
@@ -859,46 +859,46 @@
                 <div class="form-col2">
                   <div class="form-wrap" required>
                     <div class="title">Имя*</div>
-                    <input type="text" value="" name="" placeholder="Введите имя">
-                    <div class="err">Поле не заполнено</div>
+                    <input type="text" value="" name="name" data-type="cyril" placeholder="Введите имя">
+                    <div class="err">Поле заполнено неверно</div>
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Фамилия*</div>
-                    <input type="text" value="" name="" placeholder="Введите фамилию">
-                    <div class="err">Поле не заполнено</div>
+                    <input type="text" value="" name="surname" data-type="cyril" placeholder="Введите фамилию">
+                    <div class="err">Поле заполнено неверно</div>
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Отчество*</div>
-                    <input type="text" value="" name="" placeholder="Введите отчество">
-                    <div class="err">Поле не заполнено</div>
+                    <input type="text" value="" name="patronymic" data-type="cyril" placeholder="Введите отчество">
+                    <div class="err">Поле заполнено неверно</div>
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Должность*</div>
-                    <input type="text" value="" name="" placeholder="Менеджер">
-                    <div class="err">Поле не заполнено</div>
+                    <input type="text" value="" name="post" data-type="cyril" placeholder="Введите должность">
                   </div>
                 </div>
                 <div class="form-col2">
                   <div class="form-wrap" required>
                     <div class="title">Телефон*</div>
-                    <input type="text" value="" name="" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
-                    <div class="err">Поле не заполнено</div>
+                    <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
+                    <div class="err">Поле заполнено неверно</div>
                   </div>
                   <div class="form-wrap">
                     <div class="title">Email</div>
-                    <input type="text" value="" name="" placeholder="name@domain.ru">
+                    <input type="text" value="" name="email" data-type="email" placeholder="name@domain.ru">
+                    <div class="err">Поле заполнено неверно</div>
                   </div>
-                  <div class="form-wrap">
-                    <div class="title">Тип доступа</div>
+                  <div class="form-wrap" required>
+                    <div class="title">Тип доступа*</div>
                     <div class="form-cols">
                       <div class="form-col2">
                         <div class="option row">
-                          <input type="radio" value="Полный" name="some_name[type]">
+                          <input type="radio" value="Полный" name="access">
                           <div class="radio icon"></div>
                           <div>Полный</div>
                         </div>
                         <div class="option row">
-                          <input type="radio" value="" name="some_name[type]">
+                          <input type="radio" value="Частичный" name="access">
                           <div class="radio icon"></div>
                           <div>Частичный</div>
                         </div>
@@ -915,69 +915,66 @@
                 <div class="title">Комментарий к заказу*</div>
                 <textarea name="comment2" maxlength="300" autocomplete="off" placeholder="Введите текст" oninput="textareaCounter(this)"></textarea>
                 <div class="text-counter" data-count="comment2">Знаков осталось: <span>300</span></div>
-                <div class="err">Поле не заполнено</div>
               </div>
               <div class="form-wrap">
                 <div class="title">Категория обращения</div>
                 <div class="option row">
-                  <input type="radio" value="Производственный брак" name="some_name[category]">
+                  <input type="radio" value="Производственный брак" name="category">
                   <div class="radio icon"></div>
                   <div>Производственный брак</div>
                 </div>
                 <div class="option row">
-                  <input type="radio" value="Некомплектность" name="some_name[category]">
+                  <input type="radio" value="Некомплектность" name="category">
                   <div class="radio icon"></div>
                   <div>Некомплектность</div>
                 </div>
                 <div class="option row">
-                  <input type="radio" value="Недосдача" name="some_name[category]">
+                  <input type="radio" value="Недосдача" name="category">
                   <div class="radio icon"></div>
                   <div>Недосдача</div>
                 </div>
                 <div class="option row">
-                  <input type="radio" value="Пересорт" name="some_name[category]">
+                  <input type="radio" value="Пересорт" name="category">
                   <div class="radio icon"></div>
                   <div>Пересорт</div>
                 </div>
                 <div class="option row">
-                  <input type="radio" value="Несоответствие описанию" name="some_name[category]">
+                  <input type="radio" value="Несоответствие описанию" name="category">
                   <div class="radio icon"></div>
                   <div>Несоответствие описанию</div>
                 </div>
                 <div class="option row">
-                  <input type="radio" value="Не могу определитью" name="some_name[category]">
+                  <input type="radio" value="Не могу определитью" name="category">
                   <div class="radio icon"></div>
                   <div>Не могу определитью</div>
                 </div>
-                <div class="err">Необходимо выбрать значение</div>
               </div>
               <div class="form-wrap" required>
                 <div class="title">Формат торговли*</div>
                 <div class="option row">
-                  <input type="checkbox" value="Розничный магазин" name="some_name[format]">
+                  <input type="checkbox" value="Розничный магазин" name="format">
                   <div class="checkbox icon"></div>
                   <div>Розничный магазин</div>
                 </div>
                 <div class="option row">
-                  <input type="checkbox" value="Интернет магазин" name="some_name[format]">
+                  <input type="checkbox" value="Интернет магазин" name="format">
                   <div class="checkbox icon"></div>
                   <div>Интернет магазин</div>
                 </div>
                 <div class="option row">
-                  <input type="checkbox" value="Сервисный центр" name="some_name[format]">
+                  <input type="checkbox" value="Сервисный центр" name="format">
                   <div class="checkbox icon"></div>
                   <div>Сервисный центр</div>
                 </div>
                 <div class="option row">
-                  <input type="checkbox" value="Другое" name="some_name[format]">
+                  <input type="checkbox" value="Другое" name="format">
                   <div class="checkbox icon"></div>
                   <div>Другое</div>
                 </div>
-                <div class="err">Поле не заполнено</div>
               </div>
               <div class="form-wrap" required>
                 <div class="title">Система налогообложения*</div>
-                <div class="activate select" value="" name="">
+                <div class="activate select" value="" name="taxsystem">
                   <div class="head row">
                     <div class="title">Закупки</div>
                     <div class="triangle icon"></div>
@@ -988,13 +985,12 @@
                     <div class="item" data-value="УСН">Прочая</div>
                   </div>
                 </div>
-                <div class="err">Поле не заполнено</div>
               </div>
               <div class="form-wrap">
                 <div class="title">Количество</div>
                 <div class="qty qty-box row">
                   <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15, 1)"><div class="minus icon"></div></div>
-                  <input class="choiced-qty text light" name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+                  <input class="choiced-qty text light" name="count" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
                   <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15, 1)"><div class="plus icon"></div></div>
                 </div>
               </div>
@@ -1012,7 +1008,7 @@
 
           <div class="btn" onclick="openPopUp('form-example')">Открыть форму отправки на сервер</div>
 
-          <div id="form-example" class="pop-up-container" onclick="closePopUp(event)">
+          <div id="form-example" class="pop-up-container">
             <div class="pop-up">
               <div class="pop-up-title row">
                 <div class="title h1">Добавление контрагента</div>
@@ -1471,7 +1467,7 @@
     </div>
 
     <!-- Шаблон окна уведомлений -->
-    <div id="notifications" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="notifications" class="pop-up-container">
       <div class="pop-up">
         <div class="pop-up-title row">
           <div class="row">
@@ -1508,7 +1504,7 @@
     </div>
 
     <!-- Системные сообщения -->
-    <div id="alerts" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="alerts" class="pop-up-container">
       <div class="pop-up">
         <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
@@ -1549,7 +1545,6 @@
       initDropDown('checkbox');
       initDropDown('dropDown');
       initForm('form1');
-      initForm('form2');
 
       // Созание примера данных для первой таблицы и запуск ее инициализации:
       var data1 = [];
@@ -1609,7 +1604,7 @@
           user: 'Семенов И.О.',
           docs: [{
             title: 'Договор с ООО «ТОП СПОРТС» от 31.10.2016',
-            status: 'active',
+            status: 'full',
             date_start: '29.10.2016',
             date_end: '04.12.2019',
             contr: 'ООО «ТОП СПОРТС»',
@@ -1618,7 +1613,7 @@
             info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
           },{
             title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
-            status: '',
+            status: 'disabled',
             date_start: '31.10.2017',
             contr: 'ООО «ТОП СПОРТС-1»',
             url: 'bla-bla',
@@ -1636,7 +1631,7 @@
           user: 'Петров Б.Е.',
           docs: [{
             title: 'Договор с ООО «ТОП СПОРТС» от 15.05.2018',
-            status: '',
+            status: 'disabled',
             date_start: '31.10.2016',
             date_end: '04.12.2019',
             contr: 'ООО «ТОП СПОРТС»',
@@ -1693,11 +1688,6 @@
         sub: [{area: '.docs', items: 'docs'}]
       }
       initTable('table2', settings);
-
-      // Функция, переключающая класс "checked" в целях визуализации работы элементов:
-      function toggle(event) {
-        event.currentTarget.classList.toggle('checked');
-      }
 
     </script>
 
