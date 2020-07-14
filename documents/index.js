@@ -1,10 +1,12 @@
 'use strict';
-console.log('test');
 
+startDocsPage();
 
 function startDocsPage() {
-  sendRequest(`${urlRequest.api}files/files.php?type=docs`)
+  // sendRequest(`${urlRequest.api}files/files.php?type=docs`)
+  sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
   .then(result => {
+    console.log(result);
     var data = JSON.parse(result);
     loader.hide();
     data = convertData(data);
@@ -30,4 +32,3 @@ function startDocsPage() {
     console.log(err);
   });
 }
-startDocsPage();

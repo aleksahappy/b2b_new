@@ -1,7 +1,10 @@
 'use strict';
 
+startCertPage();
+
 function startCertPage() {
-  sendRequest(`${urlRequest.api}files/files.php?type=cert`)
+  // sendRequest(`${urlRequest.api}files/files.php?type=cert`)
+  sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);
@@ -17,4 +20,3 @@ function startCertPage() {
     console.log(err);
   });
 }
-startCertPage();
