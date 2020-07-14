@@ -21,27 +21,27 @@ function arraySum(arr) {
 
 // Свернуть/развернуть содержимое контейнера:
 
-function switchContent(event) {
-  if (event.target.closest('.switch-cont')) {
-    return;
-  }
-  var container = event.currentTarget.closest('.switch');
-  if (!container || container.classList.contains('disabled')) {
-    return;
-  }
-  var toggleIcon = getEl('.switch-icon', container);
-  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
-    return;
-  }
-  container.classList.toggle('close');
-  if (container.id && container.classList.contains('save')) {
-    if (container.classList.contains('close')) {
-      savePosition(container.id, 'close');
-    } else {
-      savePosition(container.id, 'open');
-    }
-  }
-}
+// function switchContent(event) {
+//   if (event.target.closest('.switch-cont')) {
+//     return;
+//   }
+//   var container = event.currentTarget.closest('.switch');
+//   if (!container || container.classList.contains('disabled')) {
+//     return;
+//   }
+//   var toggleIcon = getEl('.switch-icon', container);
+//   if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
+//     return;
+//   }
+//   container.classList.toggle('close');
+//   if (container.id && container.classList.contains('save')) {
+//     if (container.classList.contains('close')) {
+//       savePosition(container.id, 'close');
+//     } else {
+//       savePosition(container.id, 'open');
+//     }
+//   }
+// }
 
 
 //  Работа обновленных кнопок-тогглов

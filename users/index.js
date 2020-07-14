@@ -56,8 +56,9 @@ function accessTableType() {
       var trr = access[i].closest('tr');
       var tggll = trr.querySelector('.toggle');
       tggll.classList.add('checked');
-      
+
     } else if (access[i].innerHTML === "полный") {
+      access[i].classList.add("access");
       access[i].classList.add("full");
       var trr = access[i].closest('tr');
       var tggll = trr.querySelector('.toggle');

@@ -506,7 +506,6 @@ var barDataToggle = [];
 var barLabels = [];
 
 function startBarChart() {
-
   // запрос
   sendRequest(`../json/procurementData.json`)
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
@@ -598,13 +597,21 @@ function runBarChart() {
         barChartObj.data.datasets.forEach((dataset) => {
           dataset.data = [];
           dataset.data = barDataToggle;
+          console.log(dataset.data)
         });
+        console.log('checked')
+        console.log(barDataToggle)
+
         barChartObj.update();
       } else {
         barChartObj.data.datasets.forEach((dataset) => {
           dataset.data = [];
           dataset.data = barDataStor;
+          console.log(dataset.data)
         });
+        console.log('unchecked')
+        console.log(barDataStor)
+
         barChartObj.update();
       }
     });
@@ -906,8 +913,8 @@ function startProcurementDonutChart() {
     });
 
     //  Принудительные размеры
-    donutChartElem.canvas.parentNode.style.width = '100%';
-    donutChartElem.canvas.parentNode.style.height = '700px';
+    // donutChartElem.canvas.parentNode.style.width = '100%';
+    // donutChartElem.canvas.parentNode.style.height = '700px';
   }
 
 };
@@ -917,7 +924,6 @@ function startProcurementDonutChart() {
 //////////////////Инициализация графиков и таблици на странице//////////////////
 
 startDashboardTable();
-// tableDataSort();
 startProcurementDonutChart();
 
 window.onresize = startProcurementDonutChart;
