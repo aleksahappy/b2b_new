@@ -47,6 +47,7 @@ class Calendar {
   //  Инициализируем календарь
 
   init() {
+    console.log('trest')
     if (this.element.value == "") {
       this.savedDate = new Date();
     } else {

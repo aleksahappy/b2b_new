@@ -11,7 +11,7 @@ function startProfPage() {
       items: data
     };
     fillTemplate(profileData);
-    initForm2('edit-profile-modal', testEditProfile);
+    initForm('edit-profile-modal', testEditProfile);
   })
   .catch(err => {
     console.log(err);

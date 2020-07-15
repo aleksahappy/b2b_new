@@ -8,7 +8,6 @@ function startDocsPage() {
     console.log(result);
     var data = JSON.parse(result);
     loader.hide();
-    data = convertData(data);
     console.log(data);
     var settings = {
         data: data,

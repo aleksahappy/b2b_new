@@ -28,8 +28,8 @@ function startUsersTable() {
       fillTemplate(usersTabletData);
       fillTemplate(usersMobData);
       accessTableType();
-      initForm2('new-user-modal', testNewUser);
-      initForm2('edit-user-modal', testNewUser);
+      initForm('new-user-modal', testNewUser);
+      initForm('edit-user-modal', testNewUser);
     })
     .catch((err) => {
       console.log(err);
