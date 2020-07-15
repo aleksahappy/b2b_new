@@ -375,6 +375,27 @@ body.no-scroll {
 }
 
 /* =====================================================================================================
+Стили анимации:
+===================================================================================================== */
+
+/* Общие стили всплывающих подсказок: */
+
+@keyframes tooltips-animation {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes аppears-from-right {
+  0% {
+      transform: translateX(150%);
+  }
+  100% {
+      transform: translateX(0%);
+  }
+}
+
+/* =====================================================================================================
 Стили плашек с текстом:
 ===================================================================================================== */
 
@@ -757,14 +778,6 @@ input[data-intype="range"] {
 Всплывающие подсказки:
 ===================================================================================================== */
 
-/* Общие стили всплывающих подсказок: */
-
-@keyframes tooltips-animation {
-  to {
-    opacity: 1;
-  }
-}
-
 /* Всплывающие подсказки на чистом css (атрибут tooltip="текст" - нельзя вставлять html): */
 
 [tooltip] {
@@ -1099,7 +1112,7 @@ a.btn {
   flex-shrink: 0;
   width: 1em;
   height: 1em;
-  margin-right: 1em;
+  margin-right: 1.428em;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -1381,6 +1394,7 @@ a.btn {
 .filter.icon {
   width: 9px;
   height: 9px;
+  margin-right: 0;
   background-image: url(../img/filter.svg);
 }
 
@@ -1635,7 +1649,7 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate:not([disabled]):hover .head,
 .activate.open .head {
-  border-color: #666666;
+  color: #666666;
 }
 
 .activate[disabled] .head {
@@ -1645,10 +1659,14 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate .head .title {
   max-width: 100%;
-  color: #666666;
+  color: #C6C6C6;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.activate.checked .head .title {
+  color: #666666;
 }
 
 .activate[disabled] .head .title {
@@ -2395,12 +2413,15 @@ tbody td > .row > * {
   bottom: 0;
   padding: 64px 0;
   background-color: rgba(102, 102, 102, 0.3);
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -o-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   overflow-x: hidden;
   overflow-y: auto;
   visibility: hidden;
   opacity: 0;
-  z-index: 1000;
+  z-index: 400;
 }
 
 .pop-up-container.open {
@@ -2419,11 +2440,11 @@ tbody td > .row > * {
 .pop-up-title {
   justify-content: space-between;
   align-items: flex-start;
+  margin-top: -5px;
   margin-bottom: 1.785em;
 }
 
 .pop-up-title .title {
-  margin-top: -5px;
   margin-right: 0.83em;
 }
 
@@ -2454,7 +2475,7 @@ tbody td > .row > * {
   display: none;
 }
 
-section {
+.infoblock section {
   margin-bottom: 20px;
 }
 
@@ -2462,10 +2483,6 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.infoblock .section-head .title {
-  color: #FFFFFF;
 }
 
 .info-wrap {
@@ -3227,6 +3244,10 @@ section {
   justify-content: flex-end;
   align-items: flex-start;
   padding: 0;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
 }
 
 #notifications .row {
@@ -3235,27 +3256,17 @@ section {
 
 #notifications .pop-up {
   width: 50vw;
-  height: 100%;
-  max-width: 50vw;
-  max-height: 100%;
-  -webkit-transition: transform 0.5s linear;
-  -moz-transition: transform 0.5s linear;
-  -o-transition: transform 0.5s linear;
-  transition: transform 0.5s linear;
-  transform: translate(50vw);
+  min-width: 970px;
 }
 
 #notifications.open .pop-up {
-  transform: translate(0);
-}
-
-#notifications .pop-up-body {
-  max-height: calc(100vh - 5em);
+  animation: аppears-from-right 300ms ease-out forwards;
 }
 
 #notifications .message.row {
+  position: relative;
   justify-content: space-between;
-  padding: 0.714em 0;
+  padding: 1em 0;
   border-bottom: 1px solid #C6C6C6;
 }
 
@@ -3263,9 +3274,13 @@ section {
   border-bottom: none;
 }
 
+#notifications .message.row > .row {
+  width: 100%;
+}
+
 #notifications .message.icon {
-  width: 28px;
-  height: 28px;
+  width: 29px;
+  height: 29px;
 }
 
 #notifications .message.text {
@@ -3273,8 +3288,8 @@ section {
   padding-right: 1em;
 }
 
-#notifications .message.row > .row {
-  width: 100%;
+#notifications .message.text > .row {
+  margin-top: 0.357em;
 }
 
 #notifications .link,

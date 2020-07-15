@@ -2185,8 +2185,10 @@ function DropDown(obj) {
     if (this.title) {
       if (newTitle) {
         this.title.textContent = newTitle;
+        this.filter.classList.add('checked');
       } else {
         this.title.textContent = this.titleText;
+        this.filter.classList.remove('checked');
       }
     }
   }
