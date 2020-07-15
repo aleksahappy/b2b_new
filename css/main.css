@@ -769,8 +769,8 @@ body.no-scroll {
   border-radius: 100%;
 }
 
-input[data-intype="birth"],
-input[data-intype="range"] {
+input[data-type="birth"],
+input[data-type="range"] {
   background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
 }
 
