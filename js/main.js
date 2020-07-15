@@ -1527,6 +1527,7 @@ function openPopUp(el) {
   if (el) {
     if (!getEl('.pop-up-container.open')) {
       getDocumentScroll();
+      el.scrollTop = 0;
       document.body.classList.add('no-scroll');
     }
     el.classList.add('open');
