@@ -2475,7 +2475,7 @@ tbody td > .row > * {
   display: none;
 }
 
-section {
+.infoblock section {
   margin-bottom: 20px;
 }
 
@@ -2483,10 +2483,6 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.infoblock .section-head .title {
-  color: #FFFFFF;
 }
 
 .info-wrap {

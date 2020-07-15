@@ -220,12 +220,12 @@ Tablet:
     padding: 0;
   }
 
-  .section-head {
+  .infoblock .section-head {
     padding: 1.25em 1.25em 1.25em 1.25em;
     background: #53606F;
   }
 
-  .section-title {
+  .infoblock .section-head .title {
     color: #FFFFFF;
   }
 
