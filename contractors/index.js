@@ -9,6 +9,7 @@ function startUsersTable() {
     var data = JSON.parse(result);
     loader.hide();
     data = convertData(data);
+    console.log(data)
     var settings = {
       data: data,
       head: true,
@@ -50,7 +51,7 @@ function startUsersTable() {
         key: 'docs',
         subkey: 'status_info',
         title: 'Документы',
-        content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
+        content: '<div class="docs row #status-ic#"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
         filter: 'checkbox'
       }],
       sub: [{area: '.docs', items: 'docs'}]

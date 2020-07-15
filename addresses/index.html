@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ТОП СПОРТС - Магазины</title>
+    <meta name="keywords" content="ТОП СПОРТС">
+    <meta name="description" content="ТОП СПОРТС">
+    <script src="../js/check_auth.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+
+  <body data-website="ts_b2b" data-cart="true">
+
+    <!-- Хедер -->
+    <div class="header">
+      <div class="header-top">
+        <div class="container row">
+          <div class="left-side row">
+            <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
+            <div class="activate hover">
+              <div class="head row">
+                <a class="title" href="../dashboard">Рабочий стол</a>
+              </div>
+            </div>
+            <div class="activate hover">
+              <div class="head row">
+                <div class="title">Каталоги</div>
+                <div class="triangle icon"></div>
+              </div>
+              <div id="catalogs" class="drop-down template">
+                <div class="row">
+                  <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
+                  <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
+                    <div class="cart icon"></div>
+                    <div class="qty">#qty#</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="activate hover select">
+              <div class="head row">
+                <div class="title">Закупки</div>
+                <div class="triangle icon"></div>
+              </div>
+              <div class="drop-down">
+                <a class="item" href="../orders/">Заказы</a>
+                <a class="item" href="../reclamations/">Рекламации</a>
+                <a class="item" href="../documents/">Документы</a>
+                <a class="item" href="../certificates/">Сертификаты</a>
+              </div>
+            </div>
+          </div>
+          <div class="right-side row">
+            <div class="activate hover select">
+              <a href="../profile" class="head row">
+                <div class="profile icon"></div>
+                <div id="profile" class="template">
+                  <div class="title">#login#</div>
+                  <div class="username text-light">#username#</div>
+                </div>
+              </a>
+              <div class="drop-down">
+                <div class="links">
+                  <a class="item" href="../users">Пользователи</a>
+                  <a class="item" href="../contractors">Контрагенты</a>
+                  <a class="item" href="../addresses">Мои адреса</a>
+                  <!-- <a class="item" href="../shops">Магазины</a> -->
+                  <!-- <a class="item" href="../monitoring">Мониторинг</a> -->
+                  <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
+                </div>
+                <a class="item" onclick="logOut(event)">Выйти</a>
+              </div>
+            </div>
+            <div class="notifications icon" onclick="openPopUp('notifications')">
+              <div class="qty in-circle row">#qty#</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="container">
+        <div id="main-header">
+          <div class="main-title row">
+            <div class="title-row row">
+              <div class="title h0">Мои адреса</div>
+            </div>
+          </div>
+        </div>
+        <div class="shops-wrap">
+          <div class="shops">
+            <div class="basic btn" onclick="openPopUp('new-address-modal')">Добавить</div>
+            <div class="wrap" id="shop">
+              <div class="shop">
+                <div class="row inner outer" onclick="toggleOuterBlock(this)">
+                  <div class="col">
+                    <div class="row name">
+                      <div class="title h3">#company#</div>
+                      <div class="indicate">
+                        <div class="#moderate#"></div>
+                      </div>
+                      <div class="edit icon" onclick="openPopUp('edit-address-modal')"></div>
+                    </div>
+                    <div class="text-s gray">#type#</div>
+                    <div class="text-s gray">#status#</div>
+                    <div class="text-m">#address#</div>
+                    <a href="">#site#</a>
+                  </div>
+                  <div class="col">
+                    <img src="#img_src#" alt="лого компании">
+                  </div>
+                </div>
+                <div class="adding outer-target displayNone">
+                  <div class="text-s">#postcode#</div>
+                  <div class="row">
+                    <div class="time-status">Открыто</div>
+                    <div class="schedule toggle-block" onclick="toggleInnerBlock(event)">
+                      <div class="time-info">
+                        <div class="title">Закроется в 20:00</div>
+                        <div class="triangle icon"></div>
+                      </div>
+                      <div class="days target-block displayNone">
+                        <div class="row time-block">
+                          <div>#day#</div>
+                          <div>#time#</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальное окно "Добавить пользователя" -->
+    <div id="new-address-modal" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="add-user" class="pop-up">
+      <div class="pop-up-title row">
+        <div class="title h1">Новый пользователь</div>
+        <div class="close icon"></div>
+      </div>
+      <div class="pop-up-body">
+        <form class="post">
+          <div class="form-wrap" required>
+            <div class="title">Имя*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите имя" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Фамилия*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите фамилию" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Отчество*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите отчество" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols">
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">День рождения</div>
+                <input id="user-birth" type="text" value="" name="" data-intype="birth"  placeholder="28/10/1980" maxlength="10">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">Пол</div>
+                <div class="row select-choice">
+                  <div class="option row select-qty">
+                    <input type="radio" value="Мужской" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Мужской</div>
+                  </div>
+                  <div class="option row">
+                    <input type="radio" value="Женский" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Женский</div>
+                  </div>
+                </div>
+                <div class="err">Необходимо выбрать значение</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap">
+            <div class="title">Должность</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols">
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Телефон*</div>
+                <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Email*</div>
+                <input type="text" value="" name="" data-intype="email" placeholder="Введите email" maxlength="50">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap">
+            <div class="form-cols">
+              <div class="form-col2">
+                <div class="title">Тип доступа</div>
+                <div class="option row">
+                  <input type="radio" value="Полный" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Полный</div>
+                </div>
+                <div class="option row">
+                  <input type="radio" value="" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Частичный</div>
+                </div>
+              </div>
+              <div class="form-col2">
+                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
+                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+              </div>
+            </div>
+          </div>
+          <div class="btns-wrap">
+            <input class="btn sub-act" type="submit" value="Отправить" disabled>
+          </div>
+        </form>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Модальное окно "Редактировать пользователя" -->
+    <div id="edit-address-modal" class="pop-up-container col" onclick="closePopUp(event)">
+    <div id="edit-user" class="pop-up">
+      <div class="pop-up-title row">
+        <div class="title h1">Редактировать пользователя</div>
+        <div class="close icon"></div>
+      </div>
+      <div class="pop-up-body">
+        <form class="post">
+          <div class="form-wrap" required>
+            <div class="title">Имя*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите имя" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Фамилия*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите фамилию" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-wrap" required>
+            <div class="title">Отчество*</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите отчество" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols mob-cols">
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">День рождения</div>
+                <input type="text" id="edit-user-birth" value="" name="" data-intype="birth" placeholder="28/10/1980" maxlength="10">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+            <div class="form-col2">
+              <div class="form-wrap">
+                <div class="title">Пол</div>
+                <div class="row select-choice">
+                  <div class="option row select-qty">
+                    <input type="radio" value="Мужской" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Мужской</div>
+                  </div>
+                  <div class="option row">
+                    <input type="radio" value="Женский" name="some_name[category]">
+                    <div class="radio icon"></div>
+                    <div>Женский</div>
+                  </div>
+                </div>
+                <div class="err">Необходимо выбрать значение</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap">
+            <div class="title">Должность</div>
+            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
+            <div class="err">Поле не заполнено</div>
+          </div>
+          <div class="form-cols">
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Телефон*</div>
+                <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+            <div class="form-col2">
+              <div class="form-wrap" required="">
+                <div class="title">Email*</div>
+                <input type="text" value="" name="" data-intype="email" placeholder="Введите email" maxlength="50">
+                <div class="err">Поле не заполнено</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-wrap">
+            <div class="form-cols">
+              <div class="form-col2">
+                <div class="title">Тип доступа</div>
+                <div class="option row">
+                  <input type="radio" value="Полный" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Полный</div>
+                </div>
+                <div class="option row">
+                  <input type="radio" value="" name="some_name[type]">
+                  <div class="radio icon"></div>
+                  <div>Частичный</div>
+                </div>
+              </div>
+              <div class="form-col2">
+                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
+                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+              </div>
+            </div>
+          </div>
+          <div class="btns-wrap">
+            <input class="btn sub-act" type="submit" value="Сохранить" disabled>
+          </div>
+        </form>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Шаблон окна уведомлений -->
+    <div id="notifications" class="pop-up-container" onclick="closePopUp(event)">
+    <div class="pop-up">
+      <div class="pop-up-title row">
+        <div class="row">
+          <div class="title h1">Уведомления</div>
+        </div>
+        <div class="close icon"></div>
+      </div>
+      <div class="pop-up-body">
+        <div class="message row #status# template">
+          <div class="row">
+            <div class="message icon"></div>
+            <div class="message text">
+              <div>#text#</div>
+              <div class="row #isHidden#">
+                <div class="download icon"></div>
+                <div class="link">#link#</div>
+              </div>
+            </div>
+          </div>
+          <div class="date text-midlight">#date#, #time#</div>
+        </div>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Прелоадер страницы -->
+    <div id="page-loader" class="loader">
+      <div class="loader icon"></div>
+      <div class="text"></div>
+    </div>
+
+    <!-- Системные сообщения -->
+    <div id="alerts" class="pop-up-container" onclick="closePopUp(event)">
+      <div class="pop-up">
+        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
+          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+        </svg>
+        <div class="text pop-up"></div>
+      </div>
+    </div>
+
+    <!-- Кнопка "Наверх страницы" -->
+    <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#53606F" fill-opacity="0.6" stroke="white"/>
+      <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
+    </svg>
+
+    <!-- Футер -->
+    <div class="footer">
+      <div class="container">
+        <div class="wrap">
+          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
+          <div>© 2020 TOP SPORTS</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript" charset="utf-8" async
+      src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A86fb7acaf015666acc5a70ee0dcee3541c64c33886a6519986d7ea4315a67e8f&amp;width=100%25&amp;height=720&amp;lang=ru_RU&amp;scroll=true&amp;id=map"></script>
+    <!-- <script type="text/javascript">
+      // Функция ymaps.ready() будет вызвана, когда
+      // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+      ymaps.ready(init);
+      function init() {
+        // Создание карты.
+        var myMap = new ymaps.Map("map", {
+          // Координаты центра карты.
+          // Порядок по умолчанию: «широта, долгота».
+          // Чтобы не определять координаты центра карты вручную,
+          // воспользуйтесь инструментом Определение координат.
+          center: [55.76, 37.64],
+          // Уровень масштабирования. Допустимые значения:
+          // от 0 (весь мир) до 19.
+          zoom: 7
+        });
+      }
+    </script> -->
+  <script src="index.js"></script>
+  </body>
+</html>
