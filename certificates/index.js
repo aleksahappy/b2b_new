@@ -3,8 +3,8 @@
 startCertPage();
 
 function startCertPage() {
-  // sendRequest(`${urlRequest.api}files/files.php?type=cert`)
-  sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
+  sendRequest(`../json/data_certificates.json`)
+  // sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);

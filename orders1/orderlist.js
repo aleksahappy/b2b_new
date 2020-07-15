@@ -11,7 +11,7 @@ startPage();
 // Запуск страницы заказа:
 
 function startPage() {
-  // sendRequest(`/data.json`)
+  // sendRequest(`../json/data_orders.json`)
   sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
     var data = JSON.parse(result);

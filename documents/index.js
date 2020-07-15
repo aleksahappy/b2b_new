@@ -3,8 +3,8 @@
 startDocsPage();
 
 function startDocsPage() {
-  // sendRequest(`${urlRequest.api}files/files.php?type=docs`)
-  sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
+  sendRequest(`../json/data_documents.json`)
+  // sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
   .then(result => {
     console.log(result);
     var data = JSON.parse(result);
