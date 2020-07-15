@@ -1,9 +1,8 @@
 'use strict';
-
 startDocsPage();
 
 function startDocsPage() {
-  // sendRequest(`${urlRequest.api}files/files.php?type=docs`)
+  //sendRequest(`${urlRequest.api}files/files.php?type=docs`)
   sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
   .then(result => {
     console.log(result);
@@ -29,6 +28,7 @@ function startDocsPage() {
       initTable('docs-table', settings);
   })
   .catch(err => {
+    loader.hide();
     console.log(err);
   });
 }

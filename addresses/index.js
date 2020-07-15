@@ -46,6 +46,9 @@ function toggleInnerBlock(event) {
 
 
 function toggleOuterBlock(el) {
+  if (event.target.className === 'edit icon') {
+    return;
+  }
   if (el.classList.contains('outer')) {
     var parentEl = el.parentElement;
     var outerTarget = parentEl.querySelector('.outer-target');
