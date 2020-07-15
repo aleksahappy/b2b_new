@@ -1517,7 +1517,7 @@ function goToTop() {
 
 function initPopUps() {
   document.addEventListener('keydown', (event) => closePopUp(event));
-  document.querySelectorAll('pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
+  document.querySelectorAll('.pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
 }
 
 // Открытие всплывающего окна:
