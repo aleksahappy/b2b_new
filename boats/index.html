@@ -84,6 +84,88 @@
           </div>
         </div>
       </div>
+      <div class="header-menu">
+        <div class="container row">
+          <div class="topmenu row">
+            <a class="topmenu-item active" href="../boats/" data-href="boats" data-level="1" data-title="Лодки и моторы" onclick="openPage(event)">Лодки и моторы</a>
+          </div>
+          <div class="submenu row">
+            <a class="submenu-item" href="../boats/?zip" data-href="zip" data-level="2" data-title="Запчасти" onclick="openPage(event)">Запчасти</a>
+            <a class="submenu-item" href="../boats/?acc" data-href="acc" data-level="2" data-title="Аксессуары" onclick="openPage(event)">Аксессуары</a>
+          </div>
+          <form id="page-search" class="search positioned row">
+            <div class="search-area row">
+              <input class="search icon" type="submit" value="">
+              <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+              <div class="close icon"></div>
+            </div>
+            <div class="toggle search icon white"></div>
+          </form>
+        </div>
+        <div id="header-cart" class="template">
+          <div class="wrap">
+            <div class="items">
+              <a class="cart-#id# item" href="../#id#/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="#isFunc#">
+                <div class="info row">
+                  <div class="sum"><span>#sum#</span>&nbsp;руб.</div>
+                  <div class="cart icon white">
+                    <div class="qty in-circle row #isFull#">#qty#</div>
+                  </div>
+                </div>
+                <div class="name">#title#</div>
+              </a>
+            </div>
+            <div class="cart-sum text orange">Итого: <span>#sum#</span>&nbsp;руб.</div>
+          </div>
+        </div>
+      </div>
+      <div id="header-content">
+        <div class="container row">
+          <div class="clear-filter btn basic disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
+          <div class="gallery-head row">
+            <div class="search-info" data-search="page-search">
+              <div class="result row">
+                <div>Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+            <div class="search-info" data-search="oem">
+              <div class="result row">
+                <div>Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+            <div id="filters-info" class="template">
+              <div class="result row" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
+                <div class="title">#title#</div>
+                <div class="close icon"></div>
+              </div>
+            </div>
+            <div class="sortbox row">
+              <div class="view row">
+                <div class="title">Вид каталога:</div>
+                <div class="view-list icon active" tooltip="Cписок" onclick="toggleView(event, 'list')"></div>
+                <div class="view-blocks icon" tooltip="Плитка" onclick="toggleView(event, 'blocks')"></div>
+              </div>
+              <div id="gallery-sort" class="activate select">
+                <div class="head row">
+                  <div class="title">Сортировать по</div>
+                  <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5L-2.99379e-07 -2.9635e-07L8 2.08053e-07L4 5Z" fill="#34495E"/>
+                  </svg>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="default">По умолчанию</div>
+                  <div class="item" data-value="title">По наименованию</div>
+                  <div class="item" data-value="price1">Цена по возрастанию</div>
+                  <div class="item" data-value="-price1">Цена по убыванию</div>
+                  <div class="item" data-value="-is_new">Новые поступления</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="main zip">
