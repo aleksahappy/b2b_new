@@ -39,29 +39,25 @@
 .disabled ::placeholder {color: transparent;}
 :disabled::placeholder {color: transparent;}
 
-.main :not(.pop-up-container)::-webkit-scrollbar,
-.pop-up ::-webkit-scrollbar {
+.main :not(.pop-up-container)::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
-.main :not(.pop-up-container)::-webkit-scrollbar-track,
-.pop-up ::-webkit-scrollbar-track {
+.main :not(.pop-up-container)::-webkit-scrollbar-track {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid #C6C6C6;
   border-radius: 19px;
 }
 
-.main :not(.pop-up-container)::-webkit-scrollbar-thumb,
-.pop-up ::-webkit-scrollbar-thumb {
+.main :not(.pop-up-container)::-webkit-scrollbar-thumb {
   background-color: #C6C6C6;
   border: 1px solid #C6C6C6;
   border-radius: 19px;
   cursor: pointer;
 }
 
-.main :not(.pop-up-container)::-webkit-scrollbar-corner,
-.pop-up ::-webkit-scrollbar-corner {
+.main :not(.pop-up-container)::-webkit-scrollbar-corner {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
