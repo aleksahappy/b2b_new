@@ -1394,6 +1394,7 @@ a.btn {
 .filter.icon {
   width: 9px;
   height: 9px;
+  margin-right: 0;
   background-image: url(../img/filter.svg);
 }
 
@@ -1648,7 +1649,7 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate:not([disabled]):hover .head,
 .activate.open .head {
-  border-color: #666666;
+  color: #666666;
 }
 
 .activate[disabled] .head {
@@ -1658,10 +1659,14 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate .head .title {
   max-width: 100%;
-  color: #666666;
+  color: #C6C6C6;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.activate.checked .head .title {
+  color: #666666;
 }
 
 .activate[disabled] .head .title {
