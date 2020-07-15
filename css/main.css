@@ -3230,6 +3230,7 @@ section {
 #notifications {
   justify-content: flex-end;
   align-items: flex-start;
+  padding: 0;
 }
 
 #notifications .row {
