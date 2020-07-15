@@ -136,6 +136,15 @@
   border-bottom: 1px solid #cccccc;
 }
 
+.time-block div:first-child{
+  width: 7.1428em;
+}
+
 .time-block div:last-child{
+  width: 5.71em;
   margin-left: 1em;
+}
+
+#add-addrees{
+  width: 28em;
 }

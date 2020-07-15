@@ -1,10 +1,14 @@
 'use strict';
-
 startDocsPage();
 
 function startDocsPage() {
+<<<<<<< HEAD
+  //sendRequest(`${urlRequest.api}files/files.php?type=docs`)
+  sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
+=======
   sendRequest(`../json/data_documents.json`)
   // sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
+>>>>>>> 71026e8a63c1a3aebea1bfa4fde60dd67459e415
   .then(result => {
     console.log(result);
     var data = JSON.parse(result);
@@ -29,6 +33,7 @@ function startDocsPage() {
       initTable('docs-table', settings);
   })
   .catch(err => {
+    loader.hide();
     console.log(err);
   });
 }

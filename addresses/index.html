@@ -143,215 +143,115 @@
       </div>
     </div>
 
-    <!-- Модальное окно "Добавить пользователя" -->
+    <!-- Модальное окно "Новый адрес" -->
     <div id="new-address-modal" class="pop-up-container" onclick="closePopUp(event)">
-    <div id="add-user" class="pop-up">
-      <div class="pop-up-title row">
-        <div class="title h1">Новый пользователь</div>
-        <div class="close icon"></div>
-      </div>
-      <div class="pop-up-body">
-        <form class="post">
-          <div class="form-wrap" required>
-            <div class="title">Имя*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите имя" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-wrap" required>
-            <div class="title">Фамилия*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите фамилию" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-wrap" required>
-            <div class="title">Отчество*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите отчество" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-cols">
-            <div class="form-col2">
-              <div class="form-wrap">
-                <div class="title">День рождения</div>
-                <input id="user-birth" type="text" value="" name="" data-intype="birth"  placeholder="28/10/1980" maxlength="10">
-                <div class="err">Поле не заполнено</div>
-              </div>
+      <div id="add-addrees" class="pop-up">
+        <div class="pop-up-title row">
+          <div class="title h1">Новый адрес</div>
+          <div class="close icon"></div>
+        </div>
+        <div class="pop-up-body">
+          <form class="post">
+            <div class="form-wrap" required>
+              <div class="title">Адрес*</div>
+              <input type="text" value="" name="" data-intype="cyril" placeholder="Введите адрес" maxlength="40">
+              <div class="err">Поле не заполнено</div>
             </div>
-            <div class="form-col2">
-              <div class="form-wrap">
-                <div class="title">Пол</div>
-                <div class="row select-choice">
-                  <div class="option row select-qty">
-                    <input type="radio" value="Мужской" name="some_name[category]">
-                    <div class="radio icon"></div>
-                    <div>Мужской</div>
-                  </div>
-                  <div class="option row">
-                    <input type="radio" value="Женский" name="some_name[category]">
-                    <div class="radio icon"></div>
-                    <div>Женский</div>
-                  </div>
-                </div>
-                <div class="err">Необходимо выбрать значение</div>
-              </div>
+            <div class="form-wrap" required>
+              <div class="title">Тип торговли*</div>
+              <input type="text" value="" name="" data-intype="cyril" placeholder="">
+              <div class="err">Поле не заполнено</div>
             </div>
-          </div>
-          <div class="form-wrap">
-            <div class="title">Должность</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-cols">
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Телефон*</div>
-                <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
-                <div class="err">Поле не заполнено</div>
-              </div>
+            <div class="form-wrap" required>
+              <div class="title">Название*</div>
+              <input type="text" value="" name="" data-intype="cyril" placeholder="Введите название" maxlength="40">
+              <div class="err">Поле не заполнено</div>
             </div>
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Email*</div>
-                <input type="text" value="" name="" data-intype="email" placeholder="Введите email" maxlength="50">
-                <div class="err">Поле не заполнено</div>
-              </div>
+            <div class="form-wrap">
+              <div class="title">Сайт</div>
+              <input type="text" value="" name=""  placeholder="Введите адрес сайта" maxlength="40">
+              <div class="err">Поле не заполнено</div>
             </div>
-          </div>
-          <div class="form-wrap">
-            <div class="form-cols">
+            <div class="form-cols dfb">
               <div class="form-col2">
-                <div class="title">Тип доступа</div>
-                <div class="option row">
-                  <input type="radio" value="Полный" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Полный</div>
-                </div>
-                <div class="option row">
-                  <input type="radio" value="" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Частичный</div>
+                <div class="form-wrap" required="">
+                  <div class="title">Телефон*</div>
+                  <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                  <div class="err">Поле не заполнено</div>
                 </div>
               </div>
               <div class="form-col2">
-                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
-                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+                <div class="form-wrap" required="">
+                  <div class="" style="width: 67px; height: 67px; background: #000000;"></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="btns-wrap">
-            <input class="btn sub-act" type="submit" value="Отправить" disabled>
-          </div>
-        </form>
-      </div>
-      <div class="loader">
-        <div class="loader icon"></div>
-        <div class="text">Пожалуйста, подождите</div>
+            <div class="btns-wrap">
+              <input class="btn sub-act" type="submit" value="Отправить" disabled>
+            </div>
+          </form>
+        </div>
+        <div class="loader">
+          <div class="loader icon"></div>
+          <div class="text">Пожалуйста, подождите</div>
+        </div>
       </div>
     </div>
-  </div>
 
     <!-- Модальное окно "Редактировать пользователя" -->
-    <div id="edit-address-modal" class="pop-up-container col" onclick="closePopUp(event)">
-    <div id="edit-user" class="pop-up">
-      <div class="pop-up-title row">
-        <div class="title h1">Редактировать пользователя</div>
-        <div class="close icon"></div>
-      </div>
-      <div class="pop-up-body">
-        <form class="post">
-          <div class="form-wrap" required>
-            <div class="title">Имя*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите имя" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-wrap" required>
-            <div class="title">Фамилия*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите фамилию" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-wrap" required>
-            <div class="title">Отчество*</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите отчество" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-cols mob-cols">
-            <div class="form-col2">
-              <div class="form-wrap">
-                <div class="title">День рождения</div>
-                <input type="text" id="edit-user-birth" value="" name="" data-intype="birth" placeholder="28/10/1980" maxlength="10">
-                <div class="err">Поле не заполнено</div>
-              </div>
+    <div id="edit-address-modal" class="pop-up-container" onclick="closePopUp(event)">
+      <div id="edit-addrees" class="pop-up">
+        <div class="pop-up-title row">
+          <div class="title h1">Новый адрес</div>
+          <div class="close icon"></div>
+        </div>
+        <div class="pop-up-body">
+          <form class="post">
+            <div class="form-wrap" required>
+              <div class="title">Адрес*</div>
+              <input type="text" value="" name="" data-intype="cyril" placeholder="Введите адрес" maxlength="40">
+              <div class="err">Поле не заполнено</div>
             </div>
-            <div class="form-col2">
-              <div class="form-wrap">
-                <div class="title">Пол</div>
-                <div class="row select-choice">
-                  <div class="option row select-qty">
-                    <input type="radio" value="Мужской" name="some_name[category]">
-                    <div class="radio icon"></div>
-                    <div>Мужской</div>
-                  </div>
-                  <div class="option row">
-                    <input type="radio" value="Женский" name="some_name[category]">
-                    <div class="radio icon"></div>
-                    <div>Женский</div>
-                  </div>
-                </div>
-                <div class="err">Необходимо выбрать значение</div>
-              </div>
+            <div class="form-wrap" required>
+              <div class="title">Тип торговли*</div>
+              <input type="text" value="" name="" data-intype="cyril" placeholder="">
+              <div class="err">Поле не заполнено</div>
             </div>
-          </div>
-          <div class="form-wrap">
-            <div class="title">Должность</div>
-            <input type="text" value="" name="" data-intype="cyril" placeholder="Введите должность" maxlength="40">
-            <div class="err">Поле не заполнено</div>
-          </div>
-          <div class="form-cols">
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Телефон*</div>
-                <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
-                <div class="err">Поле не заполнено</div>
-              </div>
+            <div class="form-wrap" required>
+              <div class="title">Название*</div>
+              <input type="text" value="" name="" data-intype="cyril" placeholder="Введите название" maxlength="40">
+              <div class="err">Поле не заполнено</div>
             </div>
-            <div class="form-col2">
-              <div class="form-wrap" required="">
-                <div class="title">Email*</div>
-                <input type="text" value="" name="" data-intype="email" placeholder="Введите email" maxlength="50">
-                <div class="err">Поле не заполнено</div>
-              </div>
+            <div class="form-wrap">
+              <div class="title">Сайт</div>
+              <input type="text" value="" name=""  placeholder="Введите адрес сайта" maxlength="40">
+              <div class="err">Поле не заполнено</div>
             </div>
-          </div>
-          <div class="form-wrap">
-            <div class="form-cols">
+            <div class="form-cols fgf">
               <div class="form-col2">
-                <div class="title">Тип доступа</div>
-                <div class="option row">
-                  <input type="radio" value="Полный" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Полный</div>
-                </div>
-                <div class="option row">
-                  <input type="radio" value="" name="some_name[type]">
-                  <div class="radio icon"></div>
-                  <div>Частичный</div>
+                <div class="form-wrap" required="">
+                  <div class="title">Номер телефон*</div>
+                  <input type="text" value="" name="" data-intype="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                  <div class="err">Поле не заполнено</div>
                 </div>
               </div>
               <div class="form-col2">
-                <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
-                <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+                <div class="form-wrap">
+                  <div class="" style="width: 67px; height: 67px; background: #000000;"></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="btns-wrap">
-            <input class="btn sub-act" type="submit" value="Сохранить" disabled>
-          </div>
-        </form>
-      </div>
-      <div class="loader">
-        <div class="loader icon"></div>
-        <div class="text">Пожалуйста, подождите</div>
+            <div class="btns-wrap">
+              <input class="btn sub-act" type="submit" value="Отправить" disabled>
+            </div>
+          </form>
+        </div>
+        <div class="loader">
+          <div class="loader icon"></div>
+          <div class="text">Пожалуйста, подождите</div>
+        </div>
       </div>
     </div>
-  </div>
 
 
     <!-- Шаблон окна уведомлений -->
