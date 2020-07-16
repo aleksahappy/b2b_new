@@ -131,6 +131,10 @@ function fillTemplate(data) {
     }
   }
 
+  if (!data.sign) {
+    data.sign = '#';
+  }
+
   var txt = fillTemp(data, data.items, temp);
   if (data.parentTemp) {
     return data.parentTemp.replace(temp, txt);
@@ -233,8 +237,7 @@ function fillSubTemp(data, items, temp) {
 // Подстановка данных в шаблон:
 
 function replaceInTemp(key, items, temp, sign) {
-  var sign = sign || '#',
-      value = key ? items[key] : items;
+  var value = key ? items[key] : items;
       value = value === null ? '' : value;
   if (value !== undefined && typeof value !== 'object') {
     var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
