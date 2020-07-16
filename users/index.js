@@ -14,7 +14,7 @@ function startUsersTable() {
       var data = JSON.parse(result);
       loader.hide();
       data = convertData(data);
-      initTable("users-table", {data: data});
+      initTable("#users-table", {data: data});
       var usersTabletData = {
         area: "users-table-tablet",
         items: data,
@@ -34,7 +34,7 @@ function startUsersTable() {
     .catch((err) => {
       console.log(err);
       loader.hide();
-      initTable("users-table");
+      initTable("#users-table");
     });
 }
 startUsersTable();

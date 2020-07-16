@@ -77,7 +77,7 @@
               <a class="item" onclick="logOut(event)">Выйти</a>
             </div>
           </div>
-          <div class="notifications icon" onclick="openPopUp('notifications')">
+          <div class="notifications icon" onclick="openPopUp('#notifications')">
             <div class="qty in-circle row">#qty#</div>
           </div>
         </div>
@@ -92,11 +92,11 @@
             <div class="title h0">Контрагенты</div>
           </div>
           <div class="left-row row">
-            <div class="add icon" tooltip="Добавить" onclick="openPopUp('contra-modal')"></div>
+            <div class="add icon" tooltip="Добавить" onclick="openPopUp('#contra-modal')"></div>
           </div>
         </div>
       </div>
-      <div class="basic btn" onclick="openPopUp('contra-modal')">Добавить</div>
+      <div class="basic btn" onclick="openPopUp('#contra-modal')">Добавить</div>
       <!-- Таблица контрагентов -->
       <div id="contra-table" class="table-wrap active">
         <table class="head">
@@ -147,7 +147,7 @@
   </div>
 
   <!-- Шаблон окна уведомлений -->
-  <div id="notifications" class="pop-up-container" onclick="closePopUp(event)">
+  <div id="notifications" class="pop-up-container">
     <div class="pop-up">
       <div class="pop-up-title row">
         <div class="row">
@@ -178,7 +178,7 @@
   </div>
 
   <!-- Системные сообщения -->
-  <div id="alerts" class="pop-up-container" onclick="closePopUp(event)">
+  <div id="alerts" class="pop-up-container">
     <div class="pop-up">
       <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
@@ -189,7 +189,7 @@
   </div>
 
   <!-- Модальное окно "Добавление контрагента" -->
-  <div id="contra-modal" class="pop-up-container" onclick="closePopUp(event)">
+  <div id="contra-modal" class="pop-up-container">
     <div class="pop-up">
       <div class="pop-up-title row">
         <div class="title h1">Добавление контрагента</div>

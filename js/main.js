@@ -37,9 +37,9 @@ var website = document.body.dataset.website,
       api: 'https://api.topsports.ru/'
     },
     items,
-    loader = getEl('page-loader'),
-    message = getEl('alerts'),
-    upBtn = getEl('up-btn');
+    loader = getEl('#page-loader'),
+    message = getEl('#alerts'),
+    upBtn = getEl('#up-btn');
 
 // Динамически изменяемые переменные:
 
@@ -283,7 +283,7 @@ function renderTotals() {
 // Создание списка каталогов/корзин в шапке сайта:
 
 function renderCartList(type) {
-  var area = type === 'cart' ? getEl('header-cart') : getEl('catalogs');
+  var area = type === 'cart' ? getEl('#header-cart') : getEl('#catalogs');
   if (!area) {
     return;
   }
@@ -345,7 +345,7 @@ function initNotifications() {
   sendRequest(`../json/data_notifications.json`)
   .then(result => {
     var data = JSON.parse(result),
-        notifications = getEl('notifications'),
+        notifications = getEl('#notifications'),
         body = getEl('.pop-up-body', notifications);
     fillTemplate({
       area: body,
@@ -704,7 +704,7 @@ function onBlurInput(input) {
 function textareaCounter(textarea) {
   var maxLength = textarea.getAttribute('maxlength');
   if (maxLength) {
-    var counter = getEl('span',`[data-count="${textarea.getAttribute('name')}"]`);
+    var counter = getEl(`[data-count="${textarea.getAttribute('name')}"] span`);
     if (counter) {
       counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
     }
@@ -717,13 +717,13 @@ function textareaCounter(textarea) {
 
 // Свернуть/развернуть контейнер:
 
-function toggleEl(name) {
+function toggleEl(name, className = 'displayNone') {
   if (!name) {
     return;
   }
   var el = getEl(name);
   if (el) {
-    el.classList.toggle('displayNone');
+    el.classList.toggle(className);
   }
 }
 
@@ -1019,11 +1019,11 @@ function hideTooltip() {
 
 function getEl(el, area = document) {
   if (typeof el === 'string') {
-    area = typeof area === 'string' ? getEl(area): area;
-    if (el.indexOf('.') === 0 || el.indexOf('[') === 0) {
-      el = area.querySelector(el);
-    } else if (area === document) {
-      el = area.getElementById(el);
+    el = el.trim();
+    area = typeof area === 'string' ? getEl(area.trim()): area;
+    var wordCount = el.split(' ');
+    if (el[0] === '#' && wordCount.length === 1) {
+      el = document.getElementById(el.substr(1));
     } else {
       el = area.querySelector(el);
     }
@@ -1571,7 +1571,7 @@ function closePopUp(event, el) {
 function showFullCard(id) {
   event.preventDefault();
   loader.show();
-  var fullCardContainer = getEl('full-card-container');
+  var fullCardContainer = getEl('#full-card-container');
   fullCardContainer.style.opacity = 0;
   openPopUp(fullCardContainer);
 
@@ -1615,7 +1615,7 @@ function showFullImg(event, id) {
     return;
   }
   loader.show();
-  var fullImgContainer = getEl('full-img-container');
+  var fullImgContainer = getEl('#full-img-container');
   fullImgContainer.style.opacity = 0;
   openPopUp(fullImgContainer);
 
@@ -1634,7 +1634,7 @@ function showFullImg(event, id) {
   renderCarousel(curCarousel, curImg)
   .then(
     result => {
-      getEl('full-card-container').style.opacity = 0;
+      getEl('#full-card-container').style.opacity = 0;
       fullImgContainer.style.opacity = 1;
       loader.hide();
     }
@@ -1645,7 +1645,7 @@ function showFullImg(event, id) {
 
 function closeFullImg(event) {
   if (closePopUp(event)) {
-    getEl('full-card-container').style.opacity = 1;
+    getEl('#full-card-container').style.opacity = 1;
   }
 }
 

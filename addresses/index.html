@@ -77,7 +77,7 @@
                 <a class="item" onclick="logOut(event)">Выйти</a>
               </div>
             </div>
-            <div class="notifications icon" onclick="openPopUp('notifications')">
+            <div class="notifications icon" onclick="openPopUp('#notifications')">
               <div class="qty in-circle row">#qty#</div>
             </div>
           </div>
@@ -96,7 +96,7 @@
         </div>
         <div class="shops-wrap">
           <div class="shops">
-            <div class="basic btn" onclick="openPopUp('new-address-modal')">Добавить</div>
+            <div class="basic btn" onclick="openPopUp('#new-address-modal')">Добавить</div>
             <div class="wrap" id="shop">
               <div class="shop">
                 <div class="row inner outer" onclick="toggleOuterBlock(this)">
@@ -106,7 +106,7 @@
                       <div class="indicate">
                         <div class="#moderate#"></div>
                       </div>
-                      <div class="edit icon" onclick="openPopUp('edit-address-modal')"></div>
+                      <div class="edit icon" onclick="openPopUp('#edit-address-modal')"></div>
                     </div>
                     <div class="text-s gray">#type#</div>
                     <div class="text-s gray">#status#</div>
@@ -144,7 +144,7 @@
     </div>
 
     <!-- Модальное окно "Новый адрес" -->
-    <div id="new-address-modal" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="new-address-modal" class="pop-up-container">
       <div id="add-addrees" class="pop-up">
         <div class="pop-up-title row">
           <div class="title h1">Новый адрес</div>
@@ -199,7 +199,7 @@
     </div>
 
     <!-- Модальное окно "Редактировать пользователя" -->
-    <div id="edit-address-modal" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="edit-address-modal" class="pop-up-container">
       <div id="edit-addrees" class="pop-up">
         <div class="pop-up-title row">
           <div class="title h1">Новый адрес</div>
@@ -255,7 +255,7 @@
 
 
     <!-- Шаблон окна уведомлений -->
-    <div id="notifications" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="notifications" class="pop-up-container">
     <div class="pop-up">
       <div class="pop-up-title row">
         <div class="row">
@@ -293,7 +293,7 @@
     </div>
 
     <!-- Системные сообщения -->
-    <div id="alerts" class="pop-up-container" onclick="closePopUp(event)">
+    <div id="alerts" class="pop-up-container">
       <div class="pop-up">
         <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />

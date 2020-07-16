@@ -42,7 +42,7 @@
 //   head: true,
 //   result: false
 // }
-// initTable('tableId', settings);
+// initTable('#tableId', settings);
 
 // // Пример инициализации таблицы, которую необходимо заполнить динамически:
 
@@ -83,7 +83,7 @@
 //   }],
 //   sub: [{area: '.docs', items: 'docs'}]
 // }
-// initTable('tableId', settings);
+// initTable('#tableId', settings);
 
 // Инициализация таблицы:
 

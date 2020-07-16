@@ -13,7 +13,7 @@ function startDashboardTable() {
     dataOrders = JSON.parse(result);
     loader.hide();
     dataOrders = convertData(dataOrders);
-    initTable('dashboard-table', {data: dataOrders});
+    initTable('#dashboard-table', {data: dataOrders});
     startOrdersProgress(dataOrders);
     getOrdersInfo();
     tableDataSort();
@@ -21,7 +21,7 @@ function startDashboardTable() {
   .catch(err => {
     console.log(err);
     loader.hide();
-    initTable('dashboard-table', {data: dataOrders});
+    initTable('#dashboard-table', {data: dataOrders});
   });
 }
 
@@ -209,11 +209,11 @@ function togglePreorders() {
 
   if (tableToggle.classList.contains('checked')
   || tableToggleMob.classList.contains('checked')) {
-    initTable('dashboard-table', {data: dataPreorders});
+    initTable('#dashboard-table', {data: dataPreorders});
     startOrdersProgress(dataPreorders);
     getOrdersInfo();
   } else {
-    initTable('dashboard-table', {data: dataOrders});
+    initTable('#dashboard-table', {data: dataOrders});
     startOrdersProgress(dataOrders);
     getOrdersInfo();
   }

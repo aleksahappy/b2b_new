@@ -77,7 +77,7 @@
               <a class="item" onclick="logOut(event)">Выйти</a>
             </div>
           </div>
-          <div class="notifications icon" onclick="openPopUp('notifications')">
+          <div class="notifications icon" onclick="openPopUp('#notifications')">
             <div class="qty in-circle row">#qty#</div>
           </div>
         </div>
@@ -92,11 +92,11 @@
             <div class="title h0">Пользователи</div>
           </div>
           <div class="left-row row">
-            <div class="add icon" onclick="openPopUp('new-user-modal')"></div>
+            <div class="add icon" onclick="openPopUp('#new-user-modal')"></div>
           </div>
         </div>
       </div>
-      <div class="btn" onclick="openPopUp('new-user-modal')">Добавить</div>
+      <div class="btn" onclick="openPopUp('#new-user-modal')">Добавить</div>
       <!-- Таблица контрагентов -->
       <div id="users-table" class="table-wrap active">
         <table class="head">
@@ -164,7 +164,7 @@
               </td>
               <td>#contr_date#</td>
               <td>
-                <div class="edit icon"  onclick="openPopUp('edit-user-modal')"></div>
+                <div class="edit icon"  onclick="openPopUp('#edit-user-modal')"></div>
               </td>
             </tr>
           </tbody>
@@ -204,7 +204,7 @@
                   <div>Дата заведения: <span>#contr_date#</span></div>
                   <div class="check-access">Доступ: <span class="check-access-value">#contr_access#</span></div>
                 </div>
-                <div class="user-status edit" onclick="openPopUp('edit-user-modal')"></div>
+                <div class="user-status edit" onclick="openPopUp('#edit-user-modal')"></div>
               </div>
             </div>
           </div>
@@ -235,7 +235,7 @@
                 </div>
               </div>
               <div class="user-status row">
-                <div class="user-status edit"  onclick="openPopUp('edit-user-modal')"></div>
+                <div class="user-status edit"  onclick="openPopUp('#edit-user-modal')"></div>
               </div>
             </div>
           </div>
@@ -253,7 +253,7 @@
   </div>
 
   <!-- Шаблон окна уведомлений -->
-  <div id="notifications" class="pop-up-container" onclick="closePopUp(event)">
+  <div id="notifications" class="pop-up-container">
     <div class="pop-up">
       <div class="pop-up-title row">
         <div class="row">
@@ -284,7 +284,7 @@
   </div>
 
   <!-- Системные сообщения -->
-  <div id="alerts" class="pop-up-container" onclick="closePopUp(event)">
+  <div id="alerts" class="pop-up-container">
     <div class="pop-up">
       <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
@@ -295,7 +295,7 @@
   </div>
 
   <!-- Модальное окно "Добавить пользователя" -->
-  <div id="new-user-modal" class="pop-up-container" onclick="closePopUp(event)">
+  <div id="new-user-modal" class="pop-up-container">
     <div id="add-user" class="pop-up">
       <div class="pop-up-title row">
         <div class="title h1">Новый пользователь</div>
@@ -400,7 +400,7 @@
   </div>
 
   <!-- Модальное окно "Редактировать пользователя" -->
-  <div id="edit-user-modal" class="pop-up-container col" onclick="closePopUp(event)">
+  <div id="edit-user-modal" class="pop-up-container col">
     <div id="edit-user" class="pop-up">
       <div class="pop-up-title row">
         <div class="title h1">Редактировать пользователя</div>

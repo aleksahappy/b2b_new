@@ -3260,7 +3260,7 @@ tbody td > .row > * {
 }
 
 #notifications.open .pop-up {
-  animation: аppears-from-right 300ms ease-out forwards;
+  animation: аppears-from-right 500ms ease-out forwards;
 }
 
 #notifications .message.row {

@@ -17,11 +17,11 @@ function startPage() {
     var data = JSON.parse(result);
     console.log(data);
     data = convertData(data);
-    initTable('orderslist', data);
+    initTable('#orderslist', data);
   })
   .catch(err => {
     console.log(err);
-    initTable('orderslist');
+    initTable('#orderslist');
   });
 }
 

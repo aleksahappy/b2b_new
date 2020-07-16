@@ -169,8 +169,8 @@ function showReclPopUp(data) {
     area: 'reclm-container',
     items: data
   })
-  checkImg('reclm-container');
-  openPopUp('reclm-container');
+  checkImg('#reclm-container');
+  openPopUp('#reclm-container');
   loader.hide();
 }
 

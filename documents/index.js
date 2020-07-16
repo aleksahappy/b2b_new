@@ -24,7 +24,7 @@ function startDocsPage() {
                     </div>`
         }]
       }
-      initTable('docs-table', settings);
+      initTable('#docs-table', settings);
   })
   .catch(err => {
     loader.hide();
