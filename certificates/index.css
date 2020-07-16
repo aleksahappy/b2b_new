@@ -1,3 +1,15 @@
+#main-header {
+  padding-bottom: 0;
+}
+
+.filters {
+  position: sticky;
+  top: 64px;
+  padding: 2em 0;
+  background-color: #F2F2F2;
+  border-bottom: 1px solid #D5D5D5;
+}
+
 .filters > div {
   margin-right: 1.428em;
 }
@@ -14,17 +26,16 @@ form.search {
   display: none;
 }
 
-#notice,
-#cert-data {
-  margin-top: 2em;
-}
-
 #cert-data .item {
   padding: 1.25em;
   margin-bottom: 0.75em;
   border: 1px solid #D5D5D5;
   border-radius: 3px;
   background: #F8F8F8;
+}
+
+#cert-data .item:first-child {
+  border-top: none;
 }
 
 #cert-data .item .view {
