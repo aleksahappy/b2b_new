@@ -272,8 +272,8 @@ body.no-scroll {
   width: 100%;
 }
 
-.btns-wrap > div {
-  margin-right: 1.428em;
+.btns-wrap > :first-child {
+  margin-right: 0.714em;
 }
 
 .btns-wrap > div:last-child {
@@ -1070,6 +1070,10 @@ a.btn {
   text-decoration: none;
 }
 
+input.btn {
+  border: none;
+}
+
 .btn:hover,
 .btn:active {
   background-color: #B3BAC2;
@@ -1474,8 +1478,8 @@ a.btn {
   background-image: url(../img/checkbox_checked.svg);
 }
 
-.checked > .checkbox.oragne.icon,
-.checked > div > .checkbox.oragne.icon {
+.checked > .checkbox.orange.icon,
+.checked > div > .checkbox.orange.icon {
   background-image: url(../img/checkbox_checked_orange.svg);
 }
 
@@ -3312,11 +3316,25 @@ tbody td > .row > * {
 Страница входа:
 ===================================================================================================== */
 
+body#auth .pop-up-title {
+  justify-content: center;
+}
+
+body#auth .h1 {
+  margin-right: 0;
+}
+
 body#auth .err {
   font-size: 1em;
   margin-bottom: 1em;
-  text-align: center;
+  text-align: left;
 }
+
+body#auth .notice {
+  margin-top: 1em;
+  font-size: 0.857em;
+}
+
 
 /* =====================================================================================================
 Страница 404:
