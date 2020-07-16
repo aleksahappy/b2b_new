@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ТОП СПОРТС - Магазины</title>
+    <title>ТОП СПОРТС - Мои адреса</title>
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
     <script src="../js/check_auth.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
@@ -97,14 +99,14 @@
         <div class="shops-wrap">
           <div class="shops">
             <div class="basic btn" onclick="openPopUp('#new-address-modal')">Добавить</div>
-            <div class="wrap" id="shop">
+            <div class="wrap template" id="shop">
               <div class="shop">
                 <div class="row inner outer" onclick="toggleOuterBlock(this)">
                   <div class="col">
                     <div class="row name">
                       <div class="title h3">@@company@@</div>
                       <div class="indicate">
-                        <div class="#moderate#"></div>
+                        <div class="@@moderate@@"></div>
                       </div>
                       <div class="edit icon" onclick="openPopUp('#edit-address-modal')"></div>
                     </div>
@@ -152,6 +154,13 @@
         </div>
         <div class="pop-up-body">
           <form class="post">
+            <div class="form-wrap">
+              <div class="option row">
+                <input type="checkbox" value="">
+                <div class="checkbox icon"></div>
+                <div>Показать на карте дилеров</div>
+              </div>
+            </div>
             <div class="form-wrap" required>
               <div class="title">Адрес*</div>
               <input type="text" value="" name="" data-type="cyril" placeholder="Введите адрес" maxlength="40">
@@ -159,7 +168,18 @@
             </div>
             <div class="form-wrap" required>
               <div class="title">Тип торговли*</div>
-              <input type="text" value="" name="" data-type="cyril" placeholder="">
+              <div id="sys-type" class="activate checkbox">
+                <div class="head row">
+                  <div class="title">Тип торговли</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="default">Сбросить</div>
+                  <div class="item" data-value="1">Значение 1</div>
+                  <div class="item" data-value="2">Значение 2</div>
+                  <div class="item" data-value="3">Значение 3</div>
+                </div>
+              </div>
               <div class="err">Поле не заполнено</div>
             </div>
             <div class="form-wrap" required>
@@ -172,17 +192,19 @@
               <input type="text" value="" name=""  placeholder="Введите адрес сайта" maxlength="40">
               <div class="err">Поле не заполнено</div>
             </div>
-            <div class="form-cols dfb">
-              <div class="form-col2">
+            <div class="form-cols">
+              <div class="form-col1">
                 <div class="form-wrap" required="">
                   <div class="title">Телефон*</div>
                   <input type="text" value="" name="" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
                   <div class="err">Поле не заполнено</div>
                 </div>
               </div>
-              <div class="form-col2">
-                <div class="form-wrap" required="">
-                  <div class="" style="width: 67px; height: 67px; background: #000000;"></div>
+              <div class="form-col2 download">
+                <div class="form-wrap">
+                  <div class="download-area">
+                    <div class="download icon"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -207,6 +229,13 @@
         </div>
         <div class="pop-up-body">
           <form class="post">
+            <div class="form-wrap">
+              <div class="option row">
+                <input type="checkbox" value="">
+                <div class="checkbox icon"></div>
+                <div>Показать на карте дилеров</div>
+              </div>
+            </div>
             <div class="form-wrap" required>
               <div class="title">Адрес*</div>
               <input type="text" value="" name="" data-type="cyril" placeholder="Введите адрес" maxlength="40">
@@ -214,7 +243,18 @@
             </div>
             <div class="form-wrap" required>
               <div class="title">Тип торговли*</div>
-              <input type="text" value="" name="" data-type="cyril" placeholder="">
+              <div id="sys-type" class="activate checkbox">
+                <div class="head row">
+                  <div class="title">Тип торговли</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="default">Сбросить</div>
+                  <div class="item" data-value="1">Значение 1</div>
+                  <div class="item" data-value="2">Значение 2</div>
+                  <div class="item" data-value="3">Значение 3</div>
+                </div>
+              </div>
               <div class="err">Поле не заполнено</div>
             </div>
             <div class="form-wrap" required>
@@ -227,17 +267,19 @@
               <input type="text" value="" name=""  placeholder="Введите адрес сайта" maxlength="40">
               <div class="err">Поле не заполнено</div>
             </div>
-            <div class="form-cols fgf">
-              <div class="form-col2">
+            <div class="form-cols">
+              <div class="form-col1">
                 <div class="form-wrap" required="">
-                  <div class="title">Номер телефон*</div>
+                  <div class="title">Телефон*</div>
                   <input type="text" value="" name="" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
                   <div class="err">Поле не заполнено</div>
                 </div>
               </div>
-              <div class="form-col2">
+              <div class="form-col2 download">
                 <div class="form-wrap">
-                  <div class="" style="width: 67px; height: 67px; background: #000000;"></div>
+                  <div class="download-area">
+                    <div class="download icon"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -256,34 +298,34 @@
 
     <!-- Шаблон окна уведомлений -->
     <div id="notifications" class="pop-up-container">
-    <div class="pop-up">
-      <div class="pop-up-title row">
-        <div class="row">
-          <div class="title h1">Уведомления</div>
-        </div>
-        <div class="close icon"></div>
-      </div>
-      <div class="pop-up-body">
-        <div class="message row #status# template">
+      <div class="pop-up">
+        <div class="pop-up-title row">
           <div class="row">
-            <div class="message icon"></div>
-            <div class="message text">
-              <div>#text#</div>
-              <div class="row #isHidden#">
-                <div class="download icon"></div>
-                <div class="link">#link#</div>
+            <div class="title h1">Уведомления</div>
+          </div>
+          <div class="close icon"></div>
+        </div>
+        <div class="pop-up-body">
+          <div class="message row #status# template">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message text">
+                <div>#text#</div>
+                <div class="row #isHidden#">
+                  <div class="download icon"></div>
+                  <div class="link">#link#</div>
+                </div>
               </div>
             </div>
+            <div class="date text-midlight">#date#, #time#</div>
           </div>
-          <div class="date text-midlight">#date#, #time#</div>
+        </div>
+        <div class="loader">
+          <div class="loader icon"></div>
+          <div class="text">Пожалуйста, подождите</div>
         </div>
       </div>
-      <div class="loader">
-        <div class="loader icon"></div>
-        <div class="text">Пожалуйста, подождите</div>
-      </div>
     </div>
-  </div>
 
 
     <!-- Прелоадер страницы -->
@@ -341,6 +383,9 @@
         });
       }
     </script> -->
-  <script src="index.js"></script>
+    <script src ="../js/main.js"></script>
+    <script src="../js/table.js"></script>
+    <script src="../js/test.js"></script>
+    <script src ="index.js"></script>
   </body>
 </html>

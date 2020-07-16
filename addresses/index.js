@@ -3,7 +3,8 @@ var shops = document.querySelector('.shops');
 
 
 // setWidth(shops, 440)
-
+//initDropDown('#sys-type');
+initForm('#new-address-modal')
 
 function startAddrPage() {
   sendRequest(`../json/addresses.json`)

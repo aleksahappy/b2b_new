@@ -1,12 +1,12 @@
 .shops-wrap {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   padding-bottom: 3vw;
 }
 
 .shops {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  /* flex-direction: column; */
   width: 440px;
   min-width: 440px;
   margin-right: 20px;
@@ -156,4 +156,33 @@
 
 #add-addrees{
   width: 28em;
+}
+
+#sys-type{
+  width: 100%;
+}
+
+#add-addrees .download-area{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4.78em;
+  height: 4.78em;
+  background: #EEEEEE;
+
+}
+
+#add-addrees .download.icon{
+  width: 1em;
+  height: 1em;
+  margin-right: 0;
+}
+
+.form-col2.download{
+  display: flex;
+  justify-content: flex-end;
+}
+
+#add-addrees input[data-type="tel"]{
+  width: 12.5em;
 }
