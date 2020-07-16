@@ -1,5 +1,8 @@
 'use strict';
 
+// fillTemplate в дальнейшем заменить на загрузку через универсальную функцию подгрузки по скроллу
+// Везде рендерить через универсальную функцию подгрузки по скроллу
+
 //=====================================================================================================
 // Первоначальные данные для работы:
 //=====================================================================================================
@@ -15,7 +18,7 @@ var selectedItems = '',
 
 // Запускаем рендеринг страницы сертификатов:
 
-startCertifPage();
+startCertPage();
 
 //=====================================================================================================
 // При запуске страницы:
@@ -23,7 +26,7 @@ startCertifPage();
 
 // Запуск страницы сертификатов:
 
-function startCertifPage() {
+function startCertPage() {
   sendRequest(`../json/data_certificates.json`)
   // sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
@@ -40,8 +43,6 @@ function startCertifPage() {
 // Инициализация страницы:
 
 function initPage() {
-  loader.hide();
-  // fillTemplate в дальнейшем заменить на загрузку через универсальную функцию подгрузки по скроллу
   fillTemplate({
     area: '#cert-data',
     items: items
@@ -50,6 +51,7 @@ function initPage() {
   initSearch('#cert-search', findCert);
   initCalendar('#cert-range');
   initDropDown('#brands-select', selectBrand);
+  loader.hide();
 }
 
 // Преобразование данных:
@@ -65,8 +67,6 @@ function convertData() {
     el.search = el.search.join(',').replace(/\s/, ' ').replace(/\u00A0/g, ' ');
   });
 }
-
-// Везде рендерить через универсальную функцию подгрузки по скроллу
 
 // Поиск по ключевым словам:
 
@@ -86,7 +86,6 @@ function findCert(search, textToFind) {
       showElement('#notice');
     }
   } else {
-    console.log('сброс');
     fillTemplate({
       area: '#cert-data',
       items: items
