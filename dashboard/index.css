@@ -163,6 +163,10 @@ main{
 
 /* Основной график и таблица */
 
+.infoblock{
+  margin-top: 20px;
+}
+
 .graphic-btns{
 	display: flex;
 	align-items: center;
@@ -639,10 +643,6 @@ thead .legend {
 
 .info-graphic-2{
 	display: block; /**/
-}
-
-.info-graphic-2 .info-wrap{
-	margin-top: 0;
 }
 
 .info-graphic-2 .col2{
