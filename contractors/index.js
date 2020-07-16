@@ -58,7 +58,7 @@ function startUsersTable() {
     };
     initTable('#contra-table', settings);
     var contrasAdaptiveData = {
-      area: 'contras-table',
+      area: '#contras-table',
       items: data,
       sub: [{
         area: '.docs',

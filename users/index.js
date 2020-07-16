@@ -16,12 +16,12 @@ function startUsersTable() {
       data = convertData(data);
       initTable("#users-table", {data: data});
       var usersTabletData = {
-        area: "users-table-tablet",
+        area: "#users-table-tablet",
         items: data,
         action: "replace",
       };
       var usersMobData = {
-        area: "users-table-mob",
+        area: "#users-table-mob",
         items: data,
         action: "replace",
       };

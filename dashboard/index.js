@@ -481,8 +481,8 @@ deliveryProgress();
 
 /////////////////ДИАГРАММА "ЕЖЕГОДНАЯ ДИНАМИКА ТОВАРООБОРОТА"///////////////////
 //  кнопка dashboard тоггла
-var toggleBar1 = getEl('bar-chart-tgl-1');
-var toggleBar2 = getEl('bar-chart-tgl-2');
+var toggleBar1 = getEl('#bar-chart-tgl-1');
+var toggleBar2 = getEl('#bar-chart-tgl-2');
 //  canvas диаграмм
 var barChart = document.getElementById('bar-chart').getContext('2d');
 //  Данные и зарезервированные переменные для работы с ними
@@ -721,7 +721,7 @@ function startProcurementDonutChart() {
       }
     }
     var years = {
-      area: 'donut-select',
+      area: '#donut-select',
       items: selectOptionsData
     };
     fillTemplate(years);
@@ -813,7 +813,7 @@ function startProcurementDonutChart() {
   //  создание самой диагараммы
 
   function runDonutChart() {
-    var donutChartElem = getEl('procurement-chart');
+    var donutChartElem = getEl('#procurement-chart');
     var labels = Array.from(labelsValues);
     var select = document.querySelector('#donut-select');
     var selectOptions = select.querySelectorAll('.item');

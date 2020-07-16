@@ -10,7 +10,7 @@ function startCertPage() {
     console.log(data);
     loader.hide();
     var cerfData =  {
-      area: 'certif-data',
+      area: '#certif-data',
       items: data
     };
     fillTemplate(cerfData);

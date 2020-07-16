@@ -2,7 +2,7 @@
 var shops = document.querySelector('.shops');
 
 
-setWidth(shops, 440)
+// setWidth(shops, 440)
 
 
 function startAddrPage() {
@@ -10,9 +10,11 @@ function startAddrPage() {
   .then(result => {
     var data = JSON.parse(result);
     loader.hide();
+    console.log(data);
     var addrData = {
-      area: "shop",
+      area: '#shop',
       items: data,
+      sign: '@@',
       sub:[{
         area: '.time-block',
         items: 'time'
