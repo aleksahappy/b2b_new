@@ -712,7 +712,7 @@ function renderCart() {
 function createCart() {
   if (!isEmptyObj(cartData)) {
     var data = {
-      area: 'cart-rows',
+      area: '#cart-rows',
       items: cartData,
       type: 'list'
     };
@@ -747,13 +747,13 @@ function createCartRow(id, qty, row = null, tableRow = null, status) {
   var data = createCartItemData(id, qty, status);
   if (data) {
     fillTemplate({
-      area: 'cart-rows',
+      area: '#cart-rows',
       items: data,
       target: row,
       method: row ? 'afterend' : 'beforeend'
     });
     fillTemplate({
-      area: 'cart-table',
+      area: '#cart-table',
       items: data,
       target: tableRow,
       method: tableRow ? 'afterend' : 'beforeend'

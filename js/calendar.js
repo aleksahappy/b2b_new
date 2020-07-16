@@ -1,6 +1,15 @@
 'use strict';
 
+// Инициализация календаря:
+
+function initCalendar(id) {
+  if (id) {
+    window[`${id}Calendar`] = new Calendar({ id: id });
+  }
+}
+
 //  Класс календаря
+
 class Calendar {
   //  разметка для календаря
   markup = `

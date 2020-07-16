@@ -242,7 +242,7 @@ function getItems(id) {
 function showUserInfo() {
   if (window.userInfo) {
     fillTemplate({
-      area: 'profile',
+      area: '#profile',
       items: {
         login: userInfo.login,
         username: userInfo.name + ' ' + userInfo.lastname

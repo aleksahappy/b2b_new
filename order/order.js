@@ -43,11 +43,11 @@ function startPage() {
         data.isHiddenComment = 'hidden';
       }
       fillTemplate({
-        area: 'order-info',
+        area: '#order-info',
         items: data
       });
       fillTemplate({
-        area: getEl('.pop-up-body', 'reclm-container'),
+        area: '#reclm-container .pop-up-body',
         items: data
       })
       var result = {};
@@ -166,7 +166,7 @@ function openReclmPopUp(id) {
 function showReclPopUp(data) {
   console.log(data);
   fillTemplate({
-    area: 'reclm-container',
+    area: '#reclm-container',
     items: data
   })
   checkImg('#reclm-container');

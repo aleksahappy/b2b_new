@@ -593,7 +593,7 @@ function createMainNav() {
       }
     });
     fillTemplate({
-      area: 'main-nav',
+      area: '#main-nav',
       items: data,
       sub: [{
         area: '.item',
@@ -781,7 +781,7 @@ function clearFilters(event) {
 function initFiltersCatalog() {
   var data = checkFiltersIsNeed();
   fillTemplate({
-    area: 'catalog-filters',
+    area: '#catalog-filters',
     items: data,
     sub: [{
       area: '.filter-item.item',
@@ -1150,7 +1150,7 @@ function deleteFromFiltersInfo(key, value) {
 
 function createFiltersInfo() {
   fillTemplate({
-    area: 'filters-info',
+    area: '#filters-info',
     items: filterItems
   });
   setPaddingToBody();
