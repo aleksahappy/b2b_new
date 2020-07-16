@@ -2441,11 +2441,11 @@ tbody td > .row > * {
 .pop-up-title {
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: -5px;
   margin-bottom: 1.785em;
 }
 
 .pop-up-title .title {
+  margin-top: -5px;
   margin-right: 0.83em;
 }
 
