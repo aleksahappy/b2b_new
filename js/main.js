@@ -1364,10 +1364,12 @@ function fillEl(data, items, temp) {
       temp = replaceInTemp(key, items, temp, data.sign);
     }
   } else {
-    var props = temp.match(/#[^#]+#/gi);
+    var regEx = new RegExp(`${data.sign}[^${data.sign}]+${data.sign}`, 'gi'),
+        props = temp.match(regEx);
     props = props || [];
     props = props.reduce((unique, el) => {
-      el = el.replace(/#/g, '');
+      var reg = new RegExp(`${data.sign}`, 'g');
+      el = el.replace(reg, '');
       if (unique.indexOf(el) === -1) {
         unique.push(el);
       }

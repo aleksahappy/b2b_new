@@ -7,11 +7,12 @@ function startProfPage() {
     console.log(data);
     loader.hide();
     var profileData = {
-      area: "profile-card",
-      items: data
+      area: '#profile-card',
+      items: data,
+      sign: '@@'
     };
     fillTemplate(profileData);
-    initForm('edit-profile-modal', testEditProfile);
+    initForm('#edit-profile-modal', testEditProfile);
   })
   .catch(err => {
     console.log(err);
@@ -23,5 +24,5 @@ startProfPage();
 
 function testEditProfile() {
   console.log('testEditProfile');
-  clearForm('edit-profile-modal');
+  clearForm('#edit-profile-modal');
 }
