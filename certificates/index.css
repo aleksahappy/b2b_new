@@ -1,29 +1,25 @@
-#certificates form.search {
+.filters > div {
+  margin-right: 1.428em;
+}
+
+.filters > div > .title {
+  margin-bottom: 0.428em;
+}
+
+form.search {
   width: 19.625em;
-  margin-top: 6px;
-  margin-right: 20px;
 }
 
-#cert-range{
-  width: 16.375em;
-  margin-top: 6px;
-  margin-right: 20px;
+#notice {
+  display: none;
 }
 
-#brands-select{
-  width: 16.375em;
-  margin-top: 6px;
-}
-
-#brands-select .title{
-  color: #C6C6C6;
-}
-
-.certif-data{
+#notice,
+#cert-data {
   margin-top: 2em;
 }
 
-.certif-data .item{
+#cert-data .item {
   padding: 1.25em;
   margin-bottom: 0.75em;
   border: 1px solid #D5D5D5;
@@ -31,7 +27,7 @@
   background: #F8F8F8;
 }
 
-.certif-data .item .view{
+#cert-data .item .view {
   width: 73px;
   min-width: 73px;
   height: 101px;
@@ -40,17 +36,17 @@
   background-size: contain;
 }
 
-.certif-data .item .cont{
+#cert-data .item .cont {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 101px;
 }
 
-.certif-data .item .cont > div:first-child{
+#cert-data .item .cont > div:first-child {
   margin-bottom: 0.9em;
 }
 
-.certif-data .item .cont .row{
+#cert-data .item .cont .row {
   align-items: center;
 }

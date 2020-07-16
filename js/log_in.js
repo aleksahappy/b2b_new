@@ -15,7 +15,7 @@ function logIn(event) {
   request.addEventListener('error', () => showError('Произошла ошибка, попробуйте позже'));
   request.addEventListener('load', () => {
     if (request.status !== 200) {
-      showError('Произошла ошибка, попробуйте позж');
+      showError('Произошла ошибка, попробуйте позже');
     } else {
       var result = JSON.parse(request.response);
       if (result.ok) {
