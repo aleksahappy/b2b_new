@@ -1,3 +1,7 @@
+.basic.btn{
+  width: 100%;
+}
+
 .shops-wrap {
   display: flex;
   /* width: 100%; */

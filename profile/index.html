@@ -125,14 +125,6 @@
 
     </div>
   </div>
-  <div class="footer">
-    <div class="container">
-      <div class="wrap">
-        <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
-        <div>© 2020 TOP SPORTS</div>
-      </div>
-    </div>
-  </div>
 
   <!-- Шаблон окна уведомлений -->
   <div id="notifications" class="pop-up-container">
@@ -162,17 +154,6 @@
         <div class="loader icon"></div>
         <div class="text">Пожалуйста, подождите</div>
       </div>
-    </div>
-  </div>
-
-  <!-- Системные сообщения -->
-  <div id="alerts" class="pop-up-container">
-    <div class="pop-up">
-      <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-        <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
-      </svg>
-      <div class="text pop-up"></div>
     </div>
   </div>
 
@@ -279,6 +260,70 @@
       <div class="loader">
         <div class="loader icon"></div>
         <div class="text">Пожалуйста, подождите</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Шаблон окна уведомлений -->
+  <div id="notifications" class="pop-up-container">
+    <div class="pop-up">
+      <div class="pop-up-title row">
+        <div class="row">
+          <div class="title h1">Уведомления</div>
+        </div>
+        <div class="close icon"></div>
+      </div>
+      <div class="pop-up-body">
+        <div class="message row #status# template">
+          <div class="row">
+            <div class="message icon"></div>
+            <div class="message text">
+              <div>#text#</div>
+              <div class="row #isHidden#">
+                <div class="download icon"></div>
+                <div class="link">#link#</div>
+              </div>
+            </div>
+          </div>
+          <div class="date text-midlight">#date#, #time#</div>
+        </div>
+      </div>
+      <div class="loader">
+        <div class="loader icon"></div>
+        <div class="text">Пожалуйста, подождите</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Прелоадер страницы -->
+  <div id="page-loader" class="loader">
+    <div class="loader icon"></div>
+    <div class="text"></div>
+  </div>
+
+  <!-- Системные сообщения -->
+  <div id="alerts" class="pop-up-container">
+    <div class="pop-up">
+      <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
+        <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+      </svg>
+      <div class="text pop-up"></div>
+    </div>
+  </div>
+
+  <!-- Кнопка "Наверх страницы" -->
+  <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#53606F" fill-opacity="0.6" stroke="white"/>
+    <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
+  </svg>
+
+  <!-- Футер -->
+  <div class="footer">
+    <div class="container">
+      <div class="wrap">
+        <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
+        <div>© 2020 TOP SPORTS</div>
       </div>
     </div>
   </div>
