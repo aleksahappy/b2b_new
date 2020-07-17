@@ -28,11 +28,11 @@ function testPanelWork() {
   var btn4 = document.querySelector('.fourth');
   var progressItem = document.querySelectorAll('.progress-item');
   var progressBar = document.querySelector('.progress-bar');
-  var refundList = document.querySelector('#refundList');
+  var refundBtn = document.querySelector('#refund-btn');
 
   /* состояние 1 */
   btn1.addEventListener('click', function() {
-    refundList.classList.remove('refundList');
+    refundBtn.classList.remove('refund-btn');
 
     for (let i = 0; i < progressItem.length; i++) {
 
@@ -71,7 +71,7 @@ function testPanelWork() {
 
   /* состояние 2 */
   btn2.addEventListener('click', function() {
-    refundList.classList.add('refundList');
+    refundBtn.classList.add('refund-btn');
 
 
     for (var i = 0; i < progressItem.length; i++) {

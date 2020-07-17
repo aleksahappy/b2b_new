@@ -3,9 +3,17 @@
     position: relative;
 }
 
+.head-pan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 /* Стили для страницы с рекламацией */
 .container1{
     width: 70%;
+    margin-top: 20px;
 }
 
 .left-row .icon{
@@ -17,25 +25,19 @@
     align-items: flex-start;
 }
 
-.refund-list .btn {
-    margin-bottom: 10px;
-    padding: 0.514em 3.7em 0.514em 2.6em!important;
-    color: #818A94;
-    background: #D4D7DB url('../img/download_complaint.svg') 165px center no-repeat;
-}
-.refundList{
-    color: #ffffff!important;
+.refund-btn{
     background: #F05A28 url('../img/download-complaint-active.svg') 165px center no-repeat!important;
 }
 
-.refund-list div:last-child{
-    min-width: 13.5em;
-    width: 14.5em;
-    font-size: 0.98em;
-    line-height: 1.5em;
+.refund-info{
+    min-width: 50px;
+    width: 13.85em;
+    margin-right: 2.14em;
+    text-align: right;
+    font-size: 0.85em;
+    line-height: 1.7em;
     color: #909090;
 }
-
 
 /* Состояние рекламации */
 .progress-wrap{
@@ -166,7 +168,6 @@
     border: 1px solid #3E228C!important;
 }
 
-
 /* Основное описание рекламации */
 main{
     display: flex;
@@ -190,17 +191,16 @@ main{
     flex-direction: column;
 }
 
-.complaint-info div{
-    font-family: 'Open Sans';
-    font-size: 1em;
-    font-weight: bold;
-    line-height: 1.7em;
-    letter-spacing: 0.01em;
-    color: #34495E;
+.complaint-info > div{
+  margin-bottom: 0.5em;
 }
 
 .complaint-info div:last-child{
     margin-top: 3vw;
+}
+
+.complaint-info span{
+  color: #666666;
 }
 
 .complaint-info span,
@@ -209,8 +209,7 @@ main{
 }
 
 .complaint-info a{
-    text-decoration: underline;
-    color: #34548A;
+    text-decoration: none;
 }
 
 .visual{
@@ -329,9 +328,8 @@ main{
 .complaint-descr p {
     margin-top: 1vw;
     font-size: 1em;
-    line-height: 1.7em;
+    line-height: 1.3em;
     letter-spacing: 0.01em;
-    color: #707683;
 }
 
 .complaint-photo{
