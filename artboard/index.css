@@ -168,6 +168,34 @@ form.search.positioned {
   min-width: 20em;
 }
 
+#table1 td:nth-child(9) {
+  min-width: 20em;
+}
+
+#table1 td:nth-child(10) {
+  min-width: 20em;
+}
+
+#table1 td:nth-child(11) {
+  min-width: 20em;
+}
+
+#table1 td:nth-child(12) {
+  min-width: 20em;
+}
+
+#table1 td:nth-child(13) {
+  min-width: 20em;
+}
+
+#table1 td:nth-child(14) {
+  min-width: 20em;
+}
+
+#table1 td:nth-child(15) {
+  min-width: 20em;
+}
+
 /* Стили для таблицы 2 */
 
 #table2 td:nth-child(1) {
