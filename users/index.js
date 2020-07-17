@@ -8,7 +8,7 @@ var closeEditUserModal = document.querySelector("#edit-user-modal .close");
 // Запуск данных таблицы пользователей:
 
 function startUsersTable() {
-  sendRequest(`../json/usersData.json`)
+  sendRequest(`../json/users_data.json`)
     //sendRequest(urlRequest.main, {action: 'dashboardTable'})
     .then((result) => {
       var data = JSON.parse(result);

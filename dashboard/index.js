@@ -7,7 +7,7 @@ var tbody = dashboardTable.querySelector('tbody');
 
 
 function startDashboardTable() {
-  sendRequest(`../json/dashboardTableData.json`)
+  sendRequest(`../json/dashboard_table_data.json`)
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     dataOrders = JSON.parse(result);
@@ -493,7 +493,7 @@ var barLabels = [];
 
 function startBarChart() {
   // запрос
-  sendRequest(`../json/procurementData.json`)
+  sendRequest(`../json/procurement_data.json`)
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     barData = JSON.parse(result);
@@ -682,7 +682,7 @@ function startProcurementDonutChart() {
 
   function startDonutChart() {
     // запрос
-    sendRequest(`../json/procurementData.json`)
+    sendRequest(`../json/procurement_data.json`)
     //sendRequest(urlRequest.main, {action: 'dashboardTable'})
     .then(result => {
       inputData = JSON.parse(result);

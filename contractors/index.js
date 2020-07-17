@@ -3,7 +3,7 @@
 // Запуск данных таблицы контрагентов:
 
 function startUsersTable() {
-  sendRequest(`../json/contractorsData2.json`)
+  sendRequest(`../json/contractors_data_2.json`)
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
   .then(result => {
     var data = JSON.parse(result);

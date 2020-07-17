@@ -9,8 +9,11 @@
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
     <script src="../js/check_auth.js"></script>
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/media_main.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
@@ -83,379 +86,81 @@
       </div>
     </div>
 
-    <div class="main">
+    <!-- Основное содержимое страницы -->
+    <div class="main" id="recls">
       <div class="container">
-        <div id="main-header">
-          <div id="main-nav">
-            <a href="../dashboard">Главная</a>
-            <a class="item">Рекламации</a>
-          </div>
-          <div class="main-title row">
-            <div class="title-row row">
-              <div class="title">Рекламации</div>
-              <div class="question icon" tooltip="Подсказки" help></div>
-            </div>
-            <div class="left-row row">
-              <div class="settings icon" tooltip="Настройки"></div>
-            </div>
-          </div>
+
+       <!-- Заголовок страницы -->
+        <div id="main-header" class="row">
+          <div class="title h0">Рекламации</div>
         </div>
-        <div id="reclamations" class="table-wrap active">
-          <table class="table positioned">
-            <thead class="table-head complaints">
-              <tr class="titles">
-                <th id="1">
-                  <div class="row">
-                    <div class="title">№</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="2">
-                  <div class="row">
-                    <div class="title">Дата</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="3">
-                  <div class="row">
-                    <div class="title">Наименование/Артикул</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="4">
-                  <div class="row">
-                    <div class="title">Менеджер</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div class="resize-btn"></div>
-                </th>
-                <th id="5">
-                  <div class="row">
-                    <div class="title">Статус</div>
-                    <svg class="triangle" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5L8 0H0L4 5Z" fill="white" />
-                    </svg>
-                  </div>
-                </th>
-              </tr>
-            </thead>
+        <!-- Верхняя панель с поиском -->
+        <div class="row head-pan">
+          <div class="row left-side">
+            <div class="pagination">
+              <div class="arrow left icon"></div>
+              <div class="info">1-20 из 258</div>
+              <div class="arrow right icon"></div>
+            </div>
+            <form class="search row" id="claim-search">
+              <input type="text" data-value="" autocomplete="off" placeholder="Поиск по типу заказа, номеру, контрагенту, заказчику...">
+              <input class="search icon" type="submit" value="">
+              <div class="close icon"></div>
+            </form>
+          </div>
+          <div class="settings icon"></div>
+        </div>
+        <!-- Таблицы рекламаций -->
+        <div id="recls-table" class="table-wrap active">
+          <table class="head">
+            <thead></thead>
           </table>
-          <table class="table">
-            <tbody class="table-body">
-              <tr data-status="#status#" onclick=showReclm(#id#)>
-                <td>
-                  <div class="row">
-                    <div>#recl_num#</div>
-                  </div>
-                </td>
-                <td>
-                  <div class="row">
-                    <div tooltip="#recl_time#" flow="right">#recl_date#</div>
-                  </div>
-                </td>
-                <td>
-                  <div class="row">
-                    <div>#item_title#</div>
-                  </div>
-                </td>
-                <td>
-                  <div class="row">
-                    <div>#manager_lastname# #io#</div>
-                  </div>
-                </td>
-                <td>
-                  <div class="row">
-                    <div>#status_text#</div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
+          <table>
+            <tbody id="table2-body"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <div id="alerts-container" class="pop-up-container col">
-      <div class="close-btn row">
-        <div class="alerts icon">
-          <div class="qty in-circle row">#qty#</div>
-        </div>
-      </div>
+    <!-- Шаблон окна уведомлений -->
+    <div id="notifications" class="pop-up-container">
       <div class="pop-up">
-        <div class="pop-up-title main-title row">
-          <div class="title-row row">
-            <div class="title">Уведомления</div>
+        <div class="pop-up-title row">
+          <div class="row">
+            <div class="title h1">Уведомления</div>
           </div>
+          <div class="close icon"></div>
         </div>
         <div class="pop-up-body">
-          <!-- <div class="message #status# template">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">#text#</div>
-              </div>
-              <div class="row">
-                <div class="date text light">#date#, #time#</div>
-                <div class="close icon" onclick="deleteMessage()"></div>
-              </div>
-            </div>
-          </div> -->
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
+          <div class="message row #status# template">
+            <div class="row">
+              <div class="message icon"></div>
+              <div class="message text">
+                <div>#text#</div>
+                <div class="row #isHidden#">
+                  <div class="download icon"></div>
+                  <div class="link">#link#</div>
+                </div>
               </div>
             </div>
+            <div class="date text-midlight">#date#, #time#</div>
           </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="loader">
+          <div class="loader icon"></div>
+          <div class="text">Пожалуйста, подождите</div>
         </div>
       </div>
     </div>
 
-    <div id="message-container" class="pop-up-container">
+    <!-- Прелоадер страницы -->
+    <div id="page-loader" class="loader">
+      <div class="loader icon"></div>
+      <div class="text"></div>
+    </div>
+
+    <!-- Системные сообщения -->
+    <div id="alerts" class="pop-up-container">
       <div class="pop-up">
         <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
@@ -465,42 +170,24 @@
       </div>
     </div>
 
-    <div id="loader" class="loader">
-      <div class="loader icon"></div>
-      <div class="text"></div>
-    </div>
-
+    <!-- Кнопка "Наверх страницы" -->
     <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white"/>
+      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#53606F" fill-opacity="0.6" stroke="white"/>
       <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
     </svg>
 
+    <!-- Футер -->
     <div class="footer">
       <div class="container">
         <div class="wrap">
           <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
-          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+          <div>© 2020 TOP SPORTS</div>
         </div>
       </div>
     </div>
 
     <script src ="../js/main.js"></script>
-    <script>
-      'use strict';
-      sendRequest(`${urlRequest.api}recl/recl.php`)
-      .then(result => {
-        console.log(result);
-        var data = JSON.parse(result);
-        console.log(data);
-        if (data) {
-          window['reclamationsData'] = data;
-          initTables();
-        }
-      })
-      .catch(err => {
-        console.log('err');
-        initTables();
-      });
-    </script>
+    <script src="../js/table.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
