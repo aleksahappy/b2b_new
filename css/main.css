@@ -273,7 +273,7 @@ body.no-scroll {
 }
 
 .btns-wrap > :first-child {
-  margin-right: 0.714em;
+  margin-right: 1.428em;
 }
 
 .btns-wrap > div:last-child {
@@ -3318,16 +3318,18 @@ tbody td > .row > * {
 
 body#auth .pop-up-title {
   justify-content: center;
+  margin-bottom: 0;
 }
 
 body#auth .h1 {
   margin-right: 0;
 }
 
-body#auth .err {
+body#auth #error {
+  display: block;
   font-size: 1em;
-  margin-bottom: 1em;
-  text-align: left;
+  margin: 1em 0;
+  visibility: hidden;
 }
 
 body#auth .notice {

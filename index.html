@@ -35,17 +35,17 @@
               <!-- <div class="close icon"></div> -->
             </div>
             <div class="pop-up-body">
-              <div id="error" class="err"></div>
+              <div id="error" class="err">Пользователь не найден</div>
               <form id="log-in" class="post">
-                <div class="form-wrap">
+                <div class="form-wrap" required>
                   <div class="title">Логин*</div>
-                  <input type="text" value="" name="login" autocomplete="off" required>
-                  <!-- <div class="err">Поле заполнено неверно</div> -->
+                  <input type="text" value="" name="login" placeholder="Введите логин">
+                  <div class="err">Поле не заполнено</div>
                 </div>
-                <div class="form-wrap">
+                <div class="form-wrap" required>
                   <div class="title">Пароль*</div>
-                  <input type="password" value="" name="pass" autocomplete="off" required>
-                  <!-- <div class="err">Поле заполнено неверно</div> -->
+                  <input type="password" value="" name="pass" placeholder="Введите пароль">
+                  <div class="err">Поле не заполнено</div>
                 </div>
                 <div class="form-wrap">
                   <div class="option row">
@@ -55,7 +55,7 @@
                   </div>
                 </div>
                 <div class="btns-wrap">
-                  <input class="btn act" id="enter" type="submit" value="Войти" onclick="logIn(event)">
+                  <input class="btn act" type="submit" value="Войти" onclick="logIn(event)">
                   <a href="registr/" class="btn sub-act">Стать дилером</a>
                 </div>
                 <div class="notice title">Если вы забыли логин или пароль обратитесь в отдел продаж<br>+7 (846) 300-44-99</div>
