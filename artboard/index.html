@@ -514,13 +514,13 @@
         <div class="arboard-block input-temp">
 
           <div>Поле ввода:</div>
-          <input type="text" autocomplete="off" placeholder="Введите текст">
+          <input type="text" placeholder="Введите текст">
           <div>Поле ввода при ошибке (в формах):</div>
           <div class="form-wrap error">
-            <input type="text" autocomplete="off" placeholder="Введите текст">
+            <input type="text" placeholder="Введите текст">
           </div>
           <div>Заблокированное поле ввода:</div>
-          <input type="text" autocomplete="off" placeholder="Введите текст" disabled>
+          <input type="text" placeholder="Введите текст" disabled>
 
         </div>
 
@@ -530,20 +530,20 @@
 
           <div>Простая форма поиска:</div>
           <form class="search row">
-            <input type="text" data-value="" autocomplete="off" placeholder="Очень длинное название подсказки скрывается">
+            <input type="text" data-value="" placeholder="Очень длинное название подсказки скрывается">
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
           </form>
           <div>Простая форма поиска поиска, когда поиск закончен</div>
           <form class="search row">
-            <input type="text" data-value="Поиск закончен" value="Поиск закончен" autocomplete="off" placeholder="Поиск...">
+            <input type="text" data-value="Поиск закончен" value="Поиск закончен" placeholder="Поиск...">
             <input class="search icon" type="submit" value="" style="display: none;">
             <div class="close icon" style="display: block;"></div>
           </form>
           <div>Раскрывающаяся форма поиска</div>
           <div class="example row">
             <form class="search positioned row">
-              <input type="text" data-value="" autocomplete="off"> <!-- здесь нельзя использовать placeholder -->
+              <input type="text" data-value=""> <!-- здесь нельзя использовать placeholder -->
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
             </form>
@@ -1036,7 +1036,7 @@
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Юридический адрес*</div>
-                    <textarea name="" maxlength="" autocomplete="off" placeholder="" disabled></textarea>
+                    <textarea name="" maxlength="" placeholder="" disabled></textarea>
                     <div class="err">Поле не заполнено</div>
                   </div>
                   <div class="form-wrap" required>
@@ -1530,6 +1530,7 @@
     <script src ="../js/main.js"></script>
     <script src="../js/table.js"></script>
     <script src="../js/calendar.js"></script>
+    <script src="../js/test.js"></script>
     <script>
       // Добавление всплывающей html-подсказки:
       getEl('#tooltip').dataset.tooltip = `<table style="width:100% !important;border-spacing: 2px;border-collapse: separate;font-size:12px;text-align:center;"><thead><tr><th>Сумма заказа в РРЦ</th><th>Размер  скидки</th></tr></thead><tbody><tr><td>до 35 000</td><td>30%</td></tr><tr><td>от 35 000 до 70 000</td><td>35%</td></tr><tr><td>от 70 000 до 100 000</td><td>45%</td></tr><tr><td>от 100 000</td><td>65%</td></tr></tbody></table>`;
