@@ -1639,6 +1639,7 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 .activate .head {
+  position: relative;
   justify-content: space-between;
   align-items: center;
   height: 100%;
@@ -1650,6 +1651,7 @@ div.option input:disabled ~ .checkbox.icon {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  z-index: 2;
 }
 
 .activate:not([disabled]):hover .head,
@@ -1703,7 +1705,7 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate .drop-down {
   position: absolute;
-  top: 100%;
+  top: 99%;
   right: 0;
   width: 100%;
   min-width: 100%;
@@ -2210,6 +2212,10 @@ form.post .form-wrap .text-counter {
 
 .table-wrap .edit.icon {
   margin: 0 auto;
+}
+
+.table-wrap .pill {
+  display: inline-block;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
@@ -2983,6 +2989,14 @@ tbody td > .row > * {
   max-width: 100%;
 }
 
+.header-top #catalogs > .row {
+  margin-top: -2px;
+}
+
+.header-top #catalogs > .row:first-child {
+  margin-top: 1px;
+}
+
 .header-top .catalog {
   width: 100%;
 }
@@ -3026,6 +3040,7 @@ tbody td > .row > * {
 .header-top .drop-down .cart-info:hover {
   border: 1px solid #34495E;
   background-color: #FFFFFF;
+  z-index: 1;
 }
 
 .header-top .drop-down .row:last-child .item:last-child {
