@@ -1,18 +1,26 @@
 'use strict';
 
-// Авторизация на сайте:
+// Авторизация:
 
 function logIn(event) {
   event.preventDefault();
 
-  var formData = new FormData(document.getElementById('log-in')),
-      data = {action: 'login', data: {}};
+  var required = document.querySelectorAll('[required] input[name]');
+  for (var el of required) {
+    if (!el.value) {
+      el.closest('.form-wrap').classList.add('error');
+      return;
+    }
+  }
+
+  var data = {action: 'login', data: {}},
+      formData = new FormData(document.getElementById('log-in'));
   formData.forEach((value, key) => {
     data.data[key] = value;
   });
 
   var request = new XMLHttpRequest();
-  request.addEventListener('error', () => showError('Произошла ошибка, попробуйте позже'));
+  request.addEventListener('error', () => showError('Произошла ошибка, попробуйте войти позже'));
   request.addEventListener('load', () => {
     if (request.status !== 200) {
       showError('Произошла ошибка, попробуйте позже');
@@ -30,10 +38,21 @@ function logIn(event) {
   request.send(JSON.stringify(data));
 }
 
+// Отключение сообщений о незаполненых полях:
+
+document.querySelectorAll('[required] input[name]').forEach(el => el.addEventListener('input', event => closeError(event)));
+
+function closeError(event) {
+  var input = event.currentTarget;
+  if (input.value && input.value.trim() !== '') {
+    input.closest('.form-wrap').classList.remove('error');
+  }
+}
+
 // Отображение ошибки на странице авторизации:
 
 function showError(text) {
   var error = document.getElementById('error');
   error.textContent = text;
-  error.style.display = 'block';
+  error.style.visibility = 'visible';
 }

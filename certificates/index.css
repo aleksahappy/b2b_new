@@ -24,6 +24,7 @@ form.search {
 
 #notice {
   display: none;
+  margin-top: 1em;
 }
 
 #cert-data .item {
