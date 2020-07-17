@@ -653,6 +653,11 @@ body.no-scroll {
 Стили календаря:
 ===================================================================================================== */
 
+input[data-type="date"],
+input[data-type="range"] {
+  background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
+}
+
 .calendar {
   position: absolute;
   min-width: 200px;
@@ -672,7 +677,8 @@ body.no-scroll {
   background: #F2F2F2;
 }
 
-.calendar .input-area .month-navigator .month-previous, .calendar .input-area .month-navigator .month-next {
+.calendar .input-area .month-navigator .month-previous,
+.calendar .input-area .month-navigator .month-next {
   display: block;
   width: 30px;
   height: 30px;
@@ -768,11 +774,6 @@ body.no-scroll {
 .calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-active {
   color: #FFFFFF;
   background-color:#34495E;
-}
-
-input[data-type="birth"],
-input[data-type="range"] {
-  background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
 }
 
 /* =====================================================================================================
@@ -1962,8 +1963,8 @@ form.file {
 }
 
 form.file .file-name {
-  min-width: 15em;
-  padding: 0.714em 1.5em;
+  width: 16.5em;
+  padding: 0.465em 0.714em;
   border: 1px solid #D5D5D5;
   border-radius: 3px 0 0 3px;
   text-align: center;
@@ -2111,7 +2112,7 @@ form.post .form-wrap > .title {
   margin-bottom: 0.35em;
 }
 
-form.post input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty),
+form.post input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty):not([data-type="date"]):not([data-type="range"]),
 form.post textarea {
   width: 100%;
 }
