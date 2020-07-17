@@ -12,6 +12,7 @@
 
 /* Стили для страницы с рекламацией */
 .container1{
+  display: flex;
     width: 70%;
     margin-top: 20px;
 }
@@ -195,8 +196,8 @@ main{
   margin-bottom: 0.5em;
 }
 
-.complaint-info div:last-child{
-    margin-top: 3vw;
+.complaint-info > div:last-child{
+  margin-bottom: 0;
 }
 
 .complaint-info span{
@@ -317,8 +318,7 @@ main{
 
 .visual a{
     font-size: 1em;
-    text-decoration: underline;
-    color: #34548A;
+    text-decoration: none;
 }
 
 .complaint-descr{
@@ -334,7 +334,11 @@ main{
 
 .complaint-photo{
     width: 100%;
-    margin-top: 3vw;
+    margin-top: 1vw;
+}
+
+.upload-content{
+  margin-top: 20px;
 }
 
 .files{
@@ -351,7 +355,6 @@ main{
     position: relative;
     display: block;
     width: 33.333%;
-    padding: 8px 0 0 8px;
     height: 192px;
     overflow: hidden;
 }
@@ -367,6 +370,10 @@ main{
     min-height: 100%;
     height: 192px;
     overflow: hidden;
+}
+
+#frm_upload input[type="submit"] {
+  display: none;
 }
 
 .file-select-btn{
