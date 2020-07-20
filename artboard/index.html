@@ -930,7 +930,7 @@
                   </div>
                   <div class="form-wrap">
                     <div class="title">Email</div>
-                    <input type="text" value="" name="email" data-type="email" placeholder="name@domain.ru">
+                    <input type="text" value="" name="email" data-type="email" placeholder="Введите email">
                     <div class="err">Поле заполнено неверно</div>
                   </div>
                   <div class="form-wrap" required>
@@ -1023,13 +1023,13 @@
                   <!-- обязательно добавляем скрытый инпут с name и пустым value -->
                   <input type="hidden" value="" name="taxsystem">
                   <div class="head row">
-                    <div class="title">Закупки</div>
+                    <div class="title">Выберите систему</div>
                     <div class="triangle icon"></div>
                   </div>
                   <div class="drop-down">
                     <div class="item" data-value="Общая">Общая</div>
-                    <div class="item" data-value="УСН">Урощенная</div>
-                    <div class="item" data-value="УСН">Прочая</div>
+                    <div class="item" data-value="Урощенная">Урощенная</div>
+                    <div class="item" data-value="Прочая">Прочая</div>
                   </div>
                 </div>
               </div>
@@ -1072,7 +1072,8 @@
                     <div class="row">
                       <div class="form-wrap" required>
                         <div class="title">ИНН*</div>
-                        <input type="text" value="" name="" placeholder="" maxlength="12" onkeypress="return onlyNumb(event)">
+                        <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
+                        <div class="err">Поле заполнено неверно</div>
                       </div>
                       <div id="inn-loader" class="loader icon"></div>
                     </div>
@@ -1088,7 +1089,6 @@
                   <div class="form-wrap" required>
                     <div class="title">Юридический адрес*</div>
                     <textarea name="" maxlength="" placeholder="" disabled></textarea>
-                    <div class="err">Поле не заполнено</div>
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Система налогообложения*</div>
@@ -1096,13 +1096,13 @@
                       <!-- обязательно добавляем скрытый инпут с name и пустым value -->
                       <input type="hidden" value="" name="taxsystem">
                       <div class="head row">
-                        <div class="title">Закупки</div>
+                        <div class="title">Выберите систему</div>
                         <div class="triangle icon"></div>
                       </div>
                       <div class="drop-down">
                         <div class="item" data-value="Общая">Общая</div>
-                        <div class="item" data-value="УСН">Урощенная</div>
-                        <div class="item" data-value="УСН">Прочая</div>
+                        <div class="item" data-value="Урощенная">Урощенная</div>
+                        <div class="item" data-value="Прочая">Прочая</div>
                       </div>
                     </div>
                   </div>

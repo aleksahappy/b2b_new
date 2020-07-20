@@ -2117,6 +2117,20 @@ form.post {
   background-color: #F8F8F8;
 }
 
+form.post .form-group {
+  margin-bottom: 1.2em;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+form.post .form-group:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+form.post .form-group > .title {
+  margin-bottom: 1em;
+}
+
 form.post .form-cols {
   display: flex;
   justify-content: space-between;
@@ -3381,7 +3395,7 @@ body#auth .pop-up-title {
   margin-bottom: 0;
 }
 
-body#auth .h1 {
+body#auth .pop-up-title > .title {
   margin-right: 0;
 }
 

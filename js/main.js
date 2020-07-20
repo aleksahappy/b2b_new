@@ -1756,6 +1756,12 @@ function checkInput(input) {
     regEx = emailRegExp;
   } else if (type === 'nickname') {
     regEx = nicknameRegExp;
+  } else if (type === 'inn') {
+    if (value.length >= 10 && value.length <= 12) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
     return true;
   }
