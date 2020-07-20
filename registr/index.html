@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-
   <head>
+    <title>ТОП СПОРТС - Дилерство</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
-    <title>ТОП СПОРТС - Дилерство</title>
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/check_auth.js"></script>
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/media_main.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- <link rel="stylesheet" type="text/css" href="media_index.css"> -->
   </head>
 
   <body data-website="ts_b2b">
@@ -28,210 +30,157 @@
 
     <div class="main">
       <div class="container center">
-        <!-- <div class="pop-up-container"> -->
-          <div class="registr">
-            <div class="pop-up-title" style="text-align: center;">
-              <div class="title">Заявка на дилерство</div>
-              <!-- <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round"/>
-                <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round"/>
-              </svg> -->
+        <!-- <div id="" class="pop-up-container"> -->
+          <div class="pop-up">
+            <div class="pop-up-title row" style="text-align: center;">
+              <div class="title h1">Заявка на дилерство</div>
+              <!-- <div class="close icon"></div> -->
             </div>
             <div class="pop-up-body">
-              <form class="registr-form" action="#" method="post">
-                <div class="input-wrap">
-                  <input type="text" value="" name="rega[inn]" data-minlength="10" maxlength="12" required onkeypress="return checkValue(event)">
-                  <div class="hint">ИНН *</span></div>
-                </div>
-                <div class="input-wrap">
-                  <input type="text" value="" name="rega[shopname]" required>
-                  <div class="hint">Название магазина *</div>
-                </div>
-                <div class="check-wrap">
-                  <div class="title">Формат торговли *</div>
-                  <label class="check row">
-                    <input type="checkbox" value="Розничный магазин" name="rega[area][]">
-                    <div class="checkbox icon"></div>
-                    <div>Розничный магазин</div>
-                  </label>
-                  <label class="check row">
-                    <input type="checkbox" value="Интернет магазин" name="rega[area][]">
-                    <div class="checkbox icon"></div>
-                    <div>Интернет магазин</div>
-                  </label>
-                  <label class="check row">
-                    <input type="checkbox" value="Сервисный центр" name="rega[area][]">
-                    <div class="checkbox icon"></div>
-                    <div>Сервисный центр</div>
-                  </label>
-                  <label class="check row">
-                    <input type="checkbox" value="Другое"name="rega[area][other]">
-                    <div class="checkbox icon"></div>
-                    <div>Другое</div>
-                  </label>
-                </div>
-                <div class="input-wrap">
-                  <input type="text" value="" name="rega[contact]" required>
-                  <div class="hint">Контактное лицо *</div>
-                </div>
-                <div class="input-wrap">
-                  <input type="text" value="" name="rega[job]" required>
-                  <div class="hint">Должность *</div>
-                </div>
-                <div class="check-wrap">
-                  <div class="title">Дилерство каких брендов интересует *</div>
-                  <div class="row columns two">
-                    <div>
-                      <label class="check row">
-                        <input type="checkbox" value="509" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>509</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="BCA" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>BCA</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="FullT" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>FullT</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="HMK" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>HMK</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="Jethwear" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>Jethwear</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="SEVEN MX" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>SEVEN MX</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="SIXS" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>SIXS</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="TLD" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>TLD</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="ABOM" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>ABOM</div>
-                      </label>
+              <form class="post">
+                <div class="form-groups">
+                  <div class="form-group">
+                    <div class="title h3">Информация о компании</div>
+                    <div class="form-wrap" required>
+                      <div class="title">Название магазина*</div>
+                      <input type="text" value="" name="rega[shopname]" placeholder="Введите название">
                     </div>
-                    <div>
-                      <label class="check row">
-                        <input type="checkbox" value="EVS" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>EVS</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="TOBE" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>TOBE</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="FXR" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>FXR</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="HORD" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>HORD</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="OGIO" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>OGIO</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="Silky" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>Silky</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="SPI" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>SPI</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="Другое" name="rega[brands][]">
-                        <div class="checkbox icon"></div>
-                        <div>Другое</div>
-                      </label>
+                    <div class="form-cols">
+                      <div class="form-col2">
+                        <div class="form-wrap" required>
+                          <div class="title">Сайт</div>
+                          <input type="text" value="" name="site_???" placeholder="Введите адрес сайта">
+                        </div>
+                      </div>
+                      <div class="form-col2">
+                        <div class="form-wrap">
+                          <div class="title">Тип торговли</div>
+                          <div class="activate select">
+                            <input type="hidden" value="" name="rega[area][]">
+                            <div class="head row">
+                              <div class="title">Выберите тип торговли</div>
+                              <div class="triangle icon"></div>
+                            </div>
+                            <div class="drop-down">
+                              <div class="item" data-value="Розничный магазин">Розничный магазин</div>
+                              <div class="item" data-value="Интернет магазин">Интернет магазин</div>
+                              <div class="item" data-value="Сервисный центр">Сервисный центр</div>
+                              <div class="item" data-value="Другое">Другое</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="title h3">Контактная информация</div>
+                    <div class="form-cols">
+                      <div class="form-col2">
+                        <div class="form-wrap" required>
+                          <div class="title">Контактное лицо*</div>
+                          <input type="text" value="" name="rega[contact]" placeholder="Введите имя">
+                        </div>
+                        <div class="form-wrap" required>
+                          <div class="title">Телефон*</div>
+                          <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
+                          <div class="err">Поле заполнено неверно</div>
+                        </div>
+                      </div>
+                      <div class="form-col2">
+                        <div class="form-wrap" required>
+                          <div class="title">Должность*</div>
+                          <input type="text" value="" name="rega[job]" placeholder="Введите должность">
+                        </div>
+                        <div class="form-wrap" required>
+                          <div class="title">Email*</div>
+                          <input type="text" value="" name="email_???" data-type="email" placeholder="Введите email">
+                          <div class="err">Поле заполнено неверно</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="title h3">Юридическая информация</div>
+                    <div class="form-cols">
+                      <div class="form-col2">
+                        <div class="form-wrap" required>
+                          <div class="title">ИНН*</div>
+                          <input type="text" value="" name="rega[inn]" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
+                          <div class="err">Поле заполнено неверно</div>
+                        </div>
+                      </div>
+                      <div class="form-col2">
+                        <div class="form-wrap" required>
+                          <div class="title">Система налогообложения*</div>
+                          <div class="activate select">
+                            <input type="hidden" value="" name="system_?">
+                            <div class="head row">
+                              <div class="title">Выберите тип торговли</div>
+                              <div class="triangle icon"></div>
+                            </div>
+                            <div class="drop-down">
+                              <div class="item" data-value="Общая">Общая</div>
+                              <div class="item" data-value="Урощенная">Урощенная</div>
+                              <div class="item" data-value="Прочая">Прочая</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="title h3">Дилерство каких брендов интересует</div>
+                    <div class="form-cols">
+                      <div class="form-col2">
+                        <div class="form-wrap">
+                          <div class="title">Бренд</div>
+                          <div class="activate select">
+                            <input type="hidden" value="" name="rega[brands][]">
+                            <div class="head row">
+                              <div class="title">Выберите бренд</div>
+                              <div class="triangle icon"></div>
+                            </div>
+                            <div class="drop-down">
+                              <div class="item" data-value="509">509</div>
+                              <div class="item" data-value="BCA">BCA</div>
+                              <div class="item" data-value="FullT">FullT</div>
+                              <div class="item" data-value="HMK">HMK</div>
+                              <div class="item" data-value="Jethwear">Jethwear</div>
+                              <div class="item" data-value="SEVEN MX">SEVEN MX</div>
+                              <div class="item" data-value="SIXS">SIXS</div>
+                              <div class="item" data-value="TLD">TLD</div>
+                              <div class="item" data-value="ABOM">ABOM</div>
+                              <div class="item" data-value="EVS">EVS</div>
+                              <div class="item" data-value="TOBE">TOBE</div>
+                              <div class="item" data-value="FXR">FXR</div>
+                              <div class="item" data-value="HORD">HORD</div>
+                              <div class="item" data-value="OGIO">OGIO</div>
+                              <div class="item" data-value="Silky">Silky</div>
+                              <div class="item" data-value="SPI">SPI</div>
+                              <div class="item" data-value="Другое">Другое</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-col2"></div>
                     </div>
                   </div>
                 </div>
-                <div class="check-wrap">
-                  <div class="title">Какие бренды техники представлены в вашем магазине *</div>
-                  <div class="row columns two">
-                    <div>
-                      <label class="check row">
-                        <input type="checkbox" value="Arctic Cat" name="rega[brands_have][]">
-                        <div class="checkbox icon"></div>
-                        <div>Arctic Cat</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="Polaris" name="rega[brands_have][]">
-                        <div class="checkbox icon"></div>
-                        <div>Polaris</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="BRP" name="rega[brands_have][]">
-                        <div class="checkbox icon"></div>
-                        <div>BRP</div>
-                      </label>
-                    </div>
-                    <div>
-                      <label class="check row">
-                        <input type="checkbox" value="Yamaha" name="rega[brands_have][]">
-                        <div class="checkbox icon"></div>
-                        <div>Yamaha</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="Другое" name="rega[brands_have][other]">
-                        <div class="checkbox icon"></div>
-                        <div>Другое</div>
-                      </label>
-                      <label class="check row">
-                        <input type="checkbox" value="Не представлены" name="rega[brands_have][other]">
-                        <div class="checkbox icon"></div>
-                        <div>Не представлены</div>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="btns-wrap col">
-                  <input class="active btn" type="submit" value="Отправить анкету">
+                <div class="btns-wrap">
+                  <input class="btn sub-act" type="submit" value="Отправить" onclick="logIn(event)">
                 </div>
               </form>
+            </div>
+            <div class="loader">
+              <div class="loader icon"></div>
+              <div class="text">Пожалуйста, подождите</div>
             </div>
           </div>
         <!-- </div> -->
       </div>
     </div>
 
-    <div id="message-container" class="pop-up-container">
-      <div class="pop-up">
-        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
-        </svg>
-        <div class="text pop-up"></div>
-      </div>
-    </div>
-
-    <div id="loader" class="loader">
+    <div id="page-loader" class="loader">
       <div class="loader icon"></div>
       <div class="text"></div>
     </div>
@@ -240,11 +189,10 @@
       <div class="container">
         <div class="wrap">
           <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
-          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
+          <div>© 2020 TOP SPORTS</div>
         </div>
       </div>
     </div>
 
   </body>
-
 </html>
