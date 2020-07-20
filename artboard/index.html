@@ -594,14 +594,21 @@
           <!-- для возможности выбора сразу нескольких файлов добавляется атрибут multiple -->
           <!-- у input обязательно должно быть id, которое обязательно необходимо указать в атрибуте for тега label (кнопки выбора) -->
 
-          <div>Поле загрузки с названием файла и кнопкой:</div>
+          <div>Поле загрузки одного файла:</div>
           <div class="file-wrap">
-            <input id="load-file" type="file" accept=".xls,.xlsx">
+            <input id="load-file1" type="file" accept=".xls,.xlsx">
             <div class="file-name">Файл не выбран</div>
-            <label class="btn sub-act" for="load-file">Выберите файл</label>
+            <label class="btn sub-act" for="load-file1">Выберите файл</label>
           </div>
           <br>
-          <div>Поле загрузки картинки с предпросмотром:</div>
+          <div>Поле загрузки нескольких файлов:</div>
+          <div class="file-wrap">
+            <input id="load-file2" type="file" accept=".xls,.xlsx" multiple>
+            <div class="file-name">Файлы не выбраны</div>
+            <label class="btn sub-act" for="load-file2">Выберите файлы</label>
+          </div>
+          <br>
+          <div>Поле загрузки одной картинки с предпросмотром:</div>
           <div class="file-wrap">
             <input id="load-img" type="file" accept="image/*">
             <div class="file-preview"></div>

@@ -1676,11 +1676,8 @@ function showSelectFiles(event) {
       file;
   if (fileName) {
     var text = '';
-    if (!files) {
-      console.log('файлов нет');
-    }
     if (files && files.length > 1) {
-      text = `Выбрано ${declOfNum(files.length, ['файл', 'файла', 'файлов'])}: ${files.length}`;
+      text = `Выбрано ${files.length} ${declOfNum(files.length, ['файл', 'файла', 'файлов'])}`;
     } else if (files.length) {
       text = event.currentTarget.value.split('\\').pop();
     } else {
@@ -1837,8 +1834,8 @@ function Form(obj, func) {
         if (field.hasAttribute('data-type')) {
           var isValid = checkInput(field);
           // console.log(isValid);
-          // console.log(field.value.length);
-          if (isValid && value && value.length) {
+          // console.log(field.value);
+          if (isValid && value) {
             return true;
           }
         } else if (type === 'radio' || type === 'checkbox') {
@@ -1851,12 +1848,9 @@ function Form(obj, func) {
           if (value != 0) {
             return true;
           }
-        } else if (type === 'file') {
-          // ???
         } else {
           // console.log(field.value);
-          // console.log(field.value.length);
-          if (value && value.length) {
+          if (value) {
             return true;
           }
         }
