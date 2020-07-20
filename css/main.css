@@ -1958,33 +1958,74 @@ form.search.positioned:focus-within .close.icon {
 Поле загрузки файлов:
 ===================================================================================================== */
 
-form.file {
+.file-wrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
   align-items: stretch;
 }
 
-form.file .file-name {
-  width: 16.5em;
-  padding: 0.465em 0.714em;
-  border: 1px solid #D5D5D5;
-  border-radius: 3px 0 0 3px;
-  text-align: center;
-}
-
-input.file {
+input[type="file"] {
+  position: absolute;
 	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
+  height: 0.1px;
+  margin: 0;
+  padding: 0;
 	overflow: hidden;
-	position: absolute;
+  opacity: 0;
 	z-index: -1;
 }
 
-input.file ~ label {
+input[type="file"] ~ .file-name {
+  display: inline-block;
+  width: 16.5em;
+  margin-right: -0.5em;
+  padding: 0.465em 0.714em;
+  padding-right: 1.214em;
+  color: #C6C6C6;
+  background-color: #FFFFFF;
+  border: 1px solid #D5D5D5;
+  border-radius: 3px;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+input[type="file"] ~ .file-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 67px;
+  height: 67px;
+  background-color: #EEEEEE;
+}
+
+input[type="file"] ~ .file-preview img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+input[type="file"] ~ label {
   cursor: pointer;
 }
 
-form.file input[type="submit"] {
-  display: none;
+input[type="file"] ~ .btn {
+  padding: 0.465em 0.714em;
+}
+
+input[type="file"] ~ .title {
+  position: absolute;
+  width: 67px;
+  height: 67px;
+  font-size: 0.857em;
+  line-height: 80px;
+  text-align: center;
+  background: #EEEEEE url(../img/download.svg) no-repeat center 20px;
+}
+
+.file-wrap.added .title {
+  opacity: 0;
 }
 
 /* =====================================================================================================

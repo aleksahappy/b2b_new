@@ -521,10 +521,13 @@
 
           <div>Поле ввода:</div>
           <input type="text" placeholder="Введите текст">
+          <br>
+          <br>
           <div>Поле ввода при ошибке (в формах):</div>
           <div class="form-wrap error">
             <input type="text" placeholder="Введите текст">
           </div>
+          <br>
           <div>Заблокированное поле ввода:</div>
           <input type="text" placeholder="Введите текст" disabled>
 
@@ -540,13 +543,15 @@
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
           </form>
-          <div>Простая форма поиска поиска, когда поиск закончен</div>
+          <br>
+          <div>Простая форма поиска поиска, когда поиск закончен:</div>
           <form class="search row">
             <input type="text" data-value="Поиск закончен" value="Поиск закончен" placeholder="Поиск...">
             <input class="search icon" type="submit" value="" style="display: none;">
             <div class="close icon" style="display: block;"></div>
           </form>
-          <div>Раскрывающаяся форма поиска</div>
+          <br>
+          <div>Раскрывающаяся форма поиска:</div>
           <div class="example row">
             <form class="search positioned row">
               <input type="text" data-value=""> <!-- здесь нельзя использовать placeholder -->
@@ -554,7 +559,8 @@
               <div class="close icon"></div>
             </form>
           </div>
-          <div>Форма поиска с подсказками</div>
+          <br>
+          <div>Форма поиска с подсказками:</div>
           <form id="search" class="search activate select row">
             <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
@@ -580,6 +586,30 @@
 
         </div>
 
+        <!-- Поля загрузки файлов -->
+        <div class="artboard-title">Поля загрузки файлов</div>
+        <div class="arboard-block download-temp">
+
+          <!-- в атрибуте accept указываются форматы файлов, которые разрешено загрузить, например accept=".xls,.xlsx" -->
+          <!-- для возможности выбора сразу нескольких файлов добавляется атрибут multiple -->
+          <!-- у input обязательно должно быть id, которое обязательно необходимо указать в атрибуте for тега label (кнопки выбора) -->
+
+          <div>Поле загрузки с названием файла и кнопкой:</div>
+          <div class="file-wrap">
+            <input id="load-file" type="file" accept=".xls,.xlsx">
+            <div class="file-name">Файл не выбран</div>
+            <label class="btn sub-act" for="load-file">Выберите файл</label>
+          </div>
+          <br>
+          <div>Поле загрузки картинки с предпросмотром:</div>
+          <div class="file-wrap">
+            <input id="load-img" type="file" accept="image/*">
+            <div class="file-preview"></div>
+            <label class="title" for="load-img">лого</label>
+          </div>
+
+        </div>
+
         <!-- Выпадающие списки -->
         <div class="artboard-title">Выпадающие списки</div>
         <div class="arboard-block drop-down-temp">
@@ -590,14 +620,15 @@
             <option value="1">1</option>
             <option value="1">2</option>
           </select>
-
+          <br>
+          <br>
           <div>Системный селект заблокированный</div>
           <select disabled>
             <option value="1" default>Select</option>
             <option value="1">1</option>
             <option value="1">2</option>
           </select>
-
+          <br>
           <div>Кастомный селект</div>
           <div id="select" class="activate select">
             <!-- добавляем скрытый инпут, когда добавляем выпадашку в форму -->
@@ -615,7 +646,7 @@
               <div class="item" data-value="5">Значение 5</div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный чекбокс</div>
           <div id="checkbox" class="activate checkbox">
             <!-- добавляем скрытый инпут, когда добавляем выпадашку в форму -->
@@ -655,7 +686,7 @@
               </div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный выпадающий список с сортировкой, поиском и чекбоксом</div>
           <div id="dropDown" class="activate box">
             <div class="head row">
@@ -715,7 +746,7 @@
               </div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный список заблокированный</div>
           <div id="select" class="activate select" disabled>
             <div class="head row">
@@ -731,27 +762,11 @@
               <div class="item" data-value="5">Значение 5</div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный календарь</div>
           <input id="calendar" type="text" value="" name="" data-type="date"  placeholder="28/10/1980" maxlength="10">
 
         </div>
-
-        <!-- Поля загрузки файлов -->
-        <div class="artboard-title">Поля загрузки файлов</div>
-        <div class="arboard-block download-temp">
-
-          <div>Поле загрузки с названием файла и кнопкой</div>
-          <form id="load-file" class="file row" onsubmit="addInCart(event)">
-            <!-- в атрибуте accept указываются форматы файлов, которые разрешено загрузить, например accept=".xls,.xlsx" -->
-            <input id="file-cart" class="file" type="file" accept="">
-            <div class="file-name"></div>
-            <label class="btn sub-act" for="file-cart">Выбрать файл</label>
-            <input class="btn sub-act" type="submit" value="Загрузить файл">
-          </form>
-
-        </div>
-
 
         <!-- Скролл -->
         <div class="artboard-title">Скролл</div>
@@ -870,6 +885,7 @@
           </div>
 
         </div>
+
 
         <!-- Форма отправки на сервер -->
         <div class="artboard-title">Форма отправки на сервер</div>

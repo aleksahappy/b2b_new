@@ -87,6 +87,7 @@ function startPage() {
   showUserInfo();
   initTooltips();
   initPopUps();
+  initInputFiles();
   initNotifications();
 
   if (isCart) {
@@ -1660,39 +1661,56 @@ function closeFullImg(event) {
 // Работа полей для загрузки файлов:
 //=====================================================================================================
 
-document.querySelectorAll('input[type="file"]').forEach(input => showFiles(input));
+function initInputFiles() {
+  document.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', event => showSelectFiles(event)));
+}
 
-// Отображение названия файла или количества выбранных файлов:
+// Отображение выбранных файлов:
 
-function showFiles(input) {
-  var form = input.closest('form');
-  if (!form) {
-    return;
-  }
-  var fileName = getEl('.file-name', form),
-      loadBtn = getEl('label', form),
-      submitBtn = getEl('input[type="submit"]', form);
+function showSelectFiles(event) {
+  var wrap = event.currentTarget.closest('.file-wrap'),
+      fileName = getEl('.file-name', wrap),
+      filePreview = getEl('.file-preview', wrap),
+      files = event.currentTarget.files,
+      imageTypeRegExp = /^image\//,
+      file;
   if (fileName) {
-    input.addEventListener('change', event => {
-      var text = '',
-          files = event.currentTarget.files;
-      if (files && files.length > 1) {
-        text = `${files.length} ${declOfNum(files.length, ['файл', 'файла', 'файлов'])} выбрано`;
-      } else {
-        text = event.currentTarget.value.split('\\').pop();
+    var text = '';
+    if (!files) {
+      console.log('файлов нет');
+    }
+    if (files && files.length > 1) {
+      text = `Выбрано ${declOfNum(files.length, ['файл', 'файла', 'файлов'])}: ${files.length}`;
+    } else if (files.length) {
+      text = event.currentTarget.value.split('\\').pop();
+    } else {
+      text = 'Файл не выбран';
+    }
+    fileName.textContent = text;
+  }
+  if (filePreview) {
+    var reader;
+    for (var i = 0; i < files.length; i++) {
+      file = files[i];
+      if (!imageTypeRegExp.test(file.type)) {
+        return;
       }
-      console.log(fileName);
-      fileName.textContent = text;
-      if (submitBtn) {
-        if (files && files.length) {
-          hideElement(loadBtn);
-          showElement(submitBtn);
-        } else {
-          showElement(loadBtn);
-          hideElement(submitBtn);
-        }
+      var reader = new FileReader();
+      reader.addEventListener('load', function(event) {
+        var img = document.createElement('img');
+        img.src = event.target.result;
+        filePreview.innerHTML = '';
+        filePreview.insertBefore(img, null);
+      });
+      if (file) {
+        wrap.classList.add('added');
+        reader.readAsDataURL(file);
       }
-    });
+    }
+    if (!files || !files.length) {
+      wrap.classList.remove('added');
+      filePreview.innerHTML = '';
+    }
   }
 }
 
