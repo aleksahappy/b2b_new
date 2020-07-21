@@ -61,7 +61,6 @@ var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))
 var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
 var telRegExp = /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/;
 var finTelRegExp = /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/;
-var birthRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
 var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
 
 // Запускаем рендеринг страницы:
@@ -88,6 +87,7 @@ function startPage() {
   showUserInfo();
   initTooltips();
   initPopUps();
+  initInputFiles();
   initNotifications();
 
   if (isCart) {
@@ -856,6 +856,9 @@ function countQty(sign, qty, maxQty, minQty) {
     }
   } else {
     if (isNaN(qty)) {
+      qty = minQty;
+    }
+    if (qty < minQty) {
       qty = minQty;
     }
     if (qty > maxQty) {
@@ -1658,39 +1661,53 @@ function closeFullImg(event) {
 // Работа полей для загрузки файлов:
 //=====================================================================================================
 
-document.querySelectorAll('input[type="file"]').forEach(input => showFiles(input));
+function initInputFiles() {
+  document.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', event => showSelectFiles(event)));
+}
 
-// Отображение названия файла или количества выбранных файлов:
+// Отображение выбранных файлов:
 
-function showFiles(input) {
-  var form = input.closest('form');
-  if (!form) {
-    return;
-  }
-  var fileName = getEl('.file-name', form),
-      loadBtn = getEl('label', form),
-      submitBtn = getEl('input[type="submit"]', form);
+function showSelectFiles(event) {
+  var wrap = event.currentTarget.closest('.file-wrap'),
+      fileName = getEl('.file-name', wrap),
+      filePreview = getEl('.file-preview', wrap),
+      files = event.currentTarget.files,
+      imageTypeRegExp = /^image\//,
+      file;
   if (fileName) {
-    input.addEventListener('change', event => {
-      var text = '',
-          files = event.currentTarget.files;
-      if (files && files.length > 1) {
-        text = `${files.length} ${declOfNum(files.length, ['файл', 'файла', 'файлов'])} выбрано`;
-      } else {
-        text = event.currentTarget.value.split('\\').pop();
+    var text = '';
+    if (files && files.length > 1) {
+      text = `Выбрано ${files.length} ${declOfNum(files.length, ['файл', 'файла', 'файлов'])}`;
+    } else if (files.length) {
+      text = event.currentTarget.value.split('\\').pop();
+    } else {
+      text = 'Файл не выбран';
+    }
+    fileName.textContent = text;
+  }
+  if (filePreview) {
+    var reader;
+    for (var i = 0; i < files.length; i++) {
+      file = files[i];
+      if (!imageTypeRegExp.test(file.type)) {
+        return;
       }
-      console.log(fileName);
-      fileName.textContent = text;
-      if (submitBtn) {
-        if (files && files.length) {
-          hideElement(loadBtn);
-          showElement(submitBtn);
-        } else {
-          showElement(loadBtn);
-          hideElement(submitBtn);
-        }
+      var reader = new FileReader();
+      reader.addEventListener('load', function(event) {
+        var img = document.createElement('img');
+        img.src = event.target.result;
+        filePreview.innerHTML = '';
+        filePreview.insertBefore(img, null);
+      });
+      if (file) {
+        wrap.classList.add('added');
+        reader.readAsDataURL(file);
       }
-    });
+    }
+    if (!files || !files.length) {
+      wrap.classList.remove('added');
+      filePreview.innerHTML = '';
+    }
   }
 }
 
@@ -1727,8 +1744,8 @@ function checkInput(input) {
   }
   if (type === 'cyril') {
     regEx = cyrilRegExp;
-  } else if (type === 'birth') {
-    regEx = birthRegExp;
+  } else if (type === 'date') {
+    regEx = dateRegExp;
   } else if (type === 'tel') {
     var test = telRegExp.test(value);
     if (!test) {
@@ -1739,6 +1756,12 @@ function checkInput(input) {
     regEx = emailRegExp;
   } else if (type === 'nickname') {
     regEx = nicknameRegExp;
+  } else if (type === 'inn') {
+    if (value.length >= 10 && value.length <= 12) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
     return true;
   }
@@ -1750,8 +1773,9 @@ function checkInput(input) {
 function Form(obj, func) {
   // Элементы для работы:
   this.form = obj;
-  this.submitBtn = getEl('input[type="submit"]', obj)
+  this.submitBtn = getEl('input[type="submit"]', obj);
   this.dropDowns = this.form.querySelectorAll('.activate');
+  // this.calendars = this.form.querySelectorAll('.???');
 
   // Динамические переменные:
   this.isSubmit = false;
@@ -1759,20 +1783,23 @@ function Form(obj, func) {
   // Инициализация выпадающих списков (если они есть):
   this.dropDowns.forEach(el => new DropDown(el));
 
+  // Инициализация календарей (если они есть):
+  // this.calendars.forEach(el => new DropDown(el));
+
   // Установка обработчиков событий:
   this.setEventListeners = function() {
-    this.form.querySelectorAll('input[type="text"]').forEach(el => {
+    this.form.querySelectorAll('input[data-type]').forEach(el => {
       el.addEventListener('input', event => this.checkInput(event));
     });
-    this.form.querySelectorAll('[required] [name]').forEach(el => {
-      if (el.tagName.toLowerCase() === 'textarea') {
-        el.addEventListener('input', () => this.checkSubmit());
-      } else {
-        if (el.tagName.toLowerCase() === 'input' && el.getAttribute('type') === 'text') {
-          return;
-        }
-        el.addEventListener('change', () => this.checkSubmit());
-      }
+    this.form.querySelectorAll('[required]').forEach(el => {
+      el.querySelectorAll('textarea').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
+      el.querySelectorAll('.activate').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      el.querySelectorAll('input[type="radio"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      el.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      el.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      // el.querySelectorAll('.choiced-qty').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие
+      // el.querySelectorAll('.???').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие календаря и дать ему класс чтобы инициализировать
+      el.querySelectorAll('input:not([data-type]):not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.choiced-qty)').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
     });
   }
   this.setEventListeners();
@@ -1803,22 +1830,35 @@ function Form(obj, func) {
   this.checkSubmit = function() {
     var required = Array.from(this.form.querySelectorAll('[required]'));
     this.isSubmit = required.every(el => {
-      var fields = el.querySelectorAll('[name]');
+      var fields = el.querySelectorAll('[name]'),
+          type,
+          value;
       for (var field of fields) {
-        if (field.tagName.toLowerCase() === 'input') {
-          var type = field.getAttribute('type');
-          if (type === 'text') {
-            var isValid = checkInput(field);
-            if (isValid && field.value.length) {
-              return true;
-            }
-          } else if (type === 'radio' || type === 'checkbox') {
-            if (field.checked) {
-              return true;
-            }
+        // console.log(field);
+        type = field.getAttribute('type');
+        value = field.value.trim();
+        if (field.hasAttribute('data-type')) {
+          var isValid = checkInput(field);
+          // console.log(isValid);
+          // console.log(field.value);
+          if (isValid && value) {
+            return true;
           }
-        } else if (field.value && field.value.length) {
-          return true;
+        } else if (type === 'radio' || type === 'checkbox') {
+          // console.log(field.checked);
+          if (field.checked) {
+            return true;
+          }
+        } else if (field.classList.contains('choiced-qty')) {
+          // console.log(value);
+          if (value != 0) {
+            return true;
+          }
+        } else {
+          // console.log(field.value);
+          if (value) {
+            return true;
+          }
         }
       }
     });
@@ -1835,25 +1875,18 @@ function Form(obj, func) {
     if (!this.isSubmit || !this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
       return;
     }
-    if (this.isSubmit) {
-      //console.log(isSubmit);
-      //console.log(data);
-      var data = this.getData();
-      if (func) {
-        func(data);
-      }
+    var data = this.getData();
+    if (func) {
+      func(data);
     }
   }
 
   // Получение данных формы:
   this.getData = function() {
     var data = {};
-    this.form.querySelectorAll('[name]').forEach(el => {
-      console.log(el.value);
-      if (el.value && el.value.length) {
-        var key = el.getAttribute('name');
-        data[key] = el.value;
-      }
+    formData = new FormData(this.form);
+    formData.forEach((value, key) => {
+      data[key] = value;
     });
     return data;
   }
@@ -2142,6 +2175,7 @@ function closeDropDown(event) {
 function DropDown(obj) {
   // Элементы для работы:
   this.filter = obj;
+  this.hiddenInput = getEl('input[type="hidden"]', obj);
   this.head = getEl('.head', obj);
   this.title = getEl('.head .title', obj);
   this.sort = getEl('.sort-box', obj);
@@ -2239,12 +2273,13 @@ function DropDown(obj) {
       this.search.clear();
     }
 
+    var value;
     if (this.filter.classList.contains('select')) {
       if (curItem.dataset.value === 'default') {
         this.clear();
       } else {
         this.changeTitle(curItem.textContent);
-        this.filter.value = curItem.dataset.value;
+        value = curItem.dataset.value;
       }
       this.filter.classList.remove('open');
     } else {
@@ -2254,10 +2289,13 @@ function DropDown(obj) {
         this.clear();
       } else {
         this.changeTitle('Выбрано: ' + checked.length);
-        var value = [];
+        value = [];
         checked.forEach(el => value.push(el.dataset.value));
-        this.filter.value = value;
       }
+    }
+    this.filter.value = value;
+    if (this.hiddenInput) {
+      this.hiddenInput.value = value;
     }
     curItem.dispatchEvent(new Event('change', {"bubbles": true}));
   }
@@ -2281,6 +2319,9 @@ function DropDown(obj) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
     }
     this.filter.value = undefined;
+    if (this.hiddenInput) {
+      this.hiddenInput.value = undefined;
+    }
   }
 
   // Инициализация поиска (если есть):

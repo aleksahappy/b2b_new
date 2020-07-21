@@ -477,6 +477,12 @@
             <input class="choiced-qty text light" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
             <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15)"><div class="plus icon"></div></div>
           </div>
+          <div>Степпер, который можно попереключать и нельзя выбрать значение меньше 1:</div>
+          <div class="qty qty-box row added">
+            <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15, 1)"><div class="minus icon"></div></div>
+            <input class="choiced-qty text light" name="count" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, 15, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+            <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15, 1)"><div class="plus icon"></div></div>
+          </div>
 
         </div>
 
@@ -515,10 +521,13 @@
 
           <div>Поле ввода:</div>
           <input type="text" placeholder="Введите текст">
+          <br>
+          <br>
           <div>Поле ввода при ошибке (в формах):</div>
           <div class="form-wrap error">
             <input type="text" placeholder="Введите текст">
           </div>
+          <br>
           <div>Заблокированное поле ввода:</div>
           <input type="text" placeholder="Введите текст" disabled>
 
@@ -534,13 +543,15 @@
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
           </form>
-          <div>Простая форма поиска поиска, когда поиск закончен</div>
+          <br>
+          <div>Простая форма поиска поиска, когда поиск закончен:</div>
           <form class="search row">
             <input type="text" data-value="Поиск закончен" value="Поиск закончен" placeholder="Поиск...">
             <input class="search icon" type="submit" value="" style="display: none;">
             <div class="close icon" style="display: block;"></div>
           </form>
-          <div>Раскрывающаяся форма поиска</div>
+          <br>
+          <div>Раскрывающаяся форма поиска:</div>
           <div class="example row">
             <form class="search positioned row">
               <input type="text" data-value=""> <!-- здесь нельзя использовать placeholder -->
@@ -548,7 +559,8 @@
               <div class="close icon"></div>
             </form>
           </div>
-          <div>Форма поиска с подсказками</div>
+          <br>
+          <div>Форма поиска с подсказками:</div>
           <form id="search" class="search activate select row">
             <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
@@ -574,6 +586,37 @@
 
         </div>
 
+        <!-- Поля загрузки файлов -->
+        <div class="artboard-title">Поля загрузки файлов</div>
+        <div class="arboard-block download-temp">
+
+          <!-- в атрибуте accept указываются форматы файлов, которые разрешено загрузить, например accept=".xls,.xlsx" -->
+          <!-- для возможности выбора сразу нескольких файлов добавляется атрибут multiple -->
+          <!-- у input обязательно должно быть id, которое обязательно необходимо указать в атрибуте for тега label (кнопки выбора) -->
+
+          <div>Поле загрузки одного файла:</div>
+          <div class="file-wrap">
+            <input id="load-file1" type="file" accept=".xls,.xlsx">
+            <div class="file-name">Файл не выбран</div>
+            <label class="btn sub-act" for="load-file1">Выберите файл</label>
+          </div>
+          <br>
+          <div>Поле загрузки нескольких файлов:</div>
+          <div class="file-wrap">
+            <input id="load-file2" type="file" accept=".xls,.xlsx" multiple>
+            <div class="file-name">Файлы не выбраны</div>
+            <label class="btn sub-act" for="load-file2">Выберите файлы</label>
+          </div>
+          <br>
+          <div>Поле загрузки одной картинки с предпросмотром:</div>
+          <div class="file-wrap">
+            <input id="load-img" type="file" accept="image/*">
+            <div class="file-preview"></div>
+            <label class="title" for="load-img">лого</label>
+          </div>
+
+        </div>
+
         <!-- Выпадающие списки -->
         <div class="artboard-title">Выпадающие списки</div>
         <div class="arboard-block drop-down-temp">
@@ -584,16 +627,19 @@
             <option value="1">1</option>
             <option value="1">2</option>
           </select>
-
+          <br>
+          <br>
           <div>Системный селект заблокированный</div>
           <select disabled>
             <option value="1" default>Select</option>
             <option value="1">1</option>
             <option value="1">2</option>
           </select>
-
+          <br>
           <div>Кастомный селект</div>
           <div id="select" class="activate select">
+            <!-- добавляем скрытый инпут, когда добавляем выпадашку в форму -->
+            <!-- <input type="hidden" value="" name="some_name"> -->
             <div class="head row">
               <div class="title">Select</div>
               <div class="triangle icon"></div>
@@ -607,9 +653,11 @@
               <div class="item" data-value="5">Значение 5</div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный чекбокс</div>
           <div id="checkbox" class="activate checkbox">
+            <!-- добавляем скрытый инпут, когда добавляем выпадашку в форму -->
+            <!-- <input type="hidden" value="" name="some_name"> -->
             <div class="head row">
               <div class="title">Checkbox</div>
               <div class="triangle icon"></div>
@@ -645,7 +693,7 @@
               </div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный выпадающий список с сортировкой, поиском и чекбоксом</div>
           <div id="dropDown" class="activate box">
             <div class="head row">
@@ -705,7 +753,7 @@
               </div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный список заблокированный</div>
           <div id="select" class="activate select" disabled>
             <div class="head row">
@@ -721,9 +769,9 @@
               <div class="item" data-value="5">Значение 5</div>
             </div>
           </div>
-
+          <br>
           <div>Кастомный календарь</div>
-          <input id="calendar" type="text" value="" name="" data-type="birth"  placeholder="28/10/1980" maxlength="10">
+          <input id="calendar" type="text" value="" name="" data-type="date"  placeholder="28/10/1980" maxlength="10">
 
         </div>
 
@@ -845,6 +893,7 @@
 
         </div>
 
+
         <!-- Форма отправки на сервер -->
         <div class="artboard-title">Форма отправки на сервер</div>
         <div class="arboard-block form-temp">
@@ -870,7 +919,7 @@
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Должность*</div>
-                    <input type="text" value="" name="post" data-type="cyril" placeholder="Введите должность">
+                    <input type="text" value="" name="post" placeholder="Введите должность">
                   </div>
                 </div>
                 <div class="form-col2">
@@ -881,7 +930,7 @@
                   </div>
                   <div class="form-wrap">
                     <div class="title">Email</div>
-                    <input type="text" value="" name="email" data-type="email" placeholder="name@domain.ru">
+                    <input type="text" value="" name="email" data-type="email" placeholder="Введите email">
                     <div class="err">Поле заполнено неверно</div>
                   </div>
                   <div class="form-wrap" required>
@@ -970,24 +1019,30 @@
               </div>
               <div class="form-wrap" required>
                 <div class="title">Система налогообложения*</div>
-                <div class="activate select" value="" name="taxsystem">
+                <div class="activate select">
+                  <!-- обязательно добавляем скрытый инпут с name и пустым value -->
+                  <input type="hidden" value="" name="taxsystem">
                   <div class="head row">
-                    <div class="title">Закупки</div>
+                    <div class="title">Выберите систему</div>
                     <div class="triangle icon"></div>
                   </div>
                   <div class="drop-down">
                     <div class="item" data-value="Общая">Общая</div>
-                    <div class="item" data-value="УСН">Урощенная</div>
-                    <div class="item" data-value="УСН">Прочая</div>
+                    <div class="item" data-value="Урощенная">Урощенная</div>
+                    <div class="item" data-value="Прочая">Прочая</div>
                   </div>
                 </div>
               </div>
               <div class="form-wrap">
-                <div class="title">Количество</div>
+                <div class="title">Дата (пока нельзя сделать обязательным)</div>
+                <input type="text" value="" name="" data-type="date"  placeholder="28/10/1980" maxlength="10">
+              </div>
+              <div class="form-wrap">
+                <div class="title">Количество (пока нельзя сделать обязательным)</div>
                 <div class="qty qty-box row">
-                  <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15, 1)"><div class="minus icon"></div></div>
-                  <input class="choiced-qty text light" name="count" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
-                  <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15, 1)"><div class="plus icon"></div></div>
+                  <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15)"><div class="minus icon"></div></div>
+                  <input class="choiced-qty text light" name="count" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+                  <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15)"><div class="plus icon"></div></div>
                 </div>
               </div>
               <div class="btns-wrap">
@@ -1017,41 +1072,39 @@
                     <div class="row">
                       <div class="form-wrap" required>
                         <div class="title">ИНН*</div>
-                        <input type="text" value="" name="" placeholder="" maxlength="12" onkeypress="return onlyNumb(event)">
-                        <div class="err">Поле не заполнено</div>
+                        <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
+                        <div class="err">Поле заполнено неверно</div>
                       </div>
                       <div id="inn-loader" class="loader icon"></div>
                     </div>
                     <div class="form-wrap">
                       <div class="title">КПП</div>
                       <input type="text" value="" name="" placeholder="" disabled>
-                      <div class="err">Поле не заполнено</div>
                     </div>
                   </div>
                   <div class="form-wrap">
                     <div class="title">Название</div>
                     <input type="text" value="" name="" placeholder="" disabled>
-                    <div class="err">Поле не заполнено</div>
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Юридический адрес*</div>
                     <textarea name="" maxlength="" placeholder="" disabled></textarea>
-                    <div class="err">Поле не заполнено</div>
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Система налогообложения*</div>
-                    <div class="activate select" value="" name="" disabled>
+                    <div class="activate select">
+                      <!-- обязательно добавляем скрытый инпут с name и пустым value -->
+                      <input type="hidden" value="" name="taxsystem">
                       <div class="head row">
-                        <div class="title">Закупки</div>
+                        <div class="title">Выберите систему</div>
                         <div class="triangle icon"></div>
                       </div>
                       <div class="drop-down">
                         <div class="item" data-value="Общая">Общая</div>
-                        <div class="item" data-value="УСН">Урощенная</div>
-                        <div class="item" data-value="УСН">Прочая</div>
+                        <div class="item" data-value="Урощенная">Урощенная</div>
+                        <div class="item" data-value="Прочая">Прочая</div>
                       </div>
                     </div>
-                    <div class="err">Поле не заполнено</div>
                   </div>
                   <div class="btns-wrap">
                     <input class="btn sub-act" type="submit" value="Отправить" disabled>

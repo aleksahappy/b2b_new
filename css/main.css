@@ -653,6 +653,11 @@ body.no-scroll {
 Стили календаря:
 ===================================================================================================== */
 
+input[data-type="date"],
+input[data-type="range"] {
+  background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
+}
+
 .calendar {
   position: absolute;
   min-width: 200px;
@@ -672,7 +677,8 @@ body.no-scroll {
   background: #F2F2F2;
 }
 
-.calendar .input-area .month-navigator .month-previous, .calendar .input-area .month-navigator .month-next {
+.calendar .input-area .month-navigator .month-previous,
+.calendar .input-area .month-navigator .month-next {
   display: block;
   width: 30px;
   height: 30px;
@@ -768,11 +774,6 @@ body.no-scroll {
 .calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-active {
   color: #FFFFFF;
   background-color:#34495E;
-}
-
-input[data-type="birth"],
-input[data-type="range"] {
-  background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
 }
 
 /* =====================================================================================================
@@ -1957,33 +1958,74 @@ form.search.positioned:focus-within .close.icon {
 Поле загрузки файлов:
 ===================================================================================================== */
 
-form.file {
+.file-wrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
   align-items: stretch;
 }
 
-form.file .file-name {
-  min-width: 15em;
-  padding: 0.714em 1.5em;
-  border: 1px solid #D5D5D5;
-  border-radius: 3px 0 0 3px;
-  text-align: center;
-}
-
-input.file {
+input[type="file"] {
+  position: absolute;
 	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
+  height: 0.1px;
+  margin: 0;
+  padding: 0;
 	overflow: hidden;
-	position: absolute;
+  opacity: 0;
 	z-index: -1;
 }
 
-input.file ~ label {
+input[type="file"] ~ .file-name {
+  display: inline-block;
+  width: 16.5em;
+  margin-right: -0.5em;
+  padding: 0.465em 0.714em;
+  padding-right: 1.214em;
+  color: #C6C6C6;
+  background-color: #FFFFFF;
+  border: 1px solid #D5D5D5;
+  border-radius: 3px;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+input[type="file"] ~ .file-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 67px;
+  height: 67px;
+  background-color: #EEEEEE;
+}
+
+input[type="file"] ~ .file-preview img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+input[type="file"] ~ label {
   cursor: pointer;
 }
 
-form.file input[type="submit"] {
-  display: none;
+input[type="file"] ~ .btn {
+  padding: 0.465em 0.714em;
+}
+
+input[type="file"] ~ .title {
+  position: absolute;
+  width: 67px;
+  height: 67px;
+  font-size: 0.857em;
+  line-height: 80px;
+  text-align: center;
+  background: #EEEEEE url(../img/download.svg) no-repeat center 20px;
+}
+
+.file-wrap.added .title {
+  opacity: 0;
 }
 
 /* =====================================================================================================
@@ -2075,6 +2117,20 @@ form.post {
   background-color: #F8F8F8;
 }
 
+form.post .form-group {
+  margin-bottom: 1.2em;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+form.post .form-group:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+form.post .form-group > .title {
+  margin-bottom: 1em;
+}
+
 form.post .form-cols {
   display: flex;
   justify-content: space-between;
@@ -2111,7 +2167,7 @@ form.post .form-wrap > .title {
   margin-bottom: 0.35em;
 }
 
-form.post input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty),
+form.post input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty):not([data-type="date"]):not([data-type="range"]),
 form.post textarea {
   width: 100%;
 }
@@ -3339,7 +3395,7 @@ body#auth .pop-up-title {
   margin-bottom: 0;
 }
 
-body#auth .h1 {
+body#auth .pop-up-title > .title {
   margin-right: 0;
 }
 
