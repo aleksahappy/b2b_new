@@ -42,7 +42,7 @@
 
 /* Состояние рекламации */
 .progress-wrap{
-  margin-top: 3vw;
+  margin-top: 1.5vw;
   margin-left: 40px;
   padding-bottom: 1.5vw;
 }
@@ -126,6 +126,11 @@
 /* индикатор "Обрабатывается" */
 .point.process{
   background: url('../img/recl_process.svg') center center no-repeat;
+  background-size: contain;
+}
+
+.point.wait{
+  background: url('../img/recl_process_nonactive.svg') center center no-repeat;
   background-size: contain;
 }
 
