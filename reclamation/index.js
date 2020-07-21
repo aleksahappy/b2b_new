@@ -116,7 +116,7 @@ function putReclStatus() {
 
 
 function setChatPos() {
-  var headPanCoords = headPan.getBoundingClientRect();
-  chatWrap.style.top = headPanCoords.top + headPan.offsetHeight + 'px';
+  var chat = document.querySelector('.chat-wrap');
+  chatWrap.style.top = (window.innerHeight - chat.offsetHeight) + 'px';
 }
-setChatPos();
+//setChatPos();

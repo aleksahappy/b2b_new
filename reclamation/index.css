@@ -13,7 +13,7 @@
 /* Стили для страницы с рекламацией */
 .container1{
   display: flex;
-  width: 70%;
+  width: 75%;
   margin-top: 20px;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .line{
-  width: 316px;
+  width: 16.45vw;
   height: 1px;
   margin: 0 10px;
   background: #C6C6C6;
@@ -318,7 +318,7 @@ main{
 }
 
 .complaint-descr{
-  width: 80%;
+  width: 65%;
 }
 
 .complaint-descr p {
@@ -350,8 +350,9 @@ main{
   flex-wrap: wrap;
   position: relative;
   display: block;
-  width: 33.333%;
+  width: 8.33vw;
   height: 192px;
+  margin-right: 10px;
   overflow: hidden;
 }
 
@@ -396,31 +397,28 @@ input[type=file]{
 .chat-wrap{
   z-index: 103;
   position: absolute;
+  bottom:0;
   right: 2.6vw;
-  bottom: 0%;
-  width: 512px;
-  height: 765px;
-  background: #ffffff;
+  width: 22.91vw;
 }
 
-.chat-head{
+.chat-header{
   width: 100%;
   height: 35px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding: 3px 10px 0 0;
+  justify-content: space-between;
+  padding: 3px 10px;
   border-radius: 3px 3px 0px 0px;
-  background: #A89271;
+  background: transparent;
 }
 
 .chat-body{
   display: block;
   width: 100%;
-  height: 80%;
   padding: 0 10px;
   overflow: hidden;
-  display: block;
+  background: #ffffff;
   overflow-y: auto;
 }
 
@@ -441,19 +439,16 @@ input[type=file]{
 }
 
 .chat-footer{
-  position: absolute;
-  bottom: 0;
-  left:0;
-  right: 0;
-  display: block;
   width: 100%;
   height: 80px;
-  padding: 0 30px;
+  padding: 0 25px 0 15px;
+  background: #ffffff;
 }
 
 .chat-wrap form {
   display: block;
   border: 1px solid #D0D0D4;
+  border-radius: 3px;
   height: 60px;
   background: white;
 }
@@ -520,14 +515,15 @@ input[type=file]{
   border-radius: 12px;
 }
 
-.message-user{
+.message-user,
+.name {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
   margin-bottom: 3px;
 }
 
-.message-user span{
+.name span{
   font-size: 0.8em;
   font-weight: normal;
   color: #979797;
@@ -563,7 +559,7 @@ input[type=file]{
 }
 
 .chat-block .chat-message {
-  padding: 0 14px;
+  padding: 20px 14px 0 14px;
   display: block;
   height: 626px;
   overflow-y: auto;
@@ -572,7 +568,7 @@ input[type=file]{
 .chat-block .chat-message .you {
   background: #F2F2F2;
   padding: 10px;
-  width: 93%;
+  width: 100%;
   margin: 0.5vw 0;
   border-radius: 4px;
 }
@@ -594,77 +590,9 @@ input[type=file]{
 }
 
 .chat-block .chat-message .interlocutor {
-  background: #ffffff;
+  background: #f2f2f2;
   padding: 10px;
-  width: 93%;
+  width: 100%;
   margin: 0.5vw 0 0.5vw auto;
   border-radius: 4px;
-}
-
-
-
-/* style for test */
-.test{
-  display: flex;
-}
-
-.test-wrap{
-  z-index: 1000;
-  position: absolute;
-  top: 3%;
-  right: 20%;
-  display: flex;
-  align-items: center;
-  padding: 20px 40px;
-  background: rgba(76,136,216,.5);
-  box-shadow: 0px 2px 2px 1px rgba(0,0,0,.4);
-}
-
-.test button{
-  margin-right: 1vw;
-  border: 0;
-  border-radius: 4px;
-  padding: 6px 10px;
-  cursor: pointer;
-  box-shadow: 0px 2px 3px 0px rgba(0,0,0,.4);
-  transition: all linear .1s;
-  color: #ffffff;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.first{
-  background: #ccc;
-}
-
-.second{
-  background: #5AA65C;
-}
-
-.third{
-  background: #980000;
-}
-
-.fourth{
-  background: #5236A0;
-}
-
-.first:hover{
-  background: gray;
-}
-
-.second:hover{
-  background: #307C32;
-}
-
-.third:hover{
-  background: #852020;
-}
-
-.fourth:hover{
-  background: #40248E;
-}
-
-.test-close{
-  font-size: 2em;
 }
