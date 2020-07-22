@@ -1,9 +1,4 @@
 'use strict';
-var shops = document.querySelector('.shops');
-
-
-// setWidth(shops, 440)
-//initDropDown('#sys-type');
 initForm('#new-address-modal')
 
 function startAddrPage() {
@@ -22,6 +17,7 @@ function startAddrPage() {
       }]
     };
     fillTemplate(addrData);
+    setProperTooltip();
   })
   .catch(err => {
     console.log(err);
@@ -56,5 +52,21 @@ function toggleOuterBlock(el) {
     var parentEl = el.parentElement;
     var outerTarget = parentEl.querySelector('.outer-target');
     outerTarget.classList.toggle('displayNone');
+  }
+}
+
+function setProperTooltip() {
+  var tooltips = document.querySelectorAll('.indicate');
+
+  for (let i = 0; i < tooltips.length; i++) {
+    var toolStatus = tooltips[i].firstElementChild;
+
+    if (toolStatus.className == 'approv') {
+      toolStatus.setAttribute('data-tooltip', 'Магазин прошел модерацию');
+    } else if (toolStatus.className === 'process') {
+      toolStatus.setAttribute('data-tooltip', 'Магазин еще проходит модерацию');
+    } else if (toolStatus.className === 'denied') {
+      toolStatus.setAttribute('data-tooltip', '</div>Магазин не прошел модерацию,</div> <div>свяжитесь с вашим менеджером</div>');
+    }
   }
 }

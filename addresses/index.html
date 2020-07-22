@@ -106,7 +106,7 @@
                     <div class="row name">
                       <div class="title h3">@@company@@</div>
                       <div class="indicate">
-                        <div class="@@moderate@@"></div>
+                        <div class="@@moderate@@" data-tooltip="test" help></div>
                       </div>
                       <div class="edit icon" onclick="openPopUp('#edit-address-modal')"></div>
                     </div>
@@ -201,10 +201,10 @@
                 </div>
               </div>
               <div class="form-col2 download">
-                <div class="form-wrap">
-                  <div class="download-area">
-                    <div class="download icon"></div>
-                  </div>
+                <div class="file-wrap">
+                  <input id="load-img" type="file" accept="image/*">
+                  <div class="file-preview"></div>
+                  <label class="title" for="load-img">лого</label>
                 </div>
               </div>
             </div>
@@ -219,82 +219,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Модальное окно "Редактировать пользователя" -->
-    <div id="edit-address-modal" class="pop-up-container">
-      <div id="edit-addrees" class="pop-up">
-        <div class="pop-up-title row">
-          <div class="title h1">Новый адрес</div>
-          <div class="close icon"></div>
-        </div>
-        <div class="pop-up-body">
-          <form class="post">
-            <div class="form-wrap">
-              <div class="option row">
-                <input type="checkbox" value="">
-                <div class="checkbox icon"></div>
-                <div>Показать на карте дилеров</div>
-              </div>
-            </div>
-            <div class="form-wrap" required>
-              <div class="title">Адрес*</div>
-              <input type="text" value="" name="" data-type="cyril" placeholder="Введите адрес" maxlength="40">
-              <div class="err">Поле не заполнено</div>
-            </div>
-            <div class="form-wrap" required>
-              <div class="title">Тип торговли*</div>
-              <div id="sys-type" class="activate checkbox">
-                <div class="head row">
-                  <div class="title">Тип торговли</div>
-                  <div class="triangle icon"></div>
-                </div>
-                <div class="drop-down">
-                  <div class="item" data-value="default">Сбросить</div>
-                  <div class="item" data-value="1">Значение 1</div>
-                  <div class="item" data-value="2">Значение 2</div>
-                  <div class="item" data-value="3">Значение 3</div>
-                </div>
-              </div>
-              <div class="err">Поле не заполнено</div>
-            </div>
-            <div class="form-wrap" required>
-              <div class="title">Название*</div>
-              <input type="text" value="" name="" data-type="cyril" placeholder="Введите название" maxlength="40">
-              <div class="err">Поле не заполнено</div>
-            </div>
-            <div class="form-wrap">
-              <div class="title">Сайт</div>
-              <input type="text" value="" name=""  placeholder="Введите адрес сайта" maxlength="40">
-              <div class="err">Поле не заполнено</div>
-            </div>
-            <div class="form-cols">
-              <div class="form-col1">
-                <div class="form-wrap" required="">
-                  <div class="title">Телефон*</div>
-                  <input type="text" value="" name="" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
-                  <div class="err">Поле не заполнено</div>
-                </div>
-              </div>
-              <div class="form-col2 download">
-                <div class="form-wrap">
-                  <div class="download-area">
-                    <div class="download icon"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="btns-wrap">
-              <input class="btn sub-act" type="submit" value="Отправить" disabled>
-            </div>
-          </form>
-        </div>
-        <div class="loader">
-          <div class="loader icon"></div>
-          <div class="text">Пожалуйста, подождите</div>
-        </div>
-      </div>
-    </div>
-
 
     <!-- Шаблон окна уведомлений -->
     <div id="notifications" class="pop-up-container">
