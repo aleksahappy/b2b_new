@@ -36,7 +36,7 @@ function startCertPage() {
   })
   .catch(err => {
     console.log(err);
-    loader.hide();
+    initPage();
   });
 }
 
