@@ -333,10 +333,6 @@ main{
 
 /* Таблица "Заказы в работе" на Сашином старом шаблоне */
 
-.table-wrap {
-  max-height: 76vh;
-}
-
 thead .legend {
   width: 0.71em;
   height: 0.71em;

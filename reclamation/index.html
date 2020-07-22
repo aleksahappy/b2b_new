@@ -91,33 +91,31 @@
       <div class="container">
 
         <!-- Хедер для основного содержимого страницы -->
-        <div id="main-header">
-          <div class="row">
-            <div class="title h0">Рекламация №ТС-53 ОТ 26.07.2019</div>
-          </div>
+        <div id="main-header" class="row">
+          <div class="title h0">Рекламация №ТС-53 ОТ 26.07.2019</div>
         </div>
         <div class="row head-pan">
           <!-- Индикаторы состояния рекламации-->
           <div class="progress-wrap container1">
             <div class="progress-bar">
-              <div class="progress-item one">
+              <div class="progress-item">
                 <div class="progress-title active">Зарегистрирована</div>
-                <div class="point point-active check-progress"></div>
+                <div class="point register"></div>
               </div>
               <div class="progress-item">
-                <div class="progress-title active">Обрабатывается</div>
+                <div class="progress-title non-active">Обрабатывается</div>
                 <div class="line"></div>
-                <div class="point point-active inProgress-progress"></div>
+                <div class="point wait"></div>
               </div>
               <div class="progress-item">
-                <div class="progress-title">Решение</div>
+                <div class="progress-title non-active">Решение</div>
                 <div class="line"></div>
-                <div class="point solution-progress"></div>
+                <div class="point result"></div>
               </div>
-              <div class="progress-item" style="display: none;">
-                <div class="progress-title">Исполнена</div>
+              <div class="progress-item">
+                <div class="progress-title non-active">Исполнена</div>
                 <div class="line"></div>
-                <div class="point done-progress"></div>
+                <div class="point undone"></div>
               </div>
             </div>
           </div>
@@ -158,7 +156,7 @@
               <div class="visual-info">
                 <div class="complaint-title">@@product-name@@</div>
                 <div class="product-code">Код продукта: <span>@@product-code@@</span></div>
-                <div class="row">
+                <div class="row product-info">
                   <div class="complaint-articul">Артикул: @@product-articul@@</div>
                   <div class="product-status">
                     <div class="in-stock">
@@ -172,7 +170,7 @@
                   </div>
                 </div>
                 <div class="product-price">Оптовая цена: <span class="big-cost">@@big-price@@</span></div>
-                <div class="product-price removeBorder">Розничная цена: <span>@@retail-price@@</span></div>
+                <div class="product-price remove-border">Розничная цена: <span>@@retail-price@@</span></div>
                 <a href="#">Подробнее</a>
               </div>
             </div>
@@ -238,58 +236,59 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Модальное окно чата  -->
-        <div class="chatBlock chat-wrap">
-          <div class="chat-content chat_cont">
-            <div class="chat-header chat-head">
-              <div class="close-chat">
-                <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-                  <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+    <!-- Модальное окно чата  -->
+    <div class="chat-block chat-wrap">
+      <div class="chat-content chat_cont">
+        <div class="chat-header">
+          <div class="title h3">Чат с менеджером</div>
+          <div class="close-chat">
+            <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
+              <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="chat-message chat chat-body">
+          <div class="data">12.05.2019</div>
+          <div class="you">
+            <div class="name message-user">Вы: <span>17:59</span></div>
+            <div class="text">Краска на шлеме отдирается как пленка, чуть задел и видно как пленка отходит.</div>
+          </div>
+          <div class="data">12.05.2019</div>
+          <div class="interlocutor">
+            <div class="name">Поддержка: <span>17:59</span></div>
+            <div class="text">Добрый день, изделие новое или шлем был продан клиенту и был в эксплуатации - если был, то в течение какого промежутка
+            времени?</div>
+          </div>
+          <div class="you">
+            <div class="name">Вы: <span>18:01</span></div>
+            <div class="text">Здравствуйте, шлем новый, не был в эксплуатации. Был в упаковке, достали из коробки с потертым козырком. Так не должно быть, так как его даже не эксплуатировали.</div>
+          </div>
+          <div class="interlocutor">
+            <div class="name">Поддержка: <span>18:01</span></div>
+            <div class="text">Добрый вечер, высылайте шлем в наш адрес Деловыми Линиями с официальными бухгалтерскими накладными</div>
+          </div>
+        </div>
+        <div class="chat-form chat-footer">
+          <form method="POST" lpformnum="1" enctype="multipart/form-data" name="message" id="message"
+            data-recl="ba95985a-4c15-11ea-8258-002590467a5e" data-user="Вы:">
+            <input type="hidden" name="recl[recl_id]" value="ba95985a-4c15-11ea-8258-002590467a5e">
+            <div class="message chat-send">
+              <textarea name="recl[comment]" placeholder="Ваше сообщение..." autocomplete="off"></textarea>
+            </div>
+            <div class="chat-btn send">
+              <input type="submit" value="">
+              <div class="chat-btn-icon submit-icon">
+                <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.972656 14.4689L17.4309 7.41535L0.972656 0.361816V5.8479L12.7286 7.41535L0.972656 8.98281V14.4689Z" fill="#D0D0D4" />
                 </svg>
               </div>
             </div>
-            <div class="chat-message chat chat-body">
-              <div class="data">12.05.2019</div>
-              <div class="you">
-                <div class="name message-user">Вы: <span>17:59</span></div>
-                <div class="text">Краска на шлеме отдирается как пленка, чуть задел и видно как пленка отходит.</div>
-              </div>
-              <div class="data">12.05.2019</div>
-              <div class="interlocutor">
-                <div class="name">Менеджер:</div>
-                <div class="text">Добрый день, изделие новое или шлем был продан клиенту и был в эксплуатации - если был, то в течение какого промежутка
-                времени?</div>
-              </div>
-              <div class="you">
-                <div class="name">Вы:</div>
-                <div class="text">Здравствуйте, шлем новый, не был в эксплуатации. Был в упаковке, достали из коробки с потертым козырком. Так не должно быть, так как его даже не эксплуатировали.</div>
-              </div>
-              <div class="interlocutor">
-                <div class="name">Менеджер:</div>
-                <div class="text">Добрый вечер, высылайте шлем в наш адрес Деловыми Линиями с официальными бухгалтерскими накладными</div>
-              </div>
-            </div>
-            <div class="chat-form chat-footer">
-              <form method="POST" lpformnum="1" enctype="multipart/form-data" name="message" id="message"
-                data-recl="ba95985a-4c15-11ea-8258-002590467a5e" data-user="Вы:">
-                <input type="hidden" name="recl[recl_id]" value="ba95985a-4c15-11ea-8258-002590467a5e">
-                <div class="message chat-send">
-                  <textarea name="recl[comment]" placeholder="Ваше сообщение..." autocomplete="off"></textarea>
-                </div>
-                <div class="chat-btn send">
-                  <input type="submit" value="">
-                  <div class="chat-btn-icon submit-icon">
-                    <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.972656 14.4689L17.4309 7.41535L0.972656 0.361816V5.8479L12.7286 7.41535L0.972656 8.98281V14.4689Z" fill="#D0D0D4" />
-                    </svg>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -355,23 +354,6 @@
           <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
           <div>© 2020 TOP SPORTS</div>
         </div>
-      </div>
-    </div>
-
-
-
-
-
-
-
-    <!-- test -->
-    <div class="test-wrap">
-      <div class="test">
-        <button class="first">Состояние 1</button>
-        <button class="second">Состояние 2</button>
-        <button class="third">Состояние 3</button>
-        <button class="fourth">Состояние 4</button>
-        <div class="close icon test-close"></div>
       </div>
     </div>
 
