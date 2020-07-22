@@ -488,12 +488,13 @@ function Table(obj, settings = {}) {
     if (event.currentTarget.classList.contains('disabled')) {
       return;
     }
-    loader.show();
     var activeTable = getEl('.table-wrap.active');
     if (activeTable) {
       hideElement(activeTable);
       activeTable.classList.remove('active');
     }
+    document.querySelectorAll('.tabs .tab').forEach(el => el.classList.remove('checked'));
+    event.currentTarget.classList.add('checked');
     this.show();
   }
 
