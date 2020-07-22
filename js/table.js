@@ -15,7 +15,7 @@
 //     search: 'placeholder' / false                    - наличие общего поиска (по умолчанию false)
 //     toggle: true / false                             - наличие пагинации (по умолчанию false)
 //     pill: true / false                               - наличие пагинации (по умолчанию false)
-//     settings: true / false                           - наличие пагинации (по умолчанию false)
+//     setting: true / false                           - наличие пагинации (по умолчанию false)
 //   }
 //   head: true / false                               Имеет ли таблица шапку (по умолчанию false)
 //   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию false)
@@ -112,25 +112,53 @@ function createTable(area, settings) {
 // Создание панели управления для таблицы:
 
 function createTableControl(settings) {
-
-}
-/* <div class="control row">
-<div class="left-side row">
-  <div class="pagination row">
-    <div class="arrow left icon"></div>
-    <div class="title">1-20 из 258</div>
-    <div class="arrow right icon"></div>
+  var options = settings.control,
+      pagination = '',
+      search = '',
+      toggle = '',
+      pill = '',
+      setting = '';
+  if (options.pagination) {
+    pagination =
+    `<div class="pagination row">
+      <div class="arrow left icon"></div>
+      <div class="title">1-20 из 258</div>
+      <div class="arrow right icon"></div>
+    </div>`;
+  }
+  if (options.search) {
+    search =
+    `<form class="search row">
+      <input type="text" data-value="" placeholder="${options.search}">
+      <input class="search icon" type="submit" value="">
+      <div class="close icon"></div>
+    </form>`;
+  }
+  if (options.toggle) {
+    toggle =
+    ``;
+  }
+  if (options.pill) {
+    pill =
+    ``;
+  }
+  if (options.setting) {
+    setting = `<div class="settings icon"></div>`;
+  }
+  var control = document.createElement('div');
+  control.classList.add('control', 'row');
+  control.innerHTML =
+  `<div class="left-side row">
+    ${pagination}
+    ${search}
   </div>
-  <form class="search row">
-    <input type="text" data-value="" placeholder="Поиск по типу заказа, номеру, контрагенту, заказчику...">
-    <input class="search icon" type="submit" value="">
-    <div class="close icon"></div>
-  </form>
-</div>
-<div class="right-side row">
-  <div class="settings icon"></div>
-</div>
-</div> */
+  <div class="right-side row">
+    ${toggle}
+    ${pill}
+    ${setting}
+  </div>`;
+  return control;
+}
 
 // Создание панели управления для таблицы:
 

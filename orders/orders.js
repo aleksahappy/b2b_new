@@ -25,6 +25,11 @@ function initPage(data) {
   data = convertData(data);
   var settings = {
     data: data,
+    control: {
+      pagination: true,
+      search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
+      setting: true
+    },
     head: true,
     trFunc: 'onclick=showOrder(event,#id#)',
     cols: [{
