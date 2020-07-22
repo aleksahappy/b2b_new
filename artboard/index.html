@@ -1133,6 +1133,7 @@
           4) инициализировать таблицу, вызвав функцию initTable(), куда передать первым параметром id таблицы, а вторым настройки (подробно в table.js) -->
 
           <div class="title h1">Таблица, созданная в html</div>
+          <br>
           <div id="table1" class="table-wrap active">
             <div class="control row">
               <div class="left-side row">
@@ -1522,6 +1523,7 @@
           </div>
 
           <div class="title h1">Таблица, созданная динамически</div>
+          <br>
           <div id="table2" class="table-wrap active"></div>
 
         </div>
@@ -1709,6 +1711,11 @@
       }
       var settings = {
         data: data2,
+        control: {
+          pagination: true,
+          search: 'Поиск...',
+          setting: true
+        },
         head: true,
         result: false,
         cols: [{
