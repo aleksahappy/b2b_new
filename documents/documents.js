@@ -37,6 +37,6 @@ function initPage(data) {
                 </div>`
     }]
   }
-  initTable('#docs-table', settings);
+  initTable('#docs', settings);
   loader.hide();
 }
