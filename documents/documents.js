@@ -15,7 +15,7 @@ function startDocsPage() {
   })
   .catch(err => {
     console.log(err);
-    loader.hide();
+    initPage();
   });
 }
 
@@ -37,6 +37,6 @@ function initPage(data) {
                 </div>`
     }]
   }
-  initTable('#docs-table', settings);
+  initTable('#docs', settings);
   loader.hide();
 }

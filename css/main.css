@@ -249,7 +249,7 @@ body.no-scroll {
 }
 
 .displayNone {
-  display: none;
+  display: none !important;
 }
 
 .hidden {
@@ -402,10 +402,11 @@ body.no-scroll {
 ===================================================================================================== */
 
 .pill {
+  margin-right: 1em;
   padding: 0 1em;
   background-color: #FFFFFF;
   border: 1px solid transparent;
-  border-radius: 30px;
+  border-radius: 20px;
   text-align: center;
   cursor: default;
 }
@@ -436,12 +437,9 @@ body.no-scroll {
   background-color: #3F9726;
 }
 
-.nedop {
+.nedop,
+.reclm  {
   background-color:#B3B3B3;
-}
-
-.reclm {
-  background-color: #B3B3B3;
 }
 
 /* Цветовая гамма статусов заказа - 80% */
@@ -466,10 +464,7 @@ body.no-scroll {
   background-color: #65AC51;
 }
 
-.nedop.c80 {
-  background-color: #9DABB8;
-}
-
+.nedop.c80,
 .reclm.c80 {
   background-color: #9DABB8;
 }
@@ -501,9 +496,56 @@ body.no-scroll {
 }
 
 .nedop.c10 {
-  color: #8596A6;
-  background-color: #F3F4F6;
-  border: 1px solid #8596A6;
+  color: #91A0AE;
+  background-color: #E7EAED;
+  border: 1px solid #91A0AE;
+}
+
+/* Цветовая гамма статусов заказа - выбранные */
+
+.checked .vputi,
+.checked .vnal,
+.checked .sobrn,
+.checked .otgrz,
+.checked .nedop {
+  color: #FFFFFF;
+}
+
+.checked .vputi {
+  background-color: #6B99C2;
+  border: 1px solid #6B99C2;
+}
+
+.checked .vnali {
+  background-color: #F9BA4D;
+  border: 1px solid #F9BA4D;
+}
+
+.checked .sobrn {
+  background-color: #9882A0;
+  border: 1px solid #9882A0;
+}
+
+.checked .otgrz {
+  background-color: #79B667;
+  border: 1px solid #79B667;
+}
+
+.checked .nedop {
+  background-color: #91A0AE;
+  border: 1px solid #91A0AE;
+}
+
+/* Цветовая гамма статусов заказа - заблокированные */
+
+.disabled .vputi,
+.disabled .vnal,
+.disabled .sobrn,
+.disabled .otgrz,
+.disabled .nedop {
+  color: #B3B3B3;
+  background-color: #D3D6D9;
+  border: 1px solid #D3D6D9;
 }
 
 /* =====================================================================================================
@@ -1404,6 +1446,14 @@ input.btn {
   background-image: url(../img/filter.svg);
 }
 
+/* Обозначение суммы */
+
+.sum.icon {
+  width: 15px;
+  height: 14px;
+  background-image: url(../img/sum.svg);
+}
+
 /* Внесение изменений */
 
 .edit.icon {
@@ -1457,12 +1507,6 @@ input.btn {
   width: 84px;
   height: 84px;
   background-image: url(../img/loader.gif);
-}
-
-/* 404 */
-
-.not-found.icon {
-  background-image: url(../img/404.svg);
 }
 
 /* Чекбоксы */
@@ -2212,11 +2256,6 @@ form.post .form-wrap .text-counter {
 .table-wrap {
   display: none;
   width: 100%;
-  max-height: 80vh;
-  min-height: 23em;
-  background-color: #FFFFFF;
-  overflow-x: auto;
-  overflow-y: auto;
   visibility: hidden;
 }
 
@@ -2224,7 +2263,63 @@ form.post .form-wrap .text-counter {
   visibility: visible;
 }
 
+/* Стили для строки навигации табицы */
+
+.control {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.control .pagination {
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.control .left-side {
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  max-width: 100%;
+}
+
+.control .pagination .icon {
+  margin-right: 0;
+}
+
+.control .pagination .title {
+  padding: 0 1.643em;
+  font-weight: bold;
+}
+
+.control .search.row {
+  width: 70%;
+}
+
+.control .right-side {
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.control .settings.icon {
+  margin-right: 0;
+}
+
 /* Общие стили для таблицы-заголовка и таблицы-содержимого */
+
+.table-wrap .table {
+  width: 100%;
+  max-height: 80vh;
+  min-height: 23em;
+  background-color: #FFFFFF;
+  overflow-x: auto;
+  overflow-y: auto;
+}
 
 .table-wrap table {
   min-width: 100%;
@@ -2271,6 +2366,12 @@ form.post .form-wrap .text-counter {
 
 .table-wrap .pill {
   display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.table-wrap .pill:last-child {
+  margin-right: 0;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
@@ -2383,7 +2484,7 @@ tbody td > .row {
   text-overflow: ellipsis;
 }
 
-tbody td > .row > * {
+tbody td > .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3411,17 +3512,16 @@ body#auth .notice {
   font-size: 0.857em;
 }
 
-
 /* =====================================================================================================
 Страница 404:
 ===================================================================================================== */
 
-body#err .main-title {
-  text-align: center;
+body#err .main .container {
+  flex-direction: column;
 }
 
 body#err .img {
-  margin: 4.5em auto 3.5em auto;
+  margin: 4.285em auto 3.285em auto;
   width: 19em;
   height: 13em;
   background: url('../img/404.svg') no-repeat center center;

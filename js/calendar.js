@@ -2,9 +2,10 @@
 
 // Инициализация календаря:
 
-function initCalendar(id) {
-  if (id) {
-    window[`${id}Calendar`] = new Calendar({ id: id });
+function initCalendar(el) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Calendar`] = new Calendar(el);
   }
 }
 
@@ -42,9 +43,8 @@ class Calendar {
       </div>
       `;
 
-  constructor(options) {
-    this.id = options.id;
-    this.element = document.querySelector(this.id);
+  constructor(obj) {
+    this.element = obj;
     this.element.addEventListener("focus", (e) => {
       if (document.getElementsByClassName("calendar")[0]) {
         document.getElementsByClassName("calendar")[0].remove();

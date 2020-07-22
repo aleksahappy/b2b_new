@@ -2,32 +2,87 @@
 
 // Запускаем рендеринг страницы заказов:
 
-startPage();
+startOrdersPage();
 
-//=====================================================================================================
-// Получение и отображение информации о заказах:
-//=====================================================================================================
+// Запуск страницы заказов:
 
-// Запуск страницы заказа:
-
-function startPage() {
-  // sendRequest(`../json/data_orders.json`)
-  sendRequest(urlRequest.main, {action: 'orderslist'})
+function startOrdersPage() {
+  sendRequest(`../json/data_orders.json`)
+  // sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
     var data = JSON.parse(result);
-    console.log(data);
-    data = convertData(data);
-    initTable('#orderslist', data);
+    initPage(data);
   })
   .catch(err => {
     console.log(err);
-    initTable('#orderslist');
+    initPage();
   });
 }
 
-//=====================================================================================================
+// Инициализация страницы:
+
+function initPage(data) {
+  data = convertData(data);
+  var settings = {
+    data: data,
+    head: true,
+    trFunc: 'onclick=showOrder(event,#id#)',
+    cols: [{
+      title: 'Заказ',
+      content: `<div class="row">
+                  <a href="" class="download icon"></a>
+                  <div>
+                    <div>#order_number#</div>
+                    <div class="text-light">#order_date#</div>
+                  </div>
+                </div>`
+    }, {
+      key: 'order_status',
+      title: 'Статус заказа',
+      sort: 'text',
+      filter: 'full'
+    }, {
+      key: 'contr_name',
+      title: 'Контрагент',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'user_fio',
+      title: 'Заказчик',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'order_type',
+      title: 'Тип заказа',
+      sort: 'text',
+      filter: 'full'
+    }, {
+      key: 'order_sum',
+      title: 'Сумма счета',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'debt',
+      title: 'ДЗ/КЗ',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: '',
+      title: 'Состояние товаров',
+      content: `<div class="row">
+                  <div class="pill vputi c10 #display1#">#sum1#</div>
+                  <div class="pill vnali c10 #display2#">#sum2#</div>
+                  <div class="pill sobrn c10 #display3#">#sum3#</div>
+                  <div class="pill otgrz c10 #display4#">#sum4#</div>
+                  <div class="pill nedop c10 #display5#">#sum5#</div>
+                </div>`
+    }]
+  }
+  initTable('#orderslist', settings);
+  loader.hide();
+}
+
 // Преобразование полученных данных:
-//=====================================================================================================
 
 function convertData(data) {
   if (!data) {

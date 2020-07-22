@@ -10,17 +10,24 @@
 
 // var settings = {
 //   data: [{...}, {...}]                             Данные для заполнения таблицы - массив объектов, где каждый объект - данные строки (по умолчанию [])
-//   head: true или false                             Имеет ли таблица шапку (по умолчанию false)
-//   result: true или false                           Имеет ли таблица строку "итого" (по умолчанию false)
+//   control: {                                       Имеет ли таблица панель управления (по умолчанию false). Если да, то в объекте перечислить элементы:
+//     pagination: true / false                         - наличие пагинации (по умолчанию false)
+//     search: 'placeholder' / false                    - наличие общего поиска (по умолчанию false)
+//     toggle: true / false                             - наличие пагинации (по умолчанию false)
+//     pill: true / false                               - наличие пагинации (по умолчанию false)
+//     settings: true / false                           - наличие пагинации (по умолчанию false)
+//   }
+//   head: true / false                               Имеет ли таблица шапку (по умолчанию false)
+//   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию false)
+//   sign: '#' / '@@' / другой,                       Символ для поиска мест замены в html (по умолчанию - '#')
 //   sub: [{                                          Данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
 //     area: селектор,
 //     items: название ключа в data
-//   }]
-//   sign: '#' / '@@' / другой,                       Символ для поиска мест замены в html (по умолчанию - '#')
+//   }],
+//   trFunc: 'onclick=functionName(event,#key#)'      Обработчик, навешиваемый на строку таблицы (по умолчанию false)
 //   cols:                                            Параметры столбцов таблицы (для таблиц с готовым шаблонов в html данный параметр пропускаем)
 //   [{                                                 что вкючает параметр одного столбца:
 //     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
-//     subkey: 'subkey'                                 - если данные в основном ключе содержат массив объектов, тогда необходимо указать подраздел на основании которого будет идти поиск и фильтрация
 //     title: 'Заголовок'                               - заголовок столбца
 //     resize: true или false                           - кнпока перетаскивания столбца (по умолчанию true)
 //     result: 'kolv' / 'price'                         - формат итогов по колонке (умолчанию false)
@@ -71,7 +78,6 @@
 //     filter: 'search'
 //   }, {
 //     key: 'docs',
-//     subkey: 'status',
 //     title: 'Документы',
 //     content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
 //     filter: 'filter'
@@ -94,59 +100,90 @@ function initTable(el, settings) {
 
 // Создание таблицы:
 
-function createTable(table, settings) {
-  if (settings.head) {
-    var fragmentHead = document.createDocumentFragment();
+function createTable(area, settings) {
+  if (settings.control) {
+    var control = createTableControl(settings);
+    area.appendChild(control);
   }
-  if (settings.result) {
-    var fragmentResult = document.createDocumentFragment();
-  }
-  var fragmentBody = document.createDocumentFragment();
+  var content = createTableContent(area.id, settings);
+  area.appendChild(content);
+}
+
+// Создание панели управления для таблицы:
+
+function createTableControl(settings) {
+
+}
+/* <div class="control row">
+<div class="left-side row">
+  <div class="pagination row">
+    <div class="arrow left icon"></div>
+    <div class="title">1-20 из 258</div>
+    <div class="arrow right icon"></div>
+  </div>
+  <form class="search row">
+    <input type="text" data-value="" placeholder="Поиск по типу заказа, номеру, контрагенту, заказчику...">
+    <input class="search icon" type="submit" value="">
+    <div class="close icon"></div>
+  </form>
+</div>
+<div class="right-side row">
+  <div class="settings icon"></div>
+</div>
+</div> */
+
+// Создание панели управления для таблицы:
+
+function createTableContent(id, settings) {
+  var headList = '',
+      resultList = '',
+      bodyList = '',
+      trFunc = settings.trFunc || '';
 
   settings.cols.forEach((col, index) => {
     if (settings.head) {
-      fragmentHead.appendChild(createTableHead(settings.data, col, index));
+      headList += createTableHead(col, index);
+      if (settings.result) {
+        resultList += createTableResult(col);
+      }
     }
-    if (settings.result) {
-      fragmentResult.appendChild(createTableResult(col));
-    }
-    fragmentBody.appendChild(createTableBody(col));
+    bodyList += createTableBody(col);
   });
 
-  if (settings.head) {
-    appendToTable(getEl('thead', table), fragmentHead);
-  }
-  if (settings.result) {
-    appendToTable(getEl('thead', table), fragmentResult);
-  }
-  appendToTable(getEl('tbody', table), fragmentBody);
-}
-
-// Добавление строк в таблицу:
-
-function appendToTable(el, fragment) {
-  var tr = document.createElement('tr');
-  tr.appendChild(fragment);
-  el.appendChild(tr);
+  var table = document.createElement('div');
+  table.classList.add('table');
+  table.innerHTML =
+  `<table class="head">
+    <thead>
+      <tr>${headList}</tr>
+      <tr>${resultList}</tr>
+    </thead>
+  </table>
+  <table>
+    <tbody id=${id}"-body">
+      <tr ${trFunc}>${bodyList}</tr>
+    </tbody>
+  </table>`;
+  return table;
 }
 
 // Создание шапки таблицы:
 
-function createTableHead (data, col, index) {
-  var th = document.createElement('th');
-  th.id = index + 1;
+function createTableHead (col, index) {
+  var th;
+  if (!col.resize || col.resize) {
+    var resize =`<div class="resize-btn"></div>`;
+  }
   if (!col.sort && !col.filter) {
-    th.innerHTML = `<div>${col.title}</div>`;
+    th =
+    `<th id="${index + 1}">
+      <div>${col.title}</div>
+      ${resize || ''}
+    </th>`;
   } else {
     var sort = '',
         filter = '';
-    th.classList.add('activate', 'box');
-    th.dataset.key = col.key;
-    if (col.subkey) {
-      th.dataset.subkey = col.subkey;
-    }
     if (col.sort) {
-      th.dataset.sort = col.sort;
       var sortDown = col.sort === 'numb' ? 'По возрастанию' : (col.sort === 'date' ? 'Сначала новые' : 'От А до Я');
       var sortUp = col.sort === 'numb' ? 'По убыванию' : (col.sort === 'date' ? 'Сначала старые' : 'От Я до А');
       sort =
@@ -168,7 +205,7 @@ function createTableHead (data, col, index) {
       if (col.filter !== 'checkbox') {
         search =
         `<form class="search row">
-          <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+          <input type="text" data-value="" placeholder="Поиск...">
           <input class="search icon" type="submit" value="">
           <div class="close icon"></div>
         </form>`;
@@ -183,23 +220,22 @@ function createTableHead (data, col, index) {
         ${items}
       </div>`;
     }
-    th.innerHTML =
-    `<div class="head row">
-      <div class="title">${col.title}</div>
-      <div class="icons row">
-        <div class="triangle icon"></div>
-        <div class="filter icon"></div>
+    th =
+    `<th id="${index + 1}" class="activate box" data-key="${col.key}" data-sort="${col.sort || ''}">
+      <div class="head row">
+        <div class="title">${col.title}</div>
+        <div class="icons row">
+          <div class="triangle icon"></div>
+          <div class="filter icon"></div>
+        </div>
+        </div>
+        <div class="drop-down">
+          ${sort}
+          ${filter}
+        </div>
       </div>
-    </div>
-    <div class="drop-down">
-      ${sort}
-      ${filter}
-    </div>`;
-  }
-  if (!col.resize || col.resize) {
-    var resize = document.createElement('div');
-    resize.classList.add('resize-btn');
-    th.appendChild(resize);
+      ${resize || ''}
+    </th>`;
   }
   return th;
 }
@@ -207,32 +243,31 @@ function createTableHead (data, col, index) {
 // Создание результатов таблицы:
 
 function createTableResult(col) {
-  var th = document.createElement('th');
-  if (col.result) {
-    th.innerHTML =
-    `<div class="row">
+  if (!col.result) {
+    return `<th></th>`;
+  }
+  var th =
+  `<th>
+    <div class="row">
       <div class="sum icon"></div>
       <div data-key="${col.key}" data-type="${col.result}"></div>
-    </div>`;
-  }
+    </div>
+  </th>`;
   return th;
 }
 
 // Создание тела таблицы:
 
 function createTableBody(col) {
-  var td = document.createElement('td');
-  if (col.content) {
-    td.innerHTML = col.content;
-  } else {
-    td.textContent = `#${col.key}#`;
+  if (!col.content) {
+    return `<td>#${col.key}#</td>`;
   }
-  return td;
+  return `<td>${col.content}</td>`;
 }
 
 // Объект таблицы:
 
-function Table(obj, settings) {
+function Table(obj, settings = {}) {
   // Константы:
   this.initialData = Array.isArray(settings.data) ? settings.data.filter(el => el) : [];
 
@@ -328,17 +363,10 @@ function Table(obj, settings) {
       items = getEl('.items', el);
       if (items) {
         var key = el.dataset.key,
-            subkey = el.dataset.subkey,
             unique = [],
             list = '',
             value;
-        this.dataToLoad.forEach(el => {
-          if (subkey) {
-            el[key].forEach(subEl => getValue(subEl[subkey]));
-          } else {
-            getValue(el[key]);
-          }
-        });
+        this.dataToLoad.forEach(el => getValue(el[key]));
         function getValue(el) {
           value = (typeof el === 'string' || typeof el === 'number') ? el : null;
           if (value && unique.indexOf(value) === -1) {
@@ -445,17 +473,17 @@ function Table(obj, settings) {
   this.changeData = function(event) {
     var dropDown = event.currentTarget,
         target = event.target,
-        key = dropDown.dataset.key,
-        subkey = dropDown.dataset.subkey;
+        key = dropDown.dataset.key;
     if (target.classList.contains('sort')) {
       this.sortData(dropDown, target, key);
     } else {
       var type = target.classList.contains('search') ? 'search' : 'filter',
           action = dropDown.value ? 'save' : 'remove',
           value = type === 'search' ? dropDown.value : target.dataset.value;
-      this.changeFilter(action, type, value, key, subkey);
+      this.changeFilter(action, type, value, key);
       this.filterData();
     }
+    dropDown.classList.remove('open');
     this.loadData(this.dataToLoad);
   }
 
@@ -476,15 +504,13 @@ function Table(obj, settings) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.filterData();
     }
-    dropDown.classList.remove('open');
   }
 
   // Сохранение/удаление фильтра:
-  this.changeFilter = function(action, type, value, key, subkey) {
+  this.changeFilter = function(action, type, value, key) {
     if (action === 'save') {
       if (!this.filters[key] || this.filters[key].type !== type) {
         this.filters[key] = {
-          subkey: subkey,
           type: type,
           values: [value]
         };
@@ -519,16 +545,8 @@ function Table(obj, settings) {
         for (var key in this.filters) {
           filter = this.filters[key];
           isFound = false;
-          if (filter.subkey) {
-            for (var subitem of item[key]) {
-              if (checkValue(filter.type, filter.values, subitem[filter.subkey])) {
-                isFound = true;
-              }
-            }
-          } else {
-            if (checkValue(filter.type, filter.values, item[key])) {
-              isFound = true;
-            }
+          if (checkValue(filter.type, filter.values, item[key])) {
+            isFound = true;
           }
           if (!isFound) {
             return false;
