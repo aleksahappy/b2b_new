@@ -43,11 +43,12 @@
                     <div class="title h3">Информация о компании</div>
                     <div class="form-wrap" required>
                       <div class="title">Название магазина*</div>
-                      <input type="text" value="" name="rega[shopname]" placeholder="Введите название">
+                      <input type="text" value="" name="rega[shopname]" data-type="cyril" placeholder="Введите название">
+                      <div class="err">Поле не заполнено</div>
                     </div>
                     <div class="form-cols">
                       <div class="form-col2">
-                        <div class="form-wrap" required>
+                        <div class="form-wrap">
                           <div class="title">Сайт</div>
                           <input type="text" value="" name="site_???" placeholder="Введите адрес сайта">
                         </div>
@@ -78,18 +79,20 @@
                       <div class="form-col2">
                         <div class="form-wrap" required>
                           <div class="title">Контактное лицо*</div>
-                          <input type="text" value="" name="rega[contact]" placeholder="Введите имя">
+                          <input type="text" value="" name="rega[contact]" placeholder="Введите имя" data-type="cyril">
+                          <div class="err">Поле заполнено неверно</div>
                         </div>
                         <div class="form-wrap" required>
                           <div class="title">Телефон*</div>
-                          <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _">
+                          <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
                           <div class="err">Поле заполнено неверно</div>
                         </div>
                       </div>
                       <div class="form-col2">
                         <div class="form-wrap" required>
                           <div class="title">Должность*</div>
-                          <input type="text" value="" name="rega[job]" placeholder="Введите должность">
+                          <input type="text" value="" name="rega[job]" placeholder="Введите должность" data-type="cyril">
+                          <div class="err">Поле заполнено неверно</div>
                         </div>
                         <div class="form-wrap" required>
                           <div class="title">Email*</div>
