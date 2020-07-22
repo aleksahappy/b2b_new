@@ -415,90 +415,82 @@ body.no-scroll {
 Цветовая гамма статусов заказа:
 ===================================================================================================== */
 
-/* Цветовая гамма статусов заказа - 100% */
+/* По умолчанию - текст и обводка 100% цвета */
 
-.nomen {
-  background-color: #8596A6;
-}
-
+/* (вкладки - различается текст #2C6DA8 и бордер #568AB9) */
 .vputi {
-  background-color: #2C6DA8;
-}
-
-.vnali {
-  background-color: #F69C00;
-}
-
-.sobrn {
-  background-color: #6C4D77;
-}
-
-.otgrz {
-  background-color: #3F9726;
-}
-
-.nedop,
-.reclm  {
-  background-color:#B3B3B3;
-}
-
-/* Цветовая гамма статусов заказа - 80% */
-
-.nomen.c80 {
-  background-color: #9DABB8;
-}
-
-.vputi.c80 {
-  background-color: #568AB9;
-}
-
-.vnali.c80 {
-  background-color: #F8B033;;
-}
-
-.sobrn.c80 {
-  background-color: #897192;
-}
-
-.otgrz.c80 {
-  background-color: #65AC51;
-}
-
-.nedop.c80,
-.reclm.c80 {
-  background-color: #9DABB8;
-}
-
-/* Цветовая гамма статусов заказа - 10% */
-
-.vputi.c10 {
   color: #2C6DA8;
-  background-color: #EAF0F6;
   border: 1px solid #2C6DA8;
 }
 
-.vnali.c10 {
+.vnali {
   color: #F69C00;
-  background-color: #FEF5E5;
   border: 1px solid #F69C00;
 }
 
-.sobrn.c10 {
+.sobrn {
   color: #6C4D77;
-  background-color: #F0EDF1;
   border: 1px solid #6C4D77;
 }
 
-.otgrz.c10 {
+.otgrz {
   color: #3F9726;
-  background-color: #ECF5E9;
   border: 1px solid #3F9726;
 }
 
-.nedop.c10 {
-  color: #91A0AE;
+.nomen,
+.nedop,
+.reclm {
+  color: #8596A6;
+  border: 1px solid #8596A6;
+}
+
+/* По умолчанию - заливка 10% цвета */
+
+.vputi.c10 {
+  background-color: #EAF0F6;
+}
+
+.vnali.c10 {
+  background-color: #FEF5E5;
+}
+
+.sobrn.c10 {
+  background-color: #F0EDF1;
+}
+
+.otgrz.c10 {
+  background-color: #ECF5E9;
+}
+
+.nomen.c10,
+.nedop.c10,
+.reclm.c10 {
   background-color: #E7EAED;
-  border: 1px solid #91A0AE;
+}
+
+/* По умолчанию - заливка 30% цвета */
+
+.vputi.c30 {
+  background-color: #C0D3E5;
+}
+
+.vnali.c30 {
+  background-color: #FCE1B3;
+}
+
+.sobrn.c30 {
+  background-color: #D3CAD6;
+}
+
+.otgrz.c30 {
+  background-color: #C5E0BE;
+}
+
+.nomen.c30,
+.nedop.c30,
+.reclm.c30 {
+  background-color: #C2CBD3;
 }
 
 /* Цветовая гамма статусов заказа - выбранные */
@@ -507,7 +499,9 @@ body.no-scroll {
 .checked .vnal,
 .checked .sobrn,
 .checked .otgrz,
-.checked .nedop {
+.checked .nomen,
+.checked .nedop,
+.checked .reclm {
   color: #FFFFFF;
 }
 
@@ -2234,20 +2228,19 @@ form.post .form-wrap .text-counter {
 /* Основные стили вкладок таблиц */
 
 .tabs .tab {
-  display: none;
-  justify-content: space-between;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  color: #FFFFFF;
   cursor: pointer;
 }
 
-.tabs .tab.disabled:not(#nomen) {
-  color: #818A94;
-  background-color: #D4D7DB;
+.tabs .tab.disabled {
+  color: #B3B3B3;
+  background-color: #D3D6D9;
   cursor: default;
 }
 
-.tabs .tab.disabled:not(#nomen) .icon {
+.tabs .tab.disabled .icon {
   cursor: default;
 }
 
