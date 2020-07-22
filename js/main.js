@@ -345,13 +345,15 @@ function initNotifications() {
   sendRequest(`../json/data_notifications.json`)
   .then(result => {
     var data = JSON.parse(result),
-        notifications = getEl('#notifications'),
-        body = getEl('.pop-up-body', notifications);
-    fillTemplate({
-      area: body,
-      items: data
-    });
-    getEl('.loader', notifications).style.display = 'none';
+        notifications = getEl('#notifications');
+    if (notifications) {
+      body = getEl('.pop-up-body', notifications);
+      fillTemplate({
+        area: body,
+        items: data
+      });
+      getEl('.loader', notifications).style.display = 'none';
+    }
   })
   .catch(err => {
     console.log(err);
