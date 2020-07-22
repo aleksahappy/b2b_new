@@ -1261,10 +1261,10 @@ function convertYears(stringYears) {
 // Переход на страницу заказа:
 
 function showOrder(event, id) {
-  if (event.target.closest('.download')) {
+  if (event.target.closest('.download.icon')) {
     return;
   }
-  window.open(`/order/?${id}`);
+  window.open(`../order/?${id}`);
 }
 
 // Переход на страницу рекламации:
@@ -1775,7 +1775,8 @@ function Form(obj, func) {
   this.form = obj;
   this.submitBtn = getEl('input[type="submit"]', obj);
   this.dropDowns = this.form.querySelectorAll('.activate');
-  // this.calendars = this.form.querySelectorAll('.???');
+  this.dates = this.form.querySelectorAll('input[data-type="date"]');
+  this.ranges = this.form.querySelectorAll('input[data-type="range"]');
 
   // Динамические переменные:
   this.isSubmit = false;
@@ -1784,7 +1785,8 @@ function Form(obj, func) {
   this.dropDowns.forEach(el => new DropDown(el));
 
   // Инициализация календарей (если они есть):
-  // this.calendars.forEach(el => new DropDown(el));
+  this.dates.forEach(el => new Calendar(el));
+  this.ranges.forEach(el => new Calendar(el));
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -1798,7 +1800,8 @@ function Form(obj, func) {
       el.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
       el.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
       // el.querySelectorAll('.choiced-qty').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие
-      // el.querySelectorAll('.???').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие календаря и дать ему класс чтобы инициализировать
+      // el.querySelectorAll('input[data-type="date"]').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие календаря
+      // el.querySelectorAll('input[data-type="range"]').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие календаря
       el.querySelectorAll('input:not([data-type]):not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.choiced-qty)').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
     });
   }
