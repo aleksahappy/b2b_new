@@ -1,42 +1,5 @@
-/* =====================================================================================================
-Стили страницы "Заказы":
-===================================================================================================== */
-
-/* Стили строки с легендами */
-
-#main-header .legend-row {
-  justify-content: space-between;
-  align-items: center;
-  color: #888888;
-}
-
-#main-header .legend-row > .row {
-  justify-content: flex-start;
-  align-items: center;
-  margin-right: 3em;
-}
-
-#main-header .legend {
-  width: 0.71em;
-  height: 0.71em;
-  margin-right: 0.57em;
-  cursor: default;
-}
-
-/* Стили таблицы */
-
-.table-wrap {
-  max-height: 76vh;
-}
-
-thead .legend {
-  width: 0.71em;
-  height: 0.71em;
-  margin-right: 1em;
-}
-
 #orderslist td:nth-child(1) {
-  min-width: 9em;
+  min-width: 5em;
 }
 
 #orderslist td:nth-child(2) {
@@ -56,43 +19,15 @@ thead .legend {
 }
 
 #orderslist td:nth-child(6) {
-  min-width: 11em;
-  padding: 0;
+  min-width: 10em;
   text-align: right;
-}
-
-#orderslist td:nth-child(6) .row {
-  justify-content: flex-end;
-  align-items: center;
-}
-
-#orderslist td:nth-child(6) .row > div:first-child {
-  padding: 0.7em 0 0.7em 1em;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 #orderslist td:nth-child(7) {
   min-width: 10em;
+  text-align: right;
 }
 
 #orderslist td:nth-child(8) {
   min-width: 25em;
-  padding: 0;
-  vertical-align: middle;
-}
-
-#orderslist td:nth-child(8) > .row {
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding: 0 1em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#orderslist td:nth-child(8) > .row > div {
-  margin-right: 1.3em;
-  padding: 0em 1em;
-  border-radius: 30px;
 }
