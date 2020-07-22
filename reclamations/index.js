@@ -12,6 +12,7 @@ function startClaimPage() {
       data: data,
       head: true,
       result: false,
+      trFunc: 'onclick=directRecl()',
       cols: [
         {
           key: 'num',
@@ -42,7 +43,6 @@ function startClaimPage() {
       ]
     };
     initTable('#recls-table', settings);
-    testRecl();
   })
   .catch(err => {
     console.log('err');
@@ -54,13 +54,6 @@ function startClaimPage() {
 startClaimPage();
 
 
-function testRecl() {
-  var table = document.querySelector('#recls-table');
-  var trs = table.querySelectorAll('tr');
-
-  for (let i = 0; i < trs.length; i++) {
-    trs[i].addEventListener('click', () => {
-      document.location.href = "/reclamation";
-    });
-  }
+function directRecl() {
+  document.location.href = "/reclamation";
 }
