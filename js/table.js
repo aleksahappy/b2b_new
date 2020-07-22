@@ -14,8 +14,8 @@
 //     pagination: true / false                         - наличие пагинации (по умолчанию false)
 //     search: 'placeholder' / false                    - наличие общего поиска (по умолчанию false)
 //     toggle: true / false                             - наличие пагинации (по умолчанию false)
-//     pill: true / false                               - наличие пагинации (по умолчанию false)
-//     setting: true / false                           - наличие пагинации (по умолчанию false)
+//     pill: true / false                               - наличие чекбоксов-"пилюль" (по умолчанию false)
+//     setting: true / false                            - наличие настроек отображения/скрытия (по умолчанию false)
 //   }
 //   head: true / false                               Имеет ли таблица шапку (по умолчанию false)
 //   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию false)
