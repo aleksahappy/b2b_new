@@ -1425,7 +1425,7 @@ function replaceInTemp(key, items, temp, sign) {
 
 function insertText(el, txt, method = 'inner') {
   el.classList.remove('template');
-  txt = txt.replace('template', '');
+  txt = txt.replace(/template/gi, '');
   if (!method || method === 'inner') {
     el.innerHTML = txt;
   } else {
