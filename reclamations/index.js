@@ -10,6 +10,11 @@ function startClaimPage() {
     }
     var settings = {
       data: data,
+      control: {
+        pagination: true,
+        search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
+        setting: true
+      },
       head: true,
       result: false,
       trFunc: 'onclick=directRecl()',
