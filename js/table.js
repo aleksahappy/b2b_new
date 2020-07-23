@@ -30,7 +30,7 @@
 //     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
 //     title: 'Заголовок'                               - заголовок столбца
 //     resize: true или false                           - кнпока перетаскивания столбца (по умолчанию true)
-//     result: 'kolv' / 'price'                         - формат итогов по колонке (умолчанию false)
+//     result: 'kolv' / 'sum'                           - формат итогов по колонке (умолчанию false)
 //     sort: 'text' / 'numb' / 'date'                   - нужна ли сортировка по столбцу и ее формат (по умолчанию false)
 //     filter: 'full' / 'search' / 'checkbox'           - нужна ли фильтрация по столбцу и ее формат (по умолчанию false)
 //     content: #key# / html разметка                   - данные ячейки тела таблицы, если #key#, то пропускаем, если отличается, то вносим html разметку с маяками (по умолчанию #key#)
@@ -184,11 +184,11 @@ function createTableContent(id, settings) {
   `<table class="head">
     <thead>
       <tr>${headList}</tr>
-      <tr>${resultList}</tr>
+      <tr class="results">${resultList}</tr>
     </thead>
   </table>
   <table>
-    <tbody id=${id}"-body">
+    <tbody id=${id}-body>
       <tr ${trFunc}>${bodyList}</tr>
     </tbody>
   </table>`;
@@ -272,7 +272,7 @@ function createTableHead (col, index) {
 
 function createTableResult(col) {
   if (!col.result) {
-    return `<th></th>`;
+    return '<th></th>';
   }
   var th =
   `<th>
@@ -374,7 +374,7 @@ function Table(obj, settings = {}) {
           }
         });
       }
-      if (result.dataset.type === 'price') {
+      if (result.dataset.type === 'sum') {
         total = convertPrice(total);
       }
       result.textContent = total;
@@ -514,6 +514,7 @@ function Table(obj, settings = {}) {
     }
     dropDown.classList.remove('open');
     this.loadData(this.dataToLoad);
+    this.fillResults();
   }
 
   // Сортировка данных:
@@ -637,7 +638,6 @@ function Table(obj, settings = {}) {
   // Визуальное отображение таблицы:
   this.show = function() {
     showElement(this.table);
-    loader.hide();
     this.align();
     this.setResizeHeight();
     this.table.classList.add('active');
