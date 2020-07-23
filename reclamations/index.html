@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ТОП СПОРТС - Рекламации</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/check_auth.js"></script>
     <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- <link rel="stylesheet" type="text/css" href="media_index.css"> -->
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
 
-    <!-- Хедер -->
     <div class="header">
       <div class="header-top">
         <div class="container row">
@@ -86,36 +85,15 @@
       </div>
     </div>
 
-    <!-- Основное содержимое страницы -->
     <div class="main" id="recls">
       <div class="container">
-
-       <!-- Заголовок страницы -->
         <div id="main-header" class="row">
           <div class="title h0">Рекламации</div>
         </div>
-        <!-- Верхняя панель с поиском -->
-        <div class="row head-pan">
-          <div class="row left-side">
-            <div class="pagination">
-              <div class="arrow left icon"></div>
-              <div class="info">1-20 из 258</div>
-              <div class="arrow right icon"></div>
-            </div>
-            <form class="search row" id="claim-search">
-              <input type="text" data-value="" autocomplete="off" placeholder="Поиск по типу заказа, номеру, контрагенту, заказчику...">
-              <input class="search icon" type="submit" value="">
-              <div class="close icon"></div>
-            </form>
-          </div>
-          <div class="settings icon"></div>
-        </div>
-        <!-- Таблицы рекламаций -->
-        <div id="recls-table" class="table-wrap active"></div>
+        <div id="reclm" class="table-wrap active"></div>
       </div>
     </div>
 
-    <!-- Шаблон окна уведомлений -->
     <div id="notifications" class="pop-up-container">
       <div class="pop-up">
         <div class="pop-up-title row">
@@ -146,13 +124,11 @@
       </div>
     </div>
 
-    <!-- Прелоадер страницы -->
     <div id="page-loader" class="loader">
       <div class="loader icon"></div>
       <div class="text"></div>
     </div>
 
-    <!-- Системные сообщения -->
     <div id="alerts" class="pop-up-container">
       <div class="pop-up">
         <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,13 +139,11 @@
       </div>
     </div>
 
-    <!-- Кнопка "Наверх страницы" -->
     <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#53606F" fill-opacity="0.6" stroke="white"/>
       <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
     </svg>
 
-    <!-- Футер -->
     <div class="footer">
       <div class="container">
         <div class="wrap">
@@ -181,6 +155,6 @@
 
     <script src ="../js/main.js"></script>
     <script src="../js/table.js"></script>
-    <script src="index.js"></script>
+    <script src="reclamations.js"></script>
   </body>
 </html>
