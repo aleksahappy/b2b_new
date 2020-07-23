@@ -1,74 +1,25 @@
-.head-pan {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+#reclm td:nth-child(1) {
+  min-width: 10em;
 }
 
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+#reclm td:nth-child(2) {
+  min-width: 10em;
+  text-align: center;
 }
 
-#recls .settings.icon{
-  margin-right: 0;
+#reclm td:nth-child(3) {
+  min-width: 10em;
 }
 
-.pagination .icon {
-  margin-right: 0;
+#reclm td:nth-child(4) {
+  min-width: 10em;
 }
 
-.pagination .info {
-  padding: 0 1.7em;
+#reclm td:nth-child(5) {
+  min-width: 10em;
 }
 
-.head-pan .left-side {
-  align-items: center;
-}
-
-#claim-search {
-  width: 34.84vw;
-  min-width: 300px;
-  margin-left: 11em;
-}
-
-#recls .status-wr {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-#recls .pill {
-  display: inline-block;
-}
-
-.pill.done {
-  border: 1px solid #2C6DA8;
-  color: #2C6DA8;
-  background: #E7EAED;
-}
-
-.pill.good {
-  border: 1px solid #228007;
-  color: #3F9726;
-  background: #ECF5E9;
-}
-
-.pill.wait {
-  border: 1px solid #F69C00;
-  color: #F69C00;
-  background: #FEF5E5;
-}
-
-.pill.denied {
-  border: 1px solid #CE0014;
-  color: #CE0014;
-  background: #FAE5E7;
-}
-
-.pill.register {
-  border: 1px solid #8596A6;
-  color: #8596A6;
-  background: #E7EAED;
+#reclm td:nth-child(6) {
+  min-width: 10em;
+  text-align: center;
 }

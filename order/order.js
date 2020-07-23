@@ -9,13 +9,13 @@
 var tableNames = ['nomen', 'vputi', 'vnali', 'sobrn', 'otgrz', 'nedop', 'reclm'],
     tableKeys = {}, // Список ключей для их включения в таблицы
     reclmData;
-tableKeys['nomen'] = ['artc', 'titl', 'skid', 'pric', 'kolv', 'summ']; //Номенклатура
-tableKeys['vputi'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; //Ожидается
-tableKeys['vnali'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ'];  //В наличии
-tableKeys['sobrn'] = ['artc', 'titl', 'kolv', 'dpst', 'kdop', 'paid', 'summ']; // Собран
-tableKeys['otgrz'] = ['artc', 'titl', 'kolv', 'dotg', 'nakl', 'summ', 'paid', 'kdop', 'preview', 'cods', 'harid', 'naklid']; // Отгружен
-tableKeys['nedop'] = ['artc', 'titl', 'kolv', 'summ', 'stat']; //Недопоставка
-tableKeys['reclm'] = ['recl_num', 'recl_date', 'artc', 'titl', 'kolv', 'trac']; //Рекламации
+tableKeys['nomen'] = ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid']; //Номенклатура
+tableKeys['vputi'] = ['artc', 'titl', 'dpst', 'kolv', 'paid', 'kdop']; //Ожидается
+tableKeys['vnali'] = ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'];  //В наличии
+tableKeys['sobrn'] = ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid']; // Собран
+tableKeys['otgrz'] = ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid', 'preview', 'cods', 'harid', 'naklid', 'recl_num']; // Отгружен
+tableKeys['nedop'] = ['artc', 'titl', 'pric', 'kolv', 'summ', 'stat']; //Недопоставка
+tableKeys['reclm'] = ['recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'comp_summ', 'trac']; //Рекламации
 // tableKeys['debzd'] = 'artc,titl,kolv,pric,summ,dpst,paid,prcd,prcp,kdop,vdlg,recv,nakl,over,lnk,preview,titllnk'; //Долг
 
 // Динамическе переменные:
@@ -40,7 +40,7 @@ function startPage() {
     console.log(data);
     if (data.id) {
       if (!data.comment) {
-        data.isHiddenComment = 'hidden';
+        data.isHidden = 'hidden';
       }
       fillTemplate({
         area: '#order-info',
@@ -54,7 +54,7 @@ function startPage() {
       if (data.orderitems) {
         result = restoreArray(data.orderitems.arlistk, data.orderitems.arlistv);
       }
-      tableNames.forEach(el => initTable(el, result[el]));
+      createTables(result);
     } else {
       location.href = '/err404.html';
     }
@@ -91,11 +91,12 @@ function restoreArray(k, v) {
         if (tableKeys[el].indexOf(kk[ii]) != -1) {
           if (vvv[ii]) {
             vvv[ii] = vvv[ii].toString().trim();
-            if (kk[ii] === 'skid' && vvv[ii]) {
-              vvv[ii] = vvv[ii] + '%';
-            }
           }
-          list[el][kk[ii]] = vvv[ii];
+          if (kk[ii] === 'skid' && vvv[ii]) {
+            list[el][kk[ii]] = vvv[ii] + '%'
+          } else {
+            list[el][kk[ii]] = vvv[ii];
+          }
         }
       });
       obj[kk[ii]] = vvv[ii];
@@ -110,8 +111,23 @@ function restoreArray(k, v) {
           } else {
             currentObj.qtyStyle = 'disabled';
           }
+          // reclmStyle = ? 'added' : '';
           // добавляем в данные id товара:
           currentObj.object_id = parseInt(currentObj.preview.match(/\d+/));
+        }
+        if (el == 'reclm') {
+          var status = currentObj.trac.toLowerCase();
+          if (status == 'зарегистрирована') {
+            currentObj.status = 'registr';
+          } else if (status == 'обрабатывается') {
+            currentObj.status = 'wait';
+          } else if (status == 'удовлетворена') {
+            currentObj.status = 'yes';
+          } else if (status == 'ну удовлетворена') {
+            currentObj.status = 'no';
+          } else if (status == 'исполнена') {
+            currentObj.status = 'done';
+          }
         }
         result[el].push(list[el]);
       }
@@ -134,6 +150,309 @@ function checkInclusion(name, obj) {
   if (name == "vnali" && obj["bkma"] == "ВНаличии") return 1;
   if (name == "reclm" && obj["bkma"] == "Рекламации") return 1;
   if ((name == "debzd" && a["recv"] > " ") || (name == "debzd" && obj['vdlg'] > " " && obj['kdop'] > " ")) return 1;
+}
+
+//=====================================================================================================
+// Создание таблиц:
+//=====================================================================================================
+
+function createTables(result) {
+  var nomenSettings = {
+    data: result.nomen,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'pric',
+      title: 'Цена',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'summ',
+      title: 'Cтоимость',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'skid',
+      title: 'Скидка',
+      sort: 'numb',
+      filter: 'search'
+    }]
+  }
+  initTable('#nomen', nomenSettings);
+
+  var vputiSettings = {
+    data: result.vputi,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'dpst',
+      title: 'Дата поступления',
+      sort: 'date',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'paid',
+      title: 'Оплачено',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kdop',
+      title: 'К оплате',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }]
+  }
+  initTable('#vputi', vputiSettings);
+
+  var vnaliSettings = {
+    data: result.vnali,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'pric',
+      title: 'Цена',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'summ',
+      title: 'Cтоимость',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'skid',
+      title: 'Скидка',
+      sort: 'numb',
+      filter: 'search'
+    }]
+  }
+  initTable('#vnali', vnaliSettings);
+
+  var sobrnSettings = {
+    data: result.sobrn,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'pric',
+      title: 'Цена',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'summ',
+      title: 'Cтоимость',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'skid',
+      title: 'Скидка',
+      sort: 'numb',
+      filter: 'search'
+    }]
+  }
+  initTable('#sobrn', sobrnSettings);
+
+  var otgrzSettings = {
+    data: result.otgrz,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'pric',
+      title: 'Цена',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search',
+      content:`<div class="row">
+                <div class="attention icon" data-tooltip="Подать рекламацию" onclick="openReclmPopUp(#object_id#)"></div>
+                <div>#kolv#</div>
+              </div>`
+    }, {
+      key: 'summ',
+      title: 'Cтоимость',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'skid',
+      title: 'Скидка',
+      sort: 'numb',
+      filter: 'search'
+    }]
+  }
+  initTable('#otgrz', otgrzSettings);
+
+  var nedopSettings = {
+    data: result.nedop,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'pric',
+      title: 'Цена',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'summ',
+      title: 'Cтоимость',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'stat',
+      title: 'Инициатор отмены',
+      sort: 'numb',
+      filter: 'search'
+    }]
+  }
+  initTable('#nedop', nedopSettings);
+
+  var reclmSettings = {
+    data: result.reclm,
+    head: true,
+    result: true,
+    cols: [{
+      key: 'recl_num',
+      title: '№ Рекламации',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'recl_date',
+      title: 'Дата',
+      sort: 'date',
+      filter: 'search'
+    }, {
+      key: 'artc',
+      title: 'Артикул',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'titl',
+      title: 'Наименование',
+      sort: 'text',
+      filter: 'search'
+    }, {
+      key: 'pric',
+      title: 'Цена',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'kolv',
+      title: 'Количество',
+      result: 'kolv',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'comp_summ',
+      title: 'Сумма компенсации',
+      result: 'sum',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'trac',
+      title: 'Статус',
+      sort: 'text',
+      filter: 'full',
+      content: `<div class="#status# recl pill">#trac#</div>`
+    }]
+  }
+  initTable('#reclm', reclmSettings);
+  loader.hide();
 }
 
 //=====================================================================================================
