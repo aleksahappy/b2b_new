@@ -347,7 +347,7 @@ function initNotifications() {
     var data = JSON.parse(result),
         notifications = getEl('#notifications');
     if (notifications) {
-      body = getEl('.pop-up-body', notifications);
+      var body = getEl('.pop-up-body', notifications);
       fillTemplate({
         area: body,
         items: data
@@ -382,7 +382,8 @@ function sortBy(key, type) {
       case 'text':
         return '' + value;
       case 'numb':
-        return +value;
+        value = value.replace(/\s/, '').replace(/\u00A0/g, '');
+        return parseFloat(value);
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
     }
