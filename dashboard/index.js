@@ -417,8 +417,8 @@ function deliveryProgress() {
 
   //  canvas диаграммы
   var deliveryСhart = document.getElementById('delivery-chart').getContext('2d');
-    deliveryСhart.canvas.parentNode.style.width = '100%';
-    deliveryСhart.canvas.parentNode.style.height = '258px';
+  deliveryСhart.canvas.parentNode.style.width = '100%';
+  deliveryСhart.canvas.parentNode.style.height = '258px';
 
   var chart = new Chart(deliveryСhart, {
     type: 'line',

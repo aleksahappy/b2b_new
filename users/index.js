@@ -30,6 +30,8 @@ function startUsersTable() {
       accessTableType();
       initForm('#new-user-modal', testNewUser);
       initForm('#edit-user-modal', testNewUser);
+      initCalendar('#user-birth');
+      initCalendar('#edit-user-birth');
     })
     .catch((err) => {
       console.log(err);
