@@ -75,7 +75,7 @@ startPage();
 
 function startPage() {
   includeHTML('../modules/header.html', document.getElementById('header'));
-  //includeHTML('../modules/common_modals.html', document.getElementById('common_modals'));
+  includeHTML('../modules/notifications.html', document.getElementById('notifications'));
   includeHTML('../modules/footer.html', document.getElementById('footer'));
   loader = getEl('#page-loader');
   message = getEl('#alerts');
