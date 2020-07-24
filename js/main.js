@@ -348,7 +348,7 @@ function getDataFromTotals(type) {
 
 function initNotifications() {
   // sendRequest(urlRequest.main, {action: 'notifications'})
-  sendRequest(`../json/data_notifications.json`)
+  sendRequest(`../json/notifications_data.json`)
   .then(result => {
     var data = JSON.parse(result),
         notifications = getEl('#notifications');
