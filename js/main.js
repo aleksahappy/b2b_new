@@ -37,9 +37,9 @@ var website = document.body.dataset.website,
       api: 'https://api.topsports.ru/'
     },
     items,
-    loader = getEl('#page-loader'),
-    message = getEl('#alerts'),
-    upBtn = getEl('#up-btn');
+    loader,
+    message,
+    upBtn;
 
 // Динамически изменяемые переменные:
 
@@ -74,6 +74,12 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
+  includeHTML('../modules/header.html', document.getElementById('header'));
+  //includeHTML('../modules/common_modals.html', document.getElementById('common_modals'));
+  includeHTML('../modules/footer.html', document.getElementById('footer'));
+  loader = getEl('#page-loader');
+  message = getEl('#alerts');
+  upBtn = getEl('#up-btn');
   if (loader) {
     loader = new Loader(loader);
   }
@@ -81,7 +87,7 @@ function startPage() {
     message = new Message(message);
   }
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
-  if (path !== '') {
+  if (path !== '' && path !== 'registr') {
     loader.show();
   }
   showUserInfo();

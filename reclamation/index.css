@@ -561,7 +561,6 @@ input[type=file]{
 .chat-block .chat-message {
   padding: 20px 14px 0 14px;
   display: block;
-  height: 626px;
   overflow-y: auto;
 }
 
