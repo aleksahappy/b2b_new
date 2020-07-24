@@ -76,6 +76,7 @@ startPage();
 function startPage() {
   includeHTML('../modules/header.html', document.getElementById('header'));
   includeHTML('../modules/notifications.html', document.getElementById('notifications'));
+  includeHTML('../modules/system_alerts.html', document.getElementById('alerts'));
   includeHTML('../modules/footer.html', document.getElementById('footer'));
   loader = getEl('#page-loader');
   message = getEl('#alerts');
