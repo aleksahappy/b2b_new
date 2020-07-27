@@ -313,7 +313,7 @@ function Table(obj, settings = {}) {
   // Динамические переменные:
   this.filters = {};
   this.data = JSON.parse(JSON.stringify(this.initialData));
-  this.dataToLoad;
+  this.dataToLoad = this.data;
   this.countItems = 0;
   this.countItemsTo = 0;
   this.incr = 60;
