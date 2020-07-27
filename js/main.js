@@ -36,10 +36,10 @@ var website = document.body.dataset.website,
       new: 'https://new.topsports.ru/',
       api: 'https://api.topsports.ru/'
     },
-    items,
     loader,
-    message,
-    upBtn;
+    alerts,
+    upBtn,
+    items;
 
 // Динамически изменяемые переменные:
 
@@ -74,29 +74,18 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
-  includeHTML('../modules/header.html', document.getElementById('header'));
-  includeHTML('../modules/notifications.html', document.getElementById('notifications'));
-  includeHTML('../modules/system_alerts.html', document.getElementById('alerts'));
-  includeHTML('../modules/footer.html', document.getElementById('footer'));
-  loader = getEl('#page-loader');
-  message = getEl('#alerts');
-  upBtn = getEl('#up-btn');
-  if (loader) {
-    loader = new Loader(loader);
-  }
-  if (message) {
-    message = new Message(message);
-  }
-  var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
-  if (path !== '' && path !== 'registr') {
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
+  if (path === '' || path === 'registr') {
+    addModules('short');
+  } else {
+    if (path === 'boats' || path === 'equip' || path === 'snow' || path.indexOf('preorder') >= 0) {
+      addModules('extend');
+    } else {
+      addModules('full');
+    }
+    initModules();
     loader.show();
   }
-  showUserInfo();
-  initTooltips();
-  initPopUps();
-  initInputFiles();
-  initNotifications();
-
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
@@ -109,6 +98,43 @@ function startPage() {
   }
 }
 
+// Добавление обязательных модулей при загрузке страницы:
+
+function addModules(type) {
+  var modules = document.createElement('div');
+  modules.id = 'modules';
+
+  var url;
+  switch (type) {
+    case 'full':
+      url = '../modules/full_modules.html';
+      break;
+    case 'short':
+      url = '../modules/short_modules.html';
+      break;
+    case 'extend':
+      url = '../modules/extend_modules.html';
+      break;
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url , false);
+  try {
+    xhr.send();
+    if (xhr.status != 200) {
+      console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+      new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+    } else {
+      if (xhr.response) {
+        modules.innerHTML = xhr.responseText;
+        document.body.appendChild(modules);
+      }
+    }
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 // Выход из авторизации:
 
 function logOut(event) {
@@ -118,6 +144,41 @@ function logOut(event) {
     clearLocal();
     document.location.href = '/';
   })
+}
+
+//=====================================================================================================
+// Инициализация модулей страницы:
+//=====================================================================================================
+
+// Запуск инициализации всех имеющихся модулей страницы:
+
+function initModules() {
+  showUserInfo();
+  initNotifications();
+  initLoader();
+  initAlerts();
+  initUpBtn();
+  initTooltips();
+  initPopUps();
+  initInputFiles();
+}
+
+// Вывод информации о пользователе в шапке страницы:
+
+function showUserInfo() {
+  if (window.userInfo) {
+    fillTemplate({
+      area: '#profile',
+      items: {
+        login: userInfo.login,
+        username: userInfo.name + ' ' + userInfo.lastname
+      }
+    });
+  } else {
+    // if (location.pathname !== '/') {
+    //   location.href = '/';
+    // }
+  }
 }
 
 //=====================================================================================================
@@ -241,28 +302,6 @@ function getItems(id) {
 }
 
 //=====================================================================================================
-// Отображение данных пользователя:
-//=====================================================================================================
-
-// Вывод информации о пользователе в шапке страницы:
-
-function showUserInfo() {
-  if (window.userInfo) {
-    fillTemplate({
-      area: '#profile',
-      items: {
-        login: userInfo.login,
-        username: userInfo.name + ' ' + userInfo.lastname
-      }
-    });
-  } else {
-    // if (location.pathname !== '/') {
-    //   location.href = '/';
-    // }
-  }
-}
-
-//=====================================================================================================
 // Работа с данными корзины:
 //=====================================================================================================
 
@@ -339,32 +378,6 @@ function getDataFromTotals(type) {
     };
   }
   return data;
-}
-
-//=====================================================================================================
-// Работа всплывающего окна уведомлений:
-//=====================================================================================================
-
-// Инициализация работы окна уведомлений:
-
-function initNotifications() {
-  // sendRequest(urlRequest.main, {action: 'notifications'})
-  sendRequest(`../json/notifications_data.json`)
-  .then(result => {
-    var data = JSON.parse(result),
-        notifications = getEl('#notifications');
-    if (notifications) {
-      var body = getEl('.pop-up-body', notifications);
-      fillTemplate({
-        area: body,
-        items: data
-      });
-      getEl('.loader', notifications).style.display = 'none';
-    }
-  })
-  .catch(err => {
-    console.log(err);
-  });
 }
 
 //=====================================================================================================
@@ -719,309 +732,6 @@ function textareaCounter(textarea) {
       counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
     }
   }
-}
-
-//=====================================================================================================
-// Функции сворачивания/разворачивания контейнеров:
-//=====================================================================================================
-
-// Свернуть/развернуть контейнер:
-
-function toggleEl(name, className = 'displayNone') {
-  if (!name) {
-    return;
-  }
-  var el = getEl(name);
-  if (el) {
-    el.classList.toggle(className);
-  }
-}
-
-// Свернуть/развернуть содержимое контейнера:
-
-function switchContent(event) {
-  if (event.target.closest('.switch-cont')) {
-    return;
-  }
-  var container = event.currentTarget.closest('.switch');
-  if (!container || container.classList.contains('disabled')) {
-    return;
-  }
-  var toggleIcon = getEl('.switch-icon', container);
-  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
-    return;
-  }
-  container.classList.toggle('close');
-  if (container.id && container.classList.contains('save')) {
-    if (container.classList.contains('close')) {
-      savePosition(container.id, 'close');
-    } else {
-      savePosition(container.id, 'open');
-    }
-  }
-}
-
-// Сохранение данных о состоянии контейнера (открыт/закрыт):
-
-function savePosition(key, value) {
-  var positions = getInfo('positions', 'sessionStorage');
-  if (!positions[pageUrl]) {
-    positions[pageUrl] = {};
-  }
-  positions[pageUrl][key] = value;
-  saveInfo('positions', positions, 'sessionStorage');
-}
-
-// Удаление данных о состоянии контейнеров (открыты/закрыты):
-
-function removePositions() {
-  var positions = getInfo('positions', 'sessionStorage');
-  positions[pageUrl] = {};
-  saveInfo(`positions`, positions, 'sessionStorage');
-}
-
-// Проверка сохраненных положений контейнеров (открыты/закрыты):
-
-function checkPositions() {
-  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
-      el;
-  for (var key in positions) {
-    el = getEl(key);
-    if (el) {
-      if (positions[key] === 'close') {
-        el.classList.add('close');
-      } else {
-        el.classList.remove('close');
-      }
-    }
-  }
-}
-
-//=====================================================================================================
-// Функции степпера:
-//=====================================================================================================
-
-// Запрет на ввод в инпут любого значения кроме цифр:
-
-function onlyNumb(event) {
-  if (event.ctrlKey || event.altKey || event.metaKey) {
-    return;
-  }
-  var chr = getChar(event);
-  if (chr == null) {
-    return;
-  }
-  if (chr < '0' || chr > '9') {
-    return false;
-  }
-}
-
-// Изменение количества степпером:
-
-function changeQty(event, maxQty, minQty = 0, text) {
-  if (minQty === maxQty) {
-    return;
-  }
-  var current = event.currentTarget;
-  if (current.closest('.qty-box.disabled')) {
-    return;
-  }
-  var sign = undefined,
-      qtyWrap = current.closest('.qty'),
-      input = getEl('.choiced-qty', qtyWrap),
-      qty = parseInt(input.value, 10);
-  if (input.hasAttribute('disabled')) {
-    return;
-  }
-  if (event.currentTarget.classList.contains('btn-minus')) {
-    sign = '-';
-  }
-  if (event.currentTarget.classList.contains('btn-plus')) {
-    sign = '+';
-  }
-  qty = countQty(sign, qty, maxQty, minQty);
-  input.value = qty;
-  input.dataset.value = qty;
-  changeColors(qtyWrap, qty);
-  changeNameBtn(getEl('.name.click', qtyWrap), qty, text);
-  return qty;
-}
-
-// Подсчет количества:
-
-function countQty(sign, qty, maxQty, minQty) {
-  if (sign) {
-    if (sign == '-') {
-      if (qty > minQty) {
-        qty--;
-      }
-    } else if (sign == '+') {
-      if (qty < maxQty) {
-        qty++;
-      }
-    } else if (sign == 'Удалить') {
-      qty = 0;
-    } else {
-      qty = 1;
-    }
-  } else {
-    if (isNaN(qty)) {
-      qty = minQty;
-    }
-    if (qty < minQty) {
-      qty = minQty;
-    }
-    if (qty > maxQty) {
-      qty = maxQty;
-    }
-  }
-  return qty;
-}
-
-// Изменение цвета элементов степпера:
-
-function changeColors(el, qty) {
-  if (el) {
-    if (qty == 0) {
-      el.classList.remove('added');
-    } else {
-      el.classList.add('added');
-    }
-  }
-}
-
-// Изменение названия кнопки в степпере:
-
-function changeNameBtn(el, qty, text = 'В корзину') {
-  if (el) {
-    if (qty == 0) {
-      el.textContent = text;
-    } else {
-      el.textContent = 'Удалить';
-    }
-  }
-}
-
-//=====================================================================================================
-// Работа всплывающих подсказок:
-//=====================================================================================================
-
-// Включение работы подсказок:
-
-function initTooltips() {
-  document.addEventListener('mouseover', event => showTooltip(event));
-  document.addEventListener('mouseout', hideTooltip);
-}
-
-// Отображение подсказки:
-
-function showTooltip(event) {
-  if (tooltip) {
-    hideTooltip();
-  }
-  var element = event.target,
-      tooltipHtml = element.dataset.tooltip;
-  if (element.classList.contains('.disabled') || element.hasAttribute('disabled') || !tooltipHtml) {
-    return;
-  }
-  createTooltip(element, tooltipHtml);
-}
-
-// Создание подсказки:
-
-function createTooltip(element, tooltipHtml) {
-  tooltip = document.createElement('div');
-  tooltip.classList.add('tooltip');
-
-  var flow = element.getAttribute('flow'),
-  textAlign = element.getAttribute('text'),
-  help = element.hasAttribute('help');
-
-  if (flow) {
-    tooltip.setAttribute('flow', flow);
-  }
-  if (textAlign) {
-    tooltip.setAttribute('text', textAlign);
-  }
-  if (help) {
-    tooltip.setAttribute('help', '');
-  }
-  tooltip.innerHTML = tooltipHtml;
-  document.body.append(tooltip);
-  positionTooltip(element, flow);
-}
-
-// Позиционирование подсказки:
-
-function positionTooltip(element, flow) {
-  var coords = element.getBoundingClientRect(),
-      windowWidth = window.innerWidth + window.pageXOffset,
-      windowHeight = window.innerHeight + window.pageYOffset;
-
-  var x, y;
-  if (!flow || flow === 'up' || flow === 'down') {
-    // Позиционирование сверху:
-    if (!flow || flow === 'up') {
-      y = coords.top - tooltip.offsetHeight - 7;
-      // Если подсказка не помещается сверху, то отображать её снизу:
-      if (y < 0) {
-        y = coords.bottom + 7;
-      }
-    // Позиционирование снизу:
-    } else {
-      y = coords.bottom + 7;
-      // Если подсказка не помещается снизу, то отображать её сверху:
-      if (y + tooltip.offsetHeight > windowHeight) {
-        y = coords.top - tooltip.offsetHeight - 7;
-      }
-    }
-    var x = coords.left + (element.offsetWidth - tooltip.offsetWidth) / 2;
-    // Не заезжать за левый край окна:
-    if (x < 0) {
-      x = 0;
-    }
-    // Не заезжать за правый край окна:
-    if (x + tooltip.offsetWidth > windowWidth) {
-      x = windowWidth - tooltip.offsetWidth;
-    }
-  } else if (flow === 'left' || flow === 'right') {
-    // Позиционирование слева:
-    if (flow === 'left') {
-      x = coords.left - tooltip.offsetWidth - 7;
-      // Если подсказка не помещается слева, то отображать её справа:
-      if (x < 0) {
-        x = coords.right + 7;
-      }
-    // Позиционирование справа:
-    } else {
-      x = coords.right + 7;
-      // Если подсказка не помещается справа, то отображать её слева:
-      if (x + tooltip.offsetWidth > windowWidth) {
-        x = coords.left - tooltip.offsetWidth - 7;
-      }
-    }
-    var y = coords.top + (element.offsetHeight - tooltip.offsetHeight) / 2;
-    // Не заезжать за верхний край окна:
-    if (y < 0) {
-      y = 0;
-    }
-    // Не заезжать за нижний край окна:
-    if (y + tooltip.offsetHeight > windowHeight) {
-      y = windowHeight - tooltip.offsetHeight;
-    }
-  }
-  tooltip.style.left = x + 'px';
-  tooltip.style.top = y + 'px';
-}
-
-// Скрытие подсказки:
-
-function hideTooltip() {
-  if (!tooltip) {
-    return;
-  }
-  tooltip.remove();
-  tooltip = null;
 }
 
 //=====================================================================================================
@@ -1447,8 +1157,325 @@ function insertText(el, txt, method = 'inner') {
 }
 
 //=====================================================================================================
+// Функции сворачивания/разворачивания контейнеров:
+//=====================================================================================================
+
+// Свернуть/развернуть контейнер:
+
+function toggleEl(name, className = 'displayNone') {
+  if (!name) {
+    return;
+  }
+  var el = getEl(name);
+  if (el) {
+    el.classList.toggle(className);
+  }
+}
+
+// Свернуть/развернуть содержимое контейнера:
+
+function switchContent(event) {
+  if (event.target.closest('.switch-cont')) {
+    return;
+  }
+  var container = event.currentTarget.closest('.switch');
+  if (!container || container.classList.contains('disabled')) {
+    return;
+  }
+  var toggleIcon = getEl('.switch-icon', container);
+  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
+    return;
+  }
+  container.classList.toggle('close');
+  if (container.id && container.classList.contains('save')) {
+    if (container.classList.contains('close')) {
+      savePosition(container.id, 'close');
+    } else {
+      savePosition(container.id, 'open');
+    }
+  }
+}
+
+// Сохранение данных о состоянии контейнера (открыт/закрыт):
+
+function savePosition(key, value) {
+  var positions = getInfo('positions', 'sessionStorage');
+  if (!positions[pageUrl]) {
+    positions[pageUrl] = {};
+  }
+  positions[pageUrl][key] = value;
+  saveInfo('positions', positions, 'sessionStorage');
+}
+
+// Удаление данных о состоянии контейнеров (открыты/закрыты):
+
+function removePositions() {
+  var positions = getInfo('positions', 'sessionStorage');
+  positions[pageUrl] = {};
+  saveInfo(`positions`, positions, 'sessionStorage');
+}
+
+// Проверка сохраненных положений контейнеров (открыты/закрыты):
+
+function checkPositions() {
+  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
+      el;
+  for (var key in positions) {
+    el = getEl(key);
+    if (el) {
+      if (positions[key] === 'close') {
+        el.classList.add('close');
+      } else {
+        el.classList.remove('close');
+      }
+    }
+  }
+}
+
+//=====================================================================================================
+// Функции степпера:
+//=====================================================================================================
+
+// Запрет на ввод в инпут любого значения кроме цифр:
+
+function onlyNumb(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return;
+  }
+  var chr = getChar(event);
+  if (chr == null) {
+    return;
+  }
+  if (chr < '0' || chr > '9') {
+    return false;
+  }
+}
+
+// Изменение количества степпером:
+
+function changeQty(event, maxQty, minQty = 0, text) {
+  if (minQty === maxQty) {
+    return;
+  }
+  var current = event.currentTarget;
+  if (current.closest('.qty-box.disabled')) {
+    return;
+  }
+  var sign = undefined,
+      qtyWrap = current.closest('.qty'),
+      input = getEl('.choiced-qty', qtyWrap),
+      qty = parseInt(input.value, 10);
+  if (input.hasAttribute('disabled')) {
+    return;
+  }
+  if (event.currentTarget.classList.contains('btn-minus')) {
+    sign = '-';
+  }
+  if (event.currentTarget.classList.contains('btn-plus')) {
+    sign = '+';
+  }
+  qty = countQty(sign, qty, maxQty, minQty);
+  input.value = qty;
+  input.dataset.value = qty;
+  changeColors(qtyWrap, qty);
+  changeNameBtn(getEl('.name.click', qtyWrap), qty, text);
+  return qty;
+}
+
+// Подсчет количества:
+
+function countQty(sign, qty, maxQty, minQty) {
+  if (sign) {
+    if (sign == '-') {
+      if (qty > minQty) {
+        qty--;
+      }
+    } else if (sign == '+') {
+      if (qty < maxQty) {
+        qty++;
+      }
+    } else if (sign == 'Удалить') {
+      qty = 0;
+    } else {
+      qty = 1;
+    }
+  } else {
+    if (isNaN(qty)) {
+      qty = minQty;
+    }
+    if (qty < minQty) {
+      qty = minQty;
+    }
+    if (qty > maxQty) {
+      qty = maxQty;
+    }
+  }
+  return qty;
+}
+
+// Изменение цвета элементов степпера:
+
+function changeColors(el, qty) {
+  if (el) {
+    if (qty == 0) {
+      el.classList.remove('added');
+    } else {
+      el.classList.add('added');
+    }
+  }
+}
+
+// Изменение названия кнопки в степпере:
+
+function changeNameBtn(el, qty, text = 'В корзину') {
+  if (el) {
+    if (qty == 0) {
+      el.textContent = text;
+    } else {
+      el.textContent = 'Удалить';
+    }
+  }
+}
+
+//=====================================================================================================
+// Работа всплывающих подсказок:
+//=====================================================================================================
+
+// Включение работы подсказок:
+
+function initTooltips() {
+  document.addEventListener('mouseover', event => showTooltip(event));
+  document.addEventListener('mouseout', hideTooltip);
+}
+
+// Отображение подсказки:
+
+function showTooltip(event) {
+  if (tooltip) {
+    hideTooltip();
+  }
+  var element = event.target,
+      tooltipHtml = element.dataset.tooltip;
+  if (element.classList.contains('.disabled') || element.hasAttribute('disabled') || !tooltipHtml) {
+    return;
+  }
+  createTooltip(element, tooltipHtml);
+}
+
+// Создание подсказки:
+
+function createTooltip(element, tooltipHtml) {
+  tooltip = document.createElement('div');
+  tooltip.classList.add('tooltip');
+
+  var flow = element.getAttribute('flow'),
+  textAlign = element.getAttribute('text'),
+  help = element.hasAttribute('help');
+
+  if (flow) {
+    tooltip.setAttribute('flow', flow);
+  }
+  if (textAlign) {
+    tooltip.setAttribute('text', textAlign);
+  }
+  if (help) {
+    tooltip.setAttribute('help', '');
+  }
+  tooltip.innerHTML = tooltipHtml;
+  document.body.append(tooltip);
+  positionTooltip(element, flow);
+}
+
+// Позиционирование подсказки:
+
+function positionTooltip(element, flow) {
+  var coords = element.getBoundingClientRect(),
+      windowWidth = window.innerWidth + window.pageXOffset,
+      windowHeight = window.innerHeight + window.pageYOffset;
+
+  var x, y;
+  if (!flow || flow === 'up' || flow === 'down') {
+    // Позиционирование сверху:
+    if (!flow || flow === 'up') {
+      y = coords.top - tooltip.offsetHeight - 7;
+      // Если подсказка не помещается сверху, то отображать её снизу:
+      if (y < 0) {
+        y = coords.bottom + 7;
+      }
+    // Позиционирование снизу:
+    } else {
+      y = coords.bottom + 7;
+      // Если подсказка не помещается снизу, то отображать её сверху:
+      if (y + tooltip.offsetHeight > windowHeight) {
+        y = coords.top - tooltip.offsetHeight - 7;
+      }
+    }
+    var x = coords.left + (element.offsetWidth - tooltip.offsetWidth) / 2;
+    // Не заезжать за левый край окна:
+    if (x < 0) {
+      x = 0;
+    }
+    // Не заезжать за правый край окна:
+    if (x + tooltip.offsetWidth > windowWidth) {
+      x = windowWidth - tooltip.offsetWidth;
+    }
+  } else if (flow === 'left' || flow === 'right') {
+    // Позиционирование слева:
+    if (flow === 'left') {
+      x = coords.left - tooltip.offsetWidth - 7;
+      // Если подсказка не помещается слева, то отображать её справа:
+      if (x < 0) {
+        x = coords.right + 7;
+      }
+    // Позиционирование справа:
+    } else {
+      x = coords.right + 7;
+      // Если подсказка не помещается справа, то отображать её слева:
+      if (x + tooltip.offsetWidth > windowWidth) {
+        x = coords.left - tooltip.offsetWidth - 7;
+      }
+    }
+    var y = coords.top + (element.offsetHeight - tooltip.offsetHeight) / 2;
+    // Не заезжать за верхний край окна:
+    if (y < 0) {
+      y = 0;
+    }
+    // Не заезжать за нижний край окна:
+    if (y + tooltip.offsetHeight > windowHeight) {
+      y = windowHeight - tooltip.offsetHeight;
+    }
+  }
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+
+// Скрытие подсказки:
+
+function hideTooltip() {
+  if (!tooltip) {
+    return;
+  }
+  tooltip.remove();
+  tooltip = null;
+}
+
+//=====================================================================================================
 // Работа прелоадера:
 //=====================================================================================================
+
+// Инициализация работы лоадера страницы:
+
+function initLoader() {
+  loader = getEl('#page-loader');
+  if (loader) {
+    loader = new Loader(loader);
+  } else {
+    console.log(loader);
+    loader = {};
+  }
+}
+
+// Объект лоадера страницы:
 
 function Loader(obj) {
   this.loader = obj;
@@ -1467,11 +1494,24 @@ function Loader(obj) {
 }
 
 //=====================================================================================================
-// Работа окна сообщений:
+// Работа системного окна сообщений:
 //=====================================================================================================
 
-function Message(obj) {
-  this.message = obj;
+// Инициализация работы системного окна сообщений:
+
+function initAlerts() {
+  alerts = getEl('#alerts');
+  if (alerts) {
+    alerts = new Alerts(alerts);
+  } else {
+    alerts = {};
+  }
+}
+
+// Объект системного окна сообщений:
+
+function Alerts(obj) {
+  this.alerts = obj;
   this.text = getEl('.text', obj);
 
   // Отображение окна сообщений (обязательно с текстом):
@@ -1480,17 +1520,17 @@ function Message(obj) {
       return;
     }
     this.text.innerHTML = text;
-    openPopUp(this.message);
+    openPopUp(this.alerts);
     if (timer) {
       setTimeout(() => {
-        closePopUp(null, this.message);
+        closePopUp(null, this.alerts);
       }, timer);
     }
   }
 
   // Скрытие окна сообщений:
   this.hide = function() {
-    closePopUp(null, this.message);
+    closePopUp(null, this.alerts);
   }
 }
 
@@ -1498,8 +1538,13 @@ function Message(obj) {
 // Работа кнопки "Наверх страницы":
 //=====================================================================================================
 
-if (upBtn) {
-  window.addEventListener('scroll', toggleBtnGoTop);
+// Инициализация работы кнопки "Наверх страницы":
+
+function initUpBtn() {
+  upBtn = getEl('#up-btn');
+  if (upBtn) {
+    window.addEventListener('scroll', toggleBtnGoTop);
+  }
 }
 
 // Отображение/скрытие кнопки "Наверх страницы":
@@ -1578,6 +1623,32 @@ function closePopUp(event, el) {
     }
     return true;
   }
+}
+
+//=====================================================================================================
+// Работа окна уведомлений:
+//=====================================================================================================
+
+// Инициализация работы окна уведомлений:
+
+function initNotifications() {
+  // sendRequest(urlRequest.main, {action: 'notifications'})
+  sendRequest(`../json/notifications_data.json`)
+  .then(result => {
+    var data = JSON.parse(result),
+        notifications = getEl('#notifications');
+    if (notifications) {
+      var body = getEl('.pop-up-body', notifications);
+      fillTemplate({
+        area: body,
+        items: data
+      });
+      getEl('.loader', notifications).style.display = 'none';
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 //=====================================================================================================
