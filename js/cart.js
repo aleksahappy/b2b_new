@@ -73,7 +73,7 @@ function sendOrder(formData) {
     if (result) {
       var orderId = JSON.parse(result);
       if (orderId.length !== idList.length) {
-        message.show('Были отправлены не все позиции из заказа.');
+        alerts.show('Были отправлены не все позиции из заказа.');
       }
       deleteFormCart(orderId);
       document.location.href = '../orders';
@@ -81,7 +81,7 @@ function sendOrder(formData) {
   })
   .catch(error => {
     console.log(error);
-    message.show('Заказ не был отправлен. Попробуйте еще раз.');
+    alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
 }
 
@@ -824,7 +824,7 @@ function loadInCart() {
   }
   if (error) {
     loader.hide();
-    message.show(error, 2000);
+    alerts.show(error, 2000);
     return;
   }
   addInCart.forEach(el => {
@@ -835,7 +835,7 @@ function loadInCart() {
   loader.hide();
   closePopUp(null, 'load-container');
   if (addInCart.length < strings.length) {
-    message.show('При загрузке были найдены не все артикулы', 3000);
+    alerts.show('При загрузке были найдены не все артикулы', 3000);
   }
   loadText.value = '';
 }
@@ -860,7 +860,7 @@ function addInCart(event) {
       createCart();
       showActualCart();
     } else {
-      message.show('Файл не загружен. Неверный формат данных.', 2000);
+      alerts.show('Файл не загружен. Неверный формат данных.', 2000);
       showElement(loadBtn);
       hideElement(submitBtn);
     }
@@ -869,7 +869,7 @@ function addInCart(event) {
   .catch(error => {
     console.log(error);
     loader.hide();
-    message.show('Файл не загружен. Ошибка сервера.', 2000);
+    alerts.show('Файл не загружен. Ошибка сервера.', 2000);
     showElement(loadBtn);
     hideElement(submitBtn);
   })
@@ -884,9 +884,9 @@ function copyCart() {
   cartCopy.setSelectionRange(0, cartCopy.value.length);
   try {
     document.execCommand('copy');
-    message.show('Содержимое корзины скопировано в буфер обмена.', 2000)
+    alerts.show('Содержимое корзины скопировано в буфер обмена.', 2000)
   } catch (error) {
-    message.show('Не удалось скопировать cодержимое корзины.', 2000)
+    alerts.show('Не удалось скопировать cодержимое корзины.', 2000)
   }
 }
 
@@ -932,7 +932,7 @@ function deleteSelected(isConfirm) {
     getConfirmDeleteFromCart();
     return;
   }
-  message.hide();
+  alerts.hide();
   var cartRows = getEl('#cart-rows'),
       cartTable = getEl('#cart-table');
   var id, tableRow, bonusRow, tableBonusRow;
@@ -960,9 +960,9 @@ function deleteSelected(isConfirm) {
 }
 
 function getConfirmDeleteFromCart() {
-  message.show(
+  alerts.show(
   `<div style="margin-bottom: 1em;">Удалить выделенные товары из корзины?</div><div class="row">
-    <div class="basic btn" onclick="message.hide()" style="margin-right: 1em;">Отмена</div>
+    <div class="basic btn" onclick="alerts.hide()" style="margin-right: 1em;">Отмена</div>
     <div class="active btn" onclick="deleteSelected(true)">Ок</div>
   </div>`)
 }
@@ -989,11 +989,11 @@ function fillOrderForm() {
 
 function openOrderForm() {
   if (!userData.contr) {
-    message.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors" target="_blank">Контрагенты</a> для их добавления/включения.');
+    alerts.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors" target="_blank">Контрагенты</a> для их добавления/включения.');
     return;
   }
   if (!userData.address) {
-    message.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses" target="_blank">Адреса доставки</a> для их добавления/включения.');
+    alerts.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses" target="_blank">Адреса доставки</a> для их добавления/включения.');
     var deliverySelect = getEl('#order-form [name="delivery_type"]');
     getEl('option[value="2"]', deliverySelect).style.display = 'none';
     getEl('option[value="3"]', deliverySelect).style.display = 'none';

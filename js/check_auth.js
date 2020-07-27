@@ -29,7 +29,7 @@ function checkAuth() {
       } else {
         if (path !== '' && path !== 'registr') {
           location.href = '/';
-         }
+        }
       }
     }
   } catch(err) {
