@@ -13,6 +13,7 @@ function startProfPage() {
     };
     fillTemplate(profileData);
     initForm('#edit-profile-modal', testEditProfile);
+    initCalendar('#profile-birth');
   })
   .catch(err => {
     console.log(err);
@@ -23,8 +24,5 @@ startProfPage();
 
 
 function testEditProfile() {
-  console.log('testEditProfile');
   clearForm('#edit-profile-modal');
 }
-
-initForm('#edit-profile-modal');

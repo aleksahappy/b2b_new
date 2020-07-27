@@ -33,7 +33,7 @@ startPage();
 // Запуск страницы заказа:
 
 function startPage() {
-  // sendRequest(`../json/data_order.json`)
+  // sendRequest(`../json/order_data.json`)
   sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
   .then(result => {
     var data = JSON.parse(result);

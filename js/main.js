@@ -37,9 +37,9 @@ var website = document.body.dataset.website,
       api: 'https://api.topsports.ru/'
     },
     items,
-    loader = getEl('#page-loader'),
-    message = getEl('#alerts'),
-    upBtn = getEl('#up-btn');
+    loader,
+    message,
+    upBtn;
 
 // Динамически изменяемые переменные:
 
@@ -74,6 +74,13 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
+  includeHTML('../modules/header.html', document.getElementById('header'));
+  includeHTML('../modules/notifications.html', document.getElementById('notifications'));
+  includeHTML('../modules/system_alerts.html', document.getElementById('alerts'));
+  includeHTML('../modules/footer.html', document.getElementById('footer'));
+  loader = getEl('#page-loader');
+  message = getEl('#alerts');
+  upBtn = getEl('#up-btn');
   if (loader) {
     loader = new Loader(loader);
   }
@@ -81,7 +88,7 @@ function startPage() {
     message = new Message(message);
   }
   var path = location.pathname.replace(/\/[^\/]+.html/g, '').replace(/\//g, '');
-  if (path !== '') {
+  if (path !== '' && path !== 'registr') {
     loader.show();
   }
   showUserInfo();
@@ -342,7 +349,7 @@ function getDataFromTotals(type) {
 
 function initNotifications() {
   // sendRequest(urlRequest.main, {action: 'notifications'})
-  sendRequest(`../json/data_notifications.json`)
+  sendRequest(`../json/notifications_data.json`)
   .then(result => {
     var data = JSON.parse(result),
         notifications = getEl('#notifications');

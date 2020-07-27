@@ -119,4 +119,4 @@ function setChatPos() {
   var chat = document.querySelector('.chat-wrap');
   chatWrap.style.top = (window.innerHeight - chat.offsetHeight) + 'px';
 }
-//setChatPos();
+setChatPos();

@@ -1,5 +1,5 @@
 'use strict';
-
+console.log('test');
 // Запускаем рендеринг страницы документов:
 
 startReclmPage();
