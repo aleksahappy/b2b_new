@@ -18,16 +18,6 @@
 
   <body data-website="ts_b2b">
 
-    <div class="header">
-      <div class="header-top">
-        <div class="container row">
-          <div class="left-side row">
-            <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="main">
       <div class="container center">
         <!-- <div id="" class="pop-up-container"> -->
@@ -43,7 +33,7 @@
                     <div class="title h3">Информация о компании</div>
                     <div class="form-wrap" required>
                       <div class="title">Название магазина*</div>
-                      <input type="text" value="" name="rega[shopname]" data-type="cyril" placeholder="Введите название">
+                      <input type="text" value="" name="rega[shopname]" placeholder="Введите название">
                       <div class="err">Поле не заполнено</div>
                     </div>
                     <div class="form-cols">
@@ -79,7 +69,7 @@
                       <div class="form-col2">
                         <div class="form-wrap" required>
                           <div class="title">Контактное лицо*</div>
-                          <input type="text" value="" name="rega[contact]" placeholder="Введите имя" data-type="cyril">
+                          <input type="text" value="" name="rega[contact]" data-type="cyril" placeholder="Введите имя">
                           <div class="err">Поле заполнено неверно</div>
                         </div>
                         <div class="form-wrap" required>
@@ -91,7 +81,7 @@
                       <div class="form-col2">
                         <div class="form-wrap" required>
                           <div class="title">Должность*</div>
-                          <input type="text" value="" name="rega[job]" placeholder="Введите должность" data-type="cyril">
+                          <input type="text" value="" name="rega[job]" placeholder="Введите должность">
                           <div class="err">Поле заполнено неверно</div>
                         </div>
                         <div class="form-wrap" required>
@@ -170,7 +160,7 @@
                   </div>
                 </div>
                 <div class="btns-wrap">
-                  <input class="btn sub-act" type="submit" value="Отправить" onclick="logIn(event)">
+                  <input class="btn sub-act" type="submit" value="Отправить" onclick="logIn(event)" disabled>
                 </div>
               </form>
             </div>
@@ -183,21 +173,7 @@
       </div>
     </div>
 
-    <div id="page-loader" class="loader">
-      <div class="loader icon"></div>
-      <div class="text"></div>
-    </div>
-
-    <div class="footer">
-      <div class="container">
-        <div class="wrap">
-          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
-          <div>© 2020 TOP SPORTS</div>
-        </div>
-      </div>
-    </div>
-
     <script src ="../js/main.js"></script>
-    <script src ="index.js"></script>
+    <script>initForm('#registr');</script>
   </body>
 </html>
