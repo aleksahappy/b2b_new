@@ -29,6 +29,7 @@ Desktop:
 ===================================================================================================== */
 
 /* Стили на ширину больше 1920px: */
+/* ______________________________ */
 
 @media only screen and (min-width: 1921px) {
   .container {
@@ -70,6 +71,7 @@ Laptop:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 1360px включительно: */
+/* ____________________________________________ */
 
 @media only screen and (max-width: 1360px) {
   .container {
@@ -82,6 +84,7 @@ Laptop:
 }
 
 /* Стили на ширину от 0 до 1080px включительно: */
+/* ____________________________________________ */
 
 @media only screen and (max-width: 1080px) {
   /* #full-img-container .carousel .left-btn {
@@ -139,6 +142,10 @@ Laptop:
     padding: 40px 0;
   }
 
+  .pop-up-container.filters {
+    padding: 0;
+  }
+
   #notifications .pop-up {
     width: 100%;
     min-width: 100%;
@@ -150,6 +157,7 @@ Tablet:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 960px включительно: */
+/* ___________________________________________ */
 
 @media only screen and (max-width: 960px) {
   .container {
@@ -189,12 +197,23 @@ Tablet:
 }
 
 /* Стили на ширину от 0 до 768px включительно: */
+/* ___________________________________________ */
 
 @media only screen and (max-width: 768px) {
+  /* Основные стили: */
+
   body {
     padding-top: 41px;
     padding-bottom: 70px;
   }
+
+  /* Заголовок страницы: */
+
+  #main-header + .btn {
+    display: none;
+  }
+
+  /* Хедер */
 
   .header-top .container {
     height: 40px;
@@ -204,30 +223,18 @@ Tablet:
     height: 40px;
   }
 
-  #main-header + .btn {
-    display: none;
-  }
+  /* Иконки: */
 
   .icon {
     margin-right: 0.714em;
   }
 
-  .add.icon {
+  .add.icon,
+  .relay.icon {
     display: block;
   }
 
-  .infoblock {
-    padding: 0;
-  }
-
-  .infoblock .section-head {
-    padding: 1.25em 1.25em 1.25em 1.25em;
-    background: #53606F;
-  }
-
-  .infoblock .section-head .title {
-    color: #FFFFFF;
-  }
+  /* Всплывающие окна: */
 
   .pop-up-container {
     padding: 0;
@@ -248,11 +255,64 @@ Tablet:
     flex-grow: 1;
   }
 
+  /* Блок фильтров: */
+
+  .pop-up-container.filters {
+    display: flex;
+  }
+
+  .pop-up-container.filters.visible {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .pop-up-container.filters.visible.open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .filters .pop-up {
+    background-color: #FFFFFF;
+  }
+
+  .filters .pop-up-title {
+    display: flex;
+    padding: 1em 2.143em;
+    margin-bottom: 0;
+  }
+
+  .filter {
+    padding-bottom: 1em;
+  }
+
+  .filter > .title.row {
+    padding: 0.714em 2.143em;
+  }
+
+  .filter .item > .title.row {
+    padding: 1em 2.143em;
+    padding-bottom: 0;
+  }
+
+  .pop-up-container.filters .btns-wrap {
+    display: flex;
+  }
+
+  /* Форма отправки на сервер: */
+
   .pop-up-body form.post {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
   }
+
+  /* Окно уведомлений: */
 
   #notifications .message.icon {
     width: 25px;
@@ -269,6 +329,21 @@ Tablet:
     top: 1.5em;
     left: 35px;
   }
+
+  /* Блок информации: */
+
+  .infoblock {
+    padding: 0;
+  }
+
+  .infoblock .section-head {
+    padding: 1.25em 1.25em 1.25em 1.25em;
+    background: #53606F;
+  }
+
+  .infoblock .section-head .title {
+    color: #FFFFFF;
+  }
 }
 
 /* =====================================================================================================
@@ -276,6 +351,7 @@ Mobile:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 480px включительно: */
+/* ____________________________________________ */
 
 @media only screen and (max-width: 499px) {
   .container {
@@ -303,5 +379,20 @@ Mobile:
   form.post .form-cols > div {
     width: 100%;
     padding: 0;
+  }
+
+  /* Блок фильтров: */
+
+  .filters .pop-up-title {
+    padding: 1em 1.428em;
+  }
+
+  .filter > .title.row {
+    padding: 0.714em 1.428em;
+  }
+
+  .filter .item > .title.row {
+    padding: 1em 1.428em;
+    padding-bottom: 0;
   }
 }

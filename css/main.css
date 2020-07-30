@@ -284,14 +284,15 @@ body.no-scroll {
   display: none;
   position: absolute;
   justify-content: center;
-  width: 1.76em;
-  height: 1.75em;
+  align-items: center;
+  width: 17px;
+  height: 15px;
   top: 0;
   right: -0.3em;
-  font-size: 0.57em;
-  line-height: 1.6;
+  font-size: 9px;
+  line-height: 0;
   color: #FFFFFF;
-  background-color: #C33039;;
+  background-color: #CE0014;
   border: 1px solid #FFFFFF;
   border-radius: 50%;
   text-align: center;
@@ -398,17 +399,54 @@ body.no-scroll {
 }
 
 /* =====================================================================================================
-Стили плашек с текстом:
+Пилюли:
 ===================================================================================================== */
 
 .pill {
+  display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
   margin-right: 1em;
-  padding: 0 1em;
-  background-color: #FFFFFF;
+  padding: 4px 10px;
+  line-height: 14px;
+  color: #FFFFFF;
   border: 1px solid transparent;
   border-radius: 20px;
   text-align: center;
-  cursor: default;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.pill.row {
+  cursor: pointer;
+}
+
+.pill:last-child {
+  margin-right: 0;
+}
+
+.pill > div {
+  display: inline-block;
+}
+
+.pill .close.icon {
+  display: none;
+  background-image: url(../img/close_white.svg);
+  width: 8px;
+  height: 8px;
+  margin-left: 0.714em;
+  margin-right: 0;
+}
+
+.pill.checked .close.icon {
+  display: inline-block;
 }
 
 /* =====================================================================================================
@@ -417,7 +455,6 @@ body.no-scroll {
 
 /* По умолчанию - текст и обводка 100% цвета */
 
-/* (вкладки - различается текст #2C6DA8 и бордер #568AB9) */
 .vputi {
   color: #2C6DA8;
   border: 1px solid #2C6DA8;
@@ -546,28 +583,9 @@ body.no-scroll {
   border: 1px solid #91A0AE;
 }
 
-/* Цветовая гамма статусов заказа - заблокированные */
-
-.disabled .vputi,
-.disabled .vnal,
-.disabled .sobrn,
-.disabled .otgrz,
-.disabled .nedop {
-  color: #B3B3B3;
-  background-color: #D3D6D9;
-  border: 1px solid #D3D6D9;
-}
-
 /* =====================================================================================================
 Цветовая гамма статусов доступа:
 ===================================================================================================== */
-
-.limit .access,
-.access.limit {
-  color: #F69C00;
-  background-color: #FEF5E5;
-  border: 1px solid #F69C00;
-}
 
 .full .access,
 .access.full {
@@ -576,8 +594,15 @@ body.no-scroll {
   border: 1px solid #3F9726;
 }
 
-.disabled .access,
-.access.disabled {
+.limit .access,
+.access.limit {
+  color: #F69C00;
+  background-color: #FEF5E5;
+  border: 1px solid #F69C00;
+}
+
+.off .access,
+.access.off {
   color: #B3BAC2;
   background-color: #E7EAED;
   border: 1px solid #B3BAC2;
@@ -605,7 +630,7 @@ body.no-scroll {
   background: #ECF5E9;
 }
 
-.pill.no {
+.recl.no {
   border: 1px solid #CE0014;
   color: #CE0014;
   background: #FAE5E7;
@@ -615,6 +640,20 @@ body.no-scroll {
   border: 1px solid #2C6DA8;
   color: #2C6DA8;
   background: #E7EAED;
+}
+
+/* =====================================================================================================
+Заблокированные пилюли:
+===================================================================================================== */
+
+.pill.disabled {
+  color: #B3B3B3;
+  background-color: #D3D6D9;
+  border: 1px solid #D3D6D9;
+}
+
+.pill.disabled .close.icon {
+  display: none;
 }
 
 /* =====================================================================================================
@@ -878,7 +917,12 @@ input[data-type="range"] {
   position: absolute;
   font-size: 12px;
   line-height: 14px;
-  user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
   pointer-events: none;
   text-transform: none;
   white-space: pre;
@@ -1038,7 +1082,12 @@ input[data-type="range"] {
   border-radius: 3px;
   text-align: center;
   overflow: visible;
-  user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
   pointer-events: none;
   text-transform: none;
   white-space: pre;
@@ -1275,6 +1324,7 @@ input.btn {
 /* Фильтрация */
 
 .relay.icon {
+  display: none;
   background-image: url(../img/relay.svg);
 }
 
@@ -1338,19 +1388,25 @@ input.btn {
 .open.icon {
   width: 19px;
   height: 10px;
-  background-image: url(../img/open_blue.svg);
+  margin-right: 0;
+  background-image: url(../img/open_grey.svg);
   -webkit-transition: 100ms;
   -moz-transition: 100ms;
   -o-transition: 100ms;
   transition: 200ms;
+  transform: rotate(-180deg);
 }
 
 .open.white.icon {
   background-image: url(../img/open_white.svg);
 }
 
+.open.dark.icon {
+  background-image: url(../img/open_blue.svg);
+}
+
 .close .open.icon {
-  transform: rotate(-180deg);
+  transform: rotate(0);
 }
 
 /* Доступ (замочек): */
@@ -1534,6 +1590,14 @@ input.btn {
   background-image: url(../img/wallet.svg);
 }
 
+/* Штрих-код */
+
+.barcode.icon {
+  width: 23px;
+  height: 18px;
+  background-image: url(../img/barcode.svg);
+}
+
 /* Стрелочки переключения */
 
 .arrow.icon {
@@ -1562,7 +1626,7 @@ input.btn {
 .checkbox.icon {
   width: 15px;
   height: 15px;
-  margin-right: 0.5em;
+  margin-right: 0.714em;
   background-image: url(../img/checkbox.svg);
 }
 
@@ -2276,6 +2340,170 @@ form.post .form-wrap .text-counter {
 }
 
 /* =====================================================================================================
+Всплывающие окна:
+===================================================================================================== */
+
+.pop-up-container {
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 64px 0;
+  background-color: rgba(102, 102, 102, 0.3);
+  -webkit-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -o-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow-x: hidden;
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 400;
+}
+
+.pop-up-container.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.pop-up {
+  max-width: 90%;
+  padding: 2.5em;
+  background-color: #F8F8F8;
+  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
+  transform-origin: 0 0;
+}
+
+.pop-up-title {
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.785em;
+}
+
+.pop-up-title .title {
+  margin-top: -5px;
+  margin-right: 0.83em;
+}
+
+.pop-up-title .close.icon {
+  width: 19px;
+  height: 19px;
+  margin-right: 0;
+  background-image: url(../img/close_blue.svg);
+}
+
+.pop-up > .loader {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* =====================================================================================================
+Блок фильтров:
+===================================================================================================== */
+
+.pop-up-container.filters {
+  display: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+.pop-up-container.filters.visible {
+  position: static;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.filters .pop-up {
+  width: 18em;
+  padding: 0;
+  background-color: transparent;
+  box-shadow: none;
+  transform-origin: 0 0;
+}
+
+.filters .pop-up-title {
+  display: none;
+}
+
+.filter {
+  background-color: #FFFFFF;
+  padding-bottom: 0.714em;
+}
+
+.filter.close {
+  padding-bottom: 0;
+  margin-bottom: 1px;
+}
+
+.filter .open.icon {
+  width: 12px;
+  height: 7px;
+}
+
+.filter .row {
+  align-items: center;
+}
+
+.filter > .title.row {
+  justify-content: space-between;
+  padding: 0.357em 0.714em;
+  background-color: #B3BAC2;
+  cursor: pointer;
+}
+
+.filter .item > .title.row {
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.714em;
+  padding-bottom: 0;
+}
+
+.filter .item .text {
+  cursor: pointer;
+}
+
+.filter .item .open.icon {
+  width: 15px;
+  height: 15px;
+  margin-left: 0.714em;
+  background-size: 10px 5px;
+  background-position-x: right;
+}
+
+.filter .items .items {
+  margin-left: 1.3em;
+}
+
+.filter .item.disabled > div > .filter-item-title {
+  cursor: default;
+}
+
+.filter .item.disabled .text {
+  color: #B3B3B3;
+  cursor: default;
+}
+
+.filter .item.disabled .icon {
+  cursor: default;
+}
+
+.pop-up-container.filters .btns-wrap {
+  display: none;
+  flex-grow: 1;
+}
+
+.pop-up-container.filters .btn {
+  width: 100%;
+  border-radius: 0;
+}
+
+/* =====================================================================================================
 Таблица:
 ===================================================================================================== */
 
@@ -2320,18 +2548,19 @@ form.post .form-wrap .text-counter {
   margin-bottom: 1em;
 }
 
-.control .pagination {
-  justify-content: space-between;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
 .control .left-side {
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 50%;
   max-width: 100%;
+}
+
+.control .pagination {
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 2em;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .control .pagination .icon {
@@ -2344,7 +2573,7 @@ form.post .form-wrap .text-counter {
 }
 
 .control .search.row {
-  width: 70%;
+  width: 100%;
 }
 
 .control .right-side {
@@ -2410,16 +2639,6 @@ form.post .form-wrap .text-counter {
 
 .table-wrap .edit.icon {
   margin: 0 auto;
-}
-
-.table-wrap .pill {
-  display: inline-block;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.table-wrap .pill:last-child {
-  margin-right: 0;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
@@ -2538,6 +2757,7 @@ tbody td > .row {
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 tbody td > .row * {
@@ -2621,70 +2841,7 @@ tbody td > .row * {
 }
 
 /* =====================================================================================================
-Всплывающие окна:
-===================================================================================================== */
-
-.pop-up-container {
-  position: fixed;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 64px 0;
-  background-color: rgba(102, 102, 102, 0.3);
-  -webkit-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  -moz-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  -o-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  overflow-x: hidden;
-  overflow-y: auto;
-  visibility: hidden;
-  opacity: 0;
-  z-index: 400;
-}
-
-.pop-up-container.open {
-  visibility: visible;
-  opacity: 1;
-}
-
-.pop-up {
-  max-width: 90%;
-  padding: 2.5em;
-  background-color: #F8F8F8;
-  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
-  transform-origin: 0 0;
-}
-
-.pop-up-title {
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1.785em;
-}
-
-.pop-up-title .title {
-  margin-top: -5px;
-  margin-right: 0.83em;
-}
-
-.pop-up-title .close.icon {
-  width: 19px;
-  height: 19px;
-  margin-right: 0;
-  background-image: url(../img/close_blue.svg);
-}
-
-.pop-up > .loader {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* =====================================================================================================
-Общие стили для блока информации:
+Блок информации:
 ===================================================================================================== */
 
 .infoblock {
@@ -2750,7 +2907,7 @@ tbody td > .row * {
 
 .card-price .cur-price,
 .card-price .user-price {
-  border-bottom: 1px solid rgba(198, 198, 198, 0.2);
+  border-bottom: 1px solid #C6C6C6;
 }
 
 .card-price .cur-price.borderNone {
@@ -2802,7 +2959,6 @@ tbody td > .row * {
 
 .card-size .qty {
   align-items: stretch;
-  height: 1.857em;
 }
 
 .card-size .name {
@@ -3317,7 +3473,6 @@ tbody td > .row * {
 
 .header-menu {
   position: relative;
-  font-size: 1.143em;
   color: #FFFFFF;
   background-color: #53606F;
 }
@@ -3325,7 +3480,7 @@ tbody td > .row * {
 .header-menu .container {
   justify-content: flex-start;
   align-items: stretch;
-  padding-right: 17em;
+  padding-right: 16em;
 }
 
 .header-menu a {
@@ -3334,7 +3489,7 @@ tbody td > .row * {
 
 .header-menu .topmenu a,
 .header-menu .submenu a {
-  padding: 0.5em 1.5em;
+  padding: 0.75em 1.5em;
   cursor: pointer;
 }
 
@@ -3344,7 +3499,7 @@ tbody td > .row * {
 }
 
 .header-menu .topmenu-item {
-  min-width: 17.5em;
+  min-width: 18em;
   text-align: center;
   text-transform: uppercase;
 }
@@ -3372,31 +3527,27 @@ tbody td > .row * {
 }
 
 #page-search {
-  top: 0;
-  right: calc(4rem + 17em);
+  top: 0.2em;
+  right: calc(4rem + 16em);
 }
 
-#page-search .search-area {
-  width: 25em;
-}
-
-#page-search .uncover.icon {
-  margin: 1em
+#page-search:focus-within {
+  width: 20em;
 }
 
 #header-cart {
   position: absolute;
   top: 0;
   right: 0;
-  width: calc(4rem + 17em);
+  width: calc(4rem + 16em);
   background-color: #34495E;
   overflow: hidden;
   z-index: 2;
 }
 
 #header-cart .wrap {
-  height: 2.375em;
-  max-height: 2.375em;
+  height: 2.857em;
+  max-height: 2.857em;
   -webkit-transition: max-height 0.3s linear;
   -moz-transition: max-height 0.3s linear;
   -o-transition: max-height 0.3s linear;
@@ -3410,48 +3561,51 @@ tbody td > .row * {
   overflow: visible;
 }
 
-#header-cart .items {
+#header-cart .items,
+#header-cart .total {
   width: 100%;
 }
 
 #header-cart .item {
+  justify-content: center;
+  align-items: flex-start;
   height: 4em;
   width: 100%;
-  padding: 0 4rem 0 1.5em;
-  border-bottom: 1px solid rgba(198, 198, 198, 0.5);
+  padding: 0 4rem 0 2em;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.5);
 }
 
-#header-cart .info {
+#header-cart .item > .row {
   justify-content: space-between;
   align-items: center;
-  padding: 0.43em 0;
+  width: 100%;
 }
 
 #header-cart .name {
-  font-size: 0.75em;
+  font-size: 0.857em;
+  visibility: hidden;
 }
 
-#header-cart .sum {
-  font-weight: 600;
-}
-
-#header-cart .cart-sum {
-  height: 4em;
-  padding: 0 4rem 0 1.5em;
-  line-height: 4em;
-  font-weight: 600;
+#header-cart:hover .name {
+  visibility: visible;
 }
 
 #header-cart .cart.icon {
   position: relative;
   width: 21px;
   height: 21px;
-  margin-right: 0.7em;
+  margin-right: 1.4em;
 }
 
 #header-cart .qty.in-circle {
-  top: -0.3em;
+  top: -0.5em;
   right: -1em;
+}
+
+#header-cart .total {
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: none;
 }
 
 /* =====================================================================================================
