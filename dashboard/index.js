@@ -133,21 +133,28 @@ var chart = new Chart(ordersChart, {
 if (window.innerWidth > 1927) {
   ordersChart.canvas.parentNode.style.width = '100%';
   ordersChart.canvas.parentNode.style.height = '493px';
+  ordersInfo.style.left = (chart1.offsetWidth / 2) - (ordersInfo.offsetWidth / 2) + 'px';
+  ordersInfo.style.top = (chart1.offsetHeight / 2) - (ordersInfo.offsetHeight / 2) + 'px';
+
 } else if (window.innerWidth > 1337 && window.innerWidth < 1927) {
   ordersChart.canvas.parentNode.style.width = '100%';
   ordersChart.canvas.parentNode.style.height = '393px';
+  ordersInfo.style.left = (chart1.offsetWidth / 2) - (ordersInfo.offsetWidth / 2) + 'px';
+  ordersInfo.style.top = (chart1.offsetHeight / 2) - (ordersInfo.offsetHeight / 2) + 'px';
 }
  else if (window.innerWidth < 1337 && window.innerWidth > 499) {
   ordersChart.canvas.parentNode.style.width = '50%';
   ordersChart.canvas.parentNode.style.height = '349px';
+  ordersInfo.style.left = chart1.offsetWidth / 2 + 'px';
+  ordersInfo.style.top = chart1.offsetHeight / 2 + 'px';
 } else if (window.innerWidth < 499) {
   ordersChart.canvas.parentNode.style.width = '60%';
   ordersChart.canvas.parentNode.style.height = '256px';
 }
 
 
-ordersInfo.style.left = (chart1.offsetWidth / 2) - (ordersInfo.offsetWidth / 2) + 'px';
-ordersInfo.style.top = (chart1.offsetHeight / 2) - (ordersInfo.offsetHeight / 2) + 'px';
+// ordersInfo.style.left = (chart1.offsetWidth / 2) - (ordersInfo.offsetWidth / 2) + 'px';
+// ordersInfo.style.top = (chart1.offsetHeight / 2) - (ordersInfo.offsetHeight / 2) + 'px';
 
 
 //  Получить суммы всех закозов по категориям по переданному массиву данных
