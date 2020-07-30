@@ -7,8 +7,8 @@ startOrdersPage();
 // Запуск страницы заказов:
 
 function startOrdersPage() {
-  sendRequest(`../json/orders_data.json`)
-  // sendRequest(urlRequest.main, {action: 'orderslist'})
+  // sendRequest(`../json/orders_data.json`)
+  sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
     var data = JSON.parse(result);
     initPage(data);

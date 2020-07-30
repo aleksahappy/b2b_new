@@ -24,7 +24,7 @@ var items = {};
 
 // Запускаем рендеринг страницы заказа:
 
-startPage();
+startOrderPage();
 
 //=====================================================================================================
 // Получение и отображение информации о заказе:
@@ -32,37 +32,52 @@ startPage();
 
 // Запуск страницы заказа:
 
-function startPage() {
-  // sendRequest(`../json/order_data.json`)
-  sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
+function startOrderPage() {
+  sendRequest(`../json/order_data.json`)
+  // sendRequest(urlRequest.main, {action: 'order', data: {order_id: document.location.search.replace('?', '')}})
   .then(result => {
     var data = JSON.parse(result);
-    console.log(data);
-    if (data.id) {
-      if (!data.comment) {
-        data.isHidden = 'hidden';
-      }
-      fillTemplate({
-        area: '#order-info',
-        items: data
-      });
-      fillTemplate({
-        area: '#reclm-container .pop-up-body',
-        items: data
-      })
-      var result = {};
-      if (data.orderitems) {
-        result = restoreArray(data.orderitems.arlistk, data.orderitems.arlistv);
-      }
-      createTables(result);
-    } else {
-      location.href = '/err404.html';
-    }
+    initPage(data);
   })
   .catch(err => {
     console.log(err);
     location.href = '/err404.html';
   });
+}
+
+// Инициализация страницы:
+
+function initPage(data) {
+  if (data.id) {
+    if (!data.comment && !data.special) {
+      console.log(data);
+      data.isDisplay = 'displayNone';
+    } else {
+      if (!data.comment) {
+        console.log(data.comment);
+        data.isComment = 'displayNone';
+      }
+      if (!data.special) {
+        data.isSpecial = 'displayNone';
+      }
+    }
+    fillTemplate({
+      area: '#order-info',
+      items: data
+    });
+    fillTemplate({
+      area: '#make-reclm .pop-up-body',
+      items: data
+    })
+    var result = {};
+    if (data.orderitems) {
+      result = restoreArray(data.orderitems.arlistk, data.orderitems.arlistv);
+    }
+    createTables(result);
+    initForm('#reclm-form', sendReclm);
+  } else {
+    location.href = '/err404.html';
+  }
 }
 
 //=====================================================================================================
@@ -485,47 +500,24 @@ function openReclmPopUp(id) {
 function showReclPopUp(data) {
   console.log(data);
   fillTemplate({
-    area: '#reclm-container',
+    area: '#make-reclm',
     items: data
   })
-  checkImg('#reclm-container');
-  openPopUp('#reclm-container');
+  checkImg('#make-reclm');
+  openPopUp('#make-reclm');
   loader.hide();
 }
 
 // Подача рекламации:
 
-function makeReclm(event) {
-  event.preventDefault();
-  var formData = new FormData(event.currentTarget.closest('form')),
-      data = {},
-      err = false;
-  formData.forEach((value, key) => {
-    data[key] = value;
-  });
-  if (data['recl[group_type]'] === undefined) {
-    showElement('[data-err="group_type"]');
-    err = true;
-  } else {
-    hideElement('[data-err="group_type"]');
-  }
-  if (!data['recl[comment]']) {
-    showElement('[data-err="comment"]');
-    err = true;
-  } else {
-    hideElement('[data-err="comment"]');
-  }
-  if (!err) {
-    showElement('reclm-loader', 'flex');
-    console.log('отправляем форму для создания рекламации');
-    // sendRequest(`${urlRequest}???`, formData, 'multipart/form-data')
-    // .then(result => {
-    //   console.log(result);
-    //   hideElement('reclm-loader');
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    //   hideElement('reclm-loader');
-    // })
-  }
+function sendReclm(data) {
+  console.log('отправляем форму для создания рекламации');
+  // sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  // sendRequest(urlRequest.main, {action: 'reclm', data: data})
+  // .then(result => {
+  //   console.log(result);
+  // })
+  // .catch(error => {
+  //   console.log(error);
+  // })
 }

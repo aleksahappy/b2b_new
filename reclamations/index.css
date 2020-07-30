@@ -21,5 +21,9 @@
 
 #reclm td:nth-child(6) {
   min-width: 10em;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 0;
+  vertical-align: middle;
   text-align: center;
 }

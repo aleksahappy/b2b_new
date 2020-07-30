@@ -78,11 +78,7 @@ function startPage() {
   if (path === '' || path === 'registr') {
     addModules('short');
   } else {
-    if (path === 'boats' || path === 'equip' || path === 'snow' || path.indexOf('preorder') >= 0) {
-      addModules('extend');
-    } else {
-      addModules('full');
-    }
+    addModules('full');
     initModules();
     loader.show();
   }
@@ -104,20 +100,8 @@ function addModules(type) {
   var modules = document.createElement('div');
   modules.id = 'modules';
 
-  var url;
-  switch (type) {
-    case 'full':
-      url = '../modules/full_modules.html';
-      break;
-    case 'short':
-      url = '../modules/short_modules.html';
-      break;
-    case 'extend':
-      url = '../modules/extend_modules.html';
-      break;
-  }
-
-  var xhr = new XMLHttpRequest();
+  var url = type === 'full' ? '../modules/full_modules.html' : '../modules/short_modules.html',
+      xhr = new XMLHttpRequest();
   xhr.open('GET', url , false);
   try {
     xhr.send();
@@ -289,6 +273,7 @@ function getItems(id) {
     }
     console.log(data);
     sendRequest(urlRequest.main, data)
+    // sendRequest(`../json/equip_data.json`)
     .then(result => {
       var data = JSON.parse(result);
       console.log(data);
@@ -743,7 +728,7 @@ function textareaCounter(textarea) {
 function getEl(el, area = document) {
   if (typeof el === 'string') {
     el = el.trim();
-    area = typeof area === 'string' ? getEl(area.trim()): area;
+    area = typeof area === 'string' ? getEl(area): area;
     var wordCount = el.split(' ');
     if (el[0] === '#' && wordCount.length === 1) {
       el = document.getElementById(el.substr(1));
@@ -1175,9 +1160,6 @@ function toggleEl(name, className = 'displayNone') {
 // Свернуть/развернуть содержимое контейнера:
 
 function switchContent(event) {
-  if (event.target.closest('.switch-cont')) {
-    return;
-  }
   var container = event.currentTarget.closest('.switch');
   if (!container || container.classList.contains('disabled')) {
     return;

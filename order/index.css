@@ -73,7 +73,7 @@
   width: 12.143em;
   height: 3.785em;
   margin-right: 0.714em;
-  border-bottom: 0;
+  border-bottom: none;
   border-radius: 3px 3px 0px 0px;
 }
 
@@ -379,69 +379,134 @@
 Всплывающее окно рекламаций:
 ===================================================================================================== */
 
-#reclm-container .pop-up {
-  width: 58em;
+#make-reclm .pop-up {
+  width: 47em;
 }
 
-#reclm-container .pop-up-title {
-  padding: 1.5em 2em;
+#make-reclm .order-info {
+  margin-bottom: 1.428em;
 }
 
-#reclm-container .pop-up-body {
-  padding: 0 2em 1.5em 2em;
+#make-reclm .order-info > div:first-child {
+  margin-bottom: 0.714em;
 }
 
-#reclm-container img {
-  height: 7.3em;
+#make-reclm .img-wrap {
+  width: 10em;
+  height: 10em;
 }
 
-#reclm-container .pop-up-body > .row {
-  justify-content: space-between;
+#make-reclm img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
-#reclm-container .order-info {
-  margin-bottom: 1em;
+#make-reclm textarea {
+  height: 5.5em;
 }
 
-#reclm-container .registr-form .title {
-  margin-left: 0;
-  margin-bottom: 1em;
-  font-size: 1em;
+/* =====================================================================================================
+Всплывающее окно отгрузок:
+===================================================================================================== */
+
+#shipment .pop-up {
+  min-width: 56em;
+}
+
+#shipment table {
+  min-width: 100%;
+  max-width: 100%;
   color: #666666;
-  font-weight: 600;
+  font-weight: 400;
+  background-color: #FFFFFF;
+  border-collapse: collapse;
+  border: none;
+  border-spacing: 0;
+  text-align: left;
+  direction: ltr;
+  overflow: hidden;
 }
 
-#reclm-container .left-container {
-  width: 40%;
-  padding-right: 2em;
+#shipment thead {
+  background-color: #EEEEEE;
 }
 
-#error {
-  visibility: hidden;
+#shipment th,
+#shipment td {
+  padding: 0.75em 1.14em;
+  font-weight: 400;
+  border-bottom: 1px solid #D5D5D5;
 }
 
-#reclm-container .right-container {
-  width: 60%;
+#shipment th {
+  text-align: center;
 }
 
-#reclm-container textarea {
-  margin-bottom: 0;
-  padding: 0.5em 1em;
-  height: 11em;
+#shipment .icon {
+  margin-right: 0.5em;
 }
 
-#reclm-container .btns-wrap {
-  justify-content: space-between;
+#shipment td:nth-child(2),
+#shipment td:nth-child(3),
+#shipment td:nth-child(4) {
+  white-space: nowrap;
 }
 
-#reclm-container .btns-wrap > div {
-  margin-right: 1em;
+#shipment td:nth-child(1) .row {
+  color: #666666;
+  text-decoration: none;
 }
 
-#reclm-container .btns-wrap > input {
-  width: 100%;
+#shipment td:nth-child(2) .row {
+  justify-content: center;
 }
 
-#reclm-loader {
-  background-color: #fffc;
+#shipment td:nth-child(3) {
+  text-align: right;
+}
+
+/* =====================================================================================================
+Всплывающее окно платежей:
+===================================================================================================== */
+
+#payment .scroll {
+  overflow-y: auto;
+}
+
+#payment .scroll::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+#payment .scroll::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid #C6C6C6;
+  border-radius: 19px;
+}
+
+#payment .scroll::-webkit-scrollbar-thumb {
+  background-color: #C6C6C6;
+  border: 1px solid #C6C6C6;
+  border-radius: 19px;
+  cursor: pointer;
+}
+
+#payment .scroll::-webkit-scrollbar-corner {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#payment .pop-up-body > div > div > div {
+  padding: 0.75em 1.14em;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D5D5D5;
+  white-space: nowrap;
+}
+
+#payment .pop-up-body > div > div > .title {
+  background-color: #EEEEEE;
+  text-align: center;
+}
+
+#payment .pop-up-body > div > div:not(:first-child) > div:not(.title) {
+  text-align: right;
 }

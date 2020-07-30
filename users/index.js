@@ -68,7 +68,7 @@ function accessTableType() {
 
     } else if (access[i].innerHTML === "отключен") {
       access[i].classList.add("access");
-      access[i].classList.add("disabled");
+      access[i].classList.add("off");
     }
   }
 

@@ -9,7 +9,7 @@
 
 // Константы:
 
-var items;
+var items = [];
 
 // Динамически изменяемые переменные:
 
@@ -33,11 +33,10 @@ function startCertPage() {
     items = JSON.parse(result);
     convertData();
     initPage();
-    loader.hide();
   })
   .catch(err => {
     console.log(err);
-    loader.hide();
+    initPage();
   });
 }
 
