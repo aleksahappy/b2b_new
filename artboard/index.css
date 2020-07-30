@@ -67,6 +67,7 @@ form.search.positioned {
   align-items: center;
   padding: 1em;
   background-color: #53606F;
+  cursor: pointer;
 }
 
 /* Стили для всплывающей формы (образец из раздела Контрагенты): */

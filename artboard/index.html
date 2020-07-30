@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" type="text/css" href="media_index.css">
+    <!-- <link rel="stylesheet" type="text/css" href="media_index.css"> -->
   </head>
 
   <!-- Атрибуты в body -->
@@ -170,7 +170,7 @@
           <div class="question icon"></div>
           <div class="settings icon"></div>
           <div class="add icon"></div>
-          <div class="relay icon"></div>
+          <div class="relay icon" style="display: block;"></div>
 
           <div class="triangle icon"></div>
           <div class="triangle white icon"></div>
@@ -212,11 +212,15 @@
 
           <div class="open icon"></div>
           <div class="open white icon"></div>
+          <div class="open dark icon"></div>
           <div class="close">
             <div class="open icon"></div>
           </div>
           <div class="close">
             <div class="open white icon"></div>
+          </div>
+          <div class="close">
+            <div class="open dark icon"></div>
           </div>
 
           <div class="sort down icon"></div>
@@ -259,6 +263,7 @@
           <div class="trash icon"></div>
           <div class="download icon"></div>
           <div class="wallet icon"></div>
+          <div class="barcode icon"></div>
 
           <div class="arrow right icon"></div>
           <div class="arrow left icon"></div>
@@ -280,6 +285,59 @@
           <div>Заблокированные кнопки (можно с помощью класса, а можно с помощь атрибута disabled):</div>
           <div class="sub-act btn disabled">Любая кнопка - КЛАСС disabled</div>
           <div class="sub-act btn" disabled>Любая кнопка - АТРИБУТ disabled</div>
+
+        </div>
+
+        <!-- Пилюли -->
+        <div class="artboard-title">Пилюли</div>
+        <div class="arboard-block pill-temp">
+
+          <div>Cо статусами заказа (как чекбоксы, можно попереключать):</div>
+          <div class="pill vputi c10 row checked" onclick="toggle(event)">
+            <div>Ожидается</div>
+            <div class="close icon"></div>
+          </div>
+          <div class="pill vnali c10 row checked" onclick="toggle(event)">
+            <div>В наличии</div>
+            <div class="close icon"></div>
+          </div>
+          <div class="pill sobrn c10 row checked" onclick="toggle(event)">
+            <div>Собран</div>
+            <div class="close icon"></div>
+          </div>
+          <div class="pill otgrz c10 row checked" onclick="toggle(event)">
+            <div>Отружен</div>
+            <div class="close icon"></div>
+          </div>
+          <div class="pill nedop c10 row checked" onclick="toggle(event)">
+            <div>Непоставка</div>
+            <div class="close icon"></div>
+          </div>
+          <br>
+          <br>
+
+          <div>Cо статусами заказа:</div>
+          <div class="pill vputi c10">Ожидается</div>
+          <div class="pill vnali c10">В наличии</div>
+          <div class="pill sobrn c10">Собран</div>
+          <div class="pill otgrz c10">Отружен</div>
+          <div class="pill nedop c10">Непоставка</div>
+          <br>
+          <br>
+
+          <div>Cо статусами доступа:</div>
+          <div class="pill access full">Полный</div>
+          <div class="pill access limit">Частичный</div>
+          <div class="pill access off">Отключен</div>
+          <br>
+          <br>
+
+          <div>Cо статусами рекламаций:</div>
+          <div class="pill recl registr">Зарегистрирована</div>
+          <div class="pill recl wait">Обрабатывается</div>
+          <div class="pill recl yes">Удовлетворена</div>
+          <div class="pill recl no">Не удовлетворена</div>
+          <div class="pill recl done">Исполнена</div>
 
         </div>
 
@@ -459,31 +517,31 @@
           <div>Степпер в состоянии "ничего не выбрано":</div>
           <div class="qty qty-box row">
             <div class="btn-minus row" tooltip="Уменьшить"><div class="minus icon"></div></div>
-            <input class="choiced-qty text light" type="text" value="0" data-value="0" autocomplete="off" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+            <input class="choiced-qty text" type="text" value="0" data-value="0" autocomplete="off" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
             <div class="btn-plus row" tooltip="Добавить"><div class="plus icon"></div></div>
           </div>
           <div>Степпер в состоянии "выбрано":</div>
           <div class="qty qty-box row added">
             <div class="btn-minus row" tooltip="Уменьшить"><div class="minus icon"></div></div>
-            <input class="choiced-qty text light" type="text" value="1" data-value="1" autocomplete="off" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+            <input class="choiced-qty text" type="text" value="1" data-value="1" autocomplete="off" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
             <div class="btn-plus row" tooltip="Добавить"><div class="plus icon"></div></div>
           </div>
           <div>Степпер в состоянии заблокирован:</div>
           <div class="qty qty-box row disabled">
             <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15)"><div class="minus icon"></div></div>
-            <input class="choiced-qty text light" disabled type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+            <input class="choiced-qty text" disabled type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
             <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15)"><div class="plus icon"></div></div>
           </div>
           <div>Степпер, который можно попереключать:</div>
           <div class="qty qty-box row">
             <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15)"><div class="minus icon"></div></div>
-            <input class="choiced-qty text light" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+            <input class="choiced-qty text" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
             <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15)"><div class="plus icon"></div></div>
           </div>
           <div>Степпер, который можно попереключать и нельзя выбрать значение меньше 1:</div>
           <div class="qty qty-box row added">
             <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15, 1)"><div class="minus icon"></div></div>
-            <input class="choiced-qty text light" name="count" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, 15, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+            <input class="choiced-qty text" name="count" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, 15, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
             <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15, 1)"><div class="plus icon"></div></div>
           </div>
 
@@ -820,8 +878,8 @@
         <div class="artboard-title">Раскрывающийся блок</div>
         <div class="arboard-block switch-temp">
 
-          <div class="switch" onclick="switchContent(event)">
-            <div class="row">
+          <div class="switch">
+            <div class="row" onclick="switchContent(event)">
               <div class="title-white h1">Нажми, чтобы скрыть / раскрыть</div>
               <div class="open white icon switch-icon"></div>
             </div>
@@ -836,6 +894,211 @@
               Maiores iste a quo. Aliquid, placeat cum obcaecati culpa ex accusantium. Natus libero obcaecati rerum, mollitia cum eos quisquam ex nulla molestiae sequi ducimus, laboriosam odit dolor? Doloremque, odio ullam.
               Nobis, fugit. Ipsum eaque quibusdam autem officia ipsa nemo nulla aperiam dolore recusandae quos, similique sed rem nihil perspiciatis laboriosam. Quas animi recusandae id. A voluptate quaerat illo aut blanditiis?
               Eaque quaerat non odio dolore tempore quo laboriosam consequuntur dignissimos provident delectus iure saepe, blanditiis ea ut ex molestiae voluptas sequi corporis illum distinctio similique ullam tenetur velit. Exercitationem, quisquam.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Блок фильтров -->
+        <div class="artboard-title">Блок фильтров</div>
+        <div class="arboard-block filters-temp">
+
+          <div>Блок фильтров, который есть на всех разрешениях</div>
+          <div class="relay icon" onclick="openPopUp('#filters1')"></div>
+          <div id="filters1" class="pop-up-container filters visible">
+            <div class="pop-up">
+              <div class="pop-up-title row">
+                <div class="title h2">Фильтры</div>
+                <div class="close icon"></div>
+              </div>
+              <div class="filter switch">
+                <div class="title row" onclick="switchContent(event)">
+                  <div class="title-white h3">Название фильтра 1</div>
+                  <div class="open white icon switch-icon"></div>
+                </div>
+                <div class="items switch-cont">
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 1</div>
+                      </div>
+                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                    </div>
+                    <div class="items switch-cont">
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 1</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 2</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 2</div>
+                      </div>
+                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                    </div>
+                    <div class="items switch-cont">
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 1</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 2</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="filter switch">
+                <div class="title row" onclick="switchContent(event)">
+                  <div class="title-white h3">Название фильтра 2</div>
+                  <div class="open white icon switch-icon"></div>
+                </div>
+                <div class="items switch-cont">
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 1</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 2</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br>
+
+          <div>Блок фильтров, который появляется с разрешения 768px</div>
+          <div class="relay icon" onclick="openPopUp('#filters2')"></div>
+          <div id="filters2" class="pop-up-container filters">
+            <div class="pop-up">
+              <div class="pop-up-title row">
+                <div class="title h2">Фильтры</div>
+                <div class="close icon"></div>
+              </div>
+              <div class="filter switch">
+                <div class="title row" onclick="switchContent(event)">
+                  <div class="title-white h3">Название фильтра 1</div>
+                  <div class="open white icon switch-icon"></div>
+                </div>
+                <div class="items switch-cont">
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 1</div>
+                      </div>
+                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                    </div>
+                    <div class="items switch-cont">
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 1</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 2</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 2</div>
+                      </div>
+                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                    </div>
+                    <div class="items switch-cont">
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 1</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">Подвариант 2</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="filter switch">
+                <div class="title row" onclick="switchContent(event)">
+                  <div class="title-white h3">Название фильтра 2</div>
+                  <div class="open white icon switch-icon"></div>
+                </div>
+                <div class="items switch-cont">
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 1</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item switch close">
+                    <div class="title row">
+                      <div class="row">
+                        <div class="checkbox orange icon"></div>
+                        <div class="text">Вариант 2</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="btns-wrap">
+                <div class="btn act">Показать (<span>0</span>)</div>
+              </div>
             </div>
           </div>
 
@@ -1044,7 +1307,7 @@
                 <div class="title">Количество (пока нельзя сделать обязательным)</div>
                 <div class="qty qty-box row">
                   <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, 15)"><div class="minus icon"></div></div>
-                  <input class="choiced-qty text light" name="count" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+                  <input class="choiced-qty text" name="count" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
                   <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, 15)"><div class="plus icon"></div></div>
                 </div>
               </div>
