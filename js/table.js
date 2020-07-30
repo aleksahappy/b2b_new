@@ -300,8 +300,9 @@ function Table(obj, settings = {}) {
   this.initialData = Array.isArray(settings.data) ? settings.data.filter(el => el) : [];
 
   // Элементы для работы:
-  this.table = obj;
+  this.wrap = obj;
   this.tab = getEl(`.tab.${obj.id}`);
+  this.table = getEl('.table', obj);
   this.head = getEl('thead', obj);
   this.results = getEl('.results', this.head);
   this.body = getEl('tbody', obj);
@@ -316,7 +317,7 @@ function Table(obj, settings = {}) {
   this.dataToLoad = this.data;
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.incr = 60;
+  this.incr = 20;
   this.curColumn = null;
   this.startOffset = 0;
 
@@ -469,8 +470,8 @@ function Table(obj, settings = {}) {
     if (bodyCells) {
       bodyCells.forEach((el, index) => {
         var newWidth = el.offsetWidth  + 'px';
-        changeCss(`#${this.table.id} th:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
-        changeCss(`#${this.table.id} td:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+        changeCss(`#${this.wrap.id} th:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+        changeCss(`#${this.wrap.id} td:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
       });
     }
   }
@@ -621,8 +622,8 @@ function Table(obj, settings = {}) {
       var newWidth = this.startOffset + event.pageX,
           fontSize = parseFloat(getComputedStyle(this.curColumn).fontSize, 10);
       newWidth = (newWidth > fontSize * 4.14) ? (newWidth + 'px') : (Math.floor(fontSize * 4.14) + 'px');
-      changeCss(`#${this.table.id} th:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
-      changeCss(`#${this.table.id} td:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+      changeCss(`#${this.wrap.id} th:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+      changeCss(`#${this.wrap.id} td:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
     }
   });
 
@@ -637,10 +638,10 @@ function Table(obj, settings = {}) {
 
   // Визуальное отображение таблицы:
   this.show = function() {
-    showElement(this.table);
+    showElement(this.wrap);
     this.align();
     this.setResizeHeight();
-    this.table.classList.add('active');
+    this.wrap.classList.add('active');
   }
 
   // Инициализация таблицы:
@@ -653,7 +654,7 @@ function Table(obj, settings = {}) {
       this.fillCheckboxes();
       this.fillResults();
     }
-    if (this.table.classList.contains('active')) {
+    if (this.wrap.classList.contains('active')) {
       this.show();
     }
   }
