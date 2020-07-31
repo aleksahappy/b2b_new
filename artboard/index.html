@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ru">
-
   <head>
     <title>ТОП СПОРТС - Artboard</title>
     <meta charset="UTF-8">
@@ -14,79 +13,11 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <!-- <link rel="stylesheet" type="text/css" href="media_index.css"> -->
+    <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
   <!-- Атрибуты в body -->
   <body data-website="ts_b2b" data-cart="true">
-
-    <!-- Хедер -->
-    <div class="header">
-      <div class="header-top">
-        <div class="container row">
-          <div class="left-side row">
-            <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
-            <div class="activate hover">
-              <div class="head row">
-                <a class="title" href="../dashboard">Рабочий стол</a>
-              </div>
-            </div>
-            <div class="activate hover">
-              <div class="head row">
-                <div class="title">Каталоги</div>
-                <div class="triangle icon"></div>
-              </div>
-              <div id="catalogs" class="drop-down template">
-                <div class="row">
-                  <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
-                  <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
-                    <div class="cart icon"></div>
-                    <div class="qty">#qty#</div>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="activate hover select">
-              <div class="head row">
-                <div class="title">Закупки</div>
-                <div class="triangle icon"></div>
-              </div>
-              <div class="drop-down">
-                <a class="item" href="../orders/">Заказы</a>
-                <a class="item" href="../reclamations/">Рекламации</a>
-                <a class="item" href="../documents/">Документы</a>
-                <a class="item" href="../certificates/">Сертификаты</a>
-              </div>
-            </div>
-          </div>
-          <div class="right-side row">
-            <div class="activate hover select">
-              <a href="../profile" class="head row">
-                <div class="profile icon"></div>
-                <div id="profile" class="template">
-                  <div class="title">#login#</div>
-                  <div class="username text-light">#username#</div>
-                </div>
-              </a>
-              <div class="drop-down">
-                <div class="links">
-                  <a class="item" href="../users">Пользователи</a>
-                  <a class="item" href="../contractors">Контрагенты</a>
-                  <a class="item" href="../addresses">Мои адреса</a>
-                  <!-- <a class="item" href="../shops">Магазины</a> -->
-                  <!-- <a class="item" href="../monitoring">Мониторинг</a> -->
-                  <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
-                </div>
-                <a class="item" onclick="logOut(event)">Выйти</a>
-              </div>
-            </div>
-            <div class="notifications icon" onclick="openPopUp('#notifications')">
-              <div class="qty in-circle row">#qty#</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Основное содержимое страницы -->
     <div class="main">
@@ -187,13 +118,13 @@
           </div>
 
           <div class="full">
-            <div class="access icon"></div>
+            <div class="lock icon"></div>
           </div>
           <div class="limit">
-            <div class="access icon"></div>
+            <div class="lock icon"></div>
           </div>
           <div class="disabled">
-            <div class="access icon"></div>
+            <div class="lock icon"></div>
           </div>
 
           <div class="full">
@@ -832,7 +763,7 @@
           </div>
           <br>
           <div>Кастомный календарь</div>
-          <input id="calendar" type="text" value="" name="" data-type="date"  placeholder="28/10/1980" maxlength="10">
+          <input id="calendar" type="text" value="" name="" data-type="date"  placeholder="ДД.ММ.ГГГГ" maxlength="10">
 
         </div>
 
@@ -996,6 +927,9 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="btns-wrap">
+                <div class="btn act">Показать (<span>0</span>)</div>
               </div>
             </div>
           </div>
@@ -1185,7 +1119,7 @@
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Должность*</div>
-                    <input type="text" value="" name="post" placeholder="Введите должность">
+                    <input type="text" value="" name="position" placeholder="Введите должность">
                   </div>
                 </div>
                 <div class="form-col2">
@@ -1215,8 +1149,8 @@
                         </div>
                       </div>
                       <div class="form-col2">
-                        <div class="text-light">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
-                        <div class="text-light">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
+                        <div class="text-midlight">Пользователи с полным доступом могут создавать новых пользователей и просматривать все заказы.</div>
+                        <div class="text-midlight">Пользователи с частичным доступом не могут создавать новых пользователей, видят только свои заказы</div>
                       </div>
                     </div>
                   </div>
@@ -1301,7 +1235,7 @@
               </div>
               <div class="form-wrap">
                 <div class="title">Дата (пока нельзя сделать обязательным)</div>
-                <input type="text" value="" name="" data-type="date"  placeholder="28/10/1980" maxlength="10">
+                <input type="text" value="" name="" data-type="date"  placeholder="ДД.ММ.ГГГГ" maxlength="10">
               </div>
               <div class="form-wrap">
                 <div class="title">Количество (пока нельзя сделать обязательным)</div>
@@ -1787,75 +1721,29 @@
           </div>
 
           <div class="title h1">Таблица, созданная динамически</div>
+          <div class="title h2">(адаптивная появляется с 768px)</div>
           <br>
           <div id="table2" class="table-wrap active"></div>
-
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Шаблон окна уведомлений -->
-    <div id="notifications" class="pop-up-container">
-      <div class="pop-up">
-        <div class="pop-up-title row">
-          <div class="row">
-            <div class="title h1">Уведомления</div>
-          </div>
-          <div class="close icon"></div>
-        </div>
-        <div class="pop-up-body">
-          <div class="message row #status# template">
-            <div class="row">
-              <div class="message icon"></div>
-              <div class="message text">
-                <div>#text#</div>
-                <div class="row #isHidden#">
-                  <div class="download icon"></div>
-                  <div class="link">#link#</div>
+          <div id="table2-adaptive" class="table-adaptive">
+            <div class="infoblock">
+              <div class="head">
+                <div class="title">#contr#</div>
+                <div class="toggle dark #accessType#" onclick="toggle(event)">
+                  <div class="toggle-in"></div>
                 </div>
               </div>
+              <div class="info content">
+                <div class="title">ИНН/КПП: <span class="text">#inn#</span></div>
+                <div class="title">Система налогообложения: <span class="text">#system#</span></div>
+                <div class="title">Дата заведения: <span class="text">#date#</span></div>
+                <div class="title">Юридический адрес: <span class="text">#address#</span></div>
+                <div class="docs row #status#"><div class="mark icon"></div><a href="url" target="_blank">#title#</a></div>
+              </div>
             </div>
-            <div class="date text-midlight">#date#, #time#</div>
           </div>
+
         </div>
-        <div class="loader">
-          <div class="loader icon"></div>
-          <div class="text">Пожалуйста, подождите</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Прелоадер страницы -->
-    <div id="page-loader" class="loader">
-      <div class="loader icon"></div>
-      <div class="text"></div>
-    </div>
-
-    <!-- Системные сообщения -->
-    <div id="alerts" class="pop-up-container">
-      <div class="pop-up">
-        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
-        </svg>
-        <div class="text pop-up"></div>
-      </div>
-    </div>
-
-    <!-- Кнопка "Наверх страницы" -->
-    <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#53606F" fill-opacity="0.6" stroke="white"/>
-      <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
-    </svg>
-
-    <!-- Футер -->
-    <div class="footer">
-      <div class="container">
-        <div class="wrap">
-          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
-          <div>© 2020 TOP SPORTS</div>
-        </div>
       </div>
     </div>
 

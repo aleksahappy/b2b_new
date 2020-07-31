@@ -177,4 +177,9 @@ var settings = {
   sub: [{area: '.docs', items: 'docs'}]
 }
 initTable('#table2', settings);
+fillTemplate({
+  area: "#table2-adaptive",
+  items: data2,
+  sub: [{area: '.docs', items: 'docs'}]
+});
 loader.hide();
