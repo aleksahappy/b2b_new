@@ -78,11 +78,6 @@ a {
   cursor: pointer;
 }
 
-a[href^=tel] {
-  color: inherit;
-  text-decoration: none;
-}
-
 img {
   display: block;
 }
@@ -193,6 +188,7 @@ body {
 
 body.no-scroll {
   overflow: hidden;
+  position: fixed;
 }
 
 .container {
@@ -224,6 +220,7 @@ body.no-scroll {
 .row {
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
@@ -236,6 +233,7 @@ body.no-scroll {
 .col {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
@@ -1253,10 +1251,12 @@ input.btn {
   flex-shrink: 0;
   width: 1em;
   height: 1em;
-  margin-right: 1.428em;
+  margin-right: 1em;
+  background-color: transparent;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   -webkit-tap-highlight-color: transparent;
@@ -1318,6 +1318,8 @@ input.btn {
 
 .add.icon {
   display: none;
+  margin-right: 0;
+  margin-left: 1em;
   background-image: url(../img/add.svg);
 }
 
@@ -1325,6 +1327,8 @@ input.btn {
 
 .relay.icon {
   display: none;
+  margin-right: 0;
+  margin-left: 1em;
   background-image: url(../img/relay.svg);
 }
 
@@ -1411,20 +1415,23 @@ input.btn {
 
 /* Доступ (замочек): */
 
-.access.icon {
+.lock.icon {
   width: 12px;
   height: 14px;
 }
 
-.full .access.icon {
+.full .lock.icon,
+.lock.icon.full  {
   background-image: url(../img/access_full.svg);
 }
 
-.limit .access.icon {
+.limit .lock.icon,
+.lock.icon.limit {
   background-image: url(../img/access_limit.svg);
 }
 
-.disabled .access.icon {
+.off .lock.icon,
+.lock.icon.off {
   background-image: url(../img/access_disabled.svg);
 }
 
@@ -1626,7 +1633,7 @@ input.btn {
 .checkbox.icon {
   width: 15px;
   height: 15px;
-  margin-right: 0.714em;
+  margin-right: 0.5em;
   background-image: url(../img/checkbox.svg);
 }
 
@@ -2431,44 +2438,44 @@ form.post .form-wrap .text-counter {
   display: none;
 }
 
-.filter {
+.filters .filter {
   background-color: #FFFFFF;
   padding-bottom: 0.714em;
 }
 
-.filter.close {
+.filters .filter.close {
   padding-bottom: 0;
   margin-bottom: 1px;
 }
 
-.filter .open.icon {
+.filters .filter .open.icon {
   width: 12px;
   height: 7px;
 }
 
-.filter .row {
+.filters .filter .row {
   align-items: center;
 }
 
-.filter > .title.row {
+.filters .filter > .title.row {
   justify-content: space-between;
   padding: 0.357em 0.714em;
   background-color: #B3BAC2;
   cursor: pointer;
 }
 
-.filter .item > .title.row {
+.filters .filter .item > .title.row {
   justify-content: space-between;
   width: 100%;
   padding: 0.714em;
   padding-bottom: 0;
 }
 
-.filter .item .text {
+.filters .filter .item .text {
   cursor: pointer;
 }
 
-.filter .item .open.icon {
+.filters .filter .item .open.icon {
   width: 15px;
   height: 15px;
   margin-left: 0.714em;
@@ -2476,20 +2483,20 @@ form.post .form-wrap .text-counter {
   background-position-x: right;
 }
 
-.filter .items .items {
+.filters .filter .items .items {
   margin-left: 1.3em;
 }
 
-.filter .item.disabled > div > .filter-item-title {
+.filters .filter .item.disabled > div > .filter-item-title {
   cursor: default;
 }
 
-.filter .item.disabled .text {
+.filters .filter .item.disabled .text {
   color: #B3B3B3;
   cursor: default;
 }
 
-.filter .item.disabled .icon {
+.filters .filter .item.disabled .icon {
   cursor: default;
 }
 
@@ -2504,8 +2511,14 @@ form.post .form-wrap .text-counter {
 }
 
 /* =====================================================================================================
-Таблица:
+Таблицы:
 ===================================================================================================== */
+
+/* Стили адаптивной таблицы: */
+
+.table-adaptive {
+  display: none;
+}
 
 /* Основные стили вкладок таблиц */
 
@@ -2549,7 +2562,6 @@ form.post .form-wrap .text-counter {
 }
 
 .control .left-side {
-  justify-content: flex-start;
   align-items: center;
   width: 50%;
   max-width: 100%;
@@ -2753,7 +2765,6 @@ th:last-child .resize-btn::after {
 }
 
 tbody td > .row {
-  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2769,6 +2780,48 @@ tbody td > .row * {
 #orderslist td,
 #reclm td {
   cursor: pointer;
+}
+
+/* =====================================================================================================
+Блок информации:
+===================================================================================================== */
+
+.infoblock {
+  width: 100%;
+  margin-bottom: 1.428em;
+  background: #FFFFFF;
+}
+
+.infoblock.close {
+  margin-bottom: 1px;
+}
+
+.infoblock .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoblock .head .title {
+  padding: 0.75em 1.14em;
+}
+
+.infoblock .head .open.icon {
+  display: none;
+}
+
+.infoblock .head .open.icon,
+.infoblock .head .toggle {
+  margin-left: 1em;
+}
+
+.infoblock .info {
+  width: 100%;
+  padding: 0.75em 1.14em;
+}
+
+.infoblock .content .title {
+  margin-bottom: 0.357em;
 }
 
 /* =====================================================================================================
@@ -2838,37 +2891,6 @@ tbody td > .row * {
 
 #up-btn:hover rect {
   fill-opacity: 0.8;
-}
-
-/* =====================================================================================================
-Блок информации:
-===================================================================================================== */
-
-.infoblock {
-  display: block;
-  width: 100%;
-  padding: 1.25em 1.25em  0.9375em  1.25em;
-  background: #FFFFFF;
-}
-
-.infoblock .open.icon {
-  display: none;
-}
-
-.infoblock section {
-  margin-bottom: 20px;
-}
-
-.infoblock .section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.info-wrap {
-  display: flex;
-  width: 100%;
-  margin-top: 20px;
 }
 
 /* =====================================================================================================
@@ -2944,7 +2966,6 @@ tbody td > .row * {
 
 .card-sizes {
   flex-wrap: wrap;
-  justify-content: flex-start;
 }
 
 .card-size {
@@ -3626,6 +3647,11 @@ tbody td > .row * {
   padding: 1.6rem 0;
 }
 
+.footer a[href^=tel] {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* =====================================================================================================
 Окно уведомлений:
 ===================================================================================================== */
@@ -3700,6 +3726,10 @@ tbody td > .row * {
 /* =====================================================================================================
 Страница входа:
 ===================================================================================================== */
+
+body#auth .pop-up {
+  width: 32em;
+}
 
 body#auth .pop-up-title {
   justify-content: center;

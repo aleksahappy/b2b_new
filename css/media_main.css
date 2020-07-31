@@ -2,6 +2,8 @@
 Все разрешения по ориентации экрана:
 ===================================================================================================== */
 
+/* Портретная ориентация: */
+
 @media all and (orientation:portrait) {
   #full-img-container .carousel {
     max-width: 90vw;
@@ -12,6 +14,8 @@
     max-height: 90vw;
   }
 }
+
+/* Альбомная ориентация: */
 
 @media all and (orientation:landscape) {
   #full-img-container .carousel {
@@ -29,19 +33,28 @@ Desktop:
 ===================================================================================================== */
 
 /* Стили на ширину больше 1920px: */
-/* ______________________________ */
 
 @media only screen and (min-width: 1921px) {
+
+  /* Основные стили: */
+
   .container {
     margin: 0 3%;
   }
+
+  /* Кнопка "Наверх страницы": */
 
   #up-btn {
     right: 3%;
   }
 }
 
+/* Стили на ширину больше 1081px: */
+
 @media only screen and (min-width: 1081px) {
+
+  /* Окно уведомлений: */
+
   #notifications::-webkit-scrollbar {
     width: 7px;
     height: 7px;
@@ -71,22 +84,33 @@ Laptop:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 1360px включительно: */
-/* ____________________________________________ */
 
 @media only screen and (max-width: 1360px) {
+
+  /* Основные стили: */
+
   .container {
     margin: 0 3rem;
   }
 
+  /* Всплывающие окна: */
+
+  .pop-up-container {
+    padding: 40px 0;
+  }
+
+  .pop-up-container.filters {
+    padding: 0;
+  }
+
+  /* Кнопка "Наверх страницы": */
+
   #up-btn {
     right: 3rem;
   }
-}
 
-/* Стили на ширину от 0 до 1080px включительно: */
-/* ____________________________________________ */
+  /* Изображение на весь экран: */
 
-@media only screen and (max-width: 1080px) {
   /* #full-img-container .carousel .left-btn {
     background: url(../img/slider/slider_nav_left.png) no-repeat center;
     left: -3em;
@@ -99,52 +123,13 @@ Laptop:
     background-color: transparent;
     opacity: 1 !important;
   } */
+}
 
-  /* Стили хедера: ПРОВЕРИТЬ! */
+/* Стили на ширину от 0 до 1080px включительно: */
 
-  /*
-  .header-top .left-side > .row {
-    display: none;
-  }
+@media only screen and (max-width: 1080px) {
 
-  .header-top .activate .head {
-    width: 4em;
-  }
-
-  .header-top .right-side .icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .header-top .burger.icon {
-    display: block;
-  }
-
-  #profile {
-    display: none;
-  }
-
-  .header-top .notifications.icon {
-    background-image: url(../img/notifications_min.svg);
-  }
-
-  .header-top .activate {
-    width: 4em;
-  }
-
-  .qty.in-circle {
-    top: -0.4em;
-    right: -0.5em;
-  }
- */
-
-  .pop-up-container {
-    padding: 40px 0;
-  }
-
-  .pop-up-container.filters {
-    padding: 0;
-  }
+  /* Окно уведомлений: */
 
   #notifications .pop-up {
     width: 100%;
@@ -156,22 +141,50 @@ Laptop:
 Tablet:
 ===================================================================================================== */
 
-/* Стили на ширину от 0 до 960px включительно: */
-/* ___________________________________________ */
+/* Стили на ширину от 0 до 768px включительно: */
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 768px) {
+
+  /* Основные стили: */
+
+  body {
+    padding-top: 41px;
+    padding-bottom: 70px;
+  }
+
   .container {
     margin: 0 2.4rem;
   }
+
+  /* Заголовок страницы: */
 
   #main-header {
     padding: 2.4rem 0;
   }
 
+  #main-header + .btn {
+    display: none;
+  }
+
+  /* Подсказки: */
+
   [tooltip]:hover::before,
   [tooltip]:hover::after {
     display: none;
   }
+
+  /* Иконки: */
+
+  .icon {
+    margin-right: 0.714em;
+  }
+
+  .add.icon,
+  .relay.icon {
+    display: block;
+  }
+
+  /* Тоглы */
 
   .toggle {
     width: 40px;
@@ -191,28 +204,6 @@ Tablet:
     left: 18px;
   }
 
-  #up-btn {
-    right: 2.4rem;
-  }
-}
-
-/* Стили на ширину от 0 до 768px включительно: */
-/* ___________________________________________ */
-
-@media only screen and (max-width: 768px) {
-  /* Основные стили: */
-
-  body {
-    padding-top: 41px;
-    padding-bottom: 70px;
-  }
-
-  /* Заголовок страницы: */
-
-  #main-header + .btn {
-    display: none;
-  }
-
   /* Хедер */
 
   .header-top .container {
@@ -223,14 +214,27 @@ Tablet:
     height: 40px;
   }
 
-  /* Иконки: */
+  /* Таблицы: */
 
-  .icon {
-    margin-right: 0.714em;
+  .table-wrap {
+    display: none !important;
   }
 
-  .add.icon,
-  .relay.icon {
+  .table-adaptive {
+    display: block;
+  }
+
+  /* Блок информации: */
+
+  .infoblock .head {
+    background: #53606F;
+  }
+
+  .infoblock .head .title {
+    color: #FFFFFF;
+  }
+
+  .infoblock .head .open.icon {
     display: block;
   }
 
@@ -287,15 +291,15 @@ Tablet:
     margin-bottom: 0;
   }
 
-  .filter {
+  .filters .filter {
     padding-bottom: 1em;
   }
 
-  .filter > .title.row {
+  .filters .filter > .title.row {
     padding: 0.714em 2.143em;
   }
 
-  .filter .item > .title.row {
+  .filters .filter .item > .title.row {
     padding: 1em 2.143em;
     padding-bottom: 0;
   }
@@ -330,19 +334,10 @@ Tablet:
     left: 35px;
   }
 
-  /* Блок информации: */
+  /* Кнопка "Наверх страницы": */
 
-  .infoblock {
-    padding: 0;
-  }
-
-  .infoblock .section-head {
-    padding: 1.25em 1.25em 1.25em 1.25em;
-    background: #53606F;
-  }
-
-  .infoblock .section-head .title {
-    color: #FFFFFF;
+  #up-btn {
+    right: 2.4rem;
   }
 }
 
@@ -350,21 +345,29 @@ Tablet:
 Mobile:
 ===================================================================================================== */
 
-/* Стили на ширину от 0 до 480px включительно: */
-/* ____________________________________________ */
+/* Стили на ширину от 0 до 499px включительно: */
 
 @media only screen and (max-width: 499px) {
+
+  /* Основные стили: */
+
   .container {
     margin: 0 1.6rem;
   }
 
-  .container.mobile {
-    margin: 0;
-  }
+  /* Заголовок страницы: */
 
   #main-header {
     padding: 1.6rem 0;
   }
+
+  /* Блок информации: */
+
+  .table-adaptive {
+    margin: 0 -1.6rem 0 -1.6rem;
+  }
+
+  /* Форма отправки на сервер: */
 
   form.post {
     display: flex;
@@ -387,11 +390,11 @@ Mobile:
     padding: 1em 1.428em;
   }
 
-  .filter > .title.row {
+  .filters .filter > .title.row {
     padding: 0.714em 1.428em;
   }
 
-  .filter .item > .title.row {
+  .filters .filter .item > .title.row {
     padding: 1em 1.428em;
     padding-bottom: 0;
   }
