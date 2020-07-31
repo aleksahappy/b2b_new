@@ -1,41 +1,22 @@
-@media (max-width: 768px) {
-
-  #users-table-tablet{
+@media only screen and (max-width: 499px) {
+  .table-adaptive .content {
     display: block;
   }
 
-  .open.icon {
-    display: block;
+  .table-adaptive .content > div:last-child {
+    padding-left: 0;
   }
 
-}
-
-@media (max-width: 499px) {
-
-  #users-table-tablet{
-    display: none;
+  #user .access {
+    display: flex;
   }
 
-  #users-table-mob{
-    display: block;
+  #user .access .form-col2:first-child {
+    width: 40%;
   }
 
-  .user-status.row:first-child{
-    width: 80%;
+  #user .access .form-col2:last-child {
+    width: 60%;
+    padding-left: 1em;
   }
-
-  .user-status.row:last-child{
-    justify-content: flex-end;
-    width: 20%;
-  }
-
-  .col .modal-col{
-    width: 100%;
-  }
-
-  .col .modal-col:last-child{
-    width: 100%;
-    margin-top: 1.875em;
-  }
-
 }

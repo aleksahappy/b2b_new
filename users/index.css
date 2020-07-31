@@ -1,9 +1,11 @@
 /* Стили для таблицы */
-#users-table td{
-  cursor: default;
-}
+
 #users-table td:nth-child(1) {
   min-width: 6em;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 0;
+  vertical-align: middle;
   text-align: center;
 }
 
@@ -12,28 +14,33 @@
 }
 
 #users-table td:nth-child(3) {
-  min-width: 10em;
+  min-width: 8em;
 }
 
 #users-table td:nth-child(4) {
-  min-width: 7em;
+  min-width: 12em;
   text-align: center;
 }
 
 #users-table td:nth-child(5) {
-  min-width: 4em;
+  min-width: 12em;
 }
 
 #users-table td:nth-child(6) {
-  min-width: 16em;
+  min-width: 12em;
 }
 
 #users-table td:nth-child(7) {
-  min-width: 9em;
+  min-width: 12em;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 0;
+  vertical-align: middle;
+  text-align: center;
 }
 
 #users-table td:nth-child(8) {
-  min-width: 10em;
+  min-width: 12em;
   text-align: center;
 }
 
@@ -42,132 +49,50 @@
   text-align: center;
 }
 
-#users-table td .row{
-  align-items: center;
-}
-
-#users-table-tablet,
-#users-table-mob{
-  display: none;
-}
-
-.adaptive .info-wrap{
+#users-table td:nth-child(10) {
+  min-width: 10em;
+  padding-top: 0;
   padding-bottom: 0;
+  line-height: 0;
+  vertical-align: middle;
+  text-align: center;
 }
 
-.adaptive .info-wrap > .row {
-  align-items: flex-start;
-  margin-bottom: 0;
+/* Блоки информации */
+
+.infoblock .lock.icon {
+  margin-right: 1em;
+  margin-top: 4px;
 }
 
-.adaptive .info-wrap .row .col > div{
-  padding-bottom: 0.875em;
+.infoblock .edit.icon {
+  margin-right: 0;
+  margin-left: 1em;
 }
 
-/* Размер шрифта в заголовках адаптивной таблицы */
-
-#users .section-head .section-title {
-    font-size: 1em;
-}
-
-.main-title .title-row .title{
-  margin-bottom: 0.6em;
-}
-
-/* Вынужденное переопределение главных стилей для конктретной страницы */
-
-#users .main-title .row{
-  align-items: flex-start;
-}
-
-#users .main-title .title-row .title{
-  margin-bottom: 0;
-}
-
-#users .info-wrap{
-  padding: 1.25em;
-  margin: 0;
-}
-
-#users .info-wrap > * {
-  margin-bottom: 1.25em;
-}
-
-#users .info-wrap > .row{
-  margin-bottom: 0;
-}
-
-#users .info-wrap div{
-  font-size: 14px;
-  color: #34495E;
-}
-
-#users .info-wrap span{
-  color: #666666;
-}
-
-#users-table .section-head .row{
-  align-items: center;
-}
-
-#users-table .section-head .section-title {
-  font-size: 1em;
-}
-
-.wrap.row{
+.infoblock .wrap,
+.infoblock .content {
   width: 100%;
 }
 
-.user-status.row{
-  width: 50%;
+.infoblock .content > div {
+  min-width: 50%;
 }
 
-.user-status.row:last-child{
-  display: flex;
-  justify-content: space-between;
+.infoblock .content > div:last-child {
+  padding-left: 1em;
 }
 
-.user-status.icon.limited{
-  background: url('../img/access_limit.svg') no-repeat!important;
-}
+/* Модальное окно */
 
-.user-status.icon.boundless{
-  background: url('../img/access_full.svg') no-repeat!important;
-}
-
-.user-status.icon{
-  width: 12px;
-  height: 15px;
-  margin-right: 1em;
-  background: url('../img/access_disabled.svg') no-repeat;
-}
-
-/* Модальное окно "Добавление пользователя" */
-
-#add-user,
-#edit-user{
+#user .pop-up {
   width: 40em;
 }
 
-#add-user .text-light,
-#edit-user .text-light{
-  font-size: 12px;
-  line-height: 16px;
+#user .text-midlight {
+  font-size: 0.857em;
 }
 
-.col .modal-col{
-  width: 50%;
-}
-
-#add-user .modal-col > .col{
-  width: 91%;
-}
-
-#edit-user .modal-col > .col {
-  width: 91%;
-}
-
-#add-user .form-col2 .title,
-#edit-user .form-col2 .title{
-  margin-bottom: 0.45em;
+#user .access .title {
+  margin-bottom: 0.35em;
 }
