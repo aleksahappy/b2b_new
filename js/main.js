@@ -1796,6 +1796,35 @@ function clearForm(el) {
   }
 }
 
+// Заполнение формы данными:
+
+function fillForm(el, data) {
+  var el = getEl(el);
+  if (!el || !data) {
+    return;
+  }
+  clearForm(el);
+  console.log(data);
+  var fields = [], type;
+  for (var key in data) {
+    fields = el.querySelectorAll(`[name="${key}"]`);
+    fields.forEach(el => {
+      type = el.getAttribute('type');
+      console.log(type);
+      if (type === 'radio' || type === 'checkbox') {
+        if (el.value.toLowerCase() === data[key].toLowerCase()) {
+          el.setAttribute('checked', 'checked');
+        }
+      } else {
+        if (type === 'hidden' && el.closest('.activate')) {
+          setValueDropDown(el.closest('.activate').id, data[key]);
+        }
+        el.value = data[key];
+      }
+    });
+  }
+}
+
 // Проверка инпута на валидность:
 
 function checkInput(input) {
@@ -1941,26 +1970,18 @@ function Form(obj, func) {
     if (!this.isSubmit || !this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
       return;
     }
-    var data = this.getData();
+    var formData = new FormData(this.form);
     if (func) {
-      func(data);
+      func(formData);
     }
-  }
-
-  // Получение данных формы:
-  this.getData = function() {
-    var data = {};
-    formData = new FormData(this.form);
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
-    return data;
   }
 
   // Очистка формы поиска:
   this.clear = function() {
     this.form.querySelectorAll('textarea').forEach(el => el.value = '');
-    this.form.querySelectorAll('input:not([type="submit"])').forEach(el => el.value = '');
+    this.form.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="submit"])').forEach(el => el.value = '');
+    this.form.querySelectorAll('input[type="radio"]').forEach(el => el.removeAttribute('checked'));
+    this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.removeAttribute('checked'));
     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
   }
 }
