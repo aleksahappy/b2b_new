@@ -14,7 +14,61 @@ function startUsersTable() {
       var data = JSON.parse(result);
       loader.hide();
       data = convertData(data);
-      initTable("#users-table", {data: data});
+      var settings = {
+        data: data,
+        head: true,
+        cols: [
+          {
+            title: 'Доступ',
+            content: '  <div class="toggle" onclick="toggle(event)"><div class="toggle-in"></div></div>'
+          },
+          {
+            key: 'contr_fio',
+            title: 'ФИО',
+            content: ''
+          },
+          {
+            key: 'contr_sex',
+            title: 'Пол',
+            content: ''
+          },
+          {
+            key: 'contr_birth',
+            title: 'Дата рождения',
+            content: ''
+          },
+          {
+            key: 'contr_tel',
+            title: 'Телефон',
+            content: ''
+          },
+          {
+            key: 'contr_mail',
+            title: 'Email',
+            content: ''
+          },
+          {
+            key: 'contr_access',
+            title: 'Тип доступа',
+            content: '<div class="row"><div class="pill">#contr_access#</div></div>'
+          },
+          {
+            key: 'contr_date',
+            title: 'Дата заведения',
+            content: ''
+          },
+          {
+            key: 'contr_status',
+            title: 'Должность'
+          },
+          {
+            key: '',
+            title: 'Редактировать',
+            content: '<div class="edit icon"  onclick="openPopUp("#edit-user-modal")"></div>'
+          }
+        ]
+      };
+      initTable("#users-table", settings);
       var usersTabletData = {
         area: "#users-table-tablet",
         items: data,
@@ -36,7 +90,7 @@ function startUsersTable() {
     .catch((err) => {
       console.log(err);
       loader.hide();
-      initTable("#users-table");
+      // initTable("#users-table");
     });
 }
 startUsersTable();
