@@ -21,7 +21,7 @@ var view = location.pathname === '/product'? 'product' : 'list',
 
 // Запускаем рендеринг страницы каталога:
 
-startPage();
+startCatalogPage();
 
 //=====================================================================================================
 // При запуске страницы:
@@ -29,7 +29,7 @@ startPage();
 
 // Запуск страницы каталога:
 
-function startPage() {
+function startCatalogPage() {
   if (view === 'product') {
     getItems(location.search.replace('?',''))
     .then(
@@ -132,7 +132,7 @@ function convertItems() {
     items = items.filter(el => el.snegohod == 1);
   }
   items.forEach(item => convertItem(item));
-  items.sort(dynamicSort(('catid')));  // Сортировка по id категории:
+  items.sort(sortBy(('catid')));  // Сортировка по id категории:
 }
 
 // Преобразование данных по одному товару:
@@ -247,7 +247,7 @@ function addSizeInfo(item) {
   var size;
   for (var key in item.sizes) {
     size = item.sizes[key];
-    size.size = size.size || '';
+    size.size = size.size || 'OS';
     size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
     size.isClick = cartId === 'equip' ? '' : 'click';
     size.isFree = size.free_qty > 0 ? '' : 'displayNone';
@@ -1347,7 +1347,7 @@ function loadCards(cards) {
     area: view === 'list' ? bigCard : minCard,
     source: 'outer',
     items: data,
-    target: 'gallery',
+    target: '#gallery',
     sub: view === 'list'
         ? [{
           area: '.carousel-item',
@@ -1638,7 +1638,7 @@ function selectCardsBySearchOem(textToFind) {
 // Сортировка карточек товаров на странице:
 
 function sortItems(event) {
-  var key = event.currentTarget.dataset.value;
+  var key = event.currentTarget.value;
   if (key === 'default') {
     curItems = JSON.parse(JSON.stringify(window[`${pageUrl}Items`]));
     if (curSelect) {

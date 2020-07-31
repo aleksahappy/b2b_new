@@ -11,10 +11,14 @@ body {
 ===================================================================================================== */
 
 .view-list.icon {
+  width: 18px;
+  height: 14px;
   background-image: url(../img/view_list.svg);
 }
 
 .view-blocks.icon {
+  width: 14px;
+  height: 14px;
   background-image: url(../img/view_blocks.svg);
 }
 
@@ -49,94 +53,77 @@ body {
 
 #header-content .container {
   justify-content: space-between;
-  align-items: stretch;
+  align-items: flex-start;
+  margin-top: 1.785em;
 }
 
 .clear-filter.btn {
-  width: 20em;
-  margin: 1em 0;
-  padding: 0.25em 1.5em;
+  width: 18em;
+  padding: 0.215em 1.5em;
+  margin-bottom: 0.714em;
 }
 
 .gallery-head {
   justify-content: flex-end;
-  align-items: center;
-  width: calc(100% - 22em);
-  border-bottom: 1px solid #D5D5D5;
+  align-items: flex-start;
+  width: calc(100% - 20em);
+  border-bottom: 1px solid #C6C6C6;
 }
 
-.gallery-head .result {
-  align-items: center;
-  padding: 0.25em 0.5em;
-  font-size: 0.857em;
-  background-color: #E6E6E6;
+.gallery-head .pill {
+  background-color: #D3D6D9;
+  margin-bottom: 0.714em;
 }
 
-.gallery-head .result .title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.gallery-head .result .close.icon {
-  width: 0.67em;
-  height: 0.67em;
-  margin-left: 0.5em;
+.search-info,
+#filters-info {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .search-info {
   display: none;
-  justify-content: flex-start;
-  width: calc(100% - 29em);
-  padding-right: 2em;
 }
 
-#filters-info {
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% - 29em);
-  padding: 0.2em 2em 0.2em 0;
-}
-
-#filters-info .result {
+#filters-info .pill {
   max-width: 15em;
-  margin: 0.2em 0.5em 0.2em 0;
 }
 
 .sortbox {
   justify-content: flex-end;
   align-items: center;
-  flex-wrap: wrap;
-  width: 29em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-bottom: 0.714em;
 }
 
 .view {
   justify-content: space-between;
   align-items: center;
-  font-size: 1.143em;
   flex-shrink: 0;
-  margin-right: 1em;
+  margin-right: 2.5em;
 }
 
 .view .title {
   margin-right: 1em;
+  line-height: 0;
 }
 
 .view .icon {
-  width: 1em;
-  height: 1em;
-}
-
-.view .icon.active {
-  cursor: default;
+  margin-right: 0;
 }
 
 .view .view-list {
   margin-right: 0.5em;
 }
 
+.view .icon.active {
+  cursor: default;
+}
+
 .sortbox .activate .head {
-  padding: 0.15em 1.5rem;
+  padding: 0.143em 1.5rem;
 }
 
 #gallery-sort {
@@ -159,17 +146,17 @@ body {
 }
 
 /* =====================================================================================================
-Стили для блока фильтров:
+Стили блока фильтров:
 ===================================================================================================== */
 
 #filters-container {
   display: none;
-  width: calc(20em + 7px);
+  width: calc(18em + 7px);
 }
 
 #filters {
   position: static;
-  width: calc(20em + 7px);
+  width: calc(18em + 7px);
   min-height: 50vh;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -179,33 +166,7 @@ body {
   overflow-y: auto;
 }
 
-.filter {
-  margin-bottom: 0.4em;
-}
 
-.filter-title {
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  padding: 0.3em 0.5em;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.filter-title .title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.filter-title .open.icon {
-  width: 0.857em;
-  height: 0.857em;
-}
-
-.filter-items {
-  font-size: 0.97em;
-}
 
 /* =====================================================================================================
 Стили для фильтров OEM:
@@ -213,7 +174,7 @@ body {
 
 #zip-filters {
   display: none;
-  width: 20em;
+  width: 18em;
   margin-bottom: 1em;
 }
 
@@ -262,75 +223,6 @@ body {
 /* =====================================================================================================
 Стили для фильтров каталога:
 ===================================================================================================== */
-
-#catalog-filters {
-  width: 20em;
-}
-
-#catalog-filters .filter-title {
-  background-color: #D4D7DB;
-}
-
-#catalog-filters .filter-items {
-  background-color: #FFFFFF;
-  border: 1px solid #D5D5D5;
-}
-
-.filter-title-container {
-  align-items: center;
-  width: 100%;
-  padding: 0 0.7em 0.7em 0.7em;
-}
-
-.filter-item.item:first-child > .filter-title-container {
-  padding-top: 0.7em;
-}
-
-.filter-item-title {
-  align-items: center;
-  cursor: pointer;
-}
-
-.filter-item-title .checkbox {
-  width: 0.75em;
-  height: 0.75em;
-}
-
-.item-title {
-  color: #34495E;
-  padding-left: 0.5em;
-}
-
-.filter-item .drop-down.icon {
-  width: 0.6em;
-  height: 0.6em;
-  margin-left: 0.5em;
-  transform: rotate(90deg);
-  -webkit-transition: 100ms;
-  -moz-transition: 100ms;
-  -o-transition: 100ms;
-  transition: 100ms;
-}
-
-.filter-item.close .drop-down.icon {
-  transform: rotate(0deg);
-  -webkit-transition: 300ms;
-  -moz-transition: 300ms;
-  -o-transition: 300ms;
-  transition: 300ms;
-}
-
-.filter-item.subitem {
-  padding-left: 1.3em;
-}
-
-.filter-item.disabled > div > .filter-item-title {
-  cursor: default;
-}
-
-.filter-item.disabled > div > div .item-title {
-  color: rgba(102, 102, 102, 0.7);
-}
 
 #filter-size .filter-items,
 #filter-color .filter-items {
@@ -512,12 +404,12 @@ body {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
-  width: calc(100% - 22em);
+  width: calc(100% - 20em);
 }
 
 #gallery-notice {
   display: none;
-  width: calc(100% - 22em);
+  width: calc(100% - 20em);
   min-height: 30vh;
   justify-content: center;
   align-items: center;
@@ -616,7 +508,7 @@ body {
   margin: 0 0 -1px 0;
   padding: 1em;
   background-color: rgb(255, 255, 255);
-  border: 1px solid #D5D5D5;
+  border: 1px solid #C6C6C6;
 }
 
 .big-card:first-child {
@@ -695,7 +587,7 @@ body {
   width: 18%;
   height: 100%;
   padding-left: 1em;
-  border-left: 1px solid rgba(133, 150, 166, 0.2);
+  border-left: 1px solid #C6C6C6;
 }
 
 .big-card .card-options {
@@ -795,12 +687,12 @@ body {
 
 .full-card .carousel-gallery-wrap {
   min-height: 30em;
-  border-bottom: 1px solid rgba(133, 150, 166, 0.2);
+  border-bottom: 1px solid #C6C6C6;
 }
 
 .full-card .card-choice {
   min-height: 30em;
-  border-bottom: 1px solid rgba(133, 150, 166, 0.2);
+  border-bottom: 1px solid #C6C6C6;
 }
 
 .full-card .card-options {

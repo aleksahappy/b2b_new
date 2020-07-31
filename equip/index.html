@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
-
   <head>
+    <title>ТОП СПОРТС - Экипировка</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
-    <title>ТОП СПОРТС - Экипировка</title>
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/check_auth.js"></script>
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="../css/catalog.css">
     <link rel="stylesheet" type="text/css" href="../css/media_catalog.css">
     <link rel="stylesheet" type="text/css" href="../css/cart.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../css/media_cart.css"> -->
   </head>
 
   <body id="equip" data-website="ts_b2b" data-cart="true">
 
-    <!-- Хедер -->
     <div class="header">
       <div class="header-top">
         <div class="container row">
@@ -101,20 +102,17 @@
             <a class="submenu-item" href="../equip/?merchandising" data-href="merchandising" data-level="2" data-title="Мерчандайзинг" onclick="openPage(event)">Мерчандайзинг</a>
           </div>
           <form id="page-search" class="search positioned row">
-            <div class="search-area row">
-              <input class="search icon" type="submit" value="">
-              <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
-              <div class="close icon"></div>
-            </div>
-            <div class="toggle search icon white"></div>
+            <input type="text" data-value=""> <!-- здесь нельзя использовать placeholder -->
+            <input class="search icon" type="submit" value="">
+            <div class="close icon"></div>
           </form>
         </div>
         <div id="header-cart" class="template">
           <div class="wrap">
             <div class="items">
-              <a class="cart-#id# item" href="../#id#/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="#isFunc#">
-                <div class="info row">
-                  <div class="sum"><span>#sum#</span>&nbsp;руб.</div>
+              <a class="cart-#id# item col" href="../#id#/?cart" data-href="cart" data-level="2" data-title="Корзина" onclick="#isFunc#">
+                <div class="row">
+                  <div>#sum#&nbsp;руб.</div>
                   <div class="cart icon white">
                     <div class="qty in-circle row #isFull#">#qty#</div>
                   </div>
@@ -122,37 +120,37 @@
                 <div class="name">#title#</div>
               </a>
             </div>
-            <div class="cart-sum text orange">Итого: <span>#sum#</span>&nbsp;руб.</div>
+            <div class="total item row text-orange">Итого:&nbsp;#sum#&nbsp;руб.</div>
           </div>
         </div>
       </div>
       <div id="header-content">
         <div class="container row">
-          <div class="clear-filter btn basic disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
+          <div class="clear-filter btn disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
           <div class="gallery-head row">
-            <div class="search-info" data-search="page-search">
-              <div class="result row">
-                <div>Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
-                <div class="close icon"></div>
+            <div class="search-info row" data-search="page-search">
+              <div class="pill row">
+                <div class="result">Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+                <div class="close white icon"></div>
               </div>
             </div>
-            <div class="search-info" data-search="oem">
-              <div class="result row">
-                <div>Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
-                <div class="close icon"></div>
+            <div class="search-info row" data-search="oem">
+              <div class="pill row">
+                <div class="result">Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+                <div class="close white icon"></div>
               </div>
             </div>
-            <div id="filters-info" class="template">
-              <div class="result row" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
-                <div class="title">#title#</div>
-                <div class="close icon"></div>
+            <div id="filters-info" class="row template">
+              <div class="pill row" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
+                <div class="result">#title#</div>
+                <div class="close white icon"></div>
               </div>
             </div>
             <div class="sortbox row">
               <div class="view row">
                 <div class="title">Вид каталога:</div>
-                <div class="view-list icon active" tooltip="Cписок" onclick="toggleView(event, 'list')"></div>
-                <div class="view-blocks icon" tooltip="Плитка" onclick="toggleView(event, 'blocks')"></div>
+                <div class="view-list icon active" data-tooltip="Cписок" onclick="toggleView(event, 'list')"></div>
+                <div class="view-blocks icon" data-tooltip="Плитка" onclick="toggleView(event, 'blocks')"></div>
               </div>
               <div id="gallery-sort" class="activate select">
                 <div class="head row">
@@ -175,42 +173,42 @@
 
     <div class="main">
       <div class="container">
-        <div id="main-header">
-          <div id="main-nav">
-            <a href="../dashboard">Главная</a>
-            <a class="item" href="#href#" data-href="#dataHref#" data-level="#level#" onclick="openPage(event)">#title#</a>
-          </div>
-          <div class="main-title row">
-            <div class="title-row row">
-              <div id="page-title" class="title"></div>
-              <div id="cart-name" class="title"></div>
-            </div>
+        <div id="main-header" class="row">
+          <div>
+            <div id="page-title" class="title h0"></div>
+            <div id="cart-name" class="title h0"></div>
           </div>
         </div>
         <div id="content" class="row">
           <div id="filters-container">
             <div id="filters">
-              <div id="catalog-filters">
-                <div id=filter-#key# class="filter #isOpen# toggle save" onclick="toggleContent(event)">
-                  <div class="filter-title row">
-                    <div class="title">#title#</div>
-                    <div class="open icon toggle-icon"></div>
+              <div id="catalog-filters" class="pop-up-container filters visible">
+                <div class="pop-up">
+                  <div class="pop-up-title row">
+                    <div class="title h2">Фильтры</div>
+                    <div class="close icon"></div>
                   </div>
-                  <div class="filter-items toggle-cont">
-                    <div class="filter-item item close toggle" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
-                      <div class="filter-title-container row">
-                        <div class="filter-item-title row">
-                          <div class="checkbox dark icon"></div>
-                          <div class="item-title">#title#</div>
+                  <div id=filter-#key# class="filter switch">
+                    <div class="title row" onclick="switchContent(event)">
+                      <div class="title-white h3">#title#</div>
+                      <div class="open white icon switch-icon"></div>
+                    </div>
+                    <div class="items switch-cont">
+                      <div class="item switch close" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
+                        <div class="title row">
+                          <div class="row">
+                            <div class="checkbox orange icon"></div>
+                            <div class="text">#title#</div>
+                          </div>
+                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
                         </div>
-                        <div class="drop-down icon #isBtn# toggle-icon" onclick="toggleContent(event)"></div>
-                      </div>
-                      <div class="filter-subitems toggle-cont">
-                        <div class="filter-item subitem" data-key="#key#" data-subkey="#subkey#" data-value="#value#" onclick="selectFilterCatalog(event)">
-                          <div class="filter-title-container row">
-                            <div class="filter-item-title row">
-                              <div class="checkbox dark icon"></div>
-                              <div class="item-title">#title#</div>
+                        <div class="items switch-cont">
+                          <div class="item" data-key="#key#" data-subkey="#subkey#" data-value="#value#" onclick="selectFilterCatalog(event)">
+                            <div class="title row">
+                              <div class="row">
+                                <div class="checkbox orange icon"></div>
+                                <div class="text">#title#</div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -222,7 +220,7 @@
             </div>
           </div>
           <div id="gallery">
-            <div class="min-card card" data-id="#object_id#" onclick="showFullCard(#object_id#)">
+            <div class="min-card card template" data-id="#object_id#" onclick="showFullCard(#object_id#)">
               <div class="card-img-wrap">
                 <img class="card-img" src="#image#">
               </div>
@@ -237,21 +235,21 @@
                   </div>
                   <div class="old-price row">
                     <div class="card-action #isAction#">
-                      <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
+                      <div class="action-title" data-tooltip="#action_data-tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
                     </div>
                     <div class="text light #isOldPrice#">#price#</div>
                   </div>
                 </div>
               </div>
               <div class="card-info row">
-                <div class="tooltips row">
-                  <div class="free-qty #isFree# row" tooltip="В наличии">
+                <div class="data-tooltips row">
+                  <div class="free-qty #isFree# row" data-tooltip="В наличии">
                     <span class="free-qty icon"></span>
                   </div>
-                  <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
+                  <div class="arrive-qty #isArrive# row" data-tooltip="Ожидается">
                     <span class="arrive-qty icon"></span>
                   </div>
-                  <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
+                  <div class="warehouse-qty #isWarehouse# row" data-tooltip="Склад">
                     <span class="warehouse-qty icon"></span>
                   </div>
                 </div>
@@ -260,7 +258,7 @@
                 </div>
               </div>
             </div>
-            <div class="big-card card manage row" data-id="#object_id#">
+            <div class="big-card card manage row template" data-id="#object_id#">
               <div class="container-left row">
                 <div class="carousel" data-type="bigCard">
                   <div class="left-btn"></div>
@@ -296,7 +294,7 @@
                         </div>
                         <div class="old-price row">
                           <div class="card-action #isAction#">
-                            <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
+                            <div class="action-title" data-tooltip="#action_data-tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
                           </div>
                           <div class="text light #isOldPrice#">#price#</div>
                         </div>
@@ -314,24 +312,24 @@
                     </div>
                     <div class="card-sizes row">
                       <div class="card-size">
-                        <div class="articul text light">#articul#</div>
+                        <div class="articul text-midlight">#articul#</div>
                         <div class="qty row">
-                          <div class="name row text light" onclick="changeCart(event)">#size#</div>
+                          <div class="name row text-midlight" onclick="changeCart(event)">#size#</div>
                           <div class="qty-box row">
-                            <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
+                            <div class="btn-minus row" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"><div class="minus icon"></div></div>
                             <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event, #object_id#)">+</div>
+                            <div class="btn-plus row" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"><div class="plus icon"></div></div>
                           </div>
-                          <div class="tooltips col">
-                            <div class="free-qty #isFree# row" tooltip="В наличии">
+                          <div class="data-tooltips col">
+                            <div class="free-qty #isFree# row" data-tooltip="В наличии">
                               <span class="free-qty icon"></span>
                               <span class="text green">#free_qty#&nbsp;шт.</span>
                             </div>
-                            <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
+                            <div class="arrive-qty #isArrive# row" data-tooltip="Ожидается">
                               <span class="arrive-qty icon"></span>
                               <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
                             </div>
-                            <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
+                            <div class="warehouse-qty #isWarehouse# row" data-tooltip="Склад">
                               <span class="warehouse-qty icon"></span>
                               <span class="text">#warehouse_qty#&nbsp;шт.</span>
                             </div>
@@ -393,7 +391,7 @@
                         </div>
                         <div class="old-price row">
                           <div class="card-action #isAction#">
-                            <div class="action-title" tooltip="#action_tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
+                            <div class="action-title" data-tooltip="#action_data-tooltip#" text-align="left" style="background-color: #actioncolor#">#actiontitle#</div>
                           </div>
                           <div class="text light #isOldPrice#">#price#</div>
                         </div>
@@ -423,21 +421,21 @@
                         <div class="qty row">
                           <div class="name row text light">#size#</div>
                           <div class="qty-box row">
-                            <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
+                            <div class="btn-minus row" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"><div class="minus icon"></div></div>
                             <input class="choiced-qty text light" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event, #object_id#)">+</div>
+                            <div class="btn-plus row" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"><div class="plus icon"></div></div>
                           </div>
                         </div>
-                        <div class="tooltips row">
-                          <div class="free-qty #isFree# row" tooltip="В наличии">
+                        <div class="data-tooltips row">
+                          <div class="free-qty #isFree# row" data-tooltip="В наличии">
                             <span class="free-qty icon"></span>
                             <span class="text green">#free_qty#&nbsp;шт.</span>
                           </div>
-                          <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
+                          <div class="arrive-qty #isArrive# row" data-tooltip="Ожидается">
                             <span class="arrive-qty icon"></span>
                             <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
                           </div>
-                          <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
+                          <div class="warehouse-qty #isWarehouse# row" data-tooltip="Склад">
                             <span class="warehouse-qty icon"></span>
                             <span class="text">#warehouse_qty#&nbsp;шт.</span>
                           </div>
@@ -666,20 +664,20 @@
                       <div class="value qty added">
                         <div>
                           <div class="qty-box row">
-                            <div class="btn-minus" tooltip="Уменьшить" onclick="changeCart(event, #object_id#)">-</div>
+                            <div class="btn-minus row" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"><div class="minus icon"></div></div>
                             <input class="choiced-qty text light" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                            <div class="btn-plus" tooltip="Добавить" onclick="changeCart(event, #object_id#)">+</div>
+                            <div class="btn-plus row" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"><div class="plus icon"></div></div>
                           </div>
-                          <div class="tooltips row">
-                            <div class="free-qty #isFree# row" tooltip="В наличии">
+                          <div class="data-tooltips row">
+                            <div class="free-qty #isFree# row" data-tooltip="В наличии">
                               <span class="free-qty icon"></span>
                               <span class="text green">#free_qty#&nbsp;шт.</span>
                             </div>
-                            <div class="arrive-qty #isArrive# row" tooltip="Ожидается">
+                            <div class="arrive-qty #isArrive# row" data-tooltip="Ожидается">
                               <span class="arrive-qty icon"></span>
                               <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
                             </div>
-                            <div class="warehouse-qty #isWarehouse# row" tooltip="Склад">
+                            <div class="warehouse-qty #isWarehouse# row" data-tooltip="Склад">
                               <span class="warehouse-qty icon"></span>
                               <span class="text">#warehouse_qty#&nbsp;шт.</span>
                             </div>
@@ -734,304 +732,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="alerts-container" class="pop-up-container col">
-      <div class="close-btn row">
-        <div class="alerts icon">
-          <div class="qty in-circle row">#qty#</div>
-        </div>
-      </div>
-      <div class="pop-up">
-        <div class="pop-up-title main-title row">
-          <div class="title-row row">
-            <div class="title">Уведомления</div>
-          </div>
-        </div>
-        <div class="pop-up-body">
-          <!-- <div class="message #status# template">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">#text#</div>
-              </div>
-              <div class="row">
-                <div class="date text light">#date#, #time#</div>
-                <div class="close icon" onclick="deleteMessage()"></div>
-              </div>
-            </div>
-          </div> -->
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message action">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Акция <a href="#">Снежный бум!</a> Купи снегоходные лопаты Powertools со скидкой 55%. Только до 11</div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message attention">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Зарегистрируйтесь для участия в Дилерской конференции 2020! Перейдите к регистрации <a href="#">по ссылке.</a></div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-          <div class="message cart">
-            <div class="wrap row">
-              <div class="row">
-                <div class="message icon"></div>
-                <div class="message-text">Заказ <a href="#">ТС 123</a> от 24.09.2019 принят. Вы можете скачать счет на оплату. Если оплата не поступит в течение 5 рабочих дней, заказ будет расформирован. </div>
-              </div>
-              <div class="row">
-                <div class="date text light">26.10.20, 14:00</div>
-                <div class="close icon"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="message-container" class="pop-up-container">
-      <div class="pop-up">
-        <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-          <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
-        </svg>
-        <div class="text pop-up"></div>
-      </div>
-    </div>
-
-    <div id="loader" class="loader">
-      <div class="loader icon"></div>
-      <div class="text"></div>
-    </div>
-
-    <svg id="up-btn" onclick="goToTop()" width="38" height="31" viewBox="0 0 38 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0.5" y="0.5" width="37" height="30" rx="4.5" fill="#454D56" fill-opacity="0.6" stroke="white"/>
-      <path d="M18.925 11.225C18.625 10.925 18.225 10.925 17.925 11.225L10.225 18.925C9.925 19.225 9.925 19.625 10.225 19.825C10.525 20.125 10.925 20.125 11.225 19.825L18.525 12.825L25.825 19.825C26.125 20.125 26.525 20.125 26.825 19.825C27.125 19.525 27.125 19.125 26.825 18.925L18.925 11.225Z" fill="white"/>
-    </svg>
-
-    <div class="footer">
-      <div class="container">
-        <div class="wrap">
-          <div>Отдел продаж: <a href="tel:+78463004499">+7 (846) 300-44-99</a></div>
-          <div>Рабочие дни: ПН - ПТ с 8:00 до 17:00 (МСК)</div>
         </div>
       </div>
     </div>
