@@ -132,7 +132,7 @@ function openUserPopUp(id) {
     fillForm('#user-form', data);
   } else {
     title.textContent = 'Новый пользователь';
-    // clearForm('#user'); - здесь очистить форму при необходимости
+    clearForm('#user-form');
   }
   openPopUp(userPopUp);
 }
