@@ -175,7 +175,7 @@ function createTableContent(id, settings) {
         resultList += createTableResult(col);
       }
     }
-    bodyList += createTableBody(col);
+    bodyList += createTableBody(col, settings.sign);
   });
 
   var table = document.createElement('div');
@@ -205,7 +205,7 @@ function createTableHead (col, index) {
   if (!col.sort && !col.filter) {
     th =
     `<th id="${index + 1}">
-      <div>${col.title}</div>
+      <div>${col.title || ''}</div>
       ${resize || ''}
     </th>`;
   } else {
@@ -249,9 +249,9 @@ function createTableHead (col, index) {
       </div>`;
     }
     th =
-    `<th id="${index + 1}" class="activate box" data-key="${col.key}" data-sort="${col.sort || ''}">
+    `<th id="${index + 1}" class="activate box" data-key="${col.key || ''}" data-sort="${col.sort || ''}">
       <div class="head row">
-        <div class="title">${col.title}</div>
+        <div class="title">${col.title || ''}</div>
         <div class="icons row">
           <div class="triangle icon"></div>
           <div class="filter icon"></div>
@@ -286,9 +286,13 @@ function createTableResult(col) {
 
 // Создание тела таблицы:
 
-function createTableBody(col) {
+function createTableBody(col, sign = '#') {
   if (!col.content) {
-    return `<td>#${col.key}#</td>`;
+    if (!col.key) {
+      return `<td></td>`;
+    } else {
+      return `<td>${sign}${col.key}${sign}</td>`;
+    }
   }
   return `<td>${col.content}</td>`;
 }
