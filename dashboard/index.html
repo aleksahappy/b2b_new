@@ -130,7 +130,7 @@
             </section>
             <!-- Секция "Заказы в работе"-->
             <section class="infoblock switch" onclick="switchContent(event)">
-              <div class="section-head">
+              <div class="section-head col-wrapper row">
                 <div class="title h1">Заказы в работе</div>
                 <div class="graphic-btns">
                   <!-- тоггл "Только предзаказы" -->
@@ -157,8 +157,8 @@
                 </div>
                 <div class="open white icon switch-icon"></div>
               </div>
-              <div class="info-wrap switch-cont">
-                <div class="col1 border-title">
+              <div class="info-wrap switch-cont row">
+                <div class="col1">
                   <div id="chart1">
                     <div class="orders-info"></div>
                     <canvas id="orders-chart"></canvas>
@@ -182,7 +182,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col2 border-title">
+                <div class="col2">
                   <!-- Таблица "Заказы в работе" на Сашином новом шаблоне из orders-->
                   <div id="dashboard-table" class="table-wrap active">
                     <div class="table">

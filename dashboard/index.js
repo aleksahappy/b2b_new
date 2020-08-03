@@ -5,7 +5,6 @@
 var dashboardTable = document.querySelector('#dashboard-table');
 var tbody = dashboardTable.querySelector('tbody');
 
-
 function startDashboardTable() {
   sendRequest(`../json/dashboard_table_data.json`)
   //sendRequest(urlRequest.main, {action: 'dashboardTable'})
@@ -15,7 +14,7 @@ function startDashboardTable() {
     dataOrders = convertData(dataOrders);
     initTable('#dashboard-table', {data: dataOrders});
     startOrdersProgress(dataOrders);
-    getOrdersInfo();
+    getOrdersInfo(dataOrders);
     tableDataSort();
   })
   .catch(err => {
@@ -153,10 +152,6 @@ if (window.innerWidth > 1927) {
 }
 
 
-// ordersInfo.style.left = (chart1.offsetWidth / 2) - (ordersInfo.offsetWidth / 2) + 'px';
-// ordersInfo.style.top = (chart1.offsetHeight / 2) - (ordersInfo.offsetHeight / 2) + 'px';
-
-
 //  Получить суммы всех закозов по категориям по переданному массиву данных
 
 function getOrdersChartSums(arr) {
@@ -218,11 +213,11 @@ function togglePreorders() {
   || tableToggleMob.classList.contains('checked')) {
     initTable('#dashboard-table', {data: dataPreorders});
     startOrdersProgress(dataPreorders);
-    getOrdersInfo();
+    getOrdersInfo(dataPreorders);
   } else {
     initTable('#dashboard-table', {data: dataOrders});
     startOrdersProgress(dataOrders);
-    getOrdersInfo();
+    getOrdersInfo(dataOrders);
   }
 }
 
@@ -237,8 +232,6 @@ function restartBtns(btns) {
     btns[i].classList.add(`status${inx}`);
   }
 }
-
-
 
 
 function startOrdersProgress(arr) {
@@ -264,11 +257,11 @@ function startOrdersProgress(arr) {
 //  Получить текст с информацией о заказах внутри кольцевой диаграммы "Заказы в
 //  работе"
 
-function getOrdersInfo() {
+function getOrdersInfo(data) {
   var totalOrders = 0;
   var trs = tbody.querySelectorAll('tr');
 
-  for (let i = 0; i < trs.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     totalOrders++;
   }
 
@@ -351,7 +344,6 @@ function tableDataSort() {
 }
 
 
-
 /////////////////////////ДИАГРАММА "РЕКЛАМАЦИИ В РАБОТЕ"////////////////////////
 
 function speedChart() {
@@ -398,7 +390,6 @@ function speedChart() {
   setGaugeValue(gaugeEl, result.toFixed(2));
 }
 speedChart();
-
 
 
 ////////////////////////////////ГРАФИК ПОСТАВОК/////////////////////////////////
@@ -483,7 +474,6 @@ function deliveryProgress() {
 
 }
 deliveryProgress();
-
 
 
 /////////////////ДИАГРАММА "ЕЖЕГОДНАЯ ДИНАМИКА ТОВАРООБОРОТА"///////////////////
@@ -670,7 +660,6 @@ function runBarChart() {
     }
   });
 }
-
 
 
 /////////////////ДИАГРАММА "ДОЛЯ ЗАКУПОК ПО ПРОИЗВЛДИТЕЛЯМ"/////////////////////
@@ -903,7 +892,6 @@ function startProcurementDonutChart() {
   }
 
 };
-
 
 
 //////////////////Инициализация графиков и таблици на странице//////////////////
