@@ -308,7 +308,7 @@ body.no-scroll {
   color: #34495E;
 }
 
-.title-white {
+.title.white {
   color: #FFFFFF;
 }
 
@@ -3223,7 +3223,7 @@ tbody td > .row * {
 }
 
 .full-card .head .title {
-  padding: 0.625em 0;
+  padding: 0.625em 0 0.325em 0;
 }
 
 .full-card .infoblock .info {
@@ -3237,7 +3237,11 @@ tbody td > .row * {
 }
 
 .full-card .action-desc {
-  margin-top: -1.5em;
+  margin-top: -2.5em;
+}
+
+.full-card .card-desc.displayNone + .action-desc {
+  margin-top: 0;
 }
 
 /* Стили для полной карточки ЗИП: */
