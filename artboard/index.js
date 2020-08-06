@@ -51,7 +51,7 @@ for (var i = 0; i < 20; i++) {
       info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
     },{
       title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
-      status: 'disabled',
+      status: 'off',
       date_start: '31.10.2017',
       contr: 'ООО «ТОП СПОРТС-1»',
       url: 'bla-bla',
@@ -99,7 +99,7 @@ for (var i = 0; i < 20; i++) {
       info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
     },{
       title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
-      status: 'disabled',
+      status: 'off',
       date_start: '31.10.2017',
       contr: 'ООО «ТОП СПОРТС-1»',
       url: 'bla-bla',
@@ -117,7 +117,7 @@ for (var i = 0; i < 20; i++) {
     user: 'Петров Б.Е.',
     docs: [{
       title: 'Договор с ООО «ТОП СПОРТС» от 15.05.2018',
-      status: 'disabled',
+      status: 'off',
       date_start: '31.10.2016',
       date_end: '04.12.2019',
       contr: 'ООО «ТОП СПОРТС»',
@@ -172,7 +172,10 @@ var settings = {
   }, {
     key: 'docs',
     title: 'Документы',
-    content: '<div class="docs row #status#"><div class="mark icon" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>'
+    content: `<div class="docs row #status#">
+                <div class="mark icon" data-tooltip="#status_info#"></div>
+                <a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a>
+              </div>`
   }],
   sub: [{area: '.docs', items: 'docs'}]
 }
