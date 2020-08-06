@@ -5,11 +5,11 @@
 /* Портретная ориентация: */
 
 @media all and (orientation:portrait) {
-  #full-img-container .carousel {
+  #full-img .carousel {
     max-width: 90vw;
     max-height: 90vw;
   }
-  #full-img-container .carousel-gallery img {
+  #full-img .carousel-gallery img {
     max-width: 90vw;
     max-height: 90vw;
   }
@@ -18,11 +18,11 @@
 /* Альбомная ориентация: */
 
 @media all and (orientation:landscape) {
-  #full-img-container .carousel {
+  #full-img .carousel {
     max-width: 90vh;
     max-height: 90vh;
   }
-  #full-img-container .carousel-gallery img {
+  #full-img .carousel-gallery img {
     max-width: 90vh;
     max-height: 90vh;
   }
@@ -111,13 +111,13 @@ Laptop:
 
   /* Изображение на весь экран: */
 
-  /* #full-img-container .carousel .left-btn {
+  /* #full-img .carousel .left-btn {
     background: url(../img/slider/slider_nav_left.png) no-repeat center;
     left: -3em;
     background-color: transparent;
     opacity: 1 !important;
   }
-  #full-img-container .carousel .right-btn {
+  #full-img .carousel .right-btn {
     background: url(../img/slider/slider_nav_right.png) no-repeat center;
     right: -3em;
     background-color: transparent;
@@ -231,6 +231,8 @@ Tablet:
   }
 
   .infoblock .head .title {
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
     color: #FFFFFF;
   }
 
