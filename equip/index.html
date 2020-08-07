@@ -126,7 +126,7 @@
       </div>
       <div id="header-content">
         <div class="container row">
-          <div class="clear-filter btn disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
+          <div class="clear-filter btn sub-act disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
           <div class="gallery-head row">
             <div class="search-info row" data-search="page-search">
               <div class="pill row">
@@ -173,7 +173,7 @@
 
     <div class="main">
       <div class="container">
-        <div id="main-header">
+        <div id="main-header" class="row">
           <div id="page-title" class="title h0"></div>
           <div id="cart-name" class="title h0"></div>
         </div>
@@ -348,253 +348,230 @@
         </div>
         <div id="cart">
           <div id="cart-empty">
-            <div class="title">Ваша корзина пуста</div>
-            <a id="catalog-link" class="active btn" href="../equip/" data-href="equip" data-level="1" onclick="openPage(event)">Перейти в каталог товаров</a>
-            <div class="unactive btn" onclick="openLoadContainer()">Добавить товары</div>
+            <div class="title h1">Вы не добавили ни одного товара :)</div>
+            <a id="catalog-link" class="btn" href="../equip/" data-href="equip" data-level="1" onclick="openPage(event)">Перейти в каталог</a>
           </div>
           <div id="cart-full">
-            <div class="cart-header">
-              <div class="unactive btn" onclick="openLoadContainer()">Добавить товары</div>
-              <div class="cart-info-container row">
-                <div id="cart-info" class="row">
-                  <div>
-                    <div class="title">Количество</div>
-                    <div class="text"><span class="qty">0</span></div>
-                  </div>
-                  <div>
-                    <div class="title">Сумма РРЦ</div>
-                    <div class="text"><span class="sum-retail">0</span>&nbsp;руб.</div>
-                  </div>
-                  <div>
-                    <div class="title">Сумма заказа</div>
-                    <div class="text"><span class="sum-opt">0</span>&nbsp;руб.</div>
-                  </div>
-                  <div class="cart-discount">
-                    <div class="title">Ориентировочная скидка</div>
-                    <div class="discount row">
-                      <div class="text sum"><span class="discount-sum">0</span>&nbsp;руб.</div>
-                      <div class="text percent orange"><span class="discount-percent">0</span><span>%</span></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cart-make-order row">
-                  <div id="delete-btn" class="basic btn" onclick="deleteSelected()">Удалить выбранное</div>
-                  <div id="order-btn" class="active btn" onclick="openOrderForm()">Оформить заказ</div>
-                  <div id="warning-btn"></div>
-                </div>
-              </div>
-              <form id="order-form" class="row">
-                <div class="input-wrap">
-                  <div class="title">Способ оплаты</div>
-                  <div class="activate select" name="payment_type" required>
-                    <div class="head row">
-                      <div class="title">Выберите тип оплаты</div>
-                      <div class="triangle icon"></div>
-                    </div>
-                    <div class="drop-down">
-                      <div class="item" data-value="1">Безналичный расчет</div>
-                      <div class="item" data-value="2">Наличный расчетю</div>
-                      <div class="item" data-value="4">Депозит</div>
-                      <div class="item" data-value="3">Прочее</div>
-                    </div>
-                  </div>
-                  <div class="err" data-err="payment_type">Поле не заполнено</div>
-                </div>
-                <div class="input-wrap">
-                  <div class="title">Название контрагента</div>
-                  <div class="activate select" name="contr_id" required>
-                    <div class="head row">
-                      <div class="title">Выберите контрагента</div>
-                      <div class="triangle icon"></div>
-                    </div>
-                    <div class="drop-down">
-                      <div class="item" data-value="#id#">#title#</div>
-                    </div>
-                  </div>
-                  <div class="err" data-err="contr_id">Поле не заполнено</div>
-                </div>
-                <div class="input-wrap">
-                  <div class="title">Отгрузочные документы</div>
-                  <div class="activate select" name="shipping_docs" required>
-                    <div class="head row">
-                      <div class="title">Выберите</div>
-                      <div class="triangle icon"></div>
-                    </div>
-                    <div class="drop-down">
-                      <div class="item" data-value="0">Не вкладывать</div>
-                      <div class="item" data-value="1">Вкладывать</div>
-                    </div>
-                  </div>
-                  <div class="err" data-err="shipping_docs">Поле не заполнено</div>
-                </div>
-                <div class="input-wrap">
-                  <div class="title">Тип доставки</div>
-                  <div class="activate select" name="delivery_type" required onchange="toggleOrderAddress(this)">
-                    <div class="head row">
-                      <div class="title">Выберите тип доставки</div>
-                      <div class="triangle icon"></div>
-                    </div>
-                    <div class="drop-down">
-                      <div class="item" data-value="1">Самовывоз</div>
-                      <div class="item" data-value="2">Курьер</div>
-                      <div class="item" data-value="3">Транспортная компания</div>
-                    </div>
-                  </div>
-                  <div class="err" data-err="delivery_type">Поле не заполнено</div>
-                </div>
-                <div class="input-wrap address">
-                  <div class="title">Адрес доставки</div>
-                  <div class="activate select" name="delivery_address">
-                    <div class="head row">
-                      <div class="title">Выберите адрес доставки</div>
-                      <div class="triangle icon"></div>
-                    </div>
-                    <div class="drop-down">
-                      <div class="item" data-value="#id#">#title#</div>
-                    </div>
-                  </div>
-                  <div class="err" data-err="delivery_address">Поле не заполнено</div>
-                </div>
-                <div class="comment">
-                  <div class="title">Комментарий к заказу</div>
-                  <textarea name="comment" maxlength="300" oninput="textareaCounter(this)"></textarea>
-                  <div class="text light">Знаков осталось: <span data-count="comment">300</span></div>
-                  <div class="err" data-err="comment">Поле не заполнено</div>
-                </div>
-                <div id="order-info" class="text red">Обратите внимание!<br/>Будет создано несколько заказов: (<span id="order-names"></span>)</div>
-                <div class="basic btn" onclick="closeOrderForm()">Отменить</div>
-                <input class="order active btn" type="submit" value="Заказать">
+            <div class="header row">
+              <form class="search row">
+                <input type="text" data-value="" placeholder="Поиск по корзине: артикул, наименование...">
+                <input class="search icon" type="submit" value="">
+                <div class="close icon"></div>
               </form>
-              <div class="cart-list">
-                <div class="table-head row">
-                  <div id="check-all" class="check" onclick="toggleAllCart(event)">
-                    <div class="checkbox white icon"></div>
-                  </div>
-                  <div class="name">
-                    <div>Наименование</div>
-                    <div class="copy-container col">
-                      <div class="copy basic btn" onclick="copyCart()">Копировать корзину</div>
-                      <table>
-                        <tbody id="cart-table">
-                          <tr class="cart-table-row #status#" data-id="#object_id#">
-                            <td>#title#</td>
-                            <td>#articul#</td>
-                            <td class="qty">#qty#</td>
-                            <td class="sum">0</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <textarea id="cart-copy"></textarea>
-                    </div>
-                  </div>
-                  <div class="list-wrap row">
-                    <div class="prop articul hidden-xs">Артикул</div>
-                    <div class="prop action hidden-xs">Тип заказа</div>
-                    <div class="prop qty hidden-xs">Кол-во штук</div>
-                    <div class="prop price hidden-xs">Цена</div>
-                    <div class="prop sum hidden-xs">Итого</div>
-                    <div class="title">Раздел</div>
-                    <div class="value">Значение</div>
-                  </div>
-                </div>
+              <div class="make-order row">
+                <div class="text red">Будет создано <span>2 заказа</span><br>на сумму <span>0</span></div>
+                <div class="btn act" onclick="openPopUp('#checkout')">Оформить заказ</div>
               </div>
             </div>
-            <div class="cart-list">
-              <div id="cart-rows" class="table-body">
-                <div class="cart-row row manage checked #isAvailable# #status#" data-id="#object_id#">
-                  <div class="check" onclick="toggleInCart(event)">
-                    <div class="checkbox icon"></div>
+            <div id="cart-list">
+              <div class="cart-block #type#">
+                <div class="head row">
+                  <div class="row">
+                    <div class="checkbox icon" onclick="toggleCartSection(event)"></div>
+                    <div class="type title h2">Тип заказа: <span>#action_name#</span></div>
+                    <div class="question icon" data-tooltip="Подсказка" help></div>
                   </div>
-                  <div class="name">
-                    <a class="row" onclick="showFullCard(#id#)">
-                      <div class="img-wrap row">
-                        <img src="#image#">
-                      </div>
+                  <div class="btn trash" onclick="deleteCartSection(event)">Удалить раздел</div>
+                  <div class="select-info row">
+                    <div class="select-qty">
+                      Выбрано товаров:&nbsp;<span class="text orange">#qty#</span> шт.
+                    </div>
+                    <div class="select-sum title h3">
+                      Итого:&nbsp;<span class="text orange">#sum#</span> руб.
+                    </div>
+                  </div>
+                </div>
+                <div class="cart-row row manage checked #status#" data-id="#object_id#">
+                  <div class="checkbox orange icon" onclick="toggleInCart(event)"></div>
+                  <div class="name row" onclick="showFullCard(#id#)">
+                    <div class="img-wrap row">
+                      <img src="#image#">
+                    </div>
+                    <div>
                       <div>#title# #options#</div>
-                    </a>
+                      <div class="articul">#articul#</div>
+                    </div>
                   </div>
-                  <div class="list-wrap row">
-                    <div class="prop articul">
-                      <div class="title">Артикул</div>
-                      <div class="value">#articul#</div>
+                  <div class="qty qty-box row added">
+                    <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
+                    <input class="choiced-qty" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                    <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
+                  </div>
+                  <div class="qty-fix">#qty#&nbsp;шт.</div>
+                  <div class="qty-sold text red">Продано</div>
+                  <div class="tooltips col">
+                    <div class="free row #isFree#">
+                      <span class="free-qty icon" data-tooltip="В наличии"></span>
+                      <span>#free_qty#&nbsp;шт.</span>
                     </div>
-                    <div class="prop action">
-                      <div class="title">Тип заказа</div>
-                      <div class="value">#action_name#</div>
+                    <div class="arrive row #isArrive#">
+                      <span class="arrive-qty icon" data-tooltip="Ожидается"></span>
+                      <span>#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
                     </div>
-                    <div class="prop qty">
-                      <div class="title">Кол-во штук</div>
-                      <div class="value qty added">
-                        <div>
-                          <div class="qty-box row">
-                            <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
-                            <input class="choiced-qty" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
-                            <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
-                          </div>
-                          <div class="tooltips row">
-                            <div class="free-qty #isFree# row" data-tooltip="В наличии">
-                              <span class="free-qty icon"></span>
-                              <span class="text green">#free_qty#&nbsp;шт.</span>
-                            </div>
-                            <div class="arrive-qty #isArrive# row" data-tooltip="Ожидается">
-                              <span class="arrive-qty icon"></span>
-                              <span class="text ligth">#arrive_qty#&nbsp;шт.&nbsp;#arrive_date#</span>
-                            </div>
-                            <div class="warehouse-qty #isWarehouse# row" data-tooltip="Склад">
-                              <span class="warehouse-qty icon"></span>
-                              <span class="text">#warehouse_qty#&nbsp;шт.</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="value fix-qty"><span>#qty#</span>&nbsp;шт.</div>
+                    <div class="warehouse row #isWarehouse#">
+                      <span class="warehouse-qty icon"  data-tooltip="Склад"></span>
+                      <span>#warehouse_qty#&nbsp;шт.</span>
                     </div>
-                    <div class="prop price">
-                      <div class="title">Цена</div>
-                      <div class="value">#price_cur#</div>
-                    </div>
-                    <div class="prop sum">
-                      <div class="title">Итого</div>
-                      <div class="value">0</div>
-                    </div>
+                  </div>
+                  <div class="price row">
+                    <div class="title">#price_cur#</div>
+                    <div class="discount">#discount#</div>
+                  </div>
+                  <div class="sum row">
+                    <div>Итого: <span class="title">0</span></div>
+                    <div class="trash icon" onclick="deleteInCart(event)"></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div id="load-container" class="pop-up-container">
-            <div class="registr pop-up">
-              <div class="pop-up-title row">
-                <div class="title">Добавить товары</div>
-                <svg class="close-btn" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.42859 1.42847L18.5714 18.5713" stroke="#34495E" stroke-linecap="round" />
-                  <path d="M18.1429 1L1 18.1429" stroke="#34495E" stroke-linecap="round" />
-                </svg>
+        </div>
+        <div id="checkout" class="pop-up-container">
+          <div class="pop-up">
+            <div class="pop-up-title row">
+              <div class="title h1">Оформление заказов</div>
+              <div class="close icon"></div>
+            </div>
+            <div class="pop-up-body">
+              <div class="warnblock row">
+                <div class="attention icon"></div>
+                <div>Будет создано <span id="">2 заказа</span> с едиными параметрами оплаты и доставки. Вы можете добавить индивидуальный комментарий к каждому заказу.</div>
               </div>
-              <div class="pop-up-body">
-                <div class="add-from-list col">
-                  <div class="title">Вариант №1: Добавить из списка</div>
-                  <div class="text light">Введите в поле АРТИКУЛ (ПРОБЕЛ) КОЛИЧЕСТВО или скопируйте строки из MS Excel в форму:</div>
-                  <textarea id="load-text" class="text" placeholder="Артикул Количество
-Артикул Количество
-Артикул Количество
-Артикул Количество
-Артикул Количество"></textarea>
-                  <div class="unactive btn" onclick="loadInCart()">Загрузить список</div>
+              <form id="order-form" class="post">
+                <div class="title">Добавьте ИНН, данные юридического лица загрузятся автоматически</div>
+                <div class="row">
+                  <div class="row">
+                    <div class="form-wrap" required>
+                      <div class="title">ИНН*</div>
+                      <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
+                      <div class="err">Поле заполнено неверно</div>
+                    </div>
+                    <div id="inn-loader" class="loader icon"></div>
+                  </div>
+                  <div class="form-wrap">
+                    <div class="title">КПП</div>
+                    <input type="text" value="" name="" placeholder="" disabled>
+                  </div>
                 </div>
-                <div class="add-from-file">
-                  <div class="title">Вариант №2: Добавить из файла</div>
-                  <div class="text light">Загрузите список в MS Excel</div>
-                <form id="load-file" class="file row" onsubmit="addInCart(event)">
-                  <input id="file-cart" class="file" type="file" accept=".xls,.xlsx">
-                  <div class="file-name"></div>
-                  <label class="unactive btn" for="file-cart">Выбрать файл</label>
-                  <input class="unactive btn" type="submit" value="Загрузить файл">
-                </form>
+                <div class="form-wrap">
+                  <div class="title">Название</div>
+                  <input type="text" value="" name="" placeholder="" disabled>
                 </div>
-              </div>
+                <div class="form-wrap" required>
+                  <div class="title">Юридический адрес*</div>
+                  <textarea name="" maxlength="" placeholder="" disabled></textarea>
+                </div>
+                <div class="form-wrap" required>
+                  <div class="title">Система налогообложения*</div>
+                  <div class="activate select">
+                    <!-- обязательно добавляем скрытый инпут с name и пустым value -->
+                    <input type="hidden" value="" name="taxsystem">
+                    <div class="head row">
+                      <div class="title">Выберите систему</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="Общая">Общая</div>
+                      <div class="item" data-value="Урощенная">Урощенная</div>
+                      <div class="item" data-value="Прочая">Прочая</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btns-wrap">
+                  <input class="btn sub-act" type="submit" value="Отправить" disabled>
+                </div>
+              </form>
+            </div>
+            <div class="loader">
+              <div class="loader icon"></div>
+              <div class="text">Пожалуйста, подождите</div>
             </div>
           </div>
+
+
+
+          <form id="order-form" class="row">
+            <div class="input-wrap">
+              <div class="title">Способ оплаты</div>
+              <div class="activate select" name="payment_type" required>
+                <div class="head row">
+                  <div class="title">Выберите тип оплаты</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="1">Безналичный расчет</div>
+                  <div class="item" data-value="2">Наличный расчетю</div>
+                  <div class="item" data-value="4">Депозит</div>
+                  <div class="item" data-value="3">Прочее</div>
+                </div>
+              </div>
+              <div class="err" data-err="payment_type">Поле не заполнено</div>
+            </div>
+            <div class="input-wrap">
+              <div class="title">Название контрагента</div>
+              <div class="activate select" name="contr_id" required>
+                <div class="head row">
+                  <div class="title">Выберите контрагента</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="#id#">#title#</div>
+                </div>
+              </div>
+              <div class="err" data-err="contr_id">Поле не заполнено</div>
+            </div>
+            <div class="input-wrap">
+              <div class="title">Отгрузочные документы</div>
+              <div class="activate select" name="shipping_docs" required>
+                <div class="head row">
+                  <div class="title">Выберите</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="0">Не вкладывать</div>
+                  <div class="item" data-value="1">Вкладывать</div>
+                </div>
+              </div>
+              <div class="err" data-err="shipping_docs">Поле не заполнено</div>
+            </div>
+            <div class="input-wrap">
+              <div class="title">Тип доставки</div>
+              <div class="activate select" name="delivery_type" required onchange="toggleOrderAddress(this)">
+                <div class="head row">
+                  <div class="title">Выберите тип доставки</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="1">Самовывоз</div>
+                  <div class="item" data-value="2">Курьер</div>
+                  <div class="item" data-value="3">Транспортная компания</div>
+                </div>
+              </div>
+              <div class="err" data-err="delivery_type">Поле не заполнено</div>
+            </div>
+            <div class="input-wrap address">
+              <div class="title">Адрес доставки</div>
+              <div class="activate select" name="delivery_address">
+                <div class="head row">
+                  <div class="title">Выберите адрес доставки</div>
+                  <div class="triangle icon"></div>
+                </div>
+                <div class="drop-down">
+                  <div class="item" data-value="#id#">#title#</div>
+                </div>
+              </div>
+              <div class="err" data-err="delivery_address">Поле не заполнено</div>
+            </div>
+            <div class="comment">
+              <div class="title">Комментарий к заказу</div>
+              <textarea name="comment" maxlength="300" oninput="textareaCounter(this)"></textarea>
+              <div class="text light">Знаков осталось: <span data-count="comment">300</span></div>
+              <div class="err" data-err="comment">Поле не заполнено</div>
+            </div>
+            <div id="order-info" class="text red">Обратите внимание!<br/>Будет создано несколько заказов: (<span id="order-names"></span>)</div>
+            <div class="basic btn" onclick="closeOrderForm()">Отменить</div>
+            <input class="order active btn" type="submit" value="Заказать">
+          </form>
         </div>
         <div id="full-card-container" class="pop-up-container">
           <div class="full-card card manage pop-up" data-id="#object_id#" data-action="#action_id#">

@@ -586,7 +586,7 @@ function createMainNav() {
     if (website === 'skipper') {
       showElement('#table .main-header');
     } else {
-      showElement('#main-header');
+      showElement('#main-header', 'flex');
     }
   }
 }
