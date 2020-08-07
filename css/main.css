@@ -262,6 +262,16 @@ body.no-scroll {
   display: none;
 }
 
+.img-wrap {
+  justify-content: center;
+  align-items: center;
+}
+
+.img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .btns-wrap {
   display: flex;
   justify-content: center;
@@ -298,6 +308,20 @@ body.no-scroll {
 
 .qty.in-circle.full {
   display: flex;
+}
+
+.select-info {
+  align-items: baseline;
+}
+
+.select-info * {
+  flex-grow: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.select-qty {
+  margin-right: 1.428em;
 }
 
 /* =====================================================================================================
@@ -379,6 +403,11 @@ body.no-scroll {
   display: none;
 }
 
+.articul {
+  font-size: 0.857em;
+  color: #8596A6;
+}
+
 /* =====================================================================================================
 Стили анимации:
 ===================================================================================================== */
@@ -426,29 +455,20 @@ body.no-scroll {
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.pill.row {
-  cursor: pointer;
-}
-
 .pill:last-child {
   margin-right: 0;
 }
 
-.pill > div {
-  display: inline-block;
+.pill.ctr {
+  cursor: pointer;
 }
 
-.pill .close.icon {
-  display: none;
+.pill.ctr.checked {
+  padding-right: 1.571em;
   background-image: url(../img/close_white.svg);
-  width: 8px;
-  height: 8px;
-  margin-left: 0.5em;
-  margin-right: 0;
-}
-
-.pill.checked .close.icon {
-  display: inline-block;
+  background-size: 8px 8px;
+  background-position: calc(100% - 0.5em) 55%;
+  background-repeat: no-repeat;
 }
 
 /* =====================================================================================================
@@ -776,7 +796,7 @@ body.no-scroll {
 }
 
 /* =====================================================================================================
-Стили календаря:
+Календарь:
 ===================================================================================================== */
 
 input[data-type="date"],
@@ -1190,17 +1210,31 @@ input[data-type="range"] {
 
 .btn {
   display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
   padding: 0.75em 1.428em;
   border-radius: 3px;
   color: #34495E;
   background-color: #D4D7DB;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
   cursor: pointer;
 }
 
-.btn.disabled,
-.btn[disabled] {
-  cursor: default;
+.btn.trash {
+  padding-left: 3.2em;
+  background-image: url(../img/trash.svg);
+  background-size: 15px 15px;
+  background-position: 1.428em center;
+  background-repeat: no-repeat;
 }
 
 a.btn {
@@ -1243,6 +1277,7 @@ input.btn {
 .btn.act[disabled] {
   color: #B3B3B3;
   background-color: #D3D6D9;
+  cursor: default;
 }
 
 /* =====================================================================================================
@@ -1989,6 +2024,63 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 /* =====================================================================================================
+Предупреждающий блок:
+===================================================================================================== */
+
+.warnblock {
+  background-color: #FFF1C1;
+  color: #CE0014;
+}
+
+.warnblock .attention.icon {
+  width: 27px;
+  height: 27px;
+}
+
+/* =====================================================================================================
+Блок информации:
+===================================================================================================== */
+
+.infoblock {
+  width: 100%;
+  margin-bottom: 1.428em;
+  background: #FFFFFF;
+}
+
+.infoblock.close {
+  margin-bottom: 1px !important;
+}
+
+.infoblock .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoblock .head .title {
+  padding: 0.75em 1.14em;
+}
+
+.infoblock .head .open.icon {
+  display: none;
+  margin-right: 1.14em;
+}
+
+.infoblock .head .open.icon,
+.infoblock .head .toggle {
+  margin-left: 1em;
+}
+
+.infoblock .info {
+  width: 100%;
+  padding: 0.75em 1.14em;
+}
+
+.infoblock .content .title {
+  margin-bottom: 0.357em;
+}
+
+/* =====================================================================================================
 Обычная форма поиска:
 ===================================================================================================== */
 
@@ -2164,6 +2256,8 @@ input[type="file"] ~ .title {
 
 .qty-box {
   align-items: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
   height: 1.714em;
   margin-right: 0.5em;
   border-radius: 3px;
@@ -2619,6 +2713,7 @@ form.post .form-wrap .text-counter {
 }
 
 .table-wrap table.head {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -2782,49 +2877,6 @@ tbody td > .row * {
 }
 
 /* =====================================================================================================
-Блок информации:
-===================================================================================================== */
-
-.infoblock {
-  width: 100%;
-  margin-bottom: 1.428em;
-  background: #FFFFFF;
-}
-
-.infoblock.close {
-  margin-bottom: 1px !important;
-}
-
-.infoblock .head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.infoblock .head .title {
-  padding: 0.75em 1.14em;
-}
-
-.infoblock .head .open.icon {
-  display: none;
-  margin-right: 1.14em;
-}
-
-.infoblock .head .open.icon,
-.infoblock .head .toggle {
-  margin-left: 1em;
-}
-
-.infoblock .info {
-  width: 100%;
-  padding: 0.75em 1.14em;
-}
-
-.infoblock .content .title {
-  margin-bottom: 0.357em;
-}
-
-/* =====================================================================================================
 Системное сообщение:
 ===================================================================================================== */
 
@@ -2902,11 +2954,6 @@ tbody td > .row * {
   background: rgba(255, 255, 255, 0.5) url(../img/slider_btn_card.svg) no-repeat center;
 }
 
-.card .articul {
-  font-size: 0.857em;
-  color: #8596A6;
-}
-
 .card .action {
   max-width: 11em;
   font-size: 0.857em;
@@ -2917,6 +2964,10 @@ tbody td > .row * {
 .card .action.hidden {
   font-size: 0;
   margin-right: 0;
+}
+
+.card .select-info {
+  visibility: hidden;
 }
 
 .card .card-desc p,
@@ -2932,21 +2983,6 @@ tbody td > .row * {
 
 .card-title .title {
   line-height: 1.1;
-}
-
-.select-info {
-  align-items: baseline;
-  visibility: hidden;
-}
-
-.select-info * {
-  flex-grow: 0;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.select-qty {
-  margin-right: 1.428em;
 }
 
 .card-price {
@@ -3224,7 +3260,8 @@ tbody td > .row * {
 }
 
 .full-card .infoblock {
-  margin-bottom: 2.5em;
+  margin-bottom: 0;
+  padding-bottom: 2.5em;
   background-color: transparent;
 }
 
