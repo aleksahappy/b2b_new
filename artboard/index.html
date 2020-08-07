@@ -196,6 +196,7 @@
             <div class="btn">Базовая кнопка</div>
             <div class="sub-act btn">Кнопка второстепенного действия</div>
             <div class="act btn">Кнопка действия</div>
+            <div class="btn trash">Кнопка удаления</div>
           </div>
           <br>
           <div>Заблокированные кнопки (можно с помощью класса, а можно с помощь атрибута disabled):</div>
@@ -209,26 +210,11 @@
         <div class="arboard-block pill-temp">
 
           <div>Cо статусами заказа (как чекбоксы, можно попереключать):</div>
-          <div class="pill vputi c10 row checked" onclick="toggle(event)">
-            <div>Ожидается</div>
-            <div class="close icon"></div>
-          </div>
-          <div class="pill vnali c10 row checked" onclick="toggle(event)">
-            <div>В наличии</div>
-            <div class="close icon"></div>
-          </div>
-          <div class="pill sobrn c10 row checked" onclick="toggle(event)">
-            <div>Собран</div>
-            <div class="close icon"></div>
-          </div>
-          <div class="pill otgrz c10 row checked" onclick="toggle(event)">
-            <div>Отружен</div>
-            <div class="close icon"></div>
-          </div>
-          <div class="pill nedop c10 row checked" onclick="toggle(event)">
-            <div>Непоставка</div>
-            <div class="close icon"></div>
-          </div>
+          <div class="pill ctr vputi c10 checked" onclick="toggle(event)">Ожидается</div>
+          <div class="pill ctr vnali c10 checked" onclick="toggle(event)">В наличии</div>
+          <div class="pill ctr sobrn c10 checked" onclick="toggle(event)">Собран</div>
+          <div class="pill ctr otgrz c10 checked" onclick="toggle(event)">Отружен</div>
+          <div class="pill ctr nedop c10 checked" onclick="toggle(event)">Непоставка</div>
           <br>
           <br>
 
@@ -271,7 +257,7 @@
           </div>
           <div>Оранжевый чекбокс в состоянии "включен":</div>
           <div class="checked">
-            <div class="checkbox oragne icon"></div>
+            <div class="checkbox orange icon"></div>
           </div>
           <div>Синий чекбокс в состоянии "включен":</div>
           <div class="checked">
@@ -291,7 +277,7 @@
             <div>Можно клинуть тут</div>
           </div>
           <div class="row" onclick="toggle(event)">
-            <div class="checkbox oragne icon"></div>
+            <div class="checkbox orange icon"></div>
             <div>Можно клинуть тут</div>
           </div>
           <div class="row" onclick="toggle(event)">
