@@ -106,6 +106,9 @@ function startPage() {
 // Добавление обязательных модулей при загрузке страницы:
 
 function addModules(path) {
+  if (getEl('#modules')) {
+    return;
+  }
   var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
       url = (path === '' || path === 'registr') ? '../modules/short_modules.html' : '../modules/full_modules.html',
       modules = document.createElement('div');
