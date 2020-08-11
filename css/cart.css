@@ -58,98 +58,224 @@
 }
 
 #cart-full .header .text {
-  /* display: none; */
   flex-grow: 0;
   flex-shrink: 0;
   margin-right: 2.143em;
+  /* visibility: hidden; */
 }
 
-#cart-list .cart-block {
+.cart-block {
+  margin-bottom: 1.428em;
   padding: 1.428em;
   background-color: #F8F8F8;
 }
 
-#cart-list .head,
-#cart-list .cart-row {
+.cart-block.sold {
+  background-color: #E2E2E2;
+}
+
+.cart-block .head,
+.cart-row {
+  justify-content: space-between;
   align-items: center;
   padding-bottom: 1.428em;
 }
 
-#cart-list .head {
-  justify-content: space-between;
+.cart-block .head > div,
+.cart-row > div {
+  margin-right: 1.142em;
 }
 
-#cart-list .head .row,
-#cart-list .cart-row .row:not(.qty) {
+.cart-block .head .row,
+.cart-row .row:not(.qty) {
   align-items: center;
 }
 
-#cart-list .cart-row {
+.cart-row {
   padding-top: 1.428em;
   border-top: 1px solid #C6C6C6;
 }
 
-#cart-list .cart-row:last-child {
+.cart-row:last-child {
   padding-bottom: 0;
 }
 
-#cart-list .head .checkbox,
-#cart-list .head .type {
+.cart-block .head .checkbox,
+.cart-block .head .type {
   margin-right: 1.428em;
 }
 
-#cart-list .head .question {
+.cart-block .head .question {
   width: 24px;
   height: 24px;
 }
 
-#cart-list .head .btn {
+.cart-block .head .btn {
   padding-top: 0.4em;
   padding-bottom: 0.4em;
 }
 
-#cart-list .cart-row .checkbox {
+.cart-row .checkbox {
   margin-right: 1.428em;
 }
 
-#cart-list .cart-row .name {
-  width: 45%;
+.cart-row .name {
+  width: 40%;
 }
 
-#cart-list .img-wrap {
+.cart-row .img-wrap {
   width: 65px;
   height: 65px;
   margin-right: 1.428em;
 }
 
-#cart-list .qty-fix {
+.cart-row .qty,
+.cart-row .qty-fix,
+.cart-row .qty-sold,
+.cart-row .tooltips,
+.cart-row .price,
+.cart-row .discount,
+.cart-row .sum {
+  width: 12%;
+}
+
+.cart-row .qty,
+.cart-row .qty-fix,
+.cart-row .qty-sold {
+  min-width: 105px;
+}
+
+.cart-row .qty-fix {
   display: none;
 }
 
-#cart-list .bonus .qty-fix {
+.cart-row.bonus .qty-fix {
   display: block;
 }
 
-#cart-list .qty-sold {
+.cart-row .qty-sold {
   display: none;
 }
 
-#cart-list .sold .qty-sold {
+.cart-block.sold .qty-sold {
   display: block;
+}
+
+.cart-row.bonus .qty,
+.cart-block.sold .qty {
+  display: none;
+}
+
+.cart-row .price,
+.cart-row .discount {
+  text-align: right;
+}
+
+.cart-row .sum {
+  justify-content: flex-end;
+}
+
+.cart-row .trash.icon {
+  margin-right: 0;
+  margin-left: 0.5em;
 }
 
 /* =====================================================================================================
 Всплывающее окно оформления заказа:
 ===================================================================================================== */
 
-#checkout {
-
+#checkout .pop-up {
+  width: 95em;
 }
 
 #checkout .warnblock {
-  display: none;
+  /* display: none; */
+  justify-content: center;
+  align-items: center;
+  margin: 0 -2.5em;
+  margin-bottom: 2.5em;
+  padding: 0 2.5em;
 }
 
-#order-form {
+#checkout .warnblock .icon {
+  width: 26px;
+  height: 26px;
+  margin: 0.714em;
+  margin-left: 0;
+}
 
+#order-form > .left-side {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 2.857em;
+}
+
+#order-form > .right-side {
+  width: 100%;
+}
+
+#order-form .address .activate {
+  width: 100%;
+}
+
+#order-form .total {
+  margin-top: 2.143em;
+  margin-bottom: 1.428em;
+  padding: 1.428em;
+  color: #FFFFFF;
+  background-color: #53606F;
+}
+
+#order-form .total > .row {
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#order-form .total > .row:first-child {
+  padding-bottom: 1.428em;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+#order-form .total > .row .left-side {
+  margin-bottom: 0.357em;
+  margin-right: 1.428em;
+}
+
+#order-form .total .text.orange {
+  font-size: 1.714em;
+  font-weight: 700;
+}
+
+#order-form .total > .row:last-child {
+  padding-top: 1.428em;
+}
+
+#order-form .btns-wrap {
+  justify-content: flex-start;
+}
+
+.order-block:not(:last-child) {
+  margin-bottom: 1.428em;
+}
+
+.order-block .info {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 1.428em;
+}
+
+.order-block .info > div:first-child {
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.order-block .info > div > div {
+  margin-bottom: 0.357em;
+}
+
+.order-block .form-wrap {
+  width: 100%;
+}
+
+.order-block textarea {
+  height: 7.143em;
 }

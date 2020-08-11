@@ -7,48 +7,146 @@ body {
 }
 
 /* =====================================================================================================
-Заголовок страницы:
+Стили для второго уровня меню:
 ===================================================================================================== */
 
-#main-header {
+#header-menu {
+  display: none;
+  position: relative;
+  color: #FFFFFF;
+  background-color: #53606F;
+}
+
+#header-menu .container {
   justify-content: flex-start;
-  padding-bottom: 0;
+  align-items: stretch;
+  padding-right: 16em;
 }
 
-/* =====================================================================================================
-Иконки:
-===================================================================================================== */
-
-.view-list.icon {
-  width: 18px;
-  height: 14px;
-  background-image: url(../img/view_list.svg);
+#header-menu a {
+  color: #FFFFFF;
 }
 
-.view-blocks.icon {
-  width: 14px;
-  height: 14px;
-  background-image: url(../img/view_blocks.svg);
+#header-menu .topmenu a,
+#header-menu .submenu a {
+  padding: 0.75em 1.5em;
+  cursor: pointer;
 }
 
-.view-list.icon.active {
-  background-image: url(../img/view_list_active.svg);
+#header-menu .topmenu {
+  align-items: stretch;
+  background-color: #34495E;
 }
 
-.view-blocks.icon.active {
-  background-image: url(../img/view_blocks_active.svg);
+#header-menu .topmenu-item {
+  min-width: 18em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.free-qty.icon {
-  background-image: url(../img/qty_free.svg);
+#header-menu .submenu {
+  align-items: stretch;
+  flex-wrap: wrap;
+  background-color: #53606F;
 }
 
-.arrive-qty.icon {
-  background-image: url(../img/qty_arrive.svg);
+#header-menu .submenu-item {
+  margin-right: 0.1rem;
+  -webkit-transition: 200ms;
+  -moz-transition: 200ms;
+  -o-transition: 200ms;
+  transition: 200ms;
 }
 
-.warehouse-qty.icon {
-  background-image: url(../img/qty_warehouse.svg);
+#header-menu .submenu-item:hover {
+  background-color: #F05A28;
+}
+
+#header-menu .submenu-item.active {
+  background-color: #F05A28;
+}
+
+#page-search {
+  top: 0.2em;
+  right: calc(4rem + 16em);
+}
+
+#page-search:focus-within {
+  width: 20em;
+}
+
+#header-cart {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(4rem + 16em);
+  background-color: #34495E;
+  overflow: hidden;
+  z-index: 2;
+}
+
+#header-cart .wrap {
+  height: 2.857em;
+  max-height: 2.857em;
+  -webkit-transition: max-height 0.3s linear;
+  -moz-transition: max-height 0.3s linear;
+  -o-transition: max-height 0.3s linear;
+  transition: max-height 0.3s linear;
+  overflow: hidden;
+}
+
+#header-cart:hover .wrap {
+  height: auto;
+  max-height: 350px;
+  overflow: visible;
+}
+
+#header-cart .items,
+#header-cart .total {
+  width: 100%;
+}
+
+#header-cart .item {
+  justify-content: center;
+  align-items: flex-start;
+  height: 4em;
+  width: 100%;
+  padding: 0 4rem 0 2em;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.5);
+}
+
+#header-cart .item > .row {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+#header-cart .name {
+  font-size: 0.857em;
+  visibility: hidden;
+}
+
+#header-cart:hover .name {
+  visibility: visible;
+}
+
+#header-cart .cart.icon {
+  position: relative;
+  width: 21px;
+  height: 21px;
+  margin-right: 1.4em;
+}
+
+#header-cart .qty.in-circle {
+  top: -4.5px;
+  right: -9px;
+}
+
+#header-cart .text {
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: none;
+  cursor: default;
 }
 
 /* =====================================================================================================
@@ -141,6 +239,51 @@ body {
 
 #gallery-sort {
   width: 14.5em;
+}
+
+/* =====================================================================================================
+Заголовок страницы:
+===================================================================================================== */
+
+#main-header {
+  justify-content: flex-start;
+  padding-bottom: 0;
+}
+
+/* =====================================================================================================
+Иконки:
+===================================================================================================== */
+
+.view-list.icon {
+  width: 18px;
+  height: 14px;
+  background-image: url(../img/view_list.svg);
+}
+
+.view-blocks.icon {
+  width: 14px;
+  height: 14px;
+  background-image: url(../img/view_blocks.svg);
+}
+
+.view-list.icon.active {
+  background-image: url(../img/view_list_active.svg);
+}
+
+.view-blocks.icon.active {
+  background-image: url(../img/view_blocks_active.svg);
+}
+
+.free-qty.icon {
+  background-image: url(../img/qty_free.svg);
+}
+
+.arrive-qty.icon {
+  background-image: url(../img/qty_arrive.svg);
+}
+
+.warehouse-qty.icon {
+  background-image: url(../img/qty_warehouse.svg);
 }
 
 /* =====================================================================================================

@@ -9,6 +9,65 @@
 var minCard = getEl('.min-card'),
     bigCard = getEl('.big-card');
 
+// Константы:
+
+var menuContent = {
+  equip: {
+    title: 'Экипировка',
+    id: 'equip',
+    cats: [{
+      cat: 'odegda',
+      cat_title: 'Одежда'
+    }, {
+      cat: 'obuv',
+      cat_title: 'Обувь'
+    }, {
+      cat: 'shlem',
+      cat_title: 'Шлемы'
+    }, {
+      cat: 'optic',
+      cat_title: 'Оптика'
+    }, {
+      cat: 'snarag',
+      cat_title: 'Снаряжение'
+    }, {
+      cat: 'zashita',
+      cat_title: 'Защита'
+    }, {
+      cat: 'sumruk',
+      cat_title: 'Сумки и рюкзаки'
+    }, {
+      cat: 'sale',
+      cat_title: 'Распродажа!'
+    }, {
+      cat: 'merchandising',
+      cat_title: 'Мерчандайзинг'
+    }]
+  },
+  snow: {
+    title: 'Снегоходы',
+    id: 'snow',
+    cats: [{
+      cat: 'zip',
+      cat_title: 'Запчасти'
+    }, {
+      cat: 'acc',
+      cat_title: 'Аксессуары'
+    }]
+  },
+  boats: {
+    title: 'Лодки и моторы',
+    id: 'boats',
+    cats: [{
+      cat: 'zip',
+      cat_title: 'Запчасти'
+    }, {
+      cat: 'acc',
+      cat_title: 'Аксессуары'
+    }]
+  }
+};
+
 // Динамически изменяемые переменные:
 
 var view = location.pathname === '/product'? 'product' : 'list',
@@ -30,6 +89,7 @@ startCatalogPage();
 // Запуск страницы каталога:
 
 function startCatalogPage() {
+  fillHeaderMenu();
   if (view === 'product') {
     getItems(location.search.replace('?',''))
     .then(
@@ -39,7 +99,7 @@ function startCatalogPage() {
         initCart();
       },
       reject => {
-        location.href = '/404'
+        location.href = '../err404.html';
       }
     )
   } else {
@@ -98,6 +158,18 @@ function initPage() {
   initSearch('#oem', selectCards);
   initDropDown('#gallery-sort', sortItems);
   initForm('#order-form', sendOrder);
+}
+
+// Динамическое заполнение второго уровня меню:
+
+function fillHeaderMenu() {
+  var data = menuContent[document.body.id];
+  fillTemplate({
+    area: '#header-menu .container',
+    items: data,
+    sub: [{area: '.submenu', items: 'cats'}]
+  });
+  showElement('#header-menu')
 }
 
 //=====================================================================================================
@@ -442,8 +514,8 @@ function setFiltersPosition() {
 function setFiltersHeight() {
   var filters = getEl('#filters'),
       scrolled = window.pageYOffset || document.documentElement.scrollTop,
-      headerHeight = getEl('.header').clientHeight,
-      footerHeight = Math.max((window.innerHeight + scrolled - getEl('.footer').offsetTop) + 20, 0),
+      headerHeight = getEl('#header').clientHeight,
+      footerHeight = Math.max((window.innerHeight + scrolled - getEl('#footer').offsetTop) + 20, 0),
       filtersHeight = window.innerHeight - headerHeight - footerHeight;
   filters.style.top = headerHeight + 'px';
   filters.style.maxHeight = filtersHeight + 'px';
@@ -468,7 +540,7 @@ function openPage(event) {
   } else {
     var oldPath = path,
         newUrl = event.currentTarget.dataset.href.split('?');
-    path = Array.from(getEl('.header-menu').querySelectorAll('.active'))
+    path = Array.from(getEl('#header-menu').querySelectorAll('.active'))
       .filter(el => el.dataset.level < event.currentTarget.dataset.level)
       .map(el => el.dataset.href);
     path = path.concat(newUrl);
@@ -518,13 +590,13 @@ function renderContent() {
 
 function changePageTitle() {
   var title = '',
-      curTitle = getEl(`.header-menu [data-href="${path[path.length - 1]}"]`);
+      curTitle = getEl(`#header-menu [data-href="${path[path.length - 1]}"]`);
   if (view === 'product') {
     title += items[0].title;
   } else if (curTitle) {
     title += curTitle.dataset.title;
   } else {
-    location.href = '/404';
+    location.href = '../err404.html';
   }
   document.title = 'ТОП СПОРТС - ' + title;
   var pageTitle = getEl('#page-title');
@@ -536,9 +608,9 @@ function changePageTitle() {
 // Изменение активных разделов меню:
 
 function toggleMenuItems() {
-  document.querySelectorAll('.header-menu .active').forEach(item => item.classList.remove('active'));
+  document.querySelectorAll('#header-menu .active').forEach(item => item.classList.remove('active'));
   path.forEach(key => {
-    var curTitle = getEl(`.header-menu [data-href="${key}"]`);
+    var curTitle = getEl(`#header-menu [data-href="${key}"]`);
     if (curTitle) {
       curTitle.classList.add('active');
     }
@@ -549,7 +621,7 @@ function toggleMenuItems() {
 
 function createDinamicLinks() {
   document.querySelectorAll('.dinamic').forEach(item => {
-    var curTitle = getEl(`.header-menu .active[data-level="${item.dataset.level - 1}"]`);
+    var curTitle = getEl(`#header-menu .active[data-level="${item.dataset.level - 1}"]`);
     if (curTitle) {
       item.href = curTitle.href + '?' + item.dataset.href;
     }
@@ -559,10 +631,13 @@ function createDinamicLinks() {
 // Изменение хлебных крошек:
 
 function createMainNav() {
+  if (!getEl('#main-nav')) {
+    return;
+  }
   if (location.search === '?cart' || website === 'skipper' || view === 'product') {
     var data = {items: []}, curTitle;
     path.forEach(el => {
-      curTitle = getEl(`.header-menu [data-href="${el}"]`);
+      curTitle = getEl(`#header-menu [data-href="${el}"]`);
       if (curTitle) {
         var item = {
           href: view === 'product' ? '#': curTitle.href,
@@ -572,7 +647,7 @@ function createMainNav() {
         };
         data.items.push(item);
       } else {
-        location.href = '/404';
+        location.href = '../err404.html';
       }
     });
     fillTemplate({
@@ -839,9 +914,6 @@ function selectFilterCatalog(event) {
   event.stopPropagation();
   var curEl;
   if (event.currentTarget.classList.contains('pill')) {
-    if (!event.target.classList.contains('close')) {
-      return;
-    }
     curEl = getEl(`#catalog-filters [data-key="${event.currentTarget.dataset.key}"][data-value="${event.currentTarget.dataset.value}"]`);
   } else {
     if (!event.target.closest('.title.row') || event.currentTarget.classList.contains('disabled')) {
