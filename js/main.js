@@ -54,6 +54,20 @@ if (isCart) {
       userData = {};
 }
 
+// Настройки каруселей:
+
+var fullCardCarousel = {
+  isNav: true,
+  durationNav: 400,
+  isLoupe: true
+};
+
+var fullImgCarousel = {
+  isNav: true,
+  navType: 'dot',
+  durationNav: 400
+};
+
 // Используемые для проверки регулярные выражения:
 
 var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
@@ -260,7 +274,7 @@ function getCart() {
   });
 }
 
-// Получение данных о товарах/товаре:
+// Получение данных о товарах/товаре по id:
 
 function getItems(id) {
   return new Promise((resolve, reject) => {
@@ -272,8 +286,29 @@ function getItems(id) {
       data.data.list = id;
     }
     console.log(data);
+    sendRequest(`../json/equip_data.json`)
+    // sendRequest(urlRequest.main, data)
+    .then(result => {
+      var data = JSON.parse(result);
+      console.log(data);
+      resolve(data);
+    })
+    .catch(error => {
+      console.log(error);
+      reject(error);
+    })
+  });
+}
+
+// Получение данных о товаре по артикулу:
+
+function getItem(articul) {
+  return new Promise((resolve, reject) => {
+    var data = {
+      action: 'item',
+      data: {articul: articul}
+    }
     sendRequest(urlRequest.main, data)
-    // sendRequest(`../json/equip_data.json`)
     .then(result => {
       var data = JSON.parse(result);
       console.log(data);
@@ -1250,10 +1285,10 @@ function changeQty(event, maxQty, minQty = 0, text) {
   if (input.hasAttribute('disabled')) {
     return;
   }
-  if (event.currentTarget.classList.contains('btn-minus')) {
+  if (event.currentTarget.classList.contains('minus')) {
     sign = '-';
   }
-  if (event.currentTarget.classList.contains('btn-plus')) {
+  if (event.currentTarget.classList.contains('plus')) {
     sign = '+';
   }
   qty = countQty(sign, qty, maxQty, minQty);
@@ -1338,7 +1373,7 @@ function showTooltip(event) {
   }
   var element = event.target,
       tooltipHtml = element.dataset.tooltip;
-  if (element.classList.contains('.disabled') || element.hasAttribute('disabled') || !tooltipHtml) {
+  if (element.classList.contains('disabled') || element.hasAttribute('disabled') || element.closest('.disabled') || !tooltipHtml) {
     return;
   }
   createTooltip(element, tooltipHtml);
@@ -1599,6 +1634,10 @@ function closePopUp(event, el) {
   if (el) {
     loader.hide();
     el.classList.remove('open');
+    var carousel = getEl('.carousel', el);
+    if (carousel) {
+      carousel.style.visibility = 'hidden';
+    }
     if (!document.querySelector('.pop-up-container.open')) {
       document.body.classList.remove('no-scroll');
       setDocumentScroll();
@@ -1664,6 +1703,7 @@ function showFullCard(id) {
     }]
   });
   checkCart(getEl('.full-card'));
+  addActionTooltip(getEl('.full-card'));
 
   var curCarousel = getEl('.carousel', fullCardContainer);
   renderCarousel(curCarousel)
@@ -1682,7 +1722,7 @@ function showFullCard(id) {
 // Открытие картинки полного размера:
 
 function showFullImg(event, id) {
-  if (event.target.classList.contains('control')) {
+  if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
     return;
   }
   loader.show();

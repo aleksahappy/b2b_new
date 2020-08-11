@@ -262,6 +262,16 @@ body.no-scroll {
   display: none;
 }
 
+.img-wrap {
+  justify-content: center;
+  align-items: center;
+}
+
+.img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .btns-wrap {
   display: flex;
   justify-content: center;
@@ -286,7 +296,7 @@ body.no-scroll {
   width: 17px;
   height: 15px;
   top: 0;
-  right: -0.3em;
+  right: -4px;
   font-size: 9px;
   line-height: 0;
   color: #FFFFFF;
@@ -300,6 +310,20 @@ body.no-scroll {
   display: flex;
 }
 
+.select-info {
+  align-items: baseline;
+}
+
+.select-info * {
+  flex-grow: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.select-qty {
+  margin-right: 1.428em;
+}
+
 /* =====================================================================================================
 Стили текста:
 ===================================================================================================== */
@@ -308,7 +332,7 @@ body.no-scroll {
   color: #34495E;
 }
 
-.title-white {
+.title.white {
   color: #FFFFFF;
 }
 
@@ -336,24 +360,28 @@ body.no-scroll {
   color: #666666;
 }
 
-.text-white {
+.text.white {
   color: #FFFFFF;
 }
 
-.text-midlight {
+.text.midlight {
   color: #8596A6;
 }
 
-.text-light {
+.text.light {
   color: #C6C6C6;
 }
 
-.text-orange {
+.text.orange {
   color: #F05A28;
 }
 
-.text-red {
+.text.red {
   color: #CE0014;
+}
+
+.text.green {
+  color: #228007;
 }
 
 .err,
@@ -373,6 +401,11 @@ body.no-scroll {
 
 .error .text-counter {
   display: none;
+}
+
+.articul {
+  font-size: 0.857em;
+  color: #8596A6;
 }
 
 /* =====================================================================================================
@@ -422,29 +455,20 @@ body.no-scroll {
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.pill.row {
-  cursor: pointer;
-}
-
 .pill:last-child {
   margin-right: 0;
 }
 
-.pill > div {
-  display: inline-block;
+.pill.ctr {
+  cursor: pointer;
 }
 
-.pill .close.icon {
-  display: none;
+.pill.ctr.checked {
+  padding-right: 1.571em;
   background-image: url(../img/close_white.svg);
-  width: 8px;
-  height: 8px;
-  margin-left: 0.714em;
-  margin-right: 0;
-}
-
-.pill.checked .close.icon {
-  display: inline-block;
+  background-size: 8px 8px;
+  background-position: calc(100% - 0.5em) 55%;
+  background-repeat: no-repeat;
 }
 
 /* =====================================================================================================
@@ -741,6 +765,7 @@ body.no-scroll {
   position: absolute;
   top: 0;
   height: 100%;
+  background: rgba(255, 255, 255, 0.5) url(../img/slider_right_btn.svg) no-repeat center;
   -webkit-transition: opacity 0.3s linear;
   -moz-transition: opacity 0.3s linear;
   -o-transition: opacity 0.3s linear;
@@ -751,19 +776,17 @@ body.no-scroll {
 
 .carousel .left-btn {
   left: 0;
-  background: url(../img/slider_left_btn.png) no-repeat center;
+  transform: rotate(180deg);
 }
 
 .carousel .right-btn {
   right: 0;
-  background: url(../img/slider_right_btn.png) no-repeat center;
 }
 
 .carousel .left-btn,
 .carousel .right-btn {
   width: 1.5em;
   background-size: 1.2em;
-  background-color: rgba(255, 255, 255, 0.5);
   opacity: 0;
 }
 
@@ -773,7 +796,7 @@ body.no-scroll {
 }
 
 /* =====================================================================================================
-Стили календаря:
+Календарь:
 ===================================================================================================== */
 
 input[data-type="date"],
@@ -1187,17 +1210,31 @@ input[data-type="range"] {
 
 .btn {
   display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
   padding: 0.75em 1.428em;
   border-radius: 3px;
   color: #34495E;
   background-color: #D4D7DB;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
   cursor: pointer;
 }
 
-.btn.disabled,
-.btn[disabled] {
-  cursor: default;
+.btn.trash {
+  padding-left: 3.2em;
+  background-image: url(../img/trash.svg);
+  background-size: 15px 15px;
+  background-position: 1.428em center;
+  background-repeat: no-repeat;
 }
 
 a.btn {
@@ -1240,6 +1277,7 @@ input.btn {
 .btn.act[disabled] {
   color: #B3B3B3;
   background-color: #D3D6D9;
+  cursor: default;
 }
 
 /* =====================================================================================================
@@ -1443,15 +1481,15 @@ input.btn {
   border-radius: 50%;
 }
 
-.limit .mark.icon {
-  background-color: #F69C00;
-}
-
 .full .mark.icon {
   background-color: #228007;
 }
 
-.disabled .mark.icon {
+.limit .mark.icon {
+  background-color: #F69C00;
+}
+
+.off .mark.icon {
   background-color: #CE0014;
 }
 
@@ -1510,42 +1548,6 @@ input.btn {
 
 .attention.red.icon {
   background-image: url(../img/attention_red.svg);
-}
-
-/* Плюс */
-
-.plus.icon {
-  width: 10px;
-  height: 10px;
-  background-image: url(../img/plus_blue.svg);
-}
-
-.added .plus.icon,
-.plus.white.icon {
-  background-image: url(../img/plus_white.svg);
-}
-
-.disabled .plus.icon,
-.plus.grey.icon {
-  background-image: url(../img/plus_disabled.svg);
-}
-
-/* Минус */
-
-.minus.icon {
-  width: 10px;
-  height: 2px;
-  background-image: url(../img/minus_blue.svg);
-}
-
-.added .minus.icon,
-.minus-white.icon {
-  background-image: url(../img/minus_white.svg);
-}
-
-.disabled .minus.icon,
-.minus.grey.icon {
-  background-image: url(../img/minus_disabled.svg);
 }
 
 /* Фильтрация в таблице */
@@ -1648,7 +1650,7 @@ input.btn {
 }
 
 .checked > .checkbox.dark.icon,
-.checked > div > div > .checkbox.dark.icon  {
+.checked > div > .checkbox.dark.icon  {
   background-image: url(../img/checkbox_checked_blue.svg);
 }
 
@@ -2022,6 +2024,63 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 /* =====================================================================================================
+Предупреждающий блок:
+===================================================================================================== */
+
+.warnblock {
+  background-color: #FFF1C1;
+  color: #CE0014;
+}
+
+.warnblock .attention.icon {
+  width: 27px;
+  height: 27px;
+}
+
+/* =====================================================================================================
+Блок информации:
+===================================================================================================== */
+
+.infoblock {
+  width: 100%;
+  margin-bottom: 1.428em;
+  background: #FFFFFF;
+}
+
+.infoblock.close {
+  margin-bottom: 1px !important;
+}
+
+.infoblock .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoblock .head .title {
+  padding: 0.75em 1.14em;
+}
+
+.infoblock .head .open.icon {
+  display: none;
+  margin-right: 1.14em;
+}
+
+.infoblock .head .open.icon,
+.infoblock .head .toggle {
+  margin-left: 1em;
+}
+
+.infoblock .info {
+  width: 100%;
+  padding: 0.75em 1.14em;
+}
+
+.infoblock .content .title {
+  margin-bottom: 0.357em;
+}
+
+/* =====================================================================================================
 Обычная форма поиска:
 ===================================================================================================== */
 
@@ -2197,50 +2256,66 @@ input[type="file"] ~ .title {
 
 .qty-box {
   align-items: stretch;
+  flex-grow: 0;
+  flex-shrink: 0;
   height: 1.714em;
   margin-right: 0.5em;
   border-radius: 3px;
 }
 
-.qty-box .btn-minus,
-.qty-box .btn-plus {
-  justify-content: center;
-  align-items: center;
+.qty-box .btn.minus,
+.qty-box .btn.plus {
   width: 1.714em;
+  padding: 0;
   background-color: #D3D6D9;
   border: 1px solid #D3D6D9;
-  cursor: pointer;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.qty-box .btn-minus {
+.qty-box .btn.minus {
   border-radius: 3px 0 0 3px;
+  background-image: url(../img/minus_blue.svg);
 }
 
-.qty-box .btn-plus {
+.qty-box .btn.plus {
   border-radius: 0 3px 3px 0;
+  background-image: url(../img/plus_blue.svg);
 }
 
-.added .btn-minus,
-.added .btn-plus {
+.added .btn.minus {
+  background-image: url(../img/minus_white.svg);
+}
+
+.added .btn.plus {
+  background-image: url(../img/plus_white.svg);
+}
+
+.added .btn.minus,
+.added .btn.plus {
   background-color: #34495E;
   border-color: #34495E;
 }
 
-.disabled .btn-minus,
-.disabled .btn-plus {
+.disabled .btn.minus {
+  background-image: url(../img/minus_disabled.svg);
+}
+
+.disabled .btn.plus {
+  background-image: url(../img/plus_disabled.svg);
+}
+
+.disabled .btn.minus,
+.disabled .btn.plus {
   background-color: #D5D5D5;
   border-color: #D5D5D5;
   cursor: default;
 }
 
-.qty-box .icon {
-  margin-right: 0;
-}
-
 .qty-box .choiced-qty {
   width: 3.857em;
   text-align: center;
-  color: #D5D5D5;
+  color: #8596A6;
   border-top: 1px solid #D3D6D9;
   border-bottom: 1px solid #D3D6D9;
   border-radius: 0;
@@ -2389,12 +2464,20 @@ form.post .form-wrap .text-counter {
 .pop-up-title {
   justify-content: space-between;
   align-items: flex-start;
+  width: 100%;
   margin-bottom: 1.785em;
 }
 
 .pop-up-title .title {
-  margin-top: -5px;
   margin-right: 0.83em;
+}
+
+.pop-up-title .h1 {
+  margin-top: -5px;
+}
+
+.pop-up-title .h2 {
+  margin-top: -3px;
 }
 
 .pop-up-title .close.icon {
@@ -2428,6 +2511,7 @@ form.post .form-wrap .text-counter {
 
 .filters .pop-up {
   width: 18em;
+  max-width: 100%;
   padding: 0;
   background-color: transparent;
   box-shadow: none;
@@ -2464,11 +2548,16 @@ form.post .form-wrap .text-counter {
   cursor: pointer;
 }
 
-.filters .filter .item > .title.row {
+.filters .filter .item > .row {
   justify-content: space-between;
   width: 100%;
   padding: 0.714em;
   padding-bottom: 0;
+}
+
+.filters .checked > div > .title .checkbox.icon,
+.filters .checked.title .checkbox.icon {
+  background-image: url(../img/checkbox_checked_orange.svg);
 }
 
 .filters .filter .item .text {
@@ -2480,6 +2569,10 @@ form.post .form-wrap .text-counter {
   height: 15px;
   margin-left: 0.714em;
   background-size: 10px 5px;
+  background-position-x: left;
+}
+
+.filters .filter .item.close .open.icon {
   background-position-x: right;
 }
 
@@ -2620,6 +2713,7 @@ form.post .form-wrap .text-counter {
 }
 
 .table-wrap table.head {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -2783,48 +2877,6 @@ tbody td > .row * {
 }
 
 /* =====================================================================================================
-Блок информации:
-===================================================================================================== */
-
-.infoblock {
-  width: 100%;
-  margin-bottom: 1.428em;
-  background: #FFFFFF;
-}
-
-.infoblock.close {
-  margin-bottom: 1px;
-}
-
-.infoblock .head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.infoblock .head .title {
-  padding: 0.75em 1.14em;
-}
-
-.infoblock .head .open.icon {
-  display: none;
-}
-
-.infoblock .head .open.icon,
-.infoblock .head .toggle {
-  margin-left: 1em;
-}
-
-.infoblock .info {
-  width: 100%;
-  padding: 0.75em 1.14em;
-}
-
-.infoblock .content .title {
-  margin-bottom: 0.357em;
-}
-
-/* =====================================================================================================
 Системное сообщение:
 ===================================================================================================== */
 
@@ -2894,37 +2946,59 @@ tbody td > .row * {
 }
 
 /* =====================================================================================================
-Общие стили для карточек товара:
+Карточки товара:
 ===================================================================================================== */
 
-.card-img {
-  width: 100%;
+.card .carousel .left-btn,
+.card .carousel .right-btn {
+  background: rgba(255, 255, 255, 0.5) url(../img/slider_btn_card.svg) no-repeat center;
 }
 
-.card-title .title {
-  font-weight: 600;
-  line-height: 1.1;
+.card .action {
+  max-width: 11em;
+  font-size: 0.857em;
+  color: #FFFFFF;
+  line-height: 1;
 }
 
-.select-info {
-  align-items: baseline;
-  flex-wrap: wrap;
+.card .action.hidden {
+  font-size: 0;
+  margin-right: 0;
+}
+
+.card .select-info {
   visibility: hidden;
 }
 
-.select-info span {
-  font-weight: 600;
+.card .card-desc p,
+.card .action-desc p {
+  padding: 0;
+  margin: 0.357em 0;
 }
 
-.select-qty {
-  margin-right: 1.5em;
+.card-img img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-title .title {
+  line-height: 1.1;
+}
+
+.card-price {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .card-price > div > div {
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
-  padding: 0.2em 0;
+  padding: 0.357em 0;
+}
+
+.card-price > div > div > div {
+  white-space: nowrap;
 }
 
 .card-price .cur-price,
@@ -2941,27 +3015,13 @@ tbody td > .row * {
   font-weight: 700;
 }
 
+.card-price .old-price {
+  margin-bottom: 0.375em;
+}
+
 .card-price .old-price .text {
+  color: #8596A6;
   text-decoration: line-through;
-}
-
-.card-price .user-price .text {
-  font-weight: 700;
-}
-
-.action-title {
-  display: inline;
-  padding: 1px 7px;
-  font-size: 0.785em;
-  font-weight: 600;
-  line-height: 1;
-  color: #FFFFFF;
-  text-transform: uppercase;
-}
-
-.action-title.hidden {
-  font-size: 0;
-  margin-right: 0;
 }
 
 .card-sizes {
@@ -2969,23 +3029,32 @@ tbody td > .row * {
 }
 
 .card-size {
-  padding-bottom: 0.7em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-bottom: 1em;
+}
+
+.card-size * {
+  flex-grow: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .card-size .articul {
-  padding-left: 5.8em;
+  padding-left: 5.3em;
   padding-bottom: 1px;
-  font-size: 0.714em;
 }
 
-.card-size .qty {
-  align-items: stretch;
+.card-size .qty.row {
+  align-items: center;
+  height: 2.5em;
 }
 
 .card-size .name {
   justify-content: center;
   align-items: center;
-  width: 4em;
+  width: 4.5em;
+  color: #8596A6;
   text-align: center;
 }
 
@@ -2994,17 +3063,26 @@ tbody td > .row * {
 }
 
 .tooltips {
-  font-size: 0.714em;
+  font-size: 0.857em;
 }
 
 .tooltips > .row {
   align-items: center;
-  padding-right: 0.5em;
-  cursor: help;
 }
 
 .tooltips .icon {
-  margin-right: 0.2em;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.357em;
+  cursor: help;
+}
+
+.tooltips .free {
+  color: #228007;
+}
+
+.tooltips .arrive {
+  color: #8596A6;
 }
 
 .card-options {
@@ -3074,93 +3152,39 @@ tbody td > .row * {
 
 .full-card {
   position: relative;
-  width: 75em;
-  max-width: 90vw;
-  max-height: 90vh;
+  width: 63em;
+  padding: 0;
   background-color: #FFFFFF;
 }
 
-.full-card .card-head,
+.full-card .pop-up-title {
+  padding: 2.5em;
+  padding-bottom: 0;
+}
+
 .full-card .card-body,
 .full-card .card-info {
   width: 100%;
 }
 
-.full-card .card-head {
-  justify-content: space-between;
-  width: 100%;
-  padding: 1em 2.7em;
-  padding-bottom: 0;
-  margin-bottom: 2.5em;
-}
-
-.full-card .card-title {
-  width: calc(100% - 3em);
-}
-
-.full-card .card-title .title {
-  font-size: 1.5em;
-  padding-bottom: 0.2em;
-}
-
-.full-card .card-title .text {
-  font-size: 0.857em;
-}
-
-.full-card .close-btn {
-  width: 1.65em;
-  height: 1.65em;
-}
-
-.full-card .pop-up-body {
-  padding: 0;
-}
-
 .full-card .card-body {
-  padding: 0 2.7em;
+  flex-grow: 1;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
 }
 
-.full-card .carousel {
-  width: 38%;
+.full-card .left-side,
+.full-card .right-side {
+  margin-bottom: 1.428em;
 }
 
-.full-card .maximize {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1.65em;
-  height: 1.65em;
-  cursor: pointer;
-  z-index: 10;
+.full-card .left-side {
+  width: 40%;
+  margin-right: 1.428em;
 }
 
-.full-card .carousel .left-btn,
-.full-card .carousel .right-btn {
-  width: 3em;
-}
-
-.full-card .carousel-nav {
-  margin-top: 1.5em;
-}
-
-.full-card .carousel-nav .carousel-item {
-  width: calc(25% - 0.4em);
-  max-width: 100px;
-  min-width: 70px;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.full-card .carousel-nav .carousel-item:nth-child(4n) {
-  margin-right: 0;
-}
-
-.full-card .card-content {
-  width: 62%;
-}
-
-.full-card .card-choice {
-  padding-left: 3rem;
+.full-card .right-side {
+  width: 60%;
 }
 
 .full-card .card-price,
@@ -3172,8 +3196,50 @@ tbody td > .row * {
   width: 100%;
 }
 
+.full-card .carousel {
+  width: 100%;
+  min-height: 316px;
+  margin-bottom: 1.428em;
+}
+
+.full-card .maximize {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.full-card .carousel .left-btn,
+.full-card .carousel .right-btn {
+  width: 23px;
+  background-size: 13px;
+}
+
+.full-card .carousel-nav {
+  margin-top: 0.357em;
+}
+
+.full-card .carousel-nav .carousel-item {
+  width: calc(20% - 0.4em);
+  min-width: 50px;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.full-card .carousel-nav .carousel-item:nth-child(5n) {
+  margin-right: 0;
+}
+
+.full-card .option-title {
+  min-width: 13em;
+  max-width: 13em;
+}
+
 .full-card .card-price {
-  margin-bottom: 2em;
+  margin-bottom: 1.428em;
 }
 
 .full-card .select-info {
@@ -3181,47 +3247,43 @@ tbody td > .row * {
 }
 
 .full-card .card-size {
-  width: 13.5em;
+  width: 16em;
 }
 
 .full-card .tooltips {
   justify-content: flex-start;
-  padding-left: 5.8em;
-}
-
-.full-card .card-options {
-  padding: 1.5em 0;
-}
-
-.full-card .option-title {
-  min-width: 15em;
-  max-width: 15em;
-  padding-right: 1em;
+  padding-left: 5.3em;
 }
 
 .full-card .card-info {
-  padding: 0 2.7em;
-  background-color: #F2F2F2;
+  background-color: #F8F8F8;
 }
 
-.full-card .card-desc,
-.full-card .action-desc {
+.full-card .infoblock {
+  margin-bottom: 0;
   padding-bottom: 2.5em;
-  font-size: 0.857em;
+  background-color: transparent;
 }
 
-.full-card .card-desc {
-  padding-top: 1.25em;
+.full-card .infoblock .title {
+  padding: 0.625em 2.5em 0.325em 2.5em;
+}
+
+.full-card .infoblock .open.icon {
+  margin-right: 2.5em;
+}
+
+.full-card .infoblock .info {
+  font-size: 0.857em;
+  padding: 0 2.5em;
 }
 
 .full-card .action-desc {
-  display: none;
-  margin-top: -1.25em;
+  margin-top: -2.5em;
 }
 
-.full-card .subtitle {
-  padding-bottom: 0.5em;
-  font-weight: 600;
+.full-card .card-desc.displayNone + .action-desc {
+  margin-top: 0;
 }
 
 /* Стили для полной карточки ЗИП: */
@@ -3239,12 +3301,12 @@ tbody td > .row * {
 Изображение на весь экран:
 ===================================================================================================== */
 
-#full-img-container .close-btn {
+#full-img-container .close.icon {
   position: absolute;
   top: 0;
   right: 0;
-  width: 2em;
-  height: 2em;
+  width: 30px;
+  height: 30px;
   margin: 1em;
   z-index: 1;
 }
@@ -3257,30 +3319,57 @@ tbody td > .row * {
   visibility: hidden;
 }
 
-#full-img-container .carousel {
+#full-img .carousel {
   display: flex;
   align-items: center;
   width: 1000px;
   height: auto;
 }
 
-#full-img-container .carousel-gallery-wrap {
+#full-img .carousel-gallery-wrap {
   border-radius: 5px;
 }
 
-#full-img-container .carousel .left-btn,
-#full-img-container .carousel .right-btn {
+#full-img .carousel .left-btn,
+#full-img .carousel .right-btn {
   width: 4em;
+  /* background: rgba(255, 255, 255, 0.5) url(../img/slider_btn_card.svg) no-repeat center; */
+  background-size: 2em;
 }
 
-#full-img-container .carousel:hover .left-btn,
-#full-img-container .carousel:hover .right-btn {
+#full-img .carousel:hover .left-btn,
+#full-img .carousel:hover .right-btn {
   opacity: 0.5;
 }
 
-#full-img-container .carousel-gallery img {
+#full-img .carousel-gallery img {
   width: 1000px;
   height: auto;
+}
+
+#full-img .carousel-nav {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  bottom: 1em;
+  width: 100%;
+}
+
+#full-img .carousel-nav > div {
+  width: 1em;
+  height: 1em;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid #C6C6C6;
+  border-radius: 50%;
+  margin-right: 1em;
+  opacity: 0.5;
+}
+
+#full-img .carousel-nav > div.active {
+  opacity: 1;
 }
 
 /* =====================================================================================================
@@ -3619,14 +3708,15 @@ tbody td > .row * {
 }
 
 #header-cart .qty.in-circle {
-  top: -0.5em;
-  right: -1em;
+  top: -4.5px;
+  right: -9px;
 }
 
-#header-cart .total {
+#header-cart .text {
   justify-content: flex-start;
   align-items: center;
   border-bottom: none;
+  cursor: default;
 }
 
 /* =====================================================================================================

@@ -38,7 +38,7 @@ function initPage(data) {
                   <a href="" class="download icon"></a>
                   <div>
                     <div>#order_number#</div>
-                    <div class="text-light">#order_date#</div>
+                    <div class="text light">#order_date#</div>
                   </div>
                 </div>`
     }, {

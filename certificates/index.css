@@ -2,19 +2,21 @@
   padding-bottom: 0;
 }
 
-.filters {
+.cert-filters {
+  position: -webkit-sticky;
   position: sticky;
   top: 64px;
-  padding: 2em 0;
+  padding: 2.8rem 0;
   background-color: #F2F2F2;
   border-bottom: 1px solid #D5D5D5;
+  z-index: 1;
 }
 
-.filters > div {
+.cert-filters > div {
   margin-right: 1.428em;
 }
 
-.filters > div > .title {
+.cert-filters > div > .title {
   margin-bottom: 0.428em;
 }
 
