@@ -127,11 +127,11 @@ function addModules(path) {
 
   var path = location.pathname.replace('index.html', '').replace(/\//g, '');
 
-  if (path === 'testPage') {
-    includeHTML();
-    initModules();
-    return;
-  }
+  // if (path === 'testPage') {
+  //   includeHTML();
+  //   initModules();
+  //   return;
+  // }
   var  url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
     modules = document.createElement('div');
   modules.id = 'modules';
