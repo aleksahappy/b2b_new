@@ -1,10 +1,14 @@
 'use strict';
-initForm('#new-address-modal')
+
+
+// Динамическе переменные:
+
+var data = [];
 
 function startAddrPage() {
   sendRequest(`../json/addresses.json`)
   .then(result => {
-    var data = JSON.parse(result);
+    data = JSON.parse(result);
     loader.hide();
     console.log(data);
     var addrData = {
@@ -18,6 +22,7 @@ function startAddrPage() {
     };
     fillTemplate(addrData);
     setProperTooltip();
+    initForm('#address');
   })
   .catch(err => {
     console.log(err);
@@ -69,4 +74,22 @@ function setProperTooltip() {
       toolStatus.setAttribute('data-tooltip', '</div>Магазин не прошел модерацию,</div> <div>свяжитесь с вашим менеджером</div>');
     }
   }
+}
+
+
+// Открытие всплывающего окна с формой:
+
+function openAddressPopUp(id) {
+  var addressPopUp = getEl('#address'),
+      title = getEl('.pop-up-title .title', addressPopUp);
+
+  if (id) {
+    title.textContent = 'Редактировать пользователя';
+    var upData = data.find(el => el.id == id);
+    fillForm('#address-form', upData);
+  } else {
+    title.textContent = 'Новый пользователь';
+    clearForm('#address-form');
+  }
+  openPopUp(addressPopUp);
 }

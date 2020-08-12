@@ -31,7 +31,7 @@
         </div>
         <div class="shops-wrap">
           <div class="shops">
-            <div class="basic btn" onclick="openPopUp('#new-address-modal')">Добавить</div>
+            <div class="basic btn" onclick="openAddressPopUp()">Добавить</div>
             <div class="wrap template" id="shop">
               <div class="shop">
                 <div class="row inner outer" onclick="toggleOuterBlock(this)">
@@ -41,7 +41,7 @@
                       <div class="indicate">
                         <div class="@@moderate@@" data-tooltip="test" help></div>
                       </div>
-                      <div class="edit icon" onclick="openPopUp('#edit-address-modal')"></div>
+                      <div class="edit icon" onclick="openAddressPopUp('@@id@@')"></div>
                     </div>
                     <div class="text-s gray">@@type@@</div>
                     <div class="text-s gray">@@status@@</div>
@@ -78,15 +78,15 @@
       </div>
     </div>
 
-    <!-- Модальное окно "Новый адрес" -->
-    <div id="new-address-modal" class="pop-up-container">
+    <!-- Модальное окно -->
+    <div id="address" class="pop-up-container">
       <div id="add-addrees" class="pop-up">
         <div class="pop-up-title row">
           <div class="title h1">Новый адрес</div>
           <div class="close icon"></div>
         </div>
         <div class="pop-up-body">
-          <form class="post">
+          <form class="post" id="address-form">
             <div class="form-wrap">
               <div class="option row">
                 <input type="checkbox" value="">
@@ -96,12 +96,13 @@
             </div>
             <div class="form-wrap" required>
               <div class="title">Адрес*</div>
-              <input type="text" value="" name="" data-type="cyril" placeholder="Введите адрес" maxlength="40">
+              <input type="text" value="" name="address" data-type="cyril" placeholder="Введите адрес" maxlength="40">
               <div class="err">Поле не заполнено</div>
             </div>
             <div class="form-wrap" required>
               <div class="title">Тип торговли*</div>
-              <div id="sys-type" class="activate checkbox">
+              <div id="sys-type" class="activate select">
+                <input type="hidden" name="system">
                 <div class="head row">
                   <div class="title">Тип торговли</div>
                   <div class="triangle icon"></div>
@@ -117,19 +118,19 @@
             </div>
             <div class="form-wrap" required>
               <div class="title">Название*</div>
-              <input type="text" value="" name="" data-type="cyril" placeholder="Введите название" maxlength="40">
+              <input type="text" value="" name="company" data-type="cyril" placeholder="Введите название" maxlength="40">
               <div class="err">Поле не заполнено</div>
             </div>
             <div class="form-wrap">
               <div class="title">Сайт</div>
-              <input type="text" value="" name=""  placeholder="Введите адрес сайта" maxlength="40">
+              <input type="text" value="" name="site"  placeholder="Введите адрес сайта" maxlength="40">
               <div class="err">Поле не заполнено</div>
             </div>
             <div class="form-cols">
               <div class="form-col1">
                 <div class="form-wrap" required="">
                   <div class="title">Телефон*</div>
-                  <input type="text" value="" name="" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                  <input type="text" value="" name="phone" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
                   <div class="err">Поле не заполнено</div>
                 </div>
               </div>
