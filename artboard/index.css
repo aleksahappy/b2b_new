@@ -37,9 +37,32 @@
   margin-right: 1em;
 }
 
-.not-found.icon {
-  width: 133px;
-  height: 90px;
+.icons-temp .carousel.for-slider {
+  width: 80px;
+  height: 60px;
+  margin-right: 1em;
+  visibility: visible;
+}
+
+.icons-temp .carousel.for-slider .left-btn,
+.icons-temp .carousel.for-slider .right-btn {
+  width: 30px;
+  background-size: 30px;
+  opacity: 0.5;
+}
+
+.icons-temp .carousel.for-card {
+  width: 40px;
+  height: 40px;
+  margin-right: 1em;
+  visibility: visible;
+}
+
+.icons-temp .carousel.for-card .left-btn,
+.icons-temp .carousel.for-card .right-btn {
+  width: 10px;
+  background-size: 10px;
+  opacity: 0.5;
 }
 
 .check-temp .row,

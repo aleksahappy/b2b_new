@@ -188,7 +188,6 @@ body {
 
 body.no-scroll {
   overflow: hidden;
-  position: fixed;
 }
 
 .container {
@@ -760,13 +759,16 @@ body.no-scroll {
 .carousel .right-btn {
   position: absolute;
   top: 0;
+  width: 1.5em;
   height: 100%;
-  background: rgba(255, 255, 255, 0.5) url(../img/slider_right_btn.svg) no-repeat center;
+  background: rgba(255, 255, 255, 0.5) url(../img/slider_arrow.svg) no-repeat center;
+  background-size: 1.2em;
   -webkit-transition: opacity 0.3s linear;
   -moz-transition: opacity 0.3s linear;
   -o-transition: opacity 0.3s linear;
   transition: opacity 0.3s linear;
   cursor: pointer;
+  opacity: 0;
   z-index: 1;
 }
 
@@ -777,13 +779,6 @@ body.no-scroll {
 
 .carousel .right-btn {
   right: 0;
-}
-
-.carousel .left-btn,
-.carousel .right-btn {
-  width: 1.5em;
-  background-size: 1.2em;
-  opacity: 0;
 }
 
 .carousel-gallery-wrap:hover .left-btn,
@@ -1601,21 +1596,6 @@ input.btn {
   width: 23px;
   height: 18px;
   background-image: url(../img/barcode.svg);
-}
-
-/* Стрелочки переключения */
-
-.arrow.icon {
-  width: 10px;
-  height: 16px;
-}
-
-.arrow.right.icon {
-  background-image: url(../img/arrow_right.svg);
-}
-
-.arrow.left.icon {
-  background-image: url(../img/arrow_left.svg);
 }
 
 /* Лоадер */
@@ -2941,7 +2921,7 @@ tbody td > .row * {
 
 .card .carousel .left-btn,
 .card .carousel .right-btn {
-  background: rgba(255, 255, 255, 0.5) url(../img/slider_btn_card.svg) no-repeat center;
+  background: rgba(255, 255, 255, 0.5) url(../img/slider_arrow_card.svg) no-repeat center;
 }
 
 .card .action {
@@ -3323,7 +3303,6 @@ tbody td > .row * {
 #full-img .carousel .left-btn,
 #full-img .carousel .right-btn {
   width: 4em;
-  /* background: rgba(255, 255, 255, 0.5) url(../img/slider_btn_card.svg) no-repeat center; */
   background-size: 2em;
 }
 
