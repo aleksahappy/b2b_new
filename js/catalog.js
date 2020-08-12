@@ -6,8 +6,7 @@
 
 // Области с шаблонами карточки товара в галерее (сохраняем, потому что эти данные перезапишутся):
 
-var minCard = getEl('.min-card'),
-    bigCard = getEl('.big-card');
+var minCard, bigCard;
 
 // Константы:
 
@@ -70,7 +69,7 @@ var menuContent = {
 
 // Динамически изменяемые переменные:
 
-var view = location.pathname === '/product'? 'product' : 'list',
+var view = location.pathname === '/product'? 'product' : 'blocks',
     path,
     cartItems = {},
     curItems,
@@ -89,7 +88,8 @@ startCatalogPage();
 // Запуск страницы каталога:
 
 function startCatalogPage() {
-  fillHeaderMenu();
+  addCatalogModules();
+  fillCatalogHeader();
   if (view === 'product') {
     getItems(location.search.replace('?',''))
     .then(
@@ -160,9 +160,40 @@ function initPage() {
   initForm('#order-form', sendOrder);
 }
 
+//=====================================================================================================
+// Построение страницы:
+//=====================================================================================================
+
+// Добавление второго уровня меню и "прилипающей" части каталога:
+
+function addCatalogModules() {
+  var type = document.body.id === 'equip' ? 'equip' : 'zip';
+
+  var catalogHeader = document.createElement('div');
+  catalogHeader.dataset.html = '../modules/catalog_header.html';
+  getEl('#header').appendChild(catalogHeader);
+
+  var catalogMain = document.createElement('div');
+  catalogMain.classList.add('main', type);
+  catalogMain.dataset.html = '../modules/catalog_main.html';
+  document.body.insertBefore(catalogMain, getEl('#modules').nextSibling);
+  includeHTML();
+
+  var catalogGallery = document.createElement('div');
+  catalogGallery.id = 'gallery';
+  catalogGallery.dataset.html = `../modules/catalog_${type}.html`;
+  getEl('#content').appendChild(catalogGallery);
+  includeHTML();
+
+  getEl('#content').appendChild(getEl('#full-card-container'));
+  catalogMain.querySelectorAll('.pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
+  minCard = getEl('.min-card');
+  bigCard = getEl('.big-card');
+}
+
 // Динамическое заполнение второго уровня меню:
 
-function fillHeaderMenu() {
+function fillCatalogHeader() {
   var data = menuContent[document.body.id];
   fillTemplate({
     area: '#header-menu .container',
@@ -173,7 +204,7 @@ function fillHeaderMenu() {
 }
 
 //=====================================================================================================
-// // Преобразование исходных данных:
+// Преобразование исходных данных:
 //=====================================================================================================
 
 // Фильтрация:

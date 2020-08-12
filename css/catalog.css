@@ -222,11 +222,11 @@ body {
 }
 
 .view .icon {
-  margin-right: 0;
+  margin-right: 0.5em;
 }
 
-.view .view-list {
-  margin-right: 0.5em;
+.view .icon:last-child {
+  margin-right: 0;
 }
 
 .view .icon.active {

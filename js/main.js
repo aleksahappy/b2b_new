@@ -103,31 +103,6 @@ function startPage() {
   }
 }
 
-// Добавление обязательных модулей при загрузке страницы:
-
-function addModules(path) {
-  if (getEl('#modules')) {
-    return;
-  }
-  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
-      url = (path === '' || path === 'registr') ? '../modules/short_modules.html' : '../modules/full_modules.html',
-      modules = document.createElement('div');
-  modules.id = 'modules';
-  modules.dataset.html = url;
-  document.body.appendChild(modules);
-  includeHTML();
-  if (document.body.dataset.catalog) {
-    var catalogHeader = document.createElement('div');
-    catalogHeader.dataset.html = '../modules/header_catalog.html';
-    getEl('#header').appendChild(catalogHeader);
-    includeHTML(catalogHeader);
-  }
-  if (path !== '' && path !== 'registr') {
-    initModules();
-    loader.show();
-  }
-}
-
 // Выход из авторизации:
 
 function logOut(event) {
@@ -140,8 +115,27 @@ function logOut(event) {
 }
 
 //=====================================================================================================
-// Добавление html-модулей:
+// Построение страницы:
 //=====================================================================================================
+
+// Добавление обязательных модулей при загрузке страницы:
+
+function addModules(path) {
+  if (getEl('#modules')) {
+    return;
+  }
+  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
+      url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
+      modules = document.createElement('div');
+  modules.id = 'modules';
+  modules.dataset.html = url;
+  document.body.insertBefore(modules, document.body.firstChild);
+  includeHTML();
+  if (path !== '' && path !== 'registr') {
+    initModules();
+    loader.show();
+  }
+}
 
 // Добавление html из других файлов:
 
