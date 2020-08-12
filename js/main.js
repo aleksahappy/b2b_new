@@ -124,9 +124,16 @@ function addModules(path) {
   if (getEl('#modules')) {
     return;
   }
-  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
-      url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
-      modules = document.createElement('div');
+
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
+
+  // if (path === 'testPage') {
+  //   includeHTML();
+  //   initModules();
+  //   return;
+  // }
+  var  url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
+    modules = document.createElement('div');
   modules.id = 'modules';
   modules.dataset.html = url;
   document.body.insertBefore(modules, document.body.firstChild);
@@ -2601,4 +2608,27 @@ function DropDownTable(obj) {
       }
     }
   }
+}
+
+
+//  Для мобильного меню
+//  Показыть/скрыть мобильное меню
+
+function mobMenu() {
+  var mobMenu = document.querySelector('#mob-menu');
+  mobMenu.classList.toggle('active');
+}
+
+function runMobileMenu() {
+
+}
+runMobileMenu();
+
+function toggleMenuItems(el) {
+  var sublist = el.nextElementSibling;
+  var arrow = el.querySelector('.icon');
+  var arrowDiv = arrow.parentElement;
+
+  sublist.classList.toggle('displayNone');
+  arrowDiv.classList.toggle('close');
 }
