@@ -1,29 +1,14 @@
-body {
-  padding-top: 0;
-}
-
-.header {
-
-}
-
-.footer {
-  width: 100%;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-}
-
 /* Стили для мобильного меню */
 
 .mob-menu {
-  z-index: 0;
+  z-index: 120;
   position: absolute;
   top: -110%;
   right: 0;
   left: 0;
   padding: 88px 30px 30px 30px;
   transition: .9s;
-  overflow-y: scroll;
+  overflow-y: auto;
   background: #ffffff;
 }
 
@@ -44,7 +29,7 @@ body {
   height: 36px;
 }
 
-.list .item {
+.list > .item {
   margin-bottom: 1.92em;
   cursor: pointer;
 }
@@ -54,13 +39,18 @@ body {
   font-size: 16px;
 }
 
+.list .item .title a {
+  text-decoration: none;
+  color: #34495E;
+}
+
 .list .item .item-wrap {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.list .item:last-child {
+.list > .item:last-child {
   margin-top: 3.85em;
 }
 
@@ -73,18 +63,19 @@ body {
   height: 7px;
 }
 
-/* .list .open.dark.icon.closed {
-  transform: rotate(270deg);
-} */
-
 .sublist {
-  margin-left: 2em;
+  margin-left: 1em;
+}
+
+.sublist .row a {
+
 }
 
 .subitem {
   padding: 10px 0;
 }
 
+.sublist .row a,
 .subitem a {
   text-decoration: none;
   color: #666666;
@@ -111,6 +102,40 @@ body {
   background: #666666;
 }
 
+.sublist-items {
+  padding-top: 10px;
+  padding-right: 5em;
+  margin-right: 3em;
+}
+
+.sublist-items > a {
+  display: block;
+}
+
+.sublist-items {
+  border-right: 1px solid #C6C6C6;
+}
+
+.sublist-qty {
+  padding-top: 10px;
+}
+
+.sublist-items a,
+.sublist-qty a {
+  margin-bottom: 1em;
+}
+
+.mob-menu .cart-info .qty {
+  width: 3em;
+  text-align: center;
+  background-color: #ECF0F1;
+  border-radius: 50px;
+}
+
+.mob-menu .cart-info.full .qty {
+  color: #FFFFFF;
+  background-color: #CE0014;
+}
 
 
 /*.subitem a:hover {
@@ -142,7 +167,6 @@ body {
   .header {
     /* z-index: 1000; */
   }
-
 
 }
 

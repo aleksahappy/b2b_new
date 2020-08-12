@@ -137,6 +137,28 @@ Laptop:
   }
 }
 
+@media only screen and (max-width: 990px) {
+
+  .header-top .activate .head,
+  .header-top .activate {
+    display: none;
+  }
+
+  .notifications.icon {
+    background-image: url('../img/mob_notification.svg');
+  }
+
+  .header-top .burger.icon {
+    display: flex;
+    margin-left: 1.428em;
+  }
+
+  .header {
+    /* z-index: 1000; */
+  }
+
+}
+
 /* =====================================================================================================
 Tablet:
 ===================================================================================================== */
@@ -334,6 +356,20 @@ Tablet:
     position: absolute;
     top: 1.5em;
     left: 35px;
+  }
+
+  .header-top .right-side .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-top .logo img {
+    max-height: 15px;
+    max-width: 100%;
+  }
+
+  .mob-menu {
+    padding: 64px 20px 20px 20px;
   }
 
   /* Кнопка "Наверх страницы": */
