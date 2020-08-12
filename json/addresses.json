@@ -1,10 +1,13 @@
 [
   {
+    "id": "1",
     "moderate": "approv",
     "company": "Stels Offroad",
     "type": "Интернет-магазин",
     "status": "официальный дилер Stels",
     "address": "Горная улица, 5",
+    "phone": "+7 (937) 867-10-11",
+    "system": "Общий",
     "site": "stels-offroad.ru",
     "postcode": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
     "img_src": "../img/content/shop-logo.jpg",
@@ -40,12 +43,16 @@
     ]
   },
   {
+    "id": "2",
     "moderate": "process",
     "company": "Stels Offroad",
     "type": "Интернет-магазин",
     "status": "официальный дилер Stels",
     "address": "Горная улица, 5",
     "site": "stels-offroad.ru",
+    "phone": "+7 (937) 867-10-11",
+    "system": "Общий",
+    "site": "stels-offroad.ru",
     "postcode": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
     "img_src": "../img/content/shop-logo.jpg",
     "time": [
@@ -80,51 +87,15 @@
     ]
   },
   {
+    "id": "3",
     "moderate": "denied",
     "company": "Stels Offroad",
     "type": "Интернет-магазин",
     "status": "официальный дилер Stels",
     "address": "Горная улица, 5",
     "site": "stels-offroad.ru",
-    "postcode": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-    "img_src": "../img/content/shop-logo.jpg",
-    "time": [
-      {
-        "day": "Понедельник",
-        "time": "9:00 - 18:00"
-      },
-      {
-        "day": "Вторник",
-        "time": "9:00 - 18:00"
-      },
-      {
-        "day": "Среда",
-        "time": "9:00 - 18:00"
-      },
-      {
-        "day": "Четверг",
-        "time": "9:00 - 18:00"
-      },
-      {
-        "day": "Пятница",
-        "time": "9:00 - 18:00"
-      },
-      {
-        "day": "Суббота",
-        "time": "9:00 - 18:00"
-      },
-      {
-        "day": "Воскресенье",
-        "time": "9:00 - 18:00"
-      }
-    ]
-  },
-  {
-    "moderate": "approv",
-    "company": "Stels Offroad",
-    "type": "Интернет-магазин",
-    "status": "официальный дилер Stels",
-    "address": "Горная улица, 5",
+    "phone": "+7 (937) 867-10-11",
+    "system": "Общий",
     "site": "stels-offroad.ru",
     "postcode": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
     "img_src": "../img/content/shop-logo.jpg",
@@ -160,11 +131,59 @@
     ]
   },
   {
+    "id": "4",
+    "moderate": "approv",
+    "company": "Stels Offroad",
+    "type": "Интернет-магазин",
+    "status": "официальный дилер Stels",
+    "address": "Горная улица, 5",
+    "site": "stels-offroad.ru",
+    "phone": "+7 (937) 867-10-11",
+    "system": "Общий",
+    "site": "stels-offroad.ru",
+    "postcode": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
+    "img_src": "../img/content/shop-logo.jpg",
+    "time": [
+      {
+        "day": "Понедельник",
+        "time": "9:00 - 18:00"
+      },
+      {
+        "day": "Вторник",
+        "time": "9:00 - 18:00"
+      },
+      {
+        "day": "Среда",
+        "time": "9:00 - 18:00"
+      },
+      {
+        "day": "Четверг",
+        "time": "9:00 - 18:00"
+      },
+      {
+        "day": "Пятница",
+        "time": "9:00 - 18:00"
+      },
+      {
+        "day": "Суббота",
+        "time": "9:00 - 18:00"
+      },
+      {
+        "day": "Воскресенье",
+        "time": "9:00 - 18:00"
+      }
+    ]
+  },
+  {
+    "id": "5",
     "moderate": "process",
     "company": "Stels Offroad",
     "type": "Интернет-магазин",
     "status": "официальный дилер Stels",
     "address": "Горная улица, 5",
+    "site": "stels-offroad.ru",
+    "phone": "+7 (937) 867-10-11",
+    "system": "Общий",
     "site": "stels-offroad.ru",
     "postcode": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
     "img_src": "../img/content/shop-logo.jpg",

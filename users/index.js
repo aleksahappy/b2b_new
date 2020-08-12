@@ -129,6 +129,7 @@ function openUserPopUp(id) {
   if (id) {
     title.textContent = 'Редактировать пользователя';
     var data = items.find(el => el.id == id);
+    console.log(data)
     fillForm('#user-form', data);
   } else {
     title.textContent = 'Новый пользователь';
