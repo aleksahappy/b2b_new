@@ -280,12 +280,8 @@ body.no-scroll {
   width: 100%;
 }
 
-.btns-wrap > :first-child {
+.btns-wrap > :not(:last-child) {
   margin-right: 1.428em;
-}
-
-.btns-wrap > div:last-child {
-  margin-right: 0;
 }
 
 .qty.in-circle {
@@ -2355,18 +2351,12 @@ form.post {
   background-color: #F8F8F8;
 }
 
-form.post .form-group {
-  margin-bottom: 1.2em;
-  border-bottom: 1px solid #C6C6C6;
-}
-
-form.post .form-group:last-child {
-  margin-bottom: 0;
-  border-bottom: none;
+form.post .form-group:not(:last-child) {
+  margin-bottom: 0.357em;
 }
 
 form.post .form-group > .title {
-  margin-bottom: 1em;
+  margin-bottom: 0.857em;
 }
 
 form.post .form-cols {
@@ -3376,7 +3366,7 @@ tbody td > .row * {
 Шапка сайта:
 ===================================================================================================== */
 
-.header {
+#header {
   position: fixed;
   top: 0;
   right: 0;
@@ -3384,7 +3374,7 @@ tbody td > .row * {
   z-index: 200;
 }
 
-.header a {
+#header a {
   text-decoration: none;
 }
 
@@ -3581,149 +3571,16 @@ tbody td > .row * {
   margin-right: 0;
 }
 
-.header-menu {
-  position: relative;
-  color: #FFFFFF;
-  background-color: #53606F;
-}
-
-.header-menu .container {
-  justify-content: flex-start;
-  align-items: stretch;
-  padding-right: 16em;
-}
-
-.header-menu a {
-  color: #FFFFFF;
-}
-
-.header-menu .topmenu a,
-.header-menu .submenu a {
-  padding: 0.75em 1.5em;
-  cursor: pointer;
-}
-
-.header-menu .topmenu {
-  align-items: stretch;
-  background-color: #34495E;
-}
-
-.header-menu .topmenu-item {
-  min-width: 18em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.header-menu .submenu {
-  align-items: stretch;
-  flex-wrap: wrap;
-  background-color: #53606F;
-}
-
-.header-menu .submenu-item {
-  margin-right: 0.1rem;
-  -webkit-transition: 200ms;
-  -moz-transition: 200ms;
-  -o-transition: 200ms;
-  transition: 200ms;
-}
-
-.header-menu .submenu-item:hover {
-  background-color: #F05A28;
-}
-
-.header-menu .submenu-item.active {
-  background-color: #F05A28;
-}
-
-#page-search {
-  top: 0.2em;
-  right: calc(4rem + 16em);
-}
-
-#page-search:focus-within {
-  width: 20em;
-}
-
-#header-cart {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(4rem + 16em);
-  background-color: #34495E;
-  overflow: hidden;
-  z-index: 2;
-}
-
-#header-cart .wrap {
-  height: 2.857em;
-  max-height: 2.857em;
-  -webkit-transition: max-height 0.3s linear;
-  -moz-transition: max-height 0.3s linear;
-  -o-transition: max-height 0.3s linear;
-  transition: max-height 0.3s linear;
-  overflow: hidden;
-}
-
-#header-cart:hover .wrap {
-  height: auto;
-  max-height: 350px;
-  overflow: visible;
-}
-
-#header-cart .items,
-#header-cart .total {
-  width: 100%;
-}
-
-#header-cart .item {
-  justify-content: center;
-  align-items: flex-start;
-  height: 4em;
-  width: 100%;
-  padding: 0 4rem 0 2em;
-  border-bottom: 1px solid rgba(204, 204, 204, 0.5);
-}
-
-#header-cart .item > .row {
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-#header-cart .name {
-  font-size: 0.857em;
-  visibility: hidden;
-}
-
-#header-cart:hover .name {
-  visibility: visible;
-}
-
-#header-cart .cart.icon {
-  position: relative;
-  width: 21px;
-  height: 21px;
-  margin-right: 1.4em;
-}
-
-#header-cart .qty.in-circle {
-  top: -4.5px;
-  right: -9px;
-}
-
-#header-cart .text {
-  justify-content: flex-start;
-  align-items: center;
-  border-bottom: none;
-  cursor: default;
+#header-menu,
+#header-content {
+  display: none;
 }
 
 /* =====================================================================================================
 Подвал сайта:
 ===================================================================================================== */
 
-.footer {
+#footer {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -3733,11 +3590,11 @@ tbody td > .row * {
   z-index: 100;
 }
 
-.footer .wrap {
+#footer .wrap {
   padding: 1.6rem 0;
 }
 
-.footer a[href^=tel] {
+#footer a[href^=tel] {
   color: inherit;
   text-decoration: none;
 }

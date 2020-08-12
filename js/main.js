@@ -88,14 +88,9 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
-  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
-  if (path === '' || path === 'registr') {
-    addModules('short');
-  } else {
-    addModules('full');
-    initModules();
-    loader.show();
-  }
+  addModules();
+  setPaddingToBody();
+  window.addEventListener('resize', setPaddingToBody);
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
@@ -110,26 +105,26 @@ function startPage() {
 
 // Добавление обязательных модулей при загрузке страницы:
 
-function addModules(type) {
-  var modules = document.createElement('div');
+function addModules(path) {
+  if (getEl('#modules')) {
+    return;
+  }
+  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
+      url = (path === '' || path === 'registr') ? '../modules/short_modules.html' : '../modules/full_modules.html',
+      modules = document.createElement('div');
   modules.id = 'modules';
-
-  var url = type === 'full' ? '../modules/full_modules.html' : '../modules/short_modules.html',
-      xhr = new XMLHttpRequest();
-  xhr.open('GET', url , false);
-  try {
-    xhr.send();
-    if (xhr.status != 200) {
-      console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-      new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-    } else {
-      if (xhr.response) {
-        modules.innerHTML = xhr.responseText;
-        document.body.appendChild(modules);
-      }
-    }
-  } catch(err) {
-    console.log(err);
+  modules.dataset.html = url;
+  document.body.appendChild(modules);
+  includeHTML();
+  if (document.body.dataset.catalog) {
+    var catalogHeader = document.createElement('div');
+    catalogHeader.dataset.html = '../modules/header_catalog.html';
+    getEl('#header').appendChild(catalogHeader);
+    includeHTML(catalogHeader);
+  }
+  if (path !== '' && path !== 'registr') {
+    initModules();
+    loader.show();
   }
 }
 
@@ -145,13 +140,56 @@ function logOut(event) {
 }
 
 //=====================================================================================================
+// Добавление html-модулей:
+//=====================================================================================================
+
+// Добавление html из других файлов:
+
+function includeHTML(target) {
+  var url;
+  if (target) {
+    url = target.dataset.html;
+    loadHTML(target, url);
+  } else {
+    document.body.querySelectorAll('[data-html]').forEach(el => {
+      url = el.dataset.html;
+      loadHTML(el, url);
+    });
+  }
+}
+
+// Непосредственно получение и вставка html:
+
+function loadHTML(target, url) {
+  if (!url) {
+    return;
+  }
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url , false);
+  try {
+    xhr.send();
+    if (xhr.status != 200) {
+      console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+      new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+    } else {
+      if (xhr.response) {
+        target.innerHTML = xhr.responseText;
+        target.removeAttribute('data-html');
+      }
+    }
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+//=====================================================================================================
 // Инициализация модулей страницы:
 //=====================================================================================================
 
 // Запуск инициализации всех имеющихся модулей страницы:
 
 function initModules() {
-  showUserInfo();
+  fillUserInfo();
   initNotifications();
   initLoader();
   initAlerts();
@@ -163,7 +201,7 @@ function initModules() {
 
 // Вывод информации о пользователе в шапке страницы:
 
-function showUserInfo() {
+function fillUserInfo() {
   if (window.userInfo) {
     fillTemplate({
       area: '#profile',
@@ -400,104 +438,7 @@ function getDataFromTotals(type) {
   return data;
 }
 
-//=====================================================================================================
-// Сортировка массива объектов:
-//=====================================================================================================
 
-// Сортировка массива объектов по указанному полю:
-
-function sortBy(key, type) {
-  var sortOrder = 1;
-  if (key[0] === "-") {
-      sortOrder = -1;
-      key = key.substr(1);
-  }
-
-  function getValue(item) {
-    var value = item[key];
-    if (value === '&ndash;') {
-      return null;
-    }
-    switch (type) {
-      case 'text':
-        return '' + value;
-      case 'numb':
-        value = value.replace(/\s/, '').replace(/\u00A0/g, '');
-        return parseFloat(value);
-      case 'date':
-        return getDateObj(value, 'dd.mm.yy');
-    }
-  }
-
-  var result;
-  return function (a, b) {
-    a = getValue(a);
-    b = getValue(b);
-    switch (type) {
-      case 'text':
-        result = (a < b) ? -1 : (a > b) ? 1 : 0;
-        break;
-      case 'numb':
-        result = a - b;
-        break;
-      case 'date':
-        result = b - a;
-        break;
-    }
-    return result * sortOrder;
-  }
-}
-
-//=====================================================================================================
-// Сортировка объектов:
-//=====================================================================================================
-
-// Сортировка по ключу:
-
-function sortObjByKey(obj, type = 'string') {
-  var arrayObj = Object.keys(obj),
-      sortedObj = {};
-  switch (type) {
-    case 'string':
-      arrayObj = arrayObj.sort();
-      break;
-    case 'number':
-      arrayObj = arrayObj.sort((a,b) =>  a - b);
-      break;
-    case 'number from string':
-      arrayObj = arrayObj.sort((a,b) => parseInt(a, 10) - parseInt(b, 10));
-      break;
-  }
-  arrayObj.forEach(key => sortedObj[key] = obj[key]);
-  return sortedObj;
-}
-
-// Сортировка по значению:
-
-function sortObjByValue(obj, type = 'string') {
-  var arrayObj = Object.keys(obj),
-      sortedObj = {};
-  switch (type) {
-    case 'string':
-      arrayObj = arrayObj.sort((a,b) => {
-        if (obj[a] < obj[b]) {
-          return -1;
-        }
-        if (obj[a] > obj[b]) {
-          return 1;
-        }
-        return 0;
-      });
-    case 'number':
-      arrayObj = arrayObj.sort((a,b) => obj[a] - obj[b]);
-      break;
-    case 'number from string':
-      arrayObj = arrayObj.sort((a,b) => parseInt(obj[a], 10) - parseInt(obj[b], 10));
-      break;
-  }
-  arrayObj.forEach(key => sortedObj[key] = obj[key]);
-  return sortedObj;
-}
 
 //=====================================================================================================
 // Работа со storage и cookie:
@@ -680,11 +621,9 @@ function deleteCookie(key) {
 
 // Установка отступов документа:
 
-// window.addEventListener('resize', setPaddingToBody);
-
 function setPaddingToBody() {
-  var headerHeight = getEl('.header').clientHeight;
-  var footerHeight = getEl('.footer').clientHeight;
+  var headerHeight = getEl('#header').clientHeight;
+  var footerHeight = getEl('#footer').clientHeight;
   document.body.style.paddingTop = `${headerHeight}px`;
   document.body.style.paddingBottom = `${footerHeight + 20}px`;
 }
@@ -750,6 +689,79 @@ function textareaCounter(textarea) {
     var counter = getEl(`[data-count="${textarea.getAttribute('name')}"] span`);
     if (counter) {
       counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
+    }
+  }
+}
+
+//=====================================================================================================
+// Функции сворачивания/разворачивания контейнеров:
+//=====================================================================================================
+
+// Свернуть/развернуть контейнер:
+
+function toggleEl(name, className = 'displayNone') {
+  if (!name) {
+    return;
+  }
+  var el = getEl(name);
+  if (el) {
+    el.classList.toggle(className);
+  }
+}
+
+// Свернуть/развернуть содержимое контейнера:
+
+function switchContent(event) {
+  var container = event.currentTarget.closest('.switch');
+  if (!container || container.classList.contains('disabled')) {
+    return;
+  }
+  var toggleIcon = getEl('.switch-icon', container);
+  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
+    return;
+  }
+  container.classList.toggle('close');
+  if (container.id && container.classList.contains('save')) {
+    if (container.classList.contains('close')) {
+      savePosition(container.id, 'close');
+    } else {
+      savePosition(container.id, 'open');
+    }
+  }
+}
+
+// Сохранение данных о состоянии контейнера (открыт/закрыт):
+
+function savePosition(key, value) {
+  var positions = getInfo('positions', 'sessionStorage');
+  if (!positions[pageUrl]) {
+    positions[pageUrl] = {};
+  }
+  positions[pageUrl][key] = value;
+  saveInfo('positions', positions, 'sessionStorage');
+}
+
+// Удаление данных о состоянии контейнеров (открыты/закрыты):
+
+function removePositions() {
+  var positions = getInfo('positions', 'sessionStorage');
+  positions[pageUrl] = {};
+  saveInfo(`positions`, positions, 'sessionStorage');
+}
+
+// Проверка сохраненных положений контейнеров (открыты/закрыты):
+
+function checkPositions() {
+  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
+      el;
+  for (var key in positions) {
+    el = getEl(key);
+    if (el) {
+      if (positions[key] === 'close') {
+        el.classList.add('close');
+      } else {
+        el.classList.remove('close');
+      }
     }
   }
 }
@@ -860,6 +872,105 @@ function loadScript(url) {
     script.onerror = reject();
     document.body.appendChild(script);
   });
+}
+
+//=====================================================================================================
+// Сортировка массива объектов:
+//=====================================================================================================
+
+// Сортировка массива объектов по указанному полю:
+
+function sortBy(key, type) {
+  var sortOrder = 1;
+  if (key[0] === "-") {
+      sortOrder = -1;
+      key = key.substr(1);
+  }
+
+  function getValue(item) {
+    var value = item[key];
+    if (value === '&ndash;') {
+      return null;
+    }
+    switch (type) {
+      case 'text':
+        return '' + value;
+      case 'numb':
+        value = value.replace(/\s/, '').replace(/\u00A0/g, '');
+        return parseFloat(value);
+      case 'date':
+        return getDateObj(value, 'dd.mm.yy');
+    }
+  }
+
+  var result;
+  return function (a, b) {
+    a = getValue(a);
+    b = getValue(b);
+    switch (type) {
+      case 'text':
+        result = (a < b) ? -1 : (a > b) ? 1 : 0;
+        break;
+      case 'numb':
+        result = a - b;
+        break;
+      case 'date':
+        result = b - a;
+        break;
+    }
+    return result * sortOrder;
+  }
+}
+
+//=====================================================================================================
+// Сортировка объектов:
+//=====================================================================================================
+
+// Сортировка по ключу:
+
+function sortObjByKey(obj, type = 'string') {
+  var arrayObj = Object.keys(obj),
+      sortedObj = {};
+  switch (type) {
+    case 'string':
+      arrayObj = arrayObj.sort();
+      break;
+    case 'number':
+      arrayObj = arrayObj.sort((a,b) =>  a - b);
+      break;
+    case 'number from string':
+      arrayObj = arrayObj.sort((a,b) => parseInt(a, 10) - parseInt(b, 10));
+      break;
+  }
+  arrayObj.forEach(key => sortedObj[key] = obj[key]);
+  return sortedObj;
+}
+
+// Сортировка по значению:
+
+function sortObjByValue(obj, type = 'string') {
+  var arrayObj = Object.keys(obj),
+      sortedObj = {};
+  switch (type) {
+    case 'string':
+      arrayObj = arrayObj.sort((a,b) => {
+        if (obj[a] < obj[b]) {
+          return -1;
+        }
+        if (obj[a] > obj[b]) {
+          return 1;
+        }
+        return 0;
+      });
+    case 'number':
+      arrayObj = arrayObj.sort((a,b) => obj[a] - obj[b]);
+      break;
+    case 'number from string':
+      arrayObj = arrayObj.sort((a,b) => parseInt(obj[a], 10) - parseInt(obj[b], 10));
+      break;
+  }
+  arrayObj.forEach(key => sortedObj[key] = obj[key]);
+  return sortedObj;
 }
 
 //=====================================================================================================
@@ -1173,79 +1284,6 @@ function insertText(el, txt, method = 'inner') {
       el.innerHTML = txt;
     }
     el.insertAdjacentHTML(method, txt);
-  }
-}
-
-//=====================================================================================================
-// Функции сворачивания/разворачивания контейнеров:
-//=====================================================================================================
-
-// Свернуть/развернуть контейнер:
-
-function toggleEl(name, className = 'displayNone') {
-  if (!name) {
-    return;
-  }
-  var el = getEl(name);
-  if (el) {
-    el.classList.toggle(className);
-  }
-}
-
-// Свернуть/развернуть содержимое контейнера:
-
-function switchContent(event) {
-  var container = event.currentTarget.closest('.switch');
-  if (!container || container.classList.contains('disabled')) {
-    return;
-  }
-  var toggleIcon = getEl('.switch-icon', container);
-  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
-    return;
-  }
-  container.classList.toggle('close');
-  if (container.id && container.classList.contains('save')) {
-    if (container.classList.contains('close')) {
-      savePosition(container.id, 'close');
-    } else {
-      savePosition(container.id, 'open');
-    }
-  }
-}
-
-// Сохранение данных о состоянии контейнера (открыт/закрыт):
-
-function savePosition(key, value) {
-  var positions = getInfo('positions', 'sessionStorage');
-  if (!positions[pageUrl]) {
-    positions[pageUrl] = {};
-  }
-  positions[pageUrl][key] = value;
-  saveInfo('positions', positions, 'sessionStorage');
-}
-
-// Удаление данных о состоянии контейнеров (открыты/закрыты):
-
-function removePositions() {
-  var positions = getInfo('positions', 'sessionStorage');
-  positions[pageUrl] = {};
-  saveInfo(`positions`, positions, 'sessionStorage');
-}
-
-// Проверка сохраненных положений контейнеров (открыты/закрыты):
-
-function checkPositions() {
-  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
-      el;
-  for (var key in positions) {
-    el = getEl(key);
-    if (el) {
-      if (positions[key] === 'close') {
-        el.classList.add('close');
-      } else {
-        el.classList.remove('close');
-      }
-    }
   }
 }
 
@@ -1820,10 +1858,10 @@ function showSelectFiles(event) {
 
 // Инициализация формы:
 
-function initForm(el, func) {
+function initForm(el, callback) {
   var el = getEl(el);
   if (el && el.id) {
-    window[`${el.id}Form`] = new Form(el, func);
+    window[`${el.id}Form`] = new Form(el, callback);
   }
 }
 
@@ -1902,7 +1940,7 @@ function checkInput(input) {
 
 // Объект формы:
 
-function Form(obj, func) {
+function Form(obj, callback) {
   // Элементы для работы:
   this.form = obj;
   this.submitBtn = getEl('input[type="submit"]', obj);
@@ -2011,8 +2049,8 @@ function Form(obj, func) {
       return;
     }
     var formData = new FormData(this.form);
-    if (func) {
-      func(formData);
+    if (callback) {
+      callback(formData);
     }
   }
 
@@ -2032,10 +2070,10 @@ function Form(obj, func) {
 
 // Инициализация поля поиска:
 
-function initSearch(el, func) {
+function initSearch(el, callback) {
   var el = getEl(el);
   if (el && el.id) {
-    window[`${el.id}Search`] = new Search(el, func);
+    window[`${el.id}Search`] = new Search(el, callback);
   }
 }
 
@@ -2050,7 +2088,7 @@ function clearSearch(el) {
 
 // Объект поля поиска:
 
-function Search(obj, func) {
+function Search(obj, callback) {
   // Элементы для работы:
   this.form = obj;
   this.input = getEl('input[type="text"]', obj);
@@ -2074,7 +2112,7 @@ function Search(obj, func) {
     }
     this.cancelBtn.addEventListener('click', () => this.cancel());
     if (this.result) {
-      getEl('.close', this.result).addEventListener('click', () => this.cancel());
+      getEl('.pill', this.result).addEventListener('click', () => this.cancel());
     }
   }
   this.setEventListeners();
@@ -2141,8 +2179,8 @@ function Search(obj, func) {
     if (textToFind === '') {
       return;
     }
-    if (func) {
-      var length = func(this.form, textToFind);
+    if (callback) {
+      var length = callback(this.form, textToFind);
     }
     this.input.dataset.value = this.input.value;
     this.toggleInfo(textToFind, length);
@@ -2162,8 +2200,8 @@ function Search(obj, func) {
   // Сброс поиска:
   this.cancel = function() {
     this.clear();
-    if (func) {
-      func(this.form);
+    if (callback) {
+      callback(this.form);
     }
   }
 
@@ -2184,7 +2222,7 @@ function Search(obj, func) {
 
 // Объект поля поиска для выпадающего списка:
 
-function SearchInBox(obj, func) {
+function SearchInBox(obj, callback) {
   Search.apply(this, arguments);
 
   // Элементы для работы:
