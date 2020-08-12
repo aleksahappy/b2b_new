@@ -75,7 +75,7 @@ function sendOrder(formData) {
       if (orderId.length !== idList.length) {
         alerts.show('Были отправлены не все позиции из заказа.');
       }
-      deleteFormCart(orderId);
+      deleteFromCart(orderId);
       document.location.href = '../orders';
     }
   })
@@ -130,10 +130,7 @@ function createCartData() {
       for (var id in cart) {
         var qty = cart[id].qty
         if (qty) {
-          var item = createCartItemData(id, qty);
-          if (item) {
-            cartData[id] = item;
-          }
+          saveInCartData(id, qty);
         }
       }
       resolve();
@@ -170,7 +167,6 @@ function getMissingItems() {
 // Создание данных строки корзины:
 
 function createCartItemData(id, qty, status = '') {
-  // console.log(cartItems[id]);
   if (!cartItems[id]) {
     return;
   }
@@ -185,7 +181,6 @@ function createCartItemData(id, qty, status = '') {
     item.qty = qty;
     item.price_cur = 0;
   }
-  // console.log(item);
   return item;
 }
 
@@ -274,20 +269,52 @@ function saveInCart(id, qty) {
 
   if (!qty) {
     delete cart[id];
-    delete cartData[id];
+    deleteFromCartData(id);
   } else {
-    cartData[id] = createCartItemData(id, qty);
+    saveInCartData(id, qty);
   }
   saveCartTotals();
 }
 
 // Удаление данных из корзины:
 
-function deleteFormCart(idList) {
+function deleteFromCart(idList) {
   idList.forEach(id => {
     delete cart['id_' + id];
   });
   saveCartTotals();
+}
+
+// Сохранение в данные для ренедеринга корзины:
+
+function saveInCartData(id, qty) {
+  var item = createCartItemData(id, qty);
+  if (!item) {
+    return;
+  }
+  var action = item.action_name;
+  if (!cartData[action]) {
+    cartData[action] = {};
+    cartData[action].action_name = action;
+    cartData[action].type = item.action === 'Нет в наличии' ? 'sold' : '';
+    cartData.items = {};
+  }
+  if (!cartData[action].items[id]) {
+    cartData[action].items[id] = item;
+  }
+}
+
+// Удаление из данных для ренедеринга корзины:
+
+function deleteFromCartData(id) {
+  var action = cartItems[id].action_name;
+  if (!action) {
+    return;
+  }
+  delete cartData[action][id];
+  if (isEmptyObj(cartData[action])) {
+    delete cartData[action];
+  }
 }
 
 // Сохранение данных об итогах корзины:
@@ -500,9 +527,9 @@ function getIdList(area, isAll = true) {
   var list;
   if (area === 'cart') {
     if (isAll) {
-      list = getEl('#cart-rows').querySelectorAll('.cart-row.checked:not(.bonus)');
+      list = getEl('#cart-list').querySelectorAll('.cart-row.checked:not(.bonus)');
     } else {
-      list = getEl('#cart-rows').querySelectorAll('.cart-row.checked:not(.bonus):not(.not-available)');
+      list = getEl('#cart-list').querySelectorAll(':not(.sold) .cart-row.checked:not(.bonus)');
     }
   } else {
     list = area.querySelectorAll('.choiced-qty');
@@ -716,9 +743,14 @@ function renderCart() {
 function createCart() {
   if (!isEmptyObj(cartData)) {
     var data = {
-      area: '#cart-rows',
+      area: '#cart-list',
       items: cartData,
-      type: 'list'
+      type: 'list',
+      sub: [{
+        area: '.cart-row',
+        items: 'items',
+        type: 'list'
+      }]
     };
     fillTemplate(data);
     data.area = 'cart-table';
@@ -979,11 +1011,11 @@ function getConfirmDeleteFromCart() {
 
 function fillOrderForm() {
   fillTemplate({
-    area: '[name="contr_id"] .drop-down',
+    area: '.form-wrap.contr .drop-down',
     items: userData.contr
   });
   fillTemplate({
-    area: '[name="delivery_address"] .drop-down',
+    area: '.form-wrap.address .drop-down',
     items: userData.address,
   });
   toggleOrderAddress(getEl('#order-form [name="delivery_type"]'));
