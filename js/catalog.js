@@ -347,7 +347,6 @@ function addSizeInfo(item) {
     size = item.sizes[key];
     size.size = size.size || 'OS';
     size.total_qty = parseInt(size.free_qty, 10) + parseInt(size.arrive_qty, 10);
-    size.isClick = cartId === 'equip' ? '' : 'click';
     size.isFree = size.free_qty > 0 ? '' : 'displayNone';
     size.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
     size.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
@@ -770,11 +769,11 @@ function hideContent() {
   hideElement('#header-content');
   hideElement('#main-header');
   hideElement('#cart-name');
-  hideElement('#cart');
-  hideElement('#content');
   hideElement('#filters-container');
+  hideElement('#content');
   hideElement('#gallery');
   hideElement('#gallery-notice');
+  hideElement('#cart');
 }
 
 // Добавление/удаление обработчиков событий на странице:

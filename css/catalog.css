@@ -67,6 +67,7 @@ body {
 }
 
 #page-search {
+  display: none;
   top: 0.2em;
   right: calc(4rem + 16em);
 }
@@ -142,7 +143,7 @@ body {
   right: -9px;
 }
 
-#header-cart .text {
+#header-cart .sum {
   justify-content: flex-start;
   align-items: center;
   border-bottom: none;
