@@ -38,17 +38,3 @@ function testNewUser() {
   console.log('sending data');
   clearForm('new-user-modal');
 }
-
-
-//  Для мобильного меню
-//  Показыть/скрыть мобильное меню
-
-function mobMenu() {
-  var mobMenu = document.querySelector('#mob-menu');
-  mobMenu.classList.toggle('active');
-}
-
-function runMobileMenu() {
-
-}
-runMobileMenu();

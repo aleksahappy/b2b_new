@@ -12,6 +12,7 @@
   <link rel="stylesheet" type="text/css" href="../css/fonts.css">
   <link rel="stylesheet" type="text/css" href="../css/main.css">
   <link rel="stylesheet" type="text/css" href="../css/media_main.css">
+  <link rel="stylesheet" type="text/css" href="test.css">
 </head>
 <body data-website="ts_b2b" data-card="true">
   <div class="header">
@@ -153,22 +154,24 @@
     </div>
     <div class="list">
       <div class="item">
-        <div class="item-wrap">
+        <div class="item-wrap" onclick="toggleMenuItems(this)">
           <div class="title">Профиль</div>
-          <div class="arrow"></div>
+          <div class="">
+            <div class="open dark icon"></div>
+          </div>
         </div>
         <div class="sublist displayNone">
           <div class="subitem">
-            <a href="">Пользователи</a>
+            <a href="../users">Пользователи</a>
           </div>
           <div class="subitem">
-            <a href="">Контрагенты</a>
+            <a href="../contractors">Контрагенты</a>
           </div>
           <div class="subitem">
-            <a href="">Мои адреса</a>
+            <a href="../addresses">Мои адреса</a>
           </div>
           <div class="subitem">
-            <a href="">Лодки, моторы</a>
+            <a href="../">Лодки, моторы</a>
           </div>
           <div class="subitem">
             <a href="">Мерчандайзинг</a>
@@ -181,9 +184,11 @@
         </div>
       </div>
       <div class="item">
-        <div class="item-wrap">
+        <div class="item-wrap" onclick="toggleMenuItems(this)">
           <div class="title">Каталоги</div>
-          <div class="arrow"></div>
+          <div class="">
+            <div class="open dark icon"></div>
+          </div>
         </div>
         <div class="sublist displayNone">
           <div class="subitem">
@@ -204,9 +209,11 @@
         </div>
       </div>
       <div class="item">
-        <div class="item-wrap">
+        <div class="item-wrap" onclick="toggleMenuItems(this)">
           <div class="title">Закупки</div>
-          <div class="arrow"></div>
+          <div class="">
+            <div class="open dark icon"></div>
+          </div>
         </div>
         <div class="sublist displayNone">
           <div class="subitem">
@@ -232,6 +239,6 @@
 
 
     <!-- <script src ="../js/main.js"></script> -->
-    <script src="../js/test.js"></script>
+    <script src="testPage.js"></script>
 </body>
 </html>
