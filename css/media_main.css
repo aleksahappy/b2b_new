@@ -3,7 +3,6 @@
 ===================================================================================================== */
 
 /* Портретная ориентация: */
-
 @media all and (orientation:portrait) {
   #full-img .carousel {
     max-width: 90vw;
@@ -16,7 +15,6 @@
 }
 
 /* Альбомная ориентация: */
-
 @media all and (orientation:landscape) {
   #full-img .carousel {
     max-width: 90vh;
@@ -33,7 +31,6 @@ Desktop:
 ===================================================================================================== */
 
 /* Стили на ширину больше 1920px: */
-
 @media only screen and (min-width: 1921px) {
 
   /* Основные стили: */
@@ -50,7 +47,6 @@ Desktop:
 }
 
 /* Стили на ширину больше 1081px: */
-
 @media only screen and (min-width: 1081px) {
 
   /* Окно уведомлений: */
@@ -78,13 +74,11 @@ Desktop:
   }
 }
 
-
 /* =====================================================================================================
 Laptop:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 1360px включительно: */
-
 @media only screen and (max-width: 1360px) {
 
   /* Основные стили: */
@@ -126,8 +120,23 @@ Laptop:
 }
 
 /* Стили на ширину от 0 до 1080px включительно: */
-
 @media only screen and (max-width: 1080px) {
+
+  /* Хедер */
+
+  .header-top .activate,
+  .header-top .activate .head {
+    display: none;
+  }
+
+  .header-top .notifications.icon {
+    background-image: url('../img/notifications_min.svg');
+  }
+
+  .header-top .burger.icon {
+    display: flex;
+    margin-left: 1.428em;
+  }
 
   /* Окно уведомлений: */
 
@@ -137,34 +146,11 @@ Laptop:
   }
 }
 
-@media only screen and (max-width: 990px) {
-
-  .header-top .activate .head,
-  .header-top .activate {
-    display: none;
-  }
-
-  .notifications.icon {
-    background-image: url('../img/mob_notification.svg');
-  }
-
-  .header-top .burger.icon {
-    display: flex;
-    margin-left: 1.428em;
-  }
-
-  .header {
-    /* z-index: 1000; */
-  }
-
-}
-
 /* =====================================================================================================
 Tablet:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 768px включительно: */
-
 @media only screen and (max-width: 768px) {
 
   /* Основные стили: */
@@ -234,6 +220,21 @@ Tablet:
 
   .header-top .activate {
     height: 40px;
+  }
+
+  .header-top .right-side .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-top .logo img {
+    max-height: 18px;
+    max-width: 100%;
+  }
+
+  #mob-menu {
+    padding: 1.428em;
+    padding-top: 64px;
   }
 
   /* Таблицы: */
@@ -358,20 +359,6 @@ Tablet:
     left: 35px;
   }
 
-  .header-top .right-side .icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .header-top .logo img {
-    max-height: 15px;
-    max-width: 100%;
-  }
-
-  .mob-menu {
-    padding: 64px 20px 20px 20px;
-  }
-
   /* Кнопка "Наверх страницы": */
 
   #up-btn {
@@ -384,7 +371,6 @@ Mobile:
 ===================================================================================================== */
 
 /* Стили на ширину от 0 до 499px включительно: */
-
 @media only screen and (max-width: 499px) {
 
   /* Основные стили: */

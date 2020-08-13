@@ -114,6 +114,12 @@ function logOut(event) {
   })
 }
 
+// Отображение/скрытие мобильного меню (адаптивного хедера):
+
+function toggleMobMenu() {
+  getEl('#mob-menu').classList.toggle('active');
+}
+
 //=====================================================================================================
 // Построение страницы:
 //=====================================================================================================
@@ -124,16 +130,9 @@ function addModules(path) {
   if (getEl('#modules')) {
     return;
   }
-
-  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
-
-  // if (path === 'testPage') {
-  //   includeHTML();
-  //   initModules();
-  //   return;
-  // }
-  var  url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
-    modules = document.createElement('div');
+  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
+      url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
+      modules = document.createElement('div');
   modules.id = 'modules';
   modules.dataset.html = url;
   document.body.insertBefore(modules, document.body.firstChild);
@@ -149,6 +148,7 @@ function addModules(path) {
 function includeHTML(target) {
   var url;
   if (target) {
+    target = getEl(target);
     url = target.dataset.html;
     loadHTML(target, url);
   } else {
@@ -162,7 +162,8 @@ function includeHTML(target) {
 // Непосредственно получение и вставка html:
 
 function loadHTML(target, url) {
-  if (!url) {
+  target = getEl(target);
+  if (!target || !url) {
     return;
   }
   var xhr = new XMLHttpRequest();
@@ -700,11 +701,8 @@ function textareaCounter(textarea) {
 
 // Свернуть/развернуть контейнер:
 
-function toggleEl(name, className = 'displayNone') {
-  if (!name) {
-    return;
-  }
-  var el = getEl(name);
+function toggleEl(el, className = 'close') {
+  el = getEl(el);
   if (el) {
     el.classList.toggle(className);
   }
@@ -1129,6 +1127,100 @@ function showReclm(id) {
 // Универсальное заполнение данных по шаблону:
 //=====================================================================================================
 
+// В каком виде данные нужно передавать в функцию fillTemplate:
+//
+// * - обязательное поле, остальные можно пропускать
+//
+// var data = {
+//   area *: элемент / селектор элемента,               Откуда будет браться шаблон, можно передать:
+//                                                      - переменная, в которой хранится уже найденный в DOM элемент
+//                                                      - селектор, по которому нужно найти элемент в DOM
+//
+//   items *: массив объектов / объект / массив         Данные для заполнения шаблона, они могут быть такие:
+//                                                      - массив или объект с ключами 0,1,2.. содержащий массивы и/или объекты
+//                                                      - объект (ключ: значение)
+//                                                      - массив содержащий строки и/или цифры
+//
+//   type: 'list' / 'vars' / 'obj'                     Тип данных (по умолчанию - определится по типу переданных данных):
+//                                                      - 'list' - массив или объект, содержащий массивы и/или объекты (для создания множества элементов на основе шаблона)
+//                                                      - 'vars' - массив содержащий строки и/или цифры (для создания множества элементов на основе простейшего шаблона)
+//                                                      - 'obj' - объект (ключ: значение) (для создания одного элемента на основе шаблон)
+//
+//    source: 'inner' / 'outer',                       Как получать шаблон из DOM (по умолчанию - 'inner'):
+//                                                      - весь тег целиком, т.е. с помощью outerHTML
+//                                                      - внутреннюю часть тега, т.е. с помощью innerHTML
+//
+//    target: селектор элемента,                       Куда нужно вставить шаблон (по умолчанию - data.area, т.е. туда, откуда взяли):
+//                                                     - селектор области куда будет вставляться результат
+//
+//    sign: '#' / '@@' / другой,                       Символ для поиска мест замены в html (по умолчанию - '#'):
+//                                                     - # (тогда в html прописываем #...#)
+//                                                     - @@ (тогда в html прописываем @@...@@)
+//                                                     - можно применять и другие символы
+//
+//    sub: [{                                          Данные о подшаблонах (по умолчанию подшаблонов нет).
+//      area: селектор элемента                        Вносить только в виде массива объектов, даже если объект один.
+//      items: название ключа из data.items            Каждый объект аналогичен объекту data, который мы сейчас учимся заполнять.
+//      sub : (если есть подшаблон) [{                 Каждый объект содержит (обязательны только area и items):
+//        area: id / селектор                          - area * - id или селектор, по которому нужно найти подшаблон в шаблоне
+//        items: название ключа из sub.items           - items * - ключ, по которому в данных необходимо взять информацию для заполнения подшаблона
+//      }],                                            - sub - если есть подшаблон у этого подшаблона, то здесь указывается такая же структура массива объектов
+//      sign: '#' / '@@' / другой,                     - sign - cимвол для поиска места замены, если отличен от того, что в родительском шаблоне
+//      iterate: 'temp' / 'data'                       - iterate - как производить перебор при замене, если метод отличен от метода в родительском шаблоне
+//    }, {
+//      area: id / селектор
+//      items: название ключа из data.items
+//    }...]
+//
+//    action: 'replace' / return',                     Действие с данными (по умолчанию - 'replace'):
+//                                                     - replace - вставит заполненный шаблон на страницу
+//                                                     - return - вернет строку с заполненным шаблоном
+//
+//    method: 'inner' /                                Метод вставки шаблона на страницу (по умолчанию - 'inner'):
+//            'beforebegin' / 'afterbegin' /           - inner - замена содержимого елемента
+//            'beforeend' / 'afterend'                 - beforebegin - до самого елемента (до открывающего тега)
+//                                                     - afterbegin - перед первым потомком елемента
+//                                                     - beforeend - после последнего потомка елемента
+//                                                     - afterend - после самого елемента (после закрывающего тега)
+//
+//    iterate: 'temp' / 'data'                         Как производить перебор при замене данных в шаблоне (по умолчанию - 'temp'):
+// }                                                   - перебором всех мест замены (#...#) в шаблоне:
+//                                                       * берем каждое место замены
+//                                                       * если в данных есть ключ с таким названием, то производим замену
+//                                                       * удобно, если в данных много лишних ключей
+//                                                     - перебором всех ключей в данных:
+//                                                       * берем каждый ключ
+//                                                       * если есть место замены с таким названием, то производим замену
+//                                                       * удобно если в данных нет ничего лишнего, а места замены наоборот повторяют содержимое
+//
+//
+// Пример данных:
+//
+// var data = {
+//   area: 'big-card',
+//   items: items,
+//   type: 'list',
+//   source: 'outer',
+//   target: 'gallery',
+//   sign: '#',
+//   sub: [{
+//     area: '.carousel-gallery',
+//     items: 'images'
+//   }, {
+//     area: '.card-sizes',
+//     items: 'sizes'
+//   }, {
+//     area: '.card-options',
+//     items: 'options'
+//   }, {
+//     area: '.manuf-row',
+//     items: 'manuf_table'
+//   }],
+//   action: 'replace',
+//   method: 'inner'
+//   iterate: 'temp'
+// }
+
 // Универсальная функция заполнения данных по шаблону:
 
 function fillTemplate(data) {
@@ -1252,6 +1344,7 @@ function fillSubTemp(data, items, temp) {
       parentArea: data.area,
       parentAreaName: data.areaName,
       parentTemp: temp,
+      type: sub.type,
       source: sub.source || 'outer',
       sign: sub.sign || data.sign,
       iterate: sub.iterate || data.iterate,
@@ -2512,27 +2605,4 @@ function DropDownTable(obj) {
       }
     }
   }
-}
-
-
-//  Для мобильного меню
-//  Показыть/скрыть мобильное меню
-
-function mobMenu() {
-  var mobMenu = document.querySelector('#mob-menu');
-  mobMenu.classList.toggle('active');
-}
-
-function runMobileMenu() {
-
-}
-runMobileMenu();
-
-function toggleMenuItems(el) {
-  var sublist = el.nextElementSibling;
-  var arrow = el.querySelector('.icon');
-  var arrowDiv = arrow.parentElement;
-
-  sublist.classList.toggle('displayNone');
-  arrowDiv.classList.toggle('close');
 }
