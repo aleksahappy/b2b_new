@@ -114,6 +114,12 @@ function logOut(event) {
   })
 }
 
+// Отображение/скрытие мобильного меню (адаптивного хедера):
+
+function toggleMobMenu() {
+  getEl('#mob-menu').classList.toggle('active');
+}
+
 //=====================================================================================================
 // Построение страницы:
 //=====================================================================================================
@@ -124,16 +130,9 @@ function addModules(path) {
   if (getEl('#modules')) {
     return;
   }
-
-  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
-
-  // if (path === 'testPage') {
-  //   includeHTML();
-  //   initModules();
-  //   return;
-  // }
-  var  url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
-    modules = document.createElement('div');
+  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
+      url = (path === '' || path === 'registr') ? '../modules/modules_short.html' : '../modules/modules_full.html',
+      modules = document.createElement('div');
   modules.id = 'modules';
   modules.dataset.html = url;
   document.body.insertBefore(modules, document.body.firstChild);
@@ -163,7 +162,8 @@ function includeHTML(target) {
 // Непосредственно получение и вставка html:
 
 function loadHTML(target, url) {
-  if (!url) {
+  target = getEl(target);
+  if (!target || !url) {
     return;
   }
   var xhr = new XMLHttpRequest();
@@ -701,11 +701,8 @@ function textareaCounter(textarea) {
 
 // Свернуть/развернуть контейнер:
 
-function toggleEl(name, className = 'displayNone') {
-  if (!name) {
-    return;
-  }
-  var el = getEl(name);
+function toggleEl(el, className = 'close') {
+  el = getEl(el);
   if (el) {
     el.classList.toggle(className);
   }
@@ -2608,27 +2605,4 @@ function DropDownTable(obj) {
       }
     }
   }
-}
-
-
-//  Для мобильного меню
-//  Показыть/скрыть мобильное меню
-
-function mobMenu() {
-  var mobMenu = document.querySelector('#mob-menu');
-  mobMenu.classList.toggle('active');
-}
-
-function runMobileMenu() {
-
-}
-runMobileMenu();
-
-function toggleMenuItems(el) {
-  var sublist = el.nextElementSibling;
-  var arrow = el.querySelector('.icon');
-  var arrowDiv = arrow.parentElement;
-
-  sublist.classList.toggle('displayNone');
-  arrowDiv.classList.toggle('close');
 }
