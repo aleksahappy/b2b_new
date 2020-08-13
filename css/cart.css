@@ -12,7 +12,7 @@
 ===================================================================================================== */
 
 #cart-empty {
-  /* display: none; */
+  display: none;
   display: none !important;
   flex-direction: column;
   justify-content: center;
@@ -57,11 +57,11 @@
   flex-shrink: 0;
 }
 
-#cart-full .header .text {
+#checkout-info {
   flex-grow: 0;
   flex-shrink: 0;
   margin-right: 2.143em;
-  /* visibility: hidden; */
+  visibility: hidden;
 }
 
 .cart-block {
@@ -181,6 +181,21 @@
 }
 
 /* =====================================================================================================
+ Скопированная корзина:
+===================================================================================================== */
+
+#cart-copy textarea {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  opacity: 0;
+}
+
+#cart-table {
+  display: none;
+}
+
+/* =====================================================================================================
 Всплывающее окно оформления заказа:
 ===================================================================================================== */
 
@@ -189,7 +204,7 @@
 }
 
 #checkout .warnblock {
-  /* display: none; */
+  display: none;
   justify-content: center;
   align-items: center;
   margin: 0 -2.5em;
@@ -214,7 +229,7 @@
   width: 100%;
 }
 
-#order-form .address .activate {
+#address {
   width: 100%;
 }
 
@@ -252,6 +267,12 @@
 
 #order-form .btns-wrap {
   justify-content: flex-start;
+}
+
+#order-details {
+  padding-right: 0.5em;
+  max-height: calc(79vh - 100px);
+  overflow-y: auto;
 }
 
 .order-block:not(:last-child) {

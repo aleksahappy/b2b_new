@@ -13,8 +13,40 @@
               <div class="title h2">Фильтры</div>
               <div class="close icon"></div>
             </div>
+            <div id="zip-filters" class="filter switch save default-open">
+              <div class="title row" onclick="switchContent(event)">
+                <div class="title white h3">Подбор запчастей</div>
+                <div class="open white icon switch-icon"></div>
+              </div>
+              <div class="items switch-cont">
+                <div id="zip-selects template">
+                  <div class="title">#title#</div>
+                  <div id="#key#" class="activate select" disabled>
+                    <div class="head row">
+                      <div class="title">#title#</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="#item#">#item#</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="title">Поиск по ОЕМ</div>
+                <form id="oem" class="search activate select row">
+                  <input type="text" data-value="" autocomplete="off" placeholder="Введите OEM">
+                  <input class="search icon" type="submit" value="">
+                  <div class="close icon"></div>
+                  <div class="drop-down">
+                    <div class="not-found">Совпадений не найдено</div>
+                    <div class="items">
+                      <div class="item" data-value="#item#">#item#</div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
             <div id="catalog-filters">
-              <div id="filter-#key#" class="filter switch save #isOpen#">
+              <div id="filter-#key#" class="filter switch save #isOpen# template">
                 <div class="title row" onclick="switchContent(event)">
                   <div class="title white h3">#title#</div>
                   <div class="open white icon switch-icon"></div>
@@ -63,8 +95,8 @@
           <div class="close icon"></div>
         </form>
         <div class="make-order row">
-          <div class="text red">Будет создано <span>2 заказа</span><br>на сумму <span>0</span></div>
-          <div class="btn act" onclick="openPopUp('#checkout')">Оформить заказ</div>
+          <div id="checkout-info" class="text red">Будет создано <span class="qty">2 заказа</span><br>на сумму <span class="sum">0</span></div>
+          <div class="btn act" onclick="openCheckout()">Оформить заказ</div>
         </div>
       </div>
       <div id="cart-list">
@@ -127,6 +159,19 @@
         </div>
       </div>
     </div>
+    <div id="cart-copy">
+      <table>
+        <tbody id="cart-table">
+          <tr class="cart-table-row #status#" data-id="#object_id#">
+            <td>#title#</td>
+            <td>#articul#</td>
+            <td class="qty">#qty#</td>
+            <td class="sum">0</td>
+          </tr>
+        </tbody>
+      </table>
+      <textarea></textarea>
+    </div>
   </div>
   <div id="checkout" class="pop-up-container">
     <div class="pop-up">
@@ -163,9 +208,9 @@
                   </div>
                 </div>
                 <div class="form-col2">
-                  <div class="form-wrap contr" required>
+                  <div class="form-wrap" required>
                     <div class="title">Контрагент*</div>
-                    <div class="activate select">
+                    <div id="contr" class="activate select">
                       <input type="hidden" value="" name="contr_id">
                       <div class="head row">
                         <div class="title">Выберите контрагента</div>
@@ -185,7 +230,7 @@
                 <div class="form-col2">
                   <div class="form-wrap" required>
                     <div class="title">Способ доставки*</div>
-                    <div class="activate select" onchange="toggleAddressField(this)">
+                    <div id="delivery" class="activate select" onchange="toggleAddressField()">
                       <input type="hidden" value="" name="delivery_type">
                       <div class="head row">
                         <div class="title">Выберите способ доставки</div>
@@ -216,9 +261,9 @@
                   </div>
                 </div>
               </div>
-              <div class="form-wrap address">
+              <div class="form-wrap">
                 <div class="title">Адрес доставки*</div>
-                <div class="activate select">
+                <div id="address" class="activate select">
                   <input type="hidden" value="" name="delivery_address">
                   <div class="head row">
                     <div class="title">Выберите адрес доставки</div>

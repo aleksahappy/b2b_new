@@ -49,8 +49,6 @@ window.addEventListener('unload', () => {
 // Отправка данных о заказе на сервер:
 
 function sendOrder(formData) {
-  loader.show();
-
   var idList = getIdList('cart', false);
   if (!idList) {
     return;
@@ -86,7 +84,7 @@ function sendOrder(formData) {
 }
 
 //=====================================================================================================
-// Работа с корзиной:
+// Работа с данными корзины:
 //=====================================================================================================
 
 // Обновление корзины при возвращении на страницу:
@@ -184,70 +182,6 @@ function createCartItemData(id, qty, status = '') {
   return item;
 }
 
-// Изменение информации о корзине в шапке сайта:
-
-function changeCartInHeader(totals) {
-  var qty = totals.qty,
-      sum = totals.sum;
-  fillCartInHeader(qty, sum, 'cart');
-  fillCartInHeader(qty, sum, 'catalog');
-  changeCartName(qty);
-}
-
-// Заполнение конкретной корзины в шапке сайта данными:
-
-function fillCartInHeader(qty, sum, type) {
-  var area = type === 'cart' ? getEl('#header-cart') : getEl('#catalogs');
-  if (!area) {
-    return;
-  }
-  var curCart = getEl(`.cart-${cartId}`, area),
-      cartQty = getEl('.qty', curCart),
-      cartSum = getEl('.sum span', curCart);
-  if (cartSum) {
-    cartSum.textContent = sum.toLocaleString('ru-RU');
-  }
-  if (website === 'skipper') {
-    cartQty.textContent = qty;
-  } else {
-    if (qty > 0) {
-      if (qty > 99) {
-        cartQty.textContent = type === 'cart' ? '99' : '99+';
-      } else {
-        cartQty.textContent = qty;
-      }
-      cartQty.classList.add('full');
-    } else {
-      cartQty.textContent = qty;
-      cartQty.classList.remove('full');
-    }
-    if (type === 'cart') {
-      var sum = 0;
-      cartTotals.forEach(el => {
-        sum += el.sum;
-      });
-      getEl('.cart-sum span', area).textContent = sum.toLocaleString('ru-RU');
-    }
-  }
-}
-
-// Добавление информации о корзине в заголовок страницы:
-
-function changeCartName(qty) {
-  var cartName = getEl('#cart-name');
-  if (cartName) {
-    if (!qty) {
-      var curTotal = cartTotals.find(el => el.id === cartId);
-      qty = curTotal ? curTotal.qty : 0;
-    };
-    if (qty == 0) {
-      cartName.textContent = ': пуста';
-    } else {
-      cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + declOfNum(qty, ['товар', 'товара', 'товаров']);
-    }
-  }
-}
-
 // Сохранение в корзину с отправкой на сервер только изменившихся данных:
 
 function saveInCart(id, qty) {
@@ -297,7 +231,7 @@ function saveInCartData(id, qty) {
     cartData[action] = {};
     cartData[action].action_name = action;
     cartData[action].type = item.action === 'Нет в наличии' ? 'sold' : '';
-    cartData.items = {};
+    cartData[action].items = {};
   }
   if (!cartData[action].items[id]) {
     cartData[action].items[id] = item;
@@ -518,7 +452,75 @@ function sumLessProc(sum) {
 }
 
 //=====================================================================================================
-// Изменение данных о количестве:
+// Изменение данных о количестве в шапке сайта и заголовке страницы:
+//=====================================================================================================
+
+// Изменение информации о корзине в шапке сайта:
+
+function changeCartInHeader(totals) {
+  var qty = totals.qty,
+      sum = totals.sum;
+  fillCartInHeader(qty, sum, 'cart');
+  fillCartInHeader(qty, sum, 'catalog');
+  changeCartName(qty);
+}
+
+// Заполнение конкретной корзины в шапке сайта данными:
+
+function fillCartInHeader(qty, sum, type) {
+  var area = type === 'cart' ? getEl('#header-cart') : getEl('#catalogs');
+  if (!area) {
+    return;
+  }
+  var curCart = getEl(`.cart-${cartId}`, area),
+      cartQty = getEl('.qty', curCart),
+      cartSum = getEl('.sum span', curCart);
+  if (cartSum) {
+    cartSum.textContent = sum.toLocaleString('ru-RU');
+  }
+  if (website === 'skipper') {
+    cartQty.textContent = qty;
+  } else {
+    if (qty > 0) {
+      if (qty > 99) {
+        cartQty.textContent = type === 'cart' ? '99' : '99+';
+      } else {
+        cartQty.textContent = qty;
+      }
+      cartQty.classList.add('full');
+    } else {
+      cartQty.textContent = qty;
+      cartQty.classList.remove('full');
+    }
+    if (type === 'cart') {
+      var sum = 0;
+      cartTotals.forEach(el => {
+        sum += el.sum;
+      });
+      getEl('.sum span', area).textContent = sum.toLocaleString('ru-RU');
+    }
+  }
+}
+
+// Добавление информации о корзине в заголовок страницы:
+
+function changeCartName(qty) {
+  var cartName = getEl('#cart-name');
+  if (cartName) {
+    if (!qty) {
+      var curTotal = cartTotals.find(el => el.id === cartId);
+      qty = curTotal ? curTotal.qty : 0;
+    };
+    if (qty == 0) {
+      cartName.textContent = ': пуста';
+    } else {
+      cartName.textContent = ': ' + getEl('.topmenu-item.active').textContent + ' - ' + qty + ' ' + declOfNum(qty, ['товар', 'товара', 'товаров']);
+    }
+  }
+}
+
+//=====================================================================================================
+// Изменение данных о количестве в карточках товара и корзине:
 //=====================================================================================================
 
 // Получение списка id товаров, выбранных в корзине:
@@ -537,7 +539,7 @@ function getIdList(area, isAll = true) {
   return Array.from(list).map(el => el.dataset.id);
 }
 
-// Вывод информации о корзине в карточке товара:
+// Проверка наличия товара в корзине и отображение в карточке товара (степпере/кружке):
 
 function checkCart(card) {
   if (!isCart) {
@@ -549,7 +551,7 @@ function checkCart(card) {
       var curProduct = curItems.find(item => item.object_id == card.dataset.id),
           sizeInfo = curProduct.sizes,
           totalQty = 0;
-      for (let el in sizeInfo) {
+      for (var el in sizeInfo) {
         totalQty += getQty(sizeInfo[el].object_id);
       }
       var qty = getEl('.qty', cartInfo);
@@ -572,8 +574,7 @@ function checkCart(card) {
       input.value = qty;
       input.dataset.value = qty;
       changeColors(getEl('.qty', size), qty);
-      changeNameBtn(getEl('.name.click', size), qty);
-      changeCardInfo(card);
+      changeCard(card);
     });
   }
 }
@@ -596,7 +597,7 @@ function getQty(id) {
   }
 }
 
-// Изменение выбранного количества:
+// Изменение выбранного количества степпером:
 
 function changeCart(event, id) {
   var curEl = event.currentTarget.closest('.manage'),
@@ -604,19 +605,19 @@ function changeCart(event, id) {
       qty = changeQty(event, totalQty);
   saveInCart(id, qty);
   if (curEl.classList.contains('card')) {
-    changeCardInfo(curEl);
+    changeCard(curEl);
     if (curEl.classList.contains('full-card')) {
       checkCart(getEl(`#gallery .card[data-id="${curEl.dataset.id}"]`));
     }
   } else {
     changeCartRow(curEl);
-    changeCartInfo();
+    changeCheckout();
   }
 }
 
 // Изменение информации в карточке товара:
 
-function changeCardInfo(card) {
+function changeCard(card) {
   var selectInfo = getEl('.select-info', card),
       bonusRow = getEl('.bonus', selectInfo),
       idList = getIdList(card),
@@ -646,55 +647,71 @@ function changeCardInfo(card) {
 // Изменение информации в строке корзины:
 
 function changeCartRow(row) {
-  if (row.classList.contains('not-available') || row.classList.contains('bonus')) {
+  if (row.closest('.sold') || row.classList.contains('bonus')) {
     return;
   }
   var input = getEl('.choiced-qty', row),
       id = input.dataset.id,
-      tableRow = getEl(`.cart-table-row:not(.bonus)[data-id="${id}"]`),
       totals = countFromCart([id], false);
 
-  getEl('.sum .value', row).textContent = totals.sum.toLocaleString('ru-RU');
-  getEl('.qty', tableRow).textContent = parseInt(input.value ,10);
-  getEl('.sum', tableRow).textContent = totals.sum;
+  getEl('.sum span', row).textContent = totals.sum.toLocaleString('ru-RU');
+  changeCopyCartRow(id, parseInt(input.value ,10), totals.sum);
 
   if (totals.bonusId) {
-    var bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`),
-        tableBonusRow = getEl(`.cart-table-row.bonus[data-parent-id="${id}"]`);
+    var bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`);
     if (totals.bonusQty > 0) {
       var qty = totals.bonusQty;
       if (bonusRow) {
         getEl('.qty .bonus span', bonusRow).textContent = qty;
-        getEl('.qty', tableBonusRow).textContent = qty;
       } else {
-        createCartRow('id_' + bonusId, qty, row, tableRow, 'bonus');
+        createCartRow('id_' + bonusId, qty, row, 'bonus');
         bonusRow = row.nextElementSibling;
         checkImg(bonusRow);
-        getEl('.prop.action', bonusRow).textContent = getEl('.prop.action', row).textContent;
         bonusRow.dataset.parentId = id;
         if (!row.classList.contains('checked')) {
           bonusRow.classList.remove('checked');
         }
-        tableBonusRow = tableRow.nextElementSibling;
-        tableBonusRow.dataset.parentId = id;
       }
     } else {
       if (bonusRow) {
         getEl('#cart-rows').removeChild(bonusRow);
-        getEl('#cart-table').removeChild(tableBonusRow);
       }
     }
   }
 }
 
-// Изменение общей информации о корзине:
+// Изменение информации в строке корзины:
 
-function changeCartInfo() {
-  var idList = getIdList('cart'),
-      cartInfo = getEl('#cart-info'),
-      cartDiscount = getEl('.cart-discount', cartInfo);
+function changeCopyCartRow(id, qty, sum) {
+  var cartCopy = getEl('#cart-copy');
+  if (cartCopy) {
+    var row = getEl(`tr:not(.bonus)[data-id="${id}"]`);
+    getEl('.qty', row).textContent = qty;
+    getEl('.sum', row).textContent = sum;
+  }
+}
+
+// Изменение информации о количестве заказов (рядом с кнопкой оформления заказа):
+
+function changeCheckoutInfo(qty, sum) {
+  var info = getEl('#checkout-info');
+  if (qty > 1) {
+    info.style.visibility = 'visible';
+    getEl('.qty', info).textContent = declOfNum(qty, ['заказ', 'заказа', 'заказов']);
+    getEl('.sum', info).textContent = sum;
+  } else {
+    info.style.visibility = 'hidden';
+  }
+}
+
+// Изменение информации в форме заказа:
+
+function changeCheckout() {
+  var idList = getIdList('cart');
   if (idList) {
-    var totals = countFromCart(idList);
+    var checkout = getEl('#checkout'),
+        warnblock = getEl('#checkout .warnblock'),
+        totals = countFromCart(idList);
     getEl('.qty', cartInfo).textContent = totals.qty;
     showElement('.cart-make-order', 'flex');
     if (totals.qty > 0) {
@@ -734,6 +751,7 @@ function renderCart() {
   changeCartName();
   createCart();
   showActualCart();
+  showElement('#main-header', 'flex');
   showElement('#cart-name');
   showElement('#cart');
 }
@@ -765,13 +783,12 @@ function showActualCart() {
     hideElement('#cart-full');
     showElement('#cart-empty', 'flex');
   } else {
-    getEl('#check-all').classList.add('checked');
+    document.querySelectorAll('.cart-block .head .checkbox').forEach(el => el.classList.add('checked'));
     document.querySelectorAll('.cart-row').forEach(row => {
       checkImg(row);
       changeCartRow(row);
     });
-    closeOrderForm();
-    changeCartInfo();
+    changeCheckout();
     hideElement('#cart-empty');
     showElement('#cart-full');
   }
@@ -779,7 +796,7 @@ function showActualCart() {
 
 // Cоздание строки корзины:
 
-function createCartRow(id, qty, row = null, tableRow = null, status) {
+function createCartRow(id, qty, row = null, status) {
   var data = createCartItemData(id, qty, status);
   if (data) {
     fillTemplate({
@@ -938,7 +955,7 @@ function toggleAllCart(event) {
     getEl('#cart-rows').querySelectorAll('.cart-row:not(.displayNone)').forEach(row => row.classList.add('checked'));
     showElement('.cart-make-order', 'flex');
   }
-  changeCartInfo();
+  changeCheckout();
 }
 
 // Выделение/снятие выделения одного пункта корзины:
@@ -958,7 +975,7 @@ function toggleInCart(event) {
   } else {
     getEl('#check-all').classList.remove('checked');
   }
-  changeCartInfo();
+  changeCheckout();
 }
 
 // Удаление выбранных пунктов корзины:
@@ -971,13 +988,13 @@ function deleteSelected(isConfirm) {
   alerts.hide();
   var cartRows = getEl('#cart-rows'),
       cartTable = getEl('#cart-table');
-  var id, tableRow, bonusRow, tableBonusRow;
+  var id, copyRow, bonusRow, tableBonusRow;
 
   cartRows.querySelectorAll('.cart-row.checked:not(.bonus)').forEach(row => {
     id = row.dataset.id;
-    tableRow = getEl(`.cart-table-row[data-id="${id}"]`);
+    copyRow = getEl(`.cart-table-row[data-id="${id}"]`);
     cartRows.removeChild(row);
-    cartTable.removeChild(tableRow);
+    cartTable.removeChild(copyRow);
     saveInCart(id, 0);
 
     bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`);
@@ -988,7 +1005,7 @@ function deleteSelected(isConfirm) {
     }
   });
   getEl('#check-all').classList.remove('checked');
-  changeCartInfo();
+  changeCheckout();
   if (cartRows.querySelectorAll('.cart-row').length == 0) {
     showElement('#cart-empty', 'flex');
     hideElement('#cart-full');
@@ -1007,59 +1024,48 @@ function getConfirmDeleteFromCart() {
 // Работа с формой заказа:
 //=====================================================================================================
 
-// Заполнение формы заказа данными:
-
-function fillOrderForm() {
-  fillTemplate({
-    area: '.form-wrap.contr .drop-down',
-    items: userData.contr
-  });
-  fillTemplate({
-    area: '.form-wrap.address .drop-down',
-    items: userData.address,
-  });
-  toggleOrderAddress(getEl('#order-form [name="delivery_type"]'));
-}
-
 // Открытие формы заказа:
 
-function openOrderForm() {
+function openCheckout() {
   if (!userData.contr) {
     alerts.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors" target="_blank">Контрагенты</a> для их добавления/включения.');
     return;
   }
   if (!userData.address) {
     alerts.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses" target="_blank">Адреса доставки</a> для их добавления/включения.');
-    var deliverySelect = getEl('#order-form [name="delivery_type"]');
-    getEl('option[value="2"]', deliverySelect).style.display = 'none';
-    getEl('option[value="3"]', deliverySelect).style.display = 'none';
+    getEl('#order-form .activate.delivery .item[data-value="2"]').style.display = 'none';
+    getEl('#order-form .activate.delivery .item[data-value="3"').style.display = 'none';
   }
-  showElement('order-form', 'flex');
-  hideElement('.cart-make-order');
-  document.querySelectorAll('.cart-list').forEach(el => hideElement(el));
+  clearForm('#order-form');
+  toggleAddressField();
+  openPopUp('#checkout');
 }
 
-// Закрытие формы заказа:
+// Заполнение формы заказа данными:
 
-function closeOrderForm() {
-  clearForm('#order-form');
-  toggleOrderAddress(getEl('[name="delivery_type"]'));
-  hideElement('#order-form');
-  showElement('.cart-make-order', 'flex');
-  document.querySelectorAll('.cart-list').forEach(el => showElement(el));
+function fillOrderForm() {
+  fillTemplate({
+    area: '#contr .drop-down',
+    items: userData.contr
+  });
+  fillTemplate({
+    area: '#address .drop-down',
+    items: userData.address,
+  });
+  toggleAddressField();
 }
 
 // Показ/ скрытие поля выбора адреса доставки:
 
-function toggleOrderAddress(el) {
-  var address = getEl('.address', 'order-form'),
-      addressSelect = getEl('[name="delivery_address"]', address);
-  if (el.value === '3') {
-    addressSelect.required = true;
-    showElement(address);
+function toggleAddressField() {
+  var deliveryType = getEl('#delivery'),
+      address = getEl('#address');
+  if (deliveryType.value === '2' || deliveryType.value === '3') {
+    address.removeAttribute('disabled');
+    address.closest('.form-wrap').required = true;
   } else {
-    addressSelect.value = '';
-    addressSelect.required = false;
-    hideElement(address);
+    clearDropDown(address);
+    address.setAttribute('disabled', 'disabled');
+    address.closest('.form-wrap').required = false;
   }
 }
