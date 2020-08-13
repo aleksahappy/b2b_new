@@ -17,6 +17,7 @@
 
   section.banners-carousel{
     display: block!important;
+    margin-top: 20px;
   }
 
   .carousel-gallery .carousel-item{
@@ -37,7 +38,7 @@
   }
 
   .open.icon{
-    display: block;
+    display: block!important;
   }
 
   section{
@@ -75,11 +76,12 @@
     bottom: 10px;
     height: 19px;
     width: 110px;
-    height: 20px;
-    line-height: 20px;
+    height: 22px;
+    line-height: 22px;
     padding: 0 10px;
     font-size: 0.75em;
     background: #D70C17 url(../img/attention_white.svg) no-repeat 8px center;
+    background-size: 15px;
   }
 
   .line{
@@ -192,7 +194,7 @@
   }
 
   .info-graphic-1 .info-wrap .col1{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .info-graphic-1 .col1,
@@ -273,7 +275,7 @@
   /* "Ежегодная динамика товарооборота" и "Доля закупок по производителям" */
 
   .info-graphic-2 .col1{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .info-graphic-2 .info-wrap .col1{
@@ -310,6 +312,14 @@
 
   .info-graphic-2 .col1 .section-title{
     width: 100%;
+  }
+
+  .section-head {
+    background: #53606F;
+  }
+
+  .section-head .title {
+    color: #ffffff;
   }
 
   .info-graphic-2 .section-head{
@@ -375,6 +385,13 @@
     margin-right: 20px;
   }
 
+  .settle-block .attention{
+    width: 100px;
+    background: #D70C17 url(../img/attention_white.svg) no-repeat 8px center;
+    background-size: 15px
+  }
+}
+
 
 @media(max-width: 540px) {
   .gauge{
@@ -382,6 +399,7 @@
     width: 100%;
     max-width: 90%
   }
+}
 
 
 @media (max-width: 499px) {

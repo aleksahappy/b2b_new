@@ -164,18 +164,23 @@ main{
 
 /* Основной график и таблица */
 
-.section-head.col-wrapper.row{
+.section-head.col-wrapper.row {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #cccccc;
-}
-
-.infoblock.switch{
   padding: 20px;
 }
 
-.info-wrap{
+.section-head {
+  padding: 20px;
+}
+
+.info-wrap {
   display: flex;
+}
+
+.info-wrap.row {
+  padding: 0 20px 20px 20px;
 }
 
 .info-wrap.switch-cont.row{
@@ -453,12 +458,10 @@ thead .legend {
 
 .info-graphic-1 .col1{
 	margin-right: 20px;
-  padding: 20px;
 	background: #ffffff;
 }
 
 .info-graphic-1 .col2{
-  padding: 20px;
 	background: #ffffff;
 }
 
@@ -547,6 +550,10 @@ thead .legend {
   background: #ffffff;
 }
 
+.section-body-1 {
+  padding: 20px;
+}
+
 .gauge{
 	width: 100%;
 	max-width: 355px;
@@ -630,8 +637,16 @@ thead .legend {
 	margin-bottom: 10px;
 }
 
-.info-graphic-2 .col-wrapper{
-  padding: 20px;
+.info-graphic-1 .col-head .preorder-toggle,
+.info-graphic-2 .col-head .preorder-toggle {
+  padding-right: 20px;
+}
+
+.info-graphic-1 .section-head,
+.info-graphic-2 .section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .info-graphic-2 .col1 .section-title{
