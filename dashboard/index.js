@@ -13,6 +13,11 @@ function startDashboardTable() {
     loader.hide();
     dataOrders = convertData(dataOrders);
     initTable('#dashboard-table', {data: dataOrders});
+    var mobTable = {
+      area: '#mob-dashboard-table',
+      items: dataOrders
+    };
+    fillTemplate(mobTable);
     startOrdersProgress(dataOrders);
     getOrdersInfo(dataOrders);
     tableDataSort();
@@ -899,11 +904,25 @@ function startProcurementDonutChart() {
 startDashboardTable();
 startProcurementDonutChart();
 
+var pageWidth = window.innerWidth;
+var pageHeight = window.innerHeight;
+
 window.onresize = startProcurementDonutChart;
 
 // костыль перезагрузки страницы при ресайзе для адаптива
 window.addEventListener("resize", pageReload);
 
+
+//  Не запускать перезагрузку страницы, если ширина страницы не менялась
+//  На мобильных устройствах событие ресайз происходит даже тогда, когда при
+//  скроле скрывается верхняя консоль браузера с URL
+
 function pageReload() {
-  window.location.reload(true);
+
+  if (window.innerWidth != pageWidth && window.innerHeight != pageHeight) {
+    window.location.reload(true);
+  } else {
+    return;
+  }
+
 }

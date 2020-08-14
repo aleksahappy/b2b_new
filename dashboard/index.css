@@ -400,6 +400,30 @@ thead .legend {
   display: none;
 }
 
+/* Мобильная таблица */
+#mob-dashboard-table {
+  display: none;
+  width: 100%;
+}
+
+#mob-dashboard-table .tr {
+  padding-bottom: 1.25em;
+  margin-bottom: 1.5em;
+  border-bottom: 1px solid #cccccc;
+}
+
+#mob-dashboard-table .tr-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+}
+
+#mob-dashboard-table .row > div {
+  margin-right: 1em;
+  padding: 0em 1em;
+  border-radius: 30px;
+  font-size: 0.9em;
+}
 
 /* Цветные обертки-стикеры для сумм в таблице по состояниям */
 
