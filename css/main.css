@@ -62,7 +62,6 @@
 }
 
 html {
-  margin-right: calc(-1 * (100vw - 100%));
   font-size: 10px;
   overflow-x: hidden;
   -moz-text-size-adjust: none;
