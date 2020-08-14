@@ -217,6 +217,10 @@ body {
   margin-right: 2.5em;
 }
 
+.main.zip .view {
+  display: none;
+}
+
 .view .title {
   margin-right: 1em;
   line-height: 0;
@@ -327,52 +331,42 @@ body {
 Стили для фильтров OEM:
 ===================================================================================================== */
 
-#zip-filters {
+.main.equip #zip-filters {
   display: none;
-  width: 18em;
-  margin-bottom: 1em;
 }
 
-#zip-filters .filter-title {
-  background-color: #34495E;
+#zip-filters:not(.close) {
+  margin-bottom: 0.5em;
+  padding: 0;
 }
 
-#zip-filters .filter-title .title {
-  color: #FFFFFF;
+#zip-filters > .title {
+  background-color: #F05A28;
 }
 
-#zip-filters .filter-items {
-  background-color: #7B8894;
-  border: 1px solid #7B8894;
-  padding: 0.7em;
+#zip-filters > .items {
+  background-color: #F2C94C;
+  border: 1px solid #F05A28;
+  padding: 0.714em;
 }
 
 #zip-filters .activate {
   width: 100%;
+  margin-bottom: 0.6em;
 }
 
-#zip-filters .activate .drop-down {
-  color: #34495E;
+#zip-filters .activate .head,
+#zip-filters .search input {
+  padding-top: 0.11em;
+  padding-bottom: 0.11em;
 }
 
 #zip-filters .activate.open .drop-down {
   max-height: 15em;
 }
 
-#zip-selects .activate {
-  margin-bottom: 0.7em;
-}
-
-#zip-selects .activate .head {
-  padding: 0.15em 1.5rem;
-}
-
-#zip-selects .activate:not([disabled]) .head .title {
-  color: #34495E;
-}
-
-#oem input[type="text"] {
-  color: #34495E;
+#zip-filters .search {
+  margin-bottom: 0;
 }
 
 /* =====================================================================================================

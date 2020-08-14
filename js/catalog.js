@@ -103,9 +103,11 @@ function startCatalogPage() {
       }
     )
   } else {
-    getItems()
+    // getItems()
+    sendRequest(`../json/${document.body.id}_data.json`) //удалить
     .then(
       result => {
+        result = JSON.parse(result); //удалить
         for (var key in result) {
           if (key !== 'colors') {
             window[key] = result[key];
@@ -127,8 +129,8 @@ function initCart() {
     window.addEventListener('focus', updateCart);
     getCart()
     .then(result => {
-      createCartData();
       fillOrderForm();
+      createCartData();
     }, reject => console.log(reject))
     .then(result => {
       initPage();

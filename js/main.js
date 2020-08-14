@@ -253,10 +253,10 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 
 function getTotals() {
   return new Promise((resolve, reject) => {
-    sendRequest(urlRequest.main, {action: 'get_total'})
+    // sendRequest(urlRequest.main, {action: 'get_total'})
+    sendRequest('../json/cart_totals_data.json') //удалить
     .then(
       result => {
-        console.log(result);
         if (!result || JSON.parse(result).err) {
           reject('Итоги не пришли');
         }
@@ -279,10 +279,10 @@ function getTotals() {
 
 function getCart() {
   return new Promise((resolve, reject) => {
-    sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
+    // sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
+    sendRequest(`../json/cart_${document.body.id}_data.json`) //удалить
     .then(
       result => {
-        console.log(result);
         if (!result || JSON.parse(result).err) {
           reject('Корзина и данные для заказа не пришли');
         }
@@ -325,12 +325,9 @@ function getItems(id) {
     if (id) {
       data.data.list = id;
     }
-    console.log(data);
-    sendRequest(`../json/equip_data.json`)
-    // sendRequest(urlRequest.main, data)
+    sendRequest(urlRequest.main, data)
     .then(result => {
       var data = JSON.parse(result);
-      console.log(data);
       resolve(data);
     })
     .catch(error => {
@@ -382,13 +379,13 @@ function renderTotals() {
   if (!isCart || !cartTotals.length) {
     return;
   }
-  renderCartList('cart');
-  renderCartList('catalog');
+  renderCartInHeader('cart');
+  renderCartInHeader('catalog');
 }
 
 // Создание списка каталогов/корзин в шапке сайта:
 
-function renderCartList(type) {
+function renderCartInHeader(type) {
   var area = type === 'cart' ? getEl('#header-cart') : getEl('#catalogs');
   if (!area) {
     return;
@@ -439,8 +436,6 @@ function getDataFromTotals(type) {
   }
   return data;
 }
-
-
 
 //=====================================================================================================
 // Работа со storage и cookie:
@@ -1402,7 +1397,7 @@ function onlyNumb(event) {
 
 // Изменение количества степпером:
 
-function changeQty(event, maxQty, minQty = 0, text) {
+function changeQty(event, maxQty, minQty = 0) {
   if (minQty === maxQty) {
     return;
   }
@@ -1427,7 +1422,6 @@ function changeQty(event, maxQty, minQty = 0, text) {
   input.value = qty;
   input.dataset.value = qty;
   changeColors(qtyWrap, qty);
-  changeNameBtn(getEl('.name.click', qtyWrap), qty, text);
   return qty;
 }
 
@@ -1470,18 +1464,6 @@ function changeColors(el, qty) {
       el.classList.remove('added');
     } else {
       el.classList.add('added');
-    }
-  }
-}
-
-// Изменение названия кнопки в степпере:
-
-function changeNameBtn(el, qty, text = 'В корзину') {
-  if (el) {
-    if (qty == 0) {
-      el.textContent = text;
-    } else {
-      el.textContent = 'Удалить';
     }
   }
 }
@@ -2046,7 +2028,9 @@ function Form(obj, callback) {
   this.isSubmit = false;
 
   // Инициализация выпадающих списков (если они есть):
-  this.dropDowns.forEach(el => new DropDown(el));
+  this.dropDowns.forEach((el, index) => {
+    this[`dropDown${index}`] = new DropDown(el);
+  });
 
   // Инициализация календарей (если они есть):
   this.dates.forEach(el => new Calendar(el));
