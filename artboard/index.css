@@ -29,12 +29,9 @@
   margin-right: 1em;
 }
 
-.tooltips-temp .row {
-  flex-wrap: wrap;
-}
-
-.tooltips-temp .row > div {
-  margin-right: 1em;
+.tooltips-temp > div > div {
+  display: inline-block;
+  margin-right: 1.5em;
 }
 
 .icons-temp .carousel.for-slider {
