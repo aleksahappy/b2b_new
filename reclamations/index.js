@@ -12,6 +12,14 @@ function startReclmPage() {
   .then(result => {
     var data = JSON.parse(result);
     initPage(data);
+    var mobTable = {
+      area: '#mob-rows',
+      sign: '@@',
+      items: data
+    };
+    fillTemplate(mobTable);
+    initPage(data);
+    getFilterData(data);
   })
   .catch(err => {
     console.log(err);
@@ -24,6 +32,11 @@ function startReclmPage() {
 function initPage(data) {
   var settings = {
     data: data,
+    control: {
+      pagination: true,
+      search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
+      setting: true
+    },
     head: true,
     result: false,
     trFunc: 'onclick=showReclm(#id#)',
@@ -61,4 +74,34 @@ function initPage(data) {
   };
   initTable('#reclm', settings);
   loader.hide();
+}
+
+
+//  Получить уникальные значения менеджеров для значений фильтров
+
+function getFilterData(data) {
+  var uniqueManager = new Set();
+  var dataFilters = [];
+
+  for (let i = 0; i < data.length; i++) {
+    for (let key in data[i]) {
+      if (key === 'manager') {
+        uniqueManager.add(data[i][key]);
+      }
+    }
+  }
+
+  var arrManagers = Array.from(uniqueManager);
+  for (let i = 0; i < arrManagers.length; i++) {
+    var obj = new Object();
+    obj.manager = arrManagers[i];
+    dataFilters.push(obj);
+  }
+
+  var mobFilters = {
+    area: '#test',
+    sign: '@@',
+    items: dataFilters
+  };
+  fillTemplate(mobFilters);
 }

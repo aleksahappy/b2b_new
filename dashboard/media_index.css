@@ -17,6 +17,7 @@
 
   section.banners-carousel{
     display: block!important;
+    margin-top: 20px;
   }
 
   .carousel-gallery .carousel-item{
@@ -37,7 +38,7 @@
   }
 
   .open.icon{
-    display: block;
+    display: block!important;
   }
 
   section{
@@ -74,21 +75,21 @@
     right: 200px;
     bottom: 10px;
     height: 19px;
-    width: 110px;
-    height: 20px;
-    line-height: 20px;
+    width: 130px;
+    height: 22px;
+    line-height: 22px;
     padding: 0 10px;
-    font-size: 0.75em;
     background: #D70C17 url(../img/attention_white.svg) no-repeat 8px center;
+    background-size: 15px;
   }
 
   .line{
     margin-bottom: 0;
-    font-size: 1em;
+    font-size: 1.1em;
   }
 
-  .line-title{
-    font-size: 1.7em;
+  .line-title {
+    font-size: 1.57em;
   }
 
   .line-money{
@@ -192,7 +193,7 @@
   }
 
   .info-graphic-1 .info-wrap .col1{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .info-graphic-1 .col1,
@@ -201,7 +202,7 @@
   }
 
   .info-graphic-1 .col2 .col-wrapper{
-    /* height: 92%; */
+    height: 92%;
   }
 
   .col-wrapper{
@@ -273,7 +274,7 @@
   /* "Ежегодная динамика товарооборота" и "Доля закупок по производителям" */
 
   .info-graphic-2 .col1{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .info-graphic-2 .info-wrap .col1{
@@ -312,6 +313,14 @@
     width: 100%;
   }
 
+  .section-head {
+    background: #53606F;
+  }
+
+  .section-head .title {
+    color: #ffffff;
+  }
+
   .info-graphic-2 .section-head{
     width: 100%;
   }
@@ -329,6 +338,25 @@
     margin-left: 0;
   }
 
+}
+
+@media (max-width: 767px) {
+  #mob-dashboard-table {
+    display: block;
+  }
+
+  .table-btns {
+    display: none;
+  }
+
+  .preorder-toggle {
+    display: none;
+  }
+
+  .infoblock .col1{
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 
@@ -359,14 +387,14 @@
   }
 
   .settle-block .attention{
-    width: 120px;
+    width: 115px;
     left: 0;
     bottom: 20px;
     padding: 0 6px;
   }
 
   .money{
-    font-size: 2em;
+    /* font-size: 2em; */
   }
 
   .carousel-gallery .carousel-item{
@@ -375,25 +403,49 @@
     margin-right: 20px;
   }
 
+  /* .settle-block .attention{
+    width: 100px;
+    background: #D70C17 url(../img/attention_white.svg) no-repeat 8px center;
+    background-size: 15px
+  } */
+}
+
 
 @media(max-width: 540px) {
   .gauge{
-    min-width: 310px;
+    min-width: 256px;
     width: 100%;
     max-width: 90%
   }
+
+  .speed-point {
+    width: 20px;
+    height: 20px;
+  }
+
+  .speed-pointer {
+    top: -70px;
+    left: -3px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 7px 70px 7px;
+  }
+
+  #mob-dashboard-table .row > div {
+    margin-right: 0.4em;
+    padding: 0em 0.2em;
+    border-radius: 30px;
+  }
+
+}
 
 
 @media (max-width: 499px) {
 
   .orders-info{
-    font-size: 0.9em;
+    /* font-size: 0.9em; */
     width: 35%;
-  }
-
-  .infoblock .col1{
-    flex-direction: column;
-    align-items: center;
   }
 
   .info-graphic-2{
@@ -401,11 +453,11 @@
   }
 
   .line-title{
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
   }
 
   .money{
-    font-size: 1.6em;
+    /* font-size: 1.6em; */
   }
 
   .settle-block .attention{
@@ -414,11 +466,12 @@
   }
 
   .settle-title{
-    font-size: 1.45em;
+    /* font-size: 1.45em; */
   }
 
   .header-top .logo{
     margin-right: 0;
   }
+
 
 }

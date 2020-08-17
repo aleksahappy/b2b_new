@@ -79,10 +79,10 @@
     </a>
   </div>
   <div class="list">
-    <div class="item close" onclick="toggleEl(this)">
-      <div class="item-wrap">
-        <div class="title">Профиль</div>
-        <div class="open dark icon"></div>
+    <div class="item switch close">
+      <div class="item-wrap" onclick="switchContent(event)">
+        <div class="title" >Профиль</div>
+        <div class="open dark icon switch-icon"></div>
       </div>
       <div class="sublist switch-cont">
         <div class="subitem">
@@ -106,10 +106,10 @@
         </div>
       </div>
     </div>
-    <div class="item close" onclick="toggleEl(this)">
-      <div class="item-wrap">
+    <div class="item switch close">
+      <div class="item-wrap" onclick="switchContent(event)">
         <div class="title">Каталоги</div>
-        <div class="open dark icon"></div>
+        <div class="open dark icon switch-icon"></div>
       </div>
       <div id="mob-catalogs" class="sublist switch-cont template">
         <div class="row">
@@ -125,10 +125,10 @@
         </div>
       </div>
     </div>
-    <div class="item close" onclick="toggleEl(this)">
-      <div class="item-wrap">
+    <div class="item switch close">
+      <div class="item-wrap" onclick="switchContent(event)">
         <div class="title">Закупки</div>
-        <div class="open dark icon"></div>
+        <div class="open dark icon switch-icon"></div>
       </div>
       <div class="sublist switch-cont">
         <div class="subitem">

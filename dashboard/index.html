@@ -128,8 +128,8 @@
               </div>
             </section>
             <!-- Секция "Заказы в работе"-->
-            <section class="infoblock switch" onclick="switchContent(event)">
-              <div class="section-head col-wrapper row">
+            <section class="infoblock switch">
+              <div class="section-head col-wrapper row" onclick="switchContent(event)">
                 <div class="title h1">Заказы в работе</div>
                 <div class="graphic-btns">
                   <!-- тоггл "Только предзаказы" -->
@@ -174,10 +174,14 @@
                       </div>
                     </div>
                     <div class="table-btns" id="table-btns-mob">
-                      <div class="table-btn status1" id="status1-mob">Ожидается</div>
-                      <div class="table-btn status2" id="status2-mob">В наличии</div>
-                      <div class="table-btn status3" id="status3-mob">Собран</div>
-                      <div class="table-btn status4" id="status4-mob">Отгружен</div>
+                      <div class="table-btn status1" id="status1-mob">
+                        Ожидается <div class="st-ic"></div></div>
+                      <div class="table-btn status2" id="status2-mob">
+                        В наличии <div class="st-ic"></div></div>
+                      <div class="table-btn status3" id="status3-mob">
+                        Собран <div class="st-ic"></div></div>
+                      <div class="table-btn status4" id="status4-mob">
+                        Отгружен <div class="st-ic"></div></div>
                     </div>
                   </div>
                 </div>
@@ -206,6 +210,21 @@
                       </table>
                     </div>
                   </div>
+                  <div id="mob-dashboard-table">
+                    <div class="tr">
+                      <div class="tr-head">
+                        <div class="td">#order_number#</div>
+                        <div class="td">#order_event#</div>
+                      </div>
+                      <div class="row">
+                        <div class="vputi c10 #display1#">#sum1#</div>
+                        <div class="vnali c10 #display2#">#sum2#</div>
+                        <div class="sobrn c10 #display3#">#sum3#</div>
+                        <div class="otgrz c10 #display4#">#sum4#</div>
+                        <div class="nedop c10 #display5#">#sum5#</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -213,9 +232,9 @@
             <section class="info-graphic-1">
               <div class="info-wrap">
                 <div class="col1" >
-                  <div class="col-wrapper center-col switch" onclick="switchContent(event)">
+                  <div class="col-wrapper center-col switch" >
                     <!-- Заголовок секции -->
-                    <div class="section-head">
+                    <div class="section-head" onclick="switchContent(event)">
                       <div class="title h1">Рекламации в работе</div>
                       <div class="open white icon switch-icon"></div>
                     </div>
@@ -243,11 +262,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="col2 switch" onclick="switchContent(event)">
+                <div class="col2 switch" >
                   <div class="col-wrapper">
                     <div class="col-head">
                       <!-- Заголовок секции -->
-                      <div class="section-head">
+                      <div class="section-head" onclick="switchContent(event)">
                         <div class="title h1">График поставок</div>
                         <div class="open white icon switch-icon"></div>
                       </div>
@@ -293,10 +312,10 @@
             <section class="info-graphic-2">
               <div class="info-wrap">
                 <div class="col2 ">
-                  <div class="col-wrapper center-col switch" onclick="switchContent(event)">
+                  <div class="col-wrapper center-col switch" >
                     <div class="col-head">
                       <!-- Заголовок секции -->
-                      <div class="section-head">
+                      <div class="section-head" onclick="switchContent(event)">
                         <div class="title h1">Ежегодная динамика товарооборота</div>
                         <div class="open white icon switch-icon"></div>
                       </div>
@@ -323,9 +342,9 @@
                   </div>
                 </div>
                 <div class="col1">
-                  <div class="col-wrapper center-col switch" onclick="switchContent(event)">
+                  <div class="col-wrapper center-col switch" >
                     <!-- Заголовок секции -->
-                    <div class="section-head">
+                    <div class="section-head" onclick="switchContent(event)">
                       <div class="title h1">Доля закупок по производителям</div>
                       <div class="open white icon switch-icon"></div>
                     </div>

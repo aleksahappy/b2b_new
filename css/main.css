@@ -62,7 +62,6 @@
 }
 
 html {
-  margin-right: calc(-1 * (100vw - 100%));
   font-size: 10px;
   overflow-x: hidden;
   -moz-text-size-adjust: none;
@@ -184,6 +183,7 @@ body {
   line-height: normal;
   color: #666666;
   background-color: #F2F2F2;
+  overscroll-behavior: contain;
 }
 
 body.no-scroll {
@@ -3558,7 +3558,7 @@ tbody td > .row * {
 /* Мобильное меню (адаптив хедера) */
 
 #mob-menu {
-  position: absolute;
+  position: fixed;
   top: -110%;
   right: 0;
   left: 0;
@@ -3566,7 +3566,7 @@ tbody td > .row * {
   background: #ffffff;
   transition: 0.9s;
   overflow-y: auto;
-  z-index: 120;
+  z-index: 151;
 }
 
 #mob-menu .template {
@@ -3594,7 +3594,7 @@ tbody td > .row * {
 
 #mob-menu .list .item .title {
   text-transform: uppercase;
-  font-size: 1.143em;
+  font-size: 1.543em;
 }
 
 #mob-menu .list .item .title a {
@@ -3631,13 +3631,13 @@ tbody td > .row * {
 
 #mob-menu .sublist .row a,
 #mob-menu .subitem a {
+  font-size: 1.3em;
   color: #666666;
   text-decoration: none;
 }
 
 #mob-menu .sublist-items {
   padding-top: 0.714em;
-  padding-right: 5em;
   margin-right: 3em;
 }
 
@@ -3646,11 +3646,13 @@ tbody td > .row * {
 }
 
 #mob-menu .sublist-items {
-  border-right: 1px solid #C6C6C6;
+
 }
 
 #mob-menu .sublist-qty {
   padding-top: 0.714em;
+  padding-left: 3em;
+  border-left: 1px solid #C6C6C6;
 }
 
 #mob-menu .sublist-items a,
