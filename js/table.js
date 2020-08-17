@@ -121,9 +121,9 @@ function createTableControl(settings) {
   if (options.pagination) {
     pagination =
     `<div class="pagination row">
-      <div class="arrow left icon"></div>
+      <div class="arrow blue icon left"></div>
       <div class="title">1-20 из 258</div>
-      <div class="arrow right icon"></div>
+      <div class="arrow blue icon"></div>
     </div>`;
   }
   if (options.search) {

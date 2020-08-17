@@ -200,7 +200,7 @@ function fillCatalogHeader() {
   fillTemplate({
     area: '#header-menu .container',
     items: data,
-    sub: [{area: '.submenu', items: 'cats'}]
+    sub: [{area: '.submenu-item', items: 'cats'}]
   });
   showElement('#header-menu')
 }
@@ -263,9 +263,9 @@ function convertItem(item) {
   addSizeInfo(item);
   addOptionsInfo(item);
   addManufInfo(item);
+  addDescrInfo(item);
   addSearchInfo(item);
   item.isPriceRow = (item.isAction === 'hidden' && item.isOldPrice === 'hidden') ? 'displayNone' : '';
-  item.isDesc = item.desc ? '' : 'displayNone';
 }
 
 // Преобразование и добавление данных о картинках:
@@ -301,12 +301,19 @@ function addActionInfo(item) {
   item.actioncolor = item.actioncolor || '';
   item.actiondescr = item.actiondescr || '';
   item.isAction = item.actiontitle ? '' : 'hidden';
-  item.isActionDescr = item.actiondescr ? '' : 'displayNone';
 }
 
 // Добавление данных о текущей цене и отображении/скрытии старой:
 
 function addPriceInfo(item) {
+  // Преобразование цен в данных, которые не преобразованы по образцу остальных (убираем копейки, делаем 2 формата):
+  // price_cur: "24&nbsp;157"
+  // price_cur1: "24157"
+  item.price_action1 = Math.round(parseFloat(item.price_action));
+  item.price_action = (item.price_action1 + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1&nbsp;');
+  item.price_preorder1 = Math.round(parseFloat(item.price_preorder));
+  item.price_preorder = (item.price_action1 + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1&nbsp;');
+
   var isNewPrice;
   if (cartId.indexOf('preorder') >= 0) {
     isNewPrice = item.preorder_id && item.price_preorder1 > 0 ? true : false;
@@ -321,7 +328,7 @@ function addPriceInfo(item) {
     item.isHiddenPrice = isNewPrice ? '' : 'displayNone';
   } else {
     item.isOldPrice = isNewPrice ? '' : 'hidden';
-    item.isBorder = isNewPrice ? '' : 'borderNone';
+    item.isBorder = item.action_id != 0 ? '' : 'borderNone';
   }
 }
 
@@ -449,6 +456,24 @@ function addManufInfo(item) {
   item.manuf_filter = manuf;
 }
 
+// Добавление данных для создания блоков описаний:
+
+function addDescrInfo(item) {
+  item.describe = [];
+  if (item.desc) {
+    item.describe.push({title: 'Описание товара', info: item.desc});
+    delete item.desc;
+  }
+  if (item.actiondescr) {
+    item.describe.push({title: 'Условия акции', info: item.actiondescr});
+    delete item.actiondescr;
+  }
+  if (item.defectdescr) {
+    item.describe.push({title: 'Описание дефекта', info: item.defectdescr});
+    delete item.defectdescr;
+  }
+}
+
 // Добавление данных для поиска по странице (использовать после addSizeInfo, addOptionsInfo и addManufInfo):
 
 function addSearchInfo(item) {
@@ -476,14 +501,11 @@ function addSearchInfo(item) {
 // Установка ширины галереи и малых карточек товаров:
 
 function setContentWidth() {
-  var minCardWidth;
   if (website === 'skipper') {
-    minCardWidth = 13;
     setGalleryWidth();
-    setMinCardWidth(minCardWidth);
+    setMinCardWidth(13);
   } else {
-    minCardWidth = 18;
-    setMinCardWidth(minCardWidth);
+    setMinCardWidth(18);
   }
 }
 
@@ -512,15 +534,20 @@ function setMinCardWidth(width) {
     minCardWidth = gallery.clientWidth / countCards;
   }
   var cards = document.querySelectorAll('.min-card');
-  cards.forEach(minCard => {
+  cards.forEach((minCard, index) => {
     minCard.style.width = minCardWidth + 'px';
+    if ((index + 1) <= countCards) {
+      minCard.style.borderTopColor = 'transparent';
+    } else if (index < 15) {
+      minCard.style.borderTopColor = '#C6C6C6';
+    }
   });
 }
 
 // Изменение позиционирования меню фильтров:
 
 function setFiltersPosition() {
-  if (window.innerWidth > 767) {
+  if (window.innerWidth > 960) {
     var gallery = getEl('#gallery'),
         filters = getEl('#filters'),
         menuFilters = getEl('#catalog-filters');
@@ -1429,26 +1456,19 @@ function loadCards(cards) {
   for (var i = countItems; i < countItemsTo; i++) {
     data.push(itemsToLoad[i]);
   }
+  var sub = [{
+    area: '.carousel-item',
+    items: 'images'
+  }, {
+    area: '.card-size',
+    items: 'sizes'
+  }];
   fillTemplate({
     area: view === 'list' ? bigCard : minCard,
     source: 'outer',
     items: data,
     target: '#gallery',
-    sub: view === 'list'
-        ? [{
-          area: '.carousel-item',
-          items: 'images'
-        }, {
-          area: '.card-size',
-          items: 'sizes'
-        }, {
-          area: '.card-option',
-          items: 'options'
-        }, {
-          area: '.manuf-row',
-          items: 'manuf_table'
-        }]
-        : undefined,
+    sub: view === 'list' ? sub : undefined,
     method: countItems === 0 ? 'inner' : 'beforeend'
   });
   setFiltersPosition();
