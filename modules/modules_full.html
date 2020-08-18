@@ -16,8 +16,8 @@
           </div>
           <div id="catalogs" class="drop-down template catalogs">
             <div class="row">
-              <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
-              <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
+              <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
+              <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
                 <div class="cart icon"></div>
                 <div class="qty">#qty#</div>
               </a>
@@ -114,10 +114,10 @@
       <div id="mob-catalogs" class="sublist switch-cont template">
         <div class="row">
           <div class="sublist-items">
-            <a class="catalog-#id# item catalog" href="../#id#" data-href="#id#" data-level="1" onclick="#isFunc#">#title#</a>
+            <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
           </div>
           <div class="sublist-qty">
-            <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" data-href="cart" data-level="2" onclick="#isFunc#">
+            <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
               <div class="cart icon"></div>
               <div class="qty">#qty#</div>
             </a>
@@ -201,6 +201,10 @@
   <div class="pop-up">
     <div class="close icon"></div>
     <div class="text"></div>
+    <div class="btns-wrap">
+      <div class="btn cancel">Отмена</div>
+      <div class="btn act accept">Ок</div>
+    </div>
   </div>
 </div>
 
