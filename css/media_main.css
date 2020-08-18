@@ -140,10 +140,6 @@ Laptop:
 /* Стили на ширину от 0 до 1080px включительно: */
 @media only screen and (max-width: 1080px) {
 
-  /* body {
-    font-size: 1.3em;
-  } */
-
   /* Хедер */
 
   .header-top .activate,
@@ -172,6 +168,7 @@ Laptop:
 Tablet:
 ===================================================================================================== */
 
+/* Стили на ширину от 0 до 960px включительно: */
 @media only screen and (max-width: 960px) {
 
   /* Тоглы */
@@ -195,13 +192,8 @@ Tablet:
   }
 }
 
-
-/* Стили на ширину от 0 до 768px включительно: */
+/* Стили на ширину от 0 до 767px включительно: */
 @media only screen and (max-width: 767px) {
-
-  /* body {
-    font-size: 1.2em;
-  } */
 
   /* Основные стили: */
 
@@ -354,7 +346,7 @@ Tablet:
     padding: 0.714em 2.143em;
   }
 
-  .filters .filter .item > .title.row {
+  .filters .filter .item > .row {
     padding: 1em 2.143em;
     padding-bottom: 0;
   }
@@ -403,14 +395,16 @@ Mobile:
 /* Стили на ширину от 0 до 499px включительно: */
 @media only screen and (max-width: 499px) {
 
-  /* body {
-    font-size: 1.1em;
-  } */
-
   /* Основные стили: */
 
   .container {
     margin: 0 1.6rem;
+  }
+
+  /* Стили текста: */
+
+  .h0 {
+    font-size: 1.71em;
   }
 
   /* Заголовок страницы: */
@@ -452,12 +446,8 @@ Mobile:
     padding: 0.714em 1.428em;
   }
 
-  .filters .filter .item > .title.row {
+  .filters .filter .item > .row {
     padding: 1em 1.428em;
     padding-bottom: 0;
-  }
-
-  .h0 {
-    font-size: 1.71em;
   }
 }
