@@ -118,21 +118,6 @@ function putReclStatus() {
   }
 }
 
-//  Позиционирование чата
-function setChatPos() {
-  var chat = document.querySelector('#chat');
-
-  console.log('window.innerHeight', window.innerHeight);
-  console.log('chat.offsetHeight', chat.offsetHeight);
-
-  if (window.innerHeight > chat.offsetHeight) {
-    chatWrap.style.top = (window.innerHeight - chat.offsetHeight) + 'px';
-  } else if (window.innerHeight < chat.offsetHeight) {
-    chatWrap.style.top = (chat.offsetHeight - window.innerHeight) + 'px';
-  }
-}
-//setChatPos();
-
 
 // Открыть чат на адаптивном расширении
 function openChat(el) {
