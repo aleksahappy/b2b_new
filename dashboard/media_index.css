@@ -188,9 +188,9 @@
     border: 0;
   }
 
-  .info-graphic-1{
+  /* .info-graphic-1{
     margin-top: 10px;
-  }
+  } */
 
   .info-graphic-1 .info-wrap .col1{
     margin-bottom: 20px;
@@ -361,6 +361,24 @@
   .brands-btns {
     display: none;
   }
+
+  .infoblock {
+    margin-top: 0;
+  }
+
+  .info-graphic-1,
+  .info-graphic-2 {
+    margin-top: -3px;
+  }
+
+  .info-graphic-1 .info-wrap .col1 {
+    margin-bottom: 10px;
+  }
+
+  .info-graphic-2 .col1 {
+    margin-bottom: 10px;
+  }
+
 }
 
 
@@ -391,7 +409,7 @@
   }
 
   .settle-block .attention{
-    width: 115px;
+    width: 125px;
     left: 0;
     bottom: 20px;
     padding: 0 6px;
@@ -447,35 +465,58 @@
 
 @media (max-width: 499px) {
 
-  .orders-info{
-    /* font-size: 0.9em; */
+  .orders-info {
+    font-size: 0.9em;
     width: 35%;
   }
 
-  .info-graphic-2{
+  .info-graphic-2 {
     display: none;
   }
 
-  .line-title{
-    /* font-size: 1.2em; */
+  .line-title {
+    font-size: 1.2em;
   }
 
-  .money{
-    /* font-size: 1.6em; */
+  .money {
+    font-size: 1.6em;
   }
 
-  .settle-block .attention{
-    width: 100px;
+  .settle-block .attention {
+    width: 105px;
     padding: 0 5px;
+    font-size: 0.8em;
   }
 
-  .settle-title{
-    /* font-size: 1.45em; */
+  .settle-title {
+    font-size: 1.45em;
   }
 
-  .header-top .logo{
+  .header-top .logo {
     margin-right: 0;
   }
 
+  #mob-dashboard-table .row > div {
+    margin-right: 0.5em;
+    padding: 0em 0.5em;
+    border-radius: 30px;
+    font-size: 0.7em;
+  }
+
+}
+
+@media (max-width: 390px) {
+
+  .line-title {
+    font-size: 1em;
+  }
+
+  .money {
+    font-size: 1.3em;
+  }
+
+  .h1 {
+    font-size: 1.45em;
+  }
 
 }

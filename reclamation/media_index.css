@@ -6,6 +6,12 @@
   .progress-wrap {
     margin-left: 50px;
   }
+
+  .complaint-photo{
+    width: 100%;
+    margin-top: 2vw;
+  }
+
 }
 
 @media (max-width: 1200px) {
