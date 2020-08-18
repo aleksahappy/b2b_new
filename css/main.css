@@ -2510,10 +2510,14 @@ form.post .form-wrap .text-counter {
   cursor: pointer;
 }
 
+.filters .items {
+  padding: 0.714em 2.143em;
+}
+
 .filters .filter .item > .row {
   justify-content: space-between;
   width: 100%;
-  padding: 0.714em;
+  padding: 0.714em 0;
   padding-bottom: 0;
 }
 

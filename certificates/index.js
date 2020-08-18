@@ -27,7 +27,7 @@ startCertPage();
 // Запуск страницы сертификатов:
 
 function startCertPage() {
-  // sendRequest(`../json/certificates_data.json`)
+  //sendRequest(`../json/certificates_data.json`)
   sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
     items = JSON.parse(result);
@@ -51,6 +51,7 @@ function initPage() {
   initSearch('#cert-search', findCert);
   initCalendar('#cert-range');
   initDropDown('#brands-select', selectBrand);
+  initCalendar('#calendar');
   loader.hide();
 }
 
@@ -117,3 +118,14 @@ function getCert(id, mode) {
     sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert', id: id}});
   }
 }
+
+
+//  скрипт для работы чекбоксов
+document.querySelectorAll('.filters').forEach(el => {
+  el.querySelectorAll('.item .row').forEach (el => el.addEventListener('click', event => {
+    event.stopPropagation();
+    if (event.target.classList.contains('checkbox') || event.target.classList.contains('text')) {
+      event.currentTarget.classList.toggle('checked');
+    }
+  }));
+})

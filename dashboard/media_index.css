@@ -357,6 +357,10 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .brands-btns {
+    display: none;
+  }
 }
 
 

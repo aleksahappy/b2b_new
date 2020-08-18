@@ -42,7 +42,7 @@
 
 /* Состояние рекламации */
 .progress-wrap{
-  margin-top: 1.5vw;
+  margin-top: 30px;
   margin-left: 40px;
   padding-bottom: 1.5vw;
 }
@@ -184,7 +184,7 @@ main{
   flex-direction: column;
 }
 
-.complaint-info > div{
+.cont > div{
   margin-bottom: 0.5em;
 }
 
@@ -216,6 +216,7 @@ main{
 }
 
 .visual img{
+  width: 100%;
   max-width: 294px;
 }
 
@@ -353,6 +354,7 @@ main{
   width: 8.33vw;
   height: 192px;
   margin-right: 10px;
+  margin-bottom: 10px;
   overflow: hidden;
 }
 
@@ -379,7 +381,7 @@ main{
 }
 
 .image-upload{
-  height: 184px;
+  height: 191px;
   position: relative;
   background: #e6e6e6;
   border: 1px solid #cbcbcb;
@@ -394,12 +396,14 @@ input[type=file]{
   cursor: pointer;
 }
 
+
 .chat-wrap{
   z-index: 103;
-  position: absolute;
-  bottom:0;
+  position: fixed;
+  bottom: 50px;
   right: 2.6vw;
   width: 22.91vw;
+  min-width: 300px;
 }
 
 .chat-header{
@@ -594,4 +598,41 @@ input[type=file]{
   width: 100%;
   margin: 0.5vw 0 0.5vw auto;
   border-radius: 4px;
+}
+
+
+/* Мобильный ярлык для чата */
+.mob-chat {
+  z-index: 200;
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: url('../img/mob_chat.svg') no-repeat;
+  animation: play 2s ease infinite;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+
+@keyframes play {
+
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    box-shadow: 0 0 0 5px rgba(133, 150, 166, 0.4);
+  }
+  25% {
+    box-shadow: 0 0 0 10px rgba(133, 150, 166, 0.4), 0 0 0 4px rgba(133, 150, 166, 0.2);
+  }
+  25% {
+    box-shadow: 0 0 0 8px rgba(133, 150, 166, 0.4), 0 0 0 20px rgba(133, 150, 166, 0.2);
+  }
+
 }

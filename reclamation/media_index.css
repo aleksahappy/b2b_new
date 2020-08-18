@@ -1,0 +1,94 @@
+@media (max-width: 1600px) {
+  .image-item {
+    width: 140px;
+  }
+
+  .progress-wrap {
+    margin-left: 50px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .refund-info {
+    display: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .chat-wrap {
+    display: none;
+  }
+
+  .mob-chat {
+    display: block;
+  }
+
+  .container1 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 960px) {
+  .line{
+    width: 12.45vw;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .container1 {
+    flex-direction: column;
+  }
+
+  .container .complaint {
+    padding: 0!important;
+    width: 100%!important;
+  }
+
+  .container1 .complaint:last-child {
+    margin-top: 20px;
+  }
+
+  .complaint .title {
+    margin-bottom: 10px;
+  }
+
+  .complaint-info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .container1:last-child .complaint:first-child {
+    order: 2;
+  }
+
+  .container1:last-child .complaint:last-child {
+    order: 1;
+  }
+
+}
+
+@media (max-width: 660px) {
+
+  .progress-wrap {
+    margin-left: 105px;
+  }
+
+  .head-pan {
+    flex-direction: column;
+  }
+
+  .refund-list {
+    width: 100%;
+    margin: 0.5em 0 2em 0;
+  }
+
+  #refund-btn {
+    width: 100%;
+  }
+
+  .complaint-descr {
+    width: 100%;
+  }
+
+}

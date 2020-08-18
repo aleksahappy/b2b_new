@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
   <body data-website="ts_b2b" data-cart="true">
@@ -53,7 +54,7 @@
           </div>
           <div class="refund-list row">
             <div class="refund-info">Распечатайте лист возврата и вложите в посылку</div>
-            <div id="refund-btn" class="sub-act btn disabled">Лист возврата</div>
+            <div id="refund-btn" class="sub-act btn disabled template">Лист возврата</div>
           </div>
         </div>
         <!-- Блок с информацией -->
@@ -61,13 +62,17 @@
         <div class="container1">
           <div class="complaint">
             <div class="complaint-info">
-              <div class="title">Инициатор рекламации: <span>@@name@@</span></div>
-              <div class="title">Ответственный менеджер: <span>@@manager@@</span></div>
-              <div class="title">Тип заказа: <span>@@type@@</span></div>
-              <div class="title">Заказ: <a href="">@@num@@</a> <span>от @@date@@</span></div>
-              <div class="title">Дата реализации: <span>@@real-date@@</span></div>
-              <div class="title">Количество едениц товара: <span>@@qty@@</span></div>
-              <div class="title">Категория обращения: <span>@@cat@@</span></div>
+              <div class="cont">
+                <div class="title">Инициатор рекламации: <span>@@name@@</span></div>
+                <div class="title">Ответственный менеджер: <span>@@manager@@</span></div>
+                <div class="title">Тип заказа: <span>@@type@@</span></div>
+              </div>
+              <div class="cont">
+                <div class="title">Заказ: <a href="">@@num@@</a> <span>от @@date@@</span></div>
+                <div class="title">Дата реализации: <span>@@real-date@@</span></div>
+                <div class="title">Количество едениц товара: <span>@@qty@@</span></div>
+                <div class="title">Категория обращения: <span>@@cat@@</span></div>
+              </div>
             </div>
 
           </div>
@@ -172,7 +177,7 @@
     </div>
 
     <!-- Модальное окно чата  -->
-    <div class="chat-block chat-wrap">
+    <div id="chat" class="chat-block chat-wrap">
       <div class="chat-content chat_cont">
         <div class="chat-header">
           <div class="title h3">Чат с менеджером</div>
@@ -224,6 +229,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Мобильный ярлык для чата -->
+    <div class="mob-chat" onclick="openChat(this)"></div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
