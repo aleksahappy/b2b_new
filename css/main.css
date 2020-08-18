@@ -399,7 +399,6 @@ body.no-scroll {
 }
 
 .articul {
-  font-size: 0.857em;
   color: #8596A6;
 }
 
@@ -740,9 +739,8 @@ body.no-scroll {
 }
 
 .carousel-item img {
-  height: auto;
   max-width: 100%;
-  margin: 0 auto;
+  max-height: 100%;
 }
 
 .carousel .loupe {
@@ -1351,6 +1349,21 @@ input.btn {
   margin-right: 0;
   margin-left: 1em;
   background-image: url(../img/relay.svg);
+}
+
+/* Стрелки */
+
+.arrow.icon {
+  margin-right: 0;
+  background-image: url(../img/arrow_light_grey.svg);
+}
+
+.arrow.left.icon {
+  transform: rotate(180deg);
+}
+
+.arrow.blue.icon {
+  background-image: url(../img/arrow_blue.svg);
 }
 
 /* Треугольник (на выпадающих списках) */
@@ -2029,9 +2042,13 @@ div.option input:disabled ~ .checkbox.icon {
   padding: 0.75em 1.14em;
 }
 
-.infoblock .head .open.icon {
+.infoblock .head .icon {
   display: none;
   margin-right: 1.14em;
+}
+
+.pop-up .infoblock .head .icon {
+  margin-right: 2.5em;
 }
 
 .infoblock .head .open.icon,
@@ -2410,6 +2427,10 @@ form.post .form-wrap .text-counter {
   z-index: 400;
 }
 
+.pop-up-container:not(.open):not(.visible) * {
+  visibility: hidden !important;
+}
+
 .pop-up-container.open {
   visibility: visible;
   opacity: 1;
@@ -2632,10 +2653,6 @@ form.post .form-wrap .text-counter {
   margin-right: 2em;
   flex-grow: 0;
   flex-shrink: 0;
-}
-
-.control .pagination .icon {
-  margin-right: 0;
 }
 
 .control .pagination .title {
@@ -2916,15 +2933,17 @@ tbody td > .row * {
 Карточки товара:
 ===================================================================================================== */
 
-.card .carousel .left-btn,
-.card .carousel .right-btn {
-  background: rgba(255, 255, 255, 0.5) url(../img/slider_arrow_card.svg) no-repeat center;
+.card {
+  background-color: #FFFFFF;
+}
+
+.card .articul {
+  font-size: 0.857em;
 }
 
 .card .action {
   max-width: 11em;
   font-size: 0.857em;
-  color: #FFFFFF;
   line-height: 1;
 }
 
@@ -2937,19 +2956,9 @@ tbody td > .row * {
   visibility: hidden;
 }
 
-.card .card-desc p,
-.card .action-desc p {
-  padding: 0;
-  margin: 0.357em 0;
-}
-
 .card-img img {
   max-width: 100%;
   max-height: 100%;
-}
-
-.card-title .title {
-  line-height: 1.1;
 }
 
 .card-price {
@@ -2957,14 +2966,14 @@ tbody td > .row * {
   flex-shrink: 0;
 }
 
-.card-price > div > div {
+.card-price > div {
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
   padding: 0.357em 0;
 }
 
-.card-price > div > div > div {
+.card-price > div > div {
   white-space: nowrap;
 }
 
@@ -2991,6 +3000,10 @@ tbody td > .row * {
   text-decoration: line-through;
 }
 
+.card-open {
+  margin-top: 1em;
+}
+
 .card-sizes {
   flex-wrap: wrap;
 }
@@ -2998,7 +3011,9 @@ tbody td > .row * {
 .card-size {
   flex-grow: 0;
   flex-shrink: 0;
-  padding-bottom: 1em;
+  width: 9em;
+  margin-left: 2em;
+  margin-bottom: 1em;
 }
 
 .card-size * {
@@ -3008,39 +3023,36 @@ tbody td > .row * {
 }
 
 .card-size .articul {
-  padding-left: 5.3em;
   padding-bottom: 1px;
 }
 
-.card-size .qty.row {
-  align-items: center;
-  height: 2.5em;
-}
-
 .card-size .name {
-  justify-content: center;
-  align-items: center;
-  width: 4.5em;
+  display: inline-block;
+  font-size: 0.857em;
   color: #8596A6;
-  text-align: center;
+  cursor: help;
 }
 
-.card-size .name.click {
-  cursor: pointer;
+.card-size .qty.row {
+  margin: 0.357em 0;
+  align-items: center;
 }
 
 .tooltips {
+  align-items: center;
   font-size: 0.857em;
 }
 
 .tooltips > .row {
   align-items: center;
+  margin-right: 0.5em;
+  cursor: help;
 }
 
 .tooltips .icon {
   width: 12px;
   height: 12px;
-  margin-right: 0.357em;
+  margin-right: 0.2em;
   cursor: help;
 }
 
@@ -3050,6 +3062,10 @@ tbody td > .row * {
 
 .tooltips .arrive {
   color: #8596A6;
+}
+
+.tooltips .warehouse {
+  color: #9882A0;
 }
 
 .card-options {
@@ -3095,20 +3111,26 @@ tbody td > .row * {
   text-align: center;
 }
 
-.manuf-table .man {
+.manuf-table .oem {
+  width: 30%;
+}
+
+.manuf-table .years {
   width: 20%;
 }
 
-.manuf-table .oem {
-  width: 30%;
+.manuf-table .man {
+  width: 20%;
 }
 
 .manuf-table .model {
   width: 30%;
 }
 
-.manuf-table .years {
-  width: 20%;
+.card-info p {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.357em;
 }
 
 /* =====================================================================================================
@@ -3121,37 +3143,11 @@ tbody td > .row * {
   position: relative;
   width: 63em;
   padding: 0;
-  background-color: #FFFFFF;
 }
 
 .full-card .pop-up-title {
   padding: 2.5em;
   padding-bottom: 0;
-}
-
-.full-card .card-body,
-.full-card .card-info {
-  width: 100%;
-}
-
-.full-card .card-body {
-  flex-grow: 1;
-  padding-left: 2.5em;
-  padding-right: 2.5em;
-}
-
-.full-card .left-side,
-.full-card .right-side {
-  margin-bottom: 1.428em;
-}
-
-.full-card .left-side {
-  width: 40%;
-  margin-right: 1.428em;
-}
-
-.full-card .right-side {
-  width: 60%;
 }
 
 .full-card .card-price,
@@ -3163,10 +3159,20 @@ tbody td > .row * {
   width: 100%;
 }
 
+.full-card .card-content {
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+  padding-bottom: 1.428em;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.full-card .card-content > div {
+  width: 50%;
+}
+
 .full-card .carousel {
-  width: 100%;
-  min-height: 316px;
-  margin-bottom: 1.428em;
+  min-height: 50%;
+  padding-right: 1.428em;
 }
 
 .full-card .maximize {
@@ -3200,68 +3206,68 @@ tbody td > .row * {
   margin-right: 0;
 }
 
-.full-card .option-title {
-  min-width: 13em;
-  max-width: 13em;
-}
-
 .full-card .card-price {
   margin-bottom: 1.428em;
 }
 
+.full-card .option-title {
+  min-width: 45%;
+  max-width: 45%;
+}
+
+.full-card .card-body {
+  flex-grow: 1;
+  padding: 1.785em 2.5em;
+}
+
 .full-card .select-info {
-  margin-bottom: 1em;
+  padding-bottom: 1.428em;
 }
 
 .full-card .card-size {
-  width: 16em;
-}
-
-.full-card .tooltips {
-  justify-content: flex-start;
-  padding-left: 5.3em;
+  margin-left: 0;
+  margin-right: 2em;
 }
 
 .full-card .card-info {
+  width: 100%;
+}
+
+.full-card .card-options.mobile {
+  display: none;
+}
+
+.full-card .card-info > div {
   background-color: #F8F8F8;
 }
 
-.full-card .infoblock {
-  margin-bottom: 0;
-  padding-bottom: 2.5em;
-  background-color: transparent;
+.full-card .card-info > div:last-child {
+  padding-bottom: 1.6em;
 }
 
-.full-card .infoblock .title {
-  padding: 0.625em 2.5em 0.325em 2.5em;
+.full-card .card-info > div.close:last-child {
+  padding-bottom: 0;
 }
 
-.full-card .infoblock .open.icon {
+.full-card .card-info > div .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #91A0AE;
+}
+
+.full-card .card-info > div .title {
+  color: #FFFFFF;
+  padding: 0.714em 2.5em;
+}
+
+.full-card .card-info > div .icon {
   margin-right: 2.5em;
 }
 
-.full-card .infoblock .info {
+.full-card .card-info > div .info {
   font-size: 0.857em;
-  padding: 0 2.5em;
-}
-
-.full-card .action-desc {
-  margin-top: -2.5em;
-}
-
-.full-card .card-desc.displayNone + .action-desc {
-  margin-top: 0;
-}
-
-/* Стили для полной карточки ЗИП: */
-
-.main.zip .full-card .card-opt {
-  padding: 1.5em 0;
-}
-
-.main.zip .full-card .card-options {
-  margin-bottom: 1.5em;
-  padding: 0;
+  padding: 1em 2.5em;
 }
 
 /* =====================================================================================================

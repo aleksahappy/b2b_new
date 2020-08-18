@@ -44,8 +44,9 @@ var website = document.body.dataset.website,
 // Динамически изменяемые переменные:
 
 var pageUrl = pageId,
-    scrollTop,
-    tooltip;
+    currentElem = null,
+    tooltip = null,
+    scrollTop;
 
 if (isCart) {
   var cartId = pageId,
@@ -117,6 +118,7 @@ function logOut(event) {
 // Отображение/скрытие мобильного меню (адаптивного хедера):
 
 function toggleMobMenu() {
+  getEl('#header').classList.toggle('mobile');
   getEl('#mob-menu').classList.toggle('active');
 }
 
@@ -1363,16 +1365,16 @@ function replaceInTemp(key, items, temp, sign) {
 
 // Вставка заполненного шаблона в документ:
 
-function insertText(el, txt, method = 'inner') {
-  el.classList.remove('template');
+function insertText(target, txt, method = 'inner') {
+  target.classList.remove('template');
   txt = txt.replace(/template/gi, '');
   if (!method || method === 'inner') {
-    el.innerHTML = txt;
+    target.innerHTML = txt;
   } else {
-    if ((method === 'afterbegin' || method === 'beforeend') && (el.childNodes.length === 1 && el.firstChild.classList.contains('template'))) {
-      el.innerHTML = txt;
+    if ((method === 'afterbegin' || method === 'beforeend') && (target.childNodes.length === 1 && target.firstChild.classList.contains('template'))) {
+      target.innerHTML = txt;
     }
-    el.insertAdjacentHTML(method, txt);
+    target.insertAdjacentHTML(method, txt);
   }
 }
 
@@ -1476,21 +1478,28 @@ function changeColors(el, qty) {
 
 function initTooltips() {
   document.addEventListener('mouseover', event => showTooltip(event));
-  document.addEventListener('mouseout', hideTooltip);
+  document.addEventListener('mouseout', event => hideTooltip(event));
 }
 
 // Отображение подсказки:
 
 function showTooltip(event) {
+  if (currentElem) {
+    return;
+  }
+  var target = event.target.closest('[data-tooltip]');
+  if (!target) {
+    return;
+  }
+  var tooltipHtml = target.dataset.tooltip;
+  if (target.classList.contains('disabled') || target.hasAttribute('disabled') || target.closest('.disabled') || !tooltipHtml) {
+    return;
+  }
+  currentElem = target;
   if (tooltip) {
     hideTooltip();
   }
-  var element = event.target,
-      tooltipHtml = element.dataset.tooltip;
-  if (element.classList.contains('disabled') || element.hasAttribute('disabled') || element.closest('.disabled') || !tooltipHtml) {
-    return;
-  }
-  createTooltip(element, tooltipHtml);
+  createTooltip(target, tooltipHtml);
 }
 
 // Создание подсказки:
@@ -1499,13 +1508,8 @@ function createTooltip(element, tooltipHtml) {
   tooltip = document.createElement('div');
   tooltip.classList.add('tooltip');
 
-  var flow = element.getAttribute('flow'),
-  textAlign = element.getAttribute('text'),
-  help = element.hasAttribute('help');
-
-  if (flow) {
-    tooltip.setAttribute('flow', flow);
-  }
+  var textAlign = element.getAttribute('text'),
+      help = element.hasAttribute('help');
   if (textAlign) {
     tooltip.setAttribute('text', textAlign);
   }
@@ -1514,13 +1518,14 @@ function createTooltip(element, tooltipHtml) {
   }
   tooltip.innerHTML = tooltipHtml;
   document.body.append(tooltip);
-  positionTooltip(element, flow);
+  positionTooltip(element);
 }
 
 // Позиционирование подсказки:
 
 function positionTooltip(element, flow) {
-  var coords = element.getBoundingClientRect(),
+  var flow = element.getAttribute('flow'),
+      coords = element.getBoundingClientRect(),
       windowWidth = window.innerWidth + window.pageXOffset,
       windowHeight = window.innerHeight + window.pageYOffset;
 
@@ -1532,6 +1537,9 @@ function positionTooltip(element, flow) {
       // Если подсказка не помещается сверху, то отображать её снизу:
       if (y < 0) {
         y = coords.bottom + 7;
+        tooltip.setAttribute('flow', 'down');
+      } else {
+        tooltip.setAttribute('flow', 'up');
       }
     // Позиционирование снизу:
     } else {
@@ -1539,6 +1547,9 @@ function positionTooltip(element, flow) {
       // Если подсказка не помещается снизу, то отображать её сверху:
       if (y + tooltip.offsetHeight > windowHeight) {
         y = coords.top - tooltip.offsetHeight - 7;
+        tooltip.setAttribute('flow', 'up');
+      } else {
+        tooltip.setAttribute('flow', 'down');
       }
     }
     var x = coords.left + (element.offsetWidth - tooltip.offsetWidth) / 2;
@@ -1557,6 +1568,9 @@ function positionTooltip(element, flow) {
       // Если подсказка не помещается слева, то отображать её справа:
       if (x < 0) {
         x = coords.right + 7;
+        tooltip.setAttribute('flow', 'right');
+      } else {
+        tooltip.setAttribute('flow', 'left');
       }
     // Позиционирование справа:
     } else {
@@ -1564,6 +1578,9 @@ function positionTooltip(element, flow) {
       // Если подсказка не помещается справа, то отображать её слева:
       if (x + tooltip.offsetWidth > windowWidth) {
         x = coords.left - tooltip.offsetWidth - 7;
+        tooltip.setAttribute('flow', 'left');
+      } else {
+        tooltip.setAttribute('flow', 'right');
       }
     }
     var y = coords.top + (element.offsetHeight - tooltip.offsetHeight) / 2;
@@ -1583,10 +1600,18 @@ function positionTooltip(element, flow) {
 // Скрытие подсказки:
 
 function hideTooltip() {
-  if (!tooltip) {
+  if (!currentElem || !tooltip) {
     return;
   }
+  var relatedTarget = event.relatedTarget;
+  while (relatedTarget) {
+    if (relatedTarget == currentElem) {
+      return;
+    }
+    relatedTarget = relatedTarget.parentNode;
+  }
   tooltip.remove();
+  currentElem = null;
   tooltip = null;
 }
 
@@ -1748,10 +1773,6 @@ function closePopUp(event, el) {
   if (el) {
     loader.hide();
     el.classList.remove('open');
-    var carousel = getEl('.carousel', el);
-    if (carousel) {
-      carousel.style.visibility = 'hidden';
-    }
     if (!document.querySelector('.pop-up-container.open')) {
       document.body.classList.remove('no-scroll');
       setDocumentScroll();
@@ -1814,7 +1835,10 @@ function showFullCard(id) {
     }, {
       area: '.manuf-row',
       items: 'manuf_table'
-    }]
+    }, {
+      area: '.switch',
+      items: 'describe'
+    },]
   });
   checkCart(getEl('.full-card'));
   addActionTooltip(getEl('.full-card'));
