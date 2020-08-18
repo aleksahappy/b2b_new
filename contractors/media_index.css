@@ -1,11 +1,15 @@
 /* tablet */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 
   .open.icon {
     display: block;
   }
 
-  #contras-table.tablet{
+  /* #contras-table.tablet{
+    display: block;
+  } */
+
+  #contras-table-mob {
     display: block;
   }
 

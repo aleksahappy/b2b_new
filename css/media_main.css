@@ -140,9 +140,9 @@ Laptop:
 /* Стили на ширину от 0 до 1080px включительно: */
 @media only screen and (max-width: 1080px) {
 
-  body {
+  /* body {
     font-size: 1.3em;
-  }
+  } */
 
   /* Хедер */
 
@@ -199,9 +199,9 @@ Tablet:
 /* Стили на ширину от 0 до 768px включительно: */
 @media only screen and (max-width: 767px) {
 
-  body {
+  /* body {
     font-size: 1.2em;
-  }
+  } */
 
   /* Основные стили: */
 
@@ -403,9 +403,9 @@ Mobile:
 /* Стили на ширину от 0 до 499px включительно: */
 @media only screen and (max-width: 499px) {
 
-  body {
+  /* body {
     font-size: 1.1em;
-  }
+  } */
 
   /* Основные стили: */
 
@@ -455,5 +455,9 @@ Mobile:
   .filters .filter .item > .title.row {
     padding: 1em 1.428em;
     padding-bottom: 0;
+  }
+
+  .h0 {
+    font-size: 1.71em;
   }
 }

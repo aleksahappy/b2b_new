@@ -5,6 +5,8 @@ var chatWrap = document.querySelector('.chat-wrap');
 var progressBar = document.querySelector('.progress-bar');
 var progressItems = document.querySelectorAll('.progress-item');
 var reclState = {};
+var chat = document.querySelector('#chat');
+var icon = document.querySelector('.mob-chat');
 
 
 function startReclPage() {
@@ -32,6 +34,8 @@ startReclPage();
 
 closeChat.addEventListener('click', function() {
     chatWrap.style.display = 'none';
+    icon.style.opacity = 1;
+    icon.style.visibility = 'visible';
 });
 
 
@@ -115,8 +119,12 @@ function putReclStatus() {
 }
 
 
-function setChatPos() {
-  var chat = document.querySelector('.chat-wrap');
-  chatWrap.style.top = (window.innerHeight - chat.offsetHeight) + 'px';
+// Открыть чат на адаптивном расширении
+function openChat(el) {
+
+  if (el.className = 'mob-chat') {
+    chat.style.display = 'block';
+    icon.style.opacity = 0;
+    icon.style.visibility = 'hidden';
+  }
 }
-setChatPos();

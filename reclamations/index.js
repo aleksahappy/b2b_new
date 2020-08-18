@@ -18,7 +18,6 @@ function startReclmPage() {
       items: data
     };
     fillTemplate(mobTable);
-    initPage(data);
     getFilterData(data);
   })
   .catch(err => {
@@ -105,3 +104,13 @@ function getFilterData(data) {
   };
   fillTemplate(mobFilters);
 }
+
+
+document.querySelectorAll('.filters').forEach(el => {
+  el.querySelectorAll('.item .row').forEach (el => el.addEventListener('click', event => {
+    event.stopPropagation();
+    if (event.target.classList.contains('checkbox') || event.target.classList.contains('text')) {
+      event.currentTarget.classList.toggle('checked');
+    }
+  }));
+})

@@ -11,3 +11,21 @@
     margin-right: 4.28em;
   }
 }
+
+@media (max-width: 767px) {
+  #profile-page .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 530px) {
+
+  #profile-card .row:last-child {
+    flex-direction: column;
+  }
+
+  #profile-card .row .block:first-child {
+    margin-bottom: 1.1em;
+  }
+
+}

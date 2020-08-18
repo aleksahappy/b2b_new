@@ -97,18 +97,9 @@
   font-size: 14px;
 }
 
-#recls-filters .form-wrap {
-  padding: 0.714em 2.143em;
-}
-
 #articul-search {
-  margin: 0.714em 2.143em;
+  margin: 0.714em 0;
 }
-
-.popup-filter .items {
-  margin: 0.714em 1.543em;
-}
-
 
 #recls-filters::-webkit-scrollbar {
   width: 7px;
