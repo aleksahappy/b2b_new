@@ -88,7 +88,7 @@
   <div id="cart">
     <div id="cart-empty">
       <div class="title h1">Вы не добавили ни одного товара :)</div>
-      <a id="catalog-link" class="btn" href="../equip/" data-href="equip" data-level="1" onclick="openPage(event)">Перейти в каталог</a>
+      <a id="catalog-link" class="btn" onclick="openPage(event)">Перейти в каталог</a>
     </div>
     <div id="cart-full">
       <div class="header row">
@@ -98,19 +98,19 @@
           <div class="close icon"></div>
         </form>
         <div class="make-order row">
-          <div id="checkout-info" class="text red">Будет создано <span class="qty">2 заказа</span><br>на сумму <span class="sum">0</span></div>
-          <div class="btn act" onclick="openCheckout()">Оформить заказ</div>
+          <div id="checkout-info" class="text red">Будет создано <span class="qty">2 заказа</span><br>на сумму <span class="sum">0</span>&nbsp;руб.</div>
+          <div id="checkout-btn" class="btn act" onclick="openCheckout()">Оформить заказ</div>
         </div>
       </div>
       <div id="cart-list">
-        <div class="cart-block #type#">
+        <div class="cart-section #type#">
           <div class="head row">
             <div class="row">
-              <div class="checkbox icon" onclick="toggleCartSection(event)"></div>
+              <div class="checkbox orange icon checked" onclick="toggleInCart(event)"></div>
               <div class="type title h2">Тип заказа: <span>#action_name#</span></div>
               <div class="question icon" data-tooltip="Подсказка" help></div>
             </div>
-            <div class="btn trash" onclick="deleteCartSection(event)">Удалить раздел</div>
+            <div class="btn trash" onclick="deleteFromCart(event)">Удалить раздел</div>
             <div class="select-info row">
               <div class="select-qty">
                 Выбрано товаров:&nbsp;<span class="text orange">#qty#</span> шт.
@@ -121,14 +121,14 @@
             </div>
           </div>
           <div class="cart-row row manage checked #status#" data-id="#object_id#">
-            <div class="name row">
-              <div class="checkbox orange icon" onclick="toggleInCart(event)"></div>
+            <div class="checkbox orange icon" onclick="toggleInCart(event)"></div>
+            <div class="name row" onclick="showFullCard(#id#)">
               <div class="img-wrap row">
                 <img src="#image#">
               </div>
-              <div onclick="showFullCard(#id#)">
-                <div>#title# #options#</div>
+              <div>
                 <div class="articul">#articul#</div>
+                <div>#title# #options#</div>
               </div>
             </div>
             <div class="qty qty-box row added">
@@ -138,7 +138,7 @@
             </div>
             <div class="qty-fix">#qty#&nbsp;шт.</div>
             <div class="qty-sold text red">Продано</div>
-            <div class="tooltips col">
+            <div class="tooltips">
               <div class="free row #isFree#">
                 <span class="free-qty icon" data-tooltip="В наличии"></span>
                 <span>#free_qty#&nbsp;шт.</span>
@@ -152,11 +152,11 @@
                 <span>#warehouse_qty#&nbsp;шт.</span>
               </div>
             </div>
-            <div class="price title">#price_cur#</div>
+            <div class="price title h3">#price_cur#</div>
             <div class="discount text red">#discount#</div>
             <div class="sum row">
-              <div>Итого: <span class="title">0</span></div>
-              <div class="trash icon" onclick="deleteInCart(event)"></div>
+              <div>Итого: <span class="title h3">0</span></div>
+              <div class="trash icon" onclick="deleteFromCart(event)"></div>
             </div>
           </div>
         </div>
@@ -165,7 +165,7 @@
     <div id="cart-copy">
       <table>
         <tbody id="cart-table">
-          <tr class="cart-table-row #status#" data-id="#object_id#">
+          <tr data-id="#object_id#">
             <td>#title#</td>
             <td>#articul#</td>
             <td class="qty">#qty#</td>
@@ -336,7 +336,7 @@
       </div>
     </div>
   </div>
-  <div id="full-img-container" class="pop-up-container" onclick="closeFullImg(event)">
+  <div id="full-img-container" class="pop-up-container">
     <div class="close white icon"></div>
     <div id="full-img" class="pop-up row">
       <div class="carousel" data-type="fullImg">

@@ -548,53 +548,53 @@ body.no-scroll {
 
 /* Цветовая гамма статусов заказа - выбранные */
 
-.checked .vputi,
-.checked .vnal,
-.checked .sobrn,
-.checked .otgrz,
-.checked .nomen,
-.checked .nedop,
-.checked .reclm,
 .checked.vputi,
 .checked.vnali,
 .checked.sobrn,
 .checked.otgrz,
 .checked.nomen,
 .checked.nedop,
-.checked.reclm {
+.checked.reclm,
+.checked .vputi,
+.checked .vnal,
+.checked .sobrn,
+.checked .otgrz,
+.checked .nomen,
+.checked .nedop,
+.checked .reclm {
   color: #FFFFFF;
 }
 
-.checked .vputi,
-.checked.vputi {
+.checked.vputi,
+.checked .vputi {
   background-color: #6B99C2;
   border: 1px solid #6B99C2;
 }
 
-.checked .vnali,
-.checked.vnali {
+.checked.vnali,
+.checked .vnali {
   background-color: #F9BA4D;
   border: 1px solid #F9BA4D;
 }
 
-.checked .sobrn,
-.checked.sobrn {
+.checked.sobrn,
+.checked .sobrn {
   background-color: #9882A0;
   border: 1px solid #9882A0;
 }
 
-.checked .otgrz,
-.checked.otgrz {
+.checked.otgrz,
+.checked .otgrz {
   background-color: #79B667;
   border: 1px solid #79B667;
 }
 
-.checked .nomen,
-.checked .nedop,
-.checked .reclm,
 .checked.nomen,
 .checked.nedop,
-.checked.reclm {
+.checked.reclm,
+.checked .nomen,
+.checked .nedop,
+.checked .reclm {
   background-color: #91A0AE;
   border: 1px solid #91A0AE;
 }
@@ -603,22 +603,22 @@ body.no-scroll {
 Цветовая гамма статусов доступа:
 ===================================================================================================== */
 
-.full .access,
-.access.full {
+.full.access,
+.full .access {
   color: #3F9726;
   background-color: #ECF5E9;
   border: 1px solid #3F9726;
 }
 
-.limit .access,
-.access.limit {
+.limit.access,
+.limit .access {
   color: #F69C00;
   background-color: #FEF5E5;
   border: 1px solid #F69C00;
 }
 
-.off .access,
-.access.off {
+.off.access
+.off .access {
   color: #B3BAC2;
   background-color: #E7EAED;
   border: 1px solid #B3BAC2;
@@ -628,31 +628,31 @@ body.no-scroll {
 Цветовая гамма статусов рекламаций:
 ===================================================================================================== */
 
-.recl.registr {
+.registr.recl {
   border: 1px solid #8596A6;
   color: #8596A6;
   background: #E7EAED;
 }
 
-.recl.wait {
+.wait.recl {
   border: 1px solid #F69C00;
   color: #F69C00;
   background: #FEF5E5;
 }
 
-.recl.yes {
+.yes.recl {
   border: 1px solid #228007;
   color: #3F9726;
   background: #ECF5E9;
 }
 
-.recl.no {
+.no.recl {
   border: 1px solid #CE0014;
   color: #CE0014;
   background: #FAE5E7;
 }
 
-.recl.done {
+.done.recl {
   border: 1px solid #2C6DA8;
   color: #2C6DA8;
   background: #E7EAED;
@@ -1454,18 +1454,18 @@ input.btn {
   height: 14px;
 }
 
-.full .lock.icon,
-.lock.icon.full  {
+.full.lock.icon,
+.full .lock.icon {
   background-image: url(../img/access_full.svg);
 }
 
-.limit .lock.icon,
-.lock.icon.limit {
+.limit.lock.icon,
+.limit .lock.icon {
   background-image: url(../img/access_limit.svg);
 }
 
-.off .lock.icon,
-.lock.icon.off {
+.off.lock.icon,
+.off .lock.icon {
   background-image: url(../img/access_disabled.svg);
 }
 
@@ -1477,14 +1477,17 @@ input.btn {
   border-radius: 50%;
 }
 
+.full.mark.icon,
 .full .mark.icon {
   background-color: #228007;
 }
 
+.limit.mark.icon,
 .limit .mark.icon {
   background-color: #F69C00;
 }
 
+.off.mark.icon,
 .off .mark.icon {
   background-color: #CE0014;
 }
@@ -1620,16 +1623,19 @@ input.btn {
   background-image: url(../img/checkbox.svg);
 }
 
+.checked.checkbox.icon,
 .checked > .checkbox.icon,
 .checked > div > .checkbox.icon {
   background-image: url(../img/checkbox_checked.svg);
 }
 
+.checked.checkbox.orange.icon,
 .checked > .checkbox.orange.icon,
 .checked > div > .checkbox.orange.icon {
   background-image: url(../img/checkbox_checked_orange.svg);
 }
 
+.checked.checkbox.dark.icon,
 .checked > .checkbox.dark.icon,
 .checked > div > .checkbox.dark.icon  {
   background-image: url(../img/checkbox_checked_blue.svg);
@@ -1647,6 +1653,7 @@ input.btn {
   background-image: none;
 }
 
+.checked.check.icon,
 .checked .check.icon {
   background-image: url(../img/check.svg);
 }
@@ -1660,6 +1667,7 @@ input.btn {
   background-image: url(../img/radio_btn.svg);
 }
 
+.checked.radio.icon,
 .checked .radio.icon {
   background-image: url(../img/radio_btn_checked.svg);
 }
@@ -1754,24 +1762,24 @@ div.option input:disabled ~ .checkbox.icon {
   border: 1px solid #FFFFFF;
 }
 
-.checked .toggle,
-.checked.toggle {
+.checked.toggle,
+.checked .toggle {
   background-color: #53606F;
 }
 
-.checked .toggle.dark,
-.checked.toggle.dark {
+.checked.toggle.dark,
+.checked .toggle.dark {
   background-color: #FFFFFF;
 }
 
-.checked .toggle .toggle-in,
-.checked.toggle .toggle-in {
+.checked.toggle .toggle-in,
+.checked .toggle .toggle-in {
   left: 13px;
   border: 1px solid #53606F;
 }
 
-.checked .toggle.dark .toggle-in,
-.checked.toggle.dark .toggle-in {
+.checked.toggle.dark .toggle-in,
+.checked .toggle.dark .toggle-in {
   border: 1px solid #FFFFFF;
 }
 
@@ -2241,11 +2249,14 @@ input[type="file"] ~ .title {
 
 .qty-box {
   align-items: stretch;
-  flex-grow: 0;
-  flex-shrink: 0;
   height: 1.714em;
   margin-right: 0.5em;
   border-radius: 3px;
+}
+
+.qty-box * {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .qty-box .btn.minus,
@@ -2531,14 +2542,10 @@ form.post .form-wrap .text-counter {
   cursor: pointer;
 }
 
-.filters .items {
-  padding: 0.714em 2.143em;
-}
-
 .filters .filter .item > .row {
   justify-content: space-between;
   width: 100%;
-  padding: 0.714em 0;
+  padding: 0.714em;
   padding-bottom: 0;
 }
 
@@ -2883,6 +2890,22 @@ tbody td > .row * {
   text-align: center;
 }
 
+#alerts.confirm .text {
+  margin-bottom: 1.428em;
+}
+
+#alerts .btns-wrap {
+  display: none;
+}
+
+#alerts.confirm .btns-wrap {
+  display: flex;
+}
+
+#alerts.confirm .btns-wrap div {
+  width: 8em;
+}
+
 /* =====================================================================================================
 Прелоадер:
 ===================================================================================================== */
@@ -3040,12 +3063,17 @@ tbody td > .row * {
 
 .tooltips {
   align-items: center;
-  font-size: 0.857em;
+}
+
+.tooltips.row > div {
+  margin-right: 0.5em;
 }
 
 .tooltips > .row {
   align-items: center;
-  margin-right: 0.5em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 0.857em;
   cursor: help;
 }
 

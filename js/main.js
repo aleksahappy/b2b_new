@@ -404,7 +404,6 @@ function renderCartInHeader(type) {
 
 function getDataFromTotals(type) {
   var data = JSON.parse(JSON.stringify(cartTotals)),
-      curTitle = getEl('.topmenu-item.active'),
       sum = 0;
   data.forEach((el, index) => {
     if (el.qty > 0) {
@@ -419,9 +418,8 @@ function getDataFromTotals(type) {
     if (type === 'cart') {
       sum += el.sum;
     }
-    el.sum = el.sum.toLocaleString('ru-RU');
-
-    if (curTitle && el.id === curTitle.dataset.href) {
+    el.sum = convertPrice(el.sum, false);
+    if (document.body.id && document.body.id === el.id) {
       el.isFunc = 'openPage(event)';
       if (type === 'cart') {
         data.unshift(data.splice(index, 1)[0]);
@@ -432,7 +430,7 @@ function getDataFromTotals(type) {
   });
   if (type === 'cart') {
     data = {
-      sum: sum.toLocaleString('ru-RU'),
+      sum: convertPrice(sum, false),
       items: data
     };
   }
@@ -1060,12 +1058,17 @@ function declOfNum(number, titles) {
 
 // Функция преобразования цены к формату с пробелами:
 
-function convertPrice(price) {
+function convertPrice(price, isFixed = true) {
   if (isNaN(Number(price))) {
     return price;
   }
   price = Number(price).toFixed(2);
-  return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', ',');
+  price = (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')
+  if (isFixed) {
+    return price.replace('.', ',');
+  } else {
+    return price.replace(/\.\d\d/g, '');
+  }
   // второй вариант (менее кросс-браузерный):
   // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -1616,81 +1619,6 @@ function hideTooltip() {
 }
 
 //=====================================================================================================
-// Работа прелоадера:
-//=====================================================================================================
-
-// Инициализация работы лоадера страницы:
-
-function initLoader() {
-  loader = getEl('#page-loader');
-  if (loader) {
-    loader = new Loader(loader);
-  } else {
-    console.log(loader);
-    loader = {};
-  }
-}
-
-// Объект лоадера страницы:
-
-function Loader(obj) {
-  this.loader = obj;
-  this.text = getEl('.text', obj);
-
-  // Отображение лоадера (можно с текстом):
-  this.show = function(text = '') {
-    this.text.textContent = text;
-    showElement(this.loader, 'flex');
-  }
-
-  // Скрытие лоадера:
-  this.hide = function() {
-    hideElement(this.loader);
-  }
-}
-
-//=====================================================================================================
-// Работа системного окна сообщений:
-//=====================================================================================================
-
-// Инициализация работы системного окна сообщений:
-
-function initAlerts() {
-  alerts = getEl('#alerts');
-  if (alerts) {
-    alerts = new Alerts(alerts);
-  } else {
-    alerts = {};
-  }
-}
-
-// Объект системного окна сообщений:
-
-function Alerts(obj) {
-  this.alerts = obj;
-  this.text = getEl('.text', obj);
-
-  // Отображение окна сообщений (обязательно с текстом):
-  this.show = function(text, timer) {
-    if (!text) {
-      return;
-    }
-    this.text.innerHTML = text;
-    openPopUp(this.alerts);
-    if (timer) {
-      setTimeout(() => {
-        closePopUp(null, this.alerts);
-      }, timer);
-    }
-  }
-
-  // Скрытие окна сообщений:
-  this.hide = function() {
-    closePopUp(null, this.alerts);
-  }
-}
-
-//=====================================================================================================
 // Работа кнопки "Наверх страницы":
 //=====================================================================================================
 
@@ -1742,6 +1670,11 @@ function initPopUps() {
 // Открытие всплывающего окна:
 
 function openPopUp(el) {
+  if (event) {
+    if (event.currentTarget.classList.contains('disabled') || event.currentTarget.hasAttribute('disabled')) {
+      return;
+    }
+  }
   el = getEl(el);
   if (el) {
     if (!getEl('.pop-up-container.open')) {
@@ -1755,14 +1688,14 @@ function openPopUp(el) {
 
 // Закрытие всплывающего окна:
 
-function closePopUp(event, el) {
-  if (event) {
+function closePopUp(el) {
+  if (event && el == event) {
     if (event.type === 'keydown') {
       if (event.code === 'Escape') {
         el = getEl('.pop-up-container.open');
       }
     } else {
-      if (!event.target.closest('.pop-up-title .close') && event.target.closest('.pop-up')) {
+      if (event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close')) {
         return;
       }
       el = event.currentTarget;
@@ -1949,6 +1882,108 @@ function showSelectFiles(event) {
       wrap.classList.remove('added');
       filePreview.innerHTML = '';
     }
+  }
+}
+
+//=====================================================================================================
+// Работа прелоадера:
+//=====================================================================================================
+
+// Инициализация работы лоадера страницы:
+
+function initLoader() {
+  loader = getEl('#page-loader');
+  if (loader) {
+    loader = new Loader(loader);
+  } else {
+    console.log(loader);
+    loader = {};
+  }
+}
+
+// Объект лоадера страницы:
+
+function Loader(obj) {
+  this.loader = obj;
+  this.text = getEl('.text', obj);
+
+  // Отображение лоадера (можно с текстом):
+  this.show = function(text = '') {
+    this.text.textContent = text;
+    showElement(this.loader, 'flex');
+  }
+
+  // Скрытие лоадера:
+  this.hide = function() {
+    hideElement(this.loader);
+  }
+}
+
+//=====================================================================================================
+// Работа системного окна сообщений:
+//=====================================================================================================
+
+// Инициализация работы системного окна сообщений:
+
+function initAlerts() {
+  alerts = getEl('#alerts');
+  if (alerts) {
+    alerts = new Alerts(alerts);
+  } else {
+    alerts = {};
+  }
+}
+
+// Объект системного окна сообщений (обязательно передавать текст):
+
+function Alerts(obj) {
+  // Элементы для работы:
+  this.alerts = obj;
+  this.text = getEl('.text', obj);
+
+  // Динамические переменные:
+  this.callback;
+
+  // Установка обработчиков событий:
+  this.setEventListeners = function() {
+    this.alerts.querySelectorAll('.btn').forEach(el => el.addEventListener('click', (event) => this.confirmHandler(event)));
+  }
+  this.setEventListeners();
+
+  // Отображение окна сообщений:
+  this.show = function(text, timer) {
+    if (!text) {
+      return;
+    }
+    this.text.innerHTML = text;
+    openPopUp(this.alerts);
+    if (timer) {
+      setTimeout(() => {
+        closePopUp(this.alerts);
+      }, timer);
+    }
+  }
+
+  // Отображение окна сообщений c вопросом:
+  this.confirm = function(question, callback) {
+    this.callback = callback;
+    this.alerts.classList.add('confirm');
+    this.show(question);
+  }
+
+  // Обработчик событий для кнопок согласия/отмены:
+  this.confirmHandler = function(event) {
+    event.stopPropagation();
+    if (event.currentTarget.classList.contains('accept')) {
+      this.callback();
+    }
+    this.alerts.classList.remove('confirm');
+    this.hide();
+  };
+
+  // Скрытие окна сообщений:
+  this.hide = function() {
+    closePopUp(this.alerts);
   }
 }
 
