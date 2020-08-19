@@ -84,11 +84,11 @@ function openAddressPopUp(id) {
       title = getEl('.pop-up-title .title', addressPopUp);
 
   if (id) {
-    title.textContent = 'Редактировать пользователя';
+    title.textContent = 'Изменить адрес';
     var upData = data.find(el => el.id == id);
     fillForm('#address-form', upData);
   } else {
-    title.textContent = 'Новый пользователь';
+    title.textContent = 'Новый адрес';
     clearForm('#address-form');
   }
   openPopUp(addressPopUp);
