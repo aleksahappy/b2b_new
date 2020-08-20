@@ -11,6 +11,7 @@ function startDashboardTable() {
   .then(result => {
     dataOrders = JSON.parse(result);
     loader.hide();
+    console.log(dataOrders)
     dataOrders = convertData(dataOrders);
     initTable('#dashboard-table', {data: dataOrders});
     var mobTable = {
@@ -955,3 +956,35 @@ function pageReload() {
   }
 
 }
+
+
+//  Динамическая загрузка картинок баннеров
+function getBanners() {
+  sendRequest(`../json/dashboard_banners.json`)
+    .then(result => {
+      loader.hide();
+      var imagesData = JSON.parse(result);
+      console.log(imagesData);
+
+      var banners = {
+        area: '#dashboard-banners',
+        sign: '@@',
+        items: imagesData
+      };
+      fillTemplate(banners);
+
+      var mobBanners = {
+        area: '#test',
+        sign: '@@',
+        items: imagesData
+      };
+      fillTemplate(mobBanners);
+    })
+    .catch(err => {
+      console.log(err);
+      loader.hide();
+    });
+
+
+}
+getBanners();
