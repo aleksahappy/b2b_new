@@ -23,4 +23,13 @@
     width: 80%;
   }
 
+  #contra-modal .post .row.row-wrap {
+    display: block;
+  }
+
+  #contra-modal form.post > .row .form-wrap input,
+  #contra-modal .post .activate.select {
+    width: 100%;
+  }
+
 }
