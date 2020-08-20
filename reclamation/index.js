@@ -15,7 +15,7 @@ function startReclPage() {
     var data = JSON.parse(result);
     loader.hide();
     var reclData = {
-      area: '#recl',
+      area: '.recl',
       items: data,
       sign: '@@'
     };

@@ -38,7 +38,7 @@
   }
 
   .shops {
-    z-index: 200;
+    z-index: 150;
     display: flex;
     order: 2;
     /* flex-direction: column; */

@@ -89,7 +89,7 @@ function openAddressPopUp(id) {
     fillForm('#address-form', upData);
   } else {
     title.textContent = 'Новый адрес';
-    clearForm('#address-form');
+    clearForm('#address');
   }
   openPopUp(addressPopUp);
 }
