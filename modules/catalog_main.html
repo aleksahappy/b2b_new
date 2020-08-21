@@ -278,10 +278,10 @@
                 </div>
               </div>
             </div>
-            <div class="total">
+            <div class="totals">
               <div class="row">
-                <div class="left-side">Итого к оплате: </div>
-                <div class="right-side text orange">#sum#&nbsp;руб.</div>
+                <div class="left-side">Итого к оплате:</div>
+                <div class="right-side text orange"><span class="sum">0</span>&nbsp;руб.</div>
               </div>
               <div class="row">
                 <div class="left-side">
@@ -290,9 +290,9 @@
                   <div>Сумма скидки:</div>
                 </div>
                 <div class="right-side">
-                  <div>#order_kolv#</div>
-                  <div>#sum_retail#</div>
-                  <div>#discount_sum#</div>
+                  <div class="orders-qty">0</div>
+                  <div><span class="sum-retail">0</span>&nbsp;руб.</div>
+                  <div><span class="sum-discount">0</span>&nbsp;руб.</div>
                 </div>
               </div>
             </div>
@@ -308,14 +308,14 @@
                 <div class="order-block row">
                   <div class="info">
                     <div>
-                      <div class="title">Заказ - <span class="title">#action_name#</span></div>
+                      <div class="title">Заказ - <span class="title">#title#</span></div>
                       <div class="title">Итого: <span class="text red">#sum#&nbsp;руб.</span></div>
-                      <div class="title">Аванс, 20%: <span class="text red">#prepaid#&nbsp;руб.</span></div>
+                      <div class="title">Аванс, #prepaid_percent#: <span class="text red">#prepaid_sum#&nbsp;руб.</span></div>
                     </div>
                     <div>
-                      <div class="">В розничных ценах: <span>#sum_retail#</span></div>
-                      <div class="">Скидка: <span>#discount_percent#,&nbsp;#discount_sum#</span></div>
-                      <div class="">Количество: <span>#kolv#&nbsp;шт.</span></div>
+                      <div class="">В розничных ценах: <span>#sumRetail#&nbsp;руб.</span></div>
+                      <div class="#isDiscount#">Скидка: <span>#percentDiscount#, #sumDiscount#&nbsp;руб.</span></div>
+                      <div class="">Количество: <span>#qty#&nbsp;шт.</span></div>
                       <div class="">Оплатить до: <span>#date#</span></div>
                     </div>
                   </div>

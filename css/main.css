@@ -39,31 +39,30 @@
 .disabled ::placeholder {color: transparent;}
 :disabled::placeholder {color: transparent;}
 
-.main :not(.pop-up-container)::-webkit-scrollbar {
+#main :not(.pop-up-container)::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
-.main :not(.pop-up-container)::-webkit-scrollbar-track {
+#main :not(.pop-up-container)::-webkit-scrollbar-track {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid #C6C6C6;
   border-radius: 19px;
 }
 
-.main :not(.pop-up-container)::-webkit-scrollbar-thumb {
+#main :not(.pop-up-container)::-webkit-scrollbar-thumb {
   background-color: #C6C6C6;
   border: 1px solid #C6C6C6;
   border-radius: 19px;
   cursor: pointer;
 }
 
-.main :not(.pop-up-container)::-webkit-scrollbar-corner {
+#main :not(.pop-up-container)::-webkit-scrollbar-corner {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
 html {
   font-size: 10px;
-  overflow-x: hidden;
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   -ms-text-size-adjust: none;
@@ -1825,7 +1824,7 @@ div.option input:disabled ~ .checkbox.icon {
   text-overflow: ellipsis;
 }
 
-.activate.checked .head .title {
+.activate.changed .head .title {
   color: #666666;
 }
 
@@ -2114,7 +2113,7 @@ form.search .close.icon {
 }
 
 form.search .close.icon {
-  display: none;
+  visibility: hidden;
 }
 
 form.search .drop-down .item {
@@ -2144,13 +2143,18 @@ form.search.positioned input[type="text"] {
   z-index: 2;
 }
 
-form.search.positioned .search.icon {
+form.search.positioned:not(:focus-within) .search.icon {
   background-color: transparent;
   background-image: url(../img/search_white.svg);
+  visibility: visible !important;
+}
+
+form.search.positioned:not(:focus-within) .close.icon {
+  visibility: hidden !important;
 }
 
 form.search.positioned:focus-within {
-  width: 25em;
+  width: 25em !important;
 }
 
 form.search.positioned:focus-within input[type="text"] {
@@ -2166,7 +2170,7 @@ form.search.positioned:focus-within .search.icon {
 }
 
 form.search.positioned:focus-within .close.icon {
-  display: none !important;
+  visibility: hidden;
 }
 
 /* =====================================================================================================
@@ -3831,7 +3835,7 @@ body#auth .notice {
 Страница 404:
 ===================================================================================================== */
 
-body#err .main .container {
+body#err #main .container {
   flex-direction: column;
 }
 

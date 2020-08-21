@@ -93,11 +93,13 @@ function updateCart() {
   getCart()
   .then(result => {
     if (result === 'cart') {
-      fillOrderForm();
       createCartData()
       .then(result => {
         if (location.search === '?cart') {
           createCart();
+          if (getEl('#checkout').classList.contains('open')) {
+            fillCheckout();
+          }
         } else {
           var cards;
           if (view === 'list') {
@@ -110,9 +112,8 @@ function updateCart() {
           cards.forEach(card => checkCart(card));
         }
       });
-    } else {
-      fillOrderForm();
     }
+    fillOrderForm();
   }, reject => console.log(reject))
 }
 
@@ -273,16 +274,16 @@ function countFromCart(idList = undefined, totals = true) {
   if (totals) {
     var sumOpt = 0,
         sumRetail = 0,
-        orderSum = 0,
-        sumDiscount = 0,
-        percentDiscount = 0;
+        orders = [],
+        itemsForOrderDiscount = [],
+        sumForOrderDiscount = 0;
   } else {
     var bonusQty = 0,
         bonusId = 0;
   }
 
   if (!isEmptyObj(cart)) {
-    var curItem, curQty;
+    var curItem, curQty, curOrder;
     if (idList) {
       idList.forEach(id => {
         countTotals('id_' + id, cart['id_' + id]);
@@ -309,29 +310,52 @@ function countFromCart(idList = undefined, totals = true) {
     if (totals) {
       sumOpt += curQty * curItem.price_cur1;
       sumRetail += curQty * curItem.price_user1;
+
+      curOrder = orders.find(el => el.title === curItem.action_name);
+      if (!curOrder) {
+        orders.push({
+          title: curItem.action_name,
+          id: curItem.action_id,
+          qty: 0,
+          sum: 0,
+          sumOpt: 0,
+          sumRetail: 0
+        });
+        curOrder = orders[0];
+      }
+      curOrder.qty += curQty;
+      curOrder.sumOpt += curQty * curItem.price_cur1;
+      curOrder.sumRetail += curQty * curItem.price_user1;
     }
 
     var discount = checkDiscount(el.id, qty, curItem);
     if (!discount || !discount.sum) {
       sum += curQty * curItem.price_cur1;
+      if (totals) {
+        curOrder.sum += curQty * curItem.price_cur1;
+      }
     }
     if (discount) {
       if (discount.sum) {
         sum += discount.sum;
+        if (totals) {
+          curOrder.sum += discount.sum;
+        }
       }
       if (!totals && discount.bonusQty >= 0) {
         bonusQty += discount.bonusQty;
         bonusId = discount.bonusId;
       }
     } else if (totals && window.actions && window.actions[cartId]) {
-      orderSum += curQty * curItem.price_user1;
+      itemsForOrderDiscount.push(id);
+      sumForOrderDiscount += curQty * curItem.price_user1;
     }
   }
 
-  if (totals && orderSum > 0) {
-    discount = sumLessProc(orderSum);
-    sumDiscount = discount.sum;
-    percentDiscount = discount.percent;
+  if (totals && sumForOrderDiscount > 0) {
+    itemsForOrderDiscount.forEach(id => {
+      sum = sum - (cartItems[id].price_user1 * discount.percent / 100);
+    });
   }
 
   var result = {
@@ -339,9 +363,18 @@ function countFromCart(idList = undefined, totals = true) {
     sum: sum
   };
   if (totals) {
+    orders.forEach(el => {
+      el.sumDiscount = el.sumOpt - el.sum;
+      el.percentDiscount = (el.sumDiscount * 100 / el.sumOpt).toFixed(0);
+      el.sum = convertPrice(el.sum, false);
+      el.sumRetail = convertPrice(el.sumRetail, false);
+      el.sumDiscount = convertPrice(el.sumDiscount, false);
+      el.isDiscount = el.sumDiscount == 0 ? 'displayNone' : '';
+    });
+    result.orders = orders;
     result.sumRetail = sumRetail;
-    result.sumDiscount = sumDiscount;
-    result.percentDiscount = percentDiscount;
+    result.sumDiscount = sumOpt - sum;
+    result.percentDiscount = (result.sumDiscount * 100 / sumOpt).toFixed(0);
   } else {
     result.bonusQty = bonusQty;
     result.bonusId = bonusId;
@@ -807,7 +840,7 @@ function changeCheckoutInfo() {
     }
   });
   if (qty > 1) {
-    var totals = countFromCart(getIdList('cart'));
+    var totals = countFromCart(getIdList('cart'), false);
     getEl('.qty', info).textContent = qty + ' ' + declOfNum(qty, ['заказ', 'заказа', 'заказов']);
     getEl('.sum', info).textContent = convertPrice(totals.sum, false);
     info.style.visibility = 'visible';
@@ -816,10 +849,24 @@ function changeCheckoutInfo() {
   }
 }
 
+// Изменение информации о заказе:
+
+function fillCheckout() {
+  var totals = countFromCart(getIdList('cart'));
+  getEl('#checkout .totals .sum').textContent = convertPrice(totals.sum, false);
+  getEl('#checkout .totals .orders-qty').textContent = totals.orders.length;
+  getEl('#checkout .totals .sum-retail').textContent = convertPrice(totals.sumRetail, false);
+  getEl('#checkout .totals .sum-discount').textContent = convertPrice(totals.sumDiscount, false);
+  fillTemplate({
+    area: '#order-details',
+    items: totals.orders
+  });
+}
+
 // Изменение информации о количестве и сумме в секции корзины:
 
 function changeCartSectionInfo(section) {
-  var totals = countFromCart(getIdList('cart', section));
+  var totals = countFromCart(getIdList('cart', section), false);
   getEl('.select-qty span', section).textContent = totals.qty;
   getEl('.select-sum span', section).textContent = convertPrice(totals.sum, false);
 }
@@ -1053,6 +1100,7 @@ function openCheckout() {
   }
   clearForm('#order-form');
   toggleAddressField();
+  fillCheckout();
   openPopUp('#checkout');
 }
 
