@@ -64,3 +64,8 @@ form.search {
 #cert-data .item .cont .row {
   align-items: center;
 }
+
+#cert-search-mob,
+#calendar {
+  margin-bottom: 10px;
+}

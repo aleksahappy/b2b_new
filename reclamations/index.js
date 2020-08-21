@@ -1,11 +1,9 @@
 'use strict';
-console.log('test');
-// Запускаем рендеринг страницы документов:
 
+// Запускаем рендеринг страницы документов:
 startReclmPage();
 
 // Запуск страницы документов:
-
 function startReclmPage() {
   sendRequest(`../json/recls_data.json`)
   // sendRequest(urlRequest.main, {action: '???'})
@@ -109,8 +107,17 @@ function getFilterData(data) {
 document.querySelectorAll('.filters').forEach(el => {
   el.querySelectorAll('.item .row').forEach (el => el.addEventListener('click', event => {
     event.stopPropagation();
+
     if (event.target.classList.contains('checkbox') || event.target.classList.contains('text')) {
       event.currentTarget.classList.toggle('checked');
+    } else {
+      console.log(el)
     }
   }));
 })
+
+
+function test1() {
+  console.log('test')
+}
+test1();

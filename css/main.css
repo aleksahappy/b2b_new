@@ -823,15 +823,15 @@ input[data-type="range"] {
 
 .calendar .input-area .month-navigator .month-previous {
   margin-top: 5px;
-  background: url("../img/arrow_left.svg") no-repeat center center;
+  background: url("../img/arrow_blue.svg") no-repeat center center;
   background-size: 35%;
+  transform: rotate(180deg);
 }
 
 .calendar .input-area .month-navigator .month-next {
   margin-top: 5px;
-  background: url("../img/arrow_left.svg") no-repeat center center;
+  background: url("../img/arrow_blue.svg") no-repeat center center;
   background-size: 35%;
-  transform: rotate(180deg);
 }
 
 .calendar .input-area .month-navigator .nav-center {
@@ -859,15 +859,15 @@ input[data-type="range"] {
 .calendar .input-area .month-navigator .years-nav .prev-year {
   width: 100%;
   height: 10px;
-  background: url("../img/arrow_left.svg") no-repeat center center;
-  transform: rotate(90deg);
+  background: url("../img/arrow_blue.svg") no-repeat center left;
+  transform: rotate(270deg);
 }
 
 .calendar .input-area .month-navigator .years-nav .next-year {
   width: 100%;
   height: 10px;
-  background: url("../img/arrow_left.svg") no-repeat center center;
-  transform: rotate(270deg);
+  background: url("../img/arrow_blue.svg") no-repeat center left;
+  transform: rotate(90deg);
 }
 
 .calendar .input-area .tbl-calendar {
