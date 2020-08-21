@@ -268,7 +268,7 @@
   width: 100%;
 }
 
-#order-form .total {
+#order-form .totals {
   margin-top: 2.143em;
   margin-bottom: 1.428em;
   padding: 1.428em;
@@ -276,27 +276,31 @@
   background-color: #53606F;
 }
 
-#order-form .total > .row {
+#order-form .totals > .row {
   justify-content: space-between;
   align-items: baseline;
 }
 
-#order-form .total > .row:first-child {
+#order-form .totals > .row:first-child {
   padding-bottom: 1.428em;
   border-bottom: 1px solid #C6C6C6;
 }
 
-#order-form .total > .row .left-side {
+#order-form .totals > .row .left-side {
   margin-bottom: 0.357em;
   margin-right: 1.428em;
 }
 
-#order-form .total .text.orange {
+#order-form .totals > .row .right-side {
+  text-align: right;
+}
+
+#order-form .totals .text.orange {
   font-size: 1.714em;
   font-weight: 700;
 }
 
-#order-form .total > .row:last-child {
+#order-form .totals > .row:last-child {
   padding-top: 1.428em;
 }
 

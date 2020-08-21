@@ -225,7 +225,7 @@ body {
   margin-right: 2.5em;
 }
 
-.main.zip .view {
+#main.zip .view {
   display: none;
 }
 
@@ -353,7 +353,7 @@ body {
 Стили для фильтров OEM:
 ===================================================================================================== */
 
-.main.equip #zip-filters {
+#main.equip #zip-filters {
   display: none;
 }
 
@@ -463,16 +463,12 @@ body {
   transform: scale(1.12, 1.12);
 }
 
-#filter-color .item.disabled .title.row:hover {
-  transform: none;
-}
-
 #filter-color .item.checked .title.row {
   background-position-x: -25px;
 }
 
 #filter-color .item.disabled .title.row {
-  background-position-x: -50px;
+  display: none;
 }
 
 #filter-color .item[data-value="white"] .title.row {
@@ -748,54 +744,54 @@ body {
 
 /* Стили для большой карточки ЗИП: */
 
-.main.zip .big-card {
+#main.zip .big-card {
   height: 17em;
   min-height: 17em;
 }
 
-.main.zip .big-card.open {
+#main.zip .big-card.open {
   height: auto !important;
 }
 
-.main.zip .big-card .left-side {
+#main.zip .big-card .left-side {
   width: 60%;
 }
 
-.main.zip .big-card .card-title {
+#main.zip .big-card .card-title {
   width: 100%;
 }
 
-.main.zip .big-card .card-select {
+#main.zip .big-card .card-select {
   width: calc(100% - 14em);
 }
 
-.main.zip .big-card .card-sizes {
+#main.zip .big-card .card-sizes {
   width: 100%;
   margin-bottom: 1.5em;
 }
 
-.main.zip .big-card .select-info {
+#main.zip .big-card .select-info {
   width: 100%;
   padding-left: 4em;
 }
 
-.main.zip .big-card .right-side {
+#main.zip .big-card .right-side {
   justify-content: flex-start;
   width: 40%;
 }
 
-.main.zip .big-card .card-options {
+#main.zip .big-card .card-options {
   height: auto;
   overflow: visible;
   margin-bottom: 1.5em;
 }
 
-.main.zip .big-card .option-title {
+#main.zip .big-card .option-title {
   min-width: 14em;
   max-width: 14em;
 }
 
-.main.zip .big-card .details {
+#main.zip .big-card .details {
   right: 1em;
   top: 1em;
 }
@@ -803,5 +799,4 @@ body {
 /* =====================================================================================================
  Стили для полной карточки:
 ===================================================================================================== */
-
 

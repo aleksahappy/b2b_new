@@ -35,14 +35,7 @@ var menuContent = {
     }, {
       cat: 'sumruk',
       cat_title: 'Сумки и рюкзаки'
-    }, {
-      cat: 'sale',
-      cat_title: 'Распродажа!'
     }]
-    // }, {
-    //   cat: 'merchandising',
-    //   cat_title: 'Мерчандайзинг'
-    // }]
   },
   snow: {
     title: 'Снегоходы',
@@ -150,7 +143,7 @@ function initCart() {
 
 function initPage() {
   loader.hide();
-  path = location.href.replace(/http:\/\/[^\/]+\//, '').replace(/\//, '').split('?');
+  path = location.href.replace(/http:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
   renderContent();
   initSearch('#page-search', selectCards);
   initSearch('#oem', selectCards);
@@ -172,6 +165,7 @@ function addCatalogModules() {
   getEl('#header').appendChild(catalogHeader);
 
   var catalogMain = document.createElement('div');
+  catalogMain.id = 'main';
   catalogMain.classList.add('main', type);
   catalogMain.dataset.html = '../modules/catalog_main.html';
   document.body.insertBefore(catalogMain, getEl('#modules').nextSibling);
@@ -305,9 +299,9 @@ function addPriceInfo(item) {
   // Преобразование цен в данных, которые не преобразованы по образцу остальных (убираем копейки, делаем 2 формата):
   // price_cur: "24&nbsp;157"
   // price_cur1: "24157"
-  item.price_action1 = Math.round(parseFloat(item.price_action));
+  item.price_action1 = '' + Math.round(parseFloat(item.price_action));
   item.price_action = (item.price_action1 + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1&nbsp;');
-  item.price_preorder1 = Math.round(parseFloat(item.price_preorder));
+  item.price_preorder1 = '' + Math.round(parseFloat(item.price_preorder));
   item.price_preorder = (item.price_action1 + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1&nbsp;');
 
   var isNewPrice;
@@ -592,7 +586,7 @@ function openPage(event) {
     }
   } else {
     var oldPath = path;
-    path = event.currentTarget.href.replace(/http:\/\/[^\/]+\//, '').replace(/\//, '').split('?');
+    path = event.currentTarget.href.replace(/http:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
     if (path.length === oldPath.length && JSON.stringify(oldPath) === JSON.stringify(path)) {
       return;
     }
@@ -764,7 +758,6 @@ function renderGallery() {
   clearCurSelect();
   initFilters(filter);
   showCards();
-  setContentWidth();
 }
 
 // Скрытие неактуальных частей страницы:
@@ -1448,7 +1441,6 @@ function loadCards(cards) {
     method: countItems === 0 ? 'inner' : 'beforeend'
   });
   setFiltersPosition();
-  setContentWidth();
 
   if (view === 'list') {
     document.querySelectorAll('.big-card').forEach(card => {
@@ -1464,39 +1456,6 @@ function loadCards(cards) {
       addActionTooltip(card);
     });
   }
-}
-
-// Проверка загруженности всех изображений карусели и отображение карусели:
-
-function renderCarousel(carousel, curImg = 0) {
-  return new Promise((resolve, reject) => {
-    var imgs = carousel.querySelectorAll('img');
-
-    imgs.forEach((img, index) => {
-      if (index === imgs.length - 1) {
-        img.addEventListener('load', () => {
-          setTimeout(() => render(carousel), 100);
-        });
-        img.addEventListener('error', () => {
-          img.parentElement.remove();
-          setTimeout(() => render(carousel), 100);
-        });
-      } else {
-        img.addEventListener('error', () => {
-          img.parentElement.remove();
-        });
-      }
-    });
-
-    function render(carousel) {
-      if (carousel.querySelectorAll('img').length === 0) {
-        getEl('.carousel-gallery', carousel).insertAdjacentHTML('beforeend', '<div class="carousel-item"><img src="../img/no_img.jpg"></div>');
-        startCarouselInit(carousel, curImg);
-      }
-      startCarouselInit(carousel, curImg);
-      resolve('карусель готова');
-    }
-  });
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1533,6 +1492,7 @@ function showCards() {
     }
   }
   setDocumentScroll(0);
+  setContentWidth();
 }
 
 // Добавление новых карточек при скролле страницы:
@@ -1541,6 +1501,7 @@ function scrollGallery() {
   var scrolled = window.pageYOffset || document.documentElement.scrollTop;
   if (scrolled * 2 + window.innerHeight >= document.body.clientHeight) {
     loadCards();
+    setContentWidth();
   }
 }
 

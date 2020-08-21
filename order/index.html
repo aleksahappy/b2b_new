@@ -105,14 +105,14 @@
     <div id="make-reclm" class="pop-up-container">
       <div class="pop-up">
         <div class="pop-up-title row">
-          <div class="title h1">Мастер создания рекламации</div>
+          <div class="title h1">Оформление рекламации</div>
           <div class="close icon"></div>
         </div>
         <div class="pop-up-body">
           <div class="order-info">
             <div>К заказу <a href="../order/?order_id=#id#" target="_blank">№#order_number#</a> от #order_date#</div>
             <div>#titl#</div>
-            <div class="text-midlight">Артикул #artc#</div>
+            <div class="text midlight">Артикул #artc#</div>
           </div>
           <form id="reclm-form" class="post">
             <input type="hidden" name="recl[order_id]" value="#id#">
@@ -166,9 +166,9 @@
                 <div class="form-wrap">
                   <div class="title">Количество бракованных изделий</div>
                   <div class="qty qty-box row #qtyStyle#">
-                    <div class="btn-minus row" tooltip="Уменьшить" onclick="changeQty(event, #kolv#, 1)"><div class="minus icon"></div></div>
-                    <input class="choiced-qty text" #qtyStyle# name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
-                    <div class="btn-plus row" tooltip="Добавить" onclick="changeQty(event, #kolv#, 1)"><div class="plus icon"></div></div>
+                    <div class="btn minus" data-tooltip="Уменьшить" onclick="changeQty(event, #kolv#, 1)"></div>
+                    <input class="choiced-qty" #qtyStyle# name="recl[amount]" type="text" value="1" data-value="1" autocomplete="off" onchange="changeQty(event, #kolv#, 1)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+                    <div class="btn plus" data-tooltip="Добавить" onclick="changeQty(event, #kolv#, 1)"></div>
                   </div>
                 </div>
                 <div class="img-wrap">
@@ -177,7 +177,7 @@
               </div>
             </div>
             <div class="form-wrap" required>
-              <div class="title">Комментарий к заказу*</div>
+              <div class="title">Комментарий*</div>
               <textarea name="recl[comment]" maxlength="250" autocomplete="off" placeholder="Введите текст" oninput="textareaCounter(this)"></textarea>
               <div class="text-counter" data-count="recl[comment]">Знаков осталось: <span>250</span></div>
             </div>
