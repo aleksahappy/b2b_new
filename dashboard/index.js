@@ -70,7 +70,7 @@ function convertData(data) {
   return data;
 }
 
-//  Круговая диаграмма "Заказы в работе"
+///////////////////////Круговая диаграмма "Заказы в работе"/////////////////////
 //  canvas диаграммы
 var ordersChart = document.getElementById('orders-chart').getContext('2d');
 //  тогглы

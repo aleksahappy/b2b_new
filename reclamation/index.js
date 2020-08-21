@@ -34,6 +34,7 @@ startReclPage();
 
 closeChat.addEventListener('click', function() {
     chatWrap.style.display = 'none';
+    icon.style.display = 'block';
     icon.style.opacity = 1;
     icon.style.visibility = 'visible';
 });
