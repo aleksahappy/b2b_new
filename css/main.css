@@ -3665,6 +3665,12 @@ tbody td > .row * {
   padding: 0.714em 0;
 }
 
+#mob-menu .sublist .row a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 #mob-menu .sublist .row a,
 #mob-menu .subitem a {
   font-size: 1.3em;
@@ -3686,6 +3692,9 @@ tbody td > .row * {
 }
 
 #mob-menu .sublist-qty {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
   padding-top: 0.714em;
   padding-left: 3em;
   border-left: 1px solid #C6C6C6;
@@ -3706,6 +3715,11 @@ tbody td > .row * {
 #mob-menu .cart-info.full .qty {
   color: #FFFFFF;
   background-color: #CE0014;
+}
+
+#mob-menu .sublist .row {
+  align-items: stretch;
+  justify-content: space-between;
 }
 
 /* =====================================================================================================
