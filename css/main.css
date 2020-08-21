@@ -3595,6 +3595,7 @@ tbody td > .row * {
 
 #mob-menu {
   position: fixed;
+  display: none;
   top: -110%;
   right: 0;
   left: 0;
