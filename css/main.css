@@ -300,7 +300,8 @@ body.no-scroll {
   text-align: center;
 }
 
-.qty.in-circle.full {
+.full .qty.in-circle,
+.full.qty.in-circle {
   display: flex;
 }
 

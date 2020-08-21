@@ -98,11 +98,11 @@ function startCatalogPage() {
       }
     )
   } else {
-    // getItems()
-    sendRequest(`../json/${document.body.id}_data.json`) //удалить
+    getItems()
+    // sendRequest(`../json/${document.body.id}_data.json`)
     .then(
       result => {
-        result = JSON.parse(result); //удалить
+        // result = JSON.parse(result); //удалить
         for (var key in result) {
           if (key !== 'colors') {
             window[key] = result[key];
@@ -143,7 +143,7 @@ function initCart() {
 
 function initPage() {
   loader.hide();
-  path = location.href.replace(/http:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
+  path = location.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
   renderContent();
   initSearch('#page-search', selectCards);
   initSearch('#oem', selectCards);
@@ -586,7 +586,7 @@ function openPage(event) {
     }
   } else {
     var oldPath = path;
-    path = event.currentTarget.href.replace(/http:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
+    path = event.currentTarget.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
     if (path.length === oldPath.length && JSON.stringify(oldPath) === JSON.stringify(path)) {
       return;
     }

@@ -75,7 +75,7 @@
           <div class="qty row">
             <div class="qty-box row">
               <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
-              <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+              <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
               <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
             </div>
           </div>
@@ -163,7 +163,7 @@
             <div class="qty row">
               <div class="qty-box row">
                 <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
-                <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return checkValue(event)">
+                <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
                 <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
               </div>
             </div>

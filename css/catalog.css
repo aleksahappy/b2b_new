@@ -147,7 +147,7 @@ body {
   right: -9px;
 }
 
-#header-cart .sum {
+#header-cart .totals {
   justify-content: flex-start;
   align-items: center;
   border-bottom: none;

@@ -489,15 +489,16 @@ function sumLessProc(sum) {
 function changeCartInHeader(totals) {
   var qty = totals.qty,
       sum = totals.sum;
-  fillCartInHeader(qty, sum, 'cart');
-  fillCartInHeader(qty, sum, 'catalog');
+  fillCartInHeader(qty, sum, '#header-cart', 'cart');
+  fillCartInHeader(qty, sum, '#catalogs', 'catalogs');
+  fillCartInHeader(qty, sum, '#mob-catalogs', 'catalogs');
   changeCartName(qty);
 }
 
 // Заполнение конкретной корзины в шапке сайта данными:
 
-function fillCartInHeader(qty, sum, type) {
-  var area = type === 'cart' ? getEl('#header-cart') : getEl('#catalogs');
+function fillCartInHeader(qty, sum, area, type) {
+  area = getEl(area);
   if (!area) {
     return;
   }
@@ -516,17 +517,20 @@ function fillCartInHeader(qty, sum, type) {
       } else {
         cartQty.textContent = qty;
       }
-      cartQty.classList.add('full');
+      curCart.classList.add('full');
     } else {
       cartQty.textContent = qty;
-      cartQty.classList.remove('full');
+      curCart.classList.remove('full');
     }
     if (type === 'cart') {
       var sum = 0;
       cartTotals.forEach(el => {
+        if (!el.id) {
+          return;
+        }
         sum += el.sum;
       });
-      getEl('.sum span', area).textContent = convertPrice(sum, false);
+      getEl('.totals span', area).textContent = convertPrice(sum, false);
     }
   }
 }

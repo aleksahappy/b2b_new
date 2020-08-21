@@ -17,17 +17,17 @@
   <div id="header-cart" class="template">
     <div class="wrap">
       <div class="items">
-        <a class="cart-#id# item col" href="../#id#/?cart" data-title="Корзина" onclick="#isFunc#">
+        <a class="cart-#id# item col #isFull#" href="../#id#/?cart" data-title="Корзина" onclick="#isFunc#">
           <div class="row">
-            <div>#sum#&nbsp;руб.</div>
+            <div class="sum"><span>#sum#</span>&nbsp;руб.</div>
             <div class="cart icon white">
-              <div class="qty in-circle row #isFull#">#qty#</div>
+              <div class="qty in-circle row">#qty#</div>
             </div>
           </div>
           <div class="name">#title#</div>
         </a>
       </div>
-      <div class="sum item row text orange">Итого:&nbsp;<span>#sum#</span>&nbsp;руб.</div>
+      <div class="totals item row text orange">Итого:&nbsp;<span>#sum#</span>&nbsp;руб.</div>
     </div>
   </div>
 </div>

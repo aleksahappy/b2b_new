@@ -214,6 +214,13 @@ function fillUserInfo() {
         username: userInfo.name + ' ' + userInfo.lastname
       }
     });
+    fillTemplate({
+      area: '#mob-profile',
+      items: {
+        login: userInfo.login,
+        username: userInfo.name + ' ' + userInfo.lastname
+      }
+    });
   } else {
     // if (location.pathname !== '/') {
     //   location.href = '/';
@@ -255,8 +262,8 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 
 function getTotals() {
   return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, {action: 'get_total'})
-    sendRequest('../json/cart_totals_data.json') //удалить
+    sendRequest(urlRequest.main, {action: 'get_total'})
+    // sendRequest('../json/cart_totals_data.json')
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -281,8 +288,8 @@ function getTotals() {
 
 function getCart() {
   return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
-    sendRequest(`../json/cart_${document.body.id}_data.json`) //удалить
+    sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
+    // sendRequest(`../json/cart_${document.body.id}_data.json`)
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -381,14 +388,16 @@ function renderTotals() {
   if (!isCart || !cartTotals.length) {
     return;
   }
-  renderCartInHeader('cart');
-  renderCartInHeader('catalog');
+
+  renderCartInHeader('#header-cart', 'cart');
+  renderCartInHeader('#catalogs', 'catalogs');
+  renderCartInHeader('#mob-catalogs', 'catalogs');
 }
 
 // Создание списка каталогов/корзин в шапке сайта:
 
-function renderCartInHeader(type) {
-  var area = type === 'cart' ? getEl('#header-cart') : getEl('#catalogs');
+function renderCartInHeader(area, type) {
+  area = getEl(area);
   if (!area) {
     return;
   }
@@ -406,6 +415,10 @@ function getDataFromTotals(type) {
   var data = JSON.parse(JSON.stringify(cartTotals)),
       sum = 0;
   data.forEach((el, index) => {
+    if (!el.id) {
+      data.splice(index, 1);
+      return;
+    }
     if (el.qty > 0) {
       el.isFull = 'full';
       if (el.qty > 99) {
