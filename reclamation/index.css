@@ -403,7 +403,7 @@ input[type=file]{
   bottom: 50px;
   right: 2.6vw;
   width: 22.91vw;
-  min-width: 300px;
+  min-width: 400px;
 }
 
 .chat-header{
@@ -420,7 +420,8 @@ input[type=file]{
 .chat-body{
   display: block;
   width: 100%;
-  height: 70vh;
+  height: 50vh;
+  min-height: 400px;
   padding: 0 10px;
   overflow: hidden;
   background: #ffffff;
@@ -613,6 +614,7 @@ input[type=file]{
   border-radius: 50%;
   background: url('../img/chat_mob.jpg') no-repeat;
   background-size: contain;
+  cursor: pointer;
   animation: play 2s ease infinite;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;

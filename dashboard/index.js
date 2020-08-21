@@ -1,9 +1,25 @@
 'use strict';
+// Настройки карусели с баннерами
+var productCarousel = {
+  isNav: true,            // Наличие навигации (точек или картинок под каруселью)
+  navType: 'dot',         // Тип навигации ('img' или 'dot')
+  isInfinitie: true,       // Бесконечное зацикливание карусели
+  isAnimate: true,         // Анимация смены слайдов (анимировать смену слайдов или нет)
+  switchAmount: 1,         // Количество перелистываемых слайдов за раз
+  isCenter: true,         // Активная картинка всегда по центру карусели (работает только для бесконечной карусели)
+  isHoverToggle: false,    // Листание при наведении на картинку (если false, то будет листание по клику)
+  durationBtns: 600,       // Продолжительность анимации при переключении кнопками вперед/назад (мc)
+  durationNav: 400,        // Продолжительность анимации при переключении миниатюрами/индикаторами(мс)
+  animateFunc: 'ease',     // Эффект анимации
+  isAvtoScroll: true,     // Автоматическая прокрутка
+  interval: 6000          // Интервал между автоматической прокруткой (мс)
+}
+
 ///////////////////////////////СЕКЦИЯ "ЗАКАЗЫ В РАБОТЕ"/////////////////////////
 // Запуск данных таблицы Рабочего стола:
-
 var dashboardTable = document.querySelector('#dashboard-table');
 var tbody = dashboardTable.querySelector('tbody');
+
 
 function startDashboardTable() {
   sendRequest(`../json/dashboard_table_data.json`)
@@ -12,12 +28,15 @@ function startDashboardTable() {
     dataOrders = JSON.parse(result);
     loader.hide();
     dataOrders = convertData(dataOrders);
+
     initTable('#dashboard-table', {data: dataOrders});
+
     var mobTable = {
       area: '#mob-dashboard-table',
       items: dataOrders
     };
     fillTemplate(mobTable);
+
     startOrdersProgress(dataOrders);
     getOrdersInfo(dataOrders);
     tableDataSort();
@@ -52,7 +71,7 @@ function convertData(data) {
   return data;
 }
 
-//  Круговая диаграмма "Заказы в работе"
+///////////////////////Круговая диаграмма "Заказы в работе"/////////////////////
 //  canvas диаграммы
 var ordersChart = document.getElementById('orders-chart').getContext('2d');
 //  тогглы
@@ -954,4 +973,81 @@ function pageReload() {
     return;
   }
 
+}
+
+
+////////////////////////////////БАННЕРЫ/////////////////////////////////////////
+// Подключение и настройка карусели
+
+//  Динамическая загрузка картинок баннеров
+function getBanners() {
+  sendRequest(`../json/dashboard_banners.json`)
+    .then(result => {
+      loader.hide();
+      var imagesData = JSON.parse(result);
+
+      var banners = {
+        area: '#dashboard-banners',
+        sign: '@@',
+        items: imagesData
+      };
+      fillTemplate(banners);
+
+      showProduct(imagesData);
+    })
+    .catch(err => {
+      console.log(err);
+      loader.hide();
+    });
+}
+getBanners();
+
+
+//  Динамическая загрузка по шаблону картинок в карусель
+function showProduct(data) {
+  var banContainer = document.querySelector('#banners');
+
+  var mobBanners = {
+    area: '#test',
+    sign: '@@',
+    items: data
+  };
+  fillTemplate(mobBanners);
+
+  var curCarousel = getEl('.carousel', banContainer);
+  renderCarousel(curCarousel);
+}
+
+
+// Проверка загруженности всех изображений карусели и отображение карусели:
+
+function renderCarousel(carousel, curImg = 0) {
+  return new Promise((resolve, reject) => {
+    var imgs = carousel.querySelectorAll('img');
+
+    imgs.forEach((img, index) => {
+      if (index === imgs.length - 1) {
+        img.addEventListener('load', () => {
+          setTimeout(() => render(carousel), 100);
+        });
+        img.addEventListener('error', () => {
+          img.parentElement.remove();
+          setTimeout(() => render(carousel), 100);
+        });
+      } else {
+        img.addEventListener('error', () => {
+          img.parentElement.remove();
+        });
+      }
+    });
+
+    function render(carousel) {
+      if (carousel.querySelectorAll('img').length === 0) {
+        getEl('.carousel-gallery', carousel).insertAdjacentHTML('beforeend', '<div class="carousel-item"><img src="../img/no_img.jpg"></div>');
+        startCarouselInit(carousel, curImg);
+      }
+      startCarouselInit(carousel, curImg);
+      resolve('карусель готова');
+    }
+  });
 }

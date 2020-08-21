@@ -34,6 +34,7 @@ startReclPage();
 
 closeChat.addEventListener('click', function() {
     chatWrap.style.display = 'none';
+    icon.style.display = 'block';
     icon.style.opacity = 1;
     icon.style.visibility = 'visible';
 });
@@ -127,4 +128,26 @@ function openChat(el) {
     icon.style.opacity = 0;
     icon.style.visibility = 'hidden';
   }
+}
+
+
+// Преобразование полученных данных:
+function convertData(data) {
+  if (!data) {
+    return [];
+  }
+  data.forEach(el => {
+    el.order_sum = convertPrice(el.order_sum);
+    var sum;
+    for (var i = 1; i <= 5; i++) {
+      sum = el[`sum${i}`];
+      if (sum && sum != 0) {
+        el[`sum${i}`] = convertPrice(sum);
+        el[`display${i}`] = '';
+      } else {
+        el[`display${i}`] = 'displayNone';
+      }
+    }
+  });
+  return data;
 }

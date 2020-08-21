@@ -156,6 +156,10 @@ Laptop:
     margin-left: 1.428em;
   }
 
+  #mob-menu {
+    display: block;
+  }
+
   /* Окно уведомлений: */
 
   #notifications .pop-up {

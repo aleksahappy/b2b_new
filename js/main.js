@@ -77,6 +77,7 @@ var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}
 var telRegExp = /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/;
 var finTelRegExp = /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/;
 var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
+var nameRegExp = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
 
 // Запускаем рендеринг страницы:
 
@@ -2109,6 +2110,8 @@ function checkInput(input) {
     regEx = emailRegExp;
   } else if (type === 'nickname') {
     regEx = nicknameRegExp;
+  } else if (type === 'name') {
+    regEx = nameRegExp;
   } else if (type === 'inn') {
     if (value.length >= 10 && value.length <= 12) {
       return true;
@@ -2168,6 +2171,9 @@ function Form(obj, callback) {
         isValid = checkInput(input),
         type = input.dataset.type;
     if (type === 'cyril' && input.value.length === 1) {
+      input.value = capitalizeFirstLetter(input.value);
+    }
+    if (type === 'name' && input.value.length === 1) {
       input.value = capitalizeFirstLetter(input.value);
     }
     if (isValid) {
