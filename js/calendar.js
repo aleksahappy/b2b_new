@@ -56,7 +56,6 @@ class Calendar {
   //  Инициализируем календарь
 
   init() {
-    console.log('trest')
     if (this.element.value == "") {
       this.savedDate = new Date();
     } else {
@@ -100,8 +99,6 @@ class Calendar {
     this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
-  //
-
   getDOMs() {
     // Создаем DOM-контейнер для разметки календаря
     this.cContainer = document.createElement("div");
@@ -109,9 +106,10 @@ class Calendar {
     document.body.appendChild(this.cContainer);
     //  Находим координаты созданного контейнера, чтобы размещать каждый календарь под своим полем ввода
     let rect = this.element.getBoundingClientRect();
+    let documetnScroll = window.pageYOffset || document.documentElement.scrollTop;
     let inputWidth = this.element.offsetWidth;
-    this.cContainer.style.left = rect.x + "px";
-    this.cContainer.style.top = rect.y + rect.height + "px";
+    this.cContainer.style.left = rect.left + "px";
+    this.cContainer.style.top = documetnScroll + rect.top + rect.height + "px";
     this.cContainer.style.width = inputWidth + "px";
     this.cContainer.innerHTML = this.markup;
 

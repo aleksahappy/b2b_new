@@ -389,7 +389,6 @@ function renderTotals() {
   if (!isCart || !cartTotals.length) {
     return;
   }
-
   renderCartInHeader('#header-cart', 'cart');
   renderCartInHeader('#catalogs', 'catalogs');
   renderCartInHeader('#mob-catalogs', 'catalogs');
