@@ -421,6 +421,10 @@ Mobile:
     padding: 0.25em 0.714em;
   }
 
+  select {
+    padding: 0.25em 1.7em 0.25em 0.714em;
+  }
+
   .activate .head {
     padding: 0.25em 0.714em;
   }

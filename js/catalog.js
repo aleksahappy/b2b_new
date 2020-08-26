@@ -124,8 +124,9 @@ function initCart() {
     window.addEventListener('focus', updateCart);
     getCart()
     .then(result => {
-      fillOrderForm();
       createCartData();
+      fillOrderForm();
+      initForm('#order-form', sendOrder);
     }, reject => console.log(reject))
     .then(result => {
       initPage();
@@ -148,7 +149,6 @@ function initPage() {
   initSearch('#page-search', selectCards);
   initSearch('#oem', selectCards);
   initDropDown('#gallery-sort', sortItems);
-  initForm('#order-form', sendOrder);
 }
 
 //=====================================================================================================

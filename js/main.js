@@ -2201,16 +2201,24 @@ function Form(obj, callback) {
     if (type === 'name' && input.value.length === 1) {
       input.value = capitalizeFirstLetter(input.value);
     }
+    var formWrap = input.closest('.form-wrap');
     if (isValid) {
       if (type === 'tel' && input.value.length) {
         // приведение к формату с "+7" и пробелами
         var numbs = input.value.replace(/\D/g, '').match(telRegExp[0]);
         input.value = !numbs[3] ? numbs[2] : ('+7 (' + numbs[2] + ') ' + numbs[3] + (numbs[4] ? '-' + numbs[4] + '-' + numbs[5] : ''));
       }
-      input.closest('.form-wrap').classList.remove('error');
+      formWrap.classList.remove('error');
       this.checkSubmit();
     } else {
-      input.closest('.form-wrap').classList.add('error');
+      formWrap.classList.add('error');
+      var error = getEl('.err', formWrap);
+      if (!error) {
+        error = document.createElement('div');
+        error.classList.add('err');
+        error.textContent = 'Поле заполнено неверно';
+        formWrap.appendChild(error);
+      }
       this.submitBtn.setAttribute('disabled','disabled');
     }
   }
@@ -2265,13 +2273,14 @@ function Form(obj, callback) {
     }
   }
 
-  // Очистка формы поиска:
+  // Очистка формы:
   this.clear = function() {
     this.form.querySelectorAll('textarea').forEach(el => el.value = '');
     this.form.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="submit"])').forEach(el => el.value = '');
     this.form.querySelectorAll('input[type="radio"]').forEach(el => el.removeAttribute('checked'));
     this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.removeAttribute('checked'));
     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
+    this.submitBtn.setAttribute('disabled','disabled');
   }
 }
 
@@ -2638,7 +2647,7 @@ function DropDown(obj) {
       this.changeTitle('Поиск: ' + textToFind);
       this.filter.value = textToFind;
     } else {
-      this.clear(event);
+      this.clear();
     }
     search.dispatchEvent(new Event('change', {"bubbles": true}));
   }
@@ -2700,9 +2709,9 @@ function DropDown(obj) {
     if (this.items) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
     }
-    this.filter.value = undefined;
+    this.filter.value = '';
     if (this.hiddenInput) {
-      this.hiddenInput.value = undefined;
+      this.hiddenInput.value = '';
     }
   }
 

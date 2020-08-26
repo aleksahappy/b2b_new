@@ -34,7 +34,6 @@
                     <div class="form-wrap" required>
                       <div class="title">Название магазина*</div>
                       <input type="text" value="" name="rega[shopname]" placeholder="Введите название">
-                      <div class="err">Поле не заполнено</div>
                     </div>
                     <div class="form-cols">
                       <div class="form-col2">
@@ -53,8 +52,11 @@
                               <div class="triangle icon"></div>
                             </div>
                             <div class="drop-down">
-                              <div class="item" data-value="Розничный магазин">Розничный магазин</div>
                               <div class="item" data-value="Интернет магазин">Интернет магазин</div>
+                              <div class="item" data-value="Официальный дилер">Официальный дилер</div>
+                              <div class="item" data-value="Трейд-ин">Трейд-ин</div>
+                              <div class="item" data-value="Магазин экипировки">Магазин экипировки</div>
+                              <div class="item" data-value="Магазин запчастей">Магазин запчастей</div>
                               <div class="item" data-value="Сервисный центр">Сервисный центр</div>
                               <div class="item" data-value="Другое">Другое</div>
                             </div>
@@ -70,24 +72,20 @@
                         <div class="form-wrap" required>
                           <div class="title">Контактное лицо*</div>
                           <input type="text" value="" name="rega[contact]" data-type="cyril" placeholder="Введите имя">
-                          <div class="err">Поле заполнено неверно</div>
                         </div>
                         <div class="form-wrap" required>
                           <div class="title">Телефон*</div>
                           <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
-                          <div class="err">Поле заполнено неверно</div>
                         </div>
                       </div>
                       <div class="form-col2">
                         <div class="form-wrap" required>
                           <div class="title">Должность*</div>
                           <input type="text" value="" name="rega[job]" placeholder="Введите должность">
-                          <div class="err">Поле заполнено неверно</div>
                         </div>
                         <div class="form-wrap" required>
                           <div class="title">Email*</div>
                           <input type="text" value="" name="email_???" data-type="email" placeholder="Введите email">
-                          <div class="err">Поле заполнено неверно</div>
                         </div>
                       </div>
                     </div>
@@ -99,7 +97,6 @@
                         <div class="form-wrap" required>
                           <div class="title">ИНН*</div>
                           <input type="text" value="" name="rega[inn]" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
-                          <div class="err">Поле заполнено неверно</div>
                         </div>
                       </div>
                       <div class="form-col2">

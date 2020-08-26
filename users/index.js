@@ -2,14 +2,12 @@
 
 // Динамическе переменные:
 
-var items = [],
+var items,
     prevForm;
 
-// Запускаем рендеринг страницы пользователей:
+// Запуск страницы пользователей:
 
 startUsersPage();
-
-// Запуск страницы пользователей:
 
 function startUsersPage() {
   sendRequest(`../json/users_data.json`)
@@ -28,6 +26,7 @@ function startUsersPage() {
 // Инициализация страницы:
 
 function initPage() {
+  items = items || [];
   if (superUser) {
     changeCss('#users-table th:nth-child(1)', 'display', 'none');
     changeCss('#users-table td:nth-child(1)', 'display', 'none');

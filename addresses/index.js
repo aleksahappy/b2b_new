@@ -1,53 +1,46 @@
 'use strict';
 
-
 // Динамическе переменные:
 
-var data = [];
+var items,
+    prevForm;
 
-function startAddrPage() {
+// Запуск страницы адресов:
+
+startAddressPage();
+
+function startAddressPage() {
   sendRequest(`../json/addresses.json`)
+  //sendRequest(urlRequest.main, {action: 'addresses'})
   .then(result => {
-    data = JSON.parse(result);
-    loader.hide();
-    console.log(data);
-    var addrData = {
-      area: '#shop',
-      items: data,
-      sign: '@@',
-      sub:[{
-        area: '.time-block',
-        items: 'time'
-      }]
-    };
-    fillTemplate(addrData);
-    setProperTooltip();
-    initForm('#address');
+    items = JSON.parse(result);
+    initPage();
   })
   .catch(err => {
     console.log(err);
-    loader.hide();
+    initPage();
   });
 }
-startAddrPage();
 
+// Инициализация страницы:
 
-function setWidth(el, num) {
-  el.style.width = num + 'px';
+function initPage() {
+  items = items || [];
+  fillTemplate({
+    area: '#shop',
+    items: items,
+    sign: '@@',
+    sub:[{
+      area: '.time-block',
+      items: 'time'
+    }]
+  });
+  setProperTooltip();
+  initForm('#address');
+  loader.hide();
 }
 
-
-//  Показывает/скрывает блок внутри главного блока, который по умолчанию скрыт
-
-function toggleInnerBlock(event) {
-  var parent = event.target.closest('.toggle-block');
-  var targetBlock = parent.querySelector('.target-block');
-
-  if (targetBlock) {
-    targetBlock.classList.toggle('displayNone');
-  }
-}
-
+// Раскрытие/закрытие блока с информацией о магазине:
 
 function toggleOuterBlock(el) {
   if (event.target.className === 'edit icon') {
@@ -60,12 +53,24 @@ function toggleOuterBlock(el) {
   }
 }
 
+// Показ/скрытие блока со временем работы магазина:
+
+function toggleInnerBlock(event) {
+  var parent = event.target.closest('.toggle-block');
+  var targetBlock = parent.querySelector('.target-block');
+
+  if (targetBlock) {
+    targetBlock.classList.toggle('displayNone');
+  }
+}
+
+// Добавление соответствующих подсказок к тексту:
+
 function setProperTooltip() {
   var tooltips = document.querySelectorAll('.indicate');
 
   for (let i = 0; i < tooltips.length; i++) {
     var toolStatus = tooltips[i].firstElementChild;
-
     if (toolStatus.className == 'approv') {
       toolStatus.setAttribute('data-tooltip', 'Магазин прошел модерацию');
     } else if (toolStatus.className === 'process') {
@@ -76,20 +81,21 @@ function setProperTooltip() {
   }
 }
 
-
 // Открытие всплывающего окна с формой:
 
 function openAddressPopUp(id) {
   var addressPopUp = getEl('#address'),
       title = getEl('.pop-up-title .title', addressPopUp);
-
-  if (id) {
-    title.textContent = 'Изменить адрес';
-    var upData = data.find(el => el.id == id);
-    fillForm('#address-form', upData);
-  } else {
-    title.textContent = 'Новый адрес';
-    clearForm('#address');
+  if (prevForm !== id) {
+    prevForm = id;
+    if (id) {
+      title.textContent = 'Изменить адрес';
+      var data = items.find(el => el.id == id);
+      fillForm('#address-form', data);
+    } else {
+      title.textContent = 'Новый адрес';
+      clearForm('#address');
+    }
   }
   openPopUp(addressPopUp);
 }

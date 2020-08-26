@@ -1,28 +1,32 @@
 'use strict';
 
+// Запуск страницы профиля:
+
+startProfPage();
+
 function startProfPage() {
   sendRequest(`../json/profile.json`)
+  //sendRequest(urlRequest.main, {action: 'profile'})
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);
-    loader.hide();
-    var profileData = {
-      area: '#profile-card',
-      items: data,
-      sign: '@@'
-    };
-    fillTemplate(profileData);
-    initForm('#edit-profile-modal', testEditProfile);
-    initCalendar('#profile-birth');
+    initPage(data);
   })
   .catch(err => {
     console.log(err);
-    loader.hide();
+    initPage();
   });
 }
-startProfPage();
 
+// Инициализация страницы:
 
-function testEditProfile() {
-  clearForm('#edit-profile-modal');
+function initPage(data) {
+  data = data || [];
+  fillTemplate({
+    area: '#profile-card',
+    items: data,
+    sign: '@@'
+  });
+  initForm('#edit-profile-modal');
+  loader.hide();
 }

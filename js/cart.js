@@ -51,6 +51,9 @@ window.addEventListener('unload', () => {
 function sendOrder(formData) {
   var idList = getIdList('cart');
   if (!idList) {
+    hideElement('#checkout .loader');
+    closePopUp('#checkout');
+    alerts.show('Заказ не был отправлен. Попробуйте еще раз.');z
     return;
   }
   var cartInfo = {};
@@ -58,10 +61,20 @@ function sendOrder(formData) {
   idList.forEach(id => {
     cartInfo[cartId]['id_' + id] = cart['id_' + id];
   });
-  formData.cart_name = cartId;
+  var orderInfo = {
+    cart_name: cartId,
+    comments: {}
+  };
+  formData.forEach((value, key) => {
+    if (key.indexOf('comment') >= 0) {
+      orderInfo.comments[key.replace('comment-', '')] = value;
+    } else {
+      orderInfo[key] = value;
+    }
+  });
   var data = {
-    info: formData,
-    cart: cartInfo
+    cart: cartInfo,
+    info: orderInfo
   };
   console.log(data);
 
@@ -69,16 +82,18 @@ function sendOrder(formData) {
   .then(result => {
     console.log(result);
     if (result) {
-      var orderId = JSON.parse(result);
-      if (orderId.length !== idList.length) {
-        alerts.show('Были отправлены не все позиции из заказа.');
+      var added = JSON.parse(result);
+      if (added.length !== idList.length) {
+        console.log('Были отправлены не все позиции из заказа.');
       }
-      deleteFromCart(orderId);
+      deleteFromCart(added);
       document.location.href = '../orders';
     }
   })
   .catch(error => {
     console.log(error);
+    hideElement('#checkout .loader');
+    closePopUp('#checkout');
     alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
 }
@@ -563,6 +578,7 @@ function renderCart() {
   addCatalogLink();
   changeCartName();
   createCart();
+  clearForm('#order-form');
   showElement('#main-header', 'flex');
   showElement('#cart-name');
   showElement('#cart');
@@ -1110,7 +1126,6 @@ function openCheckout() {
     getEl('#order-form .activate.delivery .item[data-value="2"]').style.display = 'none';
     getEl('#order-form .activate.delivery .item[data-value="3"').style.display = 'none';
   }
-  clearForm('#order-form');
   toggleAddressField();
   fillCheckout();
   openPopUp('#checkout');
@@ -1127,7 +1142,6 @@ function fillOrderForm() {
     area: '#address .drop-down',
     items: userData.address,
   });
-  toggleAddressField();
 }
 
 // Показ/ скрытие поля выбора адреса доставки:
@@ -1137,10 +1151,10 @@ function toggleAddressField() {
       address = getEl('#address');
   if (deliveryType.value === '2' || deliveryType.value === '3') {
     address.removeAttribute('disabled');
-    address.closest('.form-wrap').required = true;
+    address.closest('.form-wrap').setAttribute('required', 'required');
   } else {
-    clearDropDown(address);
+    window[`order-formForm`][`dropDown4`].clear();
     address.setAttribute('disabled', 'disabled');
-    address.closest('.form-wrap').required = false;
+    address.closest('.form-wrap').removeAttribute('required', 'required');
   }
 }
