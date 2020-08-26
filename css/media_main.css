@@ -413,6 +413,18 @@ Mobile:
     margin: 0 1.6rem;
   }
 
+  input:not([type="submit"]) {
+    padding: 0.25em 0.714em;
+  }
+
+  textarea {
+    padding: 0.25em 0.714em;
+  }
+
+  .activate .head {
+    padding: 0.25em 0.714em;
+  }
+
   /* Стили текста: */
 
   .h0 {
@@ -429,6 +441,10 @@ Mobile:
 
   .table-adaptive {
     margin: 0 -1.6rem 0 -1.6rem;
+  }
+
+  .infoblock {
+    margin-bottom: 0.714em;
   }
 
   /* Форма отправки на сервер: */

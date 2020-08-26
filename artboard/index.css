@@ -1,3 +1,7 @@
+.template {
+  visibility: visible;
+}
+
 .artboard-title {
   font-size: 22px;
   color: blue;
@@ -25,8 +29,13 @@
   font-size: 40px;
 }
 
+.btns-temp .row {
+  flex-wrap: wrap;
+}
+
 .btns-temp .btn {
   margin-right: 1em;
+  margin-bottom: 1em;
 }
 
 .tooltips-temp > div > div {

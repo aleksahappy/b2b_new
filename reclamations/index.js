@@ -1,12 +1,14 @@
 'use strict';
 
-// Запускаем рендеринг страницы документов:
+// Запускаем рендеринг страницы рекламаций:
+
 startReclmPage();
 
-// Запуск страницы документов:
+// Запуск страницы рекламаций:
+
 function startReclmPage() {
-  sendRequest(`../json/recls_data.json`)
-  // sendRequest(urlRequest.main, {action: '???'})
+  // sendRequest(`../json/recls_data.json`)
+  sendRequest(urlRequest.main, {action: 'recllist'})
   .then(result => {
     var data = JSON.parse(result);
     initPage(data);
@@ -115,9 +117,3 @@ document.querySelectorAll('.filters').forEach(el => {
     }
   }));
 })
-
-
-function test1() {
-  console.log('test')
-}
-test1();

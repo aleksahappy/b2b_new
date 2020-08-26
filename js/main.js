@@ -31,11 +31,7 @@
 var website = document.body.dataset.website,
     pageId = document.body.id,
     isCart = document.body.dataset.cart,
-    urlRequest = {
-      main: 'https://new.topsports.ru/api.php',
-      new: 'https://new.topsports.ru/',
-      api: 'https://api.topsports.ru/'
-    },
+    superUser = userInfo ? userInfo.super_user: undefined,
     loader,
     alerts,
     upBtn,
@@ -73,9 +69,15 @@ var fullImgCarousel = {
 
 var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
 var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var dateRegExp = /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
-var telRegExp = /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/;
-var finTelRegExp = /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/;
+var dateRegExp = [
+  /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
+  /^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[123456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
+  /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/
+];
+var telRegExp = [
+  /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/,
+  /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/
+];
 var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
 var nameRegExp = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
 
@@ -195,7 +197,7 @@ function loadHTML(target, url) {
 
 function initModules() {
   fillUserInfo();
-  initNotifications();
+  // initNotifications();
   initLoader();
   initAlerts();
   initUpBtn();
@@ -1473,6 +1475,9 @@ function changeQty(event, maxQty, minQty = 0) {
   input.value = qty;
   input.dataset.value = qty;
   changeColors(qtyWrap, qty);
+  if (sign) {
+    event.currentTarget.dispatchEvent(new Event('change', {"bubbles": true}));
+  }
   return qty;
 }
 
@@ -2091,36 +2096,44 @@ function fillForm(el, data) {
 function checkInput(input) {
   var type = input.dataset.type,
       value = input.value,
-      regEx;
+      regExp;
   if (!value.length) {
     return true;
   }
   if (type === 'cyril') {
-    regEx = cyrilRegExp;
+    regExp = cyrilRegExp;
   } else if (type === 'date') {
-    regEx = dateRegExp;
+    regExp = dateRegExp;
   } else if (type === 'tel') {
-    var test = telRegExp.test(value);
-    if (!test) {
-      test = finTelRegExp.test(value);
-    }
-    return test;
+    regExp = telRegExp;
   } else if (type === 'email') {
-    regEx = emailRegExp;
+    regExp = emailRegExp;
   } else if (type === 'nickname') {
-    regEx = nicknameRegExp;
+    regExp = nicknameRegExp;
   } else if (type === 'name') {
-    regEx = nameRegExp;
+    regExp = nameRegExp;
   } else if (type === 'inn') {
-    if (value.length >= 10 && value.length <= 12) {
-      return true;
-    } else {
-      return false;
-    }
+    return (value.length >= 10 && value.length <= 12) ? true: false;
   } else {
     return true;
   }
-  return regEx.test(value);
+  return testValue(value, regExp);
+}
+
+// Проверка значения по регулярным выражениям:
+
+function testValue(value, regExp) {
+  var result;
+  if (!Array.isArray(regExp)) {
+    regExp = [regExp];
+  }
+  for (var exp of regExp) {
+    result = exp.test(value);
+    if (result) {
+      return result;
+    }
+  }
+  return false;
 }
 
 // Объект формы:
@@ -2136,6 +2149,9 @@ function Form(obj, callback) {
   // Динамические переменные:
   this.isSubmit = false;
 
+  // Первоначальная блокировка кнопки отправки формы:
+  this.submitBtn.setAttribute('disabled','disabled');
+
   // Инициализация выпадающих списков (если они есть):
   this.dropDowns.forEach((el, index) => {
     this[`dropDown${index}`] = new DropDown(el);
@@ -2147,8 +2163,18 @@ function Form(obj, callback) {
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
+    this.form.addEventListener('submit', event => {
+      event.preventDefault();
+      this.send();
+    });
     this.form.querySelectorAll('input[data-type]').forEach(el => {
       el.addEventListener('input', event => this.checkInput(event));
+    });
+    this.form.querySelectorAll('[data-type="date"]').forEach(el => {
+      el.addEventListener('change', event => this.checkInput(event));
+    });
+    this.form.querySelectorAll('input[data-type="range"]').forEach(el => {
+      el.addEventListener('change', event => this.checkInput(event));
     });
     this.form.querySelectorAll('[required]').forEach(el => {
       el.querySelectorAll('textarea').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
@@ -2156,10 +2182,10 @@ function Form(obj, callback) {
       el.querySelectorAll('input[type="radio"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
       el.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
       el.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      // el.querySelectorAll('.choiced-qty').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие
-      // el.querySelectorAll('input[data-type="date"]').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие календаря
-      // el.querySelectorAll('input[data-type="range"]').forEach(el => el.addEventListener('change', () => this.checkSubmit())); - не работает, нужно как-то генерить событие календаря
-      el.querySelectorAll('input:not([data-type]):not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.choiced-qty)').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
+      el.querySelectorAll('input[data-type="date"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      el.querySelectorAll('input[data-type="range"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      el.querySelectorAll('.qty-box').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
+      el.querySelectorAll('input:not([data-type]):not([type="radio"]):not([type="checkbox"]):not([type="file"]):not([type="hidden"]):not(.choiced-qty)').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
     });
   }
   this.setEventListeners();
@@ -2178,7 +2204,7 @@ function Form(obj, callback) {
     if (isValid) {
       if (type === 'tel' && input.value.length) {
         // приведение к формату с "+7" и пробелами
-        var numbs = input.value.replace(/\D/g, '').match(telRegExp);
+        var numbs = input.value.replace(/\D/g, '').match(telRegExp[0]);
         input.value = !numbs[3] ? numbs[2] : ('+7 (' + numbs[2] + ') ' + numbs[3] + (numbs[4] ? '-' + numbs[4] + '-' + numbs[5] : ''));
       }
       input.closest('.form-wrap').classList.remove('error');
@@ -2197,28 +2223,22 @@ function Form(obj, callback) {
           type,
           value;
       for (var field of fields) {
-        // console.log(field);
         type = field.getAttribute('type');
         value = field.value.trim();
         if (field.hasAttribute('data-type')) {
           var isValid = checkInput(field);
-          // console.log(isValid);
-          // console.log(field.value);
           if (isValid && value) {
             return true;
           }
         } else if (type === 'radio' || type === 'checkbox') {
-          // console.log(field.checked);
           if (field.checked) {
             return true;
           }
         } else if (field.classList.contains('choiced-qty')) {
-          // console.log(value);
           if (value != 0) {
             return true;
           }
         } else {
-          // console.log(field.value);
           if (value) {
             return true;
           }
@@ -2234,12 +2254,13 @@ function Form(obj, callback) {
 
   // Отправка формы:
   this.send = function(event) {
-    event.preventDefault();
     if (!this.isSubmit || !this.submitBtn || this.submitBtn.hasAttribute('disabled')) {
       return;
     }
     var formData = new FormData(this.form);
+    console.log(formData);
     if (callback) {
+      showElement(getEl('.loader', this.form), 'flex');
       callback(formData);
     }
   }

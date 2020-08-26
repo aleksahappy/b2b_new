@@ -27,11 +27,11 @@
         </div>
         <div class="btn" onclick="openUserPopUp()">Добавить</div>
         <div id="users-table" class="table-wrap active"></div>
-        <div id="users-table-adaptive" class="table-adaptive">
+        <div id="users-table-adaptive" class="table-adaptive template">
           <div class="infoblock">
             <div class="head">
               <div class="title">#fio#</div>
-              <div class="toggle dark #accessType#" onclick="toggle(event)">
+              <div class="toggle dark #accessType#" onclick="toggleAccess(event)">
                 <div class="toggle-in"></div>
               </div>
             </div>
@@ -115,7 +115,7 @@
               <div class="form-col2">
                 <div class="form-wrap" required>
                   <div class="title">Телефон*</div>
-                  <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+                  <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _">
                   <div class="err">Поле заполнено неверно</div>
                 </div>
               </div>
@@ -149,20 +149,19 @@
               </div>
             </div>
             <div class="btns-wrap">
-              <input class="btn sub-act" type="submit" value="Отправить" disabled>
+              <input class="btn sub-act" type="submit" value="Отправить">
+            </div>
+            <div class="loader">
+              <div class="loader icon"></div>
+              <div class="text">Пожалуйста, подождите</div>
             </div>
           </form>
-        </div>
-        <div class="loader">
-          <div class="loader icon"></div>
-          <div class="text">Пожалуйста, подождите</div>
         </div>
       </div>
     </div>
 
     <script src ="../js/main.js"></script>
     <script src="../js/table.js"></script>
-    <script src="../js/test.js"></script>
     <script src ="../js/calendar.js"></script>
     <script src ="index.js"></script>
   </body>

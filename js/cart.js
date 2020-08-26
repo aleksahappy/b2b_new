@@ -837,15 +837,15 @@ function checkCheckoutBtn() {
 
 function changeCheckoutInfo() {
   var info = getEl('#checkout-info'),
-      qty = 0;
+      ordersQty = 0;
   document.querySelectorAll('.cart-section:not(.sold)').forEach(el => {
     if (getEl('.cart-row.checked', el)) {
-      qty++;
+      ordersQty++;
     }
   });
-  if (qty > 1) {
+  if (ordersQty > 1) {
     var totals = countFromCart(getIdList('cart'), false);
-    getEl('.qty', info).textContent = qty + ' ' + declOfNum(qty, ['заказ', 'заказа', 'заказов']);
+    getEl('.qty', info).textContent = ordersQty + ' ' + declOfNum(ordersQty, ['заказ', 'заказа', 'заказов']);
     getEl('.sum', info).textContent = convertPrice(totals.sum, false);
     info.style.visibility = 'visible';
   } else {
@@ -856,9 +856,17 @@ function changeCheckoutInfo() {
 // Изменение информации о заказе:
 
 function fillCheckout() {
-  var totals = countFromCart(getIdList('cart'));
+  var totals = countFromCart(getIdList('cart')),
+      warnblock = getEl('#checkout .warnblock'),
+      ordersQty = totals.orders.length;
+  if (ordersQty > 1) {
+    showElement(warnblock, 'flex');
+    getEl('.qty', warnblock).textContent = ordersQty + ' ' + declOfNum(ordersQty, ['заказ', 'заказа', 'заказов']);
+  } else {
+    hideElement(warnblock);
+  }
   getEl('#checkout .totals .sum').textContent = convertPrice(totals.sum, false);
-  getEl('#checkout .totals .orders-qty').textContent = totals.orders.length;
+  getEl('#checkout .totals .orders-qty').textContent = ordersQty;
   getEl('#checkout .totals .sum-retail').textContent = convertPrice(totals.sumRetail, false);
   getEl('#checkout .totals .sum-discount').textContent = convertPrice(totals.sumDiscount, false);
   fillTemplate({

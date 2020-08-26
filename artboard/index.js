@@ -4,10 +4,6 @@
 
 getEl('#tooltip').dataset.tooltip = `<table style="width:100% !important;border-spacing: 2px;border-collapse: separate;font-size:12px;text-align:center;"><thead><tr><th>Сумма заказа в РРЦ</th><th>Размер  скидки</th></tr></thead><tbody><tr><td>до 35 000</td><td>30%</td></tr><tr><td>от 35 000 до 70 000</td><td>35%</td></tr><tr><td>от 70 000 до 100 000</td><td>45%</td></tr><tr><td>от 100 000</td><td>65%</td></tr></tbody></table>`;
 
-// Отображение всех незаполненных шаблонов, чтобы их можно было видеть в артборде:
-
-document.querySelectorAll('.template').forEach(el => el.classList.remove('template'));
-
 // Инициализация поиска, выпадающих списков и форм:
 
 initSearch('#search');

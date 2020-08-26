@@ -1,95 +1,95 @@
 'use strict';
 
-// Запуск данных таблицы контрагентов:
+// Запускаем рендеринг страницы контрагентов:
 
-function startUsersTable() {
+startContrPage();
+
+// Запуск страницы контрагентов:
+
+function startContrPage() {
   sendRequest(`../json/contractors_2_data.json`)
-  //sendRequest(urlRequest.main, {action: 'dashboardTable'})
+  // sendRequest(urlRequest.main, {action: 'get_contr'})
   .then(result => {
+    // console.log(result);
     var data = JSON.parse(result);
-    loader.hide();
-    data = convertData(data);
-    var settings = {
-      data: data,
-      head: true,
-      result: false,
-      cols: [{
-        key: 'access',
-        title: 'Доступ',
-        content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
-      }, {
-        key: 'inn',
-        title: 'ИНН/КПП',
-        sort: 'numb',
-        filter: 'search'
-      }, {
-        key: 'contr',
-        title: 'Контрагент',
-        sort: 'text',
-        filter: 'full'
-      }, {
-        key: 'system',
-        title: 'Система налогообложения',
-        sort: 'text',
-        filter: 'full'
-      }, {
-        key: 'date',
-        title: 'Дата заведения',
-        sort: 'date',
-        filter: 'search'
-      }, {
-        key: 'address',
-        title: 'Юридический адрес',
-        filter: 'search'
-      }, {
-        key: 'user',
-        title: 'Пользователь',
-        sort: 'text',
-        filter: 'full'
-      }, {
-        key: 'docs',
-        subkey: 'status_info',
-        title: 'Документы',
-        content: '<div class="docs row #status-ic#"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
-        filter: 'checkbox'
-      }],
-      sub: [{area: '.docs', items: 'docs'}]
-    };
-    initTable('#contra-table', settings);
-
-    fillTemplate({
-      area: "#contras-table-mob",
-      items: data,
-      sub: [{area: '.docs', items: 'docs'}]
-    });
+    // console.log(data);
+    // data = convertData(data);
+    initPage(data);
   })
   .catch(err => {
-    loader.hide();
     console.log(err);
-    initTable('#contra-table');
+    initPage();
   });
 }
-startUsersTable();
 
+// Инициализация страницы:
 
-// Преобразование полученных данных:
-
-function convertData(data) {
-  if (!data) {
-    return [];
-  }
-  data.forEach(el => {
-    el.order_sum = convertPrice(el.order_sum);
-    var sum;
-    for (var i = 1; i <= 5; i++) {
-      sum = el[`sum${i}`];
-      if (sum && sum != 0) {
-        el[`sum${i}`] = convertPrice(sum);
-        el[`display${i}`] = '';
-      } else {
-        el[`display${i}`] = 'displayNone';
-      }
-    }
+function initPage(data) {
+  data = data || [];
+  var settings = {
+    data: data,
+    head: true,
+    result: false,
+    cols: [{
+      key: 'access',
+      title: 'Доступ',
+      content: '<div class="toggle #access#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
+    }, {
+      key: 'inn',
+      title: 'ИНН/КПП',
+      sort: 'numb',
+      filter: 'search'
+    }, {
+      key: 'title',
+      title: 'Контрагент',
+      sort: 'text',
+      filter: 'full'
+    }, {
+      key: 'system',
+      title: 'Система налогообложения',
+      sort: 'text',
+      filter: 'full'
+    }, {
+      key: 'date',
+      title: 'Дата заведения',
+      sort: 'date',
+      filter: 'search'
+    }, {
+      key: 'address',
+      title: 'Юридический адрес',
+      filter: 'search'
+    }, {
+      key: 'user',
+      title: 'Пользователь',
+      sort: 'text',
+      filter: 'full'
+    }, {
+      key: 'docs',
+      title: 'Документы',
+      content: '<div class="docs row #status-ic#"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>'
+    }],
+    sub: [{area: '.docs', items: 'docs'}]
+  };
+  initTable('#contr-table', settings);
+  fillTemplate({
+    area: "#contr-table-adaptive",
+    items: data,
+    sub: [{area: '.docs', items: 'docs'}]
   });
-  return data;
+  initForm('#contr-form');
+  loader.hide();
+}
+
+// Включение/отключение доступа:
+
+function toggleAccess(event, id) {
+  event.currentTarget.classList.toggle('checked');
+  // var action = event.currentTarget.classList.contains('checked') ? 'off' : 'on';
+  // sendRequest(urlRequest.main, {action: '???', data: {id: id, action: action}})
+  // .then(result => {
+  //   event.currentTarget.classList.toggle('checked');
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
 }

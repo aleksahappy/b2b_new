@@ -22,6 +22,7 @@ function startDocsPage() {
 // Инициализация страницы:
 
 function initPage(data) {
+  data = data || [];
   var settings = {
     data: data,
     head: true,

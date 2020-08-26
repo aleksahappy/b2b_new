@@ -1204,12 +1204,13 @@
                   </div>
                 </div>
               </div>
-              <div class="form-wrap">
-                <div class="title">Дата (пока нельзя сделать обязательным)</div>
+              <div class="form-wrap" required>
+                <div class="title">Дата*</div>
                 <input type="text" value="" name="" data-type="date"  placeholder="ДД.ММ.ГГГГ" maxlength="10">
+                <div class="err">Поле заполнено неверно</div>
               </div>
-              <div class="form-wrap">
-                <div class="title">Количество (пока нельзя сделать обязательным)</div>
+              <div class="form-wrap" required>
+                <div class="title">Количество*</div>
                 <div class="qty qty-box row">
                   <div class="btn minus" data-tooltip="Уменьшить" onclick="changeQty(event, 15)"></div>
                   <input class="choiced-qty" name="count" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
@@ -1218,6 +1219,10 @@
               </div>
               <div class="btns-wrap">
                 <input class="btn sub-act" type="submit" value="Отправить">
+              </div>
+              <div class="loader">
+                <div class="loader icon"></div>
+                <div class="text">Пожалуйста, подождите</div>
               </div>
             </form>
           </div>
@@ -1263,7 +1268,7 @@
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Система налогообложения*</div>
-                    <div class="activate select">
+                    <div class="activate select" disabled>
                       <!-- обязательно добавляем скрытый инпут с name и пустым value -->
                       <input type="hidden" value="" name="taxsystem">
                       <div class="head row">
@@ -1272,7 +1277,7 @@
                       </div>
                       <div class="drop-down">
                         <div class="item" data-value="Общая">Общая</div>
-                        <div class="item" data-value="Урощенная">Урощенная</div>
+                        <div class="item" data-value="Урощенная">Упрощенная</div>
                         <div class="item" data-value="Прочая">Прочая</div>
                       </div>
                     </div>
@@ -1280,11 +1285,12 @@
                   <div class="btns-wrap">
                     <input class="btn sub-act" type="submit" value="Отправить">
                   </div>
+                  <!-- если во высплывающем окне есть форма, то лоадер находится в ее конце -->
+                  <div class="loader">
+                    <div class="loader icon"></div>
+                    <div class="text">Пожалуйста, подождите</div>
+                  </div>
                 </form>
-              </div>
-              <div class="loader">
-                <div class="loader icon"></div>
-                <div class="text">Пожалуйста, подождите</div>
               </div>
             </div>
           </div>

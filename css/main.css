@@ -113,7 +113,7 @@ textarea {
   width: 40.5em;
   max-width: 100%;
   height: 4em;
-  padding: 0.35em 0.5em;
+  padding: 0.465em 0.714em;
   resize: none;
 }
 
@@ -121,7 +121,7 @@ select {
   position: relative;
   width: 16.5em;
   max-width: 100%;
-  padding: 0.465em 1.7em 0.465em 0.714em;;
+  padding: 0.465em 1.7em 0.465em 0.714em;
   background-image: url(../img/triangle_grey.svg);
   background-size: 1.8em 0.357em;
   background-repeat: no-repeat;
@@ -1300,6 +1300,7 @@ input.btn {
 }
 
 .notifications.icon {
+  display: none;
   background-image: url(../img/notifications.svg);
 }
 
@@ -1330,6 +1331,7 @@ input.btn {
 /* Настройки */
 
 .settings.icon {
+  display: none;
   background-image: url(../img/settings.svg);
 }
 
@@ -2055,6 +2057,10 @@ div.option input:disabled ~ .checkbox.icon {
   margin-right: 1.14em;
 }
 
+.infoblock .head .toggle {
+  margin-right: 1.14em;
+}
+
 .pop-up .infoblock .head .icon {
   margin-right: 2.5em;
 }
@@ -2346,6 +2352,7 @@ input[type="file"] ~ .title {
 ===================================================================================================== */
 
 .form-container {
+  position: relative;
   padding: 1.428em;
   background-color: #F8F8F8;
 }
@@ -2416,6 +2423,11 @@ form.post .form-wrap .text-counter {
   margin-top: 1.2em;
 }
 
+form.post > .loader {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
 /* =====================================================================================================
 Всплывающие окна:
 ===================================================================================================== */
@@ -2453,6 +2465,7 @@ form.post .form-wrap .text-counter {
 }
 
 .pop-up {
+  position: relative;
   max-width: 90%;
   padding: 2.5em;
   background-color: #F8F8F8;
@@ -2486,7 +2499,7 @@ form.post .form-wrap .text-counter {
   background-image: url(../img/close_blue.svg);
 }
 
-.pop-up > .loader {
+.pop-up-container .pop-up > .loader {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.9);
 }
@@ -3752,6 +3765,7 @@ tbody td > .row * {
 ===================================================================================================== */
 
 #notifications {
+  display: none;
   justify-content: flex-end;
   align-items: flex-start;
   padding: 0;
@@ -3768,6 +3782,7 @@ tbody td > .row * {
 #notifications .pop-up {
   width: 50vw;
   min-width: 970px;
+  min-height: 100vh;
 }
 
 #notifications.open .pop-up {

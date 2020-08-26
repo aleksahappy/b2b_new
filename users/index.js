@@ -1,15 +1,9 @@
 "use strict";
 
-// Константы:
-
-// здесь мы как-то определяем какой доступ у пользователя, который просматривает данную страницу
-// если у пользователя полный доступ, то отображаем колонку с тоглами, если нет - не выводим
-// (сейчас для демонстрации доступ полный)
-var accessType = 'full';
-
 // Динамическе переменные:
 
-var items = [];
+var items = [],
+    prevForm;
 
 // Запускаем рендеринг страницы пользователей:
 
@@ -34,7 +28,7 @@ function startUsersPage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (accessType !== 'full') {
+  if (superUser) {
     changeCss('#users-table th:nth-child(1)', 'display', 'none');
     changeCss('#users-table td:nth-child(1)', 'display', 'none');
   }
@@ -43,7 +37,7 @@ function initPage() {
     head: true,
     cols: [{
       title: 'Доступ',
-      content: '<div class="toggle #toggle#" onclick="toggle(event, #id#)"><div class="toggle-in"></div></div>'
+      content: '<div class="toggle #toggle#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
     }, {
       key: 'fio',
       title: 'ФИО',
@@ -117,7 +111,7 @@ function convertData() {
     }
     el.status = status;
     el.toggle = toggle;
-    el.accessType = accessType === 'full' ? '' : 'displayNone';
+    el.accessType = superUser ? '' : 'displayNone';
   });
 }
 
@@ -126,14 +120,30 @@ function convertData() {
 function openUserPopUp(id) {
   var userPopUp = getEl('#user'),
       title = getEl('.pop-up-title .title', userPopUp);
-  if (id) {
-    title.textContent = 'Редактировать пользователя';
-    var data = items.find(el => el.id == id);
-    console.log(data)
-    fillForm('#user-form', data);
-  } else {
-    title.textContent = 'Новый пользователь';
-    clearForm('#user-form');
+  if (prevForm !== id) {
+    prevForm = id;
+    if (id) {
+      title.textContent = 'Редактировать пользователя';
+      var data = items.find(el => el.id == id);
+      fillForm('#user-form', data);
+    } else {
+      title.textContent = 'Новый пользователь';
+      clearForm('#user-form');
+    }
   }
   openPopUp(userPopUp);
+}
+
+// Включение/отключение доступа:
+
+function toggleAccess(event, id) {
+  event.currentTarget.classList.toggle('checked');
+  // var action = event.currentTarget.classList.contains('checked') ? 'off' : 'on';
+  // sendRequest(urlRequest.main, {action: '???', data: {id: id, action: action}})
+  // .then(result => {
+  //   event.currentTarget.classList.toggle('checked');
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
 }
