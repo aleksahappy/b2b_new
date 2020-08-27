@@ -126,6 +126,7 @@ for (var i = 0; i < 20; i++) {
 var settings = {
   data: data2,
   control: {
+    area: '#table2-control',
     pagination: true,
     search: 'Поиск...',
     setting: true

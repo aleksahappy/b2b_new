@@ -139,17 +139,7 @@ form.search.positioned {
   }
 }
 
-/*
-Стили для таблицы
-!!! Обязательно нужно указать min-width для всех столбцов таблицы
-    через отдельный селектор с id таблицы и :nth-child()
-    в файле index.css, лежащем вместе с файлом html страницы.
-    Это необходимо для того, чтобы после загрузки все заголовки были видны целиком, даже если контент колонки уже.
-
-    Также при необходимости в селекторе можно указать:
-    - max-width (чтобы после загрузки не было скролла)
-    - text-align (когда необходимо установить выравнивание отличное от left)
-*/
+/* Стили таблиц */
 
 .table-temp .h1 {
   margin-top: 2em;
@@ -159,106 +149,58 @@ form.search.positioned {
   align-items: center;
 }
 
-.table-wrap {
-  max-height: 100vh;
-}
-
 /* Стили для таблицы 1 */
 
-#table1 td:nth-child(1) {
-  min-width: 20em;
-}
-
 #table1 td:nth-child(2) {
-  min-width: 20em;
   text-align: center;
 }
 
 #table1 td:nth-child(3) {
-  min-width: 20em;
   text-align: center;
-}
-
-#table1 td:nth-child(4) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(5) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(6) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(7) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(8) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(9) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(10) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(11) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(12) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(13) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(14) {
-  min-width: 20em;
-}
-
-#table1 td:nth-child(15) {
-  min-width: 20em;
 }
 
 /* Стили для таблицы 2 */
 
+#table2 th:nth-child(1) {
+  width: 6em;
+}
+
 #table2 td:nth-child(1) {
-  min-width: 5em;
   text-align: center;
 }
 
-#table2 td:nth-child(2) {
-  min-width: 10em;
+#table2 th:nth-child(1) .resize-btn {
+  display: none;
 }
 
-#table2 td:nth-child(3) {
-  min-width: 12em;
+#table2 th:nth-child(2) {
+  width: 10%;
 }
 
-#table2 td:nth-child(4) {
-  min-width: 20em;
+#table2 th:nth-child(3) {
+  width: 10%;
+}
+
+#table2 th:nth-child(4) {
+  width: 15%;
+}
+
+#table2 th:nth-child(5) {
+  width: 10%;
 }
 
 #table2 td:nth-child(5) {
-  min-width: 15em;
   text-align: center;
 }
 
-#table2 td:nth-child(6) {
-  min-width: 20em;
+#table2 th:nth-child(6) {
+  width: 20%;
 }
 
-#table2 td:nth-child(7) {
-  min-width: 12em;
+#table2 th:nth-child(7) {
+  width: 10%;
 }
 
-#table2 td:nth-child(8) {
-  min-width: 20em;
+#table2 th:nth-child(8) {
+  width: 20%;
 }

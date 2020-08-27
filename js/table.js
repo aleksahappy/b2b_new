@@ -11,6 +11,7 @@
 // var settings = {
 //   data: [{...}, {...}]                             Данные для заполнения таблицы - массив объектов, где каждый объект - данные строки (по умолчанию [])
 //   control: {                                       Имеет ли таблица панель управления (по умолчанию false). Если да, то в объекте перечислить элементы:
+//     area: элемент / селектор элемента                - куда в документе вставлять панель управления (по умолчанию вставится перед таблицей)
 //     pagination: true / false                         - наличие пагинации (по умолчанию false)
 //     search: 'placeholder' / false                    - наличие общего поиска (по умолчанию false)
 //     toggle: true / false                             - наличие пагинации (по умолчанию false)
@@ -29,7 +30,6 @@
 //   [{                                                 что вкючает параметр одного столбца:
 //     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
 //     title: 'Заголовок'                               - заголовок столбца
-//     resize: true или false                           - кнпока перетаскивания столбца (по умолчанию true)
 //     result: 'kolv' / 'sum'                           - формат итогов по колонке (умолчанию false)
 //     sort: 'text' / 'numb' / 'date'                   - нужна ли сортировка по столбцу и ее формат (по умолчанию false)
 //     filter: 'full' / 'search' / 'checkbox'           - нужна ли фильтрация по столбцу и ее формат (по умолчанию false)
@@ -103,7 +103,15 @@ function initTable(el, settings) {
 function createTable(area, settings) {
   if (settings.control) {
     var control = createTableControl(settings);
-    area.appendChild(control);
+    control.dataset.table = area.id;
+    if (settings.control.area) {
+      var areaControl = getEl(settings.control.area);
+      if (areaControl) {
+        areaControl.appendChild(control);
+      }
+    } else {
+      area.appendChild(control);
+    }
   }
   var content = createTableContent(area.id, settings);
   area.appendChild(content);
@@ -178,35 +186,27 @@ function createTableContent(id, settings) {
     bodyList += createTableBody(col, settings.sign);
   });
 
-  var table = document.createElement('div');
-  table.classList.add('table');
+  var table = document.createElement('table');
   table.innerHTML =
-  `<table class="head">
-    <thead>
-      <tr>${headList}</tr>
-      <tr class="results">${resultList}</tr>
-    </thead>
-  </table>
-  <table>
-    <tbody id=${id}-body>
-      <tr ${trFunc}>${bodyList}</tr>
-    </tbody>
-  </table>`;
+  `<thead>
+    <tr>${headList}</tr>
+    <tr class="results">${resultList}</tr>
+  </thead>
+  <tbody id=${id}-body>
+    <tr ${trFunc}>${bodyList}</tr>
+  </tbody>`
   return table;
 }
 
 // Создание шапки таблицы:
 
-function createTableHead (col, index) {
+function createTableHead(col, index) {
   var th;
-  if (!col.resize || col.resize) {
-    var resize =`<div class="resize-btn"></div>`;
-  }
   if (!col.sort && !col.filter) {
     th =
     `<th id="${index + 1}">
       <div>${col.title || ''}</div>
-      ${resize || ''}
+      <div class="resize-btn"></div>
     </th>`;
   } else {
     var sort = '',
@@ -262,7 +262,7 @@ function createTableHead (col, index) {
           ${filter}
         </div>
       </div>
-      ${resize || ''}
+      <div class="resize-btn"></div>
     </th>`;
   }
   return th;
@@ -305,8 +305,8 @@ function Table(obj, settings = {}) {
 
   // Элементы для работы:
   this.wrap = obj;
-  this.tab = getEl(`.tab.${obj.id}`);
-  this.table = getEl('.table', obj);
+  this.tab = getEl(`.tab[data-table=${obj.id}]`);
+  this.control = getEl(`.control[data-table=${obj.id}]`);
   this.head = getEl('thead', obj);
   this.results = getEl('.results', this.head);
   this.body = getEl('tbody', obj);
@@ -321,16 +321,19 @@ function Table(obj, settings = {}) {
   this.dataToLoad = this.data;
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.incr = 20;
-  this.curColumn = null;
-  this.startOffset = 0;
+  this.incr = 30;
+  this.prevColumn = null;
+  this.nextColumn = null;
+  this.startCoord;
+  this.prevWidth;
+  this.nextWidth;
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.tab) {
       this.tab.addEventListener('click', (event) => this.open(event));
     }
-    this.table.addEventListener('scroll', () => this.scrollTable());
+    window.addEventListener('scroll', () => this.scrollTable());
     if (this.head) {
       if (this.resizeBtns) {
         this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
@@ -460,25 +463,11 @@ function Table(obj, settings = {}) {
 
   // Подгрузка таблицы при скролле:
   this.scrollTable = function() {
-    if (this.table.scrollTop * 2 + this.table.clientHeight >= this.table.scrollHeight) {
+    if ((this.wrap.getBoundingClientRect().top + this.wrap.scrollHeight - window.innerHeight) < 200) {
       this.loadData();
     }
   }
 
-  // Выравнивание столбцов таблицы:
-  this.align = function() {
-    if (!this.head) {
-      return;
-    }
-    var bodyCells = this.body.querySelectorAll('tr:first-child > td');
-    if (bodyCells) {
-      bodyCells.forEach((el, index) => {
-        var newWidth = el.offsetWidth  + 'px';
-        changeCss(`#${this.wrap.id} th:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
-        changeCss(`#${this.wrap.id} td:nth-child(${index + 1})`, ['width', 'minWidth', 'maxWidth'], newWidth);
-      });
-    }
-  }
 
   // Установка высоты подсветки кнопки ресайза (чтобы была видна, но не увеличивала скролл):
   this.setResizeHeight = function() {
@@ -493,7 +482,7 @@ function Table(obj, settings = {}) {
     if (event.currentTarget.classList.contains('disabled')) {
       return;
     }
-    var activeTable = getEl('.table-wrap.active');
+    var activeTable = getEl('.table-desktop.active');
     if (activeTable) {
       hideElement(activeTable);
       activeTable.classList.remove('active');
@@ -614,27 +603,36 @@ function Table(obj, settings = {}) {
 
   // Запуск перетаскивания столбца:
   this.startResize = function(event) {
-    this.curColumn = event.currentTarget.parentElement;
-    this.startOffset = this.curColumn.offsetWidth - event.pageX;
+    this.prevColumn = event.currentTarget.parentElement;
+    this.nextColumn = this.prevColumn.nextElementSibling;
+    this.startCoord = event.pageX;
+    this.prevWidth = this.prevColumn.offsetWidth;
+    this.nextWidth = this.nextColumn.offsetWidth;
     document.addEventListener('mousemove', this.resize);
     document.addEventListener('mouseup', this.stopResize);
   }
 
   // Перетаскивание столбца:
   this.resize = throttle((event) => {
-    if (this.curColumn) {
-      var newWidth = this.startOffset + event.pageX,
-          fontSize = parseFloat(getComputedStyle(this.curColumn).fontSize, 10);
-      newWidth = (newWidth > fontSize * 4.14) ? (newWidth + 'px') : (Math.floor(fontSize * 4.14) + 'px');
-      changeCss(`#${this.wrap.id} th:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
-      changeCss(`#${this.wrap.id} td:nth-child(${this.curColumn.id})`, ['width', 'minWidth', 'maxWidth'], newWidth);
+    if (this.prevColumn && this.nextColumn) {
+      var tableWidth = this.wrap.offsetWidth,
+          offset = event.pageX - this.startCoord,
+          newPrevWidth = (this.prevWidth + offset),
+          newNextWidth = (this.nextWidth - offset);
+      if (newPrevWidth > 65 && newNextWidth > 65) {
+        newPrevWidth = (newPrevWidth * 100 / tableWidth) + '%';
+        newNextWidth = (newNextWidth * 100 / tableWidth) + '%';
+        this.prevColumn.style.width = newPrevWidth;
+        this.nextColumn.style.width = newNextWidth;
+      }
     }
   });
 
   // Остановка перетаскивания столбца:
   this.stopResize = () => {
-    if (this.curColumn) {
-      this.curColumn = null;
+    if (this.prevColumn && this.nextColumn) {
+      this.prevColumn = null;
+      this.nextColumn = null;
       document.removeEventListener('mousemove', this.resize);
       document.removeEventListener('mouseup', this.stopResize);
     }
@@ -643,7 +641,6 @@ function Table(obj, settings = {}) {
   // Визуальное отображение таблицы:
   this.show = function() {
     showElement(this.wrap);
-    this.align();
     this.setResizeHeight();
     this.wrap.classList.add('active');
   }

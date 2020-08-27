@@ -1120,6 +1120,8 @@ input[data-type="range"] {
 .tooltip::before {
   position: absolute;
   content: '';
+  width: 7px;
+  height: 7px;
   border: 7px solid transparent;
   z-index: 1001;
 }
@@ -1128,7 +1130,7 @@ input[data-type="range"] {
 
 .tooltip:not([flow])::before,
 .tooltip[flow^="up"]::before {
-  bottom: -7px;
+  top: 100%;
   left: 50%;
   border-bottom-width: 0;
   border-top-color: #D3D6D9;
@@ -2645,25 +2647,14 @@ form.post > .loader {
   cursor: default;
 }
 
-/* Основные стили обертки */
-
-.table-wrap {
-  display: none;
-  width: 100%;
-  visibility: hidden;
-}
-
-.table-wrap.active {
-  visibility: visible;
-}
-
-/* Стили для строки навигации табицы */
+/* Стили для навигации табицы */
 
 .control {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 1em;
+  padding-bottom: 1em;
+  background-color: #F2F2F2;
 }
 
 .control .left-side {
@@ -2700,66 +2691,65 @@ form.post > .loader {
   margin-right: 0;
 }
 
-/* Общие стили для таблицы-заголовка и таблицы-содержимого */
+/* Стили для основной таблицы */
 
-.table-wrap .table {
+.table-desktop {
+  display: none;
   width: 100%;
-  max-height: 80vh;
-  min-height: 23em;
-  background-color: #FFFFFF;
-  overflow-x: auto;
-  overflow-y: auto;
+  max-width: 100%;
+  visibility: hidden;
 }
 
-.table-wrap table {
+.table-desktop.active {
+  visibility: visible;
+}
+
+/* Общие стили для таблицы-заголовка и таблицы-содержимого */
+
+.table-desktop .table {
+  width: 100%;
   min-width: 100%;
+  max-width: 100%;
+  min-height: 22.5em;
+  /* overflow-y: hidden; */
+}
+
+.table-desktop table {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  background-color: #FFFFFF;
   border-collapse: collapse;
   border: none;
   border-spacing: 0;
   text-align: left;
   direction: ltr;
+  table-layout: fixed;
 }
 
-.table-wrap table.head {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.table-wrap th,
-.table-wrap td {
+.table-desktop th,
+.table-desktop td {
   position: relative;
   padding: 0.75em 1.14em;
   white-space: nowrap;
 }
 
-.table-wrap th {
-  font-weight: 400;
-  overflow: visible;
-}
-
-.table-wrap th div:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-.table-wrap td {
-  vertical-align: top;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.table-wrap .edit.icon {
+.table-desktop .edit.icon {
   margin: 0 auto;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
 
 th.activate {
+  width: auto;
   padding: 0;
   overflow: visible;
+}
+
+th.activate:nth-child(1) .drop-down,
+th.activate:nth-child(2) .drop-down {
+  right: auto;
+  left: 0;
 }
 
 th.activate .head {
@@ -2779,26 +2769,44 @@ th.activate .head .triangle {
 
 /* Основные стили таблицы-заголовка */
 
-.table-wrap thead {
+.table-desktop th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 64px;
   color: #FFFFFF;
   background-color: #53606F;
+  font-weight: 400;
+  overflow: visible;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+  z-index: 1;
 }
 
-.table-wrap thead .results {
+.table-desktop th div:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.table-desktop .results th {
   color: #666666;
   font-weight: 600;
   background-color: #EEEEEE;
   border-bottom: 1px solid #D5D5D5;
 }
 
-.table-wrap thead .results .row {
+.table-desktop thead .results .row {
   justify-content: flex-end;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-wrap thead .results .row * {
+.table-desktop thead .results .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2809,10 +2817,14 @@ thead .resize-btn {
   position: absolute;
   top: 0;
   height: 100%;
-  right: -4px;
+  right: 0px;
   width: 10px;
   z-index: 1;
   cursor: col-resize;
+}
+
+thead th:last-child .resize-btn {
+  display: none;
 }
 
 thead .resize-btn::before {
@@ -2833,6 +2845,7 @@ thead .resize-btn::after {
   top: 110%;
   right: 4px;
   width: 1px;
+  /* height: 10000px; */
   background-color: #D5D5D5;
   opacity: 0;
   -webkit-transition: opacity 200ms;
@@ -2853,17 +2866,20 @@ th:last-child .resize-btn::after {
 
 /* Основные стили таблицы-содержимого */
 
-.table-wrap tbody {
+.table-desktop tbody {
   color: #666666;
   background-color: #FFFFFF;
 }
 
-.table-wrap tbody tr:hover {
+.table-desktop tbody tr:hover {
   background-color: #F8F8F8;
 }
 
-.table-wrap tbody td {
+.table-desktop td {
   border-bottom: 1px solid #D5D5D5;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 tbody td > .row {

@@ -98,11 +98,11 @@ function startCatalogPage() {
       }
     )
   } else {
-    getItems()
-    // sendRequest(`../json/${document.body.id}_data.json`)
+    // getItems()
+    sendRequest(`../json/${document.body.id}_data.json`)
     .then(
       result => {
-        // result = JSON.parse(result); //удалить
+        result = JSON.parse(result); //удалить
         for (var key in result) {
           if (key !== 'colors') {
             window[key] = result[key];

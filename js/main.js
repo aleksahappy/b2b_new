@@ -265,8 +265,8 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 
 function getTotals() {
   return new Promise((resolve, reject) => {
-    sendRequest(urlRequest.main, {action: 'get_total'})
-    // sendRequest('../json/cart_totals_data.json')
+    // sendRequest(urlRequest.main, {action: 'get_total'})
+    sendRequest('../json/cart_totals_data.json')
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -291,8 +291,8 @@ function getTotals() {
 
 function getCart() {
   return new Promise((resolve, reject) => {
-    sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
-    // sendRequest(`../json/cart_${document.body.id}_data.json`)
+    // sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
+    sendRequest(`../json/cart_${document.body.id}_data.json`)
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -1721,7 +1721,7 @@ function initPopUps() {
 // Открытие всплывающего окна:
 
 function openPopUp(el) {
-  if (event) {
+  if (event && el == event) {
     if (event.currentTarget.classList.contains('disabled') || event.currentTarget.hasAttribute('disabled')) {
       return;
     }
@@ -2266,7 +2266,9 @@ function Form(obj, callback) {
       return;
     }
     var formData = new FormData(this.form);
-    console.log(formData);
+    // formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
     if (callback) {
       showElement(getEl('.loader', this.form), 'flex');
       callback(formData);
