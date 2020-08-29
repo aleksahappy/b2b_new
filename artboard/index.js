@@ -9,7 +9,10 @@ getEl('#tooltip').dataset.tooltip = `<table style="width:100% !important;border-
 initSearch('#search');
 initDropDown('#select');
 initDropDown('#checkbox');
-initDropDown('#dropDown');
+initDropDown('#box-select');
+initDropDown('#box-checkbox');
+initDropDown('#search-select');
+initDropDown('#search-checkbox');
 initForm('#form1');
 initCalendar('#calendar');
 
@@ -141,31 +144,34 @@ var settings = {
     key: 'inn',
     title: 'ИНН/КПП',
     sort: 'text',
-    filter: 'search'
+    search: 'usual'
   }, {
     key: 'contr',
     title: 'Контрагент',
     sort: 'text',
-    filter: 'full'
+    search: 'usual',
+    filter: true
   }, {
     key: 'system',
     title: 'Система налогообложения',
     sort: 'text',
-    filter: 'full'
+    search: 'usual',
+    filter: true
   }, {
     key: 'date',
     title: 'Дата заведения',
     sort: 'date',
-    filter: 'search'
+    search: 'date'
   }, {
     key: 'address',
     title: 'Юридический адрес',
-    filter: 'search'
+    search: 'usual'
   }, {
     key: 'user',
     title: 'Пользователь',
     sort: 'text',
-    filter: 'full'
+    search: 'usual',
+    filter: true
   }, {
     key: 'docs',
     title: 'Документы',

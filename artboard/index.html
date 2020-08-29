@@ -534,6 +534,18 @@
                 <div class="item" data-value="1">1</div>
                 <div class="item" data-value="11">11</div>
                 <div class="item" data-value="12">12</div>
+                <div class="item" data-value="13">13</div>
+                <div class="item" data-value="14">14</div>
+                <div class="item" data-value="15">15</div>
+                <div class="item" data-value="16">16</div>
+                <div class="item" data-value="17">17</div>
+                <div class="item" data-value="18">18</div>
+                <div class="item" data-value="19">19</div>
+                <div class="item" data-value="111">111</div>
+                <div class="item" data-value="112">112</div>
+                <div class="item" data-value="113">113</div>
+                <div class="item" data-value="114">114</div>
+                <div class="item" data-value="115">115</div>
                 <div class="item" data-value="2">2</div>
                 <div class="item" data-value="3">3</div>
                 <div class="item" data-value="4">4</div>
@@ -598,6 +610,7 @@
             <option value="1">2</option>
           </select>
           <br>
+          <br>
           <div>Кастомный селект</div>
           <div id="select" class="activate select">
             <!-- добавляем скрытый инпут, когда добавляем выпадашку в форму -->
@@ -607,7 +620,7 @@
               <div class="triangle icon"></div>
             </div>
             <div class="drop-down">
-              <div class="item" data-value="default">Сбросить</div>
+              <div class="item" data-value="">По умолчанию</div>
               <div class="item" data-value="1">Значение 1</div>
               <div class="item" data-value="2">Значение 2</div>
               <div class="item" data-value="3">Значение 3</div>
@@ -656,11 +669,14 @@
             </div>
           </div>
           <br>
-          <div>Кастомный выпадающий список с сортировкой, поиском и чекбоксом</div>
-          <div id="dropDown" class="activate box">
+          <div>Кастомный выпадающий список с сортировкой, поиском и селектом</div>
+          <div id="box-select" class="activate box select">
             <div class="head row">
-              <div class="title">Drop-down</div>
-              <div class="triangle icon"></div>
+              <div class="title">Box-select</div>
+              <div class="icons row">
+                <div class="filter icon"></div>
+                <div class="triangle icon"></div>
+              </div>
             </div>
             <div class="drop-down">
               <div class="sort-box">
@@ -683,34 +699,143 @@
                 </form>
                 <div class="not-found">Совпадений не найдено</div>
                 <div class="items">
-                  <div class="item row" data-value="#item1#">
+                  <div class="item" data-value="">Сбросить</div>
+                  <div class="item" data-value="1">Значение 1</div>
+                  <div class="item" data-value="2">Значение 2</div>
+                  <div class="item" data-value="3">Значение 3</div>
+                  <div class="item" data-value="4">Значение 4</div>
+                  <div class="item" data-value="5">Значение 5</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>Кастомный выпадающий список с сортировкой, поиском и чекбоксом</div>
+          <div id="box-checkbox" class="activate box checkbox">
+            <div class="head row">
+              <div class="title">Box-checkbox</div>
+              <div class="icons row">
+                <div class="filter icon"></div>
+                <div class="triangle icon"></div>
+              </div>
+            </div>
+            <div class="drop-down">
+              <div class="sort-box">
+                <div class="title">Сортировка</div>
+                <div class="sort down row">
+                  <div class="sort down icon"></div>
+                  <div>От А до Я</div>
+                </div>
+                <div class="sort up row">
+                  <div class="sort up icon"></div>
+                  <div>От Я до А</div>
+                </div>
+              </div>
+              <div class="filter-box">
+                <div class="title">Фильтр</div>
+                <form class="search row">
+                  <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
+                  <input class="search icon" type="submit" value="">
+                  <div class="close icon"></div>
+                </form>
+                <div class="not-found">Совпадений не найдено</div>
+                <div class="items">
+                  <div class="item row" data-value="1">
                     <div class="checkbox icon"></div>
                     <div>#item1#</div>
                   </div>
-                  <div class="item row" data-value="#item2#">
+                  <div class="item row" data-value="2">
                     <div class="checkbox icon"></div>
                     <div>#item2#</div>
                   </div>
-                  <div class="item row" data-value="#item3#">
+                  <div class="item row" data-value="3">
                     <div class="checkbox icon"></div>
                     <div>#item3#</div>
                   </div>
-                  <div class="item row" data-value="#item4#">
+                  <div class="item row" data-value="4">
                     <div class="checkbox icon"></div>
                     <div>#item4#</div>
                   </div>
-                  <div class="item row" data-value="#item5#">
+                  <div class="item row" data-value="5">
                     <div class="checkbox icon"></div>
                     <div>#item5#</div>
                   </div>
-                  <div class="item row" data-value="#item6#">
+                  <div class="item row" data-value="6">
                     <div class="checkbox icon"></div>
                     <div>#item6#</div>
                   </div>
-                  <div class="item row" data-value="#item7#">
+                  <div class="item row" data-value="7">
                     <div class="checkbox icon"></div>
                     <div>#item7#</div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>Кастомный выпадающий список с поиском в заголовке и селектом</div>
+          <div id="search-select" class="activate search select">
+            <div class="head row">
+              <form class="search row">
+                <input type="text" data-value="" autocomplete="off" placeholder="Search-select">
+                <input class="search icon" type="submit" value="">
+                <div class="close icon"></div>
+              </form>
+              <div class="triangle icon"></div>
+            </div>
+            <div class="drop-down">
+              <div class="not-found">Совпадений не найдено</div>
+              <div class="items">
+                <div class="item" data-value="">По умолчанию</div>
+                <div class="item" data-value="1">Значение 1</div>
+                <div class="item" data-value="2">Значение 2</div>
+                <div class="item" data-value="3">Значение 3</div>
+                <div class="item" data-value="4">Значение 4</div>
+                <div class="item" data-value="5">Значение 5</div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>Кастомный выпадающий список с поиском в заголовке и чекбоксом</div>
+          <div id="search-checkbox" class="activate search checkbox">
+            <div class="head row">
+              <form class="search row">
+                <input type="text" data-value="" autocomplete="off" placeholder="Search-checkbox">
+                <input class="search icon" type="submit" value="">
+                <div class="close icon"></div>
+              </form>
+              <div class="triangle icon"></div>
+            </div>
+            <div class="drop-down">
+              <div class="not-found">Совпадений не найдено</div>
+              <div class="items">
+                <div class="item row" data-value="1">
+                  <div>Значение 1</div>
+                  <div class="check icon"></div>
+                </div>
+                <div class="item row" data-value="2">
+                  <div>Значение 2</div>
+                  <div class="check icon"></div>
+                </div>
+                <div class="item row" data-value="3">
+                  <div>Значение 3</div>
+                  <div class="check icon"></div>
+                </div>
+                <div class="item row" data-value="4">
+                  <div>Значение 4</div>
+                  <div class="check icon"></div>
+                </div>
+                <div class="item row" data-value="5">
+                  <div>Значение 5</div>
+                  <div class="check icon"></div>
+                </div>
+                <div class="item row" data-value="5">
+                  <div>Значение 6</div>
+                  <div class="check icon"></div>
+                </div>
+                <div class="item row" data-value="5">
+                  <div>Значение 7</div>
+                  <div class="check icon"></div>
                 </div>
               </div>
             </div>
@@ -723,7 +848,7 @@
               <div class="triangle icon"></div>
             </div>
             <div class="drop-down">
-              <div class="item" data-value="default">Сбросить</div>
+              <div class="item" data-value="">По умолчанию</div>
               <div class="item" data-value="1">Значение 1</div>
               <div class="item" data-value="2">Значение 2</div>
               <div class="item" data-value="3">Значение 3</div>
@@ -1325,8 +1450,8 @@
                     <div class="head row">
                       <div class="title">1. Столбец с полным выпадающим списком и текстовой сортировкой</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1348,6 +1473,7 @@
                           <input class="search icon" type="submit" value="">
                           <div class="close icon"></div>
                         </form>
+                        <div class="not-found">Совпадений не найдено</div>
                         <div class="items"></div>
                       </div>
                     </div>
@@ -1357,8 +1483,8 @@
                     <div class="head row">
                       <div class="title">2. Столбец с полным выпадающим списком и численной сортировкой</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1380,6 +1506,7 @@
                           <input class="search icon" type="submit" value="">
                           <div class="close icon"></div>
                         </form>
+                        <div class="not-found">Совпадений не найдено</div>
                         <div class="items"></div>
                       </div>
                     </div>
@@ -1389,8 +1516,8 @@
                     <div class="head row">
                       <div class="title">3. Столбец c полным выпадающим списком и сортировкой по дате</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1412,6 +1539,7 @@
                           <input class="search icon" type="submit" value="">
                           <div class="close icon"></div>
                         </form>
+                        <div class="not-found">Совпадений не найдено</div>
                         <div class="items"></div>
                       </div>
                     </div>
@@ -1421,8 +1549,8 @@
                     <div class="head row">
                       <div class="title">4. Столбец с выпадающим списком без сортировки</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1433,6 +1561,7 @@
                           <input class="search icon" type="submit" value="">
                           <div class="close icon"></div>
                         </form>
+                        <div class="not-found">Совпадений не найдено</div>
                         <div class="items"></div>
                       </div>
                     </div>
@@ -1442,8 +1571,8 @@
                     <div class="head row">
                       <div class="title">5. Столбец с выпадающим списком без поиска</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1469,8 +1598,8 @@
                     <div class="head row">
                       <div class="title">6. Столбец с выпадающим списком без чекбокса</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1500,8 +1629,8 @@
                     <div class="head row">
                       <div class="title">7. Столбец с выпадающим списком только с сортировкой</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1523,8 +1652,8 @@
                     <div class="head row">
                       <div class="title">8. Столбец с выпадающим списком только с поиском</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1543,8 +1672,8 @@
                     <div class="head row">
                       <div class="title">9. Столбец с выпадающим списком только с чекбоксом</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1563,8 +1692,8 @@
                     <div class="head row">
                       <div class="title">11. Столбец c cодержимым из строки (иконка + текст)</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1586,6 +1715,7 @@
                           <input class="search icon" type="submit" value="">
                           <div class="close icon"></div>
                         </form>
+                        <div class="not-found">Совпадений не найдено</div>
                         <div class="items"></div>
                       </div>
                     </div>
@@ -1595,8 +1725,8 @@
                     <div class="head row">
                       <div class="title">12. Столбец cо сложным cодержимым (подшаблоном)</div>
                       <div class="icons row">
-                        <div class="triangle icon"></div>
                         <div class="filter icon"></div>
+                        <div class="triangle icon"></div>
                       </div>
                     </div>
                     <div class="drop-down">
@@ -1607,6 +1737,7 @@
                           <input class="search icon" type="submit" value="">
                           <div class="close icon"></div>
                         </form>
+                        <div class="not-found">Совпадений не найдено</div>
                         <div class="items"></div>
                       </div>
                     </div>
