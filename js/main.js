@@ -2312,27 +2312,47 @@ function clearSearch(el) {
 
 function Search(obj, callback) {
   // Элементы для работы:
-  this.form = obj;
+  this.obj = obj;
+  this.activate = obj.closest('.activate');
   this.input = getEl('input[type="text"]', obj);
   this.searchBtn = getEl('.search', obj);
   this.cancelBtn = getEl('.close', obj);
-  this.items = getEl('.items', obj);
-  this.notFound = getEl('.not-found', obj);
-  this.result = getEl(`.search-info[data-search="${this.form.id}"]`);
+  this.result = getEl(`.search-info[data-search="${this.obj.id}"]`);
+  if (this.activate) {
+    this.items = getEl('.items', this.activate);
+    this.notFound = getEl('.not-found', this.activate);
+  }
+
+  // Константы:
+  this.type = this.obj.closest('.box') ? 'inBox' : (this.activate && !this.obj.classList.contains('activate') ? 'inSearchBox' : 'usual');
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
-    this.form.addEventListener('submit', event => {
+    this.input.addEventListener('change', (event) => event.stopPropagation());
+    this.obj.addEventListener('submit', event => {
       event.preventDefault();
-      this.search();
+      if (this.type !== 'inSearchBox') {
+        this.search(event);
+      }
     });
-    if (!this.form.classList.contains('positioned')) {
-      this.input.addEventListener('focus', () => this.onFocus());
-      this.input.addEventListener('blur', () => this.onBlur());
+    if (!this.obj.classList.contains('positioned')) {
+      if (this.type === 'inSearchBox') {
+        this.input.addEventListener('focus', () => onFocusInput(this.input));
+      }
+      this.input.addEventListener('blur', () => {
+        setTimeout(() => {
+          onBlurInput(this.input);
+          this.toggleHints();
+        }, 100);
+      });
     }
     if (this.items) {
+      this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+      this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
       this.input.addEventListener('input', () => this.showHints());
-      this.items.addEventListener('click', event => this.selectHint(event));
+      if (this.type !== 'inBox') {
+        this.items.addEventListener('click', event => this.selectHint(event));
+      }
     }
     this.cancelBtn.addEventListener('click', (event) => this.cancel(event));
     if (this.result) {
@@ -2343,15 +2363,17 @@ function Search(obj, callback) {
 
   // Отображение подсказок:
   this.showHints = function() {
-    var textToFind = this.input.value.trim();
-    if (textToFind === '') {
-      this.closeHints();
+    if (!this.items) {
       return;
     }
-
+    var textToFind = this.input.value.trim();
+    if (textToFind === '') {
+      this.toggleHints();
+      return;
+    }
     var regEx = RegExp(textToFind, 'gi'),
         items = Array.from(this.items.querySelectorAll('.item')),
-        curItems = items.filter(el => el.dataset.value.search(regEx) >= 0);
+        curItems = items.filter(el => el.textContent.search(regEx) >= 0);
 
     items.forEach(el => hideElement(el));
     if (curItems.length > 0) {
@@ -2360,17 +2382,25 @@ function Search(obj, callback) {
     } else {
       showElement(this.notFound);
     }
-    this.form.classList.add('open');
+    if (this.activate) {
+      this.activate.classList.add('open');
+    }
   }
 
-  // Cкрытие подсказок:
-  this.closeHints = function() {
+  // Переключение подсказок:
+  this.toggleHints = function() {
     if (!this.items) {
       return;
     }
-    this.items.querySelectorAll('.item').forEach(el => hideElement(el));
     hideElement(this.notFound);
-    this.form.classList.remove('open');
+    if (this.type !== 'usual') {
+      this.items.querySelectorAll('.item').forEach(el => showElement(el, 'flex'));
+    } else {
+      this.items.querySelectorAll('.item').forEach(el => hideElement(el));
+      if (this.activate) {
+        this.activate.classList.remove('open');
+      }
+    }
   }
 
   // Поиск по подсказке:
@@ -2379,44 +2409,46 @@ function Search(obj, callback) {
     if (!curItem) {
       return;
     }
-    this.input.value = curItem.dataset.value;
-    this.search();
-  }
-
-  // Удаление значения из инпута при его фокусе и скрытие/отображение подсказок:
-  this.onFocus = function() {
-    onFocusInput(this.input);
-    this.closeHints();
-  }
-
-  // Восстановление последнего найденного значения в инпуте при потере им фокуса и скрытие/отображение подсказок:
-  this.onBlur = function() {
-    setTimeout(() => {
-      onBlurInput(this.input);
-      this.closeHints();
-    }, 100);
+    var value;
+    if (this.activate.classList.contains('checkbox')) {
+      value = Array.from(this.items.querySelectorAll('.item')).filter(el => el.classList.contains('checked')).length
+      value = value ? 'Выбрано: ' + value : '';
+    } else {
+      value = !curItem.dataset.value ? curItem.dataset.value : curItem.textContent;
+    }
+    this.input.value = value;
+    this.search(event);
   }
 
   // Поиск:
-  this.search = function() {
+  this.search = function(event) {
     var textToFind = this.input.value.trim();
-    if (textToFind === '') {
+    if (event.type === 'submit' && textToFind === '') {
       return;
     }
-    if (callback) {
-      var length = callback(this.form, textToFind);
-    }
     this.input.dataset.value = this.input.value;
-    this.toggleInfo(textToFind, length);
-    this.input.focus();
+    if (this.type === 'inSearchBox') {
+      return;
+    }
+    if (this.type === 'usual') {
+      this.toggleInfo(textToFind, length);
+      this.input.focus();
+      if (this.activate) {
+        this.activate.classList.remove('open');
+      }
+    }
     this.searchBtn.style.visibility = 'hidden';
     this.cancelBtn.style.visibility = 'visible';
+    if (callback) {
+      var length = callback(this.obj, textToFind);
+    }
   }
 
   // Очистка поля поиска:
   this.clear = function() {
-    this.input.value = this.input.dataset.value = '';
-    this.closeHints();
+    this.input.value = '';
+    this.input.dataset.value = '';
+    this.toggleHints();
     this.toggleInfo();
     this.cancelBtn.style.visibility = 'hidden';
     this.searchBtn.style.visibility = 'visible';
@@ -2429,7 +2461,7 @@ function Search(obj, callback) {
     }
     this.clear();
     if (callback) {
-      callback(this.form);
+      callback(this.obj);
     }
   }
 
@@ -2445,74 +2477,6 @@ function Search(obj, callback) {
     } else {
       hideElement(this.result);
     }
-  }
-}
-
-// Объект поля поиска для выпадающего списка:
-
-function SearchInBox(obj, callback) {
-  Search.apply(this, arguments);
-
-  // Элементы для работы:
-  this.items = obj.closest('.drop-down');
-
-  // Установка обработчиков событий:
-  this.setEventListeners = function() {
-    if (this.items) {
-      this.input.addEventListener('input', () => this.showHints());
-    }
-  }
-  this.setEventListeners();
-
-  // Восстановление изначального вида подсказок:
-  this.restoreHints = function() {
-    this.items.querySelectorAll('.item').forEach(el => showElement(el, 'flex'));
-    hideElement(this.notFound);
-  }
-
-  // Отображение подсказок:
-  this.showHints = function() {
-    var textToFind = this.input.value.trim();
-    if (textToFind === '') {
-      this.restoreHints();
-      return;
-    }
-
-    var regEx = RegExp(textToFind, 'gi'),
-        items = Array.from(this.items.querySelectorAll('.item')),
-        curItems = items.filter(el => el.dataset.value.search(regEx) >= 0);
-
-    items.forEach(el => hideElement(el));
-    if (curItems.length > 0) {
-      hideElement(this.notFound);
-      curItems.forEach(el => showElement(el, 'flex'));
-    } else {
-      showElement(this.notFound);
-    }
-    this.form.classList.add('open');
-  }
-
-  // Удаление значения из инпута при его фокусе и отображение подсказок:
-  this.onFocus = function() {
-    onFocusInput(this.input);
-    this.restoreHints();
-  }
-
-  // Восстановление последнего найденного значения в инпуте при потере им фокуса и отображение подсказок:
-  this.onBlur = function() {
-    setTimeout(() => {
-      onBlurInput(this.input);
-      this.showHints();
-    }, 100);
-  }
-
-  // Очистка поля поиска:
-  this.clear = function() {
-    this.input.value = this.input.dataset.value = '';
-    this.restoreHints();
-    this.toggleInfo();
-    this.cancelBtn.style.visibility = 'hidden';
-    this.searchBtn.style.visibility = 'visible';
   }
 }
 
@@ -2555,10 +2519,11 @@ document.addEventListener('click', closeDropDown);
 
 function closeDropDown(event) {
   var target = event.target;
-  if (!target.closest('.activate.open')) {
+  if (!target.closest('.activate')) {
     var dropDownOpen = getEl('.activate.open');
     if (dropDownOpen) {
       dropDownOpen.classList.remove('open');
+      document.body.classList.remove('no-scroll');
     }
   }
 }
@@ -2567,22 +2532,26 @@ function closeDropDown(event) {
 
 function DropDown(obj) {
   // Элементы для работы:
-  this.filter = obj;
+  this.obj = obj;
   this.hiddenInput = getEl('input[type="hidden"]', obj);
   this.head = getEl('.head', obj);
   this.title = getEl('.head .title', obj);
+  this.filterIcon = getEl('.filter.icon', obj);
   this.sort = getEl('.sort-box', obj);
   this.search = getEl('form.search', obj);
   this.items = getEl('.items', obj) || getEl('.drop-down', obj);
   this.clearBtn = getEl('.clear-btn', obj);
 
   // Константы:
-  this.titleText = this.title.textContent;
+  this.type = this.obj.classList.contains('box') ? 'box' : (this.obj.classList.contains('search') ? 'searchBox' : 'usual')
+  if (this.title) {
+    this.titleText = this.title.textContent;
+  }
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.head) {
-      this.head.addEventListener('click', () => this.toggle());
+      this.head.addEventListener('click', (event) => this.toggle(event));
     }
     if (this.sort) {
       this.sort.addEventListener('click', event => this.sortValue(event))
@@ -2597,47 +2566,68 @@ function DropDown(obj) {
   this.setEventListeners();
 
   // Открытие/закрытие выпадающего списка:
-  this.toggle = function() {
-    if (this.filter.hasAttribute('disabled')) {
+  this.toggle = function(event) {
+    if (!event.pageX) {
       return;
     }
-    if (this.filter.classList.contains('open')) {
-      this.filter.classList.remove('open');
+    if (this.obj.hasAttribute('disabled')) {
+      return;
+    }
+    if (this.obj.classList.contains('open')) {
+      if (this.type === 'searchBox'){
+        if (event.target.classList.contains('icon')) {
+          this.obj.classList.remove('open');
+        }
+      } else {
+        this.obj.classList.remove('open');
+      }
     } else {
       var dropDownOpen = getEl('.activate.open');
       if (dropDownOpen) {
         dropDownOpen.classList.remove('open');
       }
-      this.filter.classList.add('open');
+      this.obj.classList.add('open');
     }
   }
 
   // Изменение заголовка:
   this.changeTitle = function(newTitle) {
-    if (this.title) {
+    if (this.type === 'box') {
+      if (this.filterIcon) {
+        if (newTitle) {
+          this.filterIcon.style.visibility = 'visible';
+        } else {
+          this.filterIcon.style.visibility = 'hidden';
+        }
+      }
+    }
+    if (this.type === 'usual') {
       if (newTitle) {
         this.title.textContent = newTitle;
-        this.filter.classList.add('changed');
+        this.obj.classList.add('changed');
       } else {
         this.title.textContent = this.titleText;
-        this.filter.classList.remove('changed');
+        this.obj.classList.remove('changed');
       }
     }
   }
 
   // Сортировка значений:
   this.sortValue = function(event) {
-    var sort = event.target.closest('.row');
-    if (sort.classList.contains('checked')) {
-      sort.classList.remove('checked');
-    } else {
-      var curSort = getEl('.checked.row', this.sort);
-      if (curSort) {
-        curSort.classList.remove('checked');
-      }
-      sort.classList.add('checked');
+    var item = event.target.closest('.row');
+    if (!item) {
+      return;
     }
-    sort.dispatchEvent(new Event('change', {"bubbles": true}));
+    if (item.classList.contains('checked')) {
+      item.classList.remove('checked');
+    } else {
+      var curItem = getEl('.checked.row', this.sort);
+      if (curItem) {
+        curItem.classList.remove('checked');
+      }
+      item.classList.add('checked');
+    }
+    item.dispatchEvent(new Event('change', {"bubbles": true}));
   }
 
   // Поиск значения:
@@ -2645,12 +2635,9 @@ function DropDown(obj) {
     if (this.items) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
     }
-    if (textToFind) {
-      this.changeTitle('Поиск: ' + textToFind);
-      this.filter.value = textToFind;
-    } else {
-      this.clear();
-    }
+    var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
+    this.changeTitle(newTitle);
+    this.writeValue(textToFind);
     search.dispatchEvent(new Event('change', {"bubbles": true}));
   }
 
@@ -2662,81 +2649,73 @@ function DropDown(obj) {
     if (!curItem) {
       return;
     }
-    if (this.search) {
-      this.search.clear();
+    if (this.type === 'box' && getEl('input', this.search).dataset.value) {
+      this.searchObj.clear();
     }
-
     var value;
-    if (this.filter.classList.contains('select')) {
-      if (curItem.dataset.value === 'default') {
-        this.clear();
+    if (this.obj.classList.contains('select')) {
+      this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+      curItem.classList.add('checked');
+      if (curItem.dataset.value === '') {
+        this.changeTitle();
       } else {
         this.changeTitle(curItem.textContent);
-        value = curItem.dataset.value;
       }
-      this.filter.classList.remove('open');
+      value = curItem.dataset.value;
+      if (!this.obj.classList.contains('box')) {
+        this.obj.classList.remove('open');
+      }
     } else {
       curItem.classList.toggle('checked');
       var checked = this.items.querySelectorAll('.item.checked');
       if (checked.length === 0) {
-        this.clear();
+        this.changeTitle();
+        value = '';
       } else {
         this.changeTitle('Выбрано: ' + checked.length);
         value = [];
         checked.forEach(el => value.push(el.dataset.value));
       }
     }
-    this.filter.value = value;
-    if (this.hiddenInput) {
-      this.hiddenInput.value = value;
-    }
+    this.writeValue(value);
     curItem.dispatchEvent(new Event('change', {"bubbles": true}));
   }
 
   // Установка значения:
   this.setValue = function(value) {
-    this.filter.querySelectorAll('.item').forEach(el => {
+    this.obj.querySelectorAll('.item').forEach(el => {
       if ((el.dataset.value).toLowerCase() === value.toLowerCase()) {
         this.selectValue(null, el);
       }
     });
   }
 
-  // Очистка:
+  // Сброс значения:
+
+  this.writeValue = function(value = '') {
+    this.obj.value = value;
+    if (this.hiddenInput) {
+      this.hiddenInput.value = value;
+    }
+  }
+
+  // Очистка выпадающего списка:
   this.clear = function() {
-    this.changeTitle();
+    if (this.sort) {
+      this.sort.querySelectorAll('.row').forEach(el => el.classList.remove('checked'));
+    }
     if (this.search) {
-      this.search.clear();
+      this.searchObj.clear();
     }
     if (this.items) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
     }
-    this.filter.value = '';
-    if (this.hiddenInput) {
-      this.hiddenInput.value = '';
-    }
+    this.changeTitle();
+    this.writeValue();
   }
 
   // Инициализация поиска (если есть):
   if (this.search) {
-    this.search = new Search(this.search, this.searchValue);
-  }
-}
-
-// Объект выпадающего списка для таблиц:
-
-function DropDownTable(obj) {
-  DropDown.apply(this, arguments);
-  this.filterIcon = getEl('.filter.icon', obj);
-
-  // Изменение заголовка:
-  this.changeTitle = function(newTitle) {
-    if (this.filterIcon) {
-      if (newTitle) {
-        this.filterIcon.style.visibility = 'visible';
-      } else {
-        this.filterIcon.style.visibility = 'hidden';
-      }
-    }
+    this.searchObj = new Search(this.search, this.searchValue);
   }
 }
