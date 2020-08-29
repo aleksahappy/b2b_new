@@ -817,22 +817,20 @@ input[data-type="range"] {
   display: block;
   width: 30px;
   height: 30px;
+  margin-top: 5px;
   background-repeat: no-repeat;
-  background-size: 20px 20px;
-  background-position: center center;
+  background-size: 35%;
+  background-position: center;
+  cursor: pointer;
 }
 
 .calendar .input-area .month-navigator .month-previous {
-  margin-top: 5px;
-  background: url("../img/arrow_blue.svg") no-repeat center center;
-  background-size: 35%;
+  background-image: url("../img/arrow_blue.svg");
   transform: rotate(180deg);
 }
 
 .calendar .input-area .month-navigator .month-next {
-  margin-top: 5px;
-  background: url("../img/arrow_blue.svg") no-repeat center center;
-  background-size: 35%;
+  background-image: url("../img/arrow_blue.svg");
 }
 
 .calendar .input-area .month-navigator .nav-center {
@@ -857,17 +855,23 @@ input[data-type="range"] {
   margin-left: 6px;
 }
 
-.calendar .input-area .month-navigator .years-nav .prev-year {
+.calendar .input-area .month-navigator .years-nav .prev-year,
+.calendar .input-area .month-navigator .years-nav .next-year {
   width: 100%;
   height: 10px;
-  background: url("../img/arrow_blue.svg") no-repeat center left;
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.calendar .input-area .month-navigator .years-nav .prev-year {
+  background-image: url("../img/arrow_blue.svg");
   transform: rotate(270deg);
 }
 
 .calendar .input-area .month-navigator .years-nav .next-year {
-  width: 100%;
-  height: 10px;
-  background: url("../img/arrow_blue.svg") no-repeat center left;
+  background-image: url("../img/arrow_blue.svg");
   transform: rotate(90deg);
 }
 
@@ -941,6 +945,8 @@ input[data-type="range"] {
 
 [tooltip]::before {
   content: '';
+  width: 7px;
+  height: 7px;
   border: 7px solid transparent;
   z-index: 1001;
 }
@@ -1375,6 +1381,7 @@ input.btn {
 .triangle.icon {
   width: 8px;
   height: 5px;
+  margin-right: 0;
   background-image: url(../img/triangle_grey.svg);
 }
 
@@ -1559,7 +1566,11 @@ input.btn {
   width: 9px;
   height: 9px;
   margin-right: 0;
-  background-image: url(../img/filter.svg);
+  background-image: url(../img/filter_grey.svg);
+}
+
+.filter.white.icon {
+  background-image: url(../img/filter_white.svg);
 }
 
 /* Обозначение суммы */
@@ -1821,8 +1832,19 @@ div.option input:disabled ~ .checkbox.icon {
   cursor: default;
 }
 
+.activate .head input[type="text"] {
+  border: none;
+  padding: 0;
+}
+
+.activate .head .search.icon,
+.activate .head .close.icon {
+  display: none;
+}
+
 .activate .head .title {
   max-width: 100%;
+  padding-right: 0.714em;
   color: #C6C6C6;
   white-space: nowrap;
   overflow: hidden;
@@ -1839,11 +1861,6 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate .icons {
   padding-top: 0.3em;
-}
-
-.activate .triangle {
-  margin-right: 0;
-  margin-left: 0.714em;
 }
 
 .activate .filter {
@@ -2697,6 +2714,7 @@ form.post > .loader {
   display: none;
   width: 100%;
   max-width: 100%;
+  min-height: 22.5em;
   visibility: hidden;
 }
 
@@ -2705,14 +2723,6 @@ form.post > .loader {
 }
 
 /* Общие стили для таблицы-заголовка и таблицы-содержимого */
-
-.table-desktop .table {
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  min-height: 22.5em;
-  /* overflow-y: hidden; */
-}
 
 .table-desktop table {
   width: 100%;
@@ -2746,6 +2756,10 @@ th.activate {
   overflow: visible;
 }
 
+th.activate .drop-down {
+  right: 4px;
+}
+
 th.activate:nth-child(1) .drop-down,
 th.activate:nth-child(2) .drop-down {
   right: auto;
@@ -2767,6 +2781,10 @@ th.activate .head .triangle {
   background-image: url(../img/triangle_white.svg);
 }
 
+th.activate .head .filter {
+  background-image: url(../img/filter_white.svg);
+}
+
 /* Основные стили таблицы-заголовка */
 
 .table-desktop th {
@@ -2786,7 +2804,7 @@ th.activate .head .triangle {
   z-index: 1;
 }
 
-.table-desktop th div:first-child {
+.table-desktop th > div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
@@ -2842,10 +2860,9 @@ thead .resize-btn::after {
   content: '';
   display: inline-block;
   position: absolute;
-  top: 110%;
+  top: 100%;
   right: 4px;
   width: 1px;
-  /* height: 10000px; */
   background-color: #D5D5D5;
   opacity: 0;
   -webkit-transition: opacity 200ms;
