@@ -10,16 +10,16 @@
 
 // var settings = {
 //   data: [{...}, {...}]                             Данные для заполнения таблицы - массив объектов, где каждый объект - данные строки (по умолчанию [])
-//   control: {                                       Имеет ли таблица панель управления (по умолчанию false). Если да, то в объекте перечислить элементы:
+//   control: {                                       Имеет ли таблица панель управления (по умолчанию не имеет). Если да, то в объекте перечислить элементы:
 //     area: элемент / селектор элемента                - куда в документе вставлять панель управления (по умолчанию вставится перед таблицей)
-//     pagination: true / false                         - наличие пагинации (по умолчанию false)
-//     search: 'placeholder' / false                    - наличие общего поиска (по умолчанию false)
-//     toggle: true / false                             - наличие пагинации (по умолчанию false)
-//     pill: true / false                               - наличие чекбоксов-"пилюль" (по умолчанию false)
-//     setting: true / false                            - наличие настроек отображения/скрытия (по умолчанию false)
+//     pagination: true / false                         - наличие пагинации (по умолчанию отсутствует)
+//     search: 'placeholder' / false                    - наличие поиска и его подсказка (по умолчанию отсутствует)
+//     toggle: 'key' / false                            - наличие переключателя и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
+//     pill: 'key' / false                              - наличие чекбоксов-"пилюль" и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
+//     setting:                            - наличие настроек таблицы (по умолчанию отсутствует)
 //   }
-//   head: true / false                               Имеет ли таблица шапку (по умолчанию false)
-//   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию false)
+//   head: true / false                               Имеет ли таблица шапку (по умолчанию отсутствует)
+//   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию отсутствует)
 //   sign: '#' / '@@' / другой,                       Символ для поиска мест замены в html (по умолчанию - '#')
 //   sub: [{                                          Данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
 //     area: селектор,
@@ -30,10 +30,11 @@
 //   [{                                                 что вкючает параметр одного столбца:
 //     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
 //     title: 'Заголовок'                               - заголовок столбца
-//     result: 'kolv' / 'sum'                           - формат итогов по колонке (умолчанию false)
-//     sort: 'text' / 'numb' / 'date'                   - нужна ли сортировка по столбцу и ее формат (по умолчанию false)
-//     filter: 'full' / 'search' / 'checkbox'           - нужна ли фильтрация по столбцу и ее формат (по умолчанию false)
-//     content: #key# / html разметка                   - данные ячейки тела таблицы, если #key#, то пропускаем, если отличается, то вносим html разметку с маяками (по умолчанию #key#)
+//     result: 'kolv' / 'sum'                           - наличие и формат итога по колонке (умолчанию отсутствует)
+//     sort: 'text' / 'numb' / 'date'                   - нужна ли сортировка по столбцу и ее формат (по умолчанию отсутствует)
+//     search: 'usual' / 'date'                         - нужен ли поиск по столбцу и его формат (по умолчанию отсутствует)
+//     filter: 'true' / 'false'                         - нужна ли фильтрация по столбцу (по умолчанию отсутствует)
+//     content: #key# / html разметка                   - содержимое ячейки, если отличается от #key#, то вносим html разметку (по умолчанию #key#)
 //   }]
 // }
 
@@ -202,19 +203,19 @@ function createTableContent(id, settings) {
 
 function createTableHead(col, index) {
   var th;
-  if (!col.sort && !col.filter) {
+  if (!col.sort && !col.search && !col.filter) {
     th =
     `<th id="${index + 1}">
       <div>${col.title || ''}</div>
       <div class="resize-btn"></div>
     </th>`;
   } else {
-    var sort = '',
-        filter = '';
+    var sortBox = '',
+        filterBox = '';
     if (col.sort) {
       var sortDown = col.sort === 'numb' ? 'По возрастанию' : (col.sort === 'date' ? 'Сначала новые' : 'От А до Я');
       var sortUp = col.sort === 'numb' ? 'По убыванию' : (col.sort === 'date' ? 'Сначала старые' : 'От Я до А');
-      sort =
+      sortBox =
       `<div class="sort-box">
         <div class="title">Сортировка</div>
         <div class="sort down row">
@@ -227,10 +228,10 @@ function createTableHead(col, index) {
         </div>
       </div>`;
     }
-    if (col.filter) {
+    if (col.search || col.filter) {
       var search = '',
           items = '';
-      if (col.filter !== 'checkbox') {
+      if (col.search) {
         search =
         `<form class="search row">
           <input type="text" data-value="" placeholder="Поиск...">
@@ -238,10 +239,16 @@ function createTableHead(col, index) {
           <div class="close icon"></div>
         </form>`;
       }
-      if (col.filter !== 'search') {
-        items = '<div class="items"></div>';
+      if (col.filter) {
+        if (col.search) {
+          items =
+          `<div class="not-found">Совпадений не найдено</div>
+          <div class="items"></div>`;
+        } else {
+          items = '<div class="items"></div>';
+        }
       }
-      var filter =
+      filterBox =
       `<div class="filter-box">
         <div class="title">Фильтр</div>
         ${search}
@@ -253,13 +260,13 @@ function createTableHead(col, index) {
       <div class="head row">
         <div class="title">${col.title || ''}</div>
         <div class="icons row">
-          <div class="triangle icon"></div>
           <div class="filter icon"></div>
+          <div class="triangle icon"></div>
         </div>
         </div>
         <div class="drop-down">
-          ${sort}
-          ${filter}
+          ${sortBox}
+          ${filterBox}
         </div>
       </div>
       <div class="resize-btn"></div>
@@ -333,7 +340,10 @@ function Table(obj, settings = {}) {
     if (this.tab) {
       this.tab.addEventListener('click', (event) => this.open(event));
     }
-    window.addEventListener('scroll', () => this.scrollTable());
+    window.addEventListener('scroll', throttle(() => {
+      this.scrollTable();
+      this.setResizeHeight();
+    }));
     if (this.head) {
       if (this.resizeBtns) {
         this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
@@ -389,13 +399,16 @@ function Table(obj, settings = {}) {
     });
   }
 
-  // Заполнение чекбоксов таблицы:
-  this.fillCheckboxes = function() {
+  // Заполнение фильтров таблицы значениями:
+  this.fillItems = function(curDropDown) {
     if (!this.dropDowns) {
       return;
     }
     var items;
     this.dropDowns.forEach(el => {
+      if (el === curDropDown) {
+        return;
+      }
       items = getEl('.items', el);
       if (items) {
         var key = el.dataset.key,
@@ -419,6 +432,21 @@ function Table(obj, settings = {}) {
         items.innerHTML = list;
       }
     });
+  }
+
+  this.checkItems = function(curKey) {
+    var curItem;
+    for (var key in this.filters) {
+      if (key !== curKey) {
+        this.filters[key].values.forEach(value => {
+          curItem = getEl(`.activate[data-key="${key}"] [data-value="${value}"]`);
+          console.log(`.activate[data-key="${key}"] [data-value="${value}"]`);
+          if (curItem) {
+            curItem.classList.add('checked');
+          }
+        });
+      }
+    }
   }
 
   // Загрузка данных в таблицу:
@@ -458,7 +486,6 @@ function Table(obj, settings = {}) {
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
     };
-    this.setResizeHeight();
   }
 
   // Подгрузка таблицы при скролле:
@@ -468,13 +495,15 @@ function Table(obj, settings = {}) {
     }
   }
 
-
-  // Установка высоты подсветки кнопки ресайза (чтобы была видна, но не увеличивала скролл):
+  // Установка высоты подсветки кнопки ресайза (чтобы не выходила за пределы таблицы):
   this.setResizeHeight = function() {
     if (!this.head) {
       return;
     }
-    changeCss('thead .resize-btn:hover::after', 'height', this.body.offsetHeight - 5 + 'px');
+    var headerRect = getEl('th', this.head).getBoundingClientRect(),
+        bodyRect = this.body.getBoundingClientRect(),
+        newHeight =  bodyRect.bottom - headerRect.bottom + 'px';
+    changeCss(`#${this.wrap.id} thead .resize-btn:hover::after`, 'height', newHeight);
   }
 
   // Открытие таблицы при клике на вкладку:
@@ -500,15 +529,26 @@ function Table(obj, settings = {}) {
     if (target.classList.contains('sort')) {
       this.sortData(dropDown, target, key);
     } else {
-      var type = target.classList.contains('search') ? 'search' : 'filter',
-          action = dropDown.value ? 'save' : 'remove',
-          value = type === 'search' ? dropDown.value : target.dataset.value;
-      this.changeFilter(action, type, value, key);
-      this.filterData();
+      var type = target.classList.contains('item') ? 'filter' : 'search',
+          value = type === 'search' ? dropDown.value : target.dataset.value,
+          action;
+      if (type === 'search') {
+        action = value ? 'save' : 'remove';
+      } else if (type === 'filter') {
+        action = target.classList.contains('checked') ? 'save' : 'remove';
+      }
+      var oldFilters = JSON.stringify(this.filters);
+      this.changeFilter(action, type, key, value);
+      if (oldFilters !== JSON.stringify(this.filters)) {
+        console.log(this.filters);
+        this.filterData();
+        this.fillItems(action === 'save' ? dropDown : '');
+        this.checkItems(action === 'save' ? key : '');
+      }
     }
-    dropDown.classList.remove('open');
     this.loadData(this.dataToLoad);
     this.fillResults();
+    this.setResizeHeight();
   }
 
   // Сортировка данных:
@@ -531,7 +571,7 @@ function Table(obj, settings = {}) {
   }
 
   // Сохранение/удаление фильтра:
-  this.changeFilter = function(action, type, value, key) {
+  this.changeFilter = function(action, type, key, value) {
     if (action === 'save') {
       if (!this.filters[key] || this.filters[key].type !== type) {
         this.filters[key] = {
@@ -539,7 +579,9 @@ function Table(obj, settings = {}) {
           values: [value]
         };
       } else {
-        if (this.filters[key].values.indexOf(value) === -1) {
+        if (type === 'search') {
+          this.filters[key].values = [value];
+        } else if (this.filters[key].values.indexOf(value) === -1) {
           this.filters[key].values.push(value);
         }
       }
@@ -651,9 +693,9 @@ function Table(obj, settings = {}) {
     this.convertData();
     this.loadData(this.data);
     if (this.head) {
-      this.dropDowns.forEach(el => new DropDownTable(el));
-      this.fillCheckboxes();
+      this.fillItems();
       this.fillResults();
+      this.dropDowns.forEach(el => new DropDown(el));
     }
     if (this.wrap.classList.contains('active')) {
       this.show();
