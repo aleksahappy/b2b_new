@@ -859,14 +859,10 @@ function changeCheckoutInfo() {
       ordersQty++;
     }
   });
-  if (ordersQty > 1) {
-    var totals = countFromCart(getIdList('cart'), false);
-    getEl('.qty', info).textContent = ordersQty + ' ' + declOfNum(ordersQty, ['заказ', 'заказа', 'заказов']);
-    getEl('.sum', info).textContent = convertPrice(totals.sum, false);
-    info.style.visibility = 'visible';
-  } else {
-    info.style.visibility = 'hidden';
-  }
+  var totals = countFromCart(getIdList('cart'), false);
+  getEl('.qty', info).textContent = getCheckoutInfo(ordersQty);
+  getEl('.sum', info).textContent = convertPrice(totals.sum, false);
+  info.style.visibility = 'visible';
 }
 
 // Изменение информации о заказе:
@@ -876,8 +872,8 @@ function fillCheckout() {
       warnblock = getEl('#checkout .warnblock'),
       ordersQty = totals.orders.length;
   if (ordersQty > 1) {
+    getEl('.qty', warnblock).textContent = getCheckoutInfo(ordersQty);
     showElement(warnblock, 'flex');
-    getEl('.qty', warnblock).textContent = ordersQty + ' ' + declOfNum(ordersQty, ['заказ', 'заказа', 'заказов']);
   } else {
     hideElement(warnblock);
   }
@@ -889,6 +885,12 @@ function fillCheckout() {
     area: '#order-details',
     items: totals.orders
   });
+}
+
+// Создание актуальной инфомации о количестве и сумме заказов:
+
+function getCheckoutInfo(qty) {
+  return declOfNum(qty, ['создан', 'создано', 'создано']) + ' ' + qty + ' ' + declOfNum(qty, ['заказ', 'заказа', 'заказов']);
 }
 
 // Изменение информации о количестве и сумме в секции корзины:
