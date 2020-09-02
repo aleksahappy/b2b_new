@@ -16,9 +16,7 @@
     <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
-  <!-- Атрибуты в body -->
-  <body data-website="ts_b2b" data-cart="true">
-
+  <body>
     <!-- Основное содержимое страницы -->
     <div id="main">
       <div class="container">
@@ -70,7 +68,7 @@
             <div tooltip="Подсказка" flow="right">Обычная подсказка справа</div>
             <div tooltip="Подсказка" help>Желтая подсказка</div>
             <div tooltip="Договор от 31.10.2016&#10Дата завершения 04.12.2019&#10Заключен с ООО «ТОП СПОРТС»">Подcказка в несколько строк</div>
-            <div tooltip="Подсказка&#10в несколько строк&#10с текстом слева" text="left">Подcказка в несколько строк c текстом слева</div>
+            <div tooltip="Подсказка&#10в несколько строк&#10с текстом по центру" text="center">Подcказка в несколько строк c текстом по центру</div>
           </div>
           <br>
           <div class="title h3">C помощью дата-атрибута data-toolti и JS</div>
@@ -81,7 +79,7 @@
             <div data-tooltip="Подсказка" flow="right">Обычная подсказка справа</div>
             <div data-tooltip="Подсказка" help>Желтая подсказка</div>
             <div data-tooltip="<div>Договор от 31.10.2016</div><div>Дата завершения 04.12.2019</div><div>Заключен с ООО «ТОП СПОРТС»</div>">Подcказка в несколько строк</div>
-            <div data-tooltip="<div>Подсказка</div><div>в несколько строк</div><div>с текстом слева</div>" text="left">Подcказка в несколько строк c текстом слева</div>
+            <div data-tooltip="<div>Подсказка</div><div>в несколько строк</div><div>с текстом по центру</div>" text="center">Подcказка в несколько строк c текстом по центру</div>
             <div id="tooltip" data-tooltip="Подсказка<br>в несколько строк">Подсказка с html-таблицей (текст добавлен через js)</div>
           </div>
 
@@ -113,25 +111,13 @@
             <div class="close white icon"></div>
           </div>
 
-          <div class="full">
-            <div class="lock icon"></div>
-          </div>
-          <div class="limit">
-            <div class="lock icon"></div>
-          </div>
-          <div class="disabled">
-            <div class="lock icon"></div>
-          </div>
+          <div class="lock icon full"></div>
+          <div class="lock icon limit"></div>
+          <div class="lock icon off"></div>
 
-          <div class="full">
-            <div class="mark icon"></div>
-          </div>
-          <div class="limit">
-            <div class="mark icon"></div>
-          </div>
-          <div class="disabled">
-            <div class="mark icon"></div>
-          </div>
+          <div class="mark icon full"></div>
+          <div class="mark icon limit"></div>
+          <div class="mark icon off"></div>
 
           <div class="search icon"></div>
           <div class="search white icon"></div>
@@ -1031,7 +1017,7 @@
 
           <br>
 
-          <div>Блок фильтров, который появляется с разрешения 768px</div>
+          <div>Блок фильтров, который появляется с разрешения 960px</div>
           <div class="relay icon" onclick="openPopUp('#filters2')"></div>
           <div id="filters2" class="pop-up-container filters">
             <div class="pop-up">
@@ -1198,15 +1184,15 @@
                 <div class="form-col2">
                   <div class="form-wrap" required>
                     <div class="title">Имя*</div>
-                    <input type="text" value="" name="name" data-type="cyril" placeholder="Введите имя">
+                    <input type="text" value="" name="name" data-type="name" placeholder="Введите имя">
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Фамилия*</div>
-                    <input type="text" value="" name="surname" data-type="cyril" placeholder="Введите фамилию">
+                    <input type="text" value="" name="surname" data-type="name" placeholder="Введите фамилию">
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Отчество*</div>
-                    <input type="text" value="" name="patronymic" data-type="cyril" placeholder="Введите отчество">
+                    <input type="text" value="" name="patronymic" data-type="name" placeholder="Введите отчество">
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Должность*</div>
@@ -1221,6 +1207,10 @@
                   <div class="form-wrap">
                     <div class="title">Email</div>
                     <input type="text" value="" name="email" data-type="email" placeholder="Введите email">
+                  </div>
+                  <div class="form-wrap" required>
+                    <div class="title">ИНН*</div>
+                    <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
                   </div>
                   <div class="form-wrap" required>
                     <div class="title">Тип доступа*</div>
@@ -1324,14 +1314,22 @@
               </div>
               <div class="form-wrap" required>
                 <div class="title">Дата*</div>
-                <input type="text" value="" name="" data-type="date"  placeholder="ДД.ММ.ГГГГ" maxlength="10">
+                <input type="text" value="" name="date" data-type="date"  placeholder="ДД.ММ.ГГГГ" maxlength="10">
               </div>
               <div class="form-wrap" required>
                 <div class="title">Количество*</div>
                 <div class="qty qty-box row">
                   <div class="btn minus" data-tooltip="Уменьшить" onclick="changeQty(event, 15)"></div>
-                  <input class="choiced-qty" name="count" type="text" value="0" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+                  <input class="choiced-qty" value="0" name="count" type="text" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
                   <div class="btn plus" data-tooltip="Добавить" onclick="changeQty(event, 15)"></div>
+                </div>
+              </div>
+              <div class="form-wrap">
+                <div class="title">Логотип*</div>
+                <div class="file-wrap" required>
+                  <input id="load-img" value="" name="file" type="file" accept="image/*">
+                  <div class="file-preview"></div>
+                  <label class="title" for="load-img">лого</label>
                 </div>
               </div>
               <div class="btns-wrap">
@@ -1766,7 +1764,7 @@
                   <td>
                     <div class="docs row #status#">
                       <div class="mark icon" data-tooltip="#status_info#"></div>
-                      <a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a>
+                      <a href="url" target="_blank" data-tooltip="#info#" help>#title#</a>
                     </div>
                   </td>
                 </tr>
@@ -1807,6 +1805,5 @@
     <script src="../js/calendar.js"></script>
     <script src="../js/test.js"></script>
     <script src="index.js"></script>
-
   </body>
 </html>
