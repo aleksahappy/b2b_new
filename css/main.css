@@ -958,14 +958,14 @@ input[data-type="range"] {
   padding: 0.5em 0.7em;
   background-color: #D3D6D9;
   border-radius: 3px;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   z-index: 1000;
 }
 
-[tooltip][text="left"]::after {
-  text-align: left;
+[tooltip][text="center"]::after {
+  text-align: center;
 }
 
 [tooltip][help]::after {
@@ -1096,7 +1096,7 @@ input[data-type="range"] {
   line-height: 14px;
   background-color: #D3D6D9;
   border-radius: 3px;
-  text-align: center;
+  text-align: left;
   overflow: visible;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -1115,8 +1115,8 @@ input[data-type="range"] {
   background-color: #FFF1C1;
 }
 
-.tooltip[text="left"] {
-  text-align: left;
+.tooltip[text="center"] {
+  text-align: center;
 }
 
 .tooltip[text="right"] {
