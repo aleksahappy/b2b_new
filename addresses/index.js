@@ -2,8 +2,7 @@
 
 // Динамическе переменные:
 
-var items,
-    prevForm;
+var items, prevForm;
 
 // Запуск страницы адресов:
 
@@ -14,6 +13,7 @@ function startAddressPage() {
   //sendRequest(urlRequest.main, {action: 'addresses'})
   .then(result => {
     items = JSON.parse(result);
+    convertData();
     initPage();
   })
   .catch(err => {
@@ -27,58 +27,36 @@ function startAddressPage() {
 function initPage() {
   items = items || [];
   fillTemplate({
-    area: '#shop',
+    area: '#shops',
     items: items,
-    sign: '@@',
     sub:[{
-      area: '.time-block',
+      area: '.time',
       items: 'time'
     }]
   });
-  setProperTooltip();
   initForm('#address');
   loader.hide();
 }
 
-// Раскрытие/закрытие блока с информацией о магазине:
+// Преобразование полученных данных:
 
-function toggleOuterBlock(el) {
-  if (event.target.className === 'edit icon') {
-    return;
-  }
-  if (el.classList.contains('outer')) {
-    var parentEl = el.parentElement;
-    var outerTarget = parentEl.querySelector('.outer-target');
-    outerTarget.classList.toggle('displayNone');
-  }
-}
-
-// Показ/скрытие блока со временем работы магазина:
-
-function toggleInnerBlock(event) {
-  var parent = event.target.closest('.toggle-block');
-  var targetBlock = parent.querySelector('.target-block');
-
-  if (targetBlock) {
-    targetBlock.classList.toggle('displayNone');
-  }
-}
-
-// Добавление соответствующих подсказок к тексту:
-
-function setProperTooltip() {
-  var tooltips = document.querySelectorAll('.indicate');
-
-  for (let i = 0; i < tooltips.length; i++) {
-    var toolStatus = tooltips[i].firstElementChild;
-    if (toolStatus.className == 'approv') {
-      toolStatus.setAttribute('data-tooltip', 'Магазин прошел модерацию');
-    } else if (toolStatus.className === 'process') {
-      toolStatus.setAttribute('data-tooltip', 'Магазин еще проходит модерацию');
-    } else if (toolStatus.className === 'denied') {
-      toolStatus.setAttribute('data-tooltip', '</div>Магазин не прошел модерацию,</div> <div>свяжитесь с вашим менеджером</div>');
+function convertData() {
+  items = items || [];
+  var status, tooltip;
+  items.forEach(el => {
+    if (el.moderate === 'ok') {
+      status = 'full';
+      tooltip = 'Магазин прошел модерацию';
+    } else if (el.moderate === 'process') {
+      status = 'limit';
+      tooltip = 'Магазин проходит модерацию';
+    } else if (el.moderate === 'no') {
+      status = 'off';
+      tooltip = 'Магазин не прошел модерацию,<br>свяжитесь с вашим менеджером';
     }
-  }
+    el.status = status;
+    el.tooltip = tooltip;
+  });
 }
 
 // Открытие всплывающего окна с формой:
@@ -98,4 +76,26 @@ function openAddressPopUp(id) {
     }
   }
   openPopUp(addressPopUp);
+}
+
+// Открытие для заполнения во всплывающем окне времени работы магазина:
+
+function openWorkTime() {
+  showElement('#address .work-time');
+  hideElement('#address .main');
+}
+
+// Блокировка/разблокировка поля выбора типа торговли:
+
+function toggleTradeTypeField() {
+  var toggle = getEl('#show'),
+      field = getEl('#trade-type');
+  if (toggle.checked) {
+    field.removeAttribute('disabled');
+    field.closest('.form-wrap').setAttribute('required', 'required');
+  } else {
+    window[`addressForm`][`dropDown0`].clear();
+    field.setAttribute('disabled', 'disabled');
+    field.closest('.form-wrap').removeAttribute('required', 'required');
+  }
 }

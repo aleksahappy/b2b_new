@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ТОП СПОРТС - Мои адреса</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/check_auth.js"></script>
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
@@ -17,59 +16,44 @@
     <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
-  <body data-website="ts_b2b" data-cart="true">
-
+  <body>
     <div id="main">
       <div class="container">
-        <div id="main-header">
-          <div class="main-title row">
-            <div class="title-row row">
-              <div class="title h0">Мои адреса</div>
-              <div class="mob-btns">
-                <div class="question icon" tooltip="Добавьте магазин, чтобы он отобразился на карте диллера" test="left"></div>
-                <div class="add icon" onclick="openAddressPopUp()"></div>
-              </div>
-            </div>
+        <div id="main-header" class="row">
+          <div class="title h0">Мои адреса</div>
+          <div class="row">
+            <div class="question icon" data-tooltip="Добавьте магазин,<br>чтобы он отобразился<br>на карте дилера"></div>
+            <div class="add icon" onclick="openAddressPopUp()"></div>
           </div>
         </div>
-        <div class="shops-wrap">
-          <div class="shops">
-            <div class="basic btn" onclick="openAddressPopUp()">Добавить</div>
-            <div class="wrap template" id="shop">
-              <div class="shop">
-                <div class="row inner outer" onclick="toggleOuterBlock(this)">
-                  <div class="col">
-                    <div class="row name">
-                      <div class="title h3">@@company@@</div>
-                      <div class="indicate">
-                        <div class="@@moderate@@" data-tooltip="test" help></div>
+        <div class="shops-wrap row">
+          <div class="left-side">
+            <div class="basic btn" data-tooltip="Добавьте магазин,<br>чтобы он отобразился<br>на карте дилера" onclick="openAddressPopUp()">Добавить</div>
+            <div id="shops" class="template">
+              <div class="shop close" onclick="toggleEl(event)">
+                <div class="info row">
+                  <div class="wrap">
+                    <div class="name row">
+                      <div class="title">#title#</div>
+                      <div class="row">
+                        <div class="mark icon #status#" data-tooltip="#tooltip#"></div>
+                        <div class="edit icon" onclick="openAddressPopUp('#id#')"></div>
                       </div>
-                      <div class="edit icon" onclick="openAddressPopUp('@@id@@')"></div>
                     </div>
-                    <div class="text-s gray">@@type@@</div>
-                    <div class="text-s gray">@@status@@</div>
-                    <div class="text-m">@@address@@</div>
-                    <a href="">@@site@@</a>
+                    <div class="text midlight">#type#<br>#info#</div>
+                    <div>#address#</div>
+                    <a href="#link#">#site#</a>
                   </div>
-                  <div class="col">
-                    <img src="@@img_src@@" alt="лого компании">
+                  <div class="img-wrap">
+                    <img src="#img#" alt="логотип">
                   </div>
                 </div>
-                <div class="adding outer-target displayNone">
-                  <div class="text-s">@@postcode@@</div>
-                  <div class="row">
-                    <div class="time-status">Открыто</div>
-                    <div class="schedule toggle-block" onclick="toggleInnerBlock(event)">
-                      <div class="time-info">
-                        <div class="title">Закроется в 20:00</div>
-                        <div class="triangle icon"></div>
-                      </div>
-                      <div class="days target-block displayNone">
-                        <div class="row time-block">
-                          <div>@@day@@</div>
-                          <div>@@time@@</div>
-                        </div>
-                      </div>
+                <div class="more switch-cont">
+                  <div>#full_address#</div>
+                  <div class="work-time">
+                    <div class="time row">
+                      <div>#day#</div>
+                      <div>#time#</div>
                     </div>
                   </div>
                 </div>
@@ -81,70 +65,155 @@
       </div>
     </div>
 
-    <!-- Модальное окно -->
     <div id="address" class="pop-up-container">
-      <div id="add-addrees" class="pop-up">
+      <div class="pop-up">
         <div class="pop-up-title row">
           <div class="title h1">Новый адрес</div>
           <div class="close icon"></div>
         </div>
         <div class="pop-up-body">
           <form id="address-form" class="post">
-            <div class="form-wrap">
-              <div class="option row">
-                <input type="checkbox" value="">
-                <div class="checkbox icon"></div>
-                <div>Показать на карте дилеров</div>
-              </div>
-            </div>
-            <div class="form-wrap" required>
-              <div class="title">Адрес*</div>
-              <input type="text" value="" name="address" data-type="cyril" placeholder="Введите адрес" maxlength="40">
-            </div>
-            <div class="form-wrap" required>
-              <div class="title">Тип торговли*</div>
-              <div id="sys-type" class="activate select">
-                <input type="hidden" name="system">
-                <div class="head row">
-                  <div class="title">Тип торговли</div>
-                  <div class="triangle icon"></div>
-                </div>
-                <div class="drop-down">
-                  <div class="item" data-value="Интернет магазин">Интернет магазин</div>
-                  <div class="item" data-value="Официальный дилер">Официальный дилер</div>
-                  <div class="item" data-value="Трейд-ин">Трейд-ин</div>
-                  <div class="item" data-value="Магазин экипировки">Магазин экипировки</div>
-                  <div class="item" data-value="Магазин запчастей">Магазин запчастей</div>
-                  <div class="item" data-value="Сервисный центр">Сервисный центр</div>
-                  <div class="item" data-value="Другое">Другое</div>
+            <div class="main">
+              <div class="form-wrap">
+                <div class="option row">
+                  <input id="show" type="checkbox" value="1" name="show" onclick="toggleTradeTypeField()">
+                  <div class="checkbox icon"></div>
+                  <div>Показать на карте дилеров</div>
                 </div>
               </div>
-            </div>
-            <div class="form-wrap" required>
-              <div class="title">Название*</div>
-              <input type="text" value="" name="company" data-type="name" placeholder="Введите название" maxlength="40">
-            </div>
-            <div class="form-wrap">
-              <div class="title">Сайт</div>
-              <input type="text" value="" name="site" placeholder="Введите адрес сайта" maxlength="40">
-            </div>
-            <div class="form-cols">
-              <div class="form-col1">
-                <div class="form-wrap" required="">
-                  <div class="title">Телефон*</div>
-                  <input type="text" value="" name="phone" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="16">
+              <div class="form-wrap" required>
+                <div class="title">Адрес*</div>
+                <input type="text" value="" name="address" placeholder="Введите адрес">
+              </div>
+              <div class="form-wrap">
+                <div class="title">Тип торговли*</div>
+                <div id="trade-type" class="activate select" disabled>
+                  <input type="hidden" name="system">
+                  <div class="head row">
+                    <div class="title">Тип торговли</div>
+                    <div class="triangle icon"></div>
+                  </div>
+                  <div class="drop-down">
+                    <div class="item" data-value="Интернет магазин">Интернет магазин</div>
+                    <div class="item" data-value="Официальный дилер">Официальный дилер</div>
+                    <div class="item" data-value="Трейд-ин">Трейд-ин</div>
+                    <div class="item" data-value="Магазин экипировки">Магазин экипировки</div>
+                    <div class="item" data-value="Магазин запчастей">Магазин запчастей</div>
+                    <div class="item" data-value="Сервисный центр">Сервисный центр</div>
+                    <div class="item" data-value="Другое">Другое</div>
+                  </div>
                 </div>
               </div>
-              <div class="form-col2 download">
-                <div class="file-wrap">
-                  <input id="load-img" type="file" accept="image/*">
-                  <div class="file-preview"></div>
-                  <label class="title" for="load-img">лого</label>
+              <div class="form-wrap" required>
+                <div class="title">Название*</div>
+                <input type="text" value="" name="title" placeholder="Введите название">
+              </div>
+              <div class="form-wrap">
+                <div class="title">Сайт</div>
+                <input type="text" value="" name="site" data-type="site" placeholder="Введите адрес сайта">
+              </div>
+              <div class="form-cols">
+                <div>
+                  <div class="form-wrap" required>
+                    <div class="title">Номер телефона*</div>
+                    <input type="text" value="" name="phone" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _">
+                  </div>
+                </div>
+                <div>
+                  <div class="form-wrap">
+                    <div class="file-wrap">
+                      <input id="load-img" value="" name="file" type="file" accept="image/*">
+                      <div class="file-preview"></div>
+                      <label class="title" for="load-img">лого</label>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="btns-wrap">
+                <div class="btn sub-act" onclick="openWorkTime()">Добавить часы работы</div>
+              </div>
             </div>
-            <div class="btns-wrap">
-              <input class="btn sub-act" type="submit" value="Отправить" disabled>
+            <div class="work-time">
+              <div class="row">
+                <div class="title">Пн</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="monday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="tuesday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="row">
+                <div class="title">Вт</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="tuesday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="tuesday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="row">
+                <div class="title">Ср</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="wednesday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="wednesday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="row">
+                <div class="title">Чт</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="thursday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="thursday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="row">
+                <div class="title">Пт</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="friday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="friday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="row">
+                <div class="title">Сб</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="saturday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="saturday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="row">
+                <div class="title">Вс</div>
+                <div class="form-wrap">
+                  <div class="title">Время работы</div>
+                  <input type="text" value="" name="sunday-time" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+                <div class="form-wrap">
+                  <div class="title">Перерыв</div>
+                  <input type="text" value="" name="sunday-break" data-type="time" placeholder="00:00 - 00:00">
+                </div>
+              </div>
+              <div class="btns-wrap">
+                <input class="btn sub-act" type="submit" value="Отправить">
+              </div>
             </div>
             <div class="loader">
               <div class="loader icon"></div>
@@ -156,9 +225,9 @@
     </div>
 
     <script src="../js/main.js"></script>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8" async
-      src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A86fb7acaf015666acc5a70ee0dcee3541c64c33886a6519986d7ea4315a67e8f&amp;width=100%25&amp;height=720&amp;lang=ru_RU&amp;scroll=true&amp;id=map"></script>
+    <script src ="index.js"></script>
+    <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript"></script> -->
+    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A86fb7acaf015666acc5a70ee0dcee3541c64c33886a6519986d7ea4315a67e8f&amp;width=100%25&amp;height=calc(100vh - 261px)&amp;lang=ru_RU&amp;scroll=true&amp;id=map"></script>
     <!-- <script type="text/javascript">
       // Функция ymaps.ready() будет вызвана, когда
       // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
@@ -177,8 +246,5 @@
         });
       }
     </script> -->
-    <script src="../js/table.js"></script>
-    <script src="../js/test.js"></script>
-    <script src ="index.js"></script>
   </body>
 </html>
