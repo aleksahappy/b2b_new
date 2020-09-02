@@ -1,13 +1,11 @@
 'use strict';
 
-// Запускаем рендеринг страницы контрагентов:
+// Запуск страницы контрагентов:
 
 startContrPage();
 
-// Запуск страницы контрагентов:
-
 function startContrPage() {
-  sendRequest(`../json/contractors_2_data.json`)
+  sendRequest(`../json/contractors.json`)
   // sendRequest(urlRequest.main, {action: 'get_contr'})
   .then(result => {
     // console.log(result);

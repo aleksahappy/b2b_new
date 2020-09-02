@@ -102,7 +102,7 @@ function startCatalogPage() {
     )
   } else {
     // getItems()
-    sendRequest(`../json/${document.body.id}_data.json`)
+    sendRequest(`../json/${document.body.id}.json`)
     .then(
       result => {
         result = JSON.parse(result); //удалить

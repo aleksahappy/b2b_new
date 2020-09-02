@@ -7,7 +7,7 @@ startReclmPage();
 // Запуск страницы рекламаций:
 
 function startReclmPage() {
-  // sendRequest(`../json/recls_data.json`)
+  // sendRequest(`../json/recls.json`)
   sendRequest(urlRequest.main, {action: 'recllist'})
   .then(result => {
     var data = JSON.parse(result);

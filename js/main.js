@@ -272,7 +272,7 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 function getTotals() {
   return new Promise((resolve, reject) => {
     // sendRequest(urlRequest.main, {action: 'get_total'})
-    sendRequest('../json/cart_totals_data.json')
+    sendRequest('../json/cart_totals.json')
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -298,7 +298,7 @@ function getTotals() {
 function getCart() {
   return new Promise((resolve, reject) => {
     // sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
-    sendRequest(`../json/cart_${document.body.id}_data.json`)
+    sendRequest(`../json/cart_${document.body.id}.json`)
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -1776,7 +1776,7 @@ function closePopUp(el) {
 
 function initNotifications() {
   // sendRequest(urlRequest.main, {action: 'notifications'})
-  sendRequest(`../json/notifications_data.json`)
+  sendRequest(`../json/notifications.json`)
   .then(result => {
     var data = JSON.parse(result),
         notifications = getEl('#notifications');

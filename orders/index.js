@@ -7,10 +7,11 @@ startOrdersPage();
 // Запуск страницы заказов:
 
 function startOrdersPage() {
-  // sendRequest(`../json/orders_data.json`)
-  sendRequest(urlRequest.main, {action: 'orderslist'})
+  sendRequest(`../json/orders.json`)
+  // sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
     var data = JSON.parse(result);
+    data = convertData(data);
     initPage(data);
   })
   .catch(err => {
@@ -21,8 +22,7 @@ function startOrdersPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  data = convertData(data);
+function initPage(data = []) {
   var settings = {
     data: data,
     control: {
@@ -45,17 +45,18 @@ function initPage(data) {
       key: 'order_status',
       title: 'Статус заказа',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: true
     }, {
       key: 'contr_name',
       title: 'Контрагент',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'user_fio',
       title: 'Заказчик',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'order_type',
       title: 'Тип заказа',
@@ -75,13 +76,10 @@ function initPage(data) {
       key: '',
       title: 'Состояние товаров',
       content: `<div class="row">
-                  <div class="pill vputi c10 #display1#">#sum1#</div>
-                  <div class="pill vnali c10 #display2#">#sum2#</div>
-                  <div class="pill sobrn c10 #display3#">#sum3#</div>
-                  <div class="pill otgrz c10 #display4#">#sum4#</div>
-                  <div class="pill nedop c10 #display5#">#sum5#</div>
+                  <div class="pill vputi c10 #type#">#sum#</div>
                 </div>`
-    }]
+    }],
+    sub: [{area: '.pills', items: 'sum'}]
   }
   initTable('#orderslist', settings);
   loader.hide();
@@ -90,21 +88,49 @@ function initPage(data) {
 // Преобразование полученных данных:
 
 function convertData(data) {
-  if (!data) {
-    return [];
-  }
   data.forEach(el => {
     el.order_sum = convertPrice(el.order_sum);
-    var sum;
-    for (var i = 1; i <= 5; i++) {
-      sum = el[`sum${i}`];
-      if (sum && sum != 0) {
-        el[`sum${i}`] = convertPrice(sum);
-        el[`display${i}`] = '';
+    for (var sum in el.sum) {
+      if (el.sum[sum] != 0) {
+        el.sum[sum] = convertPrice(el.sum[sum]);
+        el.sum.display = '';
       } else {
-        el[`display${i}`] = 'displayNone';
+        el.sum.display = 'displayNone';
       }
     }
   });
   return data;
 }
+
+
+// 1 - vputi
+// 2 - vnali
+// 3 - sobrn
+// 4 - otgrz
+// 5 - nedop
+
+// sum: [{
+//   title: 'В пути',
+//   type: 'vputi',
+//   sum: 10000
+// }, {
+//   title: 'Собран',
+//   type: 'sobrn',
+//   sum: 5000
+// }]
+
+// <div class="pills" data-key="sum">
+//   <div class="pill" data-key="type" data-value="vputi"></div>
+//   <div class="pill" data-key="type" data-value="vnali"></div>
+//   <div class="pill" data-key="type" data-value="sobrn"></div>
+//   <div class="pill" data-key="type" data-value="otgrz"></div>
+//   <div class="pill" data-key="type" data-value="nedop"></div>
+// </div>
+
+
+// function
+// items.find(el => {
+//   el[key].forEach(el => {
+//     if (el[key] === value)
+//   });
+// });

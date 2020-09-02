@@ -2,15 +2,14 @@
 
 // Динамическе переменные:
 
-var items,
-    prevForm;
+var items, prevForm;
 
 // Запуск страницы пользователей:
 
 startUsersPage();
 
 function startUsersPage() {
-  sendRequest(`../json/users_data.json`)
+  sendRequest(`../json/users.json`)
   //sendRequest(urlRequest.main, {action: 'users'})
   .then(result => {
     items = JSON.parse(result);
@@ -94,16 +93,15 @@ function initPage() {
 // Преобразование полученных данных:
 
 function convertData() {
-  if (!items) {
-    items = [];
-  }
+  items = items || [];
+  var status, toggle;
   items.forEach(el => {
-    var status = '',
-        toggle = 'checked';
     if (el.access === 'полный') {
       status = 'full';
+      toggle = 'checked';
     } else if (el.access === 'частичный') {
       status = 'limit';
+      toggle = 'checked';
     } else if (el.access === 'отключен') {
       status = 'off';
       toggle = '';
@@ -136,6 +134,9 @@ function openUserPopUp(id) {
 // Включение/отключение доступа:
 
 function toggleAccess(event, id) {
+  if (!superUser) {
+    return;
+  }
   event.currentTarget.classList.toggle('checked');
   // var action = event.currentTarget.classList.contains('checked') ? 'off' : 'on';
   // sendRequest(urlRequest.main, {action: '???', data: {id: id, action: action}})
