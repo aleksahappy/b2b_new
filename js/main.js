@@ -1,6 +1,77 @@
 'use strict';
 
 //=====================================================================================================
+// Первоначальные данные для работы:
+//=====================================================================================================
+
+// Основные настройки:
+
+var superUser = userInfo ? userInfo.super_user: undefined,
+    website = 'ts_b2b',
+    isCart = true,
+    pageId = document.body.id;
+
+// Настройки каруселей:
+
+var fullCardCarousel = {
+  isNav: true,
+  durationNav: 400,
+  isLoupe: true
+};
+
+var fullImgCarousel = {
+  isNav: true,
+  navType: 'dot',
+  durationNav: 400
+};
+
+// Общие элементы страниц:
+
+var loader,
+    alerts,
+    upBtn,
+    items;
+
+// Данные для работы с корзиной:
+
+if (isCart) {
+  var cartId = pageId,
+      cartTotals = [],
+      cart = {},
+      userData = {};
+}
+
+// Динамически изменяемые переменные:
+
+var currentElem = null,
+    tooltip = null,
+    scrollTop;
+
+// Регулярные выражения для валидации полей форм:
+
+var nameRegExp = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
+var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
+var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
+var innRegExp = /^[\d+]{10,12}$/;
+var timeRegExp = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
+var siteRegExp = /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/;
+var dateRegExp = [
+  /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
+  /^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[123456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
+  /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/
+];
+var telRegExp = [
+  /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/,
+  /^\+[7|8]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/,
+  /^((\+7|8)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+];
+
+// Запускаем рендеринг страницы:
+
+startPage();
+
+//=====================================================================================================
 // Полифиллы:
 //=====================================================================================================
 
@@ -23,69 +94,6 @@
 })();
 
 //=====================================================================================================
-// Первоначальные данные для работы:
-//=====================================================================================================
-
-// Константы:
-
-var website = document.body.dataset.website,
-    pageId = document.body.id,
-    isCart = document.body.dataset.cart,
-    superUser = userInfo ? userInfo.super_user: undefined,
-    loader,
-    alerts,
-    upBtn,
-    items;
-
-// Динамически изменяемые переменные:
-
-var pageUrl = pageId,
-    currentElem = null,
-    tooltip = null,
-    scrollTop;
-
-if (isCart) {
-  var cartId = pageId,
-      cartTotals = [],
-      cart = {},
-      userData = {};
-}
-
-// Настройки каруселей:
-
-var fullCardCarousel = {
-  isNav: true,
-  durationNav: 400,
-  isLoupe: true
-};
-
-var fullImgCarousel = {
-  isNav: true,
-  navType: 'dot',
-  durationNav: 400
-};
-
-// Используемые для проверки регулярные выражения:
-
-var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
-var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var dateRegExp = [
-  /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
-  /^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[123456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
-  /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/
-];
-var telRegExp = [
-  /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/,
-  /^\+[7]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/
-];
-var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
-var nameRegExp = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
-
-// Запускаем рендеринг страницы:
-
-startPage();
-
-//=====================================================================================================
 // Обязательные функции для всех страниц:
 //=====================================================================================================
 
@@ -93,8 +101,6 @@ startPage();
 
 function startPage() {
   addModules();
-  setPaddingToBody();
-  window.addEventListener('resize', setPaddingToBody);
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
@@ -744,11 +750,8 @@ function textareaCounter(textarea) {
 
 // Свернуть/развернуть контейнер:
 
-function toggleEl(el, className = 'close') {
-  el = getEl(el);
-  if (el) {
-    el.classList.toggle(className);
-  }
+function toggleEl(event, className = 'close') {
+  event.currentTarget.classList.toggle(className);
 }
 
 // Свернуть/развернуть содержимое контейнера:
@@ -759,8 +762,10 @@ function switchContent(event) {
     return;
   }
   var toggleIcon = getEl('.switch-icon', container);
-  if (!toggleIcon || getComputedStyle(toggleIcon).display === 'none') {
-    return;
+  if (toggleIcon) {
+    if (getComputedStyle(toggleIcon).display === 'none') {
+      return;
+    }
   }
   container.classList.toggle('close');
   if (container.id && container.classList.contains('save')) {
@@ -1728,12 +1733,10 @@ function openPopUp(el) {
   }
   el = getEl(el);
   if (el) {
-    if (!getEl('.pop-up-container.open')) {
-      getDocumentScroll();
-      el.scrollTop = 0;
-      document.body.classList.add('no-scroll');
-    }
     el.classList.add('open');
+    el.scrollTop = 0;
+    getDocumentScroll();
+    document.body.classList.add('no-scroll');
   }
 }
 
@@ -1759,10 +1762,8 @@ function closePopUp(el) {
   if (el) {
     loader.hide();
     el.classList.remove('open');
-    if (!document.querySelector('.pop-up-container.open')) {
-      document.body.classList.remove('no-scroll');
-      setDocumentScroll();
-    }
+    document.body.classList.remove('no-scroll');
+    setDocumentScroll();
     return true;
   }
 }
@@ -2095,26 +2096,12 @@ function fillForm(el, data) {
 
 function checkInput(input) {
   var type = input.dataset.type,
-      value = input.value,
-      regExp;
-  if (!value.length) {
+      value = input.value;
+  if (!type || !value.length) {
     return true;
   }
-  if (type === 'cyril') {
-    regExp = cyrilRegExp;
-  } else if (type === 'date') {
-    regExp = dateRegExp;
-  } else if (type === 'tel') {
-    regExp = telRegExp;
-  } else if (type === 'email') {
-    regExp = emailRegExp;
-  } else if (type === 'nickname') {
-    regExp = nicknameRegExp;
-  } else if (type === 'name') {
-    regExp = nameRegExp;
-  } else if (type === 'inn') {
-    return (value.length >= 10 && value.length <= 12) ? true: false;
-  } else {
+  var regExp = window[`${type}RegExp`];
+  if (!regExp) {
     return true;
   }
   return testValue(value, regExp);

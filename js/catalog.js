@@ -4,11 +4,22 @@
 // Первоначальные данные для работы:
 //=====================================================================================================
 
-// Области с шаблонами карточки товара в галерее (сохраняем, потому что эти данные перезапишутся):
+// Динамически изменяемые переменные:
+
+var pageUrl = pageId,
+    view = location.pathname === '/product'? 'product' : 'blocks',
+    path,
+    cartItems = {},
+    curItems,
+    selectedItems = '',
+    filterItems = [],
+    curSelect = null;
+
+// Шаблоны карточек (сохраняем, потому что данные перезапишутся):
 
 var minCard, bigCard;
 
-// Константы:
+// Данные для формирования вторго уровня меню:
 
 var menuContent = {
   equip: {
@@ -61,16 +72,6 @@ var menuContent = {
   }
 };
 
-// Динамически изменяемые переменные:
-
-var view = location.pathname === '/product'? 'product' : 'blocks',
-    path,
-    cartItems = {},
-    curItems,
-    selectedItems = '',
-    filterItems = [],
-    curSelect = null;
-
 // Запускаем рендеринг страницы каталога:
 
 startCatalogPage();
@@ -82,7 +83,9 @@ startCatalogPage();
 // Запуск страницы каталога:
 
 function startCatalogPage() {
+  window.addEventListener('resize', setPaddingToBody);
   window.addEventListener('popstate', (event) => openPage(event));
+  setPaddingToBody();
   addCatalogModules();
   fillCatalogHeader();
   if (view === 'product') {

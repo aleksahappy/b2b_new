@@ -10,6 +10,7 @@ var cartData = {},
     cartTimer = null,
     cartTimeout = 1000,
     cartChanges = {};
+
 cartChanges[cartId] = {};
 
 //=====================================================================================================
@@ -1146,7 +1147,7 @@ function fillOrderForm() {
   });
 }
 
-// Показ/ скрытие поля выбора адреса доставки:
+// Блокировка/разблокировка поля выбора адреса доставки:
 
 function toggleAddressField() {
   var deliveryType = getEl('#delivery'),

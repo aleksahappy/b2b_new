@@ -1,12 +1,12 @@
 'use strict';
 
-// Константы:
+// Основные настройки и данные:
 
 var local = 0,
     urlRequest,
     userInfo;
 
-if (local === 1) {
+if (local) {
   urlRequest = {
     main: 'http://new.loc/api.php',
     new: 'http://new.loc/',

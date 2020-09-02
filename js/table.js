@@ -80,7 +80,7 @@
 //   }, {
 //     key: 'docs',
 //     title: 'Документы',
-//     content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>',
+//     content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" help>#title#</a></div>',
 //     filter: 'filter'
 //   }],
 //   sub: [{area: '.docs', items: 'docs'}]
