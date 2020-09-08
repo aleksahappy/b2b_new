@@ -101,11 +101,11 @@ function startCatalogPage() {
       }
     )
   } else {
-    // getItems()
-    sendRequest(`../json/${document.body.id}.json`)
+    getItems()
+    // sendRequest(`../json/${document.body.id}.json`)
     .then(
       result => {
-        result = JSON.parse(result); //удалить
+        // result = JSON.parse(result); //удалить
         for (var key in result) {
           if (key !== 'colors') {
             window[key] = result[key];

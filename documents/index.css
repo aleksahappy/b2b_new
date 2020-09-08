@@ -1,5 +1,12 @@
+/* Стили таблицы: */
+
 .table-desktop th div:first-child {
   text-align: left;
+}
+
+.table-desktop td a {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 #docs {

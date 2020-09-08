@@ -1,5 +1,7 @@
 'use strict';
-// Настройки карусели с баннерами
+
+// Настройки карусели с баннерами:
+
 var productCarousel = {
   isNav: true,            // Наличие навигации (точек или картинок под каруселью)
   navType: 'dot',         // Тип навигации ('img' или 'dot')
@@ -16,6 +18,7 @@ var productCarousel = {
 }
 
 ///////////////////////////////СЕКЦИЯ "ЗАКАЗЫ В РАБОТЕ"/////////////////////////
+
 // Запуск данных таблицы Рабочего стола:
 var dashboardTable = document.querySelector('#dashboard-table');
 var tbody = dashboardTable.querySelector('tbody');
@@ -72,6 +75,7 @@ function convertData(data) {
 }
 
 ///////////////////////Круговая диаграмма "Заказы в работе"/////////////////////
+
 //  canvas диаграммы
 var ordersChart = document.getElementById('orders-chart').getContext('2d');
 //  тогглы
@@ -1004,50 +1008,14 @@ getBanners();
 
 
 //  Динамическая загрузка по шаблону картинок в карусель
+
 function showProduct(data) {
   var banContainer = document.querySelector('#banners');
-
-  var mobBanners = {
+  fillTemplate({
     area: '#test',
     sign: '@@',
     items: data
-  };
-  fillTemplate(mobBanners);
-
+  });
   var curCarousel = getEl('.carousel', banContainer);
   renderCarousel(curCarousel);
-}
-
-
-// Проверка загруженности всех изображений карусели и отображение карусели:
-
-function renderCarousel(carousel, curImg = 0) {
-  return new Promise((resolve, reject) => {
-    var imgs = carousel.querySelectorAll('img');
-
-    imgs.forEach((img, index) => {
-      if (index === imgs.length - 1) {
-        img.addEventListener('load', () => {
-          setTimeout(() => render(carousel), 100);
-        });
-        img.addEventListener('error', () => {
-          img.parentElement.remove();
-          setTimeout(() => render(carousel), 100);
-        });
-      } else {
-        img.addEventListener('error', () => {
-          img.parentElement.remove();
-        });
-      }
-    });
-
-    function render(carousel) {
-      if (carousel.querySelectorAll('img').length === 0) {
-        getEl('.carousel-gallery', carousel).insertAdjacentHTML('beforeend', '<div class="carousel-item"><img src="../img/no_img.jpg"></div>');
-        startCarouselInit(carousel, curImg);
-      }
-      startCarouselInit(carousel, curImg);
-      resolve('карусель готова');
-    }
-  });
 }

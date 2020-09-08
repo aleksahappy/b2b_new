@@ -61,27 +61,27 @@
 //     key: 'title',
 //     title: 'Название товара',
 //     sort: 'text',
-//     filter: 'search'
+//     search: 'usual'
 //   }, {
 //     key: 'price',
 //     title: 'Цена товара',
 //     sort: 'numb',
-//     filter: 'search'
+//     search: 'usual'
 //   }, {
 //     key: 'system',
 //     title: 'Система налогообложения',
 //     sort: 'text',
-//     filter: 'full'
+//     search: 'usual',
+//     filter: 'true'
 //   }, {
 //     key: 'date',
 //     title: 'Дата',
 //     sort: 'date',
-//     filter: 'search'
+//     search: 'date'
 //   }, {
 //     key: 'docs',
 //     title: 'Документы',
-//     content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" help>#title#</a></div>',
-//     filter: 'filter'
+//     content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" data-tooltip="#info#" help>#title#</a></div>'
 //   }],
 //   sub: [{area: '.docs', items: 'docs'}]
 // }
@@ -328,7 +328,7 @@ function Table(obj, settings = {}) {
   this.dataToLoad = this.data;
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.incr = 30;
+  this.incr = 60;
   this.prevColumn = null;
   this.nextColumn = null;
   this.startCoord;
@@ -440,7 +440,6 @@ function Table(obj, settings = {}) {
       if (key !== curKey) {
         this.filters[key].values.forEach(value => {
           curItem = getEl(`.activate[data-key="${key}"] [data-value="${value}"]`);
-          console.log(`.activate[data-key="${key}"] [data-value="${value}"]`);
           if (curItem) {
             curItem.classList.add('checked');
           }
@@ -540,7 +539,6 @@ function Table(obj, settings = {}) {
       var oldFilters = JSON.stringify(this.filters);
       this.changeFilter(action, type, key, value);
       if (oldFilters !== JSON.stringify(this.filters)) {
-        console.log(this.filters);
         this.filterData();
         this.fillItems(action === 'save' ? dropDown : '');
         this.checkItems(action === 'save' ? key : '');

@@ -17,30 +17,32 @@
   </head>
 
   <body>
-    <div id="main" class="recls">
+    <div id="main">
       <div class="container">
         <div id="main-header" class="row">
           <div class="title h0">Рекламации</div>
         </div>
         <div id="reclm" class="table-desktop active"></div>
-        <div id="mob-recls">
-          <div class="head">
+        <div id="reclm-adaptive" class="table-adaptive">
+          <div class="control row">
             <form class="search row">
               <input type="text" data-value="" placeholder="Поиск...">
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
             </form>
-            <div class="relay icon" onclick="openPopUp('#recls-filters')"></div>
+            <div class="relay icon" onclick="openPopUp('#filters')"></div>
           </div>
-          <div id="mob-rows" class="body template">
-            <div class="item @@status@@">
-              <div class="row">
-                <div class="name">@@name@@</div>
-                <div class="order">@@num@@</div>
-              </div>
-              <div class="row">
-                <div class="articul">@@articul@@</div>
-                <div class="date">@@date@@</div>
+          <div class="table">
+            <div class="infoblock template #status#">
+              <div class="info row">
+                <div>
+                  <div>#item_title#</div>
+                  <div class="articul">#item_articul#</div>
+                </div>
+                <div>
+                  <div>#recl_num#</div>
+                  <div>#recl_date#</div>
+                </div>
               </div>
             </div>
           </div>
@@ -48,8 +50,7 @@
       </div>
     </div>
 
-    <!-- Модальное окно с фильтрацией -->
-    <div id="recls-filters" class="pop-up-container filters">
+    <div id="filters" class="pop-up-container filters">
       <div class="pop-up">
         <div class="pop-up-title row">
           <div class="title h2">Сортировки</div>
@@ -189,7 +190,7 @@
               <div class="row">
                 <div class="title row">
                   <div class="checkbox icon"></div>
-                  <div class="text">@@manager@@</div>
+                  <div class="text">#manager#</div>
                 </div>
               </div>
             </div>

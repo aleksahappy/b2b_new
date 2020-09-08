@@ -180,34 +180,34 @@ function createTables(result) {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'pric',
       title: 'Цена',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'summ',
       title: 'Cтоимость',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual',
     }, {
       key: 'skid',
       title: 'Скидка',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }]
   }
   initTable('#nomen', nomenSettings);
@@ -220,35 +220,35 @@ function createTables(result) {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'dpst',
       title: 'Дата поступления',
       sort: 'date',
-      filter: 'search'
+      search: 'data'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'paid',
       title: 'Оплачено',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kdop',
       title: 'К оплате',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }]
   }
   initTable('#vputi', vputiSettings);
@@ -261,34 +261,34 @@ function createTables(result) {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'pric',
       title: 'Цена',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'summ',
       title: 'Cтоимость',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'skid',
       title: 'Скидка',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }]
   }
   initTable('#vnali', vnaliSettings);
@@ -301,34 +301,34 @@ function createTables(result) {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'pric',
       title: 'Цена',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'summ',
       title: 'Cтоимость',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'skid',
       title: 'Скидка',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }]
   }
   initTable('#sobrn', sobrnSettings);
@@ -341,23 +341,23 @@ function createTables(result) {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'pric',
       title: 'Цена',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search',
+      search: 'usual',
       content:`<div class="row">
                 <div class="attention icon" data-tooltip="Подать рекламацию" onclick="openReclmPopUp(#object_id#)"></div>
                 <div>#kolv#</div>
@@ -367,12 +367,12 @@ function createTables(result) {
       title: 'Cтоимость',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'skid',
       title: 'Скидка',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }]
   }
   initTable('#otgrz', otgrzSettings);
@@ -385,34 +385,35 @@ function createTables(result) {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'pric',
       title: 'Цена',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'summ',
       title: 'Cтоимость',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'stat',
       title: 'Инициатор отмены',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual',
+      filter: true
     }]
   }
   initTable('#nedop', nedopSettings);
@@ -425,44 +426,45 @@ function createTables(result) {
       key: 'recl_num',
       title: '№ Рекламации',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'recl_date',
       title: 'Дата',
       sort: 'date',
-      filter: 'search'
+      search: 'date'
     }, {
       key: 'artc',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'titl',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'pric',
       title: 'Цена',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'kolv',
       title: 'Количество',
       result: 'kolv',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'comp_summ',
       title: 'Сумма компенсации',
       result: 'sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'trac',
       title: 'Статус',
       sort: 'text',
-      filter: 'full',
+      search: 'usual',
+      filter: true,
       content: `<div class="#status# recl pill">#trac#</div>`
     }]
   }

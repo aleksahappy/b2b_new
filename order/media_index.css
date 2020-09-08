@@ -1,0 +1,27 @@
+@media only screen and (max-width: 1360px) {
+  .tabs .tab {
+    height: 45px;
+  }
+
+  .table-desktop th {
+    top: 108px;
+  }
+
+  .table-desktop .results th {
+    top: 148px;
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .tabs .tab {
+    height: 40px;
+  }
+
+  .table-desktop th {
+    top: 103px;
+  }
+
+  .table-desktop .results th {
+    top: 143px;
+  }
+}

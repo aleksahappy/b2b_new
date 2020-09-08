@@ -1,24 +1,18 @@
 'use strict';
 
-// Запускаем рендеринг страницы рекламаций:
+// Запуск страницы рекламаций:
 
 startReclmPage();
 
-// Запуск страницы рекламаций:
-
 function startReclmPage() {
-  // sendRequest(`../json/recls.json`)
+  // sendRequest(`../json/reclamations.json`)
   sendRequest(urlRequest.main, {action: 'recllist'})
   .then(result => {
+    // console.log(result);
     var data = JSON.parse(result);
+    data = convertData(data);
+    console.log(data);
     initPage(data);
-    var mobTable = {
-      area: '#mob-rows',
-      sign: '@@',
-      items: data
-    };
-    fillTemplate(mobTable);
-    getFilterData(data);
   })
   .catch(err => {
     console.log(err);
@@ -29,6 +23,7 @@ function startReclmPage() {
 // Инициализация страницы:
 
 function initPage(data) {
+  data = data || [];
   var settings = {
     data: data,
     control: {
@@ -40,80 +35,77 @@ function initPage(data) {
     result: false,
     trFunc: 'onclick=showReclm(#id#)',
     cols: [{
-      key: 'num',
+      key: 'recl_num',
       title: '№',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
-      key: 'date',
+      key: 'recl_date',
       title: 'Дата',
-      sort: 'date'
+      sort: 'date',
+      search: 'date'
     }, {
-      key: 'name',
+      key: 'item_title',
       title: 'Наименование',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
-      key: 'articul',
+      key: 'item_articul',
       title: 'Артикул',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
-      key: 'manager',
+      key: 'manager_lastname',
       title: 'Менеджер',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: true
     }, {
-      key: 'trac',
+      key: 'status_text',
       title: 'Статус',
       sort: 'text',
-      filter: 'full',
-      content: `<div class="#status# recl pill">#trac#</div>`
+      search: 'usual',
+      filter: true,
+      content: `<div class="#status# recl pill">#status_text#</div>`
     }]
   };
   initTable('#reclm', settings);
+  fillTemplate({
+    area: '#reclm-adaptive .table',
+    items: data
+  });
   loader.hide();
 }
 
+// Преобразование полученных данных:
 
-//  Получить уникальные значения менеджеров для значений фильтров
-
-function getFilterData(data) {
-  var uniqueManager = new Set();
-  var dataFilters = [];
-
-  for (let i = 0; i < data.length; i++) {
-    for (let key in data[i]) {
-      if (key === 'manager') {
-        uniqueManager.add(data[i][key]);
-      }
+function convertData(data) {
+  var status;
+  data.forEach(el => {
+    switch (el.status) {
+      case '1':
+        status = 'registr';
+        break;
+      case '2':
+        status = 'wait';
+        break;
+      case '3':
+        status = 'yes';
+        break;
+      case '4':
+        status = 'no';
+        break;
+      case '5':
+        status = 'done';
+        break;
     }
-  }
-
-  var arrManagers = Array.from(uniqueManager);
-  for (let i = 0; i < arrManagers.length; i++) {
-    var obj = new Object();
-    obj.manager = arrManagers[i];
-    dataFilters.push(obj);
-  }
-
-  var mobFilters = {
-    area: '#test',
-    sign: '@@',
-    items: dataFilters
-  };
-  fillTemplate(mobFilters);
+    el.status = status;
+  });
+  return data;
 }
 
-
-document.querySelectorAll('.filters').forEach(el => {
-  el.querySelectorAll('.item .row').forEach (el => el.addEventListener('click', event => {
-    event.stopPropagation();
-
-    if (event.target.classList.contains('checkbox') || event.target.classList.contains('text')) {
-      event.currentTarget.classList.toggle('checked');
-    } else {
-      console.log(el)
-    }
-  }));
-})
+// 1: "Зарегистрирована"
+// 2: "Обрабатывается"
+// 3: "Удовлетворена"
+// 4: "Не удовлетворена"
+// 5: "Исполнена"

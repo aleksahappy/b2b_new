@@ -27,8 +27,8 @@ function startUsersPage() {
 function initPage() {
   items = items || [];
   if (superUser) {
-    changeCss('#users-table th:nth-child(1)', 'display', 'none');
-    changeCss('#users-table td:nth-child(1)', 'display', 'none');
+    changeCss('#users th:nth-child(1)', 'display', 'none');
+    changeCss('#users td:nth-child(1)', 'display', 'none');
   }
   var settings = {
     data: items,
@@ -40,17 +40,18 @@ function initPage() {
       key: 'fio',
       title: 'ФИО',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'gender',
       title: 'Пол',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: true
     }, {
       key: 'birth',
       title: 'Дата рождения',
       sort: 'date',
-      filter: 'search'
+      search: 'date'
     }, {
       key: 'tel',
       title: 'Телефон',
@@ -63,27 +64,28 @@ function initPage() {
       key: 'access',
       title: 'Тип доступа',
       sort: 'text',
-      filter: 'full',
+      search: 'usual',
+      filter: true,
       content: '<div class="pill access #status#">#access#</div>'
     }, {
       key: 'date',
       title: 'Дата заведения',
       sort: 'date',
-      filter: 'search'
+      search: 'date'
     }, {
       key: 'position',
       title: 'Должность',
       sort: 'text',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: '',
       title: 'Редактировать',
       content: `<div class="edit icon" onclick="openUserPopUp('#id#')"></div>`
     }]
   };
-  initTable("#users-table", settings);
+  initTable("#users", settings);
   fillTemplate({
-    area: "#users-table-adaptive",
+    area: "#users-adaptive",
     items: items
   });
   initForm('#user-form');

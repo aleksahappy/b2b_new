@@ -36,41 +36,47 @@ function initPage(data) {
       key: 'inn',
       title: 'ИНН/КПП',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
       key: 'title',
       title: 'Контрагент',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: 'true'
     }, {
       key: 'system',
       title: 'Система налогообложения',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: 'true'
     }, {
       key: 'date',
       title: 'Дата заведения',
       sort: 'date',
-      filter: 'search'
+      search: 'date',
     }, {
       key: 'address',
       title: 'Юридический адрес',
-      filter: 'search'
+      search: 'usual',
     }, {
       key: 'user',
       title: 'Пользователь',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: 'true'
     }, {
       key: 'docs',
       title: 'Документы',
-      content: '<div class="docs row #status-ic#"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" target="_blank" data-tooltip="#info#" text="left" help>#title#</a></div>'
+      content: `<div class="docs row #status-ic#">
+                  <div class="mark icon #status#" data-tooltip="#status_info#"></div>
+                  <a href="url" data-tooltip="#info#" text="left" help>Договор с #title# от #date_start#</a>
+                </div>`
     }],
     sub: [{area: '.docs', items: 'docs'}]
   };
-  initTable('#contr-table', settings);
+  initTable('#contr', settings);
   fillTemplate({
-    area: "#contr-table-adaptive",
+    area: "#contr-adaptive",
     items: data,
     sub: [{area: '.docs', items: 'docs'}]
   });
@@ -91,3 +97,7 @@ function toggleAccess(event, id) {
   //   console.log(err);
   // });
 }
+
+// Получение данных по ИНН:
+
+

@@ -162,7 +162,7 @@ form.search.positioned {
 /* Стили для таблицы 2 */
 
 #table2 th:nth-child(1) {
-  width: 6em;
+  width: 6%;
 }
 
 #table2 td:nth-child(1) {

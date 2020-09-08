@@ -1,61 +1,29 @@
 /* Стили для таблицы */
 
-#users-table td:nth-child(1) {
-  min-width: 6em;
+#users th:nth-child(1) {
+  width: 6%;
+}
+
+#users th:nth-child(2) {
+  width: 15%;
+}
+
+#users td:nth-child(1),
+#users td:nth-child(4),
+#users td:nth-child(7),
+#users td:nth-child(8),
+#users td:nth-child(9),
+#users td:nth-child(10) {
+  text-align: center;
+}
+
+#users td:nth-child(1),
+#users td:nth-child(7),
+#users td:nth-child(10) {
   padding-top: 0;
   padding-bottom: 0;
   line-height: 0;
   vertical-align: middle;
-  text-align: center;
-}
-
-#users-table td:nth-child(2) {
-  min-width: 20em;
-}
-
-#users-table td:nth-child(3) {
-  min-width: 8em;
-}
-
-#users-table td:nth-child(4) {
-  min-width: 12em;
-  text-align: center;
-}
-
-#users-table td:nth-child(5) {
-  min-width: 12em;
-}
-
-#users-table td:nth-child(6) {
-  min-width: 12em;
-}
-
-#users-table td:nth-child(7) {
-  min-width: 12em;
-  padding-top: 0;
-  padding-bottom: 0;
-  line-height: 0;
-  vertical-align: middle;
-  text-align: center;
-}
-
-#users-table td:nth-child(8) {
-  min-width: 12em;
-  text-align: center;
-}
-
-#users-table td:nth-child(9) {
-  min-width: 10em;
-  text-align: center;
-}
-
-#users-table td:nth-child(10) {
-  min-width: 10em;
-  padding-top: 0;
-  padding-bottom: 0;
-  line-height: 0;
-  vertical-align: middle;
-  text-align: center;
 }
 
 /* Стили для адаптивной таблицы*/

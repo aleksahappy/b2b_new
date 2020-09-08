@@ -273,12 +273,20 @@ Tablet:
 
   /* Таблицы: */
 
+  .table-desktop .control {
+    top: 40px;
+  }
+
   .table-desktop {
     display: none !important;
   }
 
   .table-adaptive {
     display: block;
+  }
+
+  .table-desktop th {
+    top: 40px;
   }
 
   /* Блок информации: */
@@ -376,6 +384,13 @@ Tablet:
 
   #up-btn {
     right: 2.4rem;
+  }
+
+  /* Футер */
+
+  #footer .wrap {
+    font-size: 0.857em;
+    padding: 0.6rem 0;
   }
 }
 

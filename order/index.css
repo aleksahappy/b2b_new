@@ -1,9 +1,5 @@
 /* Стили шапки над таблицами */
 
-#order-info {
-  margin-bottom: 1.428em;
-}
-
 #order-info .row > .title {
   flex-grow: 0;
   flex-shrink: 0;
@@ -69,9 +65,19 @@
 
 /* Стили вкладок таблицы */
 
+.tabs {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 64px;
+  align-items: stretch;
+  margin-top: 20px;
+  background-color: #F2F2F2;
+  z-index: 1;
+}
+
 .tabs .tab {
   width: 12.143em;
-  height: 3.785em;
+  height: 53px;
   margin-right: 0.714em;
   border-bottom: none;
   border-radius: 3px 3px 0px 0px;
@@ -79,186 +85,127 @@
 
 /* Стили для всех таблиц */
 
-.table-desktop .table {
-  max-height: 55vh;
-}
-
 .added .attention.icon {
   background-image: url(../img/attention_red.svg);
 }
 
-/* Стили таблицы "Итого" */
-
-#nomen thead {
-  background-color: #91A0AE;
+.table-desktop table tr:last-child td {
+  border-bottom: none;
 }
 
-#nomen .table {
+.table-desktop th {
+  top: 116px;
+}
+
+.table-desktop .results th {
+  top: 156px;
+}
+
+/* Стили таблицы "Итого" */
+
+#nomen table {
   border: 1px solid #91A0AE;
 }
 
-#nomen td:nth-child(1) {
-  min-width: 8em;
+#nomen thead :not(.results) th {
+  background-color: #91A0AE;
 }
 
-#nomen td:nth-child(2) {
-  min-width: 10em;
+#nomen th:nth-child(2) {
+  width: 30%;
 }
 
-#nomen td:nth-child(3) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#nomen td:nth-child(4) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#nomen td:nth-child(5) {
-  min-width: 10em;
-  text-align: right;
-}
-
+#nomen td:nth-child(3),
+#nomen td:nth-child(4),
+#nomen td:nth-child(5),
 #nomen td:nth-child(6) {
-  min-width: 10em;
   text-align: right;
 }
 
 /* Стили таблицы "В пути" */
 
-#vputi thead {
-  background-color: #6B99C2;
-}
-
-#vputi .table {
+#vputi table {
   border: 1px solid #6B99C2;
 }
 
-#vputi td:nth-child(1) {
-  min-width: 8em;
+#vputi thead :not(.results) th {
+  background-color: #6B99C2;
 }
 
-#vputi td:nth-child(2) {
-  min-width: 10em;
+#vputi th:nth-child(2) {
+  width: 30%;
 }
 
 #vputi td:nth-child(3) {
-  min-width: 14em;
   text-align: center;
 }
 
-#vputi td:nth-child(4) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#vputi td:nth-child(5) {
-  min-width: 12em;
-  text-align: right;
-}
-
-#vputi td:nth-child(6) {
-  min-width: 12em;
+#vputi td:nth-child(4),
+#vputi td:nth-child(5),
+#vputi th:nth-child(6) {
   text-align: right;
 }
 
 /* Стили таблицы "В наличии" */
 
-#vnali thead {
-  background-color: #F9BA4D;
-}
-
-#vnali .table {
+#vnali table {
   border: 1px solid #F9BA4D;
 }
 
-#vnali td:nth-child(1) {
-  min-width: 8em;
+#vnali thead :not(.results) th {
+  background-color: #F9BA4D;
 }
 
-#vnali td:nth-child(2) {
-  min-width: 10em;
+#vnali th:nth-child(2) {
+  width: 30%;
 }
 
-#vnali td:nth-child(3) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#vnali td:nth-child(4) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#vnali td:nth-child(5) {
-  min-width: 10em;
-  text-align: right;
-}
-
+#vnali td:nth-child(3),
+#vnali td:nth-child(4),
+#vnali td:nth-child(5),
 #vnali td:nth-child(6) {
-  min-width: 10em;
   text-align: right;
 }
 
 /* Стили таблицы "Собран" */
 
-#sobrn thead {
-  background-color: #9882A0;
-}
-
-#sobrn .table {
+#sobrn table {
   border: 1px solid #9882A0;
 }
 
-#sobrn td:nth-child(1) {
-  min-width: 8em;
+#sobrn thead :not(.results) th {
+  background-color: #9882A0;
 }
 
-#sobrn td:nth-child(2) {
-  min-width: 10em;
+#sobrn th:nth-child(2) {
+  width: 30%;
 }
 
-#sobrn td:nth-child(3) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#sobrn td:nth-child(4) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#sobrn td:nth-child(5) {
-  min-width: 10em;
-  text-align: right;
-}
-
+#sobrn td:nth-child(3),
+#sobrn td:nth-child(4),
+#sobrn td:nth-child(5),
 #sobrn td:nth-child(6) {
-  min-width: 10em;
   text-align: right;
 }
 
 /* Стили таблицы "Отгружен" */
 
-#otgrz thead {
-  background-color: #79B667;
-}
-
-#otgrz .table {
+#otgrz table {
   border: 1px solid #79B667;
 }
 
-#otgrz td:nth-child(1) {
-  min-width: 8em;
+#otgrz thead :not(.results) th {
+  background-color: #79B667;
 }
 
-#otgrz td:nth-child(2) {
-  min-width: 10em;
+#otgrz th:nth-child(2) {
+  width: 30%;
 }
 
-#otgrz td:nth-child(3) {
-  min-width: 10em;
+#otgrz td:nth-child(3),
+#otgrz td:nth-child(4),
+#otgrz td:nth-child(5),
+#otgrz td:nth-child(6) {
   text-align: right;
 }
 
@@ -267,7 +214,6 @@
   padding-top: 0;
   padding-bottom: 0;
   vertical-align: middle;
-  text-align: right;
 }
 
 #otgrz td:nth-child(4) .row {
@@ -280,99 +226,49 @@
   height: 26px;
 }
 
-#otgrz td:nth-child(5) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#otgrz td:nth-child(6) {
-  min-width: 10em;
-  text-align: right;
-}
-
 /* Стили таблицы "Непоставка" */
 
-#nedop thead {
-  background-color: #91A0AE;
-}
-
-#nedop .table {
+#nedop table {
   border: 1px solid #91A0AE;
 }
 
-#nedop td:nth-child(1) {
-  min-width: 8em;
+#nedop thead :not(.results) th {
+  background-color: #91A0AE;
 }
 
-#nedop td:nth-child(2) {
-  min-width: 10em;
+#nedop th:nth-child(2) {
+  width: 30%;
 }
 
-#nedop td:nth-child(3) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#nedop td:nth-child(4) {
-  min-width: 10em;
-  text-align: right;
-}
-
+#nedop td:nth-child(3),
+#nedop td:nth-child(4),
 #nedop td:nth-child(5) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#nedop td:nth-child(6) {
-  min-width: 10em;
   text-align: right;
 }
 
 /* Стили таблицы "Рекламации" */
 
-#reclm thead {
-  background-color: #91A0AE;
-}
-
-#reclm .table {
+#reclm table {
   border: 1px solid #91A0AE;
 }
 
-#reclm td:nth-child(1) {
-  min-width: 10em;
+#reclm thead :not(.results) th {
+  background-color: #91A0AE;
 }
 
-#reclm td:nth-child(2) {
-  min-width: 10em;
-  text-align: center;
+#reclm th:nth-child(4) {
+  width: 20%;
 }
 
-#reclm td:nth-child(3) {
-  min-width: 8em;
-}
-
-#reclm td:nth-child(4) {
-  min-width: 10em;
-}
-
-#reclm td:nth-child(5) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#reclm td:nth-child(6) {
-  min-width: 10em;
-  text-align: right;
-}
-
-#reclm td:nth-child(7) {
-  min-width: 10em;
-  text-align: right;
-}
-
+#reclm td:nth-child(2),
 #reclm td:nth-child(8) {
-  min-width: 10em;
   text-align: center;
+}
+
+#reclm td:nth-child(5),
+#reclm td:nth-child(6),
+#reclm td:nth-child(7) {
+  text-align: right;
 }
 
 /* =====================================================================================================

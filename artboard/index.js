@@ -177,7 +177,7 @@ var settings = {
     title: 'Документы',
     content: `<div class="docs row #status#">
                 <div class="mark icon" data-tooltip="#status_info#"></div>
-                <a href="url" target="_blank" data-tooltip="#info#" help>#title#</a>
+                <a href="url" data-tooltip="#info#" help>#title#</a>
               </div>`
   }],
   sub: [{area: '.docs', items: 'docs'}]

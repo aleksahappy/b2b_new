@@ -4,12 +4,13 @@
 }
 
 /* Контейнер с баннерами */
-aside{
+
+aside {
 	display: flex;
 	flex: 1;
 }
 
-.banners{
+.banners {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -19,16 +20,17 @@ aside{
 	margin-bottom: 20px;
 }
 
-.banner{
+.banner {
 	width: 100%;
 }
 
-.banner img{
+.banner img {
 	width: 100%;
 }
 
 /* Основной контент-контейнер */
-main{
+
+main {
 	flex: 3;
 	margin-right: 20px;
   margin-bottom: 20px;
@@ -36,13 +38,13 @@ main{
 
 /* Взаиморасчеты */
 
-.settle{
+.settle {
 	width: 100%;
 	padding: 0 0.625em  0.9375em  1.25em;
 	background: #53606F;
 }
 
-.settle-title{
+.settle-title {
 	text-transform: uppercase;
 	font-weight: normal;
 	font-size: 1.75em;
@@ -50,12 +52,12 @@ main{
 	color: #ffffff;
 }
 
-.settle-blocks{
+.settle-blocks {
 	display: flex;
 	width: 100%;
 }
 
-.settle-block{
+.settle-block {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -66,15 +68,15 @@ main{
 	color: #ffffff;
 }
 
-.settle-block:first-child{
+.settle-block:first-child {
 	padding-left: 0;
 }
 
-.settle-block:last-child{
+.settle-block:last-child {
 	border: none;
 }
 
-.settle-block .attention{
+.settle-block .attention {
 	position: absolute;
   right: 10px;
   bottom: 30px;
@@ -91,26 +93,26 @@ main{
 	background-size: 17px;
 }
 
-.center-col{
+.center-col {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.txt{
+.txt {
 	padding-top: 1.85em;
 	padding-left: 0.625em;
 	font-size: 0.875em;
 	color: #666666;
 }
 
-.lines{
+.lines {
   display: flex;
   flex-direction: column;
 }
 
-.line{
+.line {
 	display: flex;
 	align-items: center;
 	font-size: 0.75em;
@@ -118,24 +120,24 @@ main{
 }
 
 .line:last-child,
-.line:nth-child(4){
+.line:nth-child(4) {
 	margin-bottom: 0;
 }
 
-.line-status{
+.line-status {
   display: flex;
   flex-direction: column;
   height: 3.3875em;
   justify-content: space-between;
 }
 
-.line4{
+.line4 {
   align-items: flex-start;
   justify-content: flex-start;
   height: 3.3875em;
 }
 
-.line-ic{
+.line-ic {
   min-width: 30px;
 	width: 30px;
 	height: 30px;
@@ -144,18 +146,18 @@ main{
 	background-size: contain;
 }
 
-.line-title{
+.line-title {
 	font-size: 1.35em;
 	font-weight: 600;
 }
 
-.line-money{
+.line-money {
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
 }
 
-.money{
+.money {
 	font-size: 2.25em;
 	font-weight: bold;
 	line-height: 0.8em;
@@ -187,38 +189,38 @@ main{
   align-items: stretch;
 }
 
-.infoblock{
+.infoblock {
   margin-top: 20px;
 }
 
-.graphic-btns{
+.graphic-btns {
 	display: flex;
 	align-items: center;
 }
 
-.graphic-btns1{
+.graphic-btns1 {
   display: none;
 }
 
-.preorder-toggle{
+.preorder-toggle {
 	display: flex;
 	align-items: center;
 }
 
-.toggle-name{
+.toggle-name {
   padding-right: 8px;
 	padding-bottom: 1px;
 	font-size: 0.875em;
 	color: #666666;
 }
 
-.open.white.icon{
+.open.white.icon {
 	display: none;
 	width: 1.1875em;
   height: 0.625em;
 }
 
-.table-btns{
+.table-btns {
 	display: flex;
 	justify-content: space-between;
 	margin-left: 3.225em;
@@ -230,11 +232,11 @@ main{
   cursor: pointer;
 }
 
-.toggleTableBtns{
+.toggleTableBtns {
   display: none;
 }
 
-.table-btn:last-child{
+.table-btn:last-child {
 	margin-right: 0;
 }
 
@@ -244,7 +246,7 @@ main{
 	flex-direction: column;
 }
 
-.col1{
+.col1 {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -253,11 +255,11 @@ main{
 	min-width: calc(1360px / 3);
 }
 
-.col2{
+.col2 {
 	flex: 2;
 }
 
-.border-title{
+.border-title {
 	border-top: 1px solid #cccccc;
 }
 
@@ -308,7 +310,7 @@ main{
 .status1 .st-ic,
 .status2 .st-ic,
 .status3 .st-ic,
-.status4 .st-ic{
+.status4 .st-ic {
 	position: absolute;
 	right: 10px;
 	top: 8px;
@@ -317,8 +319,8 @@ main{
 	background: url('../img/close_white.svg') no-repeat center right;
 	background-size: contain;
 }
+
 /* Цветовая гамма статусов заказа - неактивные */
-/* - для чего эти стили, должны ли перекликаться с предыдущими? */
 
 .vputi.table-btn {
   padding: 4px 10px 4px 10px;
@@ -355,7 +357,7 @@ main{
   border: 1px solid #8596A6;
 }
 
-/* Таблица "Заказы в работе" на Сашином старом шаблоне */
+/* Таблица "Заказы в работе" */
 
 thead .legend {
   width: 0.71em;
@@ -363,25 +365,31 @@ thead .legend {
   margin-right: 1em;
 }
 
-#dashboard-table td:nth-child(1) {
-  min-width: 9em;
-}
-
-#dashboard-table td:nth-child(2) {
-  min-width: 10em;
-}
-
-#dashboard-table td{
+#dashboard-table td {
   cursor: pointer;
 }
 
+#dashboard-table td:nth-child(1),
+#dashboard-table td:nth-child(2) {
+	white-space: normal;
+}
+
+#dashboard-table td:nth-child(1) {
+	width: 10%;
+}
+
+#dashboard-table td:nth-child(2) {
+	width: 25%;
+}
+
 #dashboard-table td:last-child {
-  min-width: 25em;
-  padding: 0;
-  vertical-align: middle;
+	padding-top: 0.75em;
+	padding-bottom: 0;
+	line-height: 0;
 }
 
 #dashboard-table td:last-child > .row {
+	flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
@@ -391,16 +399,18 @@ thead .legend {
 }
 
 #dashboard-table td:last-child > .row > div {
-  margin-right: 1.3em;
+	margin-right: 1.3em;
+	margin-bottom: 1em;
   padding: 0em 1em;
   border-radius: 30px;
 }
 
-#dashboard-table th:last-child .resize-btn{
+#dashboard-table th:last-child .resize-btn {
   display: none;
 }
 
 /* Мобильная таблица */
+
 #mob-dashboard-table {
   display: none;
   width: 100%;
@@ -427,7 +437,7 @@ thead .legend {
 
 /* Цветные обертки-стикеры для сумм в таблице по состояниям */
 
-.data-sticker{
+.data-sticker {
 	padding: 2px 10px;
 	text-align: center;
 	border: 1px solid transparent;
@@ -436,40 +446,41 @@ thead .legend {
 	background: #cccccc;
 }
 
-.sticker1{
+.sticker1 {
 	border: 1px solid #2C6DA8;
 	color: #2C6DA8;
 	background: #EAF0F6;
 }
 
-.sticker2{
+.sticker2 {
 	border: 1px solid #F69C00;
 	color: #F69C00;
 	background: #FEF5E5;
 }
-.sticker3{
+.sticker3 {
 	border: 1px solid #6C4D77;
 	color: #6C4D77;
 	background: #F0EDF1;
 }
-.sticker4{
+.sticker4 {
 	border: 1px solid #3F9726;
 	color: #3F9726;
 	background: #ECF5E9;
 }
 
-#chart1{
+#chart1 {
 	position: relative;
 	height: 32.3437vw;
 }
 
-/* Вторая секция с графикми */
-.info-graphic-1{
+/* Вторая секция с графиками */
+
+.info-graphic-1 {
 	display: block; /**/
 	margin-top: 20px;
 }
 
-.orders-info{
+.orders-info {
 	z-index: 0;
 	position: absolute;
 	width: 200px;
@@ -480,40 +491,40 @@ thead .legend {
 	color: #34495E;
 }
 
-.info-graphic-1 .col1{
+.info-graphic-1 .col1 {
 	margin-right: 20px;
 	background: #ffffff;
 }
 
-.info-graphic-1 .col2{
+.info-graphic-1 .col2 {
 	background: #ffffff;
 }
 
-.col-wrapper{
+.col-wrapper {
 	width: 100%;
 	height: 100%;
 	padding-bottom: 20px;
 	background: #ffffff;
 }
 
-.col-head{
+.col-head {
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
 }
 
-.brands-btns{
+.brands-btns {
 	display: flex;
   align-items: center;
 	justify-content: flex-end;
 	margin-top: 20px;
 }
 
-.brands-btns .preorder-toggle{
+.brands-btns .preorder-toggle {
   display: none;
 }
 
-.brand-btn{
+.brand-btn {
 	width: 60px;
 	height: 26px;
 	padding-left: 10px;
@@ -525,26 +536,26 @@ thead .legend {
 	background: url('../img/close_white.svg') no-repeat right center;
 }
 
-.brand-btn:last-child{
+.brand-btn:last-child {
 	margin-right: 0;
 }
 
-.status-1{
+.status-1 {
 	position: relative;
 	background: #34495E;
 }
 
-.status-2{
+.status-2 {
 	position: relative;
 	background: #F69C00;
 }
 
-.status-3{
+.status-3 {
 	position: relative;
 	background: #6C4D77;
 }
 
-.status-4{
+.status-4 {
 	position: relative;
 	background: #3F9726;
 }
@@ -552,7 +563,7 @@ thead .legend {
 .status-1 .st-ic,
 .status-2 .st-ic,
 .status-3 .st-ic,
-.status-4 .st-ic{
+.status-4 .st-ic {
 	position: absolute;
 	right: 10px;
 	top: 8px;
@@ -564,7 +575,7 @@ thead .legend {
 
 /* График для рекламаций в работе */
 
-.section-body{
+.section-body {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -579,13 +590,13 @@ thead .legend {
   padding: 20px;
 }
 
-.gauge{
+.gauge {
 	width: 100%;
 	max-width: 355px;
 	margin: 0 auto;
 }
 
-.g-body{
+.g-body {
 	position: relative;
 	width: 100%;
 	height: 0;
@@ -596,7 +607,7 @@ thead .legend {
 	overflow: hidden;
 }
 
-.g-fill{
+.g-fill {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -609,7 +620,7 @@ thead .legend {
 	transition: transform 2s ease-out;
 }
 
-.g-cover{
+.g-cover {
 	position: absolute;
 	top: 25%;
 	left: 50%;
@@ -620,7 +631,7 @@ thead .legend {
 	background: #ffffff;
 }
 
-.speed-point{
+.speed-point {
 	z-index: 10;
 	position: absolute;
 	width: 30px;
@@ -633,7 +644,7 @@ thead .legend {
   outline: none;
 }
 
-.speed-pointer{
+.speed-pointer {
 	z-index: -1;
 	position: absolute;
 	top: -100px;
@@ -646,7 +657,7 @@ thead .legend {
   outline: none;
 }
 
-.recl-result{
+.recl-result {
 	margin: 0 auto;
 	width: 78%;
 	font-size: 1.325em;
@@ -656,7 +667,7 @@ thead .legend {
 	color: #34495E;
 }
 
-.info-graphic-1 .full-width{
+.info-graphic-1 .full-width {
   display: flex;
   justify-content: center;
 	margin-bottom: 10px;
@@ -674,60 +685,60 @@ thead .legend {
   justify-content: space-between;
 }
 
-.info-graphic-2 .col1 .section-title{
+.info-graphic-2 .col1 .section-title {
   width: 50%;
 }
 
-.info-graphic-2 .col1  .activate .head .title{
+.info-graphic-2 .col1  .activate .head .title {
   font-size: 0.875em;
   color: #C6C6C6;
 }
 
-.info-graphic-2 .col1 .activate .head{
+.info-graphic-2 .col1 .activate .head {
   padding: 0.125em 0.325em;
 }
 
-.info-graphic-2 .col1 .activate .drop-down .item{
+.info-graphic-2 .col1 .activate .drop-down .item {
   padding: 0.125em 0.325em;
 }
 
-.info-graphic-2 .section-body .preorder-toggle{
+.info-graphic-2 .section-body .preorder-toggle {
   display: none;
 }
 
-#chart2{
+#chart2 {
 	margin-top: 20px;
 }
 
-#chart3{
+#chart3 {
 	margin-top: 3.225em;
 	margin-bottom: 20px;
 }
 
-.info-graphic-2{
+.info-graphic-2 {
 	display: block;
   margin-top: 20px;
 }
 
-.info-graphic-2 .col2{
+.info-graphic-2 .col2 {
 	margin-right: 20px;
 }
 
-.chart-wrapper{
+.chart-wrapper {
 	display: flex;
 }
 
-.info-graphic-2 .list{
+.info-graphic-2 .list {
 	margin-top: 1.25em;
 	margin-left: 2.5em;
 }
 
-.info-graphic-2 .item{
+.info-graphic-2 .item {
 	display: flex;
 	align-items: center;
 }
 
-.info-graphic-2 .item div:first-child{
+.info-graphic-2 .item div:first-child {
 	width: 10px;
 	height: 10px;
 	border: 0;
@@ -735,41 +746,41 @@ thead .legend {
 	margin-right: 10px;
 }
 
-.info-graphic-2 .item:first-child div:first-child{
+.info-graphic-2 .item:first-child div:first-child {
 	background: #96B6D3;
 }
 
-.info-graphic-2 .item:nth-child(2) div:first-child{
+.info-graphic-2 .item:nth-child(2) div:first-child {
 	background: #CCC8CA;
 }
 
-.info-graphic-2 .item:nth-child(3) div:first-child{
+.info-graphic-2 .item:nth-child(3) div:first-child {
 	background: #F7AC93;
 }
 
-.info-graphic-2 .item:nth-child(4) div:first-child{
+.info-graphic-2 .item:nth-child(4) div:first-child {
 	background: #B5A6BB;
 }
 
-.info-graphic-2 .item:nth-child(5) div:first-child{
+.info-graphic-2 .item:nth-child(5) div:first-child {
 	background: #9FCB93;
 }
 
-.info-graphic-2 .item:last-child div:first-child{
+.info-graphic-2 .item:last-child div:first-child {
 	background: #FBCD80;
 }
 
-.info-graphic-2 .item div:last-child{
+.info-graphic-2 .item div:last-child {
 	font-size: 0.875em;
 	line-height: 2.6em;
 	color: #666666;
 }
 
-#procurement-select{
+#procurement-select {
 	width: 8.925em;
 }
 
-#procurement-select .title{
+#procurement-select .title {
 	color: #C6C6C6;
 }
 

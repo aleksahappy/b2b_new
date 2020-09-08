@@ -7,8 +7,8 @@ startOrdersPage();
 // Запуск страницы заказов:
 
 function startOrdersPage() {
-  sendRequest(`../json/orders.json`)
-  // sendRequest(urlRequest.main, {action: 'orderslist'})
+  // sendRequest(`../json/orders.json`)
+  sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
     var data = JSON.parse(result);
     data = convertData(data);
@@ -75,11 +75,9 @@ function initPage(data = []) {
     }, {
       key: '',
       title: 'Состояние товаров',
-      content: `<div class="row">
-                  <div class="pill vputi c10 #type#">#sum#</div>
-                </div>`
+      content: '<div class="pill c10 #type# #display#">#sum#</div>'
     }],
-    sub: [{area: '.pills', items: 'sum'}]
+    sub: [{area: '.pill', items: 'sum'}]
   }
   initTable('#orderslist', settings);
   loader.hide();
@@ -90,47 +88,37 @@ function initPage(data = []) {
 function convertData(data) {
   data.forEach(el => {
     el.order_sum = convertPrice(el.order_sum);
+    var data = [], item, type;
     for (var sum in el.sum) {
+      item = {}
       if (el.sum[sum] != 0) {
-        el.sum[sum] = convertPrice(el.sum[sum]);
-        el.sum.display = '';
+        switch (sum.substr(-1)) {
+          case '1':
+            type = 'vputi';
+            break;
+          case '2':
+            type = 'vnali';
+            break;
+          case '3':
+            type = 'sobrn';
+            break;
+          case '4':
+            type = 'otgrz';
+            break;
+          case '5':
+            type = 'nedop';
+            break;
+        }
+        item.sum = convertPrice(el.sum[sum]);
+        item.type = type;
+        item.display = '';
       } else {
-        el.sum.display = 'displayNone';
+        item.display =  'displayNone';
       }
+      data.push(item);
     }
+    el.sum = data;
   });
+  console.log(data);
   return data;
 }
-
-
-// 1 - vputi
-// 2 - vnali
-// 3 - sobrn
-// 4 - otgrz
-// 5 - nedop
-
-// sum: [{
-//   title: 'В пути',
-//   type: 'vputi',
-//   sum: 10000
-// }, {
-//   title: 'Собран',
-//   type: 'sobrn',
-//   sum: 5000
-// }]
-
-// <div class="pills" data-key="sum">
-//   <div class="pill" data-key="type" data-value="vputi"></div>
-//   <div class="pill" data-key="type" data-value="vnali"></div>
-//   <div class="pill" data-key="type" data-value="sobrn"></div>
-//   <div class="pill" data-key="type" data-value="otgrz"></div>
-//   <div class="pill" data-key="type" data-value="nedop"></div>
-// </div>
-
-
-// function
-// items.find(el => {
-//   el[key].forEach(el => {
-//     if (el[key] === value)
-//   });
-// });

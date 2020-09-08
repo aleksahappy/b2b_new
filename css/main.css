@@ -741,6 +741,7 @@ body.no-scroll {
 .carousel-item img {
   max-width: 100%;
   max-height: 100%;
+  min-width: 100%;
 }
 
 .carousel .loupe {
@@ -2675,7 +2676,7 @@ form.post > .loader {
 }
 
 .table-desktop .control {
-  top: 63px;
+  top: 64px;
 }
 
 .table-adaptive .control {
@@ -2807,7 +2808,7 @@ th.activate .head .filter {
 .table-desktop th {
   position: -webkit-sticky;
   position: sticky;
-  top: 63px;
+  top: 64px;
   color: #FFFFFF;
   background-color: #53606F;
   font-weight: 400;
@@ -2937,11 +2938,6 @@ tbody td > .row * {
   text-overflow: ellipsis;
 }
 
-#orderslist td,
-#reclm td {
-  cursor: pointer;
-}
-
 /* =====================================================================================================
 Системное сообщение:
 ===================================================================================================== */
@@ -2962,7 +2958,6 @@ tbody td > .row * {
 }
 
 #alerts .text {
-  /* padding: 2em; */
   text-align: center;
 }
 

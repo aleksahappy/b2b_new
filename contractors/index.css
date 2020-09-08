@@ -1,40 +1,23 @@
-/* Стили для таблицы */
+/* Стили таблицы */
 
-#contr-table td:nth-child(1) {
-  min-width: 6em;
+#contr th:nth-child(1) {
+  width: 6%;
+}
+
+#contr th:nth-child(4) {
+  width: 15%;
+}
+
+#contr th:nth-child(6),
+#contr th:nth-child(8) {
+  width: 20%;
+}
+
+#contr td:nth-child(1) {
   text-align: center;
 }
 
-#contr-table td:nth-child(2) {
-  min-width: 12em;
-}
-
-#contr-table td:nth-child(3) {
-  min-width: 12em;
-}
-
-#contr-table td:nth-child(4) {
-  min-width: 12em;
-}
-
-#contr-table td:nth-child(5) {
-  min-width: 12em;
-  text-align: center;
-}
-
-#contr-table td:nth-child(6) {
-  min-width: 28em;
-}
-
-#contr-table td:nth-child(7) {
-  min-width: 12em;
-}
-
-#contr-table td:nth-child(8) {
-  min-width: 25em;
-}
-
-/* Стили для адаптивной таблицы*/
+/* Стили адаптивной таблицы*/
 
 .infoblock .row {
   align-items: center;

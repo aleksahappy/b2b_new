@@ -10,7 +10,7 @@ var icon = document.querySelector('.mob-chat');
 
 
 function startReclPage() {
-  sendRequest(`../json/recl.json`)
+  sendRequest(`../json/reclamation.json`)
   .then(result => {
     var data = JSON.parse(result);
     loader.hide();
