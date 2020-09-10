@@ -1,56 +1,40 @@
-#profile-page .card{
-  width: 46.4125em;
-  padding: 1.42em 2.14em;
-  font-size: 14px;
+/* Стили основного содержимого: */
+
+.profile-info {
+  display: inline-block;
+  padding: 1.428em 2.143em;
   background: #F8F8F8;
-  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
 }
 
-.card .head{
-  margin-bottom: 1.3em;
-}
-
-.card .head{
-  justify-content: space-between!important;
-}
-
-.card .row{
+.profile-info .head {
   justify-content: space-between;
+  margin-bottom: 1em;
 }
 
-#profile-page .card .block .line:not(:last-child){
-  margin-bottom: 1.1em;
+.profile-info .edit.icon {
+  margin-right: 0;
 }
 
-#profile-page .card .block .line{
-  color: #34495E;
+.profile-info .content > div:first-child {
+  margin-right: 4.285em;
 }
 
-#profile-page .card .block .line span{
-color: #666666;
+.profile-info .content > div:last-child .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-#edit-profile .text.light{
-  font-size: 12px;
-  line-height: 16px;
+.profile-info .content .title:not(:last-child) {
+  margin-bottom: 0.714em;
 }
 
-.col .modal-col{
-  width: 50%;
+/* Всплывающее окно редактирования профиля: */
+
+#profile-edit .pop-up {
+  width: 31em;
 }
 
-#edit-profile .modal-col > .col{
-  width: 91%;
-}
-
-#edit-profile .modal-col > .col {
-  width: 91%;
-}
-
-#edit-profile .form-col2 .title{
-  margin-bottom: 0.45em;
-}
-
-#profile-birth{
-  width: 9.1428em;
+#profile-edit .gender .option:first-child {
+  margin-right: 0.5em;
 }

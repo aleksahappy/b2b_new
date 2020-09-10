@@ -2,14 +2,15 @@
 
 // Запуск страницы профиля:
 
-startProfPage();
+startProfilePage();
 
-function startProfPage() {
+function startProfilePage() {
   sendRequest(`../json/profile.json`)
-  //sendRequest(urlRequest.main, {action: 'profile'})
+  // sendRequest(urlRequest.main, {action: 'profile'})
   .then(result => {
+    // console.log(result);
     var data = JSON.parse(result);
-    console.log(data);
+    // console.log(data);
     initPage(data);
   })
   .catch(err => {
@@ -20,13 +21,35 @@ function startProfPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  data = data || [];
+function initPage(data = []) {
   fillTemplate({
-    area: '#profile-card',
-    items: data,
-    sign: '@@'
+    area: '.profile-info .content',
+    items: data
   });
-  initForm('#edit-profile-modal');
+  initForm('#profile-form', sendProfile);
   loader.hide();
+}
+
+// Отправка формы на сервер:
+
+function sendProfile(formData) {
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
+  formData.append('action', 'send_profile');
+  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  .then(result => {
+    console.log(result);
+    var data = JSON.parse(result);
+    fillTemplate({
+      area: '.profile-info .content',
+      items: data
+    });
+  })
+  .catch(error => {
+    console.log(error);
+    hideElement('#profile-edit .loader');
+    closePopUp('#profile-edit');
+    alerts.show('Данные не были отправлены. Попробуйте еще раз.');
+  })
 }
