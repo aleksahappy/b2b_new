@@ -28,8 +28,11 @@
 //   trFunc: 'onclick=functionName(event,#key#)'      Обработчик, навешиваемый на строку таблицы (по умолчанию false)
 //   cols:                                            Параметры столбцов таблицы (для таблиц с готовым шаблонов в html данный параметр пропускаем)
 //   [{                                                 что вкючает параметр одного столбца:
-//     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
 //     title: 'Заголовок'                               - заголовок столбца
+//     class: 'classname'                               - название класса для столбца (чтобы можно было добавить уникальные стили)
+//     width: 'x%',                                     - ширина столбца в процентах, если не устраивает ширина по умолчанию (по умолчанию все столбцы одинаковой ширины)
+//     align: 'center' / 'right',                       - выравнивание столбца, если не устраивает выравнивание по левому краю
+//     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
 //     result: 'kolv' / 'sum'                           - наличие и формат итога по колонке (умолчанию отсутствует)
 //     sort: 'text' / 'numb' / 'date'                   - нужна ли сортировка по столбцу и ее формат (по умолчанию отсутствует)
 //     search: 'usual' / 'date'                         - нужен ли поиск по столбцу и его формат (по умолчанию отсутствует)
@@ -37,55 +40,6 @@
 //     content: #key# / html разметка                   - содержимое ячейки, если отличается от #key#, то вносим html разметку (по умолчанию #key#)
 //   }]
 // }
-
-// Пример инициализации таблицы, имеющей готовый html-шаблон в разметке:
-
-// var settings = {
-//   data: [{...}, {...}, {...}],
-//   head: true,
-//   result: false
-// }
-// initTable('#tableId', settings);
-
-// // Пример инициализации таблицы, которую необходимо заполнить динамически:
-
-// var settings = {
-//   data: [{...}, {...}, {...}],
-//   head: true,
-//   result: false,
-//   cols: [{
-//     key: 'access',
-//     title: 'Доступ',
-//     content: '<div class="toggle #access#" onclick="toggleAccess(event)"><div class="toggle-in"></div></div>'
-//   }, {
-//     key: 'title',
-//     title: 'Название товара',
-//     sort: 'text',
-//     search: 'usual'
-//   }, {
-//     key: 'price',
-//     title: 'Цена товара',
-//     sort: 'numb',
-//     search: 'usual'
-//   }, {
-//     key: 'system',
-//     title: 'Система налогообложения',
-//     sort: 'text',
-//     search: 'usual',
-//     filter: 'true'
-//   }, {
-//     key: 'date',
-//     title: 'Дата',
-//     sort: 'date',
-//     search: 'date'
-//   }, {
-//     key: 'docs',
-//     title: 'Документы',
-//     content: '<div class="docs row"><div class="mark icon #status#" data-tooltip="#status_info#"></div><a href="url" data-tooltip="#info#" help>#title#</a></div>'
-//   }],
-//   sub: [{area: '.docs', items: 'docs'}]
-// }
-// initTable('#tableId', settings);
 
 // Инициализация таблицы:
 
@@ -114,7 +68,12 @@ function createTable(area, settings) {
       area.appendChild(control);
     }
   }
-  var content = createTableContent(area.id, settings);
+  var content = createTableContent(area.id, settings),
+      table = getEl('table', area);
+  if (table) {
+    area.removeChild(table);
+    window[`${area.id}-bodyTemp`] = undefined;
+  }
   area.appendChild(content);
 }
 
@@ -185,6 +144,12 @@ function createTableContent(id, settings) {
       }
     }
     bodyList += createTableBody(col, settings.sign);
+    if (col.width) {
+      changeCss(`#${id} th:nth-child(${index + 1})`, 'width', col.width);
+    }
+    if (col.align) {
+      changeCss(`#${id} td:nth-child(${index + 1})`, 'text-align', col.align);
+    }
   });
 
   var table = document.createElement('table');
@@ -196,6 +161,7 @@ function createTableContent(id, settings) {
   <tbody id=${id}-body>
     <tr ${trFunc}>${bodyList}</tr>
   </tbody>`
+  console.log(table);
   return table;
 }
 
@@ -294,14 +260,15 @@ function createTableResult(col) {
 // Создание тела таблицы:
 
 function createTableBody(col, sign = '#') {
+  var tdClass = col.class ? `class="${col.class}"` : '';
   if (!col.content) {
     if (!col.key) {
-      return `<td></td>`;
+      return `<td ${tdClass}></td>`;
     } else {
-      return `<td>${sign}${col.key}${sign}</td>`;
+      return `<td ${tdClass}>${sign}${col.key}${sign}</td>`;
     }
   }
-  return `<td>${col.content}</td>`;
+  return `<td ${tdClass}>${col.content}</td>`;
 }
 
 // Объект таблицы:
