@@ -127,9 +127,9 @@ function initCart() {
     window.addEventListener('focus', updateCart);
     getCart()
     .then(result => {
-      createCartData();
       fillOrderForm();
       initForm('#order-form', sendOrder);
+      return createCartData();
     }, reject => console.log(reject))
     .then(result => {
       initPage();

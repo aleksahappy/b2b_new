@@ -54,7 +54,7 @@ function sendOrder(formData) {
   if (!idList) {
     hideElement('#checkout .loader');
     closePopUp('#checkout');
-    alerts.show('Заказ не был отправлен. Попробуйте еще раз.');z
+    alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
     return;
   }
   var cartInfo = {};
@@ -156,13 +156,12 @@ function getMissingItems() {
   return new Promise((resolve, reject) => {
     var data = [];
     for (var key in cart) {
-      if (!cartItems[key]) {
+      if (cart[key].qty > 0 && !cartItems[key]) {
         data.push(cart[key].id);
       }
     }
     if (data.length) {
-      data = data.join(',');
-      getItems(data)
+      getItems(data.join(','))
       .then(result => {
         for (var key in result.items) {
           convertItem(result.items[key]);

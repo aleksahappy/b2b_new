@@ -1167,7 +1167,7 @@ function showOrder(event, id) {
   if (event.target.closest('.download.icon')) {
     return;
   }
-  window.open(`../order/?${id}`);
+  location.href = `/order/?${id}`;
 }
 
 // Переход на страницу рекламации:
@@ -1245,34 +1245,6 @@ function showReclm(id) {
 //                                                       * берем каждый ключ
 //                                                       * если есть место замены с таким названием, то производим замену
 //                                                       * удобно если в данных нет ничего лишнего, а места замены наоборот повторяют содержимое
-//
-//
-// Пример данных:
-//
-// var data = {
-//   area: 'big-card',
-//   items: items,
-//   type: 'list',
-//   source: 'outer',
-//   target: 'gallery',
-//   sign: '#',
-//   sub: [{
-//     area: '.carousel-gallery',
-//     items: 'images'
-//   }, {
-//     area: '.card-sizes',
-//     items: 'sizes'
-//   }, {
-//     area: '.card-options',
-//     items: 'options'
-//   }, {
-//     area: '.manuf-row',
-//     items: 'manuf_table'
-//   }],
-//   action: 'replace',
-//   method: 'inner'
-//   iterate: 'temp'
-// }
 
 // Универсальная функция заполнения данных по шаблону:
 
@@ -2503,10 +2475,8 @@ function setValueDropDown(id, value) {
 // Закрытие выпадающих списков при клике вне их самих:
 
 document.addEventListener('click', closeDropDown);
-
 function closeDropDown(event) {
-  var target = event.target;
-  if (!target.closest('.activate')) {
+  if (!event.target.closest('.activate')) {
     var dropDownOpen = getEl('.activate.open');
     if (dropDownOpen) {
       dropDownOpen.classList.remove('open');
