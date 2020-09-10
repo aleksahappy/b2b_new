@@ -1723,7 +1723,7 @@ function closePopUp(el) {
         return;
       }
     } else {
-      if (event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close')) {
+      if ((event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close')) || event.target.closest('.calendar')) {
         return;
       }
       el = event.currentTarget;
