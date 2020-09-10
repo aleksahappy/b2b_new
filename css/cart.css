@@ -328,7 +328,7 @@
   border-bottom: 1px solid #C6C6C6;
 }
 
-.order-block .info > div > div {
+.order-block .info > div > div:not(:last-child) {
   margin-bottom: 0.357em;
 }
 

@@ -799,7 +799,7 @@ input[data-type="range"] {
   min-width: 200px;
   background-color: #FFFFFF;
   box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
-  z-index: 420;
+  z-index: 100;
 }
 
 .calendar .input-area {
@@ -2095,7 +2095,7 @@ div.option input:disabled ~ .checkbox.icon {
   padding: 0.75em 1.14em;
 }
 
-.infoblock .content .title {
+.infoblock .content .title:not(:last-child) {
   margin-bottom: 0.357em;
 }
 
@@ -2925,17 +2925,24 @@ th:last-child .resize-btn::after {
   text-overflow: ellipsis;
 }
 
-tbody td > .row {
+.table-desktop tbody td > .row {
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
 }
 
-tbody td > .row * {
+.table-desktop tbody td > .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.table-desktop td.pills {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 0;
+  vertical-align: middle;
 }
 
 /* =====================================================================================================
@@ -3007,10 +3014,10 @@ tbody td > .row * {
 #up-btn {
   display: none;
   position: fixed;
+  width: 38px;
+  height: 31px;
   right: 5rem;
-  bottom: 1.5em;
-  width: 2.57em;
-  height: 2em;
+  bottom: 20px;
   cursor: pointer;
   z-index: 150;
 }
@@ -3226,7 +3233,7 @@ tbody td > .row * {
   width: 30%;
 }
 
-.card-info p {
+.card-info p:not(:last-child) {
   padding: 0;
   margin: 0;
   margin-bottom: 0.357em;
