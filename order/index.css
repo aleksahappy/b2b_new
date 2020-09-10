@@ -1,3 +1,7 @@
+/* =====================================================================================================
+Основное содержимое страницы:
+===================================================================================================== */
+
 /* Стили шапки над таблицами */
 
 #order-info .row > .title {
@@ -111,17 +115,6 @@
   background-color: #91A0AE;
 }
 
-#nomen th:nth-child(2) {
-  width: 30%;
-}
-
-#nomen td:nth-child(3),
-#nomen td:nth-child(4),
-#nomen td:nth-child(5),
-#nomen td:nth-child(6) {
-  text-align: right;
-}
-
 /* Стили таблицы "В пути" */
 
 #vputi table {
@@ -130,20 +123,6 @@
 
 #vputi thead :not(.results) th {
   background-color: #6B99C2;
-}
-
-#vputi th:nth-child(2) {
-  width: 30%;
-}
-
-#vputi td:nth-child(3) {
-  text-align: center;
-}
-
-#vputi td:nth-child(4),
-#vputi td:nth-child(5),
-#vputi th:nth-child(6) {
-  text-align: right;
 }
 
 /* Стили таблицы "В наличии" */
@@ -156,17 +135,6 @@
   background-color: #F9BA4D;
 }
 
-#vnali th:nth-child(2) {
-  width: 30%;
-}
-
-#vnali td:nth-child(3),
-#vnali td:nth-child(4),
-#vnali td:nth-child(5),
-#vnali td:nth-child(6) {
-  text-align: right;
-}
-
 /* Стили таблицы "Собран" */
 
 #sobrn table {
@@ -175,17 +143,6 @@
 
 #sobrn thead :not(.results) th {
   background-color: #9882A0;
-}
-
-#sobrn th:nth-child(2) {
-  width: 30%;
-}
-
-#sobrn td:nth-child(3),
-#sobrn td:nth-child(4),
-#sobrn td:nth-child(5),
-#sobrn td:nth-child(6) {
-  text-align: right;
 }
 
 /* Стили таблицы "Отгружен" */
@@ -198,30 +155,19 @@
   background-color: #79B667;
 }
 
-#otgrz th:nth-child(2) {
-  width: 30%;
-}
-
-#otgrz td:nth-child(3),
-#otgrz td:nth-child(4),
-#otgrz td:nth-child(5),
-#otgrz td:nth-child(6) {
-  text-align: right;
-}
-
-#otgrz td:nth-child(4) {
+#otgrz td.kolv {
   min-width: 10em;
   padding-top: 0;
   padding-bottom: 0;
   vertical-align: middle;
 }
 
-#otgrz td:nth-child(4) .row {
+#otgrz td.kolv .row {
   justify-content: flex-end;
   align-items: center;
 }
 
-#otgrz td:nth-child(4) .icon {
+#otgrz td.kolv .icon {
   width: 26px;
   height: 26px;
 }
@@ -236,16 +182,6 @@
   background-color: #91A0AE;
 }
 
-#nedop th:nth-child(2) {
-  width: 30%;
-}
-
-#nedop td:nth-child(3),
-#nedop td:nth-child(4),
-#nedop td:nth-child(5) {
-  text-align: right;
-}
-
 /* Стили таблицы "Рекламации" */
 
 #reclm table {
@@ -254,21 +190,6 @@
 
 #reclm thead :not(.results) th {
   background-color: #91A0AE;
-}
-
-#reclm th:nth-child(4) {
-  width: 20%;
-}
-
-#reclm td:nth-child(2),
-#reclm td:nth-child(8) {
-  text-align: center;
-}
-
-#reclm td:nth-child(5),
-#reclm td:nth-child(6),
-#reclm td:nth-child(7) {
-  text-align: right;
 }
 
 /* =====================================================================================================

@@ -10,8 +10,8 @@ function startContrPage() {
   .then(result => {
     // console.log(result);
     var data = JSON.parse(result);
-    // console.log(data);
-    // data = convertData(data);
+    console.log(data);
+    data = convertData(data);
     initPage(data);
   })
   .catch(err => {
@@ -22,51 +22,55 @@ function startContrPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  data = data || [];
+function initPage(data = []) {
   var settings = {
     data: data,
     head: true,
     result: false,
     cols: [{
-      key: 'access',
       title: 'Доступ',
+      width: '6%',
+      key: 'access',
       content: '<div class="toggle #access#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
     }, {
-      key: 'inn',
       title: 'ИНН/КПП',
       sort: 'numb',
-      search: 'usual'
+      search: 'usual',
+      content: '#inn#/#kpp#'
     }, {
-      key: 'title',
       title: 'Контрагент',
+      key: 'title',
       sort: 'text',
       search: 'usual',
       filter: 'true'
     }, {
-      key: 'system',
       title: 'Система налогообложения',
+      width: '15%',
+      key: 'nalog',
       sort: 'text',
       search: 'usual',
       filter: 'true'
     }, {
-      key: 'date',
       title: 'Дата заведения',
+      align: 'center',
+      key: 'date',
       sort: 'date',
       search: 'date',
     }, {
-      key: 'address',
       title: 'Юридический адрес',
+      width: '20%',
+      key: 'address',
       search: 'usual',
     }, {
-      key: 'user',
       title: 'Пользователь',
+      key: 'user',
       sort: 'text',
       search: 'usual',
       filter: 'true'
     }, {
-      key: 'docs',
       title: 'Документы',
+      width: '20%',
+      key: 'docs',
       content: `<div class="docs row #status-ic#">
                   <div class="mark icon #status#" data-tooltip="#status_info#"></div>
                   <a href="url" data-tooltip="#info#" text="left" help>Договор с #title# от #date_start#</a>
@@ -84,6 +88,13 @@ function initPage(data) {
   loader.hide();
 }
 
+// Преобразование полученных данных:
+
+function convertData(data) {
+  data.forEach(el => {});
+  return data;
+}
+
 // Включение/отключение доступа:
 
 function toggleAccess(event, id) {
@@ -99,5 +110,3 @@ function toggleAccess(event, id) {
 }
 
 // Получение данных по ИНН:
-
-

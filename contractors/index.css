@@ -1,29 +1,10 @@
-/* Стили таблицы */
-
-#contr th:nth-child(1) {
-  width: 6%;
-}
-
-#contr th:nth-child(4) {
-  width: 15%;
-}
-
-#contr th:nth-child(6),
-#contr th:nth-child(8) {
-  width: 20%;
-}
-
-#contr td:nth-child(1) {
-  text-align: center;
-}
-
 /* Стили адаптивной таблицы*/
 
 .infoblock .row {
   align-items: center;
 }
 
-/* Модальное окно */
+/* Всплывающее окно добавления контрагента */
 
 #contractor .pop-up {
   width: 64em;

@@ -1,32 +1,4 @@
-/* Стили для таблицы */
-
-#users th:nth-child(1) {
-  width: 6%;
-}
-
-#users th:nth-child(2) {
-  width: 15%;
-}
-
-#users td:nth-child(1),
-#users td:nth-child(4),
-#users td:nth-child(7),
-#users td:nth-child(8),
-#users td:nth-child(9),
-#users td:nth-child(10) {
-  text-align: center;
-}
-
-#users td:nth-child(1),
-#users td:nth-child(7),
-#users td:nth-child(10) {
-  padding-top: 0;
-  padding-bottom: 0;
-  line-height: 0;
-  vertical-align: middle;
-}
-
-/* Стили для адаптивной таблицы*/
+/* Стили адаптивной таблицы */
 
 .infoblock .lock.icon {
   margin-right: 1em;
@@ -51,7 +23,7 @@
   padding-left: 1em;
 }
 
-/* Модальное окно */
+/* Всплвающее окно добавления/редактирования пользователя */
 
 #user .pop-up {
   width: 40em;

@@ -12,6 +12,7 @@ function startOrdersPage() {
   .then(result => {
     var data = JSON.parse(result);
     data = convertData(data);
+    // console.log(data);
     initPage(data);
   })
   .catch(err => {
@@ -34,6 +35,7 @@ function initPage(data = []) {
     trFunc: 'onclick=showOrder(event,#id#)',
     cols: [{
       title: 'Заказ',
+      width: '10%',
       content: `<div class="row">
                   <a href="" class="download icon"></a>
                   <div>
@@ -42,39 +44,45 @@ function initPage(data = []) {
                   </div>
                 </div>`
     }, {
-      key: 'order_status',
       title: 'Статус заказа',
+      key: 'order_status',
       sort: 'text',
       search: 'usual',
       filter: true
     }, {
-      key: 'contr_name',
       title: 'Контрагент',
+      width: '15%',
+      key: 'contr_name',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'user_fio',
       title: 'Заказчик',
+      width: '15%',
+      key: 'user_fio',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'order_type',
       title: 'Тип заказа',
+      key: 'order_type',
       sort: 'text',
-      filter: 'full'
+      search: 'usual',
+      filter: true
     }, {
-      key: 'order_sum',
       title: 'Сумма счета',
+      align: 'right',
+      key: 'order_sum',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
-      key: 'debt',
       title: 'ДЗ/КЗ',
+      align: 'right',
+      key: 'debt',
       sort: 'numb',
-      filter: 'search'
+      search: 'usual'
     }, {
-      key: '',
       title: 'Состояние товаров',
+      class: 'pills',
+      width: '20%',
       content: '<div class="pill c10 #type# #display#">#sum#</div>'
     }],
     sub: [{area: '.pill', items: 'sum'}]
@@ -88,37 +96,39 @@ function initPage(data = []) {
 function convertData(data) {
   data.forEach(el => {
     el.order_sum = convertPrice(el.order_sum);
-    var data = [], item, type;
+    var data = [],type, item;
     for (var sum in el.sum) {
-      item = {}
-      if (el.sum[sum] != 0) {
-        switch (sum.substr(-1)) {
-          case '1':
-            type = 'vputi';
-            break;
-          case '2':
-            type = 'vnali';
-            break;
-          case '3':
-            type = 'sobrn';
-            break;
-          case '4':
-            type = 'otgrz';
-            break;
-          case '5':
-            type = 'nedop';
-            break;
+      type = sum.substr(-1);
+      if (type > 0 && type < 6) {
+        item = {};
+        if (el.sum[sum] != 0) {
+          switch (type) {
+            case '1':
+              type = 'vputi';
+              break;
+            case '2':
+              type = 'vnali';
+              break;
+            case '3':
+              type = 'sobrn';
+              break;
+            case '4':
+              type = 'otgrz';
+              break;
+            case '5':
+              type = 'nedop';
+              break;
+          }
+          item.sum = convertPrice(el.sum[sum]);
+          item.type = type;
+          item.display = '';
+        } else {
+          item.display =  'displayNone';
         }
-        item.sum = convertPrice(el.sum[sum]);
-        item.type = type;
-        item.display = '';
-      } else {
-        item.display =  'displayNone';
+        data.push(item);
       }
-      data.push(item);
     }
     el.sum = data;
   });
-  console.log(data);
   return data;
 }

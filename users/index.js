@@ -26,7 +26,7 @@ function startUsersPage() {
 
 function initPage() {
   items = items || [];
-  if (superUser) {
+  if (!superUser) {
     changeCss('#users th:nth-child(1)', 'display', 'none');
     changeCss('#users td:nth-child(1)', 'display', 'none');
   }
@@ -35,51 +35,60 @@ function initPage() {
     head: true,
     cols: [{
       title: 'Доступ',
+      width: '6%',
+      align: 'center',
+      class: 'pills',
       content: '<div class="toggle #toggle#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
     }, {
-      key: 'fio',
       title: 'ФИО',
+      width: '15%',
+      key: 'fio',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'gender',
       title: 'Пол',
+      key: 'gender',
       sort: 'text',
       search: 'usual',
       filter: true
     }, {
-      key: 'birth',
       title: 'Дата рождения',
+      align: 'center',
+      key: 'birth',
       sort: 'date',
       search: 'date'
     }, {
-      key: 'tel',
       title: 'Телефон',
+      key: 'tel',
       content: '<a href="tel:#tel#">#tel#</a>'
     }, {
-      key: 'email',
       title: 'Email',
+      key: 'email',
       content: '<a href="mailto:#email#">#email#</a>'
     }, {
-      key: 'access',
       title: 'Тип доступа',
+      align: 'center',
+      class: 'pills',
+      key: 'access',
       sort: 'text',
       search: 'usual',
       filter: true,
       content: '<div class="pill access #status#">#access#</div>'
     }, {
-      key: 'date',
       title: 'Дата заведения',
+      align: 'center',
+      key: 'date',
       sort: 'date',
       search: 'date'
     }, {
-      key: 'position',
       title: 'Должность',
+      key: 'position',
       sort: 'text',
       search: 'usual'
     }, {
-      key: '',
       title: 'Редактировать',
+      align: 'center',
+      class: 'pills',
       content: `<div class="edit icon" onclick="openUserPopUp('#id#')"></div>`
     }]
   };

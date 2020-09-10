@@ -126,6 +126,7 @@ for (var i = 0; i < 20; i++) {
     }]
   });
 }
+/* Стили для таблицы 2 */
 var settings = {
   data: data2,
   control: {
@@ -137,44 +138,49 @@ var settings = {
   head: true,
   result: false,
   cols: [{
-    key: 'access',
     title: 'Доступ',
+    width: '6%',
+    key: 'access',
     content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
   }, {
-    key: 'inn',
     title: 'ИНН/КПП',
+    key: 'inn',
     sort: 'text',
     search: 'usual'
   }, {
-    key: 'contr',
     title: 'Контрагент',
+    key: 'contr',
     sort: 'text',
     search: 'usual',
     filter: true
   }, {
-    key: 'system',
     title: 'Система налогообложения',
+    width: '15%',
+    key: 'system',
     sort: 'text',
     search: 'usual',
     filter: true
   }, {
-    key: 'date',
     title: 'Дата заведения',
+    align: 'center',
+    key: 'date',
     sort: 'date',
     search: 'date'
   }, {
-    key: 'address',
     title: 'Юридический адрес',
+    width: '20%',
+    key: 'address',
     search: 'usual'
   }, {
-    key: 'user',
     title: 'Пользователь',
+    key: 'user',
     sort: 'text',
     search: 'usual',
     filter: true
   }, {
-    key: 'docs',
     title: 'Документы',
+    width: '20%',
+    key: 'docs',
     content: `<div class="docs row #status#">
                 <div class="mark icon" data-tooltip="#status_info#"></div>
                 <a href="url" data-tooltip="#info#" help>#title#</a>

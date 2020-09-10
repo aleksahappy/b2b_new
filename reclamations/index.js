@@ -22,8 +22,7 @@ function startReclmPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  data = data || [];
+function initPage(data = []) {
   var settings = {
     data: data,
     control: {
@@ -35,34 +34,39 @@ function initPage(data) {
     result: false,
     trFunc: 'onclick=showReclm(#id#)',
     cols: [{
-      key: 'recl_num',
       title: '№',
+      width: '10%',
+      key: 'recl_num',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'recl_date',
       title: 'Дата',
+      align: 'center',
+      key: 'recl_date',
       sort: 'date',
       search: 'date'
     }, {
-      key: 'item_title',
       title: 'Наименование',
+      width: '30%',
+      key: 'item_title',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'item_articul',
       title: 'Артикул',
+      key: 'item_articul',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'manager_lastname',
       title: 'Менеджер',
+      key: 'manager_lastname',
       sort: 'text',
       search: 'usual',
       filter: true
     }, {
-      key: 'status_text',
       title: 'Статус',
+      class: 'pills',
+      align: 'center',
+      key: 'status_text',
       sort: 'text',
       search: 'usual',
       filter: true,

@@ -177,35 +177,40 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '30%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'pric',
       title: 'Цена',
+      align: 'right',
+      key: 'pric',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'summ',
       title: 'Cтоимость',
+      align: 'right',
+      key: 'summ',
       result: 'sum',
       sort: 'numb',
       search: 'usual',
     }, {
-      key: 'skid',
       title: 'Скидка',
+      align: 'right',
+      key: 'skid',
       sort: 'numb',
       search: 'usual'
     }]
@@ -217,35 +222,40 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '30%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'dpst',
       title: 'Дата поступления',
+      align: 'center',
+      key: 'dpst',
       sort: 'date',
       search: 'data'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'paid',
       title: 'Оплачено',
+      align: 'right',
+      key: 'paid',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kdop',
       title: 'К оплате',
+      align: 'right',
+      key: 'kdop',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
@@ -258,35 +268,40 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '30%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'pric',
       title: 'Цена',
+      align: 'right',
+      key: 'pric',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'summ',
       title: 'Cтоимость',
+      align: 'right',
+      key: 'summ',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'skid',
       title: 'Скидка',
+      align: 'right',
+      key: 'skid',
       sort: 'numb',
       search: 'usual'
     }]
@@ -298,35 +313,40 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '30%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'pric',
       title: 'Цена',
+      align: 'right',
+      key: 'pric',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'summ',
       title: 'Cтоимость',
+      align: 'right',
+      key: 'summ',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'skid',
       title: 'Скидка',
+      align: 'right',
+      key: 'skid',
       sort: 'numb',
       search: 'usual'
     }]
@@ -338,23 +358,27 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '30%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'pric',
       title: 'Цена',
+      align: 'right',
+      key: 'pric',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      class: 'kolv',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual',
@@ -363,14 +387,16 @@ function createTables(result) {
                 <div>#kolv#</div>
               </div>`
     }, {
-      key: 'summ',
       title: 'Cтоимость',
+      align: 'right',
+      key: 'summ',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'skid',
       title: 'Скидка',
+      align: 'right',
+      key: 'skid',
       sort: 'numb',
       search: 'usual'
     }]
@@ -382,35 +408,39 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '30%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'pric',
       title: 'Цена',
+      align: 'right',
+      key: 'pric',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'summ',
       title: 'Cтоимость',
+      align: 'right',
+      key: 'summ',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'stat',
       title: 'Инициатор отмены',
+      key: 'stat',
       sort: 'numb',
       search: 'usual',
       filter: true
@@ -423,45 +453,52 @@ function createTables(result) {
     head: true,
     result: true,
     cols: [{
-      key: 'recl_num',
       title: '№ Рекламации',
+      key: 'recl_num',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'recl_date',
       title: 'Дата',
+      align: 'center',
+      key: 'recl_date',
       sort: 'date',
       search: 'date'
     }, {
-      key: 'artc',
       title: 'Артикул',
+      key: 'artc',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'titl',
       title: 'Наименование',
+      width: '20%',
+      key: 'titl',
       sort: 'text',
       search: 'usual'
     }, {
-      key: 'pric',
       title: 'Цена',
+      align: 'right',
+      key: 'pric',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'kolv',
       title: 'Количество',
+      align: 'right',
+      key: 'kolv',
       result: 'kolv',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'comp_summ',
       title: 'Сумма компенсации',
+      align: 'right',
+      key: 'comp_summ',
       result: 'sum',
       sort: 'numb',
       search: 'usual'
     }, {
-      key: 'trac',
       title: 'Статус',
+      class: 'pills',
+      align: 'center',
+      key: 'trac',
       sort: 'text',
       search: 'usual',
       filter: true,
