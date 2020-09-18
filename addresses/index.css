@@ -35,7 +35,6 @@
 
 .shop .info {
   justify-content: space-between;
-  align-items: center;
   padding: 0.714em 1.428em;
   background: #FFFFFF;
 }
@@ -44,7 +43,7 @@
   margin-right: 1.428em;
 }
 
-.shop .info .wrap > div:not(:last-child) {
+.shop .info .wrap > :not(:last-child) {
   margin-bottom: 0.357em;
 }
 
@@ -75,9 +74,15 @@
   text-decoration: none;
 }
 
+.shop a.phone {
+  display: block;
+  color: #666666;
+}
+
 .shop .img-wrap {
   flex-grow: 0;
   flex-shrink: 0;
+  align-self: center;
   width: 115px;
   height: 90px;
 }
@@ -115,11 +120,24 @@
 /* Всплывающее окно добавления/редактирования адреса */
 
 #address .pop-up {
-  width: 26em;
+  width: 30em;
 }
 
 #address .activate {
   width: 100%;
+}
+
+#address .main .btns-wrap {
+  display: block;
+}
+
+#address .main .btns-wrap .btn {
+  display: block;
+  width: 100%;
+}
+
+#address .main .btns-wrap .btn:first-child {
+  margin-bottom: 0.714em;
 }
 
 #address .work-time {

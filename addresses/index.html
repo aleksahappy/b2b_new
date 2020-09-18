@@ -40,8 +40,8 @@
                         <div class="edit icon" onclick="openAddressPopUp('#id#')"></div>
                       </div>
                     </div>
-                    <div class="text midlight">#type#<br>#info#</div>
-                    <div>#address#</div>
+                    <div class="text midlight">#type#</div>
+                    <a class="phone" href="tel:#phone#">#phone#</a>
                     <a href="#link#">#site#</a>
                   </div>
                   <div class="img-wrap">
@@ -74,6 +74,10 @@
         <div class="pop-up-body">
           <form id="address-form" class="post">
             <div class="main">
+              <div class="warnblock row">
+                <span class="attention red icon"></span>
+                <div>Если вы хотите, чтобы магазин отобразился на карте дилеров, отметьте галочку ниже</div>
+              </div>
               <div class="form-wrap">
                 <div class="option row">
                   <input id="show" type="checkbox" value="1" name="show" onclick="toggleTradeTypeField()">
@@ -85,10 +89,10 @@
                 <div class="title">Адрес*</div>
                 <input type="text" value="" name="address" placeholder="Введите адрес">
               </div>
-              <div class="form-wrap">
+              <div class="form-wrap" required>
                 <div class="title">Тип торговли*</div>
                 <div id="trade-type" class="activate select" disabled>
-                  <input type="hidden" name="system">
+                  <input type="hidden" name="type">
                   <div class="head row">
                     <div class="title">Тип торговли</div>
                     <div class="triangle icon"></div>
@@ -130,7 +134,8 @@
                 </div>
               </div>
               <div class="btns-wrap">
-                <div class="btn sub-act" onclick="openWorkTime()">Добавить часы работы</div>
+                <div id="add-btn" class="btn" onclick="openWorkTime()">Добавить часы работы</div>
+                <input class="btn sub-act" type="submit" value="Отправить">
               </div>
             </div>
             <div class="work-time">

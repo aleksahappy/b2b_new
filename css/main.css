@@ -617,7 +617,7 @@ body.no-scroll {
   border: 1px solid #F69C00;
 }
 
-.off.access
+.off.access,
 .off .access {
   color: #B3BAC2;
   background-color: #E7EAED;

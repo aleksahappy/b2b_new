@@ -34,7 +34,8 @@ function initPage() {
       items: 'time'
     }]
   });
-  initForm('#address');
+  document.querySelectorAll('.shop').forEach(el => checkImg(el));
+  initForm('#address-form', sendForm);
   loader.hide();
 }
 
@@ -59,6 +60,33 @@ function convertData() {
   });
 }
 
+// Инициализация формы для данной страницы:
+
+function initForm(el, callback) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Form`] = new FormAddresses(el, callback);
+  }
+}
+
+// Доработка объекта формы под конкретные нужды страницы:
+
+function FormAddresses(obj, callback) {
+  Form.apply(this, arguments);
+  this.btns = obj.querySelectorAll('.btn');
+  getEl('#show').addEventListener('change', () => this.checkSubmit());
+
+  // Блокировка/разблокировка кнопок:
+  this.toggleBtn = function() {
+    if (this.isSubmit) {
+      this.btns.forEach(el => el.removeAttribute('disabled'));
+    } else {
+      this.btns.forEach(el => el.setAttribute('disabled','disabled'));
+    }
+  }
+  this.toggleBtn();
+}
+
 // Открытие всплывающего окна с формой:
 
 function openAddressPopUp(id) {
@@ -75,7 +103,27 @@ function openAddressPopUp(id) {
       clearForm('#address');
     }
   }
+  toggleTradeTypeField();
   openPopUp(addressPopUp);
+}
+
+// Блокировка/разблокировка поля выбора типа торговли:
+
+function toggleTradeTypeField() {
+  var toggle = getEl('#show'),
+      field = getEl('#trade-type'),
+      addBtn = getEl('#add-btn');
+  if (toggle.checked) {
+    field.removeAttribute('disabled');
+    field.closest('.form-wrap').setAttribute('required', 'required');
+    showElement(addBtn);
+  } else {
+    var name = getEl('[type="hidden"]', field).getAttribute('name');
+    window[`address-formForm`][`dropDown${name}`].clear();
+    field.setAttribute('disabled', 'disabled');
+    field.closest('.form-wrap').removeAttribute('required', 'required');
+    hideElement(addBtn);
+  }
 }
 
 // Открытие для заполнения во всплывающем окне времени работы магазина:
@@ -85,17 +133,10 @@ function openWorkTime() {
   hideElement('#address .main');
 }
 
-// Блокировка/разблокировка поля выбора типа торговли:
+// Отправка формы на сервер:
 
-function toggleTradeTypeField() {
-  var toggle = getEl('#show'),
-      field = getEl('#trade-type');
-  if (toggle.checked) {
-    field.removeAttribute('disabled');
-    field.closest('.form-wrap').setAttribute('required', 'required');
-  } else {
-    window[`addressForm`][`dropDown0`].clear();
-    field.setAttribute('disabled', 'disabled');
-    field.closest('.form-wrap').removeAttribute('required', 'required');
-  }
+function sendForm(formData) {
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
 }
