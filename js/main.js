@@ -748,9 +748,17 @@ function textareaCounter(textarea) {
 // Функции сворачивания/разворачивания контейнеров:
 //=====================================================================================================
 
-// Свернуть/развернуть контейнер:
+// Свернуть/развернуть сам контейнер:
 
 function toggleEl(event, className = 'close') {
+  var target = event.target,
+      tag = target.tagName;
+  if (tag) {
+    tag = tag.toLowerCase();
+  }
+  if (target.hasAttribute('onclick') || tag === 'a') {
+    return;
+  }
   event.currentTarget.classList.toggle(className);
 }
 
@@ -1293,7 +1301,7 @@ function fillTemplate(data) {
           targetEl = target;
         }
       }
-      insertText(targetEl, txt, data.method);
+      insertText(targetEl, txt, data.sign, data.method);
     }
   }
 }
@@ -1383,8 +1391,7 @@ function fillSubTemp(data, items, temp) {
 
 function replaceInTemp(key, items, temp, sign) {
   var value = key ? items[key] : items;
-      value = value === null ? '' : value;
-  if (value !== undefined && typeof value !== 'object') {
+  if (value !== undefined && value !== null && typeof value !== 'object') {
     var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
     temp = temp.replace(regex, value);
   }
@@ -1393,9 +1400,14 @@ function replaceInTemp(key, items, temp, sign) {
 
 // Вставка заполненного шаблона в документ:
 
-function insertText(target, txt, method = 'inner') {
+function insertText(target, txt, sign, method = 'inner') {
+  // удаление класса 'template'
   target.classList.remove('template');
   txt = txt.replace(/template/gi, '');
+  // удаление назаполненных данными ключей
+  var regex = new RegExp(sign + '[^' + sign + ']+' + sign, 'gi');
+  txt = txt.replace(regex, '');
+
   if (!method || method === 'inner') {
     target.innerHTML = txt;
   } else {
@@ -2047,18 +2059,18 @@ function fillForm(el, data) {
   var fields = [], type;
   for (var key in data) {
     fields = el.querySelectorAll(`[name="${key}"]`);
-    fields.forEach(el => {
-      type = el.getAttribute('type');
-      console.log(type);
+    fields.forEach(field => {
+      type = field.getAttribute('type');
+
       if (type === 'radio' || type === 'checkbox') {
-        if (el.value.toLowerCase() === data[key].toLowerCase()) {
-          el.setAttribute('checked', 'checked');
+        if (field.value.toLowerCase() === data[key].toLowerCase()) {
+          field.setAttribute('checked', 'checked');
         }
       } else {
-        if (type === 'hidden' && el.closest('.activate')) {
-          setValueDropDown(el.closest('.activate').id, data[key]);
+        if (type === 'hidden' && field.closest('.activate')) {
+          window[`${el.id}Form`][`dropDown${field.getAttribute('name')}`].setValue(data[key]);
         }
-        el.value = data[key];
+        field.value = data[key];
       }
     });
   }
@@ -2105,20 +2117,14 @@ function Form(obj, callback) {
   this.dates = this.form.querySelectorAll('input[data-type="date"]');
   this.ranges = this.form.querySelectorAll('input[data-type="range"]');
 
-  // Динамические переменные:
-  this.isSubmit = false;
-
-  // Первоначальная блокировка кнопки отправки формы:
-  this.submitBtn.setAttribute('disabled','disabled');
-
-  // Инициализация выпадающих списков (если они есть):
-  this.dropDowns.forEach((el, index) => {
-    this[`dropDown${index}`] = new DropDown(el);
-  });
-
-  // Инициализация календарей (если они есть):
-  this.dates.forEach(el => new Calendar(el));
-  this.ranges.forEach(el => new Calendar(el));
+  // Блокировка/разблокировка кнопки отправки формы:
+  this.toggleBtn = function() {
+    if (this.isSubmit) {
+      this.submitBtn.removeAttribute('disabled');
+    } else {
+      this.submitBtn.setAttribute('disabled','disabled');
+    }
+  }
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -2147,7 +2153,6 @@ function Form(obj, callback) {
       el.querySelectorAll('input:not([data-type]):not([type="radio"]):not([type="checkbox"]):not([type="file"]):not([type="hidden"]):not(.choiced-qty)').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
     });
   }
-  this.setEventListeners();
 
   // Определение типа поля и его проверка по соответствующему регулярному выражению:
   this.checkInput = function(event) {
@@ -2178,7 +2183,8 @@ function Form(obj, callback) {
         error.textContent = 'Поле заполнено неверно';
         formWrap.appendChild(error);
       }
-      this.submitBtn.setAttribute('disabled','disabled');
+      this.isSubmit = false;
+      this.toggleBtn();
     }
   }
 
@@ -2212,11 +2218,7 @@ function Form(obj, callback) {
         }
       }
     });
-    if (this.isSubmit) {
-      this.submitBtn.removeAttribute('disabled');
-    } else {
-      this.submitBtn.setAttribute('disabled', 'disabled');
-    }
+    this.toggleBtn();
   }
 
   // Отправка формы:
@@ -2240,9 +2242,27 @@ function Form(obj, callback) {
     this.form.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="submit"])').forEach(el => el.value = '');
     this.form.querySelectorAll('input[type="radio"]').forEach(el => el.removeAttribute('checked'));
     this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.removeAttribute('checked'));
-    this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
-    this.submitBtn.setAttribute('disabled','disabled');
+    this.dropDowns.forEach(el => {
+      var name = getEl('[type="hidden"]', el).getAttribute('name');
+      this[`dropDown${name}`].clear();
+    });
+    this.isSubmit = false;
+    this.toggleBtn();
   }
+
+    // Инициализация формы:
+    this.init = function() {
+      this.isSubmit = false;
+      this.toggleBtn();
+      this.dropDowns.forEach(el => {
+        var name = getEl('[type="hidden"]', el).getAttribute('name');
+        this[`dropDown${name}`] = new DropDown(el);
+      });
+      this.dates.forEach(el => new Calendar(el));
+      this.ranges.forEach(el => new Calendar(el));
+      this.setEventListeners();
+    }
+    this.init();
 }
 
 //=====================================================================================================
