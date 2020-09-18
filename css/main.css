@@ -2039,13 +2039,27 @@ div.option input:disabled ~ .checkbox.icon {
 ===================================================================================================== */
 
 .warnblock {
+  justify-content: center;
+  align-items: center;
   background-color: #FFF1C1;
   color: #CE0014;
 }
 
+.pop-up .warnblock {
+  margin: 0 -2.5em;
+  margin-bottom: 1em;
+  padding: 0 2.5em;
+}
+
 .warnblock .attention.icon {
-  width: 27px;
-  height: 27px;
+  width: 26px;
+  height: 26px;
+  margin: 0.714em;
+  margin-left: 0;
+}
+
+.warnblock > div {
+  margin: 0.714em 0;
 }
 
 /* =====================================================================================================
