@@ -290,9 +290,6 @@ function addActionInfo(item) {
       }
     }
   }
-  item.actiontitle = item.actiontitle || '';
-  item.actioncolor = item.actioncolor || '';
-  item.actiondescr = item.actiondescr || '';
   item.isAction = item.actiontitle ? '' : 'hidden';
 }
 
@@ -355,7 +352,6 @@ function addSizeInfo(item) {
 
     var sizeObj = cartItems['id_' + size.object_id] = Object.assign({}, size);
     sizeObj.id = item.object_id;
-    sizeObj.isAvailable = size.total_qty > 0 ? '' : 'not-available';
     sizeObj.image = item.image;
     sizeObj.title = item.title;
     sizeObj.options = size.size ? `(${item.options[40]}, ${size.size})` : '';

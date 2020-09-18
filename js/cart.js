@@ -1155,7 +1155,8 @@ function toggleAddressField() {
     address.removeAttribute('disabled');
     address.closest('.form-wrap').setAttribute('required', 'required');
   } else {
-    window[`order-formForm`][`dropDown4`].clear();
+    var name = getEl('[type="hidden"]', address).getAttribute('name');
+    window[`order-formForm`][`dropDown${name}`].clear();
     address.setAttribute('disabled', 'disabled');
     address.closest('.form-wrap').removeAttribute('required', 'required');
   }
