@@ -206,10 +206,6 @@ body {
   max-width: 15em;
 }
 
-#search-adaptive {
-  display: none;
-}
-
 .sortbox {
   justify-content: flex-end;
   align-items: center;
@@ -602,6 +598,10 @@ body {
   padding: 1em;
   background-color: #FFFFFF;
   cursor: pointer;
+  -webkit-transition: 200ms;
+  -moz-transition: 200ms;
+  -o-transition: 200ms;
+  transition: 200ms;
 }
 
 .min-card:hover {
@@ -689,6 +689,7 @@ body {
 
 .min-card .tooltips {
   align-items: center;
+  height: 1.417em;
   margin-bottom: 0.714em;
 }
 
@@ -725,7 +726,7 @@ body {
   margin-bottom: 0.714em;
   padding: 1em;
   padding-bottom: 0;
-  border: 1px solid #C6C6C6;
+  border-radius: 3px;
   overflow: hidden;
 }
 

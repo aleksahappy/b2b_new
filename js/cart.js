@@ -113,6 +113,7 @@ function updateCart() {
       .then(result => {
         if (location.search === '?cart') {
           createCart();
+          changeCartInHeader();
           if (getEl('#checkout').classList.contains('open')) {
             fillCheckout();
           }
@@ -242,7 +243,7 @@ function saveInCartData(id, qty) {
   if (!cartData[action]) {
     cartData[action] = {};
     cartData[action].action_name = action;
-    cartData[action].type = item.action === 'Нет в наличии' ? 'sold' : '';
+    cartData[action].type = action === 'Нет в наличии' ? 'sold' : '';
     cartData[action].items = {};
   }
   if (!cartData[action].items[id]) {
@@ -502,6 +503,9 @@ function sumLessProc(sum) {
 // Изменение информации о корзине в шапке сайта:
 
 function changeCartInHeader(totals) {
+  if (!totals) {
+    totals = countFromCart();
+  }
   var qty = totals.qty,
       sum = totals.sum;
   fillCartInHeader(qty, sum, '#header-cart', 'cart');
@@ -550,7 +554,7 @@ function fillCartInHeader(qty, sum, area, type) {
   }
 }
 
-// Добавление информации о корзине в заголовок страницы:
+// Изменение информации о корзине в заголовке страницы:
 
 function changeCartName(qty) {
   var cartName = getEl('#cart-name');
@@ -797,8 +801,16 @@ function changeCartRow(row) {
       totals = countFromCart([id], false),
       sum = convertPrice(totals.sum, false);
 
+  if (totals.qty) {
+    row.classList.add('checked');
+  } else {
+    row.classList.remove('checked');
+  }
+
   getEl('.sum span', row).textContent = sum;
   changeCartRowCopy(id, totals.qty, sum);
+  changeCartSectionInfo(row.closest('.cart-section'));
+  changeCheckoutInfo();
 
   if (totals.bonusId) {
     var bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`);
@@ -838,21 +850,11 @@ function changeCartRowCopy(id, qty, sum) {
 // Работа элементов корзины:
 //=====================================================================================================
 
-// Блокировка/разблокировка кнопки оформления заказа:
-
-function checkCheckoutBtn() {
-  var btn = getEl('#checkout-btn');
-  if (getEl(':not(.sold) .cart-row.checked')) {
-    btn.classList.remove('disabled');
-  } else {
-    btn.classList.add('disabled');
-  }
-}
-
-// Изменение информации о количестве заказов (рядом с кнопкой оформления заказа):
+// Изменение информации о заказах и блокировка/разблокировка кнопки оформления заказа:
 
 function changeCheckoutInfo() {
   var info = getEl('#checkout-info'),
+      btn = getEl('#checkout-btn'),
       ordersQty = 0;
   document.querySelectorAll('.cart-section:not(.sold)').forEach(el => {
     if (getEl('.cart-row.checked', el)) {
@@ -862,7 +864,13 @@ function changeCheckoutInfo() {
   var totals = countFromCart(getIdList('cart'), false);
   getEl('.qty', info).textContent = getCheckoutInfo(ordersQty);
   getEl('.sum', info).textContent = convertPrice(totals.sum, false);
-  info.style.visibility = 'visible';
+  if (totals.qty) {
+    info.style.visibility = 'visible';
+    btn.classList.remove('disabled');
+  } else {
+    info.style.visibility = 'hidden';
+    btn.classList.add('disabled');
+  }
 }
 
 // Изменение информации о заказе:
@@ -893,12 +901,18 @@ function getCheckoutInfo(qty) {
   return declOfNum(qty, ['создан', 'создано', 'создано']) + ' ' + qty + ' ' + declOfNum(qty, ['заказ', 'заказа', 'заказов']);
 }
 
-// Изменение информации о количестве и сумме в секции корзины:
+// Изменение чекбокса и информации о количестве и сумме в секции корзины:
 
-function changeCartSectionInfo(section) {
-  var totals = countFromCart(getIdList('cart', section), false);
-  getEl('.select-qty span', section).textContent = totals.qty;
-  getEl('.select-sum span', section).textContent = convertPrice(totals.sum, false);
+function changeCartSectionInfo(cartSection) {
+  var totals = countFromCart(getIdList('cart', cartSection), false),
+      mainCheckbox = getEl('.head .checkbox', cartSection);
+  getEl('.select-qty span', cartSection).textContent = totals.qty;
+  getEl('.select-sum span', cartSection).textContent = convertPrice(totals.sum, false);
+  if (totals.qty) {
+    mainCheckbox.classList.add('checked');
+  } else {
+    mainCheckbox.classList.remove('checked');
+  }
 }
 
 // Выделение/снятие выделения пунктов корзины:
@@ -909,30 +923,32 @@ function toggleInCart(event) {
     return;
   }
   var curRow = event.currentTarget.closest('.cart-row'),
-      mainCheckbox = getEl('.head .checkbox', cartSection);
+      toggle;
   if (curRow) {
-    // Выделение/снятие выделения одного пункта корзины:
-    if (curRow.classList.contains('bonus')) {
-      return;
-    }
-    curRow.classList.toggle('checked');
-    if (!getEl('.cart-row:not(.bonus):not(.checked)', cartSection)) {
-      mainCheckbox.classList.add('checked');
-    } else {
-      mainCheckbox.classList.remove('checked');
+    if (!curRow.classList.contains('bonus')) {
+      toggle = curRow.classList.contains('checked');
+      toggleCartRow(curRow, toggle);
     }
   } else {
-    // Выделение/снятие выделения секции корзины:
-    if (mainCheckbox.classList.contains('checked')) {
-      cartSection.querySelectorAll('.cart-row:not(.bonus)').forEach(el => el.classList.remove('checked'));
-    } else {
-      cartSection.querySelectorAll('.cart-row:not(.bonus)').forEach(el => el.classList.add('checked'));
-    }
-    mainCheckbox.classList.toggle('checked');
+    var mainCheckbox = getEl('.head .checkbox', cartSection);
+    toggle = mainCheckbox.classList.contains('checked')
+    cartSection.querySelectorAll('.cart-row:not(.bonus)').forEach(row => toggleCartRow(row, toggle));
   }
   changeCartSectionInfo(cartSection);
-  checkCheckoutBtn();
   changeCheckoutInfo();
+}
+
+// Выделение/снятие выделения одного пункта корзины:
+
+function toggleCartRow(row, toggle) {
+  var qty = getEl('.choiced-qty', row).value;
+  if (qty != 0) {
+    if (toggle) {
+      row.classList.remove('checked');
+    } else {
+      row.classList.add('checked');
+    }
+  }
 }
 
 // Удаление пунктов корзины:
@@ -967,7 +983,6 @@ function deleteFromCart(event) {
       hideElement('#cart-full');
     } else {
       changeCartSectionInfo(cartSection);
-      checkCheckoutBtn();
       changeCheckoutInfo();
     }
   })
@@ -1077,7 +1092,7 @@ function addInCart(event) {
     if (data.cart) {
       cart[cartId] = data.cart[cartId];
       closePopUp(null, 'load-container');
-      changeCartInHeader(countFromCart());
+      changeCartInHeader();
       createCart();
     } else {
       alerts.show('Файл не загружен. Неверный формат данных.', 2000);
