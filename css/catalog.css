@@ -187,19 +187,30 @@ body {
 }
 
 .search-info {
+  position: relative;
   width: 100%;
   margin-right: 2em;
+  overflow: hidden;
 }
 
-.search-info > div{
+.search-info > div:not(.fade) {
   display: none;
-  flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
 }
 
 #filters-info {
   display: none;
+}
+
+.search-info .fade {
+  position: absolute;
+  width: 5em;
+  top: 0;
+  bottom: 0;
+  right: -1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #F2F2F2 100%);
+  z-index: 1;
 }
 
 #filters-info .pill {
@@ -331,6 +342,10 @@ body {
 
 #filters:hover {
   overflow-y: auto;
+}
+
+#filters .filter:last-child {
+  margin-bottom: 20px;
 }
 
 /* =====================================================================================================
@@ -803,8 +818,8 @@ body {
 
 .big-card .card-fade {
   position: absolute;
-  height: 2.5em;
   width: calc(100% - 16em);
+  height: 2.5em;
   bottom: 0;
   right: 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);

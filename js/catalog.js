@@ -84,10 +84,9 @@ startCatalogPage();
 // Запуск страницы каталога:
 
 function startCatalogPage() {
-  window.addEventListener('resize', setPaddingToBody);
-  window.addEventListener('popstate', (event) => openPage(event));
   setPaddingToBody();
   addCatalogModules();
+  setEventListeners();
   fillCatalogHeader();
   if (view === 'product') {
     getItems(location.search.replace('?',''))
@@ -102,8 +101,8 @@ function startCatalogPage() {
       }
     )
   } else {
-    getItems()
-    // sendRequest(`../json/${document.body.id}.json`)
+    // getItems()
+    sendRequest(`../json/${document.body.id}.json`)
     .then(
       result => {
         // result = JSON.parse(result); //удалить
@@ -121,11 +120,23 @@ function startCatalogPage() {
   }
 }
 
+// Добавление обработчиков собтий на элементы:
+
+function setEventListeners() {
+  window.addEventListener('resize', setPaddingToBody);
+  window.addEventListener('popstate', (event) => openPage(event));
+  if (isCart) {
+    window.addEventListener('focus', updateCart);
+  }
+  var filters = getEl('#filters');
+  filters.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+  filters.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+}
+
 // Инициализация корзины (если есть):
 
 function initCart() {
   if (isCart) {
-    window.addEventListener('focus', updateCart);
     getCart()
     .then(result => {
       fillOrderForm();
@@ -539,6 +550,7 @@ function setFiltersHeight() {
         headerHeight = getEl('#header').clientHeight,
         footerHeight = Math.max((window.innerHeight + scrolled - getEl('#footer').offsetTop) + 20, 0),
         filtersHeight = window.innerHeight - headerHeight - footerHeight;
+    filters.style.top = headerHeight + 'px';
     filters.style.maxHeight = filtersHeight + 'px';
   }
 }
@@ -1418,8 +1430,6 @@ function loadCards(cards) {
     sub: sub,
     method: countItems === 0 ? 'inner' : 'beforeend'
   });
-  setFiltersHeight();
-
   if (view === 'list') {
     document.querySelectorAll('.big-card').forEach(card => {
       renderCarousel(getEl('.carousel', card));
@@ -1434,6 +1444,7 @@ function loadCards(cards) {
       addActionTooltip(card);
     });
   }
+  setFiltersHeight();
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1462,7 +1473,6 @@ function showCards() {
     if (selectedItems.length === 0) {
       showElement('#gallery-notice', 'flex');
       hideElement('#gallery');
-      setFiltersHeight();
     } else {
       loadCards(selectedItems)
       showElement('#gallery', 'flex');
@@ -1471,6 +1481,7 @@ function showCards() {
   }
   setDocumentScroll(0);
   setContentWidth();
+  setFiltersHeight();
   if (curSelect && curSelect !== 'search') {
     toggleFilterBtns();
   }
