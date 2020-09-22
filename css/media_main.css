@@ -111,10 +111,6 @@ Laptop:
     padding: 40px 0;
   }
 
-  .pop-up-container.filters {
-    padding: 0;
-  }
-
   /* Кнопка "Наверх страницы": */
 
   #up-btn {
@@ -309,7 +305,8 @@ Tablet:
 
   .pop-up-container.filters {
     display: flex;
-    padding: 0;
+    padding: 40px 0;
+    background-color: rgba(102, 102, 102, 0.3);
   }
 
   .pop-up-container.filters.visible {
@@ -360,6 +357,8 @@ Tablet:
 
   .pop-up-container.filters .btns-wrap {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 
   /* Окно уведомлений: */
@@ -402,7 +401,8 @@ Tablet:
 
   /* Всплывающие окна: */
 
-  .pop-up-container {
+  .pop-up-container,
+  .pop-up-container.filters {
     padding: 0;
   }
 
@@ -443,15 +443,6 @@ Tablet:
   .filters .filter .item > .row {
     padding: 1em 2.143em;
     padding-bottom: 0;
-  }
-
-  .pop-up-container.filters .btns-wrap {
-    margin: 0;
-  }
-
-  .pop-up-container.filters .btn {
-    width: 100%;
-    border-radius: 0;
   }
 }
 

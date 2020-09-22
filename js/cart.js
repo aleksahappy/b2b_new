@@ -53,7 +53,7 @@ function sendOrder(formData) {
   var idList = getIdList('cart');
   if (!idList) {
     hideElement('#checkout .loader');
-    closePopUp('#checkout');
+    closePopUp(null, '#checkout');
     alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
     return;
   }
@@ -94,7 +94,7 @@ function sendOrder(formData) {
   .catch(error => {
     console.log(error);
     hideElement('#checkout .loader');
-    closePopUp('#checkout');
+    closePopUp(null, '#checkout');
     alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
 }
@@ -780,9 +780,9 @@ function changeCard(card) {
   if (totals.qty > 0) {
     getEl('.select-qty span', card).textContent = totals.qty;
     getEl('.select-sum span', card).textContent = convertPrice(totals.sum, false);
-    selectInfo.style.visibility = 'visible';
+    selectInfo.classList.add('show');
   } else {
-    selectInfo.style.visibility = 'hidden';
+    selectInfo.classList.remove('show');
   }
 }
 
@@ -1054,7 +1054,7 @@ function loadInCart() {
   });
   createCart();
   loader.hide();
-  closePopUp('load-container');
+  closePopUp(null, 'load-container');
   if (addInCart.length < strings.length) {
     alerts.show('При загрузке были найдены не все артикулы', 3000);
   }
@@ -1076,7 +1076,7 @@ function addInCart(event) {
     var data = JSON.parse(result);
     if (data.cart) {
       cart[cartId] = data.cart[cartId];
-      closePopUp('load-container');
+      closePopUp(null, 'load-container');
       changeCartInHeader(countFromCart());
       createCart();
     } else {

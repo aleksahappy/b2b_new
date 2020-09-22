@@ -1348,7 +1348,7 @@ function fillEl(data, items, temp) {
       temp = replaceInTemp(key, items, temp, data.sign);
     }
   } else {
-    var regEx = new RegExp(`${data.sign}[^${data.sign}]+${data.sign}`, 'gi'),
+    var regEx = new RegExp(data.sign + '[^' + data.sign + '|\\s]+' + data.sign, 'gm'),
         props = temp.match(regEx);
     props = props || [];
     props = props.reduce((unique, el) => {
@@ -1405,7 +1405,7 @@ function insertText(target, txt, sign, method = 'inner') {
   target.classList.remove('template');
   txt = txt.replace(/template/gi, '');
   // удаление назаполненных данными ключей
-  var regex = new RegExp(sign + '[^' + sign + ']+' + sign, 'gi');
+  var regex = new RegExp(sign + '[^' + sign + '|\\s]+' + sign, 'gm');
   txt = txt.replace(regex, '');
 
   if (!method || method === 'inner') {
@@ -1710,11 +1710,11 @@ function initPopUps() {
 // Открытие всплывающего окна:
 
 function openPopUp(el) {
-  if (event && el == event) {
-    if (event.currentTarget.classList.contains('disabled') || event.currentTarget.hasAttribute('disabled')) {
-      return;
-    }
-  }
+  // if (event) {
+  //   if (event.currentTarget.classList.contains('disabled') || event.currentTarget.hasAttribute('disabled')) {
+  //     return;
+  //   }
+  // }
   el = getEl(el);
   if (el) {
     el.classList.add('open');
@@ -1726,8 +1726,8 @@ function openPopUp(el) {
 
 // Закрытие всплывающего окна:
 
-function closePopUp(el) {
-  if (event && el == event) {
+function closePopUp(event, el) {
+  if (event) {
     if (event.type === 'keydown') {
       if (event.code === 'Escape') {
         el = getEl('.pop-up-container.open');
@@ -1784,7 +1784,7 @@ function initNotifications() {
 
 // Отображение полной карточки товара:
 
-function showFullCard(id) {
+function showFullCard(event, id) {
   event.preventDefault();
   loader.show();
   var fullCardContainer = getEl('#full-card-container');
@@ -1997,7 +1997,7 @@ function Alerts(obj) {
     openPopUp(this.alerts);
     if (timer) {
       setTimeout(() => {
-        closePopUp(this.alerts);
+        closePopUp(null, this.alerts);
       }, timer);
     }
   }
@@ -2021,7 +2021,7 @@ function Alerts(obj) {
 
   // Скрытие окна сообщений:
   this.hide = function() {
-    closePopUp(this.alerts);
+    closePopUp(null, this.alerts);
   }
 }
 
@@ -2296,7 +2296,7 @@ function Search(obj, callback) {
   this.input = getEl('input[type="text"]', obj);
   this.searchBtn = getEl('.search', obj);
   this.cancelBtn = getEl('.close', obj);
-  this.result = getEl(`.search-info[data-search="${this.obj.id}"]`);
+  this.result = getEl(`[data-search="${this.obj.id}"]`);
   if (this.activate) {
     this.items = getEl('.items', this.activate);
     this.notFound = getEl('.not-found', this.activate);
@@ -2409,6 +2409,9 @@ function Search(obj, callback) {
     if (this.type === 'inSearchBox') {
       return;
     }
+    if (callback) {
+      var length = callback(this.obj, textToFind);
+    }
     if (this.type === 'usual') {
       this.toggleInfo(textToFind, length);
       this.input.focus();
@@ -2418,9 +2421,6 @@ function Search(obj, callback) {
     }
     this.searchBtn.style.visibility = 'hidden';
     this.cancelBtn.style.visibility = 'visible';
-    if (callback) {
-      var length = callback(this.obj, textToFind);
-    }
   }
 
   // Очистка поля поиска:

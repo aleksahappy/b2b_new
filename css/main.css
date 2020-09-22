@@ -2168,8 +2168,6 @@ form.search .drop-down .item {
 
 form.search.positioned {
   position: absolute;
-  justify-content: space-between;
-  align-items: center;
   width: 3.5em;
   -webkit-transition: width 0.5s ease-in;
   -moz-transition: width 0.5s ease-in;
@@ -2187,21 +2185,16 @@ form.search.positioned input[type="text"] {
 form.search.positioned:not(:focus-within) .search.icon {
   background-color: transparent;
   background-image: url(../img/search_white.svg);
-  visibility: visible !important;
-}
-
-form.search.positioned:not(:focus-within) .close.icon {
-  visibility: hidden !important;
 }
 
 form.search.positioned:focus-within {
-  width: 25em !important;
+  width: 25em;
 }
 
 form.search.positioned:focus-within input[type="text"] {
   background-color: #FFFFFF;
   border: 1px solid #D5D5D5;
-  cursor: auto;
+  cursor: default;
   z-index: 0;
 }
 
@@ -2578,6 +2571,10 @@ form.post > .loader {
   margin-bottom: 1px;
 }
 
+.filters .filter.close:last-child {
+  margin-bottom: 0;
+}
+
 .filters .filter .open.icon {
   width: 12px;
   height: 7px;
@@ -2622,7 +2619,7 @@ form.post > .loader {
   background-position-x: right;
 }
 
-.filters .filter .items .items {
+.filters .filter .item > .items {
   margin-left: 1.3em;
 }
 
@@ -2642,7 +2639,28 @@ form.post > .loader {
 .pop-up-container.filters .btns-wrap {
   display: none;
   flex-grow: 1;
-  margin: 2.5em 0;
+}
+
+.pop-up-container.filters .btn {
+  width: 100%;
+  border-radius: 0;
+}
+
+.pop-up-container.filters .clear-btn {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-right: 0;
+  padding: 0.75em 1.428em;
+  cursor: pointer;
+}
+
+.pop-up-container.filters .clear-btn .close.icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 0.357em;
+  margin-right: 0;
 }
 
 /* =====================================================================================================
@@ -3071,6 +3089,10 @@ th:last-child .resize-btn::after {
   visibility: hidden;
 }
 
+.card .select-info.show {
+  visibility: visible;
+}
+
 .card-img img {
   max-width: 100%;
   max-height: 100%;
@@ -3090,6 +3112,8 @@ th:last-child .resize-btn::after {
 
 .card-price > div > div {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-price .cur-price,
@@ -3097,21 +3121,12 @@ th:last-child .resize-btn::after {
   border-bottom: 1px solid #C6C6C6;
 }
 
-.card-price .cur-price.borderNone {
-  border-bottom-color: transparent;
-}
-
 .card-price .cur-price .text {
   font-size: 1.714em;
   font-weight: 700;
 }
 
-.card-price .old-price {
-  margin-bottom: 0.375em;
-}
-
 .card-price .old-price .text {
-  color: #8596A6;
   text-decoration: line-through;
 }
 
@@ -3126,9 +3141,8 @@ th:last-child .resize-btn::after {
 .card-size {
   flex-grow: 0;
   flex-shrink: 0;
-  width: 9em;
-  margin-left: 2em;
-  margin-bottom: 1em;
+  width: 10.5em;
+  margin-bottom: 0.714em;
 }
 
 .card-size * {
@@ -3149,7 +3163,7 @@ th:last-child .resize-btn::after {
 }
 
 .card-size .qty.row {
-  margin: 0.357em 0;
+  margin: 0.2em 0;
   align-items: center;
 }
 
@@ -3342,11 +3356,6 @@ th:last-child .resize-btn::after {
 
 .full-card .select-info {
   padding-bottom: 1.428em;
-}
-
-.full-card .card-size {
-  margin-left: 0;
-  margin-right: 2em;
 }
 
 .full-card .card-info {
@@ -3822,7 +3831,6 @@ th:last-child .resize-btn::after {
   left: 0;
   color: #FFFFFF;
   background-color: #53606F;
-  z-index: 100;
 }
 
 #footer .wrap {

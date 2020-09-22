@@ -7,7 +7,7 @@
     <div class="submenu row">
       <a class="submenu-item" href="../#id#/?#cat#" data-title="#cat_title#" onclick="openPage(event)">#cat_title#</a>
     </div>
-    <form id="page-search" class="search positioned row">
+    <form id="search" class="search positioned row">
       <input type="text" data-value=""> <!-- здесь нельзя использовать placeholder -->
       <input class="search icon" type="submit" value="">
       <div class="close icon"></div>
@@ -33,16 +33,18 @@
 </div>
 <div id="header-content">
   <div class="container row">
-    <div class="clear-filter btn sub-act disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
+    <div class="clear-filter btn act disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
     <div class="gallery-head row">
-      <div class="search-info row" data-search="page-search">
-        <div class="pill ctr checked">Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
-      </div>
-      <div class="search-info row" data-search="oem">
-        <div class="pill ctr checked">Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
-      </div>
-      <div id="filters-info" class="row template">
-        <div class="pill ctr checked" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">#title#</div>
+      <div class="search-info">
+        <div class="row" data-search="search">
+          <div class="pill ctr checked">Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+        </div>
+        <div class="row" data-search="oem">
+          <div class="pill ctr checked">Результаты поиска ("<span class="search-text"></span>" - <span class="search-count">0</span>)</div>
+        </div>
+        <div id="filters-info" class="row template">
+          <div class="pill ctr checked" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">#title#</div>
+        </div>
       </div>
       <div class="sortbox row">
         <div class="view row">
@@ -64,6 +66,7 @@
           </div>
         </div>
       </div>
+      <div class="relay icon" onclick="openPopUp('#filters .filters')"></div>
     </div>
   </div>
 </div>

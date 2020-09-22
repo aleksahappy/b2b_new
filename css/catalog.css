@@ -66,13 +66,13 @@ body {
   background-color: #F05A28;
 }
 
-#page-search {
+#search {
   display: none;
   top: 0.2em;
   right: calc(4rem + 16em);
 }
 
-#page-search:focus-within {
+#search:focus-within {
   width: 20em;
 }
 
@@ -174,8 +174,7 @@ body {
 .gallery-head {
   justify-content: flex-end;
   align-items: flex-start;
-  width: calc(100% - 20em);
-  border-bottom: 1px solid #C6C6C6;
+  width: calc(100% - 19em);
 }
 
 .gallery-head .pill {
@@ -187,19 +186,28 @@ body {
   display: inline-block;
 }
 
-.search-info,
-#filters-info {
+.search-info {
+  width: 100%;
+  margin-right: 2em;
+}
+
+.search-info > div{
+  display: none;
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
 }
 
-.search-info {
+#filters-info {
   display: none;
 }
 
 #filters-info .pill {
   max-width: 15em;
+}
+
+#search-adaptive {
+  display: none;
 }
 
 .sortbox {
@@ -227,7 +235,7 @@ body {
 }
 
 .view .icon {
-  margin-right: 0.5em;
+  margin-right: 0.714em;
 }
 
 .view .icon:last-child {
@@ -316,29 +324,17 @@ body {
 }
 
 #filters {
-  position: static;
+  position: fixed;
+  top: 164px;
   width: calc(18em + 7px);
   min-height: 50vh;
   overflow: hidden;
   text-overflow: ellipsis;
+  z-index: 200;
 }
 
 #filters:hover {
   overflow-y: auto;
-}
-
-.filters .checked > div > .title .checkbox.icon,
-.filters .checked.title .checkbox.icon {
-  background-image: url(../img/checkbox_checked_blue.svg);
-}
-
-.pop-up-container.filters .btn {
-  background-color: #34495E
-}
-
-.pop-up-container.filters .btn:hover,
-.pop-up-container.filters .btn:active {
-  background-color: #2C3E50;
 }
 
 /* =====================================================================================================
@@ -359,20 +355,13 @@ body {
 }
 
 #zip-filters > .items {
-  background-color: #F2C94C;
-  border: 1px solid #F05A28;
+  background-color: #F9BA4D;
   padding: 0.714em;
 }
 
 #zip-filters .activate {
   width: 100%;
   margin-bottom: 0.6em;
-}
-
-#zip-filters .activate .head,
-#zip-filters .search input {
-  padding-top: 0.11em;
-  padding-bottom: 0.11em;
 }
 
 #zip-filters .activate.open .drop-down {
@@ -437,8 +426,8 @@ body {
 
 #filter-size .item.checked .text {
   color: #FFFFFF;
-  background-color: #34495E;
-  border: 1px solid #34495E;
+  background-color: #F05A28;
+  border: 1px solid #F05A28;
 }
 
 #filter-color .item .title.row {
@@ -574,12 +563,13 @@ body {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
-  width: calc(100% - 20em);
+  width: calc(100% - 19em);
+  padding-bottom: 14em;
 }
 
 #gallery-notice {
   display: none;
-  width: calc(100% - 20em);
+  width: calc(100% - 19em);
   min-height: 30vh;
   justify-content: center;
   align-items: center;
@@ -592,19 +582,53 @@ body {
 ===================================================================================================== */
 
 .min-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 18em;
+  height: 31.5em;
   margin: 0 -1px -1px 0;
+  border: 2px solid #F2F2F2;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.min-card .wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
   padding: 1em;
-  border: 1px solid #C6C6C6;
+  background-color: #FFFFFF;
   cursor: pointer;
 }
 
 .min-card:hover {
-  border: 1px solid #34495E !important;
+  overflow: visible;
+}
+
+.min-card:hover .wrap {
+  top: -4px;
+  right: -4px;
+  left: -4px;
+  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
   z-index: 1;
+}
+
+.min-card .cart.icon {
+  display: none;
+  position: absolute;
+  right: 1em;
+  width: 25px;
+  height: 25px;
+  margin-right: 0.3em;
+  cursor: help;
+}
+
+.min-card .qty.in-circle {
+  top: -4.3px;
+  right: -7px;
 }
 
 .min-card .card-img {
@@ -612,8 +636,19 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 10.5em;
+  height: 16em;
   overflow: hidden;
+}
+
+.min-card .action {
+  max-width: none;
+  height: 1.834em;
+  margin: 1em 0;
+}
+
+.min-card .action.hidden {
+  font-size: 0.857em;
+  opacity: 0;
 }
 
 .min-card .card-title {
@@ -631,38 +666,49 @@ body {
 
 .min-card .card-price {
   width: 100%;
-  height: 4.7em;
-  margin-bottom: 1em;
+  height: 2.357em;
+  margin-bottom: 0.714em;
 }
 
-.min-card .card-price .cur-price .text {
-  font-size: 1.143em;
-  font-weight: 600;
-}
-
-.min-card .card-info {
+.min-card .card-price > div {
   justify-content: space-between;
-  text-align: center;
-  height: 1.7em;
+  align-items: baseline;
+  width: auto;
+  padding: 0;
+  font-size: 1.714em;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.min-card .card-price > div:last-child {
+  margin-left: 1em;
+  text-decoration: line-through;
 }
 
 .min-card .tooltips {
   align-items: center;
-  height: 100%;
+  margin-bottom: 0.714em;
 }
 
-.min-card .cart.icon {
-  display: none;
-  position: relative;
-  width: 24px;
-  height: 24px;
-  margin-right: 0.3em;
-  cursor: help;
+.min-card .card-sizes {
+  margin-bottom: 0.714em;
 }
 
-.min-card .qty.in-circle {
-  top: -4.3px;
-  right: -7px;
+.min-card .card-sizes .row {
+  flex-wrap: wrap;
+}
+
+.min-card .card-size {
+  width: auto;
+  margin-bottom: 0;
+  font-size: 0.857em;
+  padding: 0.751em;
+}
+
+.min-card .btn {
+  width: 100%;
 }
 
 /* =====================================================================================================
@@ -678,6 +724,7 @@ body {
   height: 18em;
   margin-bottom: 0.714em;
   padding: 1em;
+  padding-bottom: 0;
   border: 1px solid #C6C6C6;
   overflow: hidden;
 }
@@ -691,14 +738,15 @@ body {
   flex-grow: 0;
   flex-shrink: 0;
   width: 20em;
-  padding: 0 28px;
+  padding: 0 25px;
   margin-right: 1.428em;
+  margin-bottom: 1em;
 }
 
 .big-card .carousel .left-btn,
 .big-card .carousel .right-btn {
-  width: 28px;
-  background-size: 24px;
+  width: 25px;
+  background-size: 23px;
   opacity: 0.5;
 }
 
@@ -708,30 +756,58 @@ body {
 }
 
 .big-card .card-content {
-  width: 100%;
+  position: relative;
+  width: calc(100% - 22em);
 }
 
 .big-card .card-head {
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 0.714em;
+  margin-bottom: 0.375em;
 }
 
 .big-card .card-title {
   width: 100%;
   margin-right: 1.428em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.big-card .card-title .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.big-card .select-info {
+  display: none;
+}
+
+.big-card .select-info.show {
+  display: flex;
 }
 
 .big-card .card-price {
   width: 16em;
-  margin-right: 2em;
+  margin-right: 3em;
+  margin-bottom: 1em;
 }
 
 .big-card .card-sizes {
+  position: relative;
+  top: -0.714em;
   width: 100%;
-  height: 11.5em;
-  overflow: hidden;
+}
+
+.big-card .card-fade {
+  position: absolute;
+  height: 2.5em;
+  width: calc(100% - 16em);
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+  z-index: 1;
 }
 
 /* Стили для большой карточки ЗИП: */

@@ -19,21 +19,21 @@
                 <div class="open white icon switch-icon"></div>
               </div>
               <div class="items switch-cont">
-                <div id="zip-selects template">
-                  <div class="title">#title#</div>
+                <div id="zip-selects" class="template">
                   <div id="#key#" class="activate select" disabled>
                     <div class="head row">
                       <div class="title">#title#</div>
                       <div class="triangle icon"></div>
                     </div>
                     <div class="drop-down">
-                      <div class="item" data-value="#item#">#item#</div>
+                      <div class="items">
+                        <div class="item" data-value="@@item@@">@@item@@</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="title">Поиск по ОЕМ</div>
                 <form id="oem" class="search activate select row">
-                  <input type="text" data-value="" autocomplete="off" placeholder="Введите OEM">
+                  <input type="text" data-value="" autocomplete="off" placeholder="Поиск по OEM">
                   <input class="search icon" type="submit" value="">
                   <div class="close icon"></div>
                   <div class="drop-down">
@@ -55,7 +55,7 @@
                   <div class="item switch close" data-key="#key#" data-value="#value#" onclick="selectFilterCatalog(event)">
                     <div class="row">
                       <div class="title row">
-                        <div class="checkbox icon"></div>
+                        <div class="checkbox orange icon"></div>
                         <div class="text">#title#</div>
                       </div>
                       <div class="open icon switch-icon #isBtn#" onclick="switchContent(event)"></div>
@@ -64,7 +64,7 @@
                       <div class="item subitem" data-key="#key#" data-subkey="#subkey#" data-value="#value#" onclick="selectFilterCatalog(event)">
                         <div class="row">
                           <div class="title row">
-                            <div class="checkbox icon"></div>
+                            <div class="checkbox orange icon"></div>
                             <div class="text">#title#</div>
                           </div>
                         </div>
@@ -75,7 +75,11 @@
               </div>
             </div>
             <div class="btns-wrap">
-              <div class="btn act">Показать (<span>0</span>)</div>
+              <div class="clear-btn row" onclick="clearFilters(event)">
+                <div>Сбросить</div>
+                <div class="close icon"></div>
+              </div>
+              <div class="btn act disabled" onclick="closePopUp(null, '#filters .filters')">Показать (<span>0</span>)</div>
             </div>
           </div>
         </div>
@@ -122,7 +126,7 @@
           </div>
           <div class="cart-row row manage checked #status#" data-id="#object_id#">
             <div class="checkbox orange icon" onclick="toggleInCart(event)"></div>
-            <div class="name row" onclick="showFullCard(#id#)">
+            <div class="name row" onclick="showFullCard(event, #id#)">
               <div class="img-wrap row">
                 <img src="#image#">
               </div>

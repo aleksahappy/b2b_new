@@ -1,9 +1,147 @@
-/* =====================================================================================================
-Разрешения без ховера:
-===================================================================================================== */
-
+/* Разрешения без ховера: */
 @media (pointer:coarse) {
   #filters {
     overflow-y: scroll;
+  }
+}
+
+/* Стили на ширину свыше 960px: */
+@media only screen and (min-width: 960px) {
+  #search:not(:focus-within) .search.icon {
+    visibility: visible !important;
+  }
+
+  #search:not(:focus-within) .close.icon {
+    visibility: hidden !important;
+  }
+}
+
+/* Стили на ширину от 0 до 1360px включительно: */
+@media only screen and (max-width: 1360px) {
+  .gallery-head {
+    flex-direction: column-reverse;
+  }
+
+  .big-card .carousel {
+    width: 18em;
+  }
+
+  .big-card .card-content {
+    width: calc(100% - 20em);
+  }
+}
+
+/* Стили на ширину от 0 до 1080px включительно: */
+@media only screen and (max-width: 1080px) {
+  .big-card .carousel {
+    width: 16em;
+    max-width: 40%;
+    margin-top: 4em;
+  }
+
+  .big-card .card-content {
+    position: static;
+    width: calc(100% - 18em);
+    min-width: 55%;
+    margin-top: 3.5em;
+  }
+
+  .big-card .card-head {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    left: 1em;
+  }
+
+  .big-card .select-info,
+  .big-card .card-sizes {
+    display: none !important;
+  }
+
+  .big-card .card-price {
+    width: 100%;
+  }
+}
+
+/* Стили на ширину от 0 до 960px включительно: */
+@media only screen and (max-width: 960px) {
+  .clear-filter.btn,
+  .search-info,
+  .view .title,
+  #gallery-sort  {
+    display: none !important;
+  }
+
+  #search {
+    top: 105px;
+    right: auto;
+    left: 2.4rem;
+    width: calc(100vw - 200px) !important;
+    max-width: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+  }
+
+  #search input[type="text"] {
+    width: 100% !important;
+    max-width: none;
+    background-color: #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 3px;
+    outline: none;
+    cursor: default;
+    z-index: 0;
+  }
+
+  #search input[type="text"]:focus {
+    border-color: #666666;
+  }
+
+  #search .search.icon {
+    background-image: url(../img/search_grey.svg);
+  }
+
+  #filters-container,
+  #filters {
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  #filters {
+    position: static !important;
+  }
+
+  .gallery-head,
+  #gallery-notice,
+  #gallery {
+    width: 100%;
+  }
+
+  .gallery-head {
+    flex-direction: row;
+    padding-bottom: 1em;
+  }
+
+  #search-adaptive {
+    display: flex;
+    width: 100%;
+    margin-right: 4.5em;
+  }
+
+  .view {
+    margin-right: 0;
+  }
+
+  .view-blocks.icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 1em;
+  }
+
+  .view-list.icon {
+    width: 34px;
+    height: 30px;
   }
 }

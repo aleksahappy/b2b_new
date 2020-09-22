@@ -161,7 +161,6 @@ function createTableContent(id, settings) {
   <tbody id=${id}-body>
     <tr ${trFunc}>${bodyList}</tr>
   </tbody>`
-  console.log(table);
   return table;
 }
 
