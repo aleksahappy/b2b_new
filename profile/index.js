@@ -49,7 +49,7 @@ function sendProfile(formData) {
   .catch(error => {
     console.log(error);
     hideElement('#profile-edit .loader');
-    closePopUp('#profile-edit');
+    closePopUp(null, '#profile-edit');
     alerts.show('Данные не были отправлены. Попробуйте еще раз.');
   })
 }
