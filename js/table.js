@@ -506,7 +506,7 @@ function Table(obj, settings = {}) {
       this.changeFilter(action, type, key, value);
       if (oldFilters !== JSON.stringify(this.filters)) {
         this.filterData();
-        this.fillItems(action === 'save' ? dropDown : '');
+        // this.fillItems(action === 'save' ? dropDown : '');
         this.checkItems(action === 'save' ? key : '');
       }
     }

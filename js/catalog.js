@@ -1583,8 +1583,8 @@ function showFullCard(event, id) {
       getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
       getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
     }
-    loader.hide();
     fullCardContainer.style.opacity = 1;
+    loader.hide();
   });
 }
 
