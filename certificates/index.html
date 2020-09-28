@@ -23,7 +23,7 @@
           <div class="title h0">Сертификаты</div>
         </div>
         <div class="cert-filters row">
-          <div id="cert-search-wrap">
+          <div class="wrap">
             <div class="title">Поиск по ключевым словам</div>
             <form id="cert-search" class="search row">
               <input type="text" data-value="" autocomplete="off" placeholder="Введите слово...">
@@ -31,15 +31,13 @@
               <div class="close icon"></div>
             </form>
           </div>
-          <div id="cert-date">
+          <div class="wrap">
             <div class="title">Период реализации</div>
-            <div class="form-wrap">
-              <input id="cert-range" type="text" value="" name="" data-type="range"  placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="24" autocomplete="off">
-            </div>
+            <input id="cert-range" type="text" value="" name="" data-type="range"  placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="24" autocomplete="off">
           </div>
-          <div id="cert-brand">
+          <div class="wrap">
             <div class="title">Бренд</div>
-            <div id="brands-select" class="activate select">
+            <div id="cert-brand" class="activate select">
               <div class="head row">
                 <div class="title">Выберите бренд</div>
                 <div class="triangle icon"></div>
@@ -80,16 +78,14 @@
           <div class="title h2">Фильтры</div>
           <div class="close icon"></div>
         </div>
-        <div class="filter switch">
-          <div class="items switch-cont">
-            <div class="item">
-              <div class="row">
-                <form id="cert-search-mob" class="search row">
-                  <input type="text" data-value="" placeholder="Поиск по ключевым словам...">
-                  <input class="search icon" type="submit" value="">
-                  <div class="close icon"></div>
-                </form>
-              </div>
+        <div class="filter">
+          <div class="item">
+            <div class="row">
+              <form class="search row">
+                <input type="text" data-value="" placeholder="Поиск по ключевым словам...">
+                <input class="search icon" type="submit" value="">
+                <div class="close icon"></div>
+              </form>
             </div>
           </div>
         </div>
