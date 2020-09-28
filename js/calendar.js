@@ -15,20 +15,10 @@ class Calendar {
   constructor(obj) {
     this.element = obj;
     this.popUp = obj.closest('.pop-up-container');
-    this.element.addEventListener('focus', (event) => {
-      var calendar = document.body.querySelector('.calendar');
-      if (calendar) {
-        var popUp = calendar.closest('.pop-up-container');
-        if (popUp) {
-          popUp.removeChild(calendar);
-        } else {
-          document.body.removeChild(calendar);
-        }
-      }
-      this.init();
-    });
+    this.element.addEventListener('focus', () => this.init());
   }
-  // Разметка для календаря
+
+  // Разметка календаря:
   markup =
   `<div class='input-area'>
     <div class='month-navigator'>
@@ -60,6 +50,9 @@ class Calendar {
 
   // Инициализация календаря
   init() {
+    if (this.cContainer) {
+      return;
+    }
     if (this.element.value == '') {
       this.savedDate = new Date();
     } else {
@@ -104,16 +97,22 @@ class Calendar {
       { fullname: 'Суббота', shortname: 'Сб' },
     ];
 
-    this.getDOMs();
-    this.addEvents();
+    this.create();
+    this.addEventListeners();
     this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
-  // Создание контейнера для для разметки календаря:
-  getDOMs() {
-    // Создание контейнера для разметки календаря:
+  // Создание календаря:
+  create() {
+    // Создание контейнера:
     this.cContainer = document.createElement('div');
     this.cContainer.classList.add('calendar');
+    this.setPosition();
+
+    // Добавление разметки в контейнер:
+    this.cContainer.innerHTML = this.markup;
+
+    // Добавление контейнера на страницу:
     if (this.popUp) {
       this.cContainer.style.zIndex = '420';
       this.popUp.appendChild(this.cContainer);
@@ -122,21 +121,7 @@ class Calendar {
       document.body.appendChild(this.cContainer);
     }
 
-    // Позиционирование контейнера на странице:
-    var rect = this.element.getBoundingClientRect(),
-        inputWidth = this.element.offsetWidth,
-        scroll;
-    if (this.popUp) {
-      scroll = this.popUp.scrollTop;
-    } else {
-      scroll = window.pageYOffset || document.documentElement.scrollTop;
-    }
-    this.cContainer.style.left = rect.left + 'px';
-    this.cContainer.style.top = scroll + rect.top + rect.height + 'px';
-    this.cContainer.style.width = inputWidth + 'px';
-    this.cContainer.innerHTML = this.markup;
-
-    // Получение необходимых DOM-элементов календаря:
+    // Получение необходимых элементов календаря:
     this.cInputArea = this.cContainer.getElementsByClassName('input-area')[0];
     this.cMonthNavigator = this.cInputArea.getElementsByClassName('month-navigator')[0];
     this.cMonthPrevious = this.cMonthNavigator.getElementsByClassName('month-previous')[0];
@@ -149,45 +134,42 @@ class Calendar {
     this.tBody = this.cInputArea.getElementsByClassName('tbody')[0];
   }
 
+  // Позиционирование календаря:
+  setPosition = () => {
+    if (window.getComputedStyle(this.element).display === 'none') {
+      this.hide();
+      return;
+    }
+    var rect = this.element.getBoundingClientRect(),
+        inputWidth = this.element.offsetWidth,
+        scroll;
+    if (this.popUp) {
+      scroll = this.popUp.scrollTop;
+    } else {
+      scroll = window.pageYOffset || document.documentElement.scrollTop;
+    }
+    this.cContainer.style.left = rect.left + 'px';
+    this.cContainer.style.top = scroll + rect.top + rect.height + 'px';
+    this.cContainer.style.width = inputWidth + 'px';
+  }
+
   // Навешивание обработчиков событий:
-  addEvents() {
-    // кнопка назад
+  addEventListeners() {
+    // месяц назад
     this.cMonthPrevious.addEventListener('click', () => this.previous());
-    // кнопка вперед
+    // месяц вперед
     this.cMonthNext.addEventListener('click', () => this.next());
     // год назад
     this.cYearPrev.addEventListener('click', () => this.previousYear());
     // год вперед
     this.cYearNext.addEventListener('click', () => this.nextYear());
     // установка даты
-    this.tBody.addEventListener('click', () => {
-      this.element.value =
-        this.formateTwoDigitNumber(this.selectedDate.getDate()) +
-        '.' +
-        this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) +
-        '.' +
-        this.selectedDate.getFullYear();
-      this.element.dispatchEvent(new Event('change', {'bubbles': true}));
-      if (this.popUp) {
-        this.popUp.removeChild(this.cContainer);
-      } else {
-        document.body.removeChild(this.cContainer);
-      }
-    });
+    this.tBody.addEventListener('click', () => this.setDate());
     // скрытие календаря при клике вне его самого
-    window.addEventListener('click', (event) => {
-      var calendar = document.body.querySelector('.calendar');
-      if (calendar) {
-        if (event.target === this.element || event.target.closest('.calendar')) {
-          return;
-        }
-        if (this.popUp) {
-          this.popUp.removeChild(this.cContainer);
-        } else {
-          document.body.removeChild(this.cContainer);
-        }
-      }
-    });
+    window.addEventListener('click', this.hide);
+    // позиционирование календаря
+    window.addEventListener('scroll', this.setPosition);
+    window.addEventListener('resize', this.setPosition);
   }
 
   // Создание содержимого календаря:
@@ -231,9 +213,7 @@ class Calendar {
           cell.addEventListener('click', (e) => {
             this.selectedDate = new Date(year, month, e.target.innerHTML);
             if (document.getElementsByClassName('dt-active')[0]) {
-              document
-                .getElementsByClassName('dt-active')[0]
-                .classList.remove('dt-active');
+              document.getElementsByClassName('dt-active')[0].classList.remove('dt-active');
             }
             e.target.classList.add('dt-active');
           });
@@ -253,7 +233,7 @@ class Calendar {
     return ('0' + num).slice(-2);
   }
 
-  // Работа кнопки назад
+  // Работа кнопки месяц назад
   previous() {
     this.currentYear =
       this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
@@ -261,7 +241,7 @@ class Calendar {
     this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
-  // Работа кнопки вперед
+  // Работа кнопки месяц вперед
   next() {
     this.currentYear =
       this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
@@ -269,18 +249,45 @@ class Calendar {
     this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
-  // Переключение на предыдущий/следующий год
-  // Работа кнопки год назад
+  // Работа кнопки год назад:
   previousYear() {
     this.currentYear--;
     this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth;
     this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
-  // Работа кнопки год вперед
+  // Работа кнопки год вперед:
   nextYear() {
     this.currentYear++;
     this.currentMonth = this.currentMonth === 11 ? 0 : this.currentMonth;
     this.updateCalendar(this.currentMonth, this.currentYear);
+  }
+
+  // Установка даты:
+  setDate() {
+    this.element.value =
+      this.formateTwoDigitNumber(this.selectedDate.getDate()) +'.' +
+      this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) +'.' +
+      this.selectedDate.getFullYear();
+    this.element.dispatchEvent(new Event('change', {'bubbles': true}));
+    this.hide();
+  }
+
+  // Скрытие календаря:
+  hide = (event) => {
+    if (this.cContainer) {
+      if (event && (event.target === this.element || event.target.closest('.calendar'))) {
+        return;
+      }
+      if (this.popUp) {
+        this.popUp.removeChild(this.cContainer);
+      } else {
+        document.body.removeChild(this.cContainer);
+      }
+      this.cContainer = null;
+      window.removeEventListener('click', this.hide);
+      window.removeEventListener('scroll', this.setPosition);
+      window.removeEventListener('resize', this.setPosition);
+    }
   }
 }
