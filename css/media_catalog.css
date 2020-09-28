@@ -3,6 +3,13 @@
   #filters {
     overflow-y: scroll;
   }
+  .min-card:hover {
+    overflow: hidden;
+  }
+  .min-card:hover .wrap {
+    box-shadow: none;
+    z-index: 0;
+  }
 }
 
 /* Стили на ширину свыше 960px: */
@@ -61,6 +68,10 @@
   .big-card .card-price {
     width: 100%;
   }
+
+  .big-card .card-fade {
+    display: none;
+  }
 }
 
 /* Стили на ширину от 0 до 960px включительно: */
@@ -82,6 +93,13 @@
     -o-transition: none;
     transition: none;
   }
+
+  #search ::-webkit-input-placeholder {color: #C6C6C6;}
+  #search ::-ms-input-placeholder {color: #C6C6C6;}
+  #search ::-ms-input-placeholder {color: #C6C6C6;}
+  #search ::-moz-placeholder {color: #C6C6C6;}
+  #search :-moz-placeholder {color: #C6C6C6;}
+  #search ::placeholder {color: #C6C6C6;}
 
   #search input[type="text"] {
     width: 100% !important;
@@ -122,7 +140,7 @@
     padding-bottom: 1em;
   }
 
-  .view {
+  .view.row {
     margin-right: 0;
   }
 
@@ -135,5 +153,29 @@
   .view-list.icon {
     width: 34px;
     height: 30px;
+  }
+}
+
+/* Стили на ширину от 0 до 499px включительно: */
+@media only screen and (max-width: 499px) {
+  #header-menu {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+
+  #search {
+    top: 1.785em;
+    left: 1.6rem;
+    width: calc(100vw - 90px) !important;
+    visibility: visible;
+  }
+
+  .view.row {
+    display: none;
+  }
+
+  #gallery {
+    justify-content: center;
   }
 }

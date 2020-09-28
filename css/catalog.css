@@ -6,6 +6,10 @@ body {
   padding-top: 102px;
 }
 
+.checkbox.icon {
+  background-image: url(../img/checkbox_transparent.svg);
+}
+
 /* =====================================================================================================
 Стили для второго уровня меню:
 ===================================================================================================== */
@@ -76,7 +80,7 @@ body {
   width: 20em;
 }
 
-#header-cart {
+#carts {
   position: absolute;
   top: 0;
   right: 0;
@@ -86,7 +90,7 @@ body {
   z-index: 2;
 }
 
-#header-cart .wrap {
+#carts .wrap {
   height: 2.857em;
   max-height: 2.857em;
   -webkit-transition: max-height 0.3s linear;
@@ -96,18 +100,18 @@ body {
   overflow: hidden;
 }
 
-#header-cart:hover .wrap {
+#carts:hover .wrap {
   height: auto;
   max-height: 350px;
   overflow: visible;
 }
 
-#header-cart .items,
-#header-cart .total {
+#carts .items,
+#carts .total {
   width: 100%;
 }
 
-#header-cart .item {
+#carts .item {
   justify-content: center;
   align-items: flex-start;
   height: 4em;
@@ -116,34 +120,34 @@ body {
   border-bottom: 1px solid rgba(204, 204, 204, 0.5);
 }
 
-#header-cart .item > .row {
+#carts .item > .row {
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
-#header-cart .name {
+#carts .name {
   font-size: 0.857em;
   visibility: hidden;
 }
 
-#header-cart:hover .name {
+#carts:hover .name {
   visibility: visible;
 }
 
-#header-cart .cart.icon {
+#carts .cart.icon {
   position: relative;
   width: 21px;
   height: 21px;
   margin-right: 1.4em;
 }
 
-#header-cart .qty.in-circle {
+#carts .qty.in-circle {
   top: -4.5px;
   right: -9px;
 }
 
-#header-cart .totals {
+#carts .totals {
   justify-content: flex-start;
   align-items: center;
   border-bottom: none;
@@ -154,12 +158,12 @@ body {
 Стили для "прилипающей" части каталога:
 ===================================================================================================== */
 
-#header-content {
+#header-catalog {
   display: none;
   background-color: #F2F2F2;
 }
 
-#header-content .container {
+#header-catalog .container {
   justify-content: space-between;
   align-items: flex-start;
   padding-top: 1.785em;
@@ -266,8 +270,7 @@ body {
 ===================================================================================================== */
 
 #main-header {
-  justify-content: flex-start;
-  padding-bottom: 0;
+  display: none;
 }
 
 /* =====================================================================================================
@@ -597,7 +600,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 18em;
+  width: 18.5em;
+  min-width: 18.5em;
+  max-width: 28em;
   height: 31.5em;
   margin: 0 -1px -1px 0;
   border: 2px solid #F2F2F2;
@@ -607,10 +612,10 @@ body {
 
 .min-card .wrap {
   position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  padding: 1em;
+  top: -4px;
+  right: -4px;
+  left: -4px;
+  padding: 18px;
   background-color: #FFFFFF;
   cursor: pointer;
   -webkit-transition: 200ms;
@@ -624,9 +629,6 @@ body {
 }
 
 .min-card:hover .wrap {
-  top: -4px;
-  right: -4px;
-  left: -4px;
   box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
   z-index: 1;
 }
@@ -661,9 +663,9 @@ body {
   margin: 1em 0;
 }
 
-.min-card .action.hidden {
-  font-size: 0.857em;
-  opacity: 0;
+.min-card .action.displayNone {
+  display: inline-block !important;
+  visibility: hidden;
 }
 
 .min-card .card-title {
@@ -884,3 +886,132 @@ body {
  Стили для полной карточки:
 ===================================================================================================== */
 
+/* Стили для полной карточки экипировки: */
+
+.full-card {
+  position: relative;
+  width: 63em;
+  padding: 0;
+}
+
+.full-card .pop-up-title {
+  padding: 2.5em;
+  padding-bottom: 0;
+}
+
+.full-card .card-price,
+.full-card .select-info,
+.full-card .card-sizes,
+.full-card .card-options,
+.full-card .card-desc,
+.full-card .action-desc {
+  width: 100%;
+}
+
+.full-card .card-content {
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+  padding-bottom: 1.428em;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.full-card .card-content > div {
+  width: 50%;
+}
+
+.full-card .carousel,
+.full-card .img-wrap  {
+  min-height: 50%;
+  padding-right: 1.428em;
+}
+
+.full-card .maximize {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.full-card .carousel .left-btn,
+.full-card .carousel .right-btn {
+  width: 23px;
+  background-size: 13px;
+}
+
+.full-card .carousel-nav {
+  margin-top: 0.357em;
+}
+
+.full-card .carousel-nav .carousel-item {
+  width: calc(20% - 0.4em);
+  min-width: 50px;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.full-card .carousel-nav .carousel-item:nth-child(5n) {
+  margin-right: 0;
+}
+
+.full-card .card-price {
+  margin-bottom: 1.428em;
+}
+
+.full-card .option-title {
+  min-width: 45%;
+  max-width: 45%;
+}
+
+.full-card .card-body {
+  flex-grow: 1;
+  padding: 1.785em 2.5em;
+}
+
+.full-card .select-info {
+  padding-bottom: 1.428em;
+}
+
+.full-card .card-info {
+  width: 100%;
+}
+
+.full-card .card-options.mobile {
+  display: none;
+}
+
+.full-card .card-info > div:not(:last-child) {
+  background-color: #F8F8F8;
+  margin-bottom: 1px;
+}
+
+.full-card .card-info > div:last-child {
+  padding-bottom: 1.6em;
+}
+
+.full-card .card-info > div.close:last-child {
+  padding-bottom: 0;
+}
+
+.full-card .card-info > div .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #91A0AE;
+}
+
+.full-card .card-info > div .title {
+  color: #FFFFFF;
+  padding: 0.714em 2.5em;
+}
+
+.full-card .card-info > div .icon {
+  margin-right: 2.5em;
+}
+
+.full-card .card-info > div .info {
+  font-size: 0.857em;
+  padding: 1em 2.5em;
+}
