@@ -256,6 +256,12 @@ body.no-scroll {
   visibility: hidden;
 }
 
+.switch > .head {
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
 .close .switch-cont {
   display: none;
 }
@@ -2175,6 +2181,13 @@ form.search.positioned {
   transition: width 0.5s ease-in;
 }
 
+form.search.positioned ::-webkit-input-placeholder {color: transparent;}
+form.search.positioned ::-ms-input-placeholder {color: transparent;}
+form.search.positioned ::-ms-input-placeholder {color: transparent;}
+form.search.positioned ::-moz-placeholder {color: transparent;}
+form.search.positioned :-moz-placeholder {color: transparent;}
+form.search.positioned ::placeholder {color: transparent;}
+
 form.search.positioned input[type="text"] {
   background-color: transparent;
   border: none;
@@ -2508,15 +2521,15 @@ form.post > .loader {
 }
 
 .pop-up-title .title {
-  margin-right: 0.83em;
+  margin-right: 0.5em;
 }
 
 .pop-up-title .h1 {
-  margin-top: -5px;
+  margin-top: -7px;
 }
 
 .pop-up-title .h2 {
-  margin-top: -3px;
+  margin-top: -5px;
 }
 
 .pop-up-title .close.icon {
@@ -2545,7 +2558,7 @@ form.post > .loader {
   position: static;
   display: block;
   visibility: visible;
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .filters .pop-up {
@@ -2983,7 +2996,8 @@ th:last-child .resize-btn::after {
 
 #alerts .pop-up {
   position: relative;
-  min-width: 400px;
+  min-width: 360px;
+  padding: 1.5em;
 }
 
 #alerts .close.icon {
@@ -3180,6 +3194,7 @@ th:last-child .resize-btn::after {
   flex-grow: 0;
   flex-shrink: 0;
   font-size: 0.857em;
+  white-space: nowrap;
   cursor: help;
 }
 
@@ -3265,138 +3280,6 @@ th:last-child .resize-btn::after {
   padding: 0;
   margin: 0;
   margin-bottom: 0.357em;
-}
-
-/* =====================================================================================================
-Полная карточка:
-===================================================================================================== */
-
-/* Стили для полной карточки экипировки: */
-
-.full-card {
-  position: relative;
-  width: 63em;
-  padding: 0;
-}
-
-.full-card .pop-up-title {
-  padding: 2.5em;
-  padding-bottom: 0;
-}
-
-.full-card .card-price,
-.full-card .select-info,
-.full-card .card-sizes,
-.full-card .card-options,
-.full-card .card-desc,
-.full-card .action-desc {
-  width: 100%;
-}
-
-.full-card .card-content {
-  padding-left: 2.5em;
-  padding-right: 2.5em;
-  padding-bottom: 1.428em;
-  border-bottom: 1px solid #C6C6C6;
-}
-
-.full-card .card-content > div {
-  width: 50%;
-}
-
-.full-card .carousel {
-  min-height: 50%;
-  padding-right: 1.428em;
-}
-
-.full-card .maximize {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 23px;
-  height: 23px;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.full-card .carousel .left-btn,
-.full-card .carousel .right-btn {
-  width: 23px;
-  background-size: 13px;
-}
-
-.full-card .carousel-nav {
-  margin-top: 0.357em;
-}
-
-.full-card .carousel-nav .carousel-item {
-  width: calc(20% - 0.4em);
-  min-width: 50px;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.full-card .carousel-nav .carousel-item:nth-child(5n) {
-  margin-right: 0;
-}
-
-.full-card .card-price {
-  margin-bottom: 1.428em;
-}
-
-.full-card .option-title {
-  min-width: 45%;
-  max-width: 45%;
-}
-
-.full-card .card-body {
-  flex-grow: 1;
-  padding: 1.785em 2.5em;
-}
-
-.full-card .select-info {
-  padding-bottom: 1.428em;
-}
-
-.full-card .card-info {
-  width: 100%;
-}
-
-.full-card .card-options.mobile {
-  display: none;
-}
-
-.full-card .card-info > div {
-  background-color: #F8F8F8;
-}
-
-.full-card .card-info > div:last-child {
-  padding-bottom: 1.6em;
-}
-
-.full-card .card-info > div.close:last-child {
-  padding-bottom: 0;
-}
-
-.full-card .card-info > div .head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #91A0AE;
-}
-
-.full-card .card-info > div .title {
-  color: #FFFFFF;
-  padding: 0.714em 2.5em;
-}
-
-.full-card .card-info > div .icon {
-  margin-right: 2.5em;
-}
-
-.full-card .card-info > div .info {
-  font-size: 0.857em;
-  padding: 1em 2.5em;
 }
 
 /* =====================================================================================================
@@ -3684,7 +3567,8 @@ th:last-child .resize-btn::after {
 }
 
 #header-menu,
-#header-content {
+#header-catalog,
+#header-cart {
   display: none;
 }
 

@@ -3,14 +3,11 @@
 ===================================================================================================== */
 
 @media (pointer:coarse) {
-
   /* Подсказки: */
-
   [tooltip]:hover::before,
   [tooltip]:hover::after {
     display: none;
   }
-
   .tooltip {
     display: none;
   }
@@ -48,7 +45,7 @@
 Desktop:
 ===================================================================================================== */
 
-/* Стили на ширину больше 1921px: */
+/* Стили на ширину больше 1920px: */
 @media only screen and (min-width: 1921px) {
 
   /* Основные стили: */
@@ -105,6 +102,12 @@ Laptop:
     margin: 0 3rem;
   }
 
+  /* Стили текста: */
+
+  .h0 {
+    font-size: 2em;
+  }
+
   /* Всплывающие окна: */
 
   .pop-up-container {
@@ -156,11 +159,8 @@ Laptop:
     display: block;
   }
 
-  #header.mobile #header-menu {
-    display: none !important;
-  }
-
-  #header.mobile #header-content {
+  #header.mobile #header-menu,
+  #header.mobile #header-catalog {
     display: none !important;
   }
 
@@ -182,7 +182,7 @@ Tablet:
   /* Основные стили: */
 
   body {
-    padding-top: 41px;
+    padding-top: 40px;
     padding-bottom: 70px;
   }
 
@@ -197,17 +197,6 @@ Tablet:
   }
 
   #main-header + .btn {
-    display: none;
-  }
-
-  /* Подсказки: */
-
-  [tooltip]:hover::before,
-  [tooltip]:hover::after {
-    display: none;
-  }
-
-  .tooltip {
     display: none;
   }
 
@@ -410,9 +399,9 @@ Tablet:
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 100% !important;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
   }
 
   .pop-up-body {
@@ -423,6 +412,10 @@ Tablet:
 
   /* Форма отправки на сервер: */
 
+  form.post .form-cols {
+    flex-wrap: wrap;
+  }
+
   .pop-up-body form.post {
     display: flex;
     flex-direction: column;
@@ -430,6 +423,11 @@ Tablet:
   }
 
   /* Блок фильтров: */
+
+  .filters .pop-up {
+    width: 100%;
+    max-width: 100%;
+  }
 
   .filters .pop-up-title {
     margin-top: 0;
@@ -443,6 +441,16 @@ Tablet:
   .filters .filter .item > .row {
     padding: 1em 2.143em;
     padding-bottom: 0;
+  }
+
+  /* Системное сообщение: */
+
+  #alerts .pop-up {
+    display: block;
+    flex-grow: 0;
+    width: auto;
+    max-width: 90%;
+    min-height: auto;
   }
 }
 
@@ -478,7 +486,7 @@ Mobile:
   /* Стили текста: */
 
   .h0 {
-    font-size: 1.71em;
+    font-size: 1.714em;
   }
 
   /* Заголовок страницы: */
@@ -497,6 +505,13 @@ Mobile:
     margin-bottom: 0.714em;
   }
 
+  /* Всплывающие окна: */
+
+  .pop-up {
+    position: relative;
+    padding: 1.5em;
+  }
+
   /* Форма отправки на сервер: */
 
   form.post .form-cols {
@@ -509,7 +524,8 @@ Mobile:
   }
 
   form.post input[data-type="date"],
-  form.post input[data-type="range"] {
+  form.post input[data-type="range"],
+  form.post .activate {
     width: 100%;
   }
 
