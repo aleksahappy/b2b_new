@@ -99,12 +99,9 @@ form.search.positioned:focus-within {
   overflow: auto;
 }
 
-.switch-temp .row {
-  justify-content: space-between;
-  align-items: center;
+.switch-temp .head {
   padding: 1em;
   background-color: #53606F;
-  cursor: pointer;
 }
 
 /* Стили для всплывающей формы (образец из раздела Контрагенты): */
@@ -135,12 +132,6 @@ form.search.positioned:focus-within {
   height: 2.4em;
   margin-right: 2em;
   visibility: hidden;
-}
-
-@media only screen and (max-width: 480px) {
-  #form-example form.post > .row {
-    display: block;
-  }
 }
 
 /* Стили таблиц */
