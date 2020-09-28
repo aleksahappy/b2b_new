@@ -146,14 +146,19 @@ function getTitle(key, value) {
 //=====================================================================================================
 
 function createCatalogFiltersData() {
-  var actions = window.actions ? window.actions : {};
-  actions['is_new'] = {title: 'Новинка'};
+  // Костыль для добавления в фильтры спецпредложений новинок:
+  var specialOffer = {is_new: {title: "Новинка"}};
+  if (actions) {
+    for (var key in actions) {
+      specialOffer[key] = actions[key];
+    }
+  }
 
   var data = [{
     title: 'Спецпредложение',
     isOpen: 'default-open',
     key: 'action_id',
-    items: createFilterData(window.actions)
+    items: createFilterData(specialOffer)
   }, {
     title: 'Категория',
     isOpen: 'default-open',
