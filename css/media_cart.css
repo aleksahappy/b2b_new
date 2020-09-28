@@ -1,0 +1,247 @@
+/* Стили на ширину от 0 до 1360px включительно: */
+@media only screen and (max-width: 1360px) {
+  .cart-row {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+}
+
+/* Стили на ширину от 0 до 1080px включительно: */
+@media only screen and (max-width: 1080px) {
+  .cart-section {
+    margin-bottom: 1em;
+    padding: 1em;
+  }
+
+  .cart-section .head {
+    display: block;
+    padding-bottom: 1em;
+  }
+
+  .cart-section .head > div.row {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .cart-section .head > div:first-child {
+    margin-right: 0;
+    margin-bottom: 0.857em;
+  }
+
+  .cart-section .head .btn {
+    display: none;
+  }
+
+  .cart-section .head .close.icon {
+    display: block;
+  }
+
+  .cart-section .head .select-qty {
+    margin-left: 2.5em;
+  }
+
+  .cart-row .desk {
+    display: none;
+  }
+
+  .cart-row .adaptive {
+    display: block;
+  }
+
+  .cart-row > .row:first-child {
+    align-items: flex-start;
+  }
+
+  .cart-row > .row:last-child {
+    flex-direction: column;
+    align-items: flex-end;
+    width: auto;
+    min-width: 13em;
+  }
+
+  .cart-row .checkbox {
+    margin-top: 3px;
+  }
+
+  .cart-row .name.row {
+    align-items: stretch;
+  }
+
+  .cart-row .name.row .col {
+    flex-grow: 1;
+  }
+
+  .cart-row .name.row .col .tooltips {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-grow: 1;
+  }
+
+  .cart-row .qty-wrap {
+    margin-bottom: 1em;
+  }
+
+  .sold .cart-row .qty-wrap {
+    align-items: flex-start;
+  }
+
+  .cart-row .price-wrap {
+    flex-direction: row-reverse;
+  }
+
+  .sold .price-wrap {
+    display: none;
+  }
+
+  .cart-row .price,
+  .cart-row .discount {
+    width: auto;
+    min-width: auto;
+    margin-right: 0;
+    white-space: nowrap;
+  }
+
+  .cart-row .sum.row {
+    flex-grow: 1;
+    align-items: flex-end;
+  }
+}
+
+/* Стили на ширину от 0 до 960px включительно: */
+@media only screen and (max-width: 960px) {
+  #header-cart .container {
+    padding-bottom: 2.14em;
+  }
+
+  #cart-name  {
+    padding: 2.4rem 0;
+  }
+}
+
+/* Стили на ширину от 0 до 699px включительно: */
+@media only screen and (max-width: 699px) {
+  #cart-name {
+    display: block !important;
+  }
+
+  #cart-name > div:last-child {
+    font-size: 0.583em;
+    font-weight: 400;
+    color: #666666;
+  }
+
+  #header-cart .container > .row {
+    display: block;
+  }
+
+  #header-cart .search.row {
+    margin-bottom: 1.428em;
+  }
+
+  #header-cart .make-order {
+    margin-left: 0;
+  }
+
+  #checkout-info {
+    width: auto;
+    max-width: 50%;
+    margin-right: 0;
+  }
+
+  .mobile-hide {
+    display: none;
+  }
+
+  .cart-section {
+    padding: 0;
+  }
+
+  .cart-section .head,
+  .cart-row,
+  .cart-row:last-child {
+    padding: 1em;
+  }
+
+  .cart-section .head .select-info {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    min-width: auto;
+  }
+
+  .cart-section .head .select-qty {
+    margin-left: 0;
+    margin-right: 0.714em;
+  }
+
+  .cart-row {
+    position: relative;
+    display: block;
+  }
+
+  .cart-row .desk {
+    display: block;
+  }
+
+  .cart-row .adaptive:not(.trash) {
+    display: none;
+  }
+
+  .cart-row .name.row {
+    margin-right: 0;
+  }
+
+  .cart-row .articul {
+    padding-right: 2em;
+  }
+
+  .cart-row .name.row > div:last-child {
+    margin-bottom: 0.5em;
+  }
+
+  .cart-row .trash.icon {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+
+  .cart-row .tooltips {
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+  }
+
+  .sold .cart-row .qty-wrap {
+    display: none;
+  }
+
+  .cart-row .qty {
+    margin-right: 0;
+  }
+}
+
+/* Стили на ширину от 0 до 499px включительно: */
+@media only screen and (max-width: 499px) {
+  #header-cart .container {
+    padding-bottom: 1.428em;
+  }
+
+  #cart-name {
+    padding: 1.6rem 0;
+  }
+
+  #header-cart .make-order {
+    flex-wrap: wrap;
+  }
+
+  #checkout-info {
+    max-width: 14em;
+    margin-bottom: 0.5em;
+  }
+
+  .cart-row .name.row .col div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

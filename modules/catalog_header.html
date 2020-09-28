@@ -1,4 +1,4 @@
-<!-- Второй уровень меню -->
+<!-- Второй уровень хедера для каталога и корзины -->
 <div id="header-menu">
   <div class="container row">
     <div class="topmenu row">
@@ -7,14 +7,13 @@
     <div class="submenu row">
       <a class="submenu-item" href="../#id#/?#cat#" data-title="#cat_title#" onclick="openPage(event)">#cat_title#</a>
     </div>
-    <form id="search" class="search positioned row">
-      <input type="text" data-value=""> <!-- здесь нельзя использовать placeholder -->
+    <form id="search" class="search row positioned">
+      <input type="text" data-value="" placeholder="Поиск">
       <input class="search icon" type="submit" value="">
       <div class="close icon"></div>
     </form>
   </div>
-  <!-- "Прилипающая" часть каталога -->
-  <div id="header-cart" class="template">
+  <div id="carts" class="template">
     <div class="wrap">
       <div class="items">
         <a class="cart-#id# item col #isFull#" href="../#id#/?cart" data-title="Корзина" onclick="#isFunc#">
@@ -31,7 +30,8 @@
     </div>
   </div>
 </div>
-<div id="header-content">
+<!-- "Прилипающая" часть каталога -->
+<div id="header-catalog">
   <div class="container row">
     <div class="clear-filter btn act disabled" onclick="clearFilters(event)">Сбросить фильтры</div>
     <div class="gallery-head row">
@@ -68,6 +68,26 @@
         </div>
       </div>
       <div class="relay icon" onclick="openPopUp('#filters .filters')"></div>
+    </div>
+  </div>
+</div>
+<!-- "Прилипающая" часть корзины -->
+<div id="header-cart">
+  <div class="container">
+    <div id="cart-name" class="title h0"></div>
+    <div class="row">
+      <form id="cart-search" class="search row">
+        <input type="text" data-value="" placeholder="Поиск по корзине: артикул, наименование...">
+        <input class="search icon" type="submit" value="">
+        <div class="close icon"></div>
+      </form>
+      <div class="make-order row">
+        <div id="checkout-info" class="text red row">
+          <div>Будет <span class="qty"></span>&ensp;</div>
+          <div>на сумму <span class="sum">0</span>&nbsp;руб.</div>
+        </div>
+        <div id="checkout-btn" class="btn act" onclick="openCheckout(event)">Оформить заказ</div>
+      </div>
     </div>
   </div>
 </div>
