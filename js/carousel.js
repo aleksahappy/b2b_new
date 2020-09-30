@@ -91,8 +91,8 @@ function Carousel(obj, start) {
     this.leftBtn.addEventListener('click', event => this.startMoveImg('prev', event));
     this.rightBtn.addEventListener('click', event => this.startMoveImg('next', event));
 
-    this.galleryWrap.addEventListener('touchstart', event => this.touchStart(event));
-    this.galleryWrap.addEventListener('touchend', event => this.touchEnd(event));
+    this.carousel.addEventListener('touchstart', event => this.touchStart(event));
+    this.carousel.addEventListener('touchend', event => this.touchEnd(event));
 
     if (this.settings.isNav) {
       if (this.settings.isHoverToggle) {
