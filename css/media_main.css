@@ -119,65 +119,14 @@ Laptop:
   #up-btn {
     right: 3rem;
   }
-
-  /* Изображение на весь экран: */
-
-  /* #full-img .carousel .left-btn {
-    background: url(../img/slider/slider_nav_left.png) no-repeat center;
-    left: -3em;
-    background-color: transparent;
-    opacity: 1 !important;
-  }
-  #full-img .carousel .right-btn {
-    background: url(../img/slider/slider_nav_right.png) no-repeat center;
-    right: -3em;
-    background-color: transparent;
-    opacity: 1 !important;
-  } */
-}
-
-/* Стили на ширину от 0 до 1080px включительно: */
-@media only screen and (max-width: 1080px) {
-
-  /* Хедер */
-
-  .header-top .activate,
-  .header-top .activate .head {
-    display: none;
-  }
-
-  .header-top .notifications.icon {
-    background-image: url('../img/notifications_min.svg');
-  }
-
-  .header-top .burger.icon {
-    display: flex;
-    margin-left: 1.428em;
-  }
-
-  #mob-menu {
-    display: block;
-  }
-
-  #header.mobile #header-menu,
-  #header.mobile #header-catalog {
-    display: none !important;
-  }
-
-  /* Окно уведомлений: */
-
-  #notifications .pop-up {
-    width: 100%;
-    min-width: 100%;
-  }
 }
 
 /* =====================================================================================================
 Tablet:
 ===================================================================================================== */
 
-/* Стили на ширину от 0 до 960px включительно: */
-@media only screen and (max-width: 960px) {
+/* Стили на ширину от 0 до 1080px включительно: */
+@media only screen and (max-width: 1080px) {
 
   /* Основные стили: */
 
@@ -237,13 +186,9 @@ Tablet:
     height: 40px;
   }
 
-  .header-top .activate {
-    height: 40px;
-  }
-
-  .header-top .right-side .icon {
-    width: 24px;
-    height: 24px;
+  .header-top .activate,
+  .header-top .activate .head {
+    display: none;
   }
 
   .header-top .logo img {
@@ -251,9 +196,29 @@ Tablet:
     max-width: 100%;
   }
 
+  .header-top .right-side .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-top .notifications.icon {
+    background-image: url('../img/notifications_min.svg');
+  }
+
+  .header-top .burger.icon {
+    display: flex;
+    margin-left: 1.428em;
+  }
+
   #mob-menu {
+    display: block;
     padding: 1.428em;
     padding-top: 64px;
+  }
+
+  #header.mobile #header-menu,
+  #header.mobile #header-catalog {
+    display: none !important;
   }
 
   /* Таблицы: */
@@ -352,6 +317,11 @@ Tablet:
 
   /* Окно уведомлений: */
 
+  #notifications .pop-up {
+    width: 100%;
+    min-width: 100%;
+  }
+
   #notifications .message.icon {
     width: 25px;
     height: 25px;
@@ -382,6 +352,15 @@ Tablet:
   #footer .wrap {
     font-size: 0.857em;
     padding: 0.8rem 0;
+  }
+
+  /* Изображение на весь экран: */
+
+  #full-img .carousel .left-btn {
+    opacity: 1 !important;
+  }
+  #full-img .carousel .right-btn {
+    opacity: 1 !important;
   }
 }
 
@@ -512,6 +491,10 @@ Mobile:
     padding: 1.5em;
   }
 
+  .pop-up-title {
+    margin-bottom: 1em;
+  }
+
   /* Форма отправки на сервер: */
 
   form.post .form-cols {
@@ -542,5 +525,20 @@ Mobile:
   .filters .filter .item > .row {
     padding: 1em 1.428em;
     padding-bottom: 0;
+  }
+
+  /* Изображение на весь экран: */
+
+  #full-img .carousel .left-btn,
+  #full-img .carousel .right-btn {
+    display: none;
+  }
+
+  #full-img .carousel-nav {
+    bottom: -2em;
+  }
+
+  #full-img .carousel-nav > div {
+    background-color: #FFFFFF;
   }
 }

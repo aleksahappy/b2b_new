@@ -812,7 +812,7 @@ function savePosition(key, value) {
 
 function removePositions() {
   var positions = getInfo('positions', 'sessionStorage');
-  positions[pageUrl] = {};
+  delete positions[pageUrl];
   saveInfo(`positions`, positions, 'sessionStorage');
 }
 
@@ -1764,12 +1764,12 @@ function closePopUp(event, el) {
   }
 }
 
-// Автоматическое закрытие блоков фильтров на разрешении больше 960px:
+// Автоматическое закрытие блоков фильтров на разрешении больше 1080px:
 
 function closeFiltersPopUp() {
   clearTimeout(window.resizedFinished);
   window.resizedFinished = setTimeout(function(){
-    if (window.innerWidth > 960) {
+    if (window.innerWidth > 1080) {
       document.querySelectorAll('.pop-up-container.filters.open').forEach(el => closePopUp(null, el));
     }
   }, 250);

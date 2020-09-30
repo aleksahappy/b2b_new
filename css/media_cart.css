@@ -109,8 +109,8 @@
   }
 }
 
-/* Стили на ширину от 0 до 960px включительно: */
-@media only screen and (max-width: 960px) {
+/* Стили на ширину от 0 до 1080px включительно: */
+@media only screen and (max-width: 1080px) {
   #header-cart .container {
     padding-bottom: 2.14em;
   }

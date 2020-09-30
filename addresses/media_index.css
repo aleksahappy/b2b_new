@@ -9,16 +9,7 @@
   }
 }
 
-@media only screen and (max-width: 960px) {
-  [tooltip]:hover::before,
-  [tooltip]:hover::after {
-    display: block;
-  }
-
-  .tooltip {
-    display: block;
-  }
-
+@media only screen and (max-width: 1080px) {
   .question.icon {
     display: block;
   }
