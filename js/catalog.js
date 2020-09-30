@@ -7,7 +7,8 @@
 // Динамически изменяемые переменные:
 
 var pageUrl = pageId,
-    view = location.pathname === '/product'? 'product' : 'blocks',
+    view,
+    userView,
     path,
     cartItems = {},
     curItems,
@@ -518,7 +519,8 @@ function setMinCardWidth() {
     return;
   }
   var gallery = getEl('#gallery'),
-      standartWidth = (18.5 * parseInt(getComputedStyle(gallery).fontSize, 10)),
+      width = window.innerWidth > 768 ? 18.3 : 17,
+      standartWidth = (width * parseInt(getComputedStyle(gallery).fontSize, 10)),
       countCards = Math.floor(gallery.clientWidth / standartWidth),
       restGallery = gallery.clientWidth - countCards * standartWidth,
       changeMinCard = restGallery / countCards,
@@ -543,7 +545,7 @@ function setMinCardWidth() {
 // Установка высоты меню фильтров:
 
 function setFiltersHeight() {
-  if (window.innerWidth > 960) {
+  if (window.innerWidth > 1080) {
     var filters = getEl('#filters'),
         scrolled = window.pageYOffset || document.documentElement.scrollTop,
         headerHeight = getEl('#header').clientHeight,
@@ -752,6 +754,7 @@ function renderGallery() {
   showElement('#content', 'flex');
   toggleEventListeners('on');
   initFilters(filter);
+  toggleView(window.innerWidth > 499 ? 'blocks' : 'list');
   showCards();
 }
 
@@ -783,16 +786,17 @@ function toggleEventListeners(toggle) {
 // Запуск обработчиков событий при скролле:
 
 function scrollActs() {
-  scrollGallery();
   setFiltersHeight();
+  scrollGallery();
 }
 
 // Запуск обработчиков событий при ресайзе:
 
 function resizeActs() {
-  scrollGallery();
-  setMinCardWidth()
   setFiltersHeight();
+  setMinCardWidth()
+  setView();
+  scrollGallery();
 }
 
 //=====================================================================================================
@@ -845,7 +849,7 @@ function clearFilters(event) {
     getDocumentScroll();
     clearCurSelect();
     getEl('#filters').querySelectorAll('.filter').forEach(el => {
-      if (window.innerWidth > 960 && el.classList.contains('default-open')) {
+      if (window.innerWidth > 1080 && el.classList.contains('default-open')) {
         el.classList.remove('close');
       }
     });
@@ -933,16 +937,20 @@ function checkFiltersIsNeed() {
 
 // Выбор значения фильтра каталога:
 
-function selectFilterCatalog(event) {
-  event.stopPropagation();
-  var curEl;
-  if (event.currentTarget.classList.contains('pill')) {
-    curEl = getEl(`#catalog-filters [data-key="${event.currentTarget.dataset.key}"][data-value="${event.currentTarget.dataset.value}"]`);
-  } else {
-    if (event.target.classList.contains('switch-icon') || event.currentTarget.classList.contains('disabled')) {
-      return;
+function selectFilterCatalog(event, curEl) {
+  if (event) {
+    event.stopPropagation();
+    if (event.currentTarget.classList.contains('pill')) {
+      curEl = getEl(`#catalog-filters [data-key="${event.currentTarget.dataset.key}"][data-value="${event.currentTarget.dataset.value}"]`);
+    } else {
+      if (event.target.classList.contains('switch-icon') || event.currentTarget.classList.contains('disabled')) {
+        return;
+      }
+      curEl = event.currentTarget;
     }
-    curEl = event.currentTarget;
+  }
+  if (!curEl) {
+    return;
   }
   var key = curEl.dataset.key,
       value = curEl.dataset.value,
@@ -962,7 +970,14 @@ function selectFilterCatalog(event) {
     var parentItem = curEl.closest('.item:not(.subitem)');
     if (parentItem && !parentItem.classList.contains('checked')) {
       parentItem.classList.add('checked');
+      parentItem.classList.remove('close');
       addInFiltersInfo(parentItem.dataset.key, parentItem.dataset.value, parentItem);
+    }
+    if (!event) {
+      var filterItem = curEl.closest('.filter');
+      if (filterItem) {
+        filterItem.classList.remove('close');
+      }
     }
     saveFilter(key, value, subkey);
     if (!subkey) {
@@ -976,7 +991,7 @@ function selectFilterCatalog(event) {
   } else {
     selectCards('catalog');
   }
-  toggleToActualFilters(event.currentTarget);
+  toggleToActualFilters(curEl);
   createFiltersInfo();
 }
 
@@ -1027,7 +1042,7 @@ function removeFilter(key, value, subkey) {
 
 function removeAllFilters() {
   var filters = getInfo('filters');
-  filters[pageUrl] = {};
+  delete filters[pageUrl];
   saveInfo(`filters`, filters);
 }
 
@@ -1035,13 +1050,13 @@ function removeAllFilters() {
 
 function toggleToActualFilters(filter) {
   var curArray = selectedItems === '' ? curItems : selectedItems,
-      menuFilters = getEl('#catalog-filters'),
-      curFilters = menuFilters.querySelectorAll(`.item:not(.subitem).checked[data-key="${filter.dataset.key}"]`),
-      checked = menuFilters.querySelectorAll('.item:not(.subitem).checked'),
+      catalogFilters = getEl('#catalog-filters'),
+      curFilters = catalogFilters.querySelectorAll(`.item:not(.subitem).checked[data-key="${filter.dataset.key}"]`),
+      checked = catalogFilters.querySelectorAll('.item:not(.subitem).checked'),
       filterItems;
 
   if (checked.length == 0) {
-    menuFilters.querySelectorAll('.item:not(.subitem)').forEach(item => {
+    catalogFilters.querySelectorAll('.item:not(.subitem)').forEach(item => {
       item.classList.remove('disabled');
       item.querySelectorAll('.subitem').forEach(subitem => {
         subitem.classList.remove('disabled');
@@ -1051,9 +1066,9 @@ function toggleToActualFilters(filter) {
   }
 
   if (curFilters.length > 0) {
-    filterItems = menuFilters.querySelectorAll(`.item:not(.subitem):not([data-key="${filter.dataset.key}"])`);
+    filterItems = catalogFilters.querySelectorAll(`.item:not(.subitem):not([data-key="${filter.dataset.key}"])`);
   } else {
-    filterItems = menuFilters.querySelectorAll('.item:not(.subitem)');
+    filterItems = catalogFilters.querySelectorAll('.item:not(.subitem)');
   }
 
   var key, value, isExsist, isFound;
@@ -1114,55 +1129,40 @@ function clearFiltersCatalog() {
   clearFiltersInfo();
 }
 
-// Выбор сохраненных фильтров на странице или их удаление если их больше нет на странице:
+// Проверка сохраненных фильтров (выбор актуальаных и удаление неактуальных/ошибочных):
 
 function checkFilters() {
-  var info = getInfo('filters'),
-      filters = info[pageUrl];
-  if (!filters || isEmptyObj(filters)) {
+  var filters = getInfo('filters'),
+      pageFilters = filters[pageUrl];
+  delete filters[pageUrl];
+  saveInfo(`filters`, filters);
+  if (!pageFilters || isEmptyObj(pageFilters)) {
     return;
   }
-  var curFilters = {},
-      curFilter,
-      curItem;
-  for (var k in filters) {
-    curFilters[k] = {};
-    for (var kk in filters[k]) {
-      curFilters[k][kk] = {};
+  var curItem;
+  for (var k in pageFilters) {
+    if (!k) {
+      continue;
+    }
+    for (var kk in pageFilters[k]) {
+      if (!kk) {
+        continue;
+      }
       curItem = getCurFilterItem(k, kk);
       if (curItem) {
-        selectCardsByFilterCatalog(curFilters);
-        changeFilterClass(curItem);
-        for (var kkk in filters[k][kk]) {
-          curFilters[k][kk][kkk] = {};
+        selectFilterCatalog(null, curItem);
+        for (var kkk in pageFilters[k][kk]) {
+          if (!kkk) {
+            continue;
+          }
           curItem = getCurFilterItem(k, kkk, kk);
           if (curItem) {
-            selectCardsByFilterCatalog(curFilters);
-            changeFilterClass(curItem);
-          } else {
-            delete info[pageUrl][k][kk][kkk];
+            selectFilterCatalog(null, curItem);
           }
         }
-        if (isEmptyObj(info[pageUrl][k][kk])) {
-          info[pageUrl][k][kk] = {};
-        }
-      } else {
-        delete info[pageUrl][k][kk];
-      }
-    }
-    if (isEmptyObj(info[pageUrl][k])) {
-      delete filters[pageUrl][k];
-    } else {
-      curFilter = getEl(`#filter-${k}`);
-      if (curFilter) {
-        curFilter.classList.remove('close');
       }
     }
   }
-  if (filters && !isEmptyObj(filters)) {
-    curSelect = 'catalog';
-  }
-  saveInfo('filters', info);
 }
 
 // Поиск фильтра на странице:
@@ -1173,36 +1173,25 @@ function getCurFilterItem(key, value, subkey) {
     curItem = getEl(`#catalog-filters [data-subkey="${subkey}"][data-value="${value}"]`);
   } else {
     curItem = getEl(`#catalog-filters [data-key="${key}"][data-value="${value}"]`);
-    addInFiltersInfo(key, value, curItem);
   }
   return curItem;
-}
-
-// Визуальное отображение сохраненных фильтров:
-
-function changeFilterClass(curItem) {
-  if (curItem) {
-    curItem.classList.add('checked');
-    var filterItem = curItem.closest('.item');
-    if (filterItem) {
-      filterItem.classList.remove('close');
-    }
-    toggleToActualFilters(curItem);
-  }
 }
 
 //=====================================================================================================
 //  Функции для работы с данными о выбранных фильтрах:
 //=====================================================================================================
 
-// Добавление фильтра в информацию о выбранных фильтрах:
+// Добавление данных в информацию о выбранных фильтрах:
 
 function addInFiltersInfo(key, value, el) {
-  filterItems.push({
-    key: key,
-    value: value,
-    title: getEl('.text', el).textContent
-  });
+  var title = getEl('.title .text', el);
+  if (title) {
+    filterItems.push({
+      key: key,
+      value: value,
+      title: title.textContent
+    });
+  }
 }
 
 // Удаление фильтра из информации о выбранных фильтрах:
@@ -1499,43 +1488,44 @@ function scrollGallery() {
   }
 }
 
-// Переключение вида отображения карточек на странице:
+// Переключение вида каталога:
 
-function toggleView(event, newView) {
+function toggleView(newView, isAuto) {
+  // if (document.body.id !== 'equip') {
+  //   return;
+  // }
   if (view != newView) {
-    getEl(`.view-${view}`).classList.remove('active');
-    event.currentTarget.classList.add('active');
+    if (window.innerWidth <= 499 && newView === 'list') {
+      return;
+    }
+    var viewBtn = getEl(`.view .${view}.icon`),
+        newViewBtn = getEl(`.view .${newView}.icon`),
+        gallery = getEl('#gallery');
+    if (viewBtn) {
+      viewBtn.classList.remove('active')
+    }
+    if (newViewBtn) {
+      newViewBtn.classList.add('active');
+    }
     view = newView;
-    var gallery = getEl('#gallery');
+    if (!isAuto) {
+      userView = newView;
+    }
     gallery.style.opacity = '0';
     showCards();
     gallery.style.opacity = '1';
   }
 }
 
-// Раскрытие в полный размер большой карточки:
+// Автоматическое переключение вида каталога на разных разрешениях:
 
-function openBigCard(event) {
-  var curCard = event.currentTarget.closest('.big-card');
-  curCard.classList.toggle('open');
-  if (curCard.classList.contains('open')) {
-    event.currentTarget.setAttribute('tooltip', 'Свернуть');
-  } else {
-    event.currentTarget.setAttribute('tooltip', 'Раскрыть');
-  }
-  setFiltersHeight();
-}
-
-// Сворачивание большой карточки:
-
-function closeBigCard(event) {
-  var curCard = event.currentTarget.closest('.big-card');
-  if (window.innerWidth < 767) {
-    if (!(event.target.classList.contains('toggle-btn') || event.target.closest('.carousel') || event.target.closest('.card-size') || event.target.classList.contains('dealer-button'))) {
-      curCard.classList.remove('open');
-      getEl('.toggle-btn', curCard).setAttribute('tooltip', 'Раскрыть');
-      setFiltersHeight();
+function setView() {
+  if (window.innerWidth > 499) {
+    if (view !== userView) {
+      toggleView(userView);
     }
+  } else {
+    toggleView('blocks', true);
   }
 }
 
@@ -1562,13 +1552,16 @@ function showFullCard(event, id) {
       area: '.card-size',
       items: 'sizes'
     }, {
-      area: '.card-option',
+      area: '.desk .card-option',
+      items: 'options'
+    }, {
+      area: '.adaptive .card-option',
       items: 'options'
     }, {
       area: '.manuf-row',
       items: 'manuf_table'
     }, {
-      area: '.switch',
+      area: '.describe',
       items: 'describe'
     },]
   });
@@ -1669,9 +1662,9 @@ function startSelect() {
 
 // Отбор карточек фильтром каталога:
 
-function selectCardsByFilterCatalog(filters) {
-  filters = filters || getInfo('filters')[pageUrl];
-  var isFound;
+function selectCardsByFilterCatalog() {
+  var filters = getInfo('filters')[pageUrl],
+      isFound;
   selectedItems = curItems.filter(card => {
     for (var k in filters) {
       isFound = false;

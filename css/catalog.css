@@ -178,7 +178,7 @@ body {
 .gallery-head {
   justify-content: flex-end;
   align-items: flex-start;
-  width: calc(100% - 19em);
+  width: calc(100% - 20em);
 }
 
 .gallery-head .pill {
@@ -277,23 +277,23 @@ body {
 Иконки:
 ===================================================================================================== */
 
-.view-list.icon {
+.view .list.icon {
   width: 18px;
   height: 14px;
   background-image: url(../img/view_list.svg);
 }
 
-.view-blocks.icon {
+.view .blocks.icon {
   width: 14px;
   height: 14px;
   background-image: url(../img/view_blocks.svg);
 }
 
-.view-list.icon.active {
+.view .list.icon.active {
   background-image: url(../img/view_list_active.svg);
 }
 
-.view-blocks.icon.active {
+.view .blocks.icon.active {
   background-image: url(../img/view_blocks_active.svg);
 }
 
@@ -577,13 +577,13 @@ body {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
-  width: calc(100% - 19em);
+  width: calc(100% - 20em);
   padding-bottom: 14em;
 }
 
 #gallery-notice {
   display: none;
-  width: calc(100% - 19em);
+  width: calc(100% - 20em);
   min-height: 30vh;
   justify-content: center;
   align-items: center;
@@ -600,10 +600,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 18.5em;
-  min-width: 18.5em;
+  width: 18.3em;
+  min-width: 18.3em;
   max-width: 28em;
-  height: 31.5em;
+  height: 31em;
   margin: 0 -1px -1px 0;
   border: 2px solid #F2F2F2;
   border-radius: 3px;
@@ -653,8 +653,8 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 16em;
   overflow: hidden;
+  height: 16em;
 }
 
 .min-card .action {
@@ -670,7 +670,7 @@ body {
 
 .min-card .card-title {
   width: 100%;
-  margin-bottom: 0.714em;
+  margin-bottom: 0.5em;
 }
 
 .min-card .card-title .title {
@@ -684,7 +684,7 @@ body {
 .min-card .card-price {
   width: 100%;
   height: 2.357em;
-  margin-bottom: 0.714em;
+  margin-bottom: 0.5em;
 }
 
 .min-card .card-price > div {
@@ -707,11 +707,11 @@ body {
 .min-card .tooltips {
   align-items: center;
   height: 1.417em;
-  margin-bottom: 0.714em;
+  margin-bottom: 0.5em;
 }
 
 .min-card .card-sizes {
-  margin-bottom: 0.714em;
+  margin-bottom: 0.5em;
 }
 
 .min-card .card-sizes .row {
@@ -787,13 +787,17 @@ body {
 
 .big-card .card-title {
   width: 100%;
-  margin-right: 1.428em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.big-card .card-title > .row {
+  justify-content: space-between;
+}
+
 .big-card .card-title .title {
+  margin-right: 1.428em;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -937,8 +941,14 @@ body {
 
 .full-card .carousel .left-btn,
 .full-card .carousel .right-btn {
+  background: rgba(255, 255, 255, 0.2) url(../img/arrow_light_grey.svg) no-repeat center;
   width: 23px;
   background-size: 13px;
+}
+
+.full-card .carousel-gallery-wrap:hover .left-btn,
+.full-card .carousel-gallery-wrap:hover .right-btn {
+  opacity: 1;
 }
 
 .full-card .carousel-nav {
@@ -978,7 +988,8 @@ body {
   width: 100%;
 }
 
-.full-card .card-options.mobile {
+.full-card .card-options.adaptive {
+  font-size: 1em;
   display: none;
 }
 
@@ -1002,9 +1013,9 @@ body {
   background-color: #91A0AE;
 }
 
-.full-card .card-info > div .title {
+.full-card .card-info > div .head >.title {
   color: #FFFFFF;
-  padding: 0.714em 2.5em;
+  padding: 0.714em 2.188em;
 }
 
 .full-card .card-info > div .icon {
@@ -1013,5 +1024,5 @@ body {
 
 .full-card .card-info > div .info {
   font-size: 0.857em;
-  padding: 1em 2.5em;
+  padding: 1em 2.917em;
 }

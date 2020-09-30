@@ -12,8 +12,8 @@
   }
 }
 
-/* Стили на ширину свыше 960px: */
-@media only screen and (min-width: 960px) {
+/* Стили на ширину свыше 1080px: */
+@media only screen and (min-width: 1081px) {
   #search:not(:focus-within) .search.icon {
     visibility: visible !important;
   }
@@ -40,42 +40,6 @@
 
 /* Стили на ширину от 0 до 1080px включительно: */
 @media only screen and (max-width: 1080px) {
-  .big-card .carousel {
-    width: 16em;
-    max-width: 40%;
-    margin-top: 4em;
-  }
-
-  .big-card .card-content {
-    position: static;
-    width: calc(100% - 18em);
-    min-width: 55%;
-    margin-top: 3.5em;
-  }
-
-  .big-card .card-head {
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    left: 1em;
-  }
-
-  .big-card .select-info,
-  .big-card .card-sizes {
-    display: none !important;
-  }
-
-  .big-card .card-price {
-    width: 100%;
-  }
-
-  .big-card .card-fade {
-    display: none;
-  }
-}
-
-/* Стили на ширину от 0 до 960px включительно: */
-@media only screen and (max-width: 960px) {
   .clear-filter.btn,
   .view .title,
   #gallery-sort  {
@@ -130,6 +94,10 @@
     position: static !important;
   }
 
+  #filters .filter:last-child {
+    margin-bottom: 1px;
+  }
+
   .gallery-head,
   #gallery-notice,
   #gallery {
@@ -144,15 +112,99 @@
     margin-right: 0;
   }
 
-  .view-blocks.icon {
+  .view .blocks.icon {
     width: 30px;
     height: 30px;
     margin-right: 1em;
   }
 
-  .view-list.icon {
+  .view .list.icon {
     width: 34px;
     height: 30px;
+  }
+}
+
+/* Стили на ширину от 0 до 768px включительно: */
+@media only screen and (max-width: 768px) {
+  .min-card {
+    width: 17em;
+    min-width: 17em;
+    max-width: 26.5em;
+    height: 30em;
+  }
+
+  .min-card .card-img {
+    height: 15em;
+  }
+
+  .big-card .carousel {
+    width: 16em;
+    max-width: 40%;
+    margin-top: 4em;
+  }
+
+  .big-card .card-content {
+    position: static;
+    width: calc(100% - 18em);
+    min-width: 55%;
+    margin-top: 3.5em;
+  }
+
+  .big-card .card-head {
+    position: absolute;
+    top: 1em;
+    right: 0;
+    left: 0;
+    padding: 0 1em;
+  }
+
+  .big-card .card-sizes {
+    display: none !important;
+  }
+
+  .big-card .card-price {
+    width: 100%;
+  }
+
+  .big-card .card-fade {
+    display: none;
+  }
+
+  .full-card .card-content {
+    position: relative;
+    flex-direction: column;
+  }
+
+  .full-card .card-content > div {
+    width: 100%;
+  }
+
+  .full-card .carousel {
+    display: flex;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .full-card .carousel-gallery-wrap {
+    max-width: 360px;
+    position: static;
+  }
+
+  .full-card .carousel-gallery-wrap .left-btn,
+  .full-card .carousel-gallery-wrap .right-btn {
+    opacity: 1;
+  }
+
+  .full-card .carousel-nav {
+    display: none;
+  }
+
+  .full-card .card-options.desk {
+    display: none;
+  }
+
+  .full-card .card-options.adaptive {
+    display: block;
   }
 }
 
@@ -175,7 +227,46 @@
     display: none;
   }
 
-  #gallery {
-    justify-content: center;
+  .full-card .pop-up-title {
+    padding: 1.5em;
+    padding-bottom: 0;
+    margin-bottom: 1.5em;
+  }
+
+  .full-card .card-content {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+
+  .full-card .carousel {
+    margin-bottom: 1.428em;
+  }
+
+  .full-card .card-price {
+    margin-bottom: 0;
+  }
+
+  .full-card .card-body {
+    padding: 1.785em 1.5em;
+  }
+
+  .full-card .select-info {
+    flex-wrap: wrap;
+  }
+
+  .full-card .card-info > div:last-child {
+    padding-bottom: 1em;
+  }
+
+  .full-card .card-info > div .head >.title {
+    padding: 0.714em 1.3125em;
+  }
+
+  .full-card .card-info > div .icon {
+    margin-right: 1.5em;
+  }
+
+  .full-card .card-info > div .info {
+    padding: 1em 1.75em;
   }
 }

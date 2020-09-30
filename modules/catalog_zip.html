@@ -53,16 +53,18 @@
   <div class="card-content">
     <div class="card-head row">
       <div class="card-title">
-        <div class="title h3">#title#</div>
+        <div class="row">
+          <div class="title h3">#title#</div>
+          <div class="select-info row">
+            <div class="select-qty">
+              Выбрано товаров:&nbsp;<span class="text orange">0</span> шт.
+            </div>
+            <div class="select-sum">
+              Итого:&nbsp;<span class="text orange">0</span> руб.
+            </div>
+          </div>
+        </div>
         <div class="articul">Код продукта: #item_code#</div>
-      </div>
-      <div class="select-info row">
-        <div class="select-qty">
-          Выбрано товаров:&nbsp;<span class="text orange">0</span> шт.
-        </div>
-        <div class="select-sum">
-          Итого:&nbsp;<span class="text orange">0</span> руб.
-        </div>
       </div>
     </div>
     <div class="card-body row">
@@ -157,7 +159,7 @@
               <div class="text">#markup#%</div>
             </div>
           </div>
-          <div class="card-options">
+          <div class="card-options desk">
             <div class="card-option row">
               <div class="option-title title">#title#</div>
               <div class="option-info">#value#</div>
@@ -202,13 +204,19 @@
         </div>
       </div>
       <div class="card-info">
-        <div class="card-options mobile">
-          <div class="card-option row">
-            <div class="option-title title">#title#</div>
-            <div class="option-info">#value#</div>
+        <div class="card-options adaptive switch close">
+          <div class="head" onclick="switchContent(event)">
+            <div class="title h3">Характеристики</div>
+            <div class="open white icon switch-icon"></div>
+          </div>
+          <div class="info switch-cont">
+            <div class="card-option row">
+              <div class="option-title title">#title#</div>
+              <div class="option-info">#value#</div>
+            </div>
           </div>
         </div>
-        <div class="switch close">
+        <div class="describe switch close">
           <div class="head" onclick="switchContent(event)">
             <div class="title h3">#title#</div>
             <div class="open white icon switch-icon"></div>
