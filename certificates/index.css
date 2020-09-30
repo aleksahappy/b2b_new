@@ -51,8 +51,8 @@ form.search {
 }
 
 #cert-data .item .cont {
+  width: calc(100% - 90.5px);
   height: 101px;
-
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -67,6 +67,11 @@ form.search {
 #cert-data .item .cont .row {
   align-items: center;
   white-space: nowrap;
+}
+
+#cert-data .item .cont .row > a:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #calendar {
