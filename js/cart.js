@@ -431,17 +431,16 @@ function countFromCart(idList = undefined, totals = true) {
       sumOpt += curQty * curItem.price_cur1;
       sumRetail += curQty * curItem.price_user1;
 
-      curOrder = orders.find(el => el.title === curItem.action_name);
+      curOrder = orders.find(order => order.title === curItem.action_name);
       if (!curOrder) {
         orders.push({
           title: curItem.action_name,
-          id: curItem.action_id,
           qty: 0,
           sum: 0,
           sumOpt: 0,
           sumRetail: 0
         });
-        curOrder = orders[0];
+        curOrder = orders.find(order => order.title === curItem.action_name);
       }
       curOrder.qty += curQty;
       curOrder.sumOpt += curQty * curItem.price_cur1;

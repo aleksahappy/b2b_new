@@ -27,8 +27,7 @@
   margin-right: 2em;
 }
 
-.side .h3,
-.side .row {
+.side > div {
   margin-bottom: 0.357em;
 }
 

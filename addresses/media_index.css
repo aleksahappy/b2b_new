@@ -1,14 +1,3 @@
-@media (pointer:coarse) {
-  [tooltip]:hover::before,
-  [tooltip]:hover::after {
-    display: block;
-  }
-
-  .tooltip {
-    display: block;
-  }
-}
-
 @media only screen and (max-width: 1080px) {
   .question.icon {
     display: block;
@@ -78,6 +67,14 @@
 
   #map > ymaps {
     height: calc(100vh - 199px) !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #address-form .main {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
   }
 }
 

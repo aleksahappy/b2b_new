@@ -777,6 +777,14 @@ function toggleEl(event, className = 'close') {
 // Свернуть/развернуть содержимое контейнера:
 
 function switchContent(event) {
+  var target = event.target,
+      tag = target.tagName;
+  if (tag) {
+    tag = tag.toLowerCase();
+  }
+  if (target !== event.currentTarget && (target.hasAttribute('onclick') || tag === 'a')) {
+    return;
+  }
   var container = event.currentTarget.closest('.switch');
   if (!container || container.classList.contains('disabled')) {
     return;
@@ -1565,6 +1573,7 @@ function createTooltip(element, tooltipHtml) {
   if (help) {
     tooltip.setAttribute('help', '');
   }
+  tooltip.dataset.parent = element.classList;
   tooltip.innerHTML = tooltipHtml;
   document.body.append(tooltip);
   positionTooltip(element);
@@ -1738,7 +1747,7 @@ function openPopUp(el, event) {
 function closePopUp(event, el) {
   if (event && event !== el) {
     if (event.type === 'keydown') {
-      if (event.code.toLowerCase() === 'escape') {
+      if (event.code && event.code.toLowerCase() === 'escape') {
         el = getEl('.pop-up-container.open');
       } else {
         return;
@@ -1989,7 +1998,7 @@ function Alerts(obj) {
   // Обработчик событий для кнопок согласия/отмены:
   this.confirmHandler = function(event) {
     event.stopPropagation();
-    if (this.callback && (event.type === 'keydown' && event.code.toLowerCase() === 'enter') ||  event.type !== 'keydown' && event.currentTarget.classList.contains('accept')) {
+    if (this.callback && (event.type === 'keydown' && event.code && event.code.toLowerCase() === 'enter') ||  event.type !== 'keydown' && event.currentTarget.classList.contains('accept')) {
       this.callback();
       this.callback = null;
     }

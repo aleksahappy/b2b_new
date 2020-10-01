@@ -11,6 +11,15 @@
   .tooltip {
     display: none;
   }
+
+  .question.icon[tooltip]:hover::before,
+  [tooltip]:hover::after {
+    display: block;
+  }
+
+  .tooltip[data-parent*=question] {
+    display: block;
+  }
 }
 
 /* =====================================================================================================
@@ -322,22 +331,6 @@ Tablet:
     min-width: 100%;
   }
 
-  #notifications .message.icon {
-    width: 25px;
-    height: 25px;
-    margin-bottom: 0.357em;
-  }
-
-  #notifications .message.row > .row {
-    display: block;
-  }
-
-  #notifications .date {
-    position: absolute;
-    top: 1.5em;
-    left: 35px;
-  }
-
   /* Кнопка "Наверх страницы": */
 
   #up-btn {
@@ -361,6 +354,26 @@ Tablet:
   }
   #full-img .carousel .right-btn {
     opacity: 1 !important;
+  }
+}
+
+/* Стили на ширину от 0 до 960px включительно: */
+@media only screen and (max-width: 960px) {
+  /* Окно уведомлений: */
+  #notifications .message.icon {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 0.357em;
+  }
+
+  #notifications .message.row > .row {
+    display: block;
+  }
+
+  #notifications .date {
+    position: absolute;
+    top: 1.5em;
+    left: 35px;
   }
 }
 

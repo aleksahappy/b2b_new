@@ -98,8 +98,8 @@
   margin-bottom: 0.714em;
 }
 
-.shop .time:not(:last-child) {
-  margin-bottom: 0.357em;
+.shop .work-time {
+  line-height: 1.7;
 }
 
 .shop .time > div:first-child {
@@ -128,7 +128,8 @@
 }
 
 #address .main .btns-wrap {
-  display: block;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 #address .main .btns-wrap .btn {
@@ -137,6 +138,7 @@
 }
 
 #address .main .btns-wrap .btn:first-child {
+  margin-right: 0;
   margin-bottom: 0.714em;
 }
 

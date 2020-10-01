@@ -1,21 +1,17 @@
-/* Стили на ширину от 0 до 1360px включительно: */
-@media only screen and (max-width: 1360px) {
-  .cart-row {
-    padding-top: 1em;
-    padding-bottom: 1em;
-  }
-}
-
 /* Стили на ширину от 0 до 1080px включительно: */
 @media only screen and (max-width: 1080px) {
   .cart-section {
     margin-bottom: 1em;
-    padding: 1em;
+  }
+
+  .cart-section .head,
+  .cart-row {
+    padding: 1em 0;
+    margin: 0 1em;
   }
 
   .cart-section .head {
     display: block;
-    padding-bottom: 1em;
   }
 
   .cart-section .head > div.row {
@@ -154,14 +150,10 @@
     display: none;
   }
 
-  .cart-section {
-    padding: 0;
-  }
-
   .cart-section .head,
-  .cart-row,
-  .cart-row:last-child {
+  .cart-row {
     padding: 1em;
+    margin: 0;
   }
 
   .cart-section .head .select-info {
