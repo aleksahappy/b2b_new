@@ -460,13 +460,6 @@
       "actionName": "Распродажа",
       "cartId": "equip"
     },
-    "id_13185": {
-      "id": "13185",
-      "qty": 1,
-      "actionId": 8,
-      "actionName": "Распродажа",
-      "cartId": "equip"
-    },
     "id_22833": {
       "id": "22833",
       "qty": 1,
@@ -833,13 +826,6 @@
     },
     "id_5825": {
       "id": "5825",
-      "qty": 1,
-      "actionId": 8,
-      "actionName": "Распродажа",
-      "cartId": "equip"
-    },
-    "id_22412": {
-      "id": "22412",
       "qty": 1,
       "actionId": 8,
       "actionName": "Распродажа",
