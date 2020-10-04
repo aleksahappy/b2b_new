@@ -68,9 +68,16 @@ Desktop:
   #up-btn {
     right: 3%;
   }
+
+  /* Информационная карточка товара: */
+
+  .info-card {
+    width: 38.5%;
+    max-width: 1000px;
+  }
 }
 
-/* Стили на ширину больше 1081px: */
+/* Стили на ширину больше 1080px: */
 @media only screen and (min-width: 1081px) {
 
   /* Окно уведомлений: */
@@ -96,14 +103,20 @@ Desktop:
   #notifications::-webkit-scrollbar-corner {
     background-color: #F8F8F8;
   }
+
+  /* Блок фильтров: */
+
+  .pop-up-container.filters.visible {
+    display: block !important;
+  }
 }
 
 /* =====================================================================================================
 Laptop:
 ===================================================================================================== */
 
-/* Стили на ширину от 0 до 1360px включительно: */
-@media only screen and (max-width: 1360px) {
+/* Стили на ширину от 0 до 1440px включительно: */
+@media only screen and (max-width: 1440px) {
 
   /* Основные стили: */
 
@@ -267,24 +280,20 @@ Tablet:
   /* Блок фильтров: */
 
   .pop-up-container.filters {
-    display: flex;
     padding: 40px 0;
     background-color: rgba(102, 102, 102, 0.3);
   }
 
   .pop-up-container.filters.visible {
     position: fixed;
-    display: flex;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    visibility: hidden;
     opacity: 0;
   }
 
   .pop-up-container.filters.visible.open {
-    visibility: visible;
     opacity: 1;
   }
 
@@ -295,6 +304,10 @@ Tablet:
     background-color: #FFFFFF;
     box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
     transform-origin: 0 0;
+  }
+
+  .filters.visible .pop-up {
+    opacity: 1;
   }
 
   .filters .pop-up-title {
@@ -404,14 +417,33 @@ Tablet:
 
   /* Форма отправки на сервер: */
 
-  form.post .form-cols {
-    flex-wrap: wrap;
-  }
-
   .pop-up-body form.post {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+  }
+
+  form.post .form-cols {
+    display: block;
+  }
+
+  form.post .form-cols > div {
+    width: 100%;
+    padding: 0;
+  }
+
+  form.post input[data-type="date"],
+  form.post input[data-type="range"],
+  form.post .activate {
+    width: 100%;
+  }
+
+  /* Принудительно убранные всплывающие окна : */
+
+  .pop-up-container.locked {
+    position: fixed;
+    padding: 0;
+    z-index: 400;
   }
 
   /* Блок фильтров: */
@@ -443,6 +475,22 @@ Tablet:
     width: auto;
     max-width: 90%;
     min-height: auto;
+  }
+
+  /* Информационная карточка товара: */
+
+  .info-card .card-content {
+    display: block;
+  }
+
+  .info-card .card-content > div {
+    width: 100%;
+  }
+
+  .info-card .img-wrap {
+    max-width: 360px;
+    margin: 0 auto;
+    margin-bottom: 1.428em;
   }
 }
 
@@ -506,23 +554,6 @@ Mobile:
 
   .pop-up-title {
     margin-bottom: 1em;
-  }
-
-  /* Форма отправки на сервер: */
-
-  form.post .form-cols {
-    display: block;
-  }
-
-  form.post .form-cols > div {
-    width: 100%;
-    padding: 0;
-  }
-
-  form.post input[data-type="date"],
-  form.post input[data-type="range"],
-  form.post .activate {
-    width: 100%;
   }
 
   /* Блок фильтров: */

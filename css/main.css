@@ -197,9 +197,6 @@ body.no-scroll {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
-  margin-top: 5em;
-  margin-bottom: 5em;
 }
 
 /* =====================================================================================================
@@ -256,6 +253,10 @@ body.no-scroll {
   visibility: hidden;
 }
 
+.preload {
+  opacity: 0;
+}
+
 .switch > .head {
   justify-content: space-between;
   align-items: center;
@@ -267,8 +268,11 @@ body.no-scroll {
 }
 
 .img-wrap {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .img-wrap img {
@@ -406,27 +410,6 @@ body.no-scroll {
 
 .articul {
   color: #8596A6;
-}
-
-/* =====================================================================================================
-Стили анимации:
-===================================================================================================== */
-
-/* Общие стили всплывающих подсказок: */
-
-@keyframes tooltips-animation {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes аppears-from-right {
-  0% {
-      transform: translateX(150%);
-  }
-  100% {
-      transform: translateX(0%);
-  }
 }
 
 /* =====================================================================================================
@@ -925,6 +908,14 @@ input[data-type="range"] {
 /* =====================================================================================================
 Всплывающие подсказки:
 ===================================================================================================== */
+
+/* Общий стиль анимации подсказок: */
+
+@keyframes tooltips-animation {
+  to {
+    opacity: 1;
+  }
+}
 
 /* Всплывающие подсказки на чистом css (атрибут tooltip="текст" - нельзя вставлять html): */
 
@@ -1829,14 +1820,9 @@ div.option input:disabled ~ .checkbox.icon {
   cursor: pointer;
 }
 
-.activate:not([disabled]):hover .head,
+.activate:hover .head,
 .activate.open .head {
   color: #666666;
-}
-
-.activate[disabled] .head {
-  background-color: #ECECEC;
-  cursor: default;
 }
 
 .activate .head input[type="text"] {
@@ -1877,11 +1863,6 @@ div.option input:disabled ~ .checkbox.icon {
 .activate.hover:hover .triangle,
 .activate.open .triangle {
   transform: rotate(180deg);
-}
-
-.activate[disabled] .triangle,
-.activate[disabled] .filter {
-  cursor: default;
 }
 
 .activate .drop-down {
@@ -1936,6 +1917,8 @@ div.option input:disabled ~ .checkbox.icon {
   padding: 0.4em 0.714em;
   border-bottom: 1px solid #F8F8F8;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .activate .drop-down .item:last-child {
@@ -2038,6 +2021,32 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate.box .items .item {
   padding: 0.3em 1.33em;
+}
+
+.disabled .activate .head,
+[disabled] .activate .head,
+.activate.disabled .head,
+.activate[disabled] .head {
+  background-color: #ECECEC;
+  cursor: default;
+}
+
+.disabled .activate .head .title,
+[disabled] .activate .head .title,
+.activate.disabled .head .title,
+.activate[disabled] .head .title {
+  color: transparent;
+}
+
+.disabled .activate .triangle,
+[disabled] .activate .triangle,
+.activate.disabled .triangle,
+.activate[disabled] .triangle,
+.disabled .activate .filter,
+[disabled] .activate .filter,
+.activate.disabled .filter,
+.activate[disabled] .filter {
+  cursor: default;
 }
 
 /* =====================================================================================================
@@ -2443,6 +2452,16 @@ form.post .form-wrap {
   margin-bottom: 1.785em;
 }
 
+form.post .form-wrap.disabled,
+form.post .form-wrap[disabled] {
+  color: #B3B3B3;
+}
+
+form.post .form-wrap.disabled > .title,
+form.post .form-wrap[disabled] > .title {
+  color: #B3B3B3;
+}
+
 form.post .form-wrap > .title {
   margin-bottom: 0.35em;
 }
@@ -2459,13 +2478,13 @@ form.post .form-wrap .text-counter {
   white-space: nowrap;
 }
 
-.select-choice {
-  margin-top: 1.2em;
-}
-
 form.post > .loader {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.9);
+}
+
+form.post .btns-wrap {
+  padding-top: 1.428em;
 }
 
 /* =====================================================================================================
@@ -2473,8 +2492,8 @@ form.post > .loader {
 ===================================================================================================== */
 
 .pop-up-container {
+  display: none;
   position: fixed;
-  display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -2484,23 +2503,17 @@ form.post > .loader {
   bottom: 0;
   padding: 64px 0;
   background-color: rgba(102, 102, 102, 0.3);
-  -webkit-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  -moz-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  -o-transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  transition: visibility,opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-transition: opacity .15s linear;
+  -moz-transition: opacity .15s linear;
+  -o-transition: opacity .15s linear;
+  transition: opacity .15s linear;
   overflow-x: hidden;
   overflow-y: auto;
-  visibility: hidden;
   opacity: 0;
   z-index: 400;
 }
 
-.pop-up-container:not(.open):not(.visible) * {
-  visibility: hidden !important;
-}
-
 .pop-up-container.open {
-  visibility: visible;
   opacity: 1;
 }
 
@@ -2510,7 +2523,17 @@ form.post > .loader {
   padding: 2.5em;
   background-color: #F8F8F8;
   box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
+  -webkit-transition: opacity .15s linear;
+  -moz-transition: opacity .15s linear;
+  -o-transition: opacity .15s linear;
+  transition: opacity .15s linear;
   transform-origin: 0 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.open .pop-up {
+  opacity: 1;
 }
 
 .pop-up-title {
@@ -2518,8 +2541,6 @@ form.post > .loader {
   align-items: flex-start;
   width: 100%;
   margin-bottom: 1.785em;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .pop-up-title .title {
@@ -2552,6 +2573,32 @@ form.post > .loader {
 }
 
 /* =====================================================================================================
+Всегда отображаемые всплывающие окна без возможности закрытия:
+===================================================================================================== */
+
+.pop-up-container.locked {
+  position: static;
+  display: flex;
+  padding: 2.857em 1.428em 1.428em 1.428em;
+  background-color: transparent;
+  opacity: 1;
+  z-index: 0;
+}
+
+.pop-up-container.locked .pop-up {
+  max-width: 100%;
+  opacity: 1;
+}
+
+.pop-up-container.locked .pop-up-title {
+  justify-content: center;
+}
+
+.pop-up-container.locked .pop-up-title > .title {
+  margin-right: 0;
+}
+
+/* =====================================================================================================
 Блок фильтров:
 ===================================================================================================== */
 
@@ -2563,9 +2610,7 @@ form.post > .loader {
 
 .pop-up-container.filters.visible {
   position: static;
-  display: block;
-  visibility: visible;
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 .filters .pop-up {
@@ -2575,6 +2620,10 @@ form.post > .loader {
   background-color: transparent;
   box-shadow: none;
   transform-origin: 0 0;
+}
+
+.filters.visible .pop-up {
+  opacity: 1;
 }
 
 .filters .pop-up-title {
@@ -3114,11 +3163,6 @@ th:last-child .resize-btn::after {
   visibility: visible;
 }
 
-.card-img img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
 .card-price {
   flex-grow: 0;
   flex-shrink: 0;
@@ -3234,6 +3278,9 @@ th:last-child .resize-btn::after {
 }
 
 .card-option .option-title {
+  width: 13em;
+  max-width: 13em;
+  min-width: 13em;
   padding-right: 0.5em;
 }
 
@@ -3283,10 +3330,39 @@ th:last-child .resize-btn::after {
   width: 30%;
 }
 
-.card-info p:not(:last-child) {
+.describe p:not(:last-child) {
   padding: 0;
   margin: 0;
   margin-bottom: 0.357em;
+}
+
+.describe .info {
+  font-size: 0.857em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================================================================================================
+Информационная карточка товара:
+===================================================================================================== */
+
+.info-card {
+  position: relative;
+  width: 53em;
+}
+
+.info-card .card-content {
+  padding-bottom: 1.428em;
+}
+
+.info-card .img-wrap {
+  width: 30%;
+  margin-right: 1.428em;
+  min-height: 202px;
+}
+
+.info-card .describe .title {
+  margin-bottom: 1em;
 }
 
 /* =====================================================================================================
@@ -3442,6 +3518,7 @@ th:last-child .resize-btn::after {
   padding: 0.75em 1em;
   border-bottom: none;
   white-space: nowrap;
+  overflow: visible;
 }
 
 .header-top .left-side {
@@ -3743,10 +3820,6 @@ th:last-child .resize-btn::after {
   justify-content: flex-end;
   align-items: flex-start;
   padding: 0;
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
-  transition: none;
 }
 
 #notifications .row {
@@ -3757,10 +3830,16 @@ th:last-child .resize-btn::after {
   width: 50vw;
   min-width: 970px;
   min-height: 100vh;
+  -webkit-transition: transform .5s ease-out;
+  -moz-transition: transform .5s ease-out;
+  -o-transition: transform .5s ease-out;
+  transition: transform .5s ease-out;
+  transform: translate(150%, 0);
+  opacity: 1;
 }
 
 #notifications.open .pop-up {
-  animation: аppears-from-right 500ms ease-out forwards;
+  transform: translate(0, 0);
 }
 
 #notifications .message.row {
@@ -3811,17 +3890,16 @@ th:last-child .resize-btn::after {
 Страница входа:
 ===================================================================================================== */
 
+body#auth .container.center {
+  min-height: 80vh;
+}
+
 body#auth .pop-up {
   width: 32em;
 }
 
 body#auth .pop-up-title {
-  justify-content: center;
   margin-bottom: 0;
-}
-
-body#auth .pop-up-title > .title {
-  margin-right: 0;
 }
 
 body#auth #error {
