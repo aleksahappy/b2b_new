@@ -648,12 +648,7 @@ body {
   right: -7px;
 }
 
-.min-card .card-img {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+.min-card .img-wrap {
   height: 16em;
 }
 
@@ -834,57 +829,7 @@ body {
 
 /* Стили для большой карточки ЗИП: */
 
-#main.zip .big-card {
-  height: 17em;
-  min-height: 17em;
-}
 
-#main.zip .big-card.open {
-  height: auto !important;
-}
-
-#main.zip .big-card .left-side {
-  width: 60%;
-}
-
-#main.zip .big-card .card-title {
-  width: 100%;
-}
-
-#main.zip .big-card .card-select {
-  width: calc(100% - 14em);
-}
-
-#main.zip .big-card .card-sizes {
-  width: 100%;
-  margin-bottom: 1.5em;
-}
-
-#main.zip .big-card .select-info {
-  width: 100%;
-  padding-left: 4em;
-}
-
-#main.zip .big-card .right-side {
-  justify-content: flex-start;
-  width: 40%;
-}
-
-#main.zip .big-card .card-options {
-  height: auto;
-  overflow: visible;
-  margin-bottom: 1.5em;
-}
-
-#main.zip .big-card .option-title {
-  min-width: 14em;
-  max-width: 14em;
-}
-
-#main.zip .big-card .details {
-  right: 1em;
-  top: 1em;
-}
 
 /* =====================================================================================================
  Стили для полной карточки:
@@ -970,11 +915,6 @@ body {
   margin-bottom: 1.428em;
 }
 
-.full-card .option-title {
-  min-width: 45%;
-  max-width: 45%;
-}
-
 .full-card .card-body {
   flex-grow: 1;
   padding: 1.785em 2.5em;
@@ -1022,7 +962,6 @@ body {
   margin-right: 2.5em;
 }
 
-.full-card .card-info > div .info {
-  font-size: 0.857em;
+.full-card .info {
   padding: 1em 2.917em;
 }

@@ -12,6 +12,14 @@
   }
 }
 
+/* Стили на ширину свыше 1920px: */
+@media only screen and (min-width: 1921px) {
+  .full-card {
+    width: 46%;
+    max-width: 1500px;
+  }
+}
+
 /* Стили на ширину свыше 1080px: */
 @media only screen and (min-width: 1081px) {
   #search:not(:focus-within) .search.icon {
@@ -183,6 +191,7 @@
     display: flex;
     justify-content: center;
     padding-right: 0;
+    margin-bottom: 1.428em;
   }
 
   .full-card .carousel-gallery-wrap {
