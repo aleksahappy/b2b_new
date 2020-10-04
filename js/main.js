@@ -191,7 +191,7 @@ function loadHTML(target, url) {
     xhr.send();
     if (xhr.status != 200) {
       console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-      new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+      throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
     } else {
       if (xhr.response) {
         target.innerHTML = xhr.responseText;
@@ -384,89 +384,7 @@ function getItem(articul) {
   });
 }
 
-//=====================================================================================================
-// Работа с данными корзины:
-//=====================================================================================================
-
-// Обновление итогов корзины при возвращении на страницу:
-
-function updateCartTotals() {
-  getTotals()
-  .then(result => {
-    renderTotals();
-  }, reject => {
-    console.log(reject);
-  });
-}
-
-// Создание списков каталогов и корзин в шапке сайта:
-
-function renderTotals() {
-  if (!isCart || !cartTotals.length) {
-    return;
-  }
-  renderCartInHeader('#carts', 'cart');
-  renderCartInHeader('#catalogs', 'catalogs');
-  renderCartInHeader('#mob-catalogs', 'catalogs');
-}
-
-// Создание списка каталогов/корзин в шапке сайта:
-
-function renderCartInHeader(area, type) {
-  area = getEl(area);
-  if (!area) {
-    return;
-  }
-  var data = getDataFromTotals(type);
-  fillTemplate({
-    area: area,
-    items: data,
-    sub: type === 'cart' ? [{area: '.item', items: 'items'}] : null
-  });
-}
-
-// Подготовка данных для создания списка каталогов/корзин:
-
-function getDataFromTotals(type) {
-  var data = JSON.parse(JSON.stringify(cartTotals)),
-      sum = 0;
-  data.forEach((el, index) => {
-    if (!el.id) {
-      data.splice(index, 1);
-      return;
-    }
-    if (el.qty > 0) {
-      el.isFull = 'full';
-      if (el.qty > 99) {
-        el.qty = type === 'cart' ? '99' : '99+';
-      }
-    } else {
-      el.isFull = '';
-    }
-
-    if (type === 'cart') {
-      sum += el.sum;
-    }
-    el.sum = convertPrice(el.sum, false);
-    if (document.body.id && document.body.id === el.id) {
-      el.isFunc = 'openPage(event)';
-      if (type === 'cart') {
-        data.unshift(data.splice(index, 1)[0]);
-      }
-    } else {
-      el.isFunc = '';
-    }
-  });
-  if (type === 'cart') {
-    data = {
-      sum: convertPrice(sum, false),
-      items: data
-    };
-  }
-  return data;
-}
-
-//=====================================================================================================
+//==================================================================================================
 // Работа со storage и cookie:
 //=====================================================================================================
 
@@ -639,6 +557,161 @@ function getCookie(key) {
 
 function deleteCookie(key) {
   setCookie(key, '', {expires: -1});
+}
+
+//=====================================================================================================
+// Работа с данными корзины:
+//=====================================================================================================
+
+// Обновление итогов корзины при возвращении на страницу:
+
+function updateCartTotals() {
+  getTotals()
+  .then(result => {
+    renderTotals();
+  }, reject => {
+    console.log(reject);
+  });
+}
+
+// Создание списков каталогов и корзин в шапке сайта:
+
+function renderTotals() {
+  if (!isCart || !cartTotals.length) {
+    return;
+  }
+  renderCartInHeader('#carts', 'cart');
+  renderCartInHeader('#catalogs', 'catalogs');
+  renderCartInHeader('#mob-catalogs', 'catalogs');
+}
+
+// Создание списка каталогов/корзин в шапке сайта:
+
+function renderCartInHeader(area, type) {
+  area = getEl(area);
+  if (!area) {
+    return;
+  }
+  var data = getDataFromTotals(type);
+  fillTemplate({
+    area: area,
+    items: data,
+    sub: type === 'cart' ? [{area: '.item', items: 'items'}] : null
+  });
+}
+
+// Подготовка данных для создания списка каталогов/корзин:
+
+function getDataFromTotals(type) {
+  var data = JSON.parse(JSON.stringify(cartTotals)),
+      sum = 0;
+  data.forEach((el, index) => {
+    if (!el.id) {
+      data.splice(index, 1);
+      return;
+    }
+    if (el.qty > 0) {
+      el.isFull = 'full';
+      if (el.qty > 99) {
+        el.qty = type === 'cart' ? '99' : '99+';
+      }
+    } else {
+      el.isFull = '';
+    }
+
+    if (type === 'cart') {
+      sum += el.sum;
+    }
+    el.sum = convertPrice(el.sum);
+    if (document.body.id && document.body.id === el.id) {
+      el.isFunc = 'openPage(event)';
+      if (type === 'cart') {
+        data.unshift(data.splice(index, 1)[0]);
+      }
+    } else {
+      el.isFunc = '';
+    }
+  });
+  if (type === 'cart') {
+    data = {
+      sum: convertPrice(sum),
+      items: data
+    };
+  }
+  return data;
+}
+
+//=====================================================================================================
+// Преобразование входящих данных:
+//=====================================================================================================
+
+// Преобразование данных о картинках:
+
+function addImgInfo(item) {
+  if (!item.images) {
+    return;
+  }
+  item.images = item.images.toString().split(';');
+  if (item.images.length) {
+    item.image = `https://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
+  } else {
+    item.image = `../img/no_img.jpg`;
+  }
+}
+
+
+// Преобразование данных для создания списка характеристик:
+
+function addOptionsInfo(item, optnames) {
+  if (!item.options || item.options == 0) {
+    return;
+  }
+  var options = [],
+    title, value;
+  for (var key in item.options) {
+    title = optnames[key.replace('id_', '')];
+    if (title == 'Производитель техники' ||
+      title == 'OEM' ||
+      title == 'Модель техники' ||
+      title == 'Год модели техники') {
+      continue;
+    }
+    value = item.options[key];
+    item.search.push(value.replace(/\"/g, ''));
+    value = value.replace(/\,/gi, ', ').replace(/\//gi, '/ ');
+    if (title == 'Категория' ||
+      title == 'Бренд' ||
+      title == 'Модель' ||
+      title == 'Серия' ||
+      title == 'Цвет' ||
+      title == 'Цвет оригинальный' ||
+      title == 'Статус товара' ||
+      title == 'Тип линзы' ||
+      title == 'Размер обуви' ||
+      title == 'Размер для сайта' ||
+      title == 'Размер поставщика' ||
+      title == 'Размер взрослый' ||
+      title == 'Размер детский' ||
+      title == 'Размер для фильтров' ||
+      title == 'Американский размер' ||
+      title == 'Европейский размер' ||
+      title == 'Размер американский взрослый' ||
+      title == 'Размер американский детский' ||
+      title == 'Длина стельки взрослый' ||
+      title == 'Вес, грамм' ||
+      title == 'Длина, мм' ||
+      title == 'Высота, мм' ||
+      title == 'Ширина, мм' ||
+      title == 'Порядок' ||
+      title == 'Контент менеджер') {
+      continue;
+    }
+    options.push({
+      title: title,
+      value: value
+    });
+  }
+  item.options = options;
 }
 
 //=====================================================================================================
@@ -1131,19 +1204,14 @@ function declOfNum(number, titles) {
   return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
 }
 
-// Функция преобразования цены к формату с пробелами:
+// Функция преобразования цены к формату с пробелами и запятой:
 
-function convertPrice(price, isFixed = true) {
+function convertPrice(price) {
   if (isNaN(Number(price))) {
     return price;
   }
   price = Number(price).toFixed(2);
-  price = (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
-  if (isFixed) {
-    return price.replace('.', ',');
-  } else {
-    return price.replace(/\.\d\d/g, '');
-  }
+  price = (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', ',');
   // второй вариант (менее кросс-браузерный):
   // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -1732,13 +1800,17 @@ function openPopUp(el, event) {
   }
   el = getEl(el);
   if (el) {
-    el.classList.add('open');
+    getDocumentScroll();
     if (el.classList.contains('preload')) {
       el.style.opacity = '0';
     }
-    el.scrollTop = 0;
-    getDocumentScroll();
-    document.body.classList.add('no-scroll');
+    showElement(el, 'flex');
+    setTimeout(() => {
+      el.classList.add('open');
+      el.scrollTop = 0;
+      document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => hideElement(el));
+      document.body.classList.add('no-scroll');
+    }, 50);
   }
 }
 
@@ -1763,13 +1835,15 @@ function closePopUp(event, el) {
   }
   if (el) {
     loader.hide();
+    document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => showElement(el, 'flex'));
     el.classList.remove('open');
-    if (el.classList.contains('preload')) {
-      el.style.opacity = '0';
-    }
-    document.body.classList.remove('no-scroll');
-    setDocumentScroll();
-    return true;
+    setTimeout(() => {
+      hideElement(el);
+      if (!document.querySelector('.pop-up-container.open')) {
+        document.body.classList.remove('no-scroll');
+      }
+      setDocumentScroll();
+    }, 200);
   }
 }
 
@@ -1814,7 +1888,44 @@ function initNotifications() {
 // Работа c информационной карточкой товара и изображением на весь экран:
 //=====================================================================================================
 
-// Открытие картинки полного размера:
+// Отображение информационной карточки товара:
+
+function showInfoCard(event, articul) {
+  event.preventDefault();
+  getItem(articul)
+  .then(result => {
+    var item = result.item,
+        optnames = result.optnames;
+    if (item && optnames) {
+      addImgInfo(item);
+      addOptionsInfo(item, optnames);
+      item.isDesc = item.desc ? '' : 'displayNone';
+      openInfoCard(result.item);
+    }
+  }, reject => console.log(reject));
+}
+
+// Открытие информационной карточки товара:
+
+function openInfoCard(data) {
+  if (!data) {
+    return;
+  }
+  loader.show();
+  var infoCardContainer = getEl('#info-card-container');
+  fillTemplate({
+    area: infoCardContainer,
+    items: data,
+    sub: [{
+      area: '.card-option',
+      items: 'options'
+    }]
+  });
+  openPopUp(infoCardContainer);
+  loader.hide();
+}
+
+// Отображение картинки на весь экран:
 
 function showFullImg(event, id) {
   if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
@@ -1824,11 +1935,7 @@ function showFullImg(event, id) {
   if (!data) {
     return;
   }
-  var curPopUp = getEl('.pop-up-container.open');
-  if (!curPopUp) {
-    loader.show();
-  }
-
+  loader.show();
   var fullImgContainer = getEl('#full-img-container');
   fillTemplate({
     area: fullImgContainer,
@@ -1845,11 +1952,7 @@ function showFullImg(event, id) {
   renderCarousel(curCarousel, curImg)
   .then(result => {
     fullImgContainer.style.opacity = 1;
-    if (curPopUp) {
-      closePopUp(null, curPopUp);
-    } else {
-      loader.hide();
-    }
+    loader.hide();
   });
 }
 
@@ -2535,7 +2638,7 @@ function DropDown(obj) {
     if (!event.pageX) {
       return;
     }
-    if (this.obj.hasAttribute('disabled')) {
+    if (this.obj.closest('.disabled') || this.obj.closest('[disabled]')) {
       return;
     }
     if (this.obj.classList.contains('open')) {
