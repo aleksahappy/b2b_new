@@ -193,10 +193,14 @@ function addCatalogModules() {
   catalogGallery.id = 'gallery';
   catalogGallery.dataset.html = `../modules/catalog_${type}.html`;
   getEl('#content').appendChild(catalogGallery);
+
+  var popUpModules = document.createElement('div');
+  popUpModules.dataset.html = `../modules/infocard_and_img.html`;
+  document.body.insertBefore(popUpModules, getEl('.main').nextSibling);
   includeHTML();
 
-  catalogMain.querySelectorAll('.pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
-  document.body.insertBefore(getEl('#full-card-container'), getEl('.main').nextSibling);
+  document.querySelectorAll(':not(#modules) .pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
+  popUpModules.appendChild(getEl('#full-card-container'));
   minCard = getEl('.min-card');
   bigCard = getEl('.big-card');
 }
@@ -214,7 +218,7 @@ function fillCatalogHeader() {
 }
 
 //=====================================================================================================
-// Преобразование исходных данных:
+// Преобразование входящих данных:
 //=====================================================================================================
 
 // Преобразование входящих данных о скидках:
@@ -234,7 +238,7 @@ function convertActions() {
   }
 }
 
-// Преобразование данных при загрузке страницы:
+// Преобразование входящих данных для карточек товаров:
 
 // Фильтрация:
 // - входящих данных для страниц ЗИПа
@@ -265,7 +269,7 @@ function convertItems() {
     items = items.filter(el => el.snegohod == 1);
   }
   items.forEach(item => convertItem(item));
-  items.sort(sortBy(('catid')));  // Сортировка по id категории:
+  items.sort(sortBy(('catid'))); // Сортировка по id категории:
 }
 
 // Преобразование данных по одному товару:
@@ -275,8 +279,9 @@ function convertItem(item) {
   item.isFree = item.free_qty > 0 ? '' : 'displayNone';
   item.isArrive = item.arrive_qty > 0 ? '' : 'displayNone';
   item.isWarehouse = item.warehouse_qty > 0 ? '' : 'displayNone';
+  item.isDesc = item.desc ? '' : 'displayNone';
   item.search = [item.title, item.brand, item.cat, item.subcat]; // добавление данных для поиска по странице (далее в функциях будут дополняться)
-  if (item.manuf) {// преобразование данных о производителе из JSON в объект
+  if (item.manuf) { // преобразование данных о производителе из JSON в объект
     var manuf;
     try {
       manuf = JSON.parse(item.manuf);
@@ -290,22 +295,11 @@ function convertItem(item) {
   addPriceInfo(item);
   addMarkupInfo(item);
   addSizeInfo(item);
-  addOptionsInfo(item);
+  addOptionsInfo(item, optnames);
   addManufInfo(item);
   addDescrInfo(item);
   item.search = item.search.join(',').replace(/\s/g, ' ').replace(/\u00A0/g, ' '); // Замена любых пробельных символов на пробелы
   return item;
-}
-
-// Преобразование и добавление данных о картинках:
-
-function addImgInfo(item) {
-  item.images = item.images.toString().split(';');
-  if (item.images.length) {
-    item.image = `https://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
-  } else {
-    item.image = `../img/no_img.jpg`;
-  }
 }
 
 // Проверка действия акции и добавление данных о ней:
@@ -383,65 +377,12 @@ function addSizeInfo(item) {
     cartItem.options = item.options['id_40'] ? `(${item.options['id_40']}, ${size.size})` : `(${size.size})`;
     cartItem.price_cur = item.price_cur;
     cartItem.price_cur1 = item.price_cur1;
-    cartItem.price_user = item.price_user ;
+    cartItem.price_user = item.price_user;
     cartItem.price_user1 = item.price_user1;
     cartItem.actiontitle = item.actiontitle;
     cartItem.action_id = item.action_id;
     cartItem.action_name = actions && actions[item.action_id] ? actions[item.action_id].title : 'Склад';
   }
-}
-
-// Добавление данных для создания списка характеристик:
-
-function addOptionsInfo(item) {
-  if (!item.options || item.options == 0) {
-    return;
-  }
-  var options = [], title, value;
-  for (var key in item.options) {
-    title = optnames[key.replace('id_', '')];
-    if (title == 'Производитель техники' ||
-        title == 'OEM' ||
-        title == 'Модель техники' ||
-        title == 'Год модели техники') {
-      continue;
-    }
-    value = item.options[key];
-    item.search.push(value.replace(/\"/g, ''));
-    value = value.replace(/\,/gi, ', ').replace(/\//gi, '/ ');
-    if (title == 'Категория' ||
-        title == 'Бренд' ||
-        title == 'Модель' ||
-        title == 'Серия' ||
-        title == 'Цвет' ||
-        title == 'Цвет оригинальный' ||
-        title == 'Статус товара' ||
-        title == 'Тип линзы' ||
-        title == 'Размер обуви' ||
-        title == 'Размер для сайта' ||
-        title == 'Размер поставщика' ||
-        title == 'Размер взрослый' ||
-        title == 'Размер детский' ||
-        title == 'Размер для фильтров' ||
-        title == 'Американский размер' ||
-        title == 'Европейский размер' ||
-        title == 'Размер американский взрослый' ||
-        title == 'Размер американский детский' ||
-        title == 'Длина стельки взрослый' ||
-        title == 'Вес, грамм' ||
-        title == 'Длина, мм' ||
-        title == 'Высота, мм' ||
-        title == 'Ширина, мм'||
-        title == 'Порядок'||
-        title == 'Контент менеджер') {
-      continue;
-    }
-    options.push({
-      title: title,
-      value: value
-    });
-  }
-  item.options = options;
 }
 
 // Преобразование данных о производителе для фильтров и построения таблицы:
@@ -503,7 +444,6 @@ function addDescrInfo(item) {
   if (item.defectdescr) {
     item.describe.push({title: 'Описание дефекта', info: item.defectdescr});
   }
-  delete item.desc;
   delete item.actiondescr;
   delete item.defectdescr;
 }
@@ -534,7 +474,7 @@ function setMinCardWidth() {
   var style = gallery.style.justifyContent;
   if (countCards === 1 && style !== 'center') {
     gallery.style.justifyContent = 'center';
-  } else if (countCards >1 && style !== 'flex-start') {
+  } else if (countCards > 1 && style !== 'flex-start') {
     gallery.style.justifyContent = 'flex-start';
   }
   document.querySelectorAll('.min-card').forEach(minCard => {
@@ -661,8 +601,8 @@ function changeMainNav() {
       curTitle = getEl(`#header-menu [href$="${key}"]`);
       if (curTitle) {
         var item = {
-          href: view === 'product' ? '#': curTitle.href,
-          title: view === 'product' ? items[0].title: curTitle.dataset.title
+          href: view === 'product' ? '#' : curTitle.href,
+          title: view === 'product' ? items[0].title : curTitle.dataset.title
         };
         data.items.push(item);
       } else {
@@ -1361,10 +1301,10 @@ var countItems = 0,
     incr;
 
 function loadCards(cards) {
-	if (cards) {
+  if (cards) {
     countItems = 0;
     itemsToLoad = cards;
-	} else {
+  } else {
     countItems = countItemsTo;
   }
   if (window.innerWidth > 2000) {
@@ -1539,7 +1479,6 @@ function showFullCard(event, id) {
   }
   loader.show();
   var fullCardContainer = getEl('#full-card-container');
-  showElement(fullCardContainer, 'flex');
   openPopUp(fullCardContainer);
 
   fillTemplate({
@@ -1563,7 +1502,7 @@ function showFullCard(event, id) {
     }, {
       area: '.describe',
       items: 'describe'
-    },]
+    }]
   });
   checkCart(getEl('.full-card'));
   addActionTooltip(getEl('.full-card'));
@@ -1572,7 +1511,7 @@ function showFullCard(event, id) {
   renderCarousel(curCarousel)
   .then(result => {
     curCarousel = getEl('.carousel', fullCardContainer);
-    if (curCarousel){
+    if (curCarousel) {
       getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
       getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
     }
@@ -1615,7 +1554,7 @@ function selectCards(search, textToFind) {
     curSelect = null;
     selectedItems = '';
   } else {
-   type = type === 'search' ? search.id : search;
+    type = type === 'search' ? search.id : search;
     clearCurSelect(type);
     curSelect = type;
     startSelect(textToFind);
@@ -1759,7 +1698,7 @@ function sortItems(event) {
     curItems = JSON.parse(JSON.stringify(window[`${pageUrl}Items`]));
     startSelect();
   } else {
-    var type = key.indexOf('price') >= 0 ? 'numb': 'text';
+    var type = key.indexOf('price') >= 0 ? 'numb' : 'text';
     curItems.sort(sortBy(key, type));
     if (selectedItems !== '') {
       selectedItems.sort(sortBy(key, type));
