@@ -1,9 +1,9 @@
 .pop-up {
-  width: 798px;
+  width: 57em;
 }
 
-.pop-up-title {
-  justify-content: center;
+.container.center {
+  min-height: 80vh;
 }
 
 .activate {

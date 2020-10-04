@@ -13,17 +13,15 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <!-- <link rel="stylesheet" type="text/css" href="media_index.css"> -->
   </head>
 
   <body>
     <div id="main">
       <div class="container center">
-        <!-- <div id="" class="pop-up-container"> -->
+        <div class="pop-up-container locked">
           <div id="registr" class="pop-up">
             <div class="pop-up-title row" style="text-align: center;">
               <div class="title h1">Заявка на дилерство</div>
-              <!-- <div class="close icon"></div> -->
             </div>
             <div class="pop-up-body">
               <form class="post">
@@ -35,30 +33,26 @@
                       <input type="text" value="" name="rega[shopname]" placeholder="Введите название">
                     </div>
                     <div class="form-cols">
-                      <div class="form-col2">
-                        <div class="form-wrap">
-                          <div class="title">Сайт</div>
-                          <input type="text" value="" name="site_???" placeholder="Введите адрес сайта">
-                        </div>
+                      <div class="form-wrap form-col2">
+                        <div class="title">Сайт</div>
+                        <input type="text" value="" name="site_???" placeholder="Введите адрес сайта">
                       </div>
-                      <div class="form-col2">
-                        <div class="form-wrap">
-                          <div class="title">Тип торговли</div>
-                          <div class="activate select">
-                            <input type="hidden" value="" name="rega[area][]">
-                            <div class="head row">
-                              <div class="title">Выберите тип торговли</div>
-                              <div class="triangle icon"></div>
-                            </div>
-                            <div class="drop-down">
-                              <div class="item" data-value="Интернет магазин">Интернет магазин</div>
-                              <div class="item" data-value="Официальный дилер">Официальный дилер</div>
-                              <div class="item" data-value="Трейд-ин">Трейд-ин</div>
-                              <div class="item" data-value="Магазин экипировки">Магазин экипировки</div>
-                              <div class="item" data-value="Магазин запчастей">Магазин запчастей</div>
-                              <div class="item" data-value="Сервисный центр">Сервисный центр</div>
-                              <div class="item" data-value="Другое">Другое</div>
-                            </div>
+                      <div class="form-wrap form-col2">
+                        <div class="title">Тип торговли</div>
+                        <div class="activate select">
+                          <input type="hidden" value="" name="rega[area][]">
+                          <div class="head row">
+                            <div class="title">Выберите тип торговли</div>
+                            <div class="triangle icon"></div>
+                          </div>
+                          <div class="drop-down">
+                            <div class="item" data-value="Интернет магазин">Интернет магазин</div>
+                            <div class="item" data-value="Официальный дилер">Официальный дилер</div>
+                            <div class="item" data-value="Трейд-ин">Трейд-ин</div>
+                            <div class="item" data-value="Магазин экипировки">Магазин экипировки</div>
+                            <div class="item" data-value="Магазин запчастей">Магазин запчастей</div>
+                            <div class="item" data-value="Сервисный центр">Сервисный центр</div>
+                            <div class="item" data-value="Другое">Другое</div>
                           </div>
                         </div>
                       </div>
@@ -67,91 +61,48 @@
                   <div class="form-group">
                     <div class="title h3">Контактная информация</div>
                     <div class="form-cols">
-                      <div class="form-col2">
-                        <div class="form-wrap" required>
-                          <div class="title">Контактное лицо*</div>
-                          <input type="text" value="" name="rega[contact]" data-type="cyril" placeholder="Введите имя">
-                        </div>
-                        <div class="form-wrap" required>
-                          <div class="title">Телефон*</div>
-                          <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
-                        </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Контактное лицо*</div>
+                        <input type="text" value="" name="rega[contact]" data-type="cyril" placeholder="Введите имя">
                       </div>
-                      <div class="form-col2">
-                        <div class="form-wrap" required>
-                          <div class="title">Должность*</div>
-                          <input type="text" value="" name="rega[job]" placeholder="Введите должность">
-                        </div>
-                        <div class="form-wrap" required>
-                          <div class="title">Email*</div>
-                          <input type="text" value="" name="email_???" data-type="email" placeholder="Введите email">
-                        </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Должность*</div>
+                        <input type="text" value="" name="rega[job]" placeholder="Введите должность">
+                      </div>
+                    </div>
+                    <div class="form-cols">
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Телефон*</div>
+                        <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="16">
+                      </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Email*</div>
+                        <input type="text" value="" name="email_???" data-type="email" placeholder="Введите email">
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="title h3">Юридическая информация</div>
                     <div class="form-cols">
-                      <div class="form-col2">
-                        <div class="form-wrap" required>
-                          <div class="title">ИНН*</div>
-                          <input type="text" value="" name="rega[inn]" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
-                        </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">ИНН*</div>
+                        <input type="text" value="" name="rega[inn]" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
                       </div>
-                      <div class="form-col2">
-                        <div class="form-wrap" required>
-                          <div class="title">Система налогообложения*</div>
-                          <div class="activate select">
-                            <input type="hidden" value="" name="system_?">
-                            <div class="head row">
-                              <div class="title">Выберите тип торговли</div>
-                              <div class="triangle icon"></div>
-                            </div>
-                            <div class="drop-down">
-                              <div class="item" data-value="Общая">Общая</div>
-                              <div class="item" data-value="Урощенная">Урощенная</div>
-                              <div class="item" data-value="Прочая">Прочая</div>
-                            </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Система налогообложения*</div>
+                        <div class="activate select">
+                          <input type="hidden" value="" name="system_?">
+                          <div class="head row">
+                            <div class="title">Выберите тип торговли</div>
+                            <div class="triangle icon"></div>
+                          </div>
+                          <div class="drop-down">
+                            <div class="item" data-value="Общая">Общая</div>
+                            <div class="item" data-value="Урощенная">Урощенная</div>
+                            <div class="item" data-value="Прочая">Прочая</div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="title h3">Дилерство каких брендов интересует</div>
-                    <div class="form-cols">
-                      <div class="form-col2">
-                        <div class="form-wrap">
-                          <div class="title">Бренд</div>
-                          <div class="activate select">
-                            <input type="hidden" value="" name="rega[brands][]">
-                            <div class="head row">
-                              <div class="title">Выберите бренд</div>
-                              <div class="triangle icon"></div>
-                            </div>
-                            <div class="drop-down">
-                              <div class="item" data-value="509">509</div>
-                              <div class="item" data-value="BCA">BCA</div>
-                              <div class="item" data-value="FullT">FullT</div>
-                              <div class="item" data-value="HMK">HMK</div>
-                              <div class="item" data-value="Jethwear">Jethwear</div>
-                              <div class="item" data-value="SEVEN MX">SEVEN MX</div>
-                              <div class="item" data-value="SIXS">SIXS</div>
-                              <div class="item" data-value="TLD">TLD</div>
-                              <div class="item" data-value="ABOM">ABOM</div>
-                              <div class="item" data-value="EVS">EVS</div>
-                              <div class="item" data-value="TOBE">TOBE</div>
-                              <div class="item" data-value="FXR">FXR</div>
-                              <div class="item" data-value="HORD">HORD</div>
-                              <div class="item" data-value="OGIO">OGIO</div>
-                              <div class="item" data-value="Silky">Silky</div>
-                              <div class="item" data-value="SPI">SPI</div>
-                              <div class="item" data-value="Другое">Другое</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-col2"></div>
                     </div>
                   </div>
                 </div>
@@ -165,7 +116,7 @@
               </form>
             </div>
           </div>
-        <!-- </div> -->
+        </div>
       </div>
     </div>
 
