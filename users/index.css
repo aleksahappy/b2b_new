@@ -36,3 +36,7 @@
 #user .access .title {
   margin-bottom: 0.35em;
 }
+
+#user .select-choice {
+  margin-top: 1.2em;
+}
