@@ -31,7 +31,7 @@ function initPage(data = []) {
       title: 'Доступ',
       width: '6%',
       key: 'access',
-      content: '<div class="toggle #access#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
+      content: '<div class="toggle #access#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
     }, {
       title: 'ИНН/КПП',
       sort: 'numb',
@@ -46,7 +46,7 @@ function initPage(data = []) {
     }, {
       title: 'Система налогообложения',
       width: '15%',
-      key: 'nalog',
+      key: 'system',
       sort: 'text',
       search: 'usual',
       filter: 'true'
@@ -71,9 +71,9 @@ function initPage(data = []) {
       title: 'Документы',
       width: '20%',
       key: 'docs',
-      content: `<div class="docs row #status-ic#">
+      content: `<div class="docs row">
                   <div class="mark icon #status#" data-tooltip="#status_info#"></div>
-                  <a href="url" data-tooltip="#info#" text="left" help>Договор с #title# от #date_start#</a>
+                  <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
                 </div>`
     }],
     sub: [{area: '.docs', items: 'docs'}]
