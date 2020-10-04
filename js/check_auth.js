@@ -31,7 +31,7 @@ if (local) {
 //     xhr.send(JSON.stringify({action: 'checkauth'}));
 //     if (xhr.status != 200) {
 //       console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-//       new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+//       throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //     } else {
 //       console.log(xhr.response);
 //       if (xhr.response) {
