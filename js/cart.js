@@ -167,7 +167,21 @@ function createCartCopy() {
   });
 }
 
-// Отображение контента пустой или полной корзины:
+// Cоздание строки корзины:
+
+function createCartRow(id, qty, row = null, status) {
+  var data = createCartItemData(id, qty, status);
+  if (data) {
+    fillTemplate({
+      area: '#cart-rows',
+      items: data,
+      target: row,
+      method: row ? 'afterend' : 'beforeend'
+    });
+  }
+}
+
+// Отображение контента корзины (пустой или полной):
 
 function showActualCart() {
   if (isEmptyObj(cartData)) {
@@ -188,18 +202,18 @@ function showActualCart() {
   }
 }
 
-// Cоздание строки корзины:
+// Отображение информационной карточки товара:
 
-function createCartRow(id, qty, row = null, status) {
-  var data = createCartItemData(id, qty, status);
-  if (data) {
-    fillTemplate({
-      area: '#cart-rows',
-      items: data,
-      target: row,
-      method: row ? 'afterend' : 'beforeend'
-    });
+function showInfoCard(event, id) {
+  event.preventDefault();
+  var data = items.find(item => item.object_id == id);
+  if (!data) {
+    data = missingItems.find(item => item.object_id == id);
   }
+  if (!data) {
+    return;
+  }
+  openInfoCard(data);
 }
 
 //=====================================================================================================
@@ -266,8 +280,11 @@ function getMissingItems() {
       }
     }
     if (data.length) {
-      getItems(data.join(','))
+      // getItems(data.join(','))
+      sendRequest(`../json/equip_missing.json`)
       .then(result => {
+        result = JSON.parse(result); //удалить
+        console.log(result);
         for (var key in result.items) {
           missingItems.push(convertItem(result.items[key]));
         }
@@ -485,9 +502,9 @@ function countFromCart(idList = undefined, totals = true) {
     orders.forEach(el => {
       el.sumDiscount = el.sumOpt - el.sum;
       el.percentDiscount = (el.sumDiscount * 100 / el.sumOpt).toFixed(0);
-      el.sum = convertPrice(el.sum, false);
-      el.sumRetail = convertPrice(el.sumRetail, false);
-      el.sumDiscount = convertPrice(el.sumDiscount, false);
+      el.sum = convertPrice(el.sum);
+      el.sumRetail = convertPrice(el.sumRetail);
+      el.sumDiscount = convertPrice(el.sumDiscount);
       el.isDiscount = el.sumDiscount == 0 ? 'displayNone' : '';
     });
     result.orders = orders;
@@ -635,7 +652,7 @@ function fillCartInHeader(qty, sum, area, type) {
       cartQty = getEl('.qty', curCart),
       cartSum = getEl('.sum span', curCart);
   if (cartSum) {
-    cartSum.textContent = convertPrice(sum, false);
+    cartSum.textContent = convertPrice(sum);
   }
   if (qty > 0) {
     if (qty > 99) {
@@ -656,7 +673,7 @@ function fillCartInHeader(qty, sum, area, type) {
       }
       sum += el.sum;
     });
-    getEl('.totals span', area).textContent = convertPrice(sum, false);
+    getEl('.totals span', area).textContent = convertPrice(sum);
   }
 }
 
@@ -796,7 +813,7 @@ function changeCard(card) {
 
   if (totals.qty > 0) {
     getEl('.select-qty span', card).textContent = totals.qty;
-    getEl('.select-sum span', card).textContent = convertPrice(totals.sum, false);
+    getEl('.select-sum span', card).textContent = convertPrice(totals.sum);
     selectInfo.classList.add('show');
   } else {
     selectInfo.classList.remove('show');
@@ -812,7 +829,7 @@ function changeCartRow(row) {
   var input = getEl('.choiced-qty', row),
       id = input.dataset.id,
       totals = countFromCart([id], false),
-      sum = convertPrice(totals.sum, false);
+      sum = convertPrice(totals.sum);
 
   getEl('.sum span', row).textContent = sum;
   changeCartRowCopy(id, totals.qty, sum);
@@ -870,7 +887,7 @@ function changeCheckoutInfo() {
   });
   var totals = countFromCart(getIdList('cart'), false);
   getEl('.qty', info).textContent = getCheckoutInfo(ordersQty);
-  getEl('.sum', info).textContent = convertPrice(totals.sum, false);
+  getEl('.sum', info).textContent = convertPrice(totals.sum);
   if (totals.sum) {
     info.style.visibility = 'visible';
     btn.classList.remove('disabled');
@@ -892,10 +909,10 @@ function fillCheckout() {
   } else {
     hideElement(warnblock);
   }
-  getEl('#checkout .totals .sum').textContent = convertPrice(totals.sum, false);
+  getEl('#checkout .totals .sum').textContent = convertPrice(totals.sum);
   getEl('#checkout .totals .orders-qty').textContent = ordersQty;
-  getEl('#checkout .totals .sum-retail').textContent = convertPrice(totals.sumRetail, false);
-  getEl('#checkout .totals .sum-discount').textContent = convertPrice(totals.sumDiscount, false);
+  getEl('#checkout .totals .sum-retail').textContent = convertPrice(totals.sumRetail);
+  getEl('#checkout .totals .sum-discount').textContent = convertPrice(totals.sumDiscount);
   fillTemplate({
     area: '#order-details',
     items: totals.orders
@@ -914,7 +931,7 @@ function changeCartSectionInfo(cartSection) {
   var mainCheckbox = getEl('.head .checkbox', cartSection),
       totals = countFromCart(getIdList('cart', cartSection), false);
   getEl('.select-qty span', cartSection).textContent = totals.qty;
-  getEl('.select-sum span', cartSection).textContent = convertPrice(totals.sum, false);
+  getEl('.select-sum span', cartSection).textContent = convertPrice(totals.sum);
   if (!getEl('.cart-row:not(.bonus):not(.checked)', cartSection)) {
     mainCheckbox.classList.add('checked');
   } else {
@@ -1159,6 +1176,7 @@ function openCheckout(event) {
     getEl('#order-form .activate.delivery .item[data-value="2"]').style.display = 'none';
     getEl('#order-form .activate.delivery .item[data-value="3"').style.display = 'none';
   }
+  togglePaymentChoice();
   toggleAddressField();
   fillCheckout();
   openPopUp('#checkout');
@@ -1177,6 +1195,19 @@ function fillOrderForm() {
   });
 }
 
+// Блокировка/разблокировка чекеров выбора способа оплаты:
+
+function togglePaymentChoice() {
+  var paymentType = getEl('#payment'),
+      paymentChoice = getEl('#payment-choice');
+  if (paymentType.value) {
+    paymentChoice.removeAttribute('disabled');
+  } else {
+    paymentChoice.removeAttribute('disabled');
+    paymentChoice.setAttribute('disabled', 'disabled');
+  }
+}
+
 // Блокировка/разблокировка поля выбора адреса доставки:
 
 function toggleAddressField() {
@@ -1184,11 +1215,11 @@ function toggleAddressField() {
       address = getEl('#address');
   if (deliveryType.value === '2' || deliveryType.value === '3') {
     address.removeAttribute('disabled');
-    address.closest('.form-wrap').setAttribute('required', 'required');
+    address.setAttribute('required', 'required');
   } else {
     var name = getEl('[type="hidden"]', address).getAttribute('name');
     window[`order-formForm`][`dropDown${name}`].clear();
     address.setAttribute('disabled', 'disabled');
-    address.closest('.form-wrap').removeAttribute('required', 'required');
+    address.removeAttribute('required', 'required');
   }
 }
