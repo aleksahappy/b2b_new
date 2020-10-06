@@ -255,6 +255,10 @@
   background-color: #E2E2E2;
 }
 
+.cart-section.sold .head {
+  background-color: #E2E2E2;
+}
+
 .sold .cart-row img {
   opacity: 0.5;
 }
@@ -299,22 +303,40 @@
 ===================================================================================================== */
 
 #checkout .pop-up {
-  width: 95em;
+  width: 94em;
+  padding-bottom: 0;
 }
 
 #checkout .warnblock {
   display: none;
-  margin-bottom: 2.5em;
+  margin-bottom: 2.143em;
 }
 
 #order-form > .left-side {
   flex-grow: 0;
   flex-shrink: 0;
   margin-right: 2.857em;
+  margin-bottom: 2.5em;
 }
 
 #order-form > .right-side {
   width: 100%;
+}
+
+#order-form .form-wrap {
+  margin-bottom: 0.714em;
+}
+
+#order-form .payment .form-col2:first-child {
+  margin-bottom: 1.75em;
+}
+
+#order-form .payment-info .row {
+  margin-bottom: 0.357em;
+}
+
+#order-form .activate {
+  width: 17em;
 }
 
 #address {
@@ -329,23 +351,31 @@
   background-color: #53606F;
 }
 
-#order-form .totals > .row {
-  justify-content: space-between;
-  align-items: baseline;
-  line-height: 1.8;
-}
-
-#order-form .totals > .row:first-child {
+#order-form .totals .top {
   padding-bottom: 1.428em;
   border-bottom: 1px solid #C6C6C6;
 }
 
-#order-form .totals > .row .left-side {
+#order-form .totals .bottom {
+  padding-top: 1.428em;
+  line-height: 1.8;
+}
+
+#order-form .totals .row {
+  justify-content: space-between;
+  align-items: center;
+}
+
+#order-form .totals > .left-side {
   margin-right: 1.428em;
 }
 
-#order-form .totals > .row .right-side {
+#order-form .totals > .right-side {
   text-align: right;
+}
+
+#order-form .totals .top .left-side {
+  padding-top: 3px;
 }
 
 #order-form .totals .text.orange {
@@ -353,22 +383,23 @@
   font-weight: 700;
 }
 
-#order-form .totals > .row:last-child {
-  padding-top: 1.428em;
-}
-
 #order-form .btns-wrap {
   justify-content: flex-start;
 }
 
 #order-details {
+  height: 46.2em;
   padding-right: 0.5em;
-  max-height: calc(79vh - 100px);
+  padding-bottom: 2.5em;
+  overflow: hidden;
+}
+
+#order-details:hover {
   overflow-y: auto;
 }
 
 .order-block:not(:last-child) {
-  margin-bottom: 1.428em;
+  padding-bottom: 1.428em;
 }
 
 .order-block .info {
@@ -386,6 +417,10 @@
 
 .order-block .info > div:last-child {
   padding-top: 0.5em;
+}
+
+.order-block .info span {
+  white-space: nowrap;
 }
 
 .order-block .form-wrap {

@@ -117,7 +117,7 @@
         <div class="cart-row row manage #status#" data-id="#object_id#">
           <div class="row">
             <div class="checkbox orange icon" onclick="toggleInCart(event)"></div>
-            <div class="name row" onclick="showFullCard(event, #id#)">
+            <div class="name row" onclick="showInfoCard(event, #id#)">
               <div class="img-wrap row">
                 <img src="#image#">
               </div>
@@ -206,13 +206,13 @@
         </div>
         <form id="order-form" class="post row">
           <div class="left-side">
-            <div class="form-group">
+            <div class="form-group payment">
               <div class="title h3">Параметры оплаты</div>
               <div class="form-cols">
                 <div class="form-col2">
                   <div class="form-wrap" required>
                     <div class="title">Способ оплаты*</div>
-                    <div class="activate select">
+                    <div id="payment" class="activate select" onchange="togglePaymentChoice()">
                       <input type="hidden" value="" name="payment_type">
                       <div class="head row">
                         <div class="title">Выберите способ оплаты</div>
@@ -224,6 +224,18 @@
                         <div class="item" data-value="4">Депозит</div>
                         <div class="item" data-value="3">Прочее</div>
                       </div>
+                    </div>
+                  </div>
+                  <div id="payment-choice"  class="form-wrap">
+                    <div class="option row">
+                      <input type="checkbox" value="Рассчитаться с лицевого счета" name="payment_choice">
+                      <div class="checkbox icon"></div>
+                      <div>Рассчитаться с лицевого счета</div>
+                    </div>
+                    <div class="option row">
+                      <input type="checkbox" value="Рассчитаться КЗ" name="payment_choice">
+                      <div class="checkbox icon"></div>
+                      <div>Рассчитаться КЗ</div>
                     </div>
                   </div>
                 </div>
@@ -241,49 +253,55 @@
                       </div>
                     </div>
                   </div>
+                  <div class="payment-info">
+                    <div class="row">
+                      <div class="title">Сумма на ЛС:&ensp;</div>
+                      <div><span id="ls-sum"></span>&nbsp;руб.</div>
+                    </div>
+                    <div class="row">
+                      <div class="title">Сумма КЗ:&ensp;</div>
+                      <div><span id="kz-sum"></span>&nbsp;руб.</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group delivery">
               <div class="title h3">Параметры доставки</div>
               <div class="form-cols">
-                <div class="form-col2">
-                  <div class="form-wrap" required>
-                    <div class="title">Способ доставки*</div>
-                    <div id="delivery" class="activate select" onchange="toggleAddressField()">
-                      <input type="hidden" value="" name="delivery_type">
-                      <div class="head row">
-                        <div class="title">Выберите способ доставки</div>
-                        <div class="triangle icon"></div>
-                      </div>
-                      <div class="drop-down">
-                        <div class="item" data-value="1">Самовывоз</div>
-                        <div class="item" data-value="2">Курьер</div>
-                        <div class="item" data-value="3">Транспортная компания</div>
-                      </div>
+                <div class="form-wrap form-col2" required>
+                  <div class="title">Способ доставки*</div>
+                  <div id="delivery" class="activate select" onchange="toggleAddressField()">
+                    <input type="hidden" value="" name="delivery_type">
+                    <div class="head row">
+                      <div class="title">Выберите способ доставки</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="1">Самовывоз</div>
+                      <div class="item" data-value="2">Курьер</div>
+                      <div class="item" data-value="3">Транспортная компания</div>
                     </div>
                   </div>
                 </div>
-                <div class="form-col2">
-                  <div class="form-wrap" required>
-                    <div class="title">Отгрузочные документы*</div>
-                    <div class="activate select">
-                      <input type="hidden" value="" name="shipping_docs">
-                      <div class="head row">
-                        <div class="title">Выберите</div>
-                        <div class="triangle icon"></div>
-                      </div>
-                      <div class="drop-down">
-                        <div class="item" data-value="0">Не вкладывать</div>
-                        <div class="item" data-value="1">Вкладывать</div>
-                      </div>
+                <div class="form-wrap form-col2" required>
+                  <div class="title">Отгрузочные документы*</div>
+                  <div class="activate select">
+                    <input type="hidden" value="" name="shipping_docs">
+                    <div class="head row">
+                      <div class="title">Выберите</div>
+                      <div class="triangle icon"></div>
+                    </div>
+                    <div class="drop-down">
+                      <div class="item" data-value="0">Не вкладывать</div>
+                      <div class="item" data-value="1">Вкладывать</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="form-wrap" required>
+              <div id="address" class="form-wrap" required>
                 <div class="title">Адрес доставки*</div>
-                <div id="address" class="activate select">
+                <div class="activate select">
                   <input type="hidden" value="" name="delivery_address">
                   <div class="head row">
                     <div class="title">Выберите адрес доставки</div>
@@ -297,26 +315,28 @@
             </div>
             <div class="order">
               <div class="totals">
-                <div class="row">
+                <div class="top row">
                   <div class="left-side">Итого к оплате:</div>
                   <div class="right-side text orange"><span class="sum">0</span>&nbsp;руб.</div>
                 </div>
-                <div class="row">
-                  <div class="left-side">
-                    <div>Создано заказов:</div>
-                    <div>Итого в розничных ценах:</div>
-                    <div>Сумма скидки:</div>
-                  </div>
-                  <div class="right-side">
+                <div class="bottom">
+                  <div class="row">
+                    <div class="left-side">Создано заказов:</div>
                     <div class="orders-qty">0</div>
+                  </div>
+                  <div class="row">
+                    <div class="left-side">Итого в розничных ценах:</div>
                     <div><span class="sum-retail">0</span>&nbsp;руб.</div>
+                  </div>
+                  <div class="row">
+                    <div class="left-side">Сумма скидки:</div>
                     <div><span class="sum-discount">0</span>&nbsp;руб.</div>
                   </div>
                 </div>
               </div>
               <div class="btns-wrap row">
                 <input class="btn act" type="submit" value="Подтвердить заказ">
-                <div>Проверьте параметры<br>и подтвердите оформление заказа</div>
+                <div>Проверьте параметры&ensp;<br>и подтвердите оформление заказа</div>
               </div>
             </div>
           </div>
@@ -327,15 +347,15 @@
                 <div class="order-block row">
                   <div class="info">
                     <div>
-                      <div class="title">Заказ - <span class="title">#title#</span></div>
+                      <div class="title">Заказ - <span>#title#</span></div>
                       <div class="title">Итого: <span class="text red">#sum#&nbsp;руб.</span></div>
-                      <!-- <div class="title">Аванс, #prepaid_percent#: <span class="text red">#prepaid_sum#&nbsp;руб.</span></div> -->
+                      <div class="title">Аванс, #prepaid_percent#: <span class="text red">#prepaid_sum#&nbsp;руб.</span></div>
                     </div>
                     <div>
                       <div class="">В розничных ценах: <span>#sumRetail#&nbsp;руб.</span></div>
                       <div class="#isDiscount#">Скидка: <span>#percentDiscount#%, #sumDiscount#&nbsp;руб.</span></div>
                       <div class="">Количество: <span>#qty#&nbsp;шт.</span></div>
-                      <!-- <div class="">Оплатить до: <span>#date#</span></div> -->
+                      <div class="">Оплатить до: <span>#date#</span></div>
                     </div>
                   </div>
                   <div class="form-wrap">
@@ -352,22 +372,6 @@
             <div class="text">Пожалуйста, подождите</div>
           </div>
         </form>
-      </div>
-    </div>
-  </div>
-  <div id="full-img-container" class="pop-up-container preload">
-    <div class="close white icon"></div>
-    <div id="full-img" class="pop-up row">
-      <div class="carousel" data-type="fullImg">
-        <div class="left-btn"></div>
-        <div class="right-btn"></div>
-        <div class="carousel-gallery-wrap">
-          <div class="carousel-gallery">
-            <div class="carousel-item">
-              <img src="https://b2b.topsports.ru/c/source/#item#.jpg">
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

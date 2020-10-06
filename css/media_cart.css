@@ -1,5 +1,47 @@
+@media (pointer:coarse) {
+  #order-details {
+    overflow-y: scroll;
+  }
+}
+
+/* Стили на ширину от 0 до 1440px включительно: */
+@media only screen and (max-width: 1440px) {
+  .order-block {
+    display: block;
+  }
+
+  .order-block .info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 0.357em;
+  }
+
+  .order-block .info > div {
+    width: 50%;
+  }
+
+  .order-block .info > div:first-child {
+    padding-bottom: 0;
+    padding-right: 1.428em;
+    border-bottom: none;
+  }
+
+  .order-block .info > div:last-child {
+    padding-top: 0;
+  }
+}
+
 /* Стили на ширину от 0 до 1080px включительно: */
 @media only screen and (max-width: 1080px) {
+  #header-cart .container {
+    padding-bottom: 2.14em;
+  }
+
+  #cart-name  {
+    padding: 2.4rem 0;
+  }
+
   .cart-section {
     margin-bottom: 1em;
   }
@@ -103,16 +145,154 @@
     flex-grow: 1;
     align-items: flex-end;
   }
-}
 
-/* Стили на ширину от 0 до 1080px включительно: */
-@media only screen and (max-width: 1080px) {
-  #header-cart .container {
-    padding-bottom: 2.14em;
+  #checkout {
+    padding: 0;
   }
 
-  #cart-name  {
-    padding: 2.4rem 0;
+  #checkout .pop-up {
+    width: 100%;
+    max-width: none;
+    padding: 2.5em;
+    padding-bottom: 13em;
+  }
+
+  #order-form {
+    display: block;
+  }
+
+  #order-form > .left-side {
+    display: flex;
+    flex-direction: row;
+    margin-right: 0;
+  }
+
+  #order-form > .left-side .form-group {
+    width: 50%;
+  }
+
+  #order-form .payment {
+    padding-right: 0.714em;
+  }
+
+  #order-form .delivery {
+    padding-left: 0.714em;
+  }
+
+  #order-form > .left-side .form-cols {
+    display: block;
+  }
+
+  #order-form > .left-side .form-cols .form-col2 {
+    width: 100%;
+    padding: 0;
+  }
+
+  #order-form .activate {
+    width: 100%;
+  }
+
+  #order-form .order {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    color: #FFFFFF;
+    background-color: #53606F;
+    box-shadow: 0px -3px 30px rgba(44, 62, 80, 0.3);
+    z-index: 10;
+  }
+
+  #order-form .totals {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0;
+    padding: 1.428em 2.5em;
+    padding-bottom: 0;
+  }
+
+  #order-form .totals > .top {
+    display: block;
+    padding-bottom: 0;
+    line-height: 1.5;
+    text-align: right;
+    border-bottom: none;
+  }
+
+  #order-form .totals > .top .left-side {
+   margin-right: 0;
+  }
+
+  #order-form .totals > .bottom {
+    margin-right: 1.428em;
+    padding-top: 0;
+  }
+
+  #order-form .totals > .bottom .left-side {
+    margin-right: 0.375em;
+  }
+
+  #order-form .totals .row {
+    justify-content: flex-start;
+  }
+
+  #order-form .order .btns-wrap {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 2.5em 1.428em 2.5em;
+  }
+
+  #order-form .order .btns-wrap > div {
+    margin-right: 1.667em;
+    font-size: 0.857em;
+    line-height: 2.5;
+  }
+
+  #order-form .order .btns-wrap br {
+    display: none;
+  }
+
+  #order-form .order .btns-wrap .btn {
+    margin-right: 0;
+  }
+
+  #order-details {
+    height: auto;
+    overflow: visible !important;
+    overflow-y: visible;
+    padding-bottom: 0;
+  }
+
+  .order-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .order-block .info {
+    display: block;
+    width: 17em;
+    margin-right: 2.143em;
+  }
+
+  .order-block .info > div {
+    width: 100%;
+  }
+
+  .order-block .info > div:first-child {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #C6C6C6;
+  }
+
+  .order-block .info > div:last-child {
+    padding-top: 0.5em;
   }
 }
 
@@ -213,6 +393,98 @@
   }
 }
 
+/* Стили на ширину от 0 до 640px включительно: */
+@media only screen and (max-width: 640px) {
+  #checkout .pop-up {
+    padding-bottom: 14.5em;
+  }
+
+  #checkout .warnblock {
+    margin-bottom: 1em;
+  }
+
+  #order-form > .left-side {
+    display: block;
+    margin-bottom: 2.143em;
+  }
+
+  #order-form > .left-side .form-group {
+    width: 100%;
+  }
+
+  #order-form .payment {
+    margin-bottom: 2.143em;
+    padding-right: 0;
+  }
+
+  #order-form .delivery {
+    padding-left: 0;
+  }
+
+  #order-form .order {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  #order-form .totals {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0.714em 0;
+    padding-top: 0;
+  }
+
+  #order-form .totals .top {
+    width: 100%;
+    padding: 0.714em 2.5em;
+    line-height: normal;
+    text-align: left;
+  }
+
+  #order-form .totals .bottom {
+    width: 100%;
+    margin-right: 0;
+    margin-top: -1px;
+    padding: 0.357em 2.5em 0.714em 2.5em;
+    line-height: normal;
+    background-color: #8596A6;
+  }
+
+  #order-form .totals .text.orange {
+    font-size: 1.143em;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  #order-form .order .btns-wrap {
+    display: block;
+    padding: 0.714em 2.5em 0 2.5em;
+    background-color: #8596A6;
+  }
+
+  #order-form .order .btns-wrap > div {
+    margin-right: 0;
+    font-size: 1em;
+    line-height: normal;
+    color: #34495E;
+  }
+
+  #order-form .btn.act {
+    position: absolute;
+    bottom: 1.428em;
+    right: 2.5em;
+  }
+
+  .order-block {
+    display: block;
+  }
+
+  .order-block .info {
+    width: fit-content;
+    margin-bottom: 1em;
+    margin-right: 0;
+  }
+}
+
 /* Стили на ширину от 0 до 499px включительно: */
 @media only screen and (max-width: 499px) {
   #header-cart .container {
@@ -235,5 +507,30 @@
   .cart-row .name.row .col div {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  #checkout .pop-up {
+    padding: 1.5em;
+    padding-bottom: 16em;
+  }
+
+  #order-form .totals .top {
+    padding: 0.714em 1.5em;
+  }
+
+  #order-form .totals .bottom {
+    padding: 0.357em 1.5em 0.714em 1.5em;
+  }
+
+  #order-form .order .btns-wrap {
+    padding: 0.714em 1.5em 0 1.5em;
+  }
+
+  #order-form .order .btns-wrap br {
+    display: block;
+  }
+
+  #order-form .btn.act {
+    right: 1.5em;
   }
 }
