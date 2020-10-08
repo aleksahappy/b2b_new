@@ -178,6 +178,28 @@
     display: none;
   }
 
+  #full-card-container {
+    padding: 0;
+  }
+
+  .full-card {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+  }
+
+  .full-card .pop-up-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}
+
+/* Стили на ширину от 0 до 699px включительно: */
+@media only screen and (max-width: 599px) {
   .full-card .card-content {
     position: relative;
     flex-direction: column;
@@ -195,7 +217,7 @@
   }
 
   .full-card .carousel-gallery-wrap {
-    max-width: 360px;
+    max-width: 250px;
     position: static;
   }
 

@@ -390,8 +390,8 @@ Tablet:
   }
 }
 
-/* Стили на ширину от 0 до 768px включительно: */
-@media only screen and (max-width: 768px) {
+/* Стили на ширину от 0 до 599px включительно: */
+@media only screen and (max-width: 599px) {
 
   /* Всплывающие окна: */
 
@@ -436,6 +436,10 @@ Tablet:
   form.post input[data-type="range"],
   form.post .activate {
     width: 100%;
+  }
+
+  form.post .btns-wrap {
+    padding-top: 0;
   }
 
   /* Принудительно убранные всплывающие окна : */
