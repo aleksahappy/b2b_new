@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="info content">
-              <div class="title">ИНН/КПП: <span class="text">#inn#</span></div>
+              <div class="title">ИНН/КПП: <span class="text">#inn##kpp#</span></div>
               <div class="title">Система налогообложения: <span class="text">#system#</span></div>
               <div class="title">Дата заведения: <span class="text">#date#</span></div>
               <div class="title">Юридический адрес: <span class="text">#address#</span></div>
@@ -61,27 +61,27 @@
               <div class="row">
                 <div class="form-wrap" required>
                   <div class="title">ИНН*</div>
-                  <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)">
+                  <input type="text" value="" name="contr_inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" onkeypress="return onlyNumb(event)" oninput="addByInn(event)">
                 </div>
                 <div id="inn-loader" class="loader icon"></div>
               </div>
               <div class="form-wrap">
                 <div class="title">КПП</div>
-                <input type="text" value="" name="" placeholder="" disabled>
+                <input class="after-inn" type="text" value="" name="kpp" data-type="kpp" placeholder="" maxlength="9" disabled>
               </div>
             </div>
             <div class="form-wrap">
               <div class="title">Название</div>
-              <input type="text" value="" name="" placeholder="" disabled>
+              <input class="after-inn" type="text" value="" name="contr_name" placeholder="" disabled>
             </div>
             <div class="form-wrap" required>
               <div class="title">Юридический адрес*</div>
-              <textarea name="" maxlength="250" placeholder="" disabled></textarea>
+              <textarea class="after-inn" name="address" maxlength="250" placeholder="" disabled></textarea>
             </div>
             <div class="form-wrap" required>
               <div class="title">Система налогообложения*</div>
-              <div class="activate select" disabled>
-                <input type="hidden" value="" name="taxsystem">
+              <div class="activate select after-inn" disabled>
+                <input type="hidden" value="" name="nalog">
                 <div class="head row">
                   <div class="title">Выберите систему</div>
                   <div class="triangle icon"></div>
