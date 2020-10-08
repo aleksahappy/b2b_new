@@ -670,8 +670,8 @@ function Table(obj, settings = {}) {
 
   // Инициализация таблицы:
   this.init = function() {
-    this.initTab();
     this.prepareData();
+    this.initTab();
     this.loadData(this.data);
     if (this.head) {
       this.fillItems();

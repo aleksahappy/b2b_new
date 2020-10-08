@@ -618,7 +618,7 @@ function kppValidate(kpp) {
 	if (!kpp.length) {
 		result.error = 'КПП пуст';
 	} else if (kpp.length !== 9) {
-		result.error = 'КПП может состоять только из 9 знаков (цифр или заглавных букв латинского алфавита от A до Z)';
+		result.error = 'КПП может состоять только из 9 знаков';
 	} else if (!/^[0-9]{4}[0-9A-Z]{2}[0-9]{3}$/.test(kpp)) {
 		result.error = 'Неправильный формат КПП';
 	} else {
@@ -1610,7 +1610,7 @@ function changeQty(event, maxQty, minQty = 0) {
   input.dataset.value = qty;
   changeColors(qtyWrap, qty);
   if (sign) {
-    event.currentTarget.dispatchEvent(new Event('change', {"bubbles": true}));
+    input.dispatchEvent(new Event('change', {"bubbles": true}));
   }
   return qty;
 }
@@ -2297,30 +2297,26 @@ function Form(obj, callback) {
       event.preventDefault();
       this.send();
     });
-    this.form.querySelectorAll('input[data-type]').forEach(el => {
-      el.addEventListener('input', event => this.checkInput(event));
-    });
-    this.form.querySelectorAll('[data-type="date"]').forEach(el => {
-      el.addEventListener('change', event => this.checkInput(event));
-    });
-    this.form.querySelectorAll('input[data-type="range"]').forEach(el => {
-      el.addEventListener('change', event => this.checkInput(event));
-    });
-    this.form.querySelectorAll('[required]').forEach(el => {
-      el.querySelectorAll('textarea').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
-      el.querySelectorAll('.activate').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('input[type="radio"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('input[data-type="date"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('input[data-type="range"]').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('.qty-box').forEach(el => el.addEventListener('change', () => this.checkSubmit()));
-      el.querySelectorAll('input:not([data-type]):not([type="radio"]):not([type="checkbox"]):not([type="file"]):not([type="hidden"]):not(.choiced-qty)').forEach(el => el.addEventListener('input', () => this.checkSubmit()));
-    });
+    this.form.querySelectorAll('textarea').forEach(el => el.addEventListener('input', event => this.check(event)));
+    this.form.querySelectorAll('.activate').forEach(el => el.addEventListener('change', event => this.check(event)));
+    this.form.querySelectorAll('.choiced-qty').forEach(el => el.addEventListener('change', event=> this.check(event)));
+    this.form.querySelectorAll('input[data-type="date"]').forEach(el => el.addEventListener('change', event => this.check(event)));
+    this.form.querySelectorAll('input[data-type="range"]').forEach(el => el.addEventListener('change', event => this.check(event)));
+    this.form.querySelectorAll('input:not([type="text"]):not([type="hidden"])').forEach(el => el.addEventListener('change', event => this.check(event)));
+    this.form.querySelectorAll('input[type="text"]:not([type="hidden"]').forEach(el => el.addEventListener('input', event => this.check(event)));
+  }
+
+  // Проверка поля:
+  this.check = function(event) {
+    this.checkInput(event)
+    this.checkSubmit(event);
   }
 
   // Определение типа поля и его проверка по соответствующему регулярному выражению:
   this.checkInput = function(event) {
+    if (!event.currentTarget.hasAttribute('data-type')) {
+      return;
+    }
     var input = event.currentTarget,
         isValid = checkInput(input),
         type = input.dataset.type;
@@ -2338,7 +2334,6 @@ function Form(obj, callback) {
         input.value = !numbs[3] ? numbs[2] : ('+7 (' + numbs[2] + ') ' + numbs[3] + (numbs[4] ? '-' + numbs[4] + '-' + numbs[5] : ''));
       }
       formWrap.classList.remove('error');
-      this.checkSubmit();
     } else {
       formWrap.classList.add('error');
       var error = getEl('.err', formWrap);
@@ -2358,7 +2353,10 @@ function Form(obj, callback) {
   }
 
   // Проверка на заполнение всех обязательных полей и блокировка/разблокировка кнопки submit:
-  this.checkSubmit = function() {
+  this.checkSubmit = function(event) {
+    if (!event.currentTarget.closest('.form-wrap').hasAttribute('required')) {
+      return;
+    }
     var required = Array.from(this.form.querySelectorAll('[required]'));
     this.isSubmit = required.every(el => {
       var fields = el.querySelectorAll('[name]'),
