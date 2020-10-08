@@ -54,7 +54,6 @@ function sendOrder(formData) {
   var idList = getIdList('cart');
   if (!idList) {
     hideElement('#checkout .loader');
-    closePopUp(null, '#checkout');
     alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
     return;
   }
@@ -88,14 +87,12 @@ function sendOrder(formData) {
       if (added.length !== idList.length) {
         console.log('Были отправлены не все позиции из заказа.');
       }
-      deleteInCart(added);
       document.location.href = '../orders';
     }
   })
   .catch(error => {
     console.log(error);
     hideElement('#checkout .loader');
-    closePopUp(null, '#checkout');
     alerts.show('Заказ не был отправлен. Попробуйте еще раз.');
   })
 }
@@ -202,20 +199,6 @@ function showActualCart() {
   }
 }
 
-// Отображение информационной карточки товара:
-
-function showInfoCard(event, id) {
-  event.preventDefault();
-  var data = items.find(item => item.object_id == id);
-  if (!data) {
-    data = missingItems.find(item => item.object_id == id);
-  }
-  if (!data) {
-    return;
-  }
-  openInfoCard(data);
-}
-
 //=====================================================================================================
 // Работа с данными корзины:
 //=====================================================================================================
@@ -284,7 +267,7 @@ function getMissingItems() {
       sendRequest(`../json/equip_missing.json`)
       .then(result => {
         result = JSON.parse(result); //удалить
-        console.log(result);
+        // console.log(result);
         for (var key in result.items) {
           missingItems.push(convertItem(result.items[key]));
         }
@@ -344,15 +327,6 @@ function saveInCart(id, qty) {
   saveCartTotals();
 }
 
-// Удаление данных из корзины:
-
-function deleteInCart(idList) {
-  idList.forEach(id => {
-    delete cart['id_' + id];
-  });
-  saveCartTotals();
-}
-
 // Сохранение в данные для ренедеринга корзины:
 
 function saveInCartData(id, qty) {
@@ -406,11 +380,11 @@ function saveCartTotals() {
 
 function countFromCart(idList = undefined, totals = true) {
   var qty = 0,
-      sum = 0;
+      sum = 0,
+      sumOpt = 0;
 
   if (totals) {
-    var sumOpt = 0,
-        sumRetail = 0,
+    var sumRetail = 0,
         orders = [],
         itemsForOrderDiscount = [],
         sumForOrderDiscount = 0;
@@ -443,11 +417,10 @@ function countFromCart(idList = undefined, totals = true) {
     }
     curQty = el.qty > curItem.total_qty ? curItem.total_qty : el.qty;
     qty += curQty;
+    sumOpt += curQty * curItem.price_cur1;
 
     if (totals) {
-      sumOpt += curQty * curItem.price_cur1;
       sumRetail += curQty * curItem.price_user1;
-
       curOrder = orders.find(order => order.title === curItem.action_name);
       if (!curOrder) {
         orders.push({
@@ -464,7 +437,7 @@ function countFromCart(idList = undefined, totals = true) {
       curOrder.sumRetail += curQty * curItem.price_user1;
     }
 
-    var discount = checkDiscount(curItem, qty);
+    var discount = checkDiscount(curItem, curQty);
     if (!discount || !discount.sum) {
       sum += curQty * curItem.price_cur1;
       if (totals) {
@@ -512,6 +485,7 @@ function countFromCart(idList = undefined, totals = true) {
     result.sumDiscount = sumOpt - sum;
     result.percentDiscount = (result.sumDiscount * 100 / sumOpt).toFixed(0);
   } else {
+    result.percentDiscount = ((sumOpt - sum) * 100 / sumOpt).toFixed(0);
     result.bonusQty = bonusQty;
     result.bonusId = bonusId;
   }
@@ -529,7 +503,7 @@ function countFromCart(idList = undefined, totals = true) {
 // retailPrice = curItem.price_user1;
 
 function checkDiscount(curItem, qty) {
-  if (!curItem.action_id) {
+  if (!actions || !curItem.action_id) {
     return null;
   }
   var action = actions[curItem.action_id];
@@ -831,6 +805,7 @@ function changeCartRow(row) {
       totals = countFromCart([id], false),
       sum = convertPrice(totals.sum);
 
+  getEl('.discount', row).textContent = totals.percentDiscount > 0 ? totals.percentDiscount + '%' : '';
   getEl('.sum span', row).textContent = sum;
   changeCartRowCopy(id, totals.qty, sum);
   changeCartSectionInfo(row.closest('.cart-section'));
@@ -1202,9 +1177,10 @@ function togglePaymentChoice() {
       paymentChoice = getEl('#payment-choice');
   if (paymentType.value) {
     paymentChoice.removeAttribute('disabled');
+    paymentChoice.querySelectorAll('input').forEach(el => el.removeAttribute('disabled'));
   } else {
-    paymentChoice.removeAttribute('disabled');
     paymentChoice.setAttribute('disabled', 'disabled');
+    paymentChoice.querySelectorAll('input').forEach(el => el.setAttribute('disabled', 'disabled'));
   }
 }
 
@@ -1215,11 +1191,11 @@ function toggleAddressField() {
       address = getEl('#address');
   if (deliveryType.value === '2' || deliveryType.value === '3') {
     address.removeAttribute('disabled');
-    address.setAttribute('required', 'required');
+    address.closest('.form-wrap').setAttribute('required', 'required');
   } else {
     var name = getEl('[type="hidden"]', address).getAttribute('name');
     window[`order-formForm`][`dropDown${name}`].clear();
     address.setAttribute('disabled', 'disabled');
-    address.removeAttribute('required', 'required');
+    address.closest('.form-wrap').removeAttribute('required', 'required');
   }
 }
