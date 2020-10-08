@@ -47,26 +47,6 @@ var currentElem = null,
     tooltip = null,
     scrollTop;
 
-// Регулярные выражения для валидации полей форм:
-
-var nameRegExp = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
-var cyrilRegExp = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
-var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var nicknameRegExp =/^\w+@*\w+\.*\w*$/;
-var innRegExp = /^[\d+]{10,12}$/;
-var timeRegExp = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
-var siteRegExp = /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/;
-var dateRegExp = [
-  /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
-  /^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[123456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
-  /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/
-];
-var telRegExp = [
-  /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/,
-  /^\+[7|8]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/,
-  /^((\+7|8)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
-];
-
 // Запускаем рендеринг страницы:
 
 startPage();
@@ -560,6 +540,94 @@ function deleteCookie(key) {
 }
 
 //=====================================================================================================
+// Валидация полей формы:
+//=====================================================================================================
+
+// Регулярные выражения для валидации полей форм:
+
+var nameValidate = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
+var cyrilValidate = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
+var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var nicknameValidate =/^\w+@*\w+\.*\w*$/;
+// var innValidate = /^[\d+]{10,12}$/;
+var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
+var siteValidate = /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/;
+var dateValidate = [
+  /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
+  /^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[123456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
+  /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/
+];
+var telValidate = [
+  /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/,
+  /^\+[7|8]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/,
+  /^((\+7|8)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+];
+
+// Валидация ИНН:
+
+function innValidate(inn) {
+  var result = {result: false, error: null};
+  if (typeof inn === 'number') {
+		inn = inn.toString();
+	} else if (typeof inn !== 'string') {
+		inn = '';
+	}
+	if (!inn.length) {
+		result.error = 'ИНН пуст';
+  } else if ([10, 12].indexOf(inn.length) === -1) {
+		result.error = 'ИНН может состоять только из 10 или 12 цифр';
+	} else {
+		var checkDigit = function (inn, coefficients) {
+			var n = 0;
+			for (var i in coefficients) {
+				n += coefficients[i] * inn[i];
+			}
+			return parseInt(n % 11 % 10);
+		};
+		switch (inn.length) {
+			case 10:
+				var n10 = checkDigit(inn, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				if (n10 === parseInt(inn[9])) {
+					result.result = true;
+				}
+				break;
+			case 12:
+				var n11 = checkDigit(inn, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				var n12 = checkDigit(inn, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				if ((n11 === parseInt(inn[10])) && (n12 === parseInt(inn[11]))) {
+					result.result = true;
+				}
+				break;
+		}
+		if (!result.result) {
+			result.error = 'Неправильное контрольное число';
+		}
+	}
+	return result;
+}
+
+// Валидация КПП:
+
+function kppValidate(kpp) {
+	var result = {result: false, error: null};
+	if (typeof kpp === 'number') {
+		kpp = kpp.toString();
+	} else if (typeof kpp !== 'string') {
+		kpp = '';
+	}
+	if (!kpp.length) {
+		result.error = 'КПП пуст';
+	} else if (kpp.length !== 9) {
+		result.error = 'КПП может состоять только из 9 знаков (цифр или заглавных букв латинского алфавита от A до Z)';
+	} else if (!/^[0-9]{4}[0-9A-Z]{2}[0-9]{3}$/.test(kpp)) {
+		result.error = 'Неправильный формат КПП';
+	} else {
+		result.result = true;
+	}
+	return result;
+}
+
+//=====================================================================================================
 // Работа с данными корзины:
 //=====================================================================================================
 
@@ -924,12 +992,7 @@ function getEl(el, area = document) {
   if (typeof el === 'string') {
     el = el.trim();
     area = typeof area === 'string' ? getEl(area): area;
-    var wordCount = el.split(' ');
-    if (el[0] === '#' && wordCount.length === 1) {
-      el = document.getElementById(el.substr(1));
-    } else {
-      el = area.querySelector(el);
-    }
+    el = area.querySelector(el);
   }
   return el || undefined;
 }
@@ -1206,14 +1269,14 @@ function declOfNum(number, titles) {
 
 // Функция преобразования цены к формату с пробелами и запятой:
 
-function convertPrice(price) {
+function convertPrice(price, fix = 0) {
   if (isNaN(Number(price))) {
     return price;
   }
-  price = Number(price).toFixed(2);
-  price = (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', ',');
+  price = Number(price).toFixed(fix);
+  return price = (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', ',');
   // второй вариант (менее кросс-браузерный):
-  // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: fix, maximumFractionDigits: fix });
 }
 
 // Функция преобразования строки с годами к укороченному формату:
@@ -1808,7 +1871,7 @@ function openPopUp(el, event) {
     setTimeout(() => {
       el.classList.add('open');
       el.scrollTop = 0;
-      document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => hideElement(el));
+      // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => hideElement(el));
       document.body.classList.add('no-scroll');
     }, 50);
   }
@@ -1835,7 +1898,7 @@ function closePopUp(event, el) {
   }
   if (el) {
     loader.hide();
-    document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => showElement(el, 'flex'));
+    // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => showElement(el, 'flex'));
     el.classList.remove('open');
     setTimeout(() => {
       hideElement(el);
@@ -1890,8 +1953,7 @@ function initNotifications() {
 
 // Отображение информационной карточки товара:
 
-function showInfoCard(event, articul) {
-  event.preventDefault();
+function showInfoCard(articul) {
   getItem(articul)
   .then(result => {
     var item = result.item,
@@ -1900,7 +1962,7 @@ function showInfoCard(event, articul) {
       addImgInfo(item);
       addOptionsInfo(item, optnames);
       item.isDesc = item.desc ? '' : 'displayNone';
-      openInfoCard(result.item);
+      openInfoCard(item);
     }
   }, reject => console.log(reject));
 }
@@ -1921,17 +1983,26 @@ function openInfoCard(data) {
       items: 'options'
     }]
   });
+  getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => showFullImg(event, data));
   openPopUp(infoCardContainer);
   loader.hide();
 }
 
 // Отображение картинки на весь экран:
 
-function showFullImg(event, id) {
+function showFullImg(event, articul) {
   if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
     return;
   }
-  var data = items.find(item => item.object_id == id);
+  getItem(articul)
+  .then(result => {
+    if (result.item) {
+      openFullImg(event, result.item);
+    }
+  }, reject => console.log(reject));
+}
+
+function openFullImg(event, data) {
   if (!data) {
     return;
   }
@@ -1945,11 +2016,11 @@ function showFullImg(event, id) {
       items: 'images'
     }]
   });
-  var curCarousel = getEl('.carousel', fullImgContainer),
-      curImg = event.currentTarget.closest('.carousel').dataset.img;
+  var fullCarousel = getEl('.carousel', fullImgContainer),
+      curCarousel = event.currentTarget.closest('.carousel'),
+      curImg = curCarousel ? curCarousel.dataset.img : null;
   openPopUp(fullImgContainer);
-
-  renderCarousel(curCarousel, curImg)
+  renderCarousel(fullCarousel, curImg)
   .then(result => {
     fullImgContainer.style.opacity = 1;
     loader.hide();
@@ -2083,11 +2154,9 @@ function Alerts(obj) {
       return;
     }
     this.text.innerHTML = text;
-    openPopUp(this.alerts);
+    openPopUp(this.alerts, null);
     if (timer) {
-      setTimeout(() => {
-        closePopUp(null, this.alerts);
-      }, timer);
+      setTimeout(() => this.hide(), timer);
     }
   }
 
@@ -2100,8 +2169,10 @@ function Alerts(obj) {
 
   // Обработчик событий для кнопок согласия/отмены:
   this.confirmHandler = function(event) {
-    event.stopPropagation();
-    if (this.callback && (event.type === 'keydown' && event.code && event.code.toLowerCase() === 'enter') ||  event.type !== 'keydown' && event.currentTarget.classList.contains('accept')) {
+    if (event.type === 'keydown' && !event.code || event.code.toLowerCase() !== 'enter') {
+      return;
+    }
+    if (this.callback && (event.type === 'keydown' || event.currentTarget.classList.contains('accept'))) {
       this.callback();
       this.callback = null;
     }
@@ -2122,7 +2193,7 @@ function Alerts(obj) {
 // Инициализация формы:
 
 function initForm(el, callback) {
-  var el = getEl(el);
+  el = getEl(el);
   if (el && el.id) {
     window[`${el.id}Form`] = new Form(el, callback);
   }
@@ -2137,7 +2208,7 @@ function clearForm(el) {
   }
 }
 
-// Заполнение формы данными:
+// Заполнение формы данными (полное перезаполнение или частичное заполнение):
 
 function fillForm(el, data) {
   var el = getEl(el);
@@ -2145,13 +2216,12 @@ function fillForm(el, data) {
     return;
   }
   clearForm(el);
-  console.log(data);
+  // console.log(data);
   var fields = [], type;
   for (var key in data) {
     fields = el.querySelectorAll(`[name="${key}"]`);
     fields.forEach(field => {
       type = field.getAttribute('type');
-
       if (type === 'radio' || type === 'checkbox') {
         if (field.value.toLowerCase() === data[key].toLowerCase()) {
           field.setAttribute('checked', 'checked');
@@ -2169,16 +2239,21 @@ function fillForm(el, data) {
 // Проверка инпута на валидность:
 
 function checkInput(input) {
-  var type = input.dataset.type,
+  var result = {result: true},
+      type = input.dataset.type,
       value = input.value;
   if (!type || !value.length) {
-    return true;
+    return result;
   }
-  var regExp = window[`${type}RegExp`];
-  if (!regExp) {
-    return true;
+  var validate = window[`${type}Validate`];
+  if (!validate) {
+    return result;
   }
-  return testValue(value, regExp);
+  if (typeof validate === 'function') {
+    return validate(value);
+  } else {
+    return {result: testValue(value, validate)};
+  }
 }
 
 // Проверка значения по регулярным выражениям:
@@ -2256,10 +2331,10 @@ function Form(obj, callback) {
       input.value = capitalizeFirstLetter(input.value);
     }
     var formWrap = input.closest('.form-wrap');
-    if (isValid) {
+    if (isValid.result) {
       if (type === 'tel' && input.value.length) {
         // приведение к формату с "+7" и пробелами
-        var numbs = input.value.replace(/\D/g, '').match(telRegExp[0]);
+        var numbs = input.value.replace(/\D/g, '').match(telValidate[0]);
         input.value = !numbs[3] ? numbs[2] : ('+7 (' + numbs[2] + ') ' + numbs[3] + (numbs[4] ? '-' + numbs[4] + '-' + numbs[5] : ''));
       }
       formWrap.classList.remove('error');
@@ -2270,8 +2345,12 @@ function Form(obj, callback) {
       if (!error) {
         error = document.createElement('div');
         error.classList.add('err');
-        error.textContent = 'Поле заполнено неверно';
         formWrap.appendChild(error);
+      }
+      if (isValid.error) {
+        error.textContent = isValid.error;
+      } else {
+        error.textContent = 'Поле заполнено неверно';
       }
       this.isSubmit = false;
       this.toggleBtn();
@@ -2290,7 +2369,7 @@ function Form(obj, callback) {
         value = field.value.trim();
         if (field.hasAttribute('data-type')) {
           var isValid = checkInput(field);
-          if (isValid && value) {
+          if (isValid.result && value) {
             return true;
           }
         } else if (type === 'radio' || type === 'checkbox') {
@@ -2362,7 +2441,7 @@ function Form(obj, callback) {
 // Инициализация поля поиска:
 
 function initSearch(el, callback) {
-  var el = getEl(el);
+  el = getEl(el);
   if (el && el.id) {
     window[`${el.id}Search`] = new Search(el, callback);
   }
@@ -2558,7 +2637,7 @@ function Search(obj, callback) {
 // Инициализация выпадающего списка:
 
 function initDropDown(el, handler) {
-  var el = getEl(el);
+  el = getEl(el);
   if (el && el.id) {
     window[`${el.id}Dropdown`] = new DropDown(el);
     if (handler) {
