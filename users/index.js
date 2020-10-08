@@ -35,7 +35,7 @@ function initPage() {
     head: true,
     cols: [{
       title: 'Доступ',
-      width: '6%',
+      width: '5%',
       align: 'center',
       class: 'pills',
       content: '<div class="toggle #toggle#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'

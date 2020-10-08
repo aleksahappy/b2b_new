@@ -139,7 +139,7 @@ var settings = {
   result: false,
   cols: [{
     title: 'Доступ',
-    width: '6%',
+    width: '5%',
     key: 'access',
     content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
   }, {

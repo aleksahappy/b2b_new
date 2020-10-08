@@ -148,10 +148,8 @@ function getTitle(key, value) {
 function createCatalogFiltersData() {
   // Костыль для добавления в фильтры спецпредложений новинок:
   var specialOffer = {is_new: {title: "Новинка"}};
-  if (actions) {
-    for (var key in actions) {
-      specialOffer[key] = actions[key];
-    }
+  for (var key in actions) {
+    specialOffer[key] = actions[key];
   }
 
   var data = [{

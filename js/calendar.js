@@ -3,7 +3,7 @@
 // Инициализация календаря:
 
 function initCalendar(el) {
-  var el = getEl(el);
+  el = getEl(el);
   if (el && el.id) {
     window[`${el.id}Calendar`] = new Calendar(el);
   }

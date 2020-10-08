@@ -22,7 +22,7 @@ function Carousel(obj, start) {
 
   this.settings = {
     isNav: false,            // Наличие навигации (точек или картинок под каруселью)
-    navType: 'img',         // Тип навигации ('img' или 'dot')
+    navType: 'img',          // Тип навигации ('img' или 'dot')
     isInfinitie: true,       // Бесконечное зацикливание карусели
     isAnimate: true,         // Анимация смены слайдов (анимировать смену слайдов или нет)
     toggleAmount: 1,         // Количество перелистываемых слайдов за раз
