@@ -79,6 +79,10 @@
 }
 
 @media only screen and (max-width: 499px) {
+  .shops-wrap .left-side {
+    display: none;
+  }
+
   #map > ymaps {
     height: calc(100vh - 175px) !important;
   }

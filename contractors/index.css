@@ -15,19 +15,15 @@
   margin-bottom: 2em;
 }
 
-#contractor form.post > .row {
-  flex-wrap: wrap;
-}
-
-#contractor form.post > .row > .row {
+#contractor form.post > .form-cols > .row {
   align-items: center;
 }
 
-#contractor form.post > .row .form-wrap input {
+#contractor form.post > .form-cols .form-wrap input {
   width: 16.5em;
 }
 
-#contractor form.post > .row .form-wrap:last-child input {
+#contractor form.post > .form-cols .form-wrap:last-child input {
   width: 8em;
 }
 
