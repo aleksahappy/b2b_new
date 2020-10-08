@@ -53,6 +53,17 @@ function initTable(el, settings) {
   }
 }
 
+// Обновление таблицы новыми данными:
+
+function updateTable(el, data) {
+  var el = getEl(el),
+      table = window[`${el.id}Table`];
+  if (table) {
+    table.initialData = data;
+    table.init();
+  }
+}
+
 // Создание таблицы:
 
 function createTable(area, settings) {
@@ -273,9 +284,6 @@ function createTableBody(col, sign = '#') {
 // Объект таблицы:
 
 function Table(obj, settings = {}) {
-  // Константы:
-  this.initialData = Array.isArray(settings.data) ? settings.data.filter(el => el) : [];
-
   // Элементы для работы:
   this.wrap = obj;
   this.tab = getEl(`.tab[data-table=${obj.id}]`);
@@ -286,12 +294,16 @@ function Table(obj, settings = {}) {
   if (this.head) {
     this.resizeBtns = this.head.querySelectorAll('.resize-btn');
     this.dropDowns = obj.querySelectorAll('.activate');
+    this.dropDowns.forEach(el => new DropDown(el));
   }
+
+  // Константы:
+  this.initialData = settings.data;
 
   // Динамические переменные:
   this.filters = {};
-  this.data = JSON.parse(JSON.stringify(this.initialData));
-  this.dataToLoad = this.data;
+  this.data = [];
+  this.dataToLoad = [];
   this.countItems = 0;
   this.countItemsTo = 0;
   this.incr = 60;
@@ -334,14 +346,19 @@ function Table(obj, settings = {}) {
   }
 
   // Преобразование входящих данных:
-  this.convertData = function() {
-    this.data.forEach(el => {
-      for (var key in el) {
-        if (!el[key] && el[key] != 0) {
-          el[key] = '&ndash;';
+  this.prepareData = function() {
+    this.initialData = Array.isArray(this.initialData) ? this.initialData.filter(el => el) : [];
+    if (this.initialData) {
+      this.data = JSON.parse(JSON.stringify(this.initialData));
+      this.data.forEach(el => {
+        for (var key in el) {
+          if (!el[key] && el[key] != 0) {
+            el[key] = '&ndash;';
+          }
         }
-      }
-    });
+      });
+      this.dataToLoad = this.data;
+    }
   }
 
   // Заполнение итогов таблицы:
@@ -654,12 +671,11 @@ function Table(obj, settings = {}) {
   // Инициализация таблицы:
   this.init = function() {
     this.initTab();
-    this.convertData();
+    this.prepareData();
     this.loadData(this.data);
     if (this.head) {
       this.fillItems();
       this.fillResults();
-      this.dropDowns.forEach(el => new DropDown(el));
     }
     if (this.wrap.classList.contains('active')) {
       this.show();
