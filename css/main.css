@@ -1654,8 +1654,9 @@ input.btn {
   background-image: url(../img/checkbox_checked_blue.svg);
 }
 
-.disabled .checkbox.icon {
-  background-image: url(../img/checkbox_disabled.svg);
+.disabled .checkbox.icon,
+[disabled] .checkbox.icon {
+  background-image: url(../img/checkbox_disabled.svg) !important;
   cursor: default;
 }
 
@@ -3284,52 +3285,6 @@ th:last-child .resize-btn::after {
   padding-right: 0.5em;
 }
 
-.card-manuf {
-  width: 100%;
-  max-width: 50em;
-}
-
-.manuf-table {
-  font-size: 0.857em;
-}
-
-#manuf-headers,
-.manuf-row {
-  align-items: stretch;
-  border: 1px solid #C6C6C6;
-  border-left: none;
-}
-
-.manuf-row {
-  border-top: none;
-}
-
-#manuf-headers > div,
-.manuf-row > div {
-  padding: 0.1em 0.3em;
-  border-left: 1px solid #C6C6C6;
-}
-
-#manuf-headers > div {
-  text-align: center;
-}
-
-.manuf-table .oem {
-  width: 30%;
-}
-
-.manuf-table .years {
-  width: 20%;
-}
-
-.manuf-table .man {
-  width: 20%;
-}
-
-.manuf-table .model {
-  width: 30%;
-}
-
 .describe p:not(:last-child) {
   padding: 0;
   margin: 0;
@@ -3359,6 +3314,7 @@ th:last-child .resize-btn::after {
   width: 30%;
   margin-right: 1.428em;
   min-height: 202px;
+  cursor: pointer;
 }
 
 .info-card .describe .title {

@@ -177,6 +177,7 @@ function initPage() {
 
 function addCatalogModules() {
   var type = document.body.id === 'equip' ? 'equip' : 'zip';
+  document.body.classList.add('main', type);
 
   var catalogHeader = document.createElement('div');
   catalogHeader.dataset.html = '../modules/catalog_header.html';
@@ -184,9 +185,8 @@ function addCatalogModules() {
 
   var catalogMain = document.createElement('div');
   catalogMain.id = 'main';
-  catalogMain.classList.add('main', type);
   catalogMain.dataset.html = '../modules/catalog_main.html';
-  document.body.insertBefore(catalogMain, getEl('#modules').nextSibling);
+  document.body.insertBefore(catalogMain, null);
   includeHTML();
 
   var catalogGallery = document.createElement('div');
@@ -196,11 +196,11 @@ function addCatalogModules() {
 
   var popUpModules = document.createElement('div');
   popUpModules.dataset.html = `../modules/infocard_and_img.html`;
-  document.body.insertBefore(popUpModules, getEl('.main').nextSibling);
+  document.body.insertBefore(popUpModules, null);
   includeHTML();
 
+  popUpModules.insertBefore(getEl('#full-card-container'), popUpModules.firstElementChild);
   document.querySelectorAll(':not(#modules) .pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
-  popUpModules.appendChild(getEl('#full-card-container'));
   minCard = getEl('.min-card');
   bigCard = getEl('.big-card');
 }
@@ -306,7 +306,7 @@ function convertItem(item) {
 
 function addActionInfo(item) {
   item.isAction = item.actiontitle ? '' : 'displayNone';
-  if (item.action_id && item.action_id > 0 && actions) {
+  if (actions && item.action_id && item.action_id > 0) {
     var action = actions[item.action_id];
     if (action && (action.unending || checkDate(action.begin, action.expire))) {
       item.actiontitle = action.title;
@@ -391,43 +391,45 @@ function addManufInfo(item) {
   if (!item.manuf) {
     return;
   }
-  var manufTable = [],
+  var heads = ['oem', 'years', 'man', 'model'],
+      manufTable = [],
       manufTableRow,
       manuf = [],
       manufRow,
       value;
   for (var man in item.manuf.man) {
     manufTableRow = {};
-    manufTableRow.man = man;
     manufRow = {};
-    manufRow.man = [man];
     for (var k in item.manuf) {
-      if (k !== 'man') {
-        value = [];
-        for (var kk in item.manuf[k]) {
-          item.search.push(kk);
+      value = [];
+      for (var kk in item.manuf[k]) {
+        item.search.push(kk);
+        if (k === 'man') {
+          value.push(kk);
+        } else {
           for (var kkk in item.manuf[k][kk]) {
             if (kkk == man) {
               value.push(kk);
             }
           }
         }
-        manufRow[k] = value;
-        value = value.join(', ');
-        if (value && k === 'years') {
-          value = convertYears(value);
+      }
+      manufRow[k] = value;
+      value = value.join(', ');
+      if (value && k === 'years') {
+        value = convertYears(value);
+      }
+      manufTableRow[k] = value || '&ndash;';
+      for (var key of heads) {
+        if (!manufTableRow[key]) {
+          manufTableRow[key] = '&ndash;';
         }
-        manufTableRow[k] = value || '&ndash;';
       }
     }
     manuf.push(manufRow);
-    if (!item.isManuf) {
-      manufTable.push(manufTableRow);
-    }
+    manufTable.push(manufTableRow);
   }
-  if (!item.isManuf) {
-    item.manuf_table = manufTable;
-  }
+  item.manuf_table = manufTable;
   item.manuf_filter = manuf;
 }
 
@@ -441,11 +443,11 @@ function addDescrInfo(item) {
   if (item.actiondescr) {
     item.describe.push({title: 'Условия акции', info: item.actiondescr});
   }
-  if (item.defectdescr) {
-    item.describe.push({title: 'Описание дефекта', info: item.defectdescr});
+  if (item.defect_desc) {
+    item.describe.push({title: 'Описание дефекта', info: item.defect_desc});
   }
   delete item.actiondescr;
-  delete item.defectdescr;
+  delete item.defect_desc;
 }
 
 //=====================================================================================================
@@ -1413,7 +1415,7 @@ function showCards() {
   setDocumentScroll(0);
   setMinCardWidth();
   setFiltersHeight();
-  if (curSelect && curSelect !== 'search') {
+  if (!curSelect || (curSelect && curSelect !== 'search')) {
     toggleFilterBtns();
   }
 }
@@ -1469,11 +1471,21 @@ function setView() {
   }
 }
 
+// Поиск данных для отображения карточек товаров/изображения на весь экран:
+
+function findItemData(id, type) {
+  var data = items.find(item => item.object_id == id);
+  if (!data && type === 'cart') {
+    data = missingItems.find(item => item.object_id == id);
+  }
+  return data;
+}
+
 // Отображение полной карточки товара:
 
-function showFullCard(event, id) {
-  event.preventDefault();
-  var data = items.find(item => item.object_id == id);
+function showFullCard(id) {
+  // sendRequest()
+  var data = findItemData(id, 'catalog');
   if (!data) {
     return;
   }
@@ -1512,12 +1524,32 @@ function showFullCard(event, id) {
   .then(result => {
     curCarousel = getEl('.carousel', fullCardContainer);
     if (curCarousel) {
-      getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
-      getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, id));
+      getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+      getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
     }
     fullCardContainer.style.opacity = 1;
     loader.hide();
   });
+}
+
+
+// Отображение информационной карточки товара:
+
+function showInfoCard(id) {
+  var data = findItemData();
+  openInfoCard(data);
+}
+
+// Отображение картинки на весь экран:
+
+function showFullImg(event, data) {
+  if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
+    return;
+  }
+  if (typeof data !== 'object') {
+    data = findItemData(data);
+  }
+  openFullImg(event, data);
 }
 
 //=====================================================================================================

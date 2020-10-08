@@ -106,6 +106,10 @@
   border-bottom: 1px solid #C6C6C6;
 }
 
+.cart-section.close .head {
+  border-bottom: none;
+}
+
 .cart-section .head > div {
   margin-right: 1.142em;
 }
@@ -388,7 +392,8 @@
 }
 
 #order-details {
-  height: 46.2em;
+  /* height: 46.2em; */
+  height: 42.3em;
   padding-right: 0.5em;
   padding-bottom: 2.5em;
   overflow: hidden;

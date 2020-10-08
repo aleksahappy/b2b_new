@@ -141,7 +141,7 @@
     height: 30em;
   }
 
-  .min-card .card-img {
+  .min-card .img-wrap {
     height: 15em;
   }
 
@@ -261,10 +261,6 @@
 
   .full-card .select-info {
     flex-wrap: wrap;
-  }
-
-  .full-card .card-info > div:last-child {
-    padding-bottom: 1em;
   }
 
   .full-card .card-info > div .head >.title {

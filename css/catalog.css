@@ -650,10 +650,11 @@ body {
 
 .min-card .img-wrap {
   height: 16em;
+  cursor: pointer;
 }
 
 .min-card .action {
-  max-width: none;
+  max-width: 100%;
   height: 1.834em;
   margin: 1em 0;
 }
@@ -702,7 +703,7 @@ body {
 .min-card .tooltips {
   align-items: center;
   height: 1.417em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.7em;
 }
 
 .min-card .card-sizes {
@@ -829,7 +830,33 @@ body {
 
 /* Стили для большой карточки ЗИП: */
 
+body.zip .big-card {
+  height: 15.5em;
+  padding: 1em;
+}
 
+body.zip .big-card .select-info {
+  display: block;
+  margin-bottom: 0.714em;
+}
+
+body.zip .big-card .carousel {
+  width: 16.5em;
+  margin-bottom: 0;
+}
+
+body.zip .big-card .card-price {
+  margin-bottom: 0;
+}
+
+body.zip .big-card .card-sizes {
+  position: static;
+  width: 14.5em;
+}
+
+body.zip .big-card .card-info {
+  width: 100%;
+}
 
 /* =====================================================================================================
  Стили для полной карточки:
@@ -938,10 +965,6 @@ body {
   margin-bottom: 1px;
 }
 
-.full-card .card-info > div:last-child {
-  padding-bottom: 1.6em;
-}
-
 .full-card .card-info > div.close:last-child {
   padding-bottom: 0;
 }
@@ -963,5 +986,61 @@ body {
 }
 
 .full-card .info {
-  padding: 1em 2.917em;
+  padding: 1.167em 2.917em;
+}
+
+body.zip .full-card .card-content {
+  border-bottom: none;
+}
+
+.manuf-table {
+  min-width: 100%;
+  max-width: 100%;
+  color: #666666;
+  font-weight: 400;
+  background-color: #FFFFFF;
+  border-collapse: collapse;
+  border: none;
+  border-spacing: 0;
+  text-align: left;
+  direction: ltr;
+  overflow: hidden;
+}
+
+.manuf-table thead {
+  background-color: #EEEEEE;
+}
+
+.manuf-table th,
+.manuf-table td {
+  padding: 0.75em 1.14em;
+  font-weight: 400;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.manuf-table th,
+.manuf-table td {
+  text-align: center;
+}
+
+.card-details .info {
+  padding: 1em 0;
+}
+
+.card-details .search.row {
+  width: 100%;
+  padding: 0 2.5em 1em 2.5em;
+}
+
+.card-details .detail-row {
+  padding: 0 2.5em 1em 2.5em;
+  text-transform: uppercase;
+}
+
+.card-details .detail {
+  padding: 0.75em 2.5em;
+}
+
+.card-details .detail:nth-child(2n+1) {
+  background-color: #F8F8F8;
 }
