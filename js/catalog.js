@@ -125,13 +125,20 @@ function startCatalogPage() {
 // Добавление обработчиков событий:
 
 function setCatalogEventListeners() {
-  window.addEventListener('resize', setPaddingToBody);
+  window.addEventListener('resize', () => {
+    setPaddingToBody();
+    adaptMenu();
+  });
   window.addEventListener('popstate', (event) => openPage(event));
   if (isCart) {
     window.addEventListener('focus', updateCart);
   }
   var filters = getEl('#filters');
-  filters.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+  filters.addEventListener('mouseenter', (event) => {
+    if (event.currentTarget.style.position !== 'static') {
+      document.body.classList.add('no-scroll');
+    }
+  });
   filters.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
 }
 
@@ -214,7 +221,8 @@ function fillCatalogHeader() {
     items: data,
     sub: [{area: '.submenu-item', items: 'cats'}]
   });
-  showElement('#header-menu')
+  adaptMenu();
+  getEl('#header-menu').style.visibility = 'visible';
 }
 
 //=====================================================================================================
@@ -454,6 +462,72 @@ function addDescrInfo(item) {
 // Визуальное отображение контента на странице:
 //=====================================================================================================
 
+// Скрытие не умещающихся пунктов меню в кнопку "Еще":
+
+function adaptMenu() {
+  if (window.innerWidth > 1080) {
+    var container = getEl('#header-menu .container'),
+        searchWidth = location.search === '?cart' ? 0 : 5,
+        maxWidth = container.clientWidth - (34 + searchWidth) * parseInt(getComputedStyle(container).fontSize, 10) - getEl('#submenu-hide').clientWidth,
+        menuItems = document.querySelectorAll('#header-menu .submenu-item'),
+        width = 0,
+        isHide = false;
+    menuItems.forEach((el, index) => {
+      width += el.clientWidth;
+      if (width > maxWidth) {
+        isHide = true;
+        getEl('#submenu-hide .drop-down').appendChild(el);
+      } else {
+        getEl('#header-menu .submenu').insertBefore(el, getEl('#submenu-hide'));
+      }
+    });
+    if (isHide) {
+      showElement('#submenu-hide');
+    } else {
+      hideElement('#submenu-hide');
+    }
+  } else {
+    document.querySelectorAll('#submenu-hide .submenu-item').forEach(el => getEl('#header-menu .submenu').insertBefore(el, getEl('#submenu-hide')));
+  }
+}
+
+// Изменение позиционирования меню фильтров:
+
+function setFiltersPosition() {
+  if (window.innerWidth > 1080) {
+    var gallery = getEl('#gallery'),
+        filters = getEl('#filters'),
+        filtersContent = getEl('#filters .pop-up');
+    if (!filters.style.position || filters.style.position === 'fixed') {
+      if (filtersContent.clientHeight >= gallery.clientHeight) {
+        filters.style.position = 'static';
+        filters.style.top = '0px';
+        filters.style.maxHeight = 'none';
+        document.body.classList.remove('no-scroll')
+      } else {
+        setFiltersHeight();
+      }
+    } else {
+      if (filtersContent.clientHeight < gallery.clientHeight) {
+        filters.style.position = 'fixed';
+        setFiltersHeight();
+      }
+    }
+  }
+}
+
+// Установка высоты меню фильтров:
+
+function setFiltersHeight() {
+  var filters = getEl('#filters'),
+      scrolled = window.pageYOffset || document.documentElement.scrollTop,
+      headerHeight = getEl('#header').clientHeight,
+      footerHeight = Math.max((window.innerHeight + scrolled - getEl('#footer').offsetTop) + 20, 0),
+      filtersHeight = window.innerHeight - headerHeight - footerHeight;
+  filters.style.top = headerHeight + 'px';
+  filters.style.maxHeight = filtersHeight + 'px';
+}
+
 // Установка ширины малых карточек товаров:
 
 function setMinCardWidth() {
@@ -462,7 +536,7 @@ function setMinCardWidth() {
   }
   var gallery = getEl('#gallery'),
       width = window.innerWidth > 768 ? 18.3 : 17,
-      standartWidth = (width * parseInt(getComputedStyle(gallery).fontSize, 10)),
+      standartWidth = width * parseInt(getComputedStyle(gallery).fontSize, 10),
       countCards = Math.floor(gallery.clientWidth / standartWidth),
       restGallery = gallery.clientWidth - countCards * standartWidth,
       changeMinCard = restGallery / countCards,
@@ -482,20 +556,6 @@ function setMinCardWidth() {
   document.querySelectorAll('.min-card').forEach(minCard => {
     minCard.style.width = minCardWidth + 'px';
   });
-}
-
-// Установка высоты меню фильтров:
-
-function setFiltersHeight() {
-  if (window.innerWidth > 1080) {
-    var filters = getEl('#filters'),
-        scrolled = window.pageYOffset || document.documentElement.scrollTop,
-        headerHeight = getEl('#header').clientHeight,
-        footerHeight = Math.max((window.innerHeight + scrolled - getEl('#footer').offsetTop) + 20, 0),
-        filtersHeight = window.innerHeight - headerHeight - footerHeight;
-    filters.style.top = headerHeight + 'px';
-    filters.style.maxHeight = filtersHeight + 'px';
-  }
 }
 
 //=====================================================================================================
@@ -728,21 +788,21 @@ function toggleEventListeners(toggle) {
 // Запуск обработчиков событий при скролле:
 
 function scrollActs() {
-  setFiltersHeight();
+  setFiltersPosition();
   scrollGallery();
 }
 
 // Запуск обработчиков событий при ресайзе:
 
 function resizeActs() {
-  setFiltersHeight();
+  setFiltersPosition();
   setMinCardWidth()
   setView();
   scrollGallery();
 }
 
 //=====================================================================================================
-//  Функции для работы с фильтрами галереии:
+//  Функции для работы с фильтрами галереи:
 //=====================================================================================================
 
 // Инициализация всех фильтров галереи:
@@ -1377,7 +1437,7 @@ function loadCards(cards) {
       addActionTooltip(card);
     });
   }
-  setFiltersHeight();
+  setFiltersPosition();
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1414,7 +1474,7 @@ function showCards() {
   }
   setDocumentScroll(0);
   setMinCardWidth();
-  setFiltersHeight();
+  setFiltersPosition();
   if (!curSelect || (curSelect && curSelect !== 'search')) {
     toggleFilterBtns();
   }
@@ -1433,9 +1493,6 @@ function scrollGallery() {
 // Переключение вида каталога:
 
 function toggleView(newView, isAuto) {
-  // if (document.body.id !== 'equip') {
-  //   return;
-  // }
   if (view != newView) {
     if (window.innerWidth <= 499 && newView === 'list') {
       return;

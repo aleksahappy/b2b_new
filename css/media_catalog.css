@@ -12,10 +12,22 @@
   }
 }
 
-/* Стили на ширину свыше 1920px: */
+/* Стили на ширину больше 1920px: */
 @media only screen and (min-width: 1921px) {
+  #carts {
+    width: calc(3vw + 16em);
+  }
+
+  #carts .item {
+    padding: 0 3vw 0 2em;
+  }
+
+  #search {
+    right: calc(3vw+ 18em);
+  }
+
   .full-card {
-    width: 46%;
+    width: 46vw;
     max-width: 1500px;
   }
 }
@@ -28,6 +40,21 @@
 
   #search:not(:focus-within) .close.icon {
     visibility: hidden !important;
+  }
+}
+
+/* Стили на ширину от 0 до 1440px включительно: */
+@media only screen and (max-width: 1440px) {
+  #carts {
+    width: calc(3rem + 16em);
+  }
+
+  #carts .item {
+    padding: 0 3rem 0 2em;
+  }
+
+  #search {
+    right: calc(3rem + 18em);
   }
 }
 
@@ -48,14 +75,54 @@
 
 /* Стили на ширину от 0 до 1080px включительно: */
 @media only screen and (max-width: 1080px) {
-  .clear-filter.btn,
-  .view .title,
-  #gallery-sort  {
-    display: none !important;
+  #header-menu .container {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  #header-menu {
+    background-color: #F2F2F2;
+  }
+
+  #header-menu .topmenu {
+    justify-content: center;
+    background-color: #F2F2F2;
+  }
+
+  #header-menu .topmenu a {
+    color:#34495E;
+  }
+
+  #header-menu .submenu {
+    width: 100%;
+    background-color: #F2F2F2;
+    overflow: auto;
+  }
+
+  #header-menu .submenu::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+
+  #header-menu .submenu-item {
+    padding-right: 1em;
+  }
+
+  #header-menu .submenu-item:first-child {
+    padding-left: 2.4rem;
+  }
+
+  #header-menu .submenu-item:last-child {
+    padding-right: 2.4rem;
+  }
+
+  #header-menu .submenu a {
+    border-radius: 3px;
   }
 
   #search {
-    top: 105px;
+    top: 7.5em;
     right: auto;
     left: 2.4rem;
     width: calc(100vw - 200px) !important;
@@ -90,6 +157,14 @@
 
   #search .search.icon {
     background-image: url(../img/search_grey.svg);
+  }
+
+  #submenu-hide,
+  #carts,
+  .clear-filter.btn,
+  .view .title,
+  #gallery-sort  {
+    display: none !important;
   }
 
   #filters-container,
@@ -241,16 +316,9 @@
 
 /* Стили на ширину от 0 до 499px включительно: */
 @media only screen and (max-width: 499px) {
-  #header-menu {
-    width: 0;
-    height: 0;
-    visibility: hidden;
-  }
-
   #search {
-    top: 1.785em;
     left: 1.6rem;
-    width: calc(100vw - 90px) !important;
+    width: calc(100vw - 80px) !important;
     visibility: visible;
   }
 

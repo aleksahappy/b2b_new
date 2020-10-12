@@ -15,10 +15,10 @@ body {
 ===================================================================================================== */
 
 #header-menu {
-  display: none;
   position: relative;
   color: #FFFFFF;
   background-color: #53606F;
+  visibility: hidden;
 }
 
 #header-menu .container {
@@ -29,6 +29,7 @@ body {
 
 #header-menu a {
   color: #FFFFFF;
+  white-space: nowrap;
 }
 
 #header-menu .topmenu a,
@@ -49,31 +50,64 @@ body {
 }
 
 #header-menu .submenu {
+  position: relative;
   align-items: stretch;
-  flex-wrap: wrap;
   background-color: #53606F;
 }
 
-#header-menu .submenu-item {
+#header-menu .submenu a {
   margin-right: 0.1rem;
+  background-color: #53606F;
   -webkit-transition: 200ms;
   -moz-transition: 200ms;
   -o-transition: 200ms;
   transition: 200ms;
 }
 
-#header-menu .submenu-item:hover {
+#header-menu .submenu a:hover {
   background-color: #F05A28;
 }
 
-#header-menu .submenu-item.active {
+#header-menu .submenu a.active {
   background-color: #F05A28;
+}
+
+#submenu-hide {
+  width: auto;
+}
+
+#submenu-hide .head {
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  background-color: #53606F;
+  border: none;
+}
+
+#submenu-hide .head .title {
+  color: #FFFFFF;
+}
+
+#submenu-hide .drop-down {
+  background-color: #53606F;
+  width: auto;
+  max-width: none;
+  left: 0;
+  right: auto;
+}
+
+#submenu-hide:hover .drop-down {
+  max-height: 20em;
+}
+
+#submenu-hide .drop-down a {
+  padding: 0.75em 1.5em;
 }
 
 #search {
   display: none;
   top: 0.2em;
-  right: calc(4rem + 16em);
+  right: calc(5rem + 18em);
+  height: 34px;
 }
 
 #search:focus-within {
@@ -84,7 +118,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  width: calc(4rem + 16em);
+  width: calc(5rem + 16em);
   background-color: #34495E;
   overflow: hidden;
   z-index: 2;
@@ -116,7 +150,7 @@ body {
   align-items: flex-start;
   height: 4em;
   width: 100%;
-  padding: 0 4rem 0 2em;
+  padding: 0 5rem 0 2em;
   border-bottom: 1px solid rgba(204, 204, 204, 0.5);
 }
 
@@ -139,7 +173,7 @@ body {
   position: relative;
   width: 21px;
   height: 21px;
-  margin-right: 1.4em;
+  margin-right: 1em;
 }
 
 #carts .qty.in-circle {

@@ -5,7 +5,16 @@
       <a class="topmenu-item active" href="../#id#" data-title="#title#" onclick="openPage(event)">#title#</a>
     </div>
     <div class="submenu row">
-      <a class="submenu-item" href="../#id#/?#cat#" data-title="#cat_title#" onclick="openPage(event)">#cat_title#</a>
+      <div class="submenu-item">
+        <a href="../#id#/?#cat#" data-title="#cat_title#" onclick="openPage(event)">#cat_title#</a>
+      </div>
+      <div id="submenu-hide" class="activate hover">
+        <div class="head row">
+          <div class="title">Еще</div>
+          <div class="triangle icon white"></div>
+        </div>
+        <div class="drop-down"></div>
+      </div>
     </div>
     <form id="search" class="search row positioned">
       <input type="text" data-value="" placeholder="Поиск">

@@ -882,6 +882,7 @@ input[data-type="range"] {
 
 .calendar .input-area .tbl-calendar thead th {
   color: #53606F;
+  font-weight: 400;
 }
 
 .calendar .input-area .tbl-calendar tbody tr td {
@@ -890,6 +891,11 @@ input[data-type="range"] {
   color: #666666;
   text-align: center;
   vertical-align: middle;
+}
+
+.calendar .input-area .tbl-calendar tbody tr td:nth-child(6),
+.calendar .input-area .tbl-calendar tbody tr td:nth-child(7) {
+  color: #CE0014;
 }
 
 .calendar .input-area .tbl-calendar tbody tr td.date-cell {
@@ -3609,12 +3615,6 @@ th:last-child .resize-btn::after {
   position: relative;
   margin-left: 1em;
   margin-right: 0;
-}
-
-#header-menu,
-#header-catalog,
-#header-cart {
-  display: none;
 }
 
 /* Мобильное меню (адаптив хедера) */

@@ -60,19 +60,19 @@ Desktop:
   /* Основные стили: */
 
   .container {
-    margin: 0 3%;
+    margin: 0 3vw;
   }
 
   /* Кнопка "Наверх страницы": */
 
   #up-btn {
-    right: 3%;
+    right: 3vw;
   }
 
   /* Информационная карточка товара: */
 
   .info-card {
-    width: 38.5%;
+    width: 38.5vw;
     max-width: 1000px;
   }
 }
