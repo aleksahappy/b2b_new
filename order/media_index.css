@@ -3,11 +3,11 @@
     height: 45px;
   }
 
-  .table-desktop th {
+  .table-desktop > table > thead > tr > th {
     top: 108px;
   }
 
-  .table-desktop .results th {
+  .table-desktop > table > thead > tr.results > th {
     top: 148px;
   }
 }
@@ -17,11 +17,11 @@
     height: 40px;
   }
 
-  .table-desktop th {
+  .table-desktop > table > thead > tr > th {
     top: 103px;
   }
 
-  .table-desktop .results th {
+  .table-desktop > table > thead > tr.results > th {
     top: 143px;
   }
 }

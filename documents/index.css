@@ -1,10 +1,10 @@
 /* Стили таблицы: */
 
-.table-desktop th div:first-child {
+.table-desktop > table > thead > tr > th div:first-child {
   text-align: left;
 }
 
-.table-desktop td a {
+.table-desktop > table > tbody > tr > td a {
   flex-grow: 0;
   flex-shrink: 0;
 }

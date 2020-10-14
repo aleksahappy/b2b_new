@@ -13,7 +13,8 @@ initDropDown('#box-select');
 initDropDown('#box-checkbox');
 initDropDown('#search-select');
 initDropDown('#search-checkbox');
-initCalendar('#calendar');
+initCalendar('#calendar1');
+initCalendar('#calendar2');
 initForm('#form1');
 
 // Добавление функционала в блок фильтров для демонстрации работы:
@@ -33,10 +34,11 @@ document.querySelectorAll('.filters').forEach(el => {
 
 // Созание примера данных для таблицы:
 var data2 = [];
-for (var i = 0; i < 20; i++) {
+for (var i = 0; i < 200; i++) {
   data2.push({
     access: 'checked',
     inn: '9731002289/637584',
+    // contr: (parseInt(i, 10) + 1),
     contr: 'ООО, Пилот' + (parseInt(i, 10) + 1),
     system: 'Упрощенная',
     date: '29.10.2016',
@@ -81,7 +83,6 @@ for (var i = 0; i < 20; i++) {
     }]
   });
 }
-
 
 // Настройки таблицы:
 var settings = {

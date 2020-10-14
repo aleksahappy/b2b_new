@@ -764,8 +764,6 @@
             <div class="head row">
               <form class="search row">
                 <input type="text" data-value="" autocomplete="off" placeholder="Search-select">
-                <input class="search icon" type="submit" value="">
-                <div class="close icon"></div>
               </form>
               <div class="triangle icon"></div>
             </div>
@@ -843,8 +841,16 @@
             </div>
           </div>
           <br>
-          <div>Кастомный календарь</div>
-          <input id="calendar" type="text" value="" name="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+          <div>Кастомный календарь с текущей начальной датой</div>
+          <div id="calendar1" class="calendar-wrap">
+            <input type="text" value="" name="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+          </div>
+          <br>
+          <br>
+          <div>Кастомный календарь с заданной начальной датой</div>
+          <div id="calendar2" class="calendar-wrap">
+            <input type="text" value="" name="" data-type="date" data-begin="01.01.1980" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+          </div>
 
         </div>
 
@@ -1314,7 +1320,9 @@
               </div>
               <div class="form-wrap" required>
                 <div class="title">Дата*</div>
-                <input type="text" value="" name="date" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+                <div class="calendar-wrap">
+                  <input type="text" value="" name="date" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+                </div>
               </div>
               <div class="form-wrap" required>
                 <div class="title">Количество*</div>

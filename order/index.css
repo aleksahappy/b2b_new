@@ -92,102 +92,102 @@
   background-image: url(../img/attention_red.svg);
 }
 
-.table-desktop table tr:last-child td {
+.table-desktop > table > tbody > tr:last-child > td {
   border-bottom: none;
 }
 
-.table-desktop th {
+.table-desktop > table > thead > tr > th {
   top: 116px;
 }
 
-.table-desktop .results th {
+.table-desktop > table > thead > tr.results > th {
   top: 156px;
 }
 
 /* Стили таблицы "Итого" */
 
-#nomen table {
+#nomen > table {
   border: 1px solid #91A0AE;
 }
 
-#nomen thead :not(.results) th {
+#nomen > table > thead > tr:not(.results) > th {
   background-color: #91A0AE;
 }
 
 /* Стили таблицы "В пути" */
 
-#vputi table {
+#vputi > table {
   border: 1px solid #6B99C2;
 }
 
-#vputi thead :not(.results) th {
+#vputi > table > thead > tr:not(.results) > th {
   background-color: #6B99C2;
 }
 
 /* Стили таблицы "В наличии" */
 
-#vnali table {
+#vnali > table {
   border: 1px solid #F9BA4D;
 }
 
-#vnali thead :not(.results) th {
+#vnali > table > thead > tr:not(.results) > th {
   background-color: #F9BA4D;
 }
 
 /* Стили таблицы "Собран" */
 
-#sobrn table {
+#sobrn > table {
   border: 1px solid #9882A0;
 }
 
-#sobrn thead :not(.results) th {
+#sobrn > table > thead > tr:not(.results) > th {
   background-color: #9882A0;
 }
 
 /* Стили таблицы "Отгружен" */
 
-#otgrz table {
+#otgrz > table {
   border: 1px solid #79B667;
 }
 
-#otgrz thead :not(.results) th {
+#otgrz > table > thead > tr:not(.results) > th {
   background-color: #79B667;
 }
 
-#otgrz td.kolv {
+#otgrz > table > tbody > tr > td.kolv {
   min-width: 10em;
   padding-top: 0;
   padding-bottom: 0;
   vertical-align: middle;
 }
 
-#otgrz td.kolv .row {
+#otgrz > table > tbody > tr > td.kolv .row {
   justify-content: flex-end;
   align-items: center;
 }
 
-#otgrz td.kolv .icon {
+#otgrz > table > tbody > tr > td.kolv .icon {
   width: 26px;
   height: 26px;
 }
 
 /* Стили таблицы "Непоставка" */
 
-#nedop table {
+#nedop > table {
   border: 1px solid #91A0AE;
 }
 
-#nedop thead :not(.results) th {
+#nedop > table > thead > tr:not(.results) > th {
   background-color: #91A0AE;
 }
 
 /* Стили таблицы "Рекламации" */
 
-#reclm table {
+#reclm > table {
   border: 1px solid #91A0AE;
 }
 
-#reclm thead :not(.results) th {
+#reclm > table > thead > tr:not(.results) > th {
   background-color: #91A0AE;
 }
 

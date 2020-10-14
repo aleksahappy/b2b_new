@@ -1,10 +1,10 @@
 /* Стили таблицы: */
 
-#orderslist td {
+#orderslist > table > tbody > tr > td {
   cursor: pointer;
 }
 
-#orderslist td.pills {
+#orderslist > table > tbody > tr > td.pills {
   padding-top: 0.75em;
   padding-bottom: 0;
   line-height: 0;

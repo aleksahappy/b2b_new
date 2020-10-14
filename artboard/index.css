@@ -146,10 +146,10 @@ form.search.positioned:focus-within {
 
 /* Стили для таблицы 1 */
 
-#table1 td:nth-child(2) {
+#table1 > table >tbody > tr > td:nth-child(2) {
   text-align: center;
 }
 
-#table1 td:nth-child(3) {
+#table1  > table >tbody > tr > td:nth-child(3) {
   text-align: center;
 }

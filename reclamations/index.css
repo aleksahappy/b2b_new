@@ -6,7 +6,7 @@
 
 /* Стили таблицы */
 
-#reclm td {
+#reclm > table > tbody > tr > td {
   cursor: pointer;
 }
 

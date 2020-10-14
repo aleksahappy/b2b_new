@@ -257,7 +257,7 @@ Tablet:
     display: block;
   }
 
-  .table-desktop th {
+  .table-desktop > table > thead th {
     top: 40px;
   }
 
@@ -575,6 +575,13 @@ Mobile:
 
   .pop-up-title {
     margin-bottom: 1em;
+  }
+
+  /* Форма отправки на сервер: */
+
+  form.search .search.icon,
+  form.search .close.icon {
+    height: 24px;
   }
 
   /* Блок фильтров: */

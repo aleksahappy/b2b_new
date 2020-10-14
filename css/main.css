@@ -778,18 +778,31 @@ body.no-scroll {
 Календарь:
 ===================================================================================================== */
 
+.calendar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
 input[data-type="date"],
 input[data-type="range"] {
   background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
 }
 
 .calendar {
+  display: none;
   position: absolute;
+  top: 100%;
+  left: 1px;
+  width: 99%;
   min-width: 200px;
   max-width: 16.5em;
   background-color: #FFFFFF;
-  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
-  z-index: 100;
+  box-shadow: 0px 0px 5px rgba(52, 73, 94, 0.05), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 4px 15px rgba(52, 73, 94, 0.1);
+  z-index: 1;
+}
+
+.calendar-wrap.open .calendar {
+  display: block;
 }
 
 .calendar .input-area {
@@ -884,6 +897,8 @@ input[data-type="range"] {
 .calendar .input-area .tbl-calendar thead th {
   color: #53606F;
   font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .calendar .input-area .tbl-calendar tbody tr td {
@@ -1951,13 +1966,14 @@ div.option input:disabled ~ .checkbox.icon {
 }
 
 .activate.box .drop-down {
-  min-width: 14em;
+  min-width: 16.5em;
   color: #666666;
 }
 
 .activate.box.open .drop-down {
-  max-height: 19.57em;
-  overflow-y: hidden;
+  height: auto;
+  max-height: none;
+  overflow: visible;
 }
 
 .activate.box .drop-down > div > .title {
@@ -2009,15 +2025,26 @@ div.option input:disabled ~ .checkbox.icon {
   padding-bottom: 0.11em;
 }
 
+.activate.box form.search .calendar-wrap {
+  width: 100%;
+}
+
 .activate.box form.search input[data-type="date"],
 .activate.box form.search input[data-type="range"] {
   background: none;
   background-color: #FFFFFF;
 }
 
+.activate.box form.search .calendar {
+  position: static;
+  margin: 0 auto;
+}
+
 .activate.box form.search .search.icon,
 .activate.box form.search .close.icon {
-  right: 17px;
+  width: 34px;
+  height: 20px;
+  margin-right: 1em;
   background-size: 14px;
 }
 
@@ -2039,6 +2066,16 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate.box .items .item {
   padding: 0.3em 1.33em;
+}
+
+.activate.search .head {
+  padding-right: 0;
+}
+
+.activate.search .triangle.icon {
+  width: 28px;
+  height: 20px;
+  background-size: 8px 5px;
 }
 
 .disabled .activate .head,
@@ -2180,9 +2217,10 @@ form.search input[type="submit"] {
 form.search .search.icon,
 form.search .close.icon {
   position: absolute;
+  top: 2px;
   right: 2px;
-  width: 38px;
-  height: 90%;
+  width: 34px;
+  height: 30px;
   background-size: 16px;
 }
 
@@ -2870,7 +2908,7 @@ form.post .btns-wrap {
 
 /* Общие стили для таблицы-заголовка и таблицы-содержимого */
 
-.table-desktop table {
+.table-desktop > table {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -2883,64 +2921,65 @@ form.post .btns-wrap {
   table-layout: fixed;
 }
 
-.table-desktop th,
-.table-desktop td {
+.table-desktop > table > thead > tr > th,
+.table-desktop > table > tbody > tr > td {
   position: relative;
   padding: 0.75em 1.14em;
   white-space: nowrap;
 }
 
-.table-desktop .edit.icon {
+.table-desktop > table > tbody .edit.icon {
   margin: 0 auto;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
 
-th.activate {
+.table-desktop > table > thead > tr > th.activate {
   width: auto;
   padding: 0;
   overflow: visible;
 }
 
-th.activate .drop-down {
+.table-desktop > table > thead > tr > th.activate .drop-down {
   right: 4px;
 }
 
-th.activate:nth-child(1) .drop-down,
-th.activate:nth-child(2) .drop-down {
+.table-desktop > table > thead > tr > th.activate:nth-child(1) .drop-down,
+.table-desktop > table > thead > tr > th.activate:nth-child(2) .drop-down,
+.table-desktop > table > thead > tr > th.activate:nth-child(3) .drop-down {
   right: auto;
 }
 
-th.activate:nth-child(1) .drop-down {
+.table-desktop > table > thead > tr > th.activate:nth-child(1) .drop-down {
   left: 0px;
 }
 
-th.activate:nth-child(2) .drop-down {
+.table-desktop > table > thead > tr > th.activate:nth-child(2) .drop-down {
   left: -4px;
 }
 
-th.activate .head {
+.table-desktop > table > thead > tr > th.activate .head {
   justify-content: center;
   padding: 0.75em 1.14em;
   background-color: initial;
   border: none;
 }
 
-th.activate .head .title {
+.table-desktop > table > thead > tr > th.activate .head .title {
   color: #FFFFFF;
 }
 
-th.activate .head .triangle {
+.table-desktop > table > thead > tr > th.activate .head .triangle {
   background-image: url(../img/triangle_white.svg);
 }
 
-th.activate .head .filter {
+.table-desktop > table > thead > tr > th.activate .head .filter {
   background-image: url(../img/filter_white.svg);
 }
 
 /* Основные стили таблицы-заголовка */
 
-.table-desktop th {
+.table-desktop > table > thead > tr > th {
   position: -webkit-sticky;
   position: sticky;
   top: 64px;
@@ -2958,41 +2997,38 @@ th.activate .head .filter {
   z-index: 2;
 }
 
-.table-desktop .results th {
-  z-index: 1;
-}
-
-.table-desktop .control ~ table th {
+.table-desktop .control ~ table > thead > tr > th {
   top: 125px;
 }
 
-.table-desktop th > div:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-.table-desktop .results th {
+.table-desktop > table > thead > tr.results > th {
   color: #666666;
   font-weight: 600;
   background-color: #EEEEEE;
   border-bottom: 1px solid #D5D5D5;
+  z-index: 1;
 }
 
-.table-desktop thead .results .row {
+.table-desktop > table > thead > tr.results .row {
   justify-content: flex-end;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop thead .results .row * {
+.table-desktop > table > thead > tr.results .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-thead .resize-btn {
+.table-desktop > table > thead > tr > th > div:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.table-desktop > table > thead > tr > th .resize-btn {
   display: block;
   position: absolute;
   top: 0;
@@ -3003,11 +3039,11 @@ thead .resize-btn {
   cursor: col-resize;
 }
 
-thead th:last-child .resize-btn {
+.table-desktop > table > thead > tr > th:last-child .resize-btn {
   display: none;
 }
 
-thead .resize-btn::before {
+.table-desktop > table > thead > tr > th .resize-btn::before {
   content: '';
   display: inline-block;
   position: absolute;
@@ -3018,7 +3054,7 @@ thead .resize-btn::before {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-thead .resize-btn::after {
+.table-desktop > table > thead > tr > th .resize-btn::after {
   content: '';
   display: inline-block;
   position: absolute;
@@ -3033,48 +3069,48 @@ thead .resize-btn::after {
   transition: opacity 200ms;
 }
 
-thead .resize-btn:hover::after {
+.table-desktop > table > thead > tr > th .resize-btn:hover::after {
   opacity: 1;
 }
 
-th:last-child .resize-btn,
-th:last-child .resize-btn::before,
-th:last-child .resize-btn::after {
+.table-desktop > table > thead > tr > th:last-child .resize-btn,
+.table-desktop > table > thead > tr > th:last-child .resize-btn::before,
+.table-desktop > table > thead > tr > th:last-child .resize-btn::after {
   right: 0px;
 }
 
 /* Основные стили таблицы-содержимого */
 
-.table-desktop tbody {
+.table-desktop > table > tbody {
   color: #666666;
   background-color: #FFFFFF;
 }
 
-.table-desktop tbody tr:hover {
+.table-desktop > table > tbody > tr:hover {
   background-color: #F8F8F8;
 }
 
-.table-desktop td {
+.table-desktop > table > tbody > tr > td {
   border-bottom: 1px solid #D5D5D5;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop tbody td > .row {
+.table-desktop > table > tbody > tr > td > .row {
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
 }
 
-.table-desktop tbody td > .row * {
+.table-desktop > table > tbody > tr > td > .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop td.pills {
+.table-desktop > table > tbody > tr > td.pills {
   padding-top: 0;
   padding-bottom: 0;
   line-height: 0;
