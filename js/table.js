@@ -13,10 +13,10 @@
 //   control: {                                       Имеет ли таблица панель управления (по умолчанию не имеет). Если да, то в объекте перечислить элементы:
 //     area: элемент / селектор элемента                - куда в документе вставлять панель управления (по умолчанию вставится перед таблицей)
 //     pagination: true / false                         - наличие пагинации (по умолчанию отсутствует)
-//     search: 'placeholder' / false                    - наличие поиска и его подсказка (по умолчанию отсутствует)
+//     search: 'Поиск к подсказке' / false              - наличие поиска и его подсказка (по умолчанию отсутствует)
 //     toggle: 'key' / false                            - наличие переключателя и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
 //     pill: 'key' / false                              - наличие чекбоксов-"пилюль" и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
-//     setting:                            - наличие настроек таблицы (по умолчанию отсутствует)
+//     setting: true / false                            - наличие настроек таблицы (по умолчанию отсутствует)
 //   }
 //   head: true / false                               Имеет ли таблица шапку (по умолчанию отсутствует)
 //   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию отсутствует)
@@ -60,7 +60,7 @@ function updateTable(el, data) {
       table = window[`${el.id}Table`];
   if (table) {
     table.initialData = data;
-    table.init();
+    table.prepare();
   }
 }
 
@@ -74,6 +74,8 @@ function createTable(area, settings) {
       var areaControl = getEl(settings.control.area);
       if (areaControl) {
         areaControl.appendChild(control);
+      } else {
+        area.appendChild(control);
       }
     } else {
       area.appendChild(control);
@@ -101,8 +103,8 @@ function createTableControl(settings) {
     pagination =
     `<div class="pagination row">
       <div class="arrow blue icon left"></div>
-      <div class="title">1-20 из 258</div>
-      <div class="arrow blue icon"></div>
+      <div class="title"><span class="cur"></span> из <span class="total"></span></div>
+      <div class="arrow blue icon right"></div>
     </div>`;
   }
   if (options.search) {
@@ -126,6 +128,9 @@ function createTableControl(settings) {
   }
   var control = document.createElement('div');
   control.classList.add('control', 'row');
+  if (options.pill) {
+    control.classList.add('extend');
+  }
   control.innerHTML =
   `<div class="left-side row">
     ${pagination}
@@ -208,12 +213,21 @@ function createTableHead(col, index) {
       var search = '',
           items = '';
       if (col.search) {
-        search =
-        `<form class="search row">
-          <input type="text" data-value="" placeholder="Поиск...">
-          <input class="search icon" type="submit" value="">
-          <div class="close icon"></div>
-        </form>`;
+        if (col.search === 'date') {
+          search =
+          `<form class="search row">
+          <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+            <input class="search icon" type="submit" value="">
+            <div class="close icon"></div>
+          </form>`;
+        } else {
+          search =
+          `<form class="search row">
+            <input type="text" data-value="" placeholder="Поиск...">
+            <input class="search icon" type="submit" value="">
+            <div class="close icon"></div>
+          </form>`;
+        }
       }
       if (col.filter) {
         if (col.search) {
@@ -288,13 +302,16 @@ function Table(obj, settings = {}) {
   this.wrap = obj;
   this.tab = getEl(`.tab[data-table=${obj.id}]`);
   this.control = getEl(`.control[data-table=${obj.id}]`);
+  if (this.control) {
+    this.pagination = getEl('.pagination', this.control);
+    this.search = getEl('form.search', this.control);
+  }
   this.head = getEl('thead', obj);
   this.results = getEl('.results', this.head);
   this.body = getEl('tbody', obj);
   if (this.head) {
     this.resizeBtns = this.head.querySelectorAll('.resize-btn');
-    this.dropDowns = obj.querySelectorAll('.activate');
-    this.dropDowns.forEach(el => new DropDown(el));
+    this.dropDowns = this.head.querySelectorAll('.activate');
   }
 
   // Константы:
@@ -316,22 +333,51 @@ function Table(obj, settings = {}) {
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.tab) {
-      this.tab.addEventListener('click', (event) => this.open(event));
+      this.tab.addEventListener('click', event => this.open(event));
     }
     window.addEventListener('scroll', throttle(() => {
       this.scrollTable();
-      this.setResizeHeight();
     }));
+    if (this.pagination) {
+      this.pagination.querySelectorAll('.btn').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
+    }
     if (this.head) {
       if (this.resizeBtns) {
-        this.resizeBtns.forEach(el => el.addEventListener('mousedown', (event) => this.startResize(event)));
+        this.resizeBtns.forEach(el => el.addEventListener('mousedown', event => this.startResize(event)));
       }
       this.dropDowns.forEach(el => {
         el.addEventListener('change', event => this.changeData(event));
       });
     }
   }
-  this.setEventListeners();
+
+  // Подготовка таблицы для работы:
+  this.prepare = function() {
+    this.prepareData();
+    this.initTab();
+    this.fill();
+    this.fillItems();
+  }
+
+  // Преобразование входящих данных:
+  this.prepareData = function() {
+    this.initialData = Array.isArray(this.initialData) ? this.initialData.filter(el => el) : [];
+    if (this.initialData) {
+      this.data = JSON.parse(JSON.stringify(this.initialData));
+      this.data.forEach(el => {
+        el.search = [];
+        for (var key in el) {
+          if (!el[key] && el[key] != 0) {
+            el[key] = '&ndash;';
+          } else {
+            el.search.push(el[key]);
+          }
+        }
+        el.search = el.search.join(',').replace(/\s/g, ' ').replace(/\u00A0/g, ' '); // Замена любых пробельных символов на пробелы
+      });
+      this.dataToLoad = this.data;
+    }
+  }
 
   // Включение/отключение вкладки таблицы в зависимости от наличия данных:
   this.initTab = function() {
@@ -345,89 +391,11 @@ function Table(obj, settings = {}) {
     }
   }
 
-  // Преобразование входящих данных:
-  this.prepareData = function() {
-    this.initialData = Array.isArray(this.initialData) ? this.initialData.filter(el => el) : [];
-    if (this.initialData) {
-      this.data = JSON.parse(JSON.stringify(this.initialData));
-      this.data.forEach(el => {
-        for (var key in el) {
-          if (!el[key] && el[key] != 0) {
-            el[key] = '&ndash;';
-          }
-        }
-      });
-      this.dataToLoad = this.data;
-    }
-  }
-
-  // Заполнение итогов таблицы:
-  this.fillResults = function() {
-    if (!this.results) {
-      return;
-    }
-    this.results.querySelectorAll('[data-key]').forEach(result => {
-      var total = 0;
-      if (this.dataToLoad && this.dataToLoad.length) {
-        this.dataToLoad.forEach(el => {
-          if (el[result.dataset.key]) {
-            total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
-          }
-        });
-      }
-      if (result.dataset.type === 'sum') {
-        total = convertPrice(total);
-      }
-      result.textContent = total;
-    });
-  }
-
-  // Заполнение фильтров таблицы значениями:
-  this.fillItems = function(curDropDown) {
-    if (!this.dropDowns) {
-      return;
-    }
-    var items;
-    this.dropDowns.forEach(el => {
-      if (el === curDropDown) {
-        return;
-      }
-      items = getEl('.items', el);
-      if (items) {
-        var key = el.dataset.key,
-            unique = [],
-            list = '',
-            value;
-        this.dataToLoad.forEach(el => getValue(el[key]));
-        function getValue(el) {
-          value = (typeof el === 'string' || typeof el === 'number') ? el : null;
-          if (value && unique.indexOf(value) === -1) {
-            unique.push(value);
-          }
-        }
-        unique.forEach(el => {
-          list +=
-          `<div class="item row" data-value="${el}">
-            <div class="checkbox icon"></div>
-            <div>${el}</div>
-          </div>`;
-        });
-        items.innerHTML = list;
-      }
-    });
-  }
-
-  this.checkItems = function(curKey) {
-    var curItem;
-    for (var key in this.filters) {
-      if (key !== curKey) {
-        this.filters[key].values.forEach(value => {
-          curItem = getEl(`.activate[data-key="${key}"] [data-value="${value}"]`);
-          if (curItem) {
-            curItem.classList.add('checked');
-          }
-        });
-      }
+  // Заполнение таблицы данными:
+  this.fill = function(dropDown) {
+    this.loadData(this.dataToLoad);
+    if (this.head) {
+      this.fillResults();
     }
   }
 
@@ -439,7 +407,6 @@ function Table(obj, settings = {}) {
     }
     if (data) {
       this.countItems = 0;
-      this.dataToLoad = data;
     } else {
       this.countItems = this.countItemsTo;
     }
@@ -468,6 +435,17 @@ function Table(obj, settings = {}) {
     } else {
       this.body.insertAdjacentHTML('beforeend', list);
     };
+    this.setResizeHeight();
+    this.fillPagination();
+  }
+
+  // Заполнение пагинации:
+  this.fillPagination = function() {
+    if (!this.pagination) {
+      return;
+    }
+    getEl('.cur', this.pagination).textContent = `${this.countItems + 1} - ${this.countItemsTo}`;
+    getEl('.total', this.pagination).textContent = this.dataToLoad.length;
   }
 
   // Подгрузка таблицы при скролле:
@@ -475,6 +453,11 @@ function Table(obj, settings = {}) {
     if ((this.wrap.getBoundingClientRect().top + this.wrap.scrollHeight - window.innerHeight) < 200) {
       this.loadData();
     }
+  }
+
+  // Подгрузка таблицы при пагинации:
+  this.moveTable = function() {
+    
   }
 
   // Установка высоты подсветки кнопки ресайза (чтобы не выходила за пределы таблицы):
@@ -488,7 +471,87 @@ function Table(obj, settings = {}) {
     changeCss(`#${this.wrap.id} thead .resize-btn:hover::after`, 'height', newHeight);
   }
 
-  // Открытие таблицы при клике на вкладку:
+  // Заполнение фильтров таблицы значениями:
+  this.fillItems = function(curDropDown) {
+    if (!this.dropDowns) {
+      return;
+    }
+    var items;
+    this.dropDowns.forEach(el => {
+      if (el === curDropDown) {
+        return;
+      }
+      items = getEl('.items', el);
+      if (items) {
+        var key = el.dataset.key,
+            unique = [],
+            list = '',
+            value;
+        this.dataToLoad.forEach(el => getValue(el[key]));
+        function getValue(el) {
+          value = (typeof el === 'string' || typeof el === 'number') ? el : undefined;
+          if (value !== undefined && unique.indexOf(value) === -1) {
+            unique.push(value);
+          }
+        }
+        unique.sort();
+        unique.forEach(el => {
+          list +=
+          `<div class="item row" data-value="${el}">
+            <div class="checkbox icon"></div>
+            <div>${el}</div>
+          </div>`;
+        });
+        items.innerHTML = list;
+      }
+    });
+    this.checkItems(curDropDown ? curDropDown.dataset.key : '');
+  }
+
+  // Расстановка чекеров на значения после перерендеринга значений:
+  this.checkItems = function(curKey) {
+    var curItem;
+    for (var key in this.filters) {
+      if (key !== curKey) {
+        this.filters[key].values.forEach(value => {
+          curItem = getEl(`.activate[data-key="${key}"] [data-value="${value}"]`);
+          if (curItem) {
+            curItem.classList.add('checked');
+          }
+        });
+      }
+    }
+  }
+
+  // Заполнение итогов таблицы:
+  this.fillResults = function() {
+    if (!this.results) {
+      return;
+    }
+    this.results.querySelectorAll('[data-key]').forEach(result => {
+      var total = 0;
+      if (this.dataToLoad && this.dataToLoad.length) {
+        this.dataToLoad.forEach(el => {
+          if (el[result.dataset.key]) {
+            total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
+          }
+        });
+      }
+      if (result.dataset.type === 'sum') {
+        total = convertPrice(total);
+      }
+      result.textContent = total;
+    });
+  }
+
+  // Визуальное отображение таблицы:
+  this.show = function() {
+    showElement(this.wrap);
+    this.setResizeHeight();
+    this.wrap.classList.add('active');
+  }
+
+  // Переход с одной таблицы на другую при клике на вкладку:
   this.open = function(event) {
     if (event.currentTarget.classList.contains('disabled')) {
       return;
@@ -503,52 +566,70 @@ function Table(obj, settings = {}) {
     this.show();
   }
 
-  // Работа с данными таблицы:
+  // Поиск по всей таблице:
+  this.fullSearch = (search, textToFind) => {
+    this.resetFilters();
+    if (textToFind) {
+      var regEx = RegExp(textToFind, 'gi');
+      this.dataToLoad = this.data.filter(item => item.search.search(regEx) >= 0);
+    } else {
+      this.dataToLoad = this.data;
+    }
+    this.fill();
+  }
+
+  // Запуск сортировки, поиска и фильтрации по столбцу:
   this.changeData = function(event) {
     var dropDown = event.currentTarget,
         target = event.target,
         key = dropDown.dataset.key;
-    if (target.classList.contains('sort')) {
+    if (event.target.classList.contains('sort')) {
       this.sortData(dropDown, target, key);
     } else {
-      var type = target.classList.contains('item') ? 'filter' : 'search',
-          value = type === 'search' ? dropDown.value : target.dataset.value,
-          action;
-      if (type === 'search') {
-        action = value ? 'save' : 'remove';
-      } else if (type === 'filter') {
-        action = target.classList.contains('checked') ? 'save' : 'remove';
-      }
-      var oldFilters = JSON.stringify(this.filters);
-      this.changeFilter(action, type, key, value);
-      if (oldFilters !== JSON.stringify(this.filters)) {
-        this.filterData();
-        // this.fillItems(action === 'save' ? dropDown : '');
-        this.checkItems(action === 'save' ? key : '');
-      }
+      this.findData(dropDown, target, key);
     }
-    this.loadData(this.dataToLoad);
-    this.fillResults();
-    this.setResizeHeight();
   }
 
-  // Сортировка данных:
+  // Сортировка по столбцу:
   this.sortData = function(dropDown, target, key) {
     var type = dropDown.dataset.sort,
         key = target.classList.contains('down') ? key : '-' + key;
     this.head.querySelectorAll('.sort.checked').forEach(el => {
-      var th = el.closest('.activate');
-      if (th.id !== dropDown.id) {
+      if (el.closest('.activate').id !== dropDown.id) {
         el.classList.remove('checked');
       }
     });
     var curSort = getEl('.sort.checked', this.head);
     if (curSort) {
+      this.data.sort(sortBy(key, type));
       this.dataToLoad.sort(sortBy(key, type));
     } else {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.filterData();
     }
+    this.loadData(this.dataToLoad);
+  }
+
+  // Поиск и фильтрация по столбцу:
+  this.findData = function(dropDown, target, key) {
+    if (this.control) {
+      this.resetControl();
+    }
+    var type = target.classList.contains('item') ? 'filter' : 'search',
+        value = type === 'search' ? dropDown.value : target.dataset.value,
+        action;
+    if (type === 'search') {
+      action = value ? 'save' : 'remove';
+    } else if (type === 'filter') {
+      action = target.classList.contains('checked') ? 'save' : 'remove';
+    }
+    var oldFilters = JSON.stringify(this.filters);
+    this.changeFilter(action, type, key, value);
+    if (oldFilters !== JSON.stringify(this.filters)) {
+      this.filterData();
+    }
+    this.fill();
+    // this.fill(action === 'save' ? dropDown : '');
   }
 
   // Сохранение/удаление фильтра:
@@ -624,6 +705,35 @@ function Table(obj, settings = {}) {
     return isFound;
   }
 
+  // Очистка панели управления:
+  this.resetControl = function() {
+    if (!this.control) {
+      return;
+    }
+    if (this.search) {
+      this.search.clear();
+    }
+  }
+
+  // Очистка поиска и фильтров столбцов таблицы:
+  this.resetFilters = function() {
+    if (!this.head) {
+      return;
+    }
+    this.filters = {};
+    this.dropDowns.forEach((el, index) => {
+      this[`dropDown${index}`].clear();
+    });
+  }
+
+  // Полная очистка поиска и фильтрации:
+  this.reset = function() {
+    this.resetControl();
+    this.resetFilters();
+    this.dataToLoad = this.data;
+    this.fill();
+  }
+
   // Запуск перетаскивания столбца:
   this.startResize = function(event) {
     this.prevColumn = event.currentTarget.parentElement;
@@ -661,21 +771,17 @@ function Table(obj, settings = {}) {
     }
   };
 
-  // Визуальное отображение таблицы:
-  this.show = function() {
-    showElement(this.wrap);
-    this.setResizeHeight();
-    this.wrap.classList.add('active');
-  }
-
   // Инициализация таблицы:
   this.init = function() {
-    this.prepareData();
-    this.initTab();
-    this.loadData(this.data);
-    if (this.head) {
-      this.fillItems();
-      this.fillResults();
+    this.prepare();
+    this.setEventListeners();
+    if (this.search) {
+      this.search = new Search(this.search, this.fullSearch);
+    }
+    if (this.dropDowns) {
+      this.dropDowns.forEach((el, index) => {
+        this[`dropDown${index}`] = new DropDown(el);
+      });
     }
     if (this.wrap.classList.contains('active')) {
       this.show();
