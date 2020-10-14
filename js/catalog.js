@@ -1757,7 +1757,7 @@ function getFilterZipItems() {
 // Отбор карточек поиском по странице:
 
 function selectCardsBySearchPage(textToFind) {
-  var regEx = RegExp(textToFind, 'gi');
+  var regEx = new RegExp(textToFind, 'gi');
   selectedItems = curItems.filter(el => el.search.search(regEx) >= 0);
 }
 
