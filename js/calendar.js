@@ -13,9 +13,9 @@ function initCalendar(el) {
 
 class Calendar {
   constructor(obj) {
-    this.element = obj;
-    this.popUp = obj.closest('.pop-up-container');
-    this.element.addEventListener('focus', () => this.init());
+    this.wrap = obj;
+    this.input = getEl('input', obj);
+    this.init();
   }
 
   // Разметка календаря:
@@ -48,58 +48,35 @@ class Calendar {
     </table>
   </div>`;
 
+  months = [
+    { fullname: 'Январь', shortname: 'Янв' },
+    { fullname: 'Февраль', shortname: 'Фев' },
+    { fullname: 'Март', shortname: 'Мар' },
+    { fullname: 'Апрель', shortname: 'Апр' },
+    { fullname: 'Май', shortname: 'Май' },
+    { fullname: 'Июнь', shortname: 'Июн' },
+    { fullname: 'Июль', shortname: 'Июл' },
+    { fullname: 'Август', shortname: 'Авг' },
+    { fullname: 'Сентябрь', shortname: 'Сен' },
+    { fullname: 'Октябрь', shortname: 'Окт' },
+    { fullname: 'Ноябрь', shortname: 'Ноя' },
+    { fullname: 'Декабрь', shortname: 'Дек' },
+  ];
+
+  days = [
+    { fullname: 'Воскресенье', shortname: 'Вс' },
+    { fullname: 'Понедельник', shortname: 'Пн' },
+    { fullname: 'Вторник', shortname: 'Вт' },
+    { fullname: 'Среда', shortname: 'Ср' },
+    { fullname: 'Четверг', shortname: 'Чт' },
+    { fullname: 'Пятница', shortname: 'Пт' },
+    { fullname: 'Суббота', shortname: 'Сб' },
+  ];
+
   // Инициализация календаря
   init() {
-    if (this.cContainer) {
-      return;
-    }
-    if (this.element.value == '') {
-      this.savedDate = new Date();
-    } else {
-      var strDt = this.element.value;
-      var strDtArr = strDt.split(/\/|\.|-/);
-      strDt = strDtArr[2] + '-' + strDtArr[1] + '-' + strDtArr[0];
-      this.savedDate = new Date(strDt);
-      if(isNaN(this.savedDate.getTime())) {
-        this.savedDate = new Date();
-      }
-      if (this.savedDate.getFullYear() < '1900') {
-        this.savedDate = new Date();
-      }
-    }
-
-    this.selectedDate = this.savedDate;
-    this.currentMonth = this.savedDate.getMonth();
-    this.currentYear = this.savedDate.getFullYear();
-
-    this.months = [
-      { fullname: 'Январь', shortname: 'Янв' },
-      { fullname: 'Февраль', shortname: 'Фев' },
-      { fullname: 'Март', shortname: 'Мар' },
-      { fullname: 'Апрель', shortname: 'Апр' },
-      { fullname: 'Май', shortname: 'Май' },
-      { fullname: 'Июнь', shortname: 'Июн' },
-      { fullname: 'Июль', shortname: 'Июл' },
-      { fullname: 'Август', shortname: 'Авг' },
-      { fullname: 'Сентябрь', shortname: 'Сен' },
-      { fullname: 'Октябрь', shortname: 'Окт' },
-      { fullname: 'Ноябрь', shortname: 'Ноя' },
-      { fullname: 'Декабрь', shortname: 'Дек' },
-    ];
-
-    this.days = [
-      { fullname: 'Воскресенье', shortname: 'Вс' },
-      { fullname: 'Понедельник', shortname: 'Пн' },
-      { fullname: 'Вторник', shortname: 'Вт' },
-      { fullname: 'Среда', shortname: 'Ср' },
-      { fullname: 'Четверг', shortname: 'Чт' },
-      { fullname: 'Пятница', shortname: 'Пт' },
-      { fullname: 'Суббота', shortname: 'Сб' },
-    ];
-
     this.create();
     this.addEventListeners();
-    this.updateCalendar(this.currentMonth, this.currentYear);
   }
 
   // Создание календаря:
@@ -107,19 +84,12 @@ class Calendar {
     // Создание контейнера:
     this.cContainer = document.createElement('div');
     this.cContainer.classList.add('calendar');
-    this.setPosition();
 
     // Добавление разметки в контейнер:
     this.cContainer.innerHTML = this.markup;
 
     // Добавление контейнера на страницу:
-    if (this.popUp) {
-      this.cContainer.style.zIndex = '420';
-      this.popUp.appendChild(this.cContainer);
-    } else {
-      this.cContainer.style.zIndex = '100';
-      document.body.appendChild(this.cContainer);
-    }
+    this.wrap.appendChild(this.cContainer);
 
     // Получение необходимых элементов календаря:
     this.cInputArea = this.cContainer.getElementsByClassName('input-area')[0];
@@ -134,27 +104,12 @@ class Calendar {
     this.tBody = this.cInputArea.getElementsByClassName('tbody')[0];
   }
 
-  // Позиционирование календаря:
-  setPosition = () => {
-    if (window.getComputedStyle(this.element).display === 'none') {
-      this.hide();
-      return;
-    }
-    var rect = this.element.getBoundingClientRect(),
-        inputWidth = this.element.offsetWidth,
-        scroll;
-    if (this.popUp) {
-      scroll = this.popUp.scrollTop;
-    } else {
-      scroll = window.pageYOffset || document.documentElement.scrollTop;
-    }
-    this.cContainer.style.left = rect.left + 'px';
-    this.cContainer.style.top = scroll + rect.top + rect.height + 'px';
-    this.cContainer.style.width = inputWidth + 'px';
-  }
-
   // Навешивание обработчиков событий:
   addEventListeners() {
+    // открытие календаря
+    this.input.addEventListener('focus', () => this.open());
+    // закрытие календаря
+    this.input.addEventListener('focusout', () => this.hide());
     // месяц назад
     this.cMonthPrevious.addEventListener('click', () => this.previous());
     // месяц вперед
@@ -165,15 +120,12 @@ class Calendar {
     this.cYearNext.addEventListener('click', () => this.nextYear());
     // установка даты
     this.tBody.addEventListener('click', () => this.setDate());
-    // скрытие календаря при клике вне его самого
-    window.addEventListener('click', this.hide);
-    // позиционирование календаря
-    window.addEventListener('scroll', this.setPosition);
-    window.addEventListener('resize', this.setPosition);
   }
 
   // Создание содержимого календаря:
-  updateCalendar(month, year) {
+  updateCalendar() {
+    var month = this.currentMonth,
+        year = this.currentYear;
     // кол-во дней в месяце
     var daysInMonth = new Date(year, month + 1, 0).getDate();
     this.tBody.innerHTML = ''; // очищаем календарь
@@ -235,59 +187,83 @@ class Calendar {
 
   // Работа кнопки месяц назад
   previous() {
-    this.currentYear =
-      this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
+    this.currentYear = this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth - 1;
-    this.updateCalendar(this.currentMonth, this.currentYear);
+    this.updateCalendar();
   }
 
   // Работа кнопки месяц вперед
   next() {
-    this.currentYear =
-      this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
+    this.currentYear = this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = this.currentMonth === 11 ? 0 : this.currentMonth + 1;
-    this.updateCalendar(this.currentMonth, this.currentYear);
+    this.updateCalendar();
   }
 
   // Работа кнопки год назад:
   previousYear() {
     this.currentYear--;
     this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth;
-    this.updateCalendar(this.currentMonth, this.currentYear);
+    this.updateCalendar();
   }
 
   // Работа кнопки год вперед:
   nextYear() {
     this.currentYear++;
     this.currentMonth = this.currentMonth === 11 ? 0 : this.currentMonth;
-    this.updateCalendar(this.currentMonth, this.currentYear);
+    this.updateCalendar();
   }
 
   // Установка даты:
   setDate() {
-    this.element.value =
+    this.input.value =
       this.formateTwoDigitNumber(this.selectedDate.getDate()) +'.' +
       this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) +'.' +
       this.selectedDate.getFullYear();
-    this.element.dispatchEvent(new Event('change', {'bubbles': true}));
+    this.input.dispatchEvent(new Event('change', {'bubbles': true}));
     this.hide();
   }
 
-  // Скрытие календаря:
-  hide = (event) => {
-    if (this.cContainer) {
-      if (event && (event.target === this.element || event.target.closest('.calendar'))) {
+  // Открытие календаря:
+  open() {
+    this.getStartDate();
+    this.selectedDate = this.savedDate;
+    this.currentMonth = this.savedDate.getMonth();
+    this.currentYear = this.savedDate.getFullYear();
+    this.updateCalendar();
+    this.wrap.classList.add('open');
+  }
+
+  // Получение даты, на которой следует открыть календарь:
+  getStartDate() {
+    var startDate;
+    if (this.input.value !== '') {
+      startDate = this.input.value;
+    } else {
+      if (this.input.dataset.begin) {
+        startDate = this.input.dataset.begin;
+      } else {
+        this.savedDate = new Date();
         return;
       }
-      if (this.popUp) {
-        this.popUp.removeChild(this.cContainer);
-      } else {
-        document.body.removeChild(this.cContainer);
-      }
-      this.cContainer = null;
-      window.removeEventListener('click', this.hide);
-      window.removeEventListener('scroll', this.setPosition);
-      window.removeEventListener('resize', this.setPosition);
     }
+    startDate = startDate.split(/\/|\.|-/);
+    if (startDate.length < 3) {
+      this.savedDate = new Date();
+      return;
+    }
+    startDate = startDate[2] + '-' + startDate[1] + '-' + startDate[0];
+    this.savedDate = new Date(startDate);
+    if(isNaN(this.savedDate.getTime())) {
+      this.savedDate = new Date();
+      return;
+    }
+    if (this.savedDate.getFullYear() < '1900') {
+      this.savedDate = new Date();
+    }
+  }
+
+  // Скрытие календаря:
+  hide = event => {
+    this.wrap.classList.remove('open');
   }
 }
