@@ -27,7 +27,7 @@ function initPage(data = []) {
     data: data,
     control: {
       pagination: true,
-      search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
+      search: 'Поиск...',
       setting: true
     },
     head: true,
@@ -35,12 +35,13 @@ function initPage(data = []) {
     trFunc: 'onclick=showReclm(#id#)',
     cols: [{
       title: '№',
-      width: '10%',
+      width: '7%',
       key: 'recl_num',
       sort: 'text',
       search: 'usual'
     }, {
       title: 'Дата',
+      width: '10%',
       align: 'center',
       key: 'recl_date',
       sort: 'date',

@@ -33,7 +33,7 @@
           </div>
           <div class="wrap">
             <div class="title">Период реализации</div>
-            <input id="cert-range" type="text" value="" name="" data-type="range"  placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="24" autocomplete="off">
+            <input id="cert-range" type="text" value="" data-type="range" placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
           </div>
           <div class="wrap">
             <div class="title">Бренд</div>
@@ -43,12 +43,20 @@
                 <div class="triangle icon"></div>
               </div>
               <div class="drop-down">
-                <div class="item" data-value="">Сбросить</div>
-                <div class="item" data-value="1">Значение 1</div>
-                <div class="item" data-value="2">Значение 2</div>
-                <div class="item" data-value="3">Значение 3</div>
-                <div class="item" data-value="4">Значение 4</div>
-                <div class="item" data-value="5">Значение 5</div>
+                <div class="item" data-value="509">509</div>
+                <div class="item" data-value="Abom">Abom</div>
+                <div class="item" data-value="BCA">BCA</div>
+                <div class="item" data-value="EVS">EVS</div>
+                <div class="item" data-value="Helmetex">Helmetex</div>
+                <div class="item" data-value="Jethwear">Jethwear</div>
+                <div class="item" data-value="Ogio">Ogio</div>
+                <div class="item" data-value="PowerTools">PowerTools</div>
+                <div class="item" data-value="SIXS">SIXS</div>
+                <div class="item" data-value="Shark">Shark</div>
+                <div class="item" data-value="Spy Optic">Spy Optic</div>
+                <div class="item" data-value="Tobe">Tobe</div>
+                <div class="item" data-value="FXR">FXR</div>
+                <div class="item" data-value="FullT">FullT</div>
               </div>
             </div>
           </div>
@@ -78,17 +86,6 @@
           <div class="title h2">Фильтры</div>
           <div class="close icon"></div>
         </div>
-        <div class="filter">
-          <div class="item">
-            <div class="row">
-              <form class="search row">
-                <input type="text" data-value="" placeholder="Поиск по ключевым словам...">
-                <input class="search icon" type="submit" value="">
-                <div class="close icon"></div>
-              </form>
-            </div>
-          </div>
-        </div>
         <div class="filter switch">
           <div class="title row" onclick="switchContent(event)">
             <div class="title white h3">Период реализации</div>
@@ -97,128 +94,72 @@
           <div class="items switch-cont">
             <div class="item">
               <div class="row">
-                <input id="calendar" type="text" value="" name="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off">
+                <input id="calendar" type="text" value="" data-type="range" placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
               </div>
             </div>
           </div>
         </div>
         <div class="filter switch">
           <div class="title row" onclick="switchContent(event)">
-            <div class="title white h3">По бренду</div>
+            <div class="title white h3">Бренд</div>
             <div class="open white icon switch-icon"></div>
           </div>
           <div class="items switch-cont">
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">509</div>
-                </div>
-              </div>
+            <div class="row" data-value="509">
+              <div class="radio icon"></div>
+              <div class="text">509</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Abom</div>
-                </div>
-              </div>
+            <div class="row" data-value="Abom">
+              <div class="radio icon"></div>
+              <div class="text">Abom</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">BCA</div>
-                </div>
-              </div>
+            <div class="row" data-value="BCA">
+              <div class="radio icon"></div>
+              <div class="text">BCA</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">EVS</div>
-                </div>
-              </div>
+            <div class="row" data-value="EVS">
+              <div class="radio icon"></div>
+              <div class="text">EVS</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Helmetex</div>
-                </div>
-              </div>
+            <div class="row" data-value="Helmetex">
+              <div class="radio icon"></div>
+              <div class="text">Helmetex</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Jethwear</div>
-                </div>
-              </div>
+            <div class="row" data-value="Jethwear">
+              <div class="radio icon"></div>
+              <div class="text">Jethwear</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Ogio</div>
-                </div>
-              </div>
+            <div class="row" data-value="Ogio">
+              <div class="radio icon"></div>
+              <div class="text">Ogio</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">PowerTools</div>
-                </div>
-              </div>
+            <div class="row" data-value="PowerTools">
+              <div class="radio icon"></div>
+              <div class="text">PowerTools</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">SIXS</div>
-                </div>
-              </div>
+            <div class="row" data-value="SIXS">
+              <div class="radio icon"></div>
+              <div class="text">SIXS</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Shark</div>
-                </div>
-              </div>
+            <div class="row" data-value="Shark">
+              <div class="radio icon"></div>
+              <div class="text">Shark</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Spy Optic</div>
-                </div>
-              </div>
+            <div class="row" data-value="Spy Optic">
+              <div class="radio icon"></div>
+              <div class="text">Spy Optic</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">Tobe</div>
-                </div>
-              </div>
+            <div class="row" data-value="Tobe">
+              <div class="radio icon"></div>
+              <div class="text">Tobe</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">FXR</div>
-                </div>
-              </div>
+            <div class="row" data-value="FXR">
+              <div class="radio icon"></div>
+              <div class="text">FXR</div>
             </div>
-            <div class="item switch close">
-              <div class="row">
-                <div class="title row">
-                  <div class="checkbox icon"></div>
-                  <div class="text">FullT</div>
-                </div>
-              </div>
+            <div class="row" data-value="FullT">
+              <div class="radio icon"></div>
+              <div class="text">FullT</div>
             </div>
           </div>
         </div>

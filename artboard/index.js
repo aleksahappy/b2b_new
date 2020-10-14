@@ -13,8 +13,8 @@ initDropDown('#box-select');
 initDropDown('#box-checkbox');
 initDropDown('#search-select');
 initDropDown('#search-checkbox');
-initForm('#form1');
 initCalendar('#calendar');
+initForm('#form1');
 
 // Добавление функционала в блок фильтров для демонстрации работы:
 
@@ -31,52 +31,7 @@ document.querySelectorAll('.filters').forEach(el => {
 // Работа с таблицами:
 //=====================================================================================================
 
-// Созание примера данных для первой таблицы и запуск ее инициализации:
-var data1 = [];
-for (var i = 0; i < 20; i++) {
-  data1.push({
-    text: 'Текст ' + (parseInt(i, 10) + 1),
-    numb: i + 1,
-    date: '01.01.20',
-    price: '10 000,00',
-    docs: [{
-      title: 'Договор с ООО «ТОП СПОРТС» от 31.10.2016',
-      status: 'full',
-      date_start: '31.10.2016',
-      date_end: '04.12.2019',
-      contr: 'ООО «ТОП СПОРТС»',
-      url: 'bla-bla',
-      status_info: 'действует',
-      info: 'Договор от 31.10.2016<br>Дата завершения 04.12.2019<br>Заключен с ООО «ТОП СПОРТС»'
-    },{
-      title: 'Договор с ООО «ТОП СПОРТС-1» от 31.10.2017',
-      status: 'off',
-      date_start: '31.10.2017',
-      contr: 'ООО «ТОП СПОРТС-1»',
-      url: 'bla-bla',
-      status_info: 'не действует',
-      info: 'Договор от 31.10.2017<br>Заключен с ООО «ТОП СПОРТС»'
-    }]
-  } , {
-    text: 'Очень очень очень длинный текст ' + (parseInt(i, 10) + 1),
-    numb: i * 2,
-    date: '20.05.17',
-    price: '347 976,00',
-    docs: [{
-      title: 'Договор с ООО «ТОП СПОРТС» от 15.05.2018',
-      status: 'full',
-      date_start: '31.10.2016',
-      date_end: '04.12.2019',
-      contr: 'ООО «ТОП СПОРТС»',
-      url: 'bla-bla',
-      status_info: 'не действует',
-      info: 'Договор от 15.05.2018<br>Заключен с ООО «ТОП СПОРТС»'
-    }]
-  })
-};
-initTable('#table1', {data: data1, sub: [{area: '.docs', items: 'docs'}]});
-
-// Созание примера данных для второй таблицы и запуск ее инициализации:
+// Созание примера данных для таблицы:
 var data2 = [];
 for (var i = 0; i < 20; i++) {
   data2.push({
@@ -126,11 +81,12 @@ for (var i = 0; i < 20; i++) {
     }]
   });
 }
-/* Стили для таблицы 2 */
+
+
+// Настройки таблицы:
 var settings = {
   data: data2,
   control: {
-    area: '#table2-control',
     pagination: true,
     search: 'Поиск...',
     setting: true
@@ -188,10 +144,15 @@ var settings = {
   }],
   sub: [{area: '.docs', items: 'docs'}]
 }
+
+// Инициализация таблицы:
 initTable('#table2', settings);
+
+// Заполнение адаптивной версии таблицы:
 fillTemplate({
   area: "#table2-adaptive",
   items: data2,
   sub: [{area: '.docs', items: 'docs'}]
 });
+
 loader.hide();

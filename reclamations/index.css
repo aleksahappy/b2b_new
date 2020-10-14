@@ -1,3 +1,9 @@
+/* Стили навигации табицы */
+
+.control .right-side {
+  display: none;
+}
+
 /* Стили таблицы */
 
 #reclm td {

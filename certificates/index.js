@@ -73,7 +73,7 @@ function convertData() {
 
 function findCert(search, textToFind) {
   if (textToFind) {
-    var regEx = RegExp(textToFind, 'gi');
+    var regEx = new RegExp(textToFind, 'gi');
     selectedItems = items.filter(el => el.search.search(regEx) >= 0);
     if (selectedItems.length) {
       hideElement('#notice');
