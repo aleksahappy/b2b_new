@@ -81,7 +81,6 @@ startPage();
 
 function startPage() {
   addModules();
-  setEventListeners();
   if (isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
@@ -92,13 +91,6 @@ function startPage() {
       renderTotals();
     });
   }
-}
-
-// Добавление обработчиков событий:
-
-function setEventListeners() {
-  window.addEventListener('resize', closeFiltersPopUp);
-  document.addEventListener('click', closeDropDown);
 }
 
 // Выход из авторизации:
@@ -1864,8 +1856,9 @@ function goToTop() {
 //=====================================================================================================
 
 function initPopUps() {
-  document.addEventListener('keydown', (event) => closePopUp(event));
   document.querySelectorAll('.pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
+  document.addEventListener('keydown', (event) => closePopUp(event));
+  window.addEventListener('resize', closeFiltersPopUp);
 }
 
 // Открытие всплывающего окна:
@@ -2297,8 +2290,7 @@ function Form(obj, callback) {
   this.form = obj;
   this.submitBtn = getEl('input[type="submit"]', obj);
   this.dropDowns = this.form.querySelectorAll('.activate');
-  this.dates = this.form.querySelectorAll('div:not(.activate) input[data-type="date"]');
-  this.ranges = this.form.querySelectorAll('div:not(.activate) input[data-type="range"]');
+  this.calendars = this.form.querySelectorAll('div:not(.activate) .calendar-wrap');
 
   // Блокировка/разблокировка кнопки отправки формы:
   this.toggleBtn = function() {
@@ -2315,13 +2307,12 @@ function Form(obj, callback) {
       event.preventDefault();
       this.send();
     });
+    this.dropDowns.forEach(el => el.addEventListener('change', event => this.check(event)));
+    this.calendars.forEach(el => getEl('input', el).addEventListener('change', event => this.check(event)));
     this.form.querySelectorAll('textarea').forEach(el => el.addEventListener('input', event => this.check(event)));
-    this.form.querySelectorAll('.activate').forEach(el => el.addEventListener('change', event => this.check(event)));
     this.form.querySelectorAll('.choiced-qty').forEach(el => el.addEventListener('change', event=> this.check(event)));
     this.form.querySelectorAll('input:not([type="text"]):not([type="hidden"])').forEach(el => el.addEventListener('change', event => this.check(event)));
     this.form.querySelectorAll('input[type="text"]:not([type="hidden"]').forEach(el => el.addEventListener('input', event => this.check(event)));
-    this.dates.forEach(el => el.addEventListener('change', event => this.check(event)));
-    this.ranges.forEach(el => el.addEventListener('change', event => this.check(event)));
   }
 
   // Проверка поля:
@@ -2444,8 +2435,7 @@ function Form(obj, callback) {
         var name = getEl('[type="hidden"]', el).getAttribute('name');
         this[`dropDown${name}`] = new DropDown(el);
       });
-      this.dates.forEach(el => new Calendar(el));
-      this.ranges.forEach(el => new Calendar(el));
+      this.calendars.forEach(el => new Calendar(el));
     }
     this.init();
 }
@@ -2518,7 +2508,9 @@ function Search(obj, callback) {
         this.items.addEventListener('click', event => this.selectHint(event));
       }
     }
-    this.cancelBtn.addEventListener('click', (event) => this.cancel(event));
+    if (this.cancelBtn) {
+      this.cancelBtn.addEventListener('click', (event) => this.cancel(event));
+    }
     if (this.result) {
       getEl('.pill', this.result).addEventListener('click', (event) => this.cancel(event));
     }
@@ -2646,7 +2638,7 @@ function Search(obj, callback) {
   // Инициализация поиска:
   this.init = function() {
     if (this.input.dataset.type === 'date') {
-      new Calendar(this.input);
+      new Calendar(this.input.closest('.calendar-wrap'));
     }
     this.setEventListeners();
   }
@@ -2686,18 +2678,6 @@ function setValueDropDown(id, value) {
   }
 }
 
-// Закрытие выпадающих списков при клике вне их самих:
-
-function closeDropDown(event) {
-  if (!event.target.closest('.activate')) {
-    var dropDownOpen = getEl('.activate.open');
-    if (dropDownOpen) {
-      dropDownOpen.classList.remove('open');
-      document.body.classList.remove('no-scroll');
-    }
-  }
-}
-
 // Объект выпадающего списка:
 
 function DropDown(obj) {
@@ -2720,7 +2700,7 @@ function DropDown(obj) {
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.head) {
-      this.head.addEventListener('click', (event) => this.toggle(event));
+      this.head.addEventListener('click', event => this.toggle(event));
     }
     if (this.sort) {
       this.sort.addEventListener('click', event => this.sortValue(event))
@@ -2742,20 +2722,28 @@ function DropDown(obj) {
       return;
     }
     if (this.obj.classList.contains('open')) {
-      if (this.type === 'searchBox'){
+      if (this.type === 'searchBox') {
         if (event.target.classList.contains('icon')) {
           this.obj.classList.remove('open');
+          document.removeEventListener('click', this.close);
         }
       } else {
         this.obj.classList.remove('open');
+        document.removeEventListener('click', this.close);
       }
     } else {
-      var dropDownOpen = getEl('.activate.open');
-      if (dropDownOpen) {
-        dropDownOpen.classList.remove('open');
-      }
       this.obj.classList.add('open');
+      document.addEventListener('click', this.close);
     }
+  }
+
+  // Закрытие выпадающего списка при клике вне его самого:
+  this.close = event => {
+    if (event && event.target.closest('.activate') === this.obj) {
+      return;
+    }
+    this.obj.classList.remove('open');
+    document.removeEventListener('click', this.close);
   }
 
   // Изменение заголовка:
