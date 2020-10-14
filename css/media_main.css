@@ -298,6 +298,7 @@ Tablet:
   }
 
   .filters .pop-up {
+    display: block;
     width: 40em;
     position: relative;
     max-width: 90%;
@@ -324,6 +325,11 @@ Tablet:
 
   .filters .filter > .title.row {
     padding: 0.714em 2.5em;
+  }
+
+  .filters .filter .items > .row {
+    padding: 1em 2.5em;
+    padding-bottom: 0;
   }
 
   .filters .filter .item > .row {
@@ -466,9 +472,20 @@ Tablet:
     padding: 0.714em 2.143em;
   }
 
+  .filters .filter .items > .row {
+    padding: 1em 2.143em;
+    padding-bottom: 0;
+  }
+
   .filters .filter .item > .row {
     padding: 1em 2.143em;
     padding-bottom: 0;
+  }
+
+  .filters input[data-type="date"],
+  .filters input[data-type="range"],
+  .filters .activate {
+    width: 100%;
   }
 
   /* Системное сообщение: */
@@ -568,6 +585,11 @@ Mobile:
 
   .filters .filter > .title.row {
     padding: 0.714em 1.428em;
+  }
+
+  .filters .filter .items > .row {
+    padding: 1em 1.428em;
+    padding-bottom: 0;
   }
 
   .filters .filter .item > .row {

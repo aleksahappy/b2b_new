@@ -786,6 +786,7 @@ input[data-type="range"] {
 .calendar {
   position: absolute;
   min-width: 200px;
+  max-width: 16.5em;
   background-color: #FFFFFF;
   box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
   z-index: 100;
@@ -1851,7 +1852,7 @@ div.option input:disabled ~ .checkbox.icon {
   text-overflow: ellipsis;
 }
 
-.activate.changed .head .title {
+.activate.changed:not(.box) .head .title {
   color: #666666;
 }
 
@@ -1865,6 +1866,10 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate .filter {
   visibility: hidden;
+}
+
+.activate.changed .filter {
+  visibility: visible;
 }
 
 .activate.hover:hover .triangle,
@@ -2002,6 +2007,12 @@ div.option input:disabled ~ .checkbox.icon {
 .activate.box form.search input[type="text"] {
   padding-top: 0.11em;
   padding-bottom: 0.11em;
+}
+
+.activate.box form.search input[data-type="date"],
+.activate.box form.search input[data-type="range"] {
+  background: none;
+  background-color: #FFFFFF;
 }
 
 .activate.box form.search .search.icon,
@@ -2625,6 +2636,7 @@ form.post .btns-wrap {
 }
 
 .filters .pop-up {
+  display: none;
   width: 18em;
   max-width: 100%;
   padding: 0;
@@ -2634,6 +2646,7 @@ form.post .btns-wrap {
 }
 
 .filters.visible .pop-up {
+  display: block;
   opacity: 1;
 }
 
@@ -2669,6 +2682,11 @@ form.post .btns-wrap {
   padding: 0.357em 0.714em;
   background-color: #B3BAC2;
   cursor: pointer;
+}
+
+.filters .filter .items > .row {
+  padding: 0.714em;
+  padding-bottom: 0;
 }
 
 .filters .filter .item > .row {
@@ -2773,7 +2791,7 @@ form.post .btns-wrap {
   cursor: default;
 }
 
-/* Стили для навигации табицы */
+/* Стили навигации табицы */
 
 .control {
   position: -webkit-sticky;
@@ -2794,13 +2812,17 @@ form.post .btns-wrap {
 .table-adaptive .control {
   top: 40px;
   padding: 1em 1.14em;
-  /* box-shadow: 0px 0px 5px rgba(52, 73, 94, 0.05), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 4px 15px rgba(52, 73, 94, 0.1); */
+  box-shadow: 0px 0px 5px rgba(52, 73, 94, 0.05), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 4px 15px rgba(52, 73, 94, 0.1);
 }
 
 .control .left-side {
   align-items: center;
-  width: 50%;
+  width: 100%;
   max-width: 100%;
+}
+
+.control.extend .left-side {
+  width: 50%;
 }
 
 .control .pagination {
@@ -2825,6 +2847,7 @@ form.post .btns-wrap {
   align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
+  margin-left: 2em;
 }
 
 .control .settings.icon {
@@ -2922,7 +2945,8 @@ th.activate .head .filter {
   position: sticky;
   top: 64px;
   color: #FFFFFF;
-  background-color: #53606F;
+  /* background-color: #53606F; */
+  background-color: #91A0AE;
   font-weight: 400;
   overflow: visible;
   -webkit-touch-callout: none; /* iOS Safari */
