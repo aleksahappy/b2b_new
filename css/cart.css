@@ -392,15 +392,11 @@
 }
 
 #order-details {
-  /* height: 46.2em; */
-  height: 42.3em;
-  padding-right: 0.5em;
+  height: 46.2em;
+  margin-right: -2.5em;
   padding-bottom: 2.5em;
-  overflow: hidden;
-}
-
-#order-details:hover {
-  overflow-y: auto;
+  padding-right: 2.5em;
+  overflow: auto;
 }
 
 .order-block:not(:last-child) {

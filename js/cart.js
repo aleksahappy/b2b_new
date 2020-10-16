@@ -1188,14 +1188,17 @@ function togglePaymentChoice() {
 
 function toggleAddressField() {
   var deliveryType = getEl('#delivery'),
-      address = getEl('#address');
+      address = getEl('#address'),
+      formWrap = address.closest('.form-wrap'),
+      title = getEl('.title', formWrap);
   if (deliveryType.value === '2' || deliveryType.value === '3') {
     address.removeAttribute('disabled');
-    address.closest('.form-wrap').setAttribute('required', 'required');
+    formWrap.setAttribute('required', 'required');
+    title.textContent = 'Адрес доставки*';
   } else {
-    var name = getEl('[type="hidden"]', address).getAttribute('name');
-    window[`order-formForm`][`dropDown${name}`].clear();
+    addressDropdown.clear();
     address.setAttribute('disabled', 'disabled');
-    address.closest('.form-wrap').removeAttribute('required', 'required');
+    formWrap.removeAttribute('required', 'required');
+    title.textContent = 'Адрес доставки';
   }
 }

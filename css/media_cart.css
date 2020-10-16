@@ -1,9 +1,3 @@
-@media (pointer:coarse) {
-  #order-details {
-    overflow-y: scroll;
-  }
-}
-
 /* Стили на ширину от 0 до 1440px включительно: */
 @media only screen and (max-width: 1440px) {
   .order-block {
