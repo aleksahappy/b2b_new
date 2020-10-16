@@ -95,7 +95,7 @@ function initPage(data = []) {
 
 function convertData(data) {
   data.forEach(el => {
-    el.order_sum = convertPrice(el.order_sum);
+    el.order_sum = convertPrice(el.order_sum, 2);
     var data = [],type, item;
     for (var sum in el.sum) {
       type = sum.substr(-1);
@@ -119,7 +119,7 @@ function convertData(data) {
               type = 'nedop';
               break;
           }
-          item.sum = convertPrice(el.sum[sum]);
+          item.sum = convertPrice(el.sum[sum], 2);
           item.type = type;
           item.display = '';
         } else {

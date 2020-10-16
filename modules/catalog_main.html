@@ -146,7 +146,7 @@
             <div class="qty-wrap row">
               <div class="qty qty-box row added">
                 <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
-                <input class="choiced-qty" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" onkeypress="return onlyNumb(event)">
+                <input class="choiced-qty" type="text" value="#qty#" data-value="#qty#" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" oninput="onlyNumb(event)">
                 <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
               </div>
               <div class="qty qty-fix">#qty#&nbsp;шт.</div>

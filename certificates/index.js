@@ -65,7 +65,7 @@ function convertData() {
         el.search.push(el[key]);
       }
     }
-    el.search = el.search.join(',').replace(/\s/, ' ').replace(/\u00A0/g, ' ');
+    el.search = el.search.join(',').replace(/\s/g, ' ');
   });
 }
 

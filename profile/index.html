@@ -76,7 +76,7 @@
               <div class="form-wrap form-col2">
                 <div class="title">День рождения</div>
                 <div class="calendar-wrap">
-                  <input type="text" value="" name="birth" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+                  <input type="text" value="" name="birth" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
                 </div>
               </div>
               <div class="form-wrap form-col2">
@@ -107,13 +107,13 @@
             </div>
             <div class="form-wrap" required="">
               <div class="title">Мобильный телефон*</div>
-              <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _">
+              <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="30">
             </div>
             <div class="form-wrap">
               <div class="form-cols">
                 <div class="form-wrap form-col2">
                   <div class="title">Рабочий номер*</div>
-                  <input type="text" value="" name="tel_work" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _">
+                  <input type="text" value="" name="tel_work" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="30">
                 </div>
                 <div class="form-wrap form-col2">
                   <div class="title">Добавочный</div>

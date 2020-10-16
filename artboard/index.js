@@ -15,6 +15,7 @@ initDropDown('#search-select');
 initDropDown('#search-checkbox');
 initCalendar('#calendar1');
 initCalendar('#calendar2');
+initCalendar('#calendar3');
 initForm('#form1');
 
 // Добавление функционала в блок фильтров для демонстрации работы:

@@ -283,7 +283,7 @@ function convertItems() {
 // Преобразование данных по одному товару:
 
 function convertItem(item) {
-  item.title = item.title.replace(/\s/g, ' ').replace(/\u00A0/g, ' ');
+  item.title = item.title.replace(/\s/g, ' ');
   item.isFree = item.free_qty > 0 ? '' : 'displayNone';
   item.isArrive = item.arrive_qty > 0 ? '' : 'displayNone';
   item.isWarehouse = item.warehouse_qty > 0 ? '' : 'displayNone';
@@ -306,7 +306,7 @@ function convertItem(item) {
   addOptionsInfo(item, optnames);
   addManufInfo(item);
   addDescrInfo(item);
-  item.search = item.search.join(',').replace(/\s/g, ' ').replace(/\u00A0/g, ' '); // Замена любых пробельных символов на пробелы
+  item.search = item.search.join(',').replace(/\s/g, ' ');
   return item;
 }
 

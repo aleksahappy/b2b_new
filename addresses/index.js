@@ -118,8 +118,7 @@ function toggleTradeTypeField() {
     field.closest('.form-wrap').setAttribute('required', 'required');
     showElement(addBtn);
   } else {
-    var name = getEl('[type="hidden"]', field).getAttribute('name');
-    window[`address-formForm`][`dropDown${name}`].clear();
+    window['trade-typeDropdown'].clear();
     field.setAttribute('disabled', 'disabled');
     field.closest('.form-wrap').removeAttribute('required', 'required');
     hideElement(addBtn);
