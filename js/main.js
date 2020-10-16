@@ -537,23 +537,61 @@ function deleteCookie(key) {
 
 // Регулярные выражения для валидации полей форм:
 
+var textValidate = /[^\s]{2,}/;
 var nameValidate = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
 var cyrilValidate = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
 var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var nicknameValidate =/^\w+@*\w+\.*\w*$/;
-// var innValidate = /^[\d+]{10,12}$/;
 var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
 var siteValidate = /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/;
-var dateValidate = [
-  /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
-  /^(((0[1-9]|[12]\d|3[01])-(0[13578]|1[02])-((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)-(0[123456789]|1[012])-((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/,
-  /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/
-];
-var telValidate = [
-  /^([\+]*[7|8])(\(*\d{3}\)*)(\d{3}-*)(\d{2}-*)(\d{2})$/,
-  /^\+[7|8]\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/,
-  /^((\+7|8)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
-];
+var dateValidate = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+
+// Валидация телефонного номера:
+
+function telValidate(tel) {
+  var result = {result: false, error: null};
+  if (tel.match(/\d/g).length < 11) {
+    result.error = 'Введены не все цифры номера';
+  } else if (tel.match(/\d/g).length > 11) {
+    result.error = 'Введены лишние цифры';
+  } else {
+    tel = tel.replace(/\s/g, '');
+    if (/^([\+]*[7|8])((\(*\d{3}\)*)|(\-*\d{3}\-*))(\d{3}-*)(\d{2}-*)(\d{2})$/.test(tel)) {
+      result.result = true;
+    } else {
+      result.error = 'Номер введен неверно';
+    }
+  }
+  return result;
+}
+
+// Валидация периода дат:
+
+function rangeValidate(range) {
+  var result = {result: false, error: null};
+  range = range.replace(/\s/g, '');
+  if (!range.length) {
+    result.error = 'Период пуст';
+  } else if (range.length !== 21) {
+		result.error = 'Недостаточное количество символов';
+	} else {
+    var isValid = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))\-(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/.test(range);
+    if (isValid) {
+      range = range.split('-');
+      var dateFrom = getDateObj(range[0], 'dd.mm.yyyy'),
+          dateTo = getDateObj(range[1], 'dd.mm.yyyy');
+      if (dateFrom && dateTo && dateFrom <= dateTo) {
+        result.result = true;
+      } else {
+        isValid = false;
+      }
+    }
+    if (!isValid) {
+      result.error = 'Неправильно введен период';
+    }
+	}
+	return result;
+}
 
 // Валидация ИНН:
 
@@ -1099,7 +1137,7 @@ function sortBy(key, type = 'text') {
       case 'text':
         return '' + value;
       case 'numb':
-        value = value.replace(/\s/g, '').replace(/\u00A0/g, '');
+        value = value.replace(/\s/g, '');
         return parseFloat(value);
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
@@ -1182,13 +1220,17 @@ function sortObjByValue(obj, type = 'string') {
 
 // Создание объекта даты из строки:
 
-function getDateObj(value, format) {
-  if (format === 'yy-mm-dd') {
-    value = value.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1');
-  } else if (format === 'dd.mm.yy'){
-    value = value.replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
+function getDateObj(string, format) {
+  if (format === 'yy-mm-dd' || format === 'yy-mm-dddd') {
+    string = string.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1');
+  } else if (format === 'dd.mm.yy' || format === 'dd.mm.yyyy'){
+    string = string.replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
   }
-  return new Date(value);
+  var date = new Date(string);
+  if (isNaN(date.getTime())) {
+    return;
+  }
+  return date;
 }
 
 // Проверка актуальности даты в периоде (принимает объекты даты):
@@ -1562,30 +1604,16 @@ function insertText(target, txt, sign, method = 'inner') {
 // Запрет на ввод в инпут любого значения кроме цифр:
 
 function onlyNumb(event) {
-  if (event.ctrlKey || event.altKey || event.metaKey) {
-    return;
-  }
-  var chr = getChar(event);
-  if (chr == null) {
-    return;
-  }
-  if (chr < '0' || chr > '9') {
-    return false;
-  }
+  event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '');
 }
 
 // Запрет на ввод в инпут любого значения кроме цифр, точек и тире:
 
 function onlyDateChar(event) {
-  if (event.ctrlKey || event.altKey || event.metaKey) {
-    return;
-  }
-  var chr = getChar(event);
-  if (chr == null) {
-    return;
-  }
-  if (chr !== '.' && chr !== '-' && chr < '0' || chr > '9') {
-    return false;
+  if (event.currentTarget.dataset.type === 'range') {
+    event.currentTarget.value = event.currentTarget.value.replace(/[^\d|\.|\-|\s]/g, '');
+  } else {
+    event.currentTarget.value = event.currentTarget.value.replace(/[^\d|\.]/g, '');
   }
 }
 
@@ -1640,7 +1668,7 @@ function countQty(sign, qty, maxQty, minQty) {
       qty = 1;
     }
   } else {
-    if (isNaN(qty)) {
+    if (isNaN(+qty)) {
       qty = minQty;
     }
     if (qty < minQty) {
@@ -1896,7 +1924,9 @@ function closePopUp(event, el) {
         return;
       }
     } else {
-      if ((event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close')) || event.target.closest('.calendar')) {
+      if ((event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close') || event.target.closest('.calendar-wrap')) ||
+          (document.activeElement && document.activeElement.closest('.pop-up'))
+      ) {
         return;
       }
       el = event.currentTarget;
@@ -2180,10 +2210,10 @@ function Alerts(obj) {
     if (!this.alerts.classList.contains('open')) {
       return;
     }
-    if (event.type === 'keydown' && !event.code || event.code.toLowerCase() !== 'enter') {
+    if (event.type === 'keydown' && !event.code || event.type === 'keydown' && event.code.toLowerCase() !== 'enter') {
       return;
     }
-    if (this.callback && (event.code.toLowerCase() === 'enter'|| event.currentTarget.classList.contains('accept'))) {
+    if (this.callback && (event.type === 'keydown' || event.currentTarget.classList.contains('accept'))) {
       this.callback();
       this.callback = null;
     }
@@ -2205,8 +2235,12 @@ function Alerts(obj) {
 
 function initForm(el, callback) {
   el = getEl(el);
-  if (el && el.id) {
-    window[`${el.id}Form`] = new Form(el, callback);
+  if (el) {
+    if (el.id) {
+      return window[`${el.id}Form`] = new Form(el, callback);
+    } else {
+      return new Form(el, callback);
+    }
   }
 }
 
@@ -2338,9 +2372,10 @@ function Form(obj, callback) {
     var formWrap = input.closest('.form-wrap');
     if (isValid.result) {
       if (type === 'tel' && input.value.length) {
-        // приведение к формату с "+7" и пробелами
-        var numbs = input.value.replace(/\D/g, '').match(telValidate[0]);
-        input.value = !numbs[3] ? numbs[2] : ('+7 (' + numbs[2] + ') ' + numbs[3] + (numbs[4] ? '-' + numbs[4] + '-' + numbs[5] : ''));
+        // приведение к формату +7 (000) 000-00-00
+        var numbs = input.value.replace(/\D/g, '').match(/^([\+]*[7|8])(\d{3})(\d{3})(\d{2})(\d{2})$/);
+        console.log(numbs);
+        input.value = '+7 (' + numbs[2] + ') ' + numbs[3] + '-' + numbs[4] + '-' + numbs[5];
       }
       formWrap.classList.remove('error');
     } else {
@@ -2418,10 +2453,7 @@ function Form(obj, callback) {
     this.form.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="submit"])').forEach(el => el.value = '');
     this.form.querySelectorAll('input[type="radio"]').forEach(el => el.removeAttribute('checked'));
     this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.removeAttribute('checked'));
-    this.dropDowns.forEach(el => {
-      var name = getEl('[type="hidden"]', el).getAttribute('name');
-      this[`dropDown${name}`].clear();
-    });
+    this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
     this.isSubmit = false;
     this.toggleBtn();
   }
@@ -2431,11 +2463,8 @@ function Form(obj, callback) {
       this.isSubmit = false;
       this.toggleBtn();
       this.setEventListeners();
-      this.dropDowns.forEach(el => {
-        var name = getEl('[type="hidden"]', el).getAttribute('name');
-        this[`dropDown${name}`] = new DropDown(el);
-      });
-      this.calendars.forEach(el => new Calendar(el));
+      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
+      this.calendars.forEach(el => initCalendar(el));
     }
     this.init();
 }
@@ -2448,8 +2477,12 @@ function Form(obj, callback) {
 
 function initSearch(el, callback) {
   el = getEl(el);
-  if (el && el.id) {
-    window[`${el.id}Search`] = new Search(el, callback);
+  if (el) {
+    if (el.id) {
+      return window[`${el.id}Search`] = new Search(el, callback);
+    } else {
+      return new Search(el, callback);
+    }
   }
 }
 
@@ -2637,8 +2670,9 @@ function Search(obj, callback) {
 
   // Инициализация поиска:
   this.init = function() {
-    if (this.input.dataset.type === 'date') {
-      new Calendar(this.input.closest('.calendar-wrap'));
+    var calendar = this.input.closest('.calendar-wrap');
+    if (calendar) {
+      initCalendar(calendar);
     }
     this.setEventListeners();
   }
@@ -2653,10 +2687,14 @@ function Search(obj, callback) {
 
 function initDropDown(el, handler) {
   el = getEl(el);
-  if (el && el.id) {
-    window[`${el.id}Dropdown`] = new DropDown(el);
+  if (el) {
     if (handler) {
       el.addEventListener('change', event => handler(event));
+    }
+    if (el.id) {
+      return window[`${el.id}Dropdown`] = new DropDown(el);
+    } else {
+      return new DropDown(el);
     }
   }
 }
@@ -2869,7 +2907,7 @@ function DropDown(obj) {
   this.init = function() {
     this.setEventListeners();
     if (this.search) {
-      this.search = new Search(this.search, this.searchValue);
+      this.search = initSearch(this.search, this.searchValue);
     }
   }
   this.init();
