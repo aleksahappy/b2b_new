@@ -4,12 +4,26 @@
 
 function initCalendar(el) {
   el = getEl(el);
-  if (el && el.id) {
-    window[`${el.id}Calendar`] = new Calendar(el);
+  if (el) {
+    var type = getEl('input', el).dataset.type;
+    if (type === 'date') {
+      if (el.id) {
+        return window[`${el.id}Calendar`] = new Calendar(el);
+      } else {
+        return new Calendar(el);
+      }
+    }
+    if (type === 'range') {
+      if (el.id) {
+        return window[`${el.id}Calendar`] = new CalendarRange(el);
+      } else {
+        return new CalendarRange(el);
+      }
+    }
   }
 }
 
-// Класс календаря
+// Класс календаря:
 
 class Calendar {
   constructor(obj) {
@@ -26,8 +40,8 @@ class Calendar {
       <div class='nav-center'>
         <div class='month'>October 2019</div>
         <div class='years-nav'>
-          <div class='prev-year'></div>
           <div class='next-year'></div>
+          <div class='prev-year'></div>
         </div>
       </div>
       <div class='month-next'></div>
@@ -48,30 +62,7 @@ class Calendar {
     </table>
   </div>`;
 
-  months = [
-    { fullname: 'Январь', shortname: 'Янв' },
-    { fullname: 'Февраль', shortname: 'Фев' },
-    { fullname: 'Март', shortname: 'Мар' },
-    { fullname: 'Апрель', shortname: 'Апр' },
-    { fullname: 'Май', shortname: 'Май' },
-    { fullname: 'Июнь', shortname: 'Июн' },
-    { fullname: 'Июль', shortname: 'Июл' },
-    { fullname: 'Август', shortname: 'Авг' },
-    { fullname: 'Сентябрь', shortname: 'Сен' },
-    { fullname: 'Октябрь', shortname: 'Окт' },
-    { fullname: 'Ноябрь', shortname: 'Ноя' },
-    { fullname: 'Декабрь', shortname: 'Дек' },
-  ];
-
-  days = [
-    { fullname: 'Воскресенье', shortname: 'Вс' },
-    { fullname: 'Понедельник', shortname: 'Пн' },
-    { fullname: 'Вторник', shortname: 'Вт' },
-    { fullname: 'Среда', shortname: 'Ср' },
-    { fullname: 'Четверг', shortname: 'Чт' },
-    { fullname: 'Пятница', shortname: 'Пт' },
-    { fullname: 'Суббота', shortname: 'Сб' },
-  ];
+  months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
   // Инициализация календаря
   init() {
@@ -108,37 +99,94 @@ class Calendar {
   addEventListeners() {
     // открытие календаря
     this.input.addEventListener('focus', () => this.open());
-    // закрытие календаря
-    this.input.addEventListener('focusout', () => this.hide());
+    // перключение календаря на дату, введенную в текстовое поле
+    this.input.addEventListener('input', () => this.setStartDate());
     // месяц назад
-    this.cMonthPrevious.addEventListener('click', () => this.previous());
+    this.cMonthPrevious.addEventListener('click', () => this.previousMonth());
     // месяц вперед
-    this.cMonthNext.addEventListener('click', () => this.next());
+    this.cMonthNext.addEventListener('click', () => this.nextMonth());
     // год назад
     this.cYearPrev.addEventListener('click', () => this.previousYear());
     // год вперед
     this.cYearNext.addEventListener('click', () => this.nextYear());
-    // установка даты
-    this.tBody.addEventListener('click', () => this.setDate());
   }
 
-  // Создание содержимого календаря:
+  // Открытие календаря:
+  open() {
+    if (!this.wrap.classList.contains('open')) {
+      this.curDate = new Date();
+      this.setStartDate();
+      this.wrap.classList.add('open');
+      document.addEventListener('click', this.hide);
+    }
+  }
+
+  // Установка даты, на которой следует открыть календарь:
+  setStartDate() {
+    var date = this.getStartDate();
+    if (!date && this.input.dataset.begin) {
+      date = this.getStartDate(this.input.dataset.begin);
+    }
+    date = date || new Date();
+    this.startDate = date;
+    this.currentYear = date.getFullYear();
+    this.currentMonth = date.getMonth();
+    this.updateCalendar();
+  }
+
+  // Получение даты, на которой следует открыть календарь:
+  getStartDate(string) {
+    if (!string) {
+      this.inputValue = this.input.value.replace(/\s/g, '');
+    }
+    var date = this.convertInDate(string || this.inputValue);
+    this.selectedDate = undefined;
+    if (!string && date) {
+      this.selectedDate = date;
+    }
+    return date;
+  }
+
+  // Преобразование строки в дату:
+  convertInDate(string) {
+    if (!string || string.length !== 10) {
+      return;
+    }
+    var date = getDateObj(string, 'dd.mm.yyyy');
+    if (date && date.getFullYear() < '1900') {
+      return;
+    }
+    return date;
+  }
+
+  // Скрытие календаря:
+  hide = event => {
+    if (event && (document.activeElement === this.input || event.target.closest('.calendar-wrap') === this.wrap)) {
+      return;
+    }
+    this.wrap.classList.remove('open');
+    document.removeEventListener('click', this.hide);
+  }
+
+  // Создание/обновление содержимого календаря:
   updateCalendar() {
-    var month = this.currentMonth,
-        year = this.currentYear;
+    var year = this.currentYear,
+        month = this.currentMonth;
     // кол-во дней в месяце
     var daysInMonth = new Date(year, month + 1, 0).getDate();
-    this.tBody.innerHTML = ''; // очищаем календарь
+    // очищаем календарь
+    this.tBody.innerHTML = '';
     // название месяца в календаре
-    this.cMonthNav.innerHTML = this.months[month].fullname + ' ' + year;
-    var date = new Date(year, month, 1); // Первый день выбранного месяца
+    this.cMonthNav.innerHTML = this.months[month] + ' ' + year;
+    // первый день выбранного месяца
+    var date = new Date(year, month, 1);
 
-    //  создание календаря динамически
+    // создание календаря динамически
     while (date.getDate() <= daysInMonth && month == date.getMonth()) {
       var row = document.createElement('tr');
 
       for (var j = 0; j < 7; j++) {
-        //  Приводим отображение календаря к формату пн(0) - вс(6)
+        // приводим отображение календаря к формату пн(0) - вс(6)
         var weekDay = date.getDay();
         if (weekDay === 0) {
           weekDay = 6;
@@ -146,29 +194,17 @@ class Calendar {
           weekDay = weekDay - 1;
         }
 
+        // заполняем календарь
         if (j == weekDay && month == date.getMonth()) {
           var cell = document.createElement('td'),
               cellText = document.createTextNode(date.getDate());
+          this.markCurDate(cell, date);
+          this.markSelectedDate(cell, date);
           cell.classList.add('date-cell');
-
-          if (
-            date.getDate() === this.selectedDate.getDate() &&
-            year === this.selectedDate.getFullYear() &&
-            month === this.selectedDate.getMonth()
-          ) {
-            cell.classList.add('dt-active');
-          }
-
-          date.setDate(date.getDate() + 1);
           cell.appendChild(cellText);
           row.appendChild(cell);
-          cell.addEventListener('click', (e) => {
-            this.selectedDate = new Date(year, month, e.target.innerHTML);
-            if (document.getElementsByClassName('dt-active')[0]) {
-              document.getElementsByClassName('dt-active')[0].classList.remove('dt-active');
-            }
-            e.target.classList.add('dt-active');
-          });
+          cell.addEventListener('click', event => this.selectDate(event));
+          date.setDate(date.getDate() + 1);
         } else {
           var cell = document.createElement('td');
           var cellText = document.createTextNode('');
@@ -180,20 +216,38 @@ class Calendar {
     }
   }
 
-  // Вспомогательный метод для форматирования чисел меньше 10
-  formateTwoDigitNumber(num) {
-    return ('0' + num).slice(-2);
+  // Отметить текущую дату:
+  markCurDate(cell, date) {
+    if (this.currentYear === this.curDate.getFullYear() &&
+      this.currentMonth === this.curDate.getMonth() &&
+      date.getDate() === this.curDate.getDate()
+    ) {
+      cell.classList.add('dt-today');
+    }
+  }
+
+  // Отметить выбранную дату:
+  markSelectedDate(cell, date) {
+    if (!this.selectedDate) {
+      return;
+    }
+    if (this.currentYear === this.selectedDate.getFullYear() &&
+      this.currentMonth === this.selectedDate.getMonth() &&
+      date.getDate() === this.selectedDate.getDate()
+    ) {
+      cell.classList.add('dt-active');
+    }
   }
 
   // Работа кнопки месяц назад
-  previous() {
+  previousMonth() {
     this.currentYear = this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth - 1;
     this.updateCalendar();
   }
 
   // Работа кнопки месяц вперед
-  next() {
+  nextMonth() {
     this.currentYear = this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = this.currentMonth === 11 ? 0 : this.currentMonth + 1;
     this.updateCalendar();
@@ -213,57 +267,119 @@ class Calendar {
     this.updateCalendar();
   }
 
-  // Установка даты:
-  setDate() {
+  // Установка даты в текстовое поле:
+  selectDate(event) {
+    this.selectedDate = new Date(this.currentYear, this.currentMonth, event.currentTarget.innerHTML);
+    this.tBody.querySelectorAll('.dt-active').forEach(el => el.classList.remove('dt-active'));
+    event.currentTarget.classList.add('dt-active');
     this.input.value =
-      this.formateTwoDigitNumber(this.selectedDate.getDate()) +'.' +
-      this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) +'.' +
+      this.formateTwoDigitNumber(this.selectedDate.getDate()) + '.' +
+      this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) + '.' +
       this.selectedDate.getFullYear();
     this.input.dispatchEvent(new Event('change', {'bubbles': true}));
     this.hide();
   }
 
-  // Открытие календаря:
-  open() {
-    this.getStartDate();
-    this.selectedDate = this.savedDate;
-    this.currentMonth = this.savedDate.getMonth();
-    this.currentYear = this.savedDate.getFullYear();
-    this.updateCalendar();
-    this.wrap.classList.add('open');
+  // Вспомогательный метод для форматирования чисел меньше 10
+  formateTwoDigitNumber(num) {
+    return ('0' + num).slice(-2);
+  }
+}
+
+// Класс календаря для выбора периода:
+
+class CalendarRange extends Calendar {
+  constructor(obj) {
+    super(obj);
   }
 
   // Получение даты, на которой следует открыть календарь:
-  getStartDate() {
-    var startDate;
-    if (this.input.value !== '') {
-      startDate = this.input.value;
+  getStartDate(string) {
+    var result = [],
+        isString = string ? true : false;
+    this.dateFrom = undefined;
+    this.dateTo = undefined;
+    if (!string) {
+      string = this.input.value.replace(/\s/g, '');
+    }
+    if (string.length > 10) {
+      string = string.split('-');
+      string.forEach(el => result.push(this.convertInDate(el)));
     } else {
-      if (this.input.dataset.begin) {
-        startDate = this.input.dataset.begin;
-      } else {
-        this.savedDate = new Date();
-        return;
+      result.push(this.convertInDate(string));
+    }
+    result = result.filter(el => el);
+    if (!isString && result.length) {
+      this.dateFrom = result[0];
+      if (result[1] >= this.dateFrom) {
+        this.dateTo = result[1];
       }
     }
-    startDate = startDate.split(/\/|\.|-/);
-    if (startDate.length < 3) {
-      this.savedDate = new Date();
+    return result[0];
+  }
+
+  // Отметить выбранную дату/период:
+  markSelectedDate(cell, date) {
+    if (!this.dateFrom) {
       return;
     }
-    startDate = startDate[2] + '-' + startDate[1] + '-' + startDate[0];
-    this.savedDate = new Date(startDate);
-    if(isNaN(this.savedDate.getTime())) {
-      this.savedDate = new Date();
+    if (this.currentYear === this.dateFrom.getFullYear() &&
+      this.currentMonth === this.dateFrom.getMonth() &&
+      date.getDate() === this.dateFrom.getDate()
+    ) {
+      cell.classList.add('dt-active');
       return;
     }
-    if (this.savedDate.getFullYear() < '1900') {
-      this.savedDate = new Date();
+    if (!this.dateTo) {
+      return;
+    }
+    if (this.currentYear === this.dateTo.getFullYear() &&
+      this.currentMonth === this.dateTo.getMonth() &&
+      date.getDate() === this.dateTo.getDate()
+    ) {
+      cell.classList.add('dt-active');
+      return;
+    }
+    if (date >= this.dateFrom && date <= this.dateTo) {
+      cell.classList.add('dt-between');
     }
   }
 
-  // Скрытие календаря:
-  hide = event => {
-    this.wrap.classList.remove('open');
+  // Установка даты в текстовое поле:
+  selectDate(event) {
+    if (!this.dateFrom || (this.dateFrom && this.dateTo)) {
+      console.log(this.dateFrom);
+      this.dateFrom = new Date(this.currentYear, this.currentMonth, event.currentTarget.innerHTML);
+      if (this.dateFrom && this.dateTo) {
+        this.dateTo = undefined;
+      }
+      this.tBody.querySelectorAll('.date-cell').forEach(el => el.classList.remove('dt-active', 'dt-between'));
+      event.currentTarget.classList.add('dt-active');
+      this.input.value =
+        this.formateTwoDigitNumber(this.dateFrom.getDate()) + '.' +
+        this.formateTwoDigitNumber(this.dateFrom.getMonth() + 1) + '.' +
+        this.dateFrom.getFullYear();
+        return;
+    }
+    if (!this.dateTo) {
+      this.dateTo = new Date(this.currentYear, this.currentMonth, event.currentTarget.innerHTML);
+      if (this.dateTo < this.dateFrom) {
+        this.dateTo = undefined;
+        return;
+      }
+      this.tBody.querySelectorAll('.date-cell').forEach(cell => {
+        var date = new Date(this.currentYear, this.currentMonth, cell.innerHTML);
+        this.markSelectedDate(cell, date)
+      });
+      this.input.value =
+        this.formateTwoDigitNumber(this.dateFrom.getDate()) + '.' +
+        this.formateTwoDigitNumber(this.dateFrom.getMonth() + 1) + '.' +
+        this.dateFrom.getFullYear() + ' - ' +
+        this.formateTwoDigitNumber(this.dateTo.getDate()) + '.' +
+        this.formateTwoDigitNumber(this.dateTo.getMonth() + 1) + '.' +
+        this.dateTo.getFullYear();
+      this.input.dispatchEvent(new Event('change', {'bubbles': true}));
+      this.hide();
+    }
   }
 }
