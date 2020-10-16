@@ -459,8 +459,18 @@ Tablet:
   /* Блок фильтров: */
 
   .filters .pop-up {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     width: 100%;
     max-width: 100%;
+    min-height: 100%;
+  }
+
+  .pop-up .pop-up-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 
   .filters .pop-up-title {
@@ -482,6 +492,7 @@ Tablet:
     padding-bottom: 0;
   }
 
+  .filters .calendar-wrap,
   .filters input[data-type="date"],
   .filters input[data-type="range"],
   .filters .activate {

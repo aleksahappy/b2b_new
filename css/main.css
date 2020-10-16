@@ -796,7 +796,6 @@ input[data-type="range"] {
   width: 99%;
   min-width: 200px;
   max-width: 16.5em;
-  background-color: #FFFFFF;
   box-shadow: 0px 0px 5px rgba(52, 73, 94, 0.05), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 4px 15px rgba(52, 73, 94, 0.1);
   z-index: 1;
 }
@@ -807,13 +806,13 @@ input[data-type="range"] {
 
 .calendar .input-area {
   position: relative;
-  background: #F8F8F8;
+  background-color: #F8F8F8;
 }
 
 .calendar .input-area .month-navigator {
 	display: flex;
 	justify-content: space-between;
-  background: #F2F2F2;
+  background-color: #F2F2F2;
 }
 
 .calendar .input-area .month-navigator .month-previous,
@@ -869,12 +868,12 @@ input[data-type="range"] {
   cursor: pointer;
 }
 
-.calendar .input-area .month-navigator .years-nav .prev-year {
+.calendar .input-area .month-navigator .years-nav .next-year {
   background-image: url("../img/arrow_blue.svg");
   transform: rotate(270deg);
 }
 
-.calendar .input-area .month-navigator .years-nav .next-year {
+.calendar .input-area .month-navigator .years-nav .prev-year {
   background-image: url("../img/arrow_blue.svg");
   transform: rotate(90deg);
 }
@@ -891,7 +890,7 @@ input[data-type="range"] {
 
 .calendar .tbl-calendar thead {
   line-height: 3em;
-  background: #F2F2F2;
+  background-color: #F2F2F2;
 }
 
 .calendar .input-area .tbl-calendar thead th {
@@ -922,9 +921,22 @@ input[data-type="range"] {
   background-color: #E2E2E2;
 }
 
+.calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-today {
+  font-weight: 700;
+  color: #34495E;
+  background-color: #F8F8F8;
+}
+
 .calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-active {
+  font-weight: 400;
   color: #FFFFFF;
-  background-color:#34495E;
+  background-color:#53606F;
+}
+
+.calendar .input-area .tbl-calendar tbody tr td.date-cell.dt-between {
+  font-weight: 400;
+  color: #666666;
+  background-color: #E2E2E2;
 }
 
 /* =====================================================================================================
@@ -1918,7 +1930,7 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate.hover:hover .drop-down,
 .activate.open .drop-down {
-  max-height: 11.2em;
+  max-height: 11.4em;
   opacity: 1;
 }
 
@@ -2872,8 +2884,10 @@ form.post .btns-wrap {
 }
 
 .control .pagination .title {
-  padding: 0 1.643em;
+  min-width: 15em;
+  padding: 0 0.3em;
   font-weight: bold;
+  text-align: center;
 }
 
 .control .search.row {
