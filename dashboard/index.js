@@ -336,7 +336,7 @@ function tableDataSort() {
     for (let i = 0; i < rows.length; i++) {
       let targetBtnsArr = Array.prototype.slice.call(rows[i].querySelectorAll('div'));
       let result = targetBtnsArr.every(function(div) {
-        let targetSt = getComputedStyle(div);
+        let targetSt = window.getComputedStyle(div);
         return targetSt.display === 'none';
       });
 

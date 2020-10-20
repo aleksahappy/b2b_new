@@ -468,7 +468,7 @@ function adaptMenu() {
   if (window.innerWidth > 1080) {
     var container = getEl('#header-menu .container'),
         searchWidth = location.search === '?cart' ? 0 : 5,
-        maxWidth = container.clientWidth - (34 + searchWidth) * parseInt(getComputedStyle(container).fontSize, 10) - getEl('#submenu-hide').clientWidth,
+        maxWidth = container.clientWidth - (34 + searchWidth) * parseInt(window.getComputedStyle(container).fontSize, 10) - getEl('#submenu-hide').clientWidth,
         menuItems = document.querySelectorAll('#header-menu .submenu-item'),
         width = 0,
         isHide = false;
@@ -536,7 +536,7 @@ function setMinCardWidth() {
   }
   var gallery = getEl('#gallery'),
       width = window.innerWidth > 768 ? 18.3 : 17,
-      standartWidth = width * parseInt(getComputedStyle(gallery).fontSize, 10),
+      standartWidth = width * parseInt(window.getComputedStyle(gallery).fontSize, 10),
       countCards = Math.floor(gallery.clientWidth / standartWidth),
       restGallery = gallery.clientWidth - countCards * standartWidth,
       changeMinCard = restGallery / countCards,

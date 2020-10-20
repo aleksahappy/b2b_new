@@ -962,7 +962,7 @@ function switchContent(event) {
   }
   var toggleIcon = getEl('.switch-icon', container);
   if (toggleIcon) {
-    if (getComputedStyle(toggleIcon).display === 'none') {
+    if (window.getComputedStyle(toggleIcon).display === 'none') {
       return;
     }
   }

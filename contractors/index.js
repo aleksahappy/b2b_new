@@ -29,7 +29,7 @@ function initPage(data = []) {
     result: false,
     cols: [{
       title: 'Доступ',
-      width: '5%',
+      width: '6%',
       key: 'access',
       content: '<div class="toggle #access#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
     }, {
