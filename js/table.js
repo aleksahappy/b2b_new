@@ -161,10 +161,10 @@ function createTableContent(id, settings) {
     }
     bodyList += createTableBody(col, settings.sign);
     if (col.width) {
-      changeCss(`#${id} th:nth-child(${index + 1})`, 'width', col.width);
+      changeCss(`#${id} > table > thead > tr > th:nth-child(${index + 1})`, 'width', col.width);
     }
     if (col.align) {
-      changeCss(`#${id} td:nth-child(${index + 1})`, 'text-align', col.align);
+      changeCss(`#${id} > table > tbody > tr > td:nth-child(${index + 1})`, 'text-align', col.align);
     }
   });
 
@@ -216,7 +216,9 @@ function createTableHead(col, index) {
         if (col.search === 'date') {
           search =
           `<form class="search row">
-          <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" onkeypress="return onlyDateChar(event)">
+            <div class="calendar-wrap">
+              <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
+            </div>
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
           </form>`;
@@ -323,7 +325,10 @@ function Table(obj, settings = {}) {
   this.dataToLoad = [];
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.incr = 60;
+  this.incr = 100;
+  this.scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+  this.direction = 'down'
+  this.pageNumb = 0;
   this.prevColumn = null;
   this.nextColumn = null;
   this.startCoord;
@@ -335,9 +340,12 @@ function Table(obj, settings = {}) {
     if (this.tab) {
       this.tab.addEventListener('click', event => this.open(event));
     }
-    window.addEventListener('scroll', throttle(() => {
-      this.scrollTable();
-    }));
+    window.addEventListener('scroll', () => this.scrollTable());
+    document.addEventListener('keydown', event => {
+      if (event.metaKey && event.code === 'ArrowDown') {
+        console.log('вниз');
+      }
+    });
     if (this.pagination) {
       this.pagination.querySelectorAll('.btn').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
     }
@@ -373,7 +381,7 @@ function Table(obj, settings = {}) {
             el.search.push(el[key]);
           }
         }
-        el.search = el.search.join(',').replace(/\s/g, ' ').replace(/\u00A0/g, ' '); // Замена любых пробельных символов на пробелы
+        el.search = el.search.join(',').replace(/\s/g, ' ');
       });
       this.dataToLoad = this.data;
     }
@@ -392,30 +400,53 @@ function Table(obj, settings = {}) {
   }
 
   // Заполнение таблицы данными:
-  this.fill = function(dropDown) {
-    this.loadData(this.dataToLoad);
+  this.fill = function() {
+    this.loadData();
     if (this.head) {
       this.fillResults();
     }
   }
 
   // Загрузка данных в таблицу:
-  this.loadData = function(data) {
-    if (data && data.length === 0) {
+  this.loadData = function(direction) {
+    if (!this.dataToLoad.length) {
       this.body.innerHTML = '';
       return;
     }
-    if (data) {
-      this.countItems = 0;
-    } else {
-      this.countItems = this.countItemsTo;
-    }
-    this.countItemsTo = this.countItems + this.incr;
-    if (this.countItemsTo > this.dataToLoad.length) {
-      this.countItemsTo = this.dataToLoad.length;
-    }
-    if (this.countItems === this.countItemsTo) {
-      return;
+    if (!direction || direction === 'down') {
+      if (!direction) {
+        this.countItems = 0;
+      } else {
+        if (this.direction !== direction) {
+          this.countItems = this.countItems + this.body.querySelectorAll('tr').length;
+          this.direction = direction;
+        } else {
+          this.countItems = this.countItemsTo;
+        }
+      }
+      this.countItemsTo = this.countItems + this.incr;
+      if (this.countItemsTo > this.dataToLoad.length) {
+        this.countItemsTo = this.dataToLoad.length;
+      }
+      if (this.countItems === this.countItemsTo) {
+        return;
+      }
+      this.pageNumb += 1;
+    } else if (direction === 'up') {
+      if (this.direction !== direction) {
+        this.countItemsTo = this.countItemsTo - this.body.querySelectorAll('tr').length;
+        this.direction = direction;
+      } else {
+        this.countItemsTo = this.countItems;
+      }
+      this.countItems = this.countItemsTo - this.incr;
+      if (this.countItems < 0) {
+        this.countItems =  0;
+      }
+      if (this.countItems === this.countItemsTo) {
+        return;
+      }
+      this.pageNumb -= 1;
     }
 
     var tableItems = [];
@@ -430,12 +461,25 @@ function Table(obj, settings = {}) {
       action: 'return'
     });
 
-    if (this.countItems === 0) {
+    if (!direction) {
       this.body.innerHTML = list;
-    } else {
+    } else if (direction === 'down') {
       this.body.insertAdjacentHTML('beforeend', list);
-    };
-    this.setResizeHeight();
+      if (this.countItems - this.incr * 2 >= 0) {
+        for (let i = 0; i < this.incr; i++) {
+          this.body.removeChild(this.body.firstElementChild);
+          console.log("remove first")
+        }
+      }
+    } else if (direction === 'up') {
+      this.body.insertAdjacentHTML('afterbegin', list);
+      if (this.countItemsTo + this.incr * 2 <= this.dataToLoad.length) {
+        for (let i = 0; i < this.incr; i++) {
+          this.body.removeChild(this.body.lastElementChild);
+          console.log("remove last")
+        }
+      }
+    }
     this.fillPagination();
   }
 
@@ -444,20 +488,24 @@ function Table(obj, settings = {}) {
     if (!this.pagination) {
       return;
     }
-    getEl('.cur', this.pagination).textContent = `${this.countItems + 1} - ${this.countItemsTo}`;
+    getEl('.cur', this.pagination).textContent = `${this.incr * (this.pageNumb - 1) + 1} - ${this.incr * this.pageNumb}`;
     getEl('.total', this.pagination).textContent = this.dataToLoad.length;
   }
 
   // Подгрузка таблицы при скролле:
   this.scrollTable = function() {
-    if ((this.wrap.getBoundingClientRect().top + this.wrap.scrollHeight - window.innerHeight) < 200) {
-      this.loadData();
+    var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrolled > this.scrollPos) {
+      if (this.wrap.getBoundingClientRect().bottom - window.innerHeight < window.innerHeight) {
+        this.loadData('down');
+      }
+    } else if (scrolled < this.scrollPos) {
+      if (this.wrap.getBoundingClientRect().top + window.innerHeight * 2  > 0) {
+        this.loadData('up');
+      }
     }
-  }
-
-  // Подгрузка таблицы при пагинации:
-  this.moveTable = function() {
-    
+    this.scrollPos = scrolled;
+    this.setResizeHeight();
   }
 
   // Установка высоты подсветки кнопки ресайза (чтобы не выходила за пределы таблицы):
@@ -468,7 +516,7 @@ function Table(obj, settings = {}) {
     var headerRect = getEl('th', this.head).getBoundingClientRect(),
         bodyRect = this.body.getBoundingClientRect(),
         newHeight =  bodyRect.bottom - headerRect.bottom + 'px';
-    changeCss(`#${this.wrap.id} thead .resize-btn:hover::after`, 'height', newHeight);
+    changeCss(`#${this.wrap.id} > table > thead > tr > th .resize-btn:hover::after`, 'height', newHeight);
   }
 
   // Заполнение фильтров таблицы значениями:
@@ -505,7 +553,7 @@ function Table(obj, settings = {}) {
         items.innerHTML = list;
       }
     });
-    this.checkItems(curDropDown ? curDropDown.dataset.key : '');
+    // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
   }
 
   // Расстановка чекеров на значения после перерендеринга значений:
@@ -538,7 +586,7 @@ function Table(obj, settings = {}) {
         });
       }
       if (result.dataset.type === 'sum') {
-        total = convertPrice(total);
+        total = convertPrice(total, 2);
       }
       result.textContent = total;
     });
@@ -607,7 +655,7 @@ function Table(obj, settings = {}) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.filterData();
     }
-    this.loadData(this.dataToLoad);
+    this.loadData();
   }
 
   // Поиск и фильтрация по столбцу:
@@ -693,7 +741,7 @@ function Table(obj, settings = {}) {
     for (var value of filterValues) {
       if (type === 'search') {
         var regEx = RegExp(value, 'gi');
-        if (itemValue.search(regEx) >= 0) {
+        if (('' + itemValue).search(regEx) >= 0) {
           isFound = true;
         }
       } else {
@@ -721,9 +769,7 @@ function Table(obj, settings = {}) {
       return;
     }
     this.filters = {};
-    this.dropDowns.forEach((el, index) => {
-      this[`dropDown${index}`].clear();
-    });
+    this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
   }
 
   // Полная очистка поиска и фильтрации:
@@ -746,13 +792,14 @@ function Table(obj, settings = {}) {
   }
 
   // Перетаскивание столбца:
-  this.resize = throttle((event) => {
+  this.resize = throttle(event => {
     if (this.prevColumn && this.nextColumn) {
       var tableWidth = this.wrap.offsetWidth,
           offset = event.pageX - this.startCoord,
           newPrevWidth = (this.prevWidth + offset),
-          newNextWidth = (this.nextWidth - offset);
-      if (newPrevWidth > 65 && newNextWidth > 65) {
+          newNextWidth = (this.nextWidth - offset),
+          minWidth = (parseInt(window.getComputedStyle(this.prevColumn).fontSize, 10) * 4.65).toFixed(0);
+      if (newPrevWidth > minWidth && newNextWidth > minWidth) {
         newPrevWidth = (newPrevWidth * 100 / tableWidth) + '%';
         newNextWidth = (newNextWidth * 100 / tableWidth) + '%';
         this.prevColumn.style.width = newPrevWidth;
@@ -776,12 +823,10 @@ function Table(obj, settings = {}) {
     this.prepare();
     this.setEventListeners();
     if (this.search) {
-      this.search = new Search(this.search, this.fullSearch);
+      this.search = initSearch(this.search, this.fullSearch);
     }
     if (this.dropDowns) {
-      this.dropDowns.forEach((el, index) => {
-        this[`dropDown${index}`] = new DropDown(el);
-      });
+      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
     }
     if (this.wrap.classList.contains('active')) {
       this.show();
