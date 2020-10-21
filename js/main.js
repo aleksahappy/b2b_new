@@ -188,7 +188,6 @@ function initModules() {
   initAlerts();
   initUpBtn();
   initTooltips();
-  initPopUps();
   initInputFiles();
 }
 
@@ -580,7 +579,7 @@ function rangeValidate(range) {
       range = range.split('-');
       var dateFrom = getDateObj(range[0], 'dd.mm.yyyy'),
           dateTo = getDateObj(range[1], 'dd.mm.yyyy');
-      if (dateFrom && dateTo && dateFrom <= dateTo) {
+      if (dateFrom && dateTo && dateFrom < dateTo) {
         result.result = true;
       } else {
         isValid = false;
@@ -912,7 +911,7 @@ function onFocusInput(input) {
 // Возвращение значения в инпут при потере им фокуса:
 
 function onBlurInput(input) {
-  input.value = input.dataset.value;
+  input.value = input.dataset.value || '';
 }
 
 // Отображение количества знаков, оставшихся для заполнения в textarea:
@@ -1645,7 +1644,7 @@ function changeQty(event, maxQty, minQty = 0) {
   input.dataset.value = qty;
   changeColors(qtyWrap, qty);
   if (sign) {
-    input.dispatchEvent(new Event('change', {"bubbles": true}));
+    input.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
   }
   return qty;
 }
@@ -1866,15 +1865,15 @@ function toggleBtnGoTop() {
   }
 }
 
-// Вернуться наверх страницы:
+// Прокрутка наверх страницы:
 
 function goToTop() {
   var scrolled = window.pageYOffset;
-  if (scrolled > 0 && scrolled <= 5000) {
-    window.scrollBy(0, -80);
+  if (scrolled > 0 && scrolled <= 1500) {
+    window.scrollBy(0, -150);
     setTimeout(goToTop, 0);
-  } else if (scrolled > 5000) {
-    window.scrollTo(0, 5000);
+  } else if (scrolled > 1500) {
+    window.scrollTo(0, 1500);
     goToTop();
   }
 }
@@ -1882,12 +1881,6 @@ function goToTop() {
 //=====================================================================================================
 // Работа всплывающих окон:
 //=====================================================================================================
-
-function initPopUps() {
-  document.querySelectorAll('.pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
-  document.addEventListener('keydown', (event) => closePopUp(event));
-  window.addEventListener('resize', closeFiltersPopUp);
-}
 
 // Открытие всплывающего окна:
 
@@ -1904,6 +1897,11 @@ function openPopUp(el, event) {
       el.style.opacity = '0';
     }
     showElement(el, 'flex');
+    document.addEventListener('click', closePopUp);
+    document.addEventListener('keydown', closePopUp);
+    if (el.classList.contains('filters')) {
+      window.addEventListener('resize', closeFilterPopUp);
+    }
     setTimeout(() => {
       el.classList.add('open');
       el.scrollTop = 0;
@@ -1929,7 +1927,7 @@ function closePopUp(event, el) {
       ) {
         return;
       }
-      el = event.currentTarget;
+      el = event.target.closest('.pop-up-container');
     }
   } else {
     el = getEl(el);
@@ -1938,6 +1936,11 @@ function closePopUp(event, el) {
     loader.hide();
     // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => showElement(el, 'flex'));
     el.classList.remove('open');
+    document.removeEventListener('click', closePopUp);
+    document.removeEventListener('keydown', closePopUp);
+    if (el.classList.contains('filters')) {
+      window.removeEventListener('resize', closeFilterPopUp);
+    }
     setTimeout(() => {
       hideElement(el);
       if (!document.querySelector('.pop-up-container.open')) {
@@ -1950,7 +1953,7 @@ function closePopUp(event, el) {
 
 // Автоматическое закрытие блоков фильтров на разрешении больше 1080px:
 
-function closeFiltersPopUp() {
+function closeFilterPopUp() {
   clearTimeout(window.resizedFinished);
   window.resizedFinished = setTimeout(function(){
     if (window.innerWidth > 1080) {
@@ -2182,7 +2185,6 @@ function Alerts(obj) {
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     this.btns.forEach(el => el.addEventListener('click', event => this.confirmHandler(event)));
-    document.addEventListener('keydown', event => this.confirmHandler(event));
   }
   this.setEventListeners();
 
@@ -2203,22 +2205,21 @@ function Alerts(obj) {
     this.callback = callback;
     this.alerts.classList.add('confirm');
     this.show(question);
+    document.addEventListener('keydown', this.confirmHandler);
   }
 
   // Обработчик событий для кнопок согласия/отмены:
-  this.confirmHandler = function(event) {
-    if (!this.alerts.classList.contains('open')) {
+  this.confirmHandler = event => {
+    if (event.type === 'keydown' && (!event.code || (event.code.toLowerCase() !== 'enter' && event.code.toLowerCase() !== 'escape'))) {
       return;
     }
-    if (event.type === 'keydown' && !event.code || event.type === 'keydown' && event.code.toLowerCase() !== 'enter') {
-      return;
-    }
-    if (this.callback && (event.type === 'keydown' || event.currentTarget.classList.contains('accept'))) {
+    if (this.callback && (event.code && event.code.toLowerCase() === 'enter') || event.currentTarget.classList.contains('accept')) {
       this.callback();
       this.callback = null;
     }
     this.alerts.classList.remove('confirm');
     this.hide();
+    document.removeEventListener('keydown', this.confirmHandler);
   };
 
   // Скрытие окна сообщений:
@@ -2502,6 +2503,7 @@ function Search(obj, callback) {
   this.obj = obj;
   this.activate = obj.closest('.activate');
   this.input = getEl('input[type="text"]', obj);
+  this.calendar = this.input.closest('.calendar-wrap');
   this.searchBtn = getEl('.search', obj);
   this.cancelBtn = getEl('.close', obj);
   this.result = getEl(`[data-search="${this.obj.id}"]`);
@@ -2515,7 +2517,7 @@ function Search(obj, callback) {
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
-    this.input.addEventListener('change', event => event.stopPropagation());
+    this.input.addEventListener('change', event => event.detail ? this.search() : event.stopPropagation());
     this.obj.addEventListener('submit', event => {
       event.preventDefault();
       if (this.type !== 'inSearchBox') {
@@ -2523,14 +2525,11 @@ function Search(obj, callback) {
       }
     });
     if (!this.obj.classList.contains('positioned')) {
-      if (this.type === 'inSearchBox') {
-        this.input.addEventListener('focus', () => onFocusInput(this.input));
-      }
-      this.input.addEventListener('blur', () => {
-        setTimeout(() => {
-          onBlurInput(this.input);
-          this.toggleHints();
-        }, 100);
+      this.input.addEventListener('focus', () => {
+        document.addEventListener('click', this.blurInput);
+        if (this.type === 'inSearchBox') {
+          onFocusInput(this.input);
+        }
       });
     }
     if (this.items) {
@@ -2547,6 +2546,16 @@ function Search(obj, callback) {
     if (this.result) {
       getEl('.pill', this.result).addEventListener('click', (event) => this.cancel(event));
     }
+  }
+
+// Возвращение значения в инпут при потере фокуса поиском:
+  this.blurInput = event => {
+    if (event && event.target.closest('form.search') === this.obj) {
+      return;
+    }
+    onBlurInput(this.input);
+    this.toggleHints();
+    document.removeEventListener('click', this.blurInput);
   }
 
   // Отображение подсказок:
@@ -2611,14 +2620,14 @@ function Search(obj, callback) {
   // Поиск:
   this.search = function(event) {
     var textToFind = this.input.value.trim();
-    if (event.type === 'submit' && !/\S/.test(textToFind)) {
+    if (!/\S/.test(textToFind)) {
       return;
     }
     this.input.dataset.value = this.input.value;
-    textToFind = textToFind.replace(/\s*\,\s*/gm, ',').replace(/\s*\/\s*/gi, '/');
     if (this.type === 'inSearchBox') {
       return;
     }
+    textToFind = textToFind.replace(/\s*\,\s*/gm, ',').replace(/\s*\/\s*/gi, '/');
     if (callback) {
       var length = callback(this.obj, textToFind);
     }
@@ -2649,6 +2658,9 @@ function Search(obj, callback) {
       this.input.focus();
     }
     this.clear();
+    if (this.calendar) {
+      this.input.dispatchEvent(new CustomEvent('input', {'bubbles': true}));
+    }
     if (callback) {
       callback(this.obj);
     }
@@ -2670,11 +2682,10 @@ function Search(obj, callback) {
 
   // Инициализация поиска:
   this.init = function() {
-    var calendar = this.input.closest('.calendar-wrap');
-    if (calendar) {
-      initCalendar(calendar);
-    }
     this.setEventListeners();
+    if (this.calendar) {
+      initCalendar(this.calendar);
+    }
   }
   this.init();
 }
@@ -2816,7 +2827,7 @@ function DropDown(obj) {
       }
       item.classList.add('checked');
     }
-    item.dispatchEvent(new Event('change', {"bubbles": true}));
+    item.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
   }
 
   // Поиск значения:
@@ -2827,7 +2838,7 @@ function DropDown(obj) {
     var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
     this.changeTitle(newTitle);
     this.writeValue(textToFind);
-    search.dispatchEvent(new Event('change', {"bubbles": true}));
+    search.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
   }
 
   // Выбор значения из списка:
@@ -2844,13 +2855,13 @@ function DropDown(obj) {
     var value;
     if (this.obj.classList.contains('select')) {
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
-      curItem.classList.add('checked');
-      if (curItem.dataset.value === '') {
+      if (curItem.dataset.value === 'default') {
         this.changeTitle();
       } else {
         this.changeTitle(curItem.textContent);
+        curItem.classList.add('checked');
       }
-      value = curItem.dataset.value;
+      value = curItem.dataset.value === 'default' ? '' : curItem.dataset.value;
       if (!this.obj.classList.contains('box')) {
         this.obj.classList.remove('open');
       }
@@ -2867,7 +2878,7 @@ function DropDown(obj) {
       }
     }
     this.writeValue(value);
-    curItem.dispatchEvent(new Event('change', {"bubbles": true}));
+    curItem.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
   }
 
   // Установка значения:
