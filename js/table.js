@@ -341,11 +341,11 @@ function Table(obj, settings = {}) {
       this.tab.addEventListener('click', event => this.open(event));
     }
     window.addEventListener('scroll', () => this.scrollTable());
-    document.addEventListener('keydown', event => {
-      if (event.metaKey && event.code === 'ArrowDown') {
-        console.log('вниз');
-      }
-    });
+    // document.addEventListener('keydown', event => {
+    //   if (event.metaKey && event.code === 'ArrowDown') {
+    //     console.log('вниз');
+    //   }
+    // });
     if (this.pagination) {
       this.pagination.querySelectorAll('.btn').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
     }

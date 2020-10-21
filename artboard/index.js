@@ -35,12 +35,12 @@ document.querySelectorAll('.filters').forEach(el => {
 
 // Созание примера данных для таблицы:
 var data2 = [];
-for (var i = 0; i < 200; i++) {
+for (var i = 0; i < 600; i++) {
   data2.push({
     access: 'checked',
     inn: '9731002289/637584',
-    // contr: (parseInt(i, 10) + 1),
-    contr: 'ООО, Пилот' + (parseInt(i, 10) + 1),
+    contr: (i + 1) * 2 - 1,
+    // contr: 'ООО, Пилот' + (parseInt(i, 10) + 1),
     system: 'Упрощенная',
     date: '29.10.2016',
     address: '119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4',
@@ -67,7 +67,8 @@ for (var i = 0; i < 200; i++) {
   data2.push({
     access: '',
     inn: '97320002134/637554',
-    contr: 'ООО, Магнолия' + (1 + i),
+    contr: (i + 1) * 2,
+    // contr: 'ООО, Магнолия' + (1 + i),
     system: 'Основная',
     date: '01.10.2018',
     address: '443035, г. Самара, просп. Ленина, д. 3, офис 59',
@@ -97,7 +98,7 @@ var settings = {
   result: false,
   cols: [{
     title: 'Доступ',
-    width: '5%',
+    width: '6%',
     key: 'access',
     content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
   }, {

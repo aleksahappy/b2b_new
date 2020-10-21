@@ -207,7 +207,6 @@ function addCatalogModules() {
   includeHTML();
 
   popUpModules.insertBefore(getEl('#full-card-container'), popUpModules.firstElementChild);
-  document.querySelectorAll(':not(#modules) .pop-up-container').forEach(el => el.addEventListener('click', (event) => closePopUp(event)));
   minCard = getEl('.min-card');
   bigCard = getEl('.big-card');
 }

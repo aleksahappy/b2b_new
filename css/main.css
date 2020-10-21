@@ -458,7 +458,7 @@ body.no-scroll {
 Цветовая гамма статусов заказа:
 ===================================================================================================== */
 
-/* По умолчанию - текст и обводка 100% цвета */
+/* Текст и обводка 100% цвета */
 
 .vputi {
   color: #2C6DA8;
@@ -487,7 +487,7 @@ body.no-scroll {
   border: 1px solid #8596A6;
 }
 
-/* По умолчанию - заливка 10% цвета */
+/* Заливка 10% цвета */
 
 .vputi.c10 {
   background-color: #EAF0F6;
@@ -511,7 +511,7 @@ body.no-scroll {
   background-color: #E7EAED;
 }
 
-/* По умолчанию - заливка 30% цвета */
+/* Заливка 30% цвета */
 
 .vputi.c30 {
   background-color: #C0D3E5;
@@ -2912,7 +2912,7 @@ form.post .btns-wrap {
   display: none;
   width: 100%;
   max-width: 100%;
-  min-height: 22.5em;
+  min-height: 32em;
   visibility: hidden;
 }
 
