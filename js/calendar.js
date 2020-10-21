@@ -109,6 +109,12 @@ class Calendar {
     this.cYearPrev.addEventListener('click', () => this.previousYear());
     // год вперед
     this.cYearNext.addEventListener('click', () => this.nextYear());
+    // установка даты в текстовое поле:
+    this.tBody.addEventListener('click', event => {
+      if (event.target.classList.contains('date-cell')) {
+        this.selectDate(event);
+      }
+    });
   }
 
   // Открытие календаря:
@@ -174,12 +180,12 @@ class Calendar {
         month = this.currentMonth;
     // кол-во дней в месяце
     var daysInMonth = new Date(year, month + 1, 0).getDate();
-    // очищаем календарь
-    this.tBody.innerHTML = '';
     // название месяца в календаре
-    this.cMonthNav.innerHTML = this.months[month] + ' ' + year;
+    this.cMonthNav.textContent = this.months[month] + ' ' + year;
     // первый день выбранного месяца
     var date = new Date(year, month, 1);
+    // очищаем календарь
+    this.tBody.innerHTML = '';
 
     // создание календаря динамически
     while (date.getDate() <= daysInMonth && month == date.getMonth()) {
@@ -203,7 +209,6 @@ class Calendar {
           cell.classList.add('date-cell');
           cell.appendChild(cellText);
           row.appendChild(cell);
-          cell.addEventListener('click', event => this.selectDate(event));
           date.setDate(date.getDate() + 1);
         } else {
           var cell = document.createElement('td');
@@ -269,14 +274,14 @@ class Calendar {
 
   // Установка даты в текстовое поле:
   selectDate(event) {
-    this.selectedDate = new Date(this.currentYear, this.currentMonth, event.currentTarget.innerHTML);
+    this.selectedDate = new Date(this.currentYear, this.currentMonth, event.target.textContent);
     this.tBody.querySelectorAll('.dt-active').forEach(el => el.classList.remove('dt-active'));
-    event.currentTarget.classList.add('dt-active');
+    event.target.classList.add('dt-active');
     this.input.value =
       this.formateTwoDigitNumber(this.selectedDate.getDate()) + '.' +
       this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) + '.' +
       this.selectedDate.getFullYear();
-    this.input.dispatchEvent(new Event('change', {'bubbles': true}));
+      this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar'}, {'bubbles': true}));
     this.hide();
   }
 
@@ -311,7 +316,7 @@ class CalendarRange extends Calendar {
     result = result.filter(el => el);
     if (!isString && result.length) {
       this.dateFrom = result[0];
-      if (result[1] >= this.dateFrom) {
+      if (result[1] > this.dateFrom) {
         this.dateTo = result[1];
       }
     }
@@ -340,7 +345,7 @@ class CalendarRange extends Calendar {
       cell.classList.add('dt-active');
       return;
     }
-    if (date >= this.dateFrom && date <= this.dateTo) {
+    if (date > this.dateFrom && date < this.dateTo) {
       cell.classList.add('dt-between');
     }
   }
@@ -348,13 +353,12 @@ class CalendarRange extends Calendar {
   // Установка даты в текстовое поле:
   selectDate(event) {
     if (!this.dateFrom || (this.dateFrom && this.dateTo)) {
-      console.log(this.dateFrom);
-      this.dateFrom = new Date(this.currentYear, this.currentMonth, event.currentTarget.innerHTML);
+      this.dateFrom = new Date(this.currentYear, this.currentMonth, event.target.textContent);
       if (this.dateFrom && this.dateTo) {
         this.dateTo = undefined;
       }
       this.tBody.querySelectorAll('.date-cell').forEach(el => el.classList.remove('dt-active', 'dt-between'));
-      event.currentTarget.classList.add('dt-active');
+      event.target.classList.add('dt-active');
       this.input.value =
         this.formateTwoDigitNumber(this.dateFrom.getDate()) + '.' +
         this.formateTwoDigitNumber(this.dateFrom.getMonth() + 1) + '.' +
@@ -362,13 +366,13 @@ class CalendarRange extends Calendar {
         return;
     }
     if (!this.dateTo) {
-      this.dateTo = new Date(this.currentYear, this.currentMonth, event.currentTarget.innerHTML);
-      if (this.dateTo < this.dateFrom) {
+      this.dateTo = new Date(this.currentYear, this.currentMonth, event.target.textContent);
+      if (this.dateTo <= this.dateFrom) {
         this.dateTo = undefined;
         return;
       }
       this.tBody.querySelectorAll('.date-cell').forEach(cell => {
-        var date = new Date(this.currentYear, this.currentMonth, cell.innerHTML);
+        var date = new Date(this.currentYear, this.currentMonth, cell.textContent);
         this.markSelectedDate(cell, date)
       });
       this.input.value =
@@ -378,7 +382,7 @@ class CalendarRange extends Calendar {
         this.formateTwoDigitNumber(this.dateTo.getDate()) + '.' +
         this.formateTwoDigitNumber(this.dateTo.getMonth() + 1) + '.' +
         this.dateTo.getFullYear();
-      this.input.dispatchEvent(new Event('change', {'bubbles': true}));
+        this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar'}, {'bubbles': true}));
       this.hide();
     }
   }
