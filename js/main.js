@@ -531,132 +531,6 @@ function deleteCookie(key) {
 }
 
 //=====================================================================================================
-// Валидация полей формы:
-//=====================================================================================================
-
-// Регулярные выражения для валидации полей форм:
-
-var textValidate = /[^\s]{2,}/;
-var nameValidate = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
-var cyrilValidate = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
-var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var nicknameValidate =/^\w+@*\w+\.*\w*$/;
-var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
-var siteValidate = /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/;
-var dateValidate = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
-
-// Валидация телефонного номера:
-
-function telValidate(tel) {
-  var result = {result: false, error: null};
-  if (tel.match(/\d/g).length < 11) {
-    result.error = 'Введены не все цифры номера';
-  } else if (tel.match(/\d/g).length > 11) {
-    result.error = 'Введены лишние цифры';
-  } else {
-    tel = tel.replace(/\s/g, '');
-    if (/^([\+]*[7|8])((\(*\d{3}\)*)|(\-*\d{3}\-*))(\d{3}-*)(\d{2}-*)(\d{2})$/.test(tel)) {
-      result.result = true;
-    } else {
-      result.error = 'Номер введен неверно';
-    }
-  }
-  return result;
-}
-
-// Валидация периода дат:
-
-function rangeValidate(range) {
-  var result = {result: false, error: null};
-  range = range.replace(/\s/g, '');
-  if (!range.length) {
-    result.error = 'Период пуст';
-  } else if (range.length !== 21) {
-		result.error = 'Недостаточное количество символов';
-	} else {
-    var isValid = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))\-(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/.test(range);
-    if (isValid) {
-      range = range.split('-');
-      var dateFrom = getDateObj(range[0], 'dd.mm.yyyy'),
-          dateTo = getDateObj(range[1], 'dd.mm.yyyy');
-      if (dateFrom && dateTo && dateFrom < dateTo) {
-        result.result = true;
-      } else {
-        isValid = false;
-      }
-    }
-    if (!isValid) {
-      result.error = 'Неправильно введен период';
-    }
-	}
-	return result;
-}
-
-// Валидация ИНН:
-
-function innValidate(inn) {
-  var result = {result: false, error: null};
-  if (typeof inn === 'number') {
-		inn = inn.toString();
-	} else if (typeof inn !== 'string') {
-		inn = '';
-	}
-	if (!inn.length) {
-		result.error = 'ИНН пуст';
-  } else if ([10, 12].indexOf(inn.length) === -1) {
-		result.error = 'ИНН может состоять только из 10 или 12 цифр';
-	} else {
-		var checkDigit = function (inn, coefficients) {
-			var n = 0;
-			for (var i in coefficients) {
-				n += coefficients[i] * inn[i];
-			}
-			return parseInt(n % 11 % 10);
-		};
-		switch (inn.length) {
-			case 10:
-				var n10 = checkDigit(inn, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
-				if (n10 === parseInt(inn[9])) {
-					result.result = true;
-				}
-				break;
-			case 12:
-				var n11 = checkDigit(inn, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
-				var n12 = checkDigit(inn, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
-				if ((n11 === parseInt(inn[10])) && (n12 === parseInt(inn[11]))) {
-					result.result = true;
-				}
-				break;
-		}
-		if (!result.result) {
-			result.error = 'Неправильное контрольное число';
-		}
-	}
-	return result;
-}
-
-// Валидация КПП:
-
-function kppValidate(kpp) {
-	var result = {result: false, error: null};
-	if (typeof kpp === 'number') {
-		kpp = kpp.toString();
-	} else if (typeof kpp !== 'string') {
-		kpp = '';
-	}
-	if (!kpp.length) {
-		result.error = 'КПП пуст';
-	} else if (kpp.length !== 9) {
-		result.error = 'КПП может состоять только из 9 знаков';
-	} else if (!/^[0-9]{4}[0-9A-Z]{2}[0-9]{3}$/.test(kpp)) {
-		result.error = 'Неправильный формат КПП';
-	} else {
-		result.result = true;
-	}
-	return result;
-}
-
-//=====================================================================================================
 // Работа с данными корзины:
 //=====================================================================================================
 
@@ -2229,57 +2103,129 @@ function Alerts(obj) {
 }
 
 //=====================================================================================================
-// Работа с формами:
+// Валидация полей формы:
 //=====================================================================================================
 
-// Инициализация формы:
+// Регулярные выражения для валидации полей форм:
 
-function initForm(el, callback) {
-  el = getEl(el);
-  if (el) {
-    if (el.id) {
-      return window[`${el.id}Form`] = new Form(el, callback);
+var textValidate = /[^\s]{2,}/;
+var nameValidate = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
+var cyrilValidate = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
+var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var nicknameValidate =/^\w+@*\w+\.*\w*$/;
+var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
+var siteValidate = /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/;
+var dateValidate = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+
+// Валидация телефонного номера:
+
+function telValidate(tel) {
+  var result = {result: false, error: null};
+  if (tel.match(/\d/g).length < 11) {
+    result.error = 'Введены не все цифры номера';
+  } else if (tel.match(/\d/g).length > 11) {
+    result.error = 'Введены лишние цифры';
+  } else {
+    tel = tel.replace(/\s/g, '');
+    if (/^([\+]*[7|8])((\(*\d{3}\)*)|(\-*\d{3}\-*))(\d{3}-*)(\d{2}-*)(\d{2})$/.test(tel)) {
+      result.result = true;
     } else {
-      return new Form(el, callback);
+      result.error = 'Номер введен неверно';
     }
   }
+  return result;
 }
 
-// Очистка формы:
+// Валидация периода дат:
 
-function clearForm(el) {
-  var el = getEl(el);
-  if (window[`${el.id}Form`]) {
-    window[`${el.id}Form`].clear();
-  }
-}
-
-// Заполнение формы данными (полное перезаполнение или частичное заполнение):
-
-function fillForm(el, data) {
-  var el = getEl(el);
-  if (!el || !data) {
-    return;
-  }
-  clearForm(el);
-  // console.log(data);
-  var fields = [], type;
-  for (var key in data) {
-    fields = el.querySelectorAll(`[name="${key}"]`);
-    fields.forEach(field => {
-      type = field.getAttribute('type');
-      if (type === 'radio' || type === 'checkbox') {
-        if (field.value.toLowerCase() === data[key].toLowerCase()) {
-          field.setAttribute('checked', 'checked');
-        }
+function rangeValidate(range) {
+  var result = {result: false, error: null};
+  range = range.replace(/\s/g, '');
+  if (!range.length) {
+    result.error = 'Период пуст';
+  } else if (range.length !== 21) {
+		result.error = 'Недостаточное количество символов';
+	} else {
+    var isValid = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))\-(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[123456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/.test(range);
+    if (isValid) {
+      range = range.split('-');
+      var dateFrom = getDateObj(range[0], 'dd.mm.yyyy'),
+          dateTo = getDateObj(range[1], 'dd.mm.yyyy');
+      if (dateFrom && dateTo && dateFrom < dateTo) {
+        result.result = true;
       } else {
-        if (type === 'hidden' && field.closest('.activate')) {
-          window[`${el.id}Form`][`dropDown${field.getAttribute('name')}`].setValue(data[key]);
-        }
-        field.value = data[key];
+        isValid = false;
       }
-    });
-  }
+    }
+    if (!isValid) {
+      result.error = 'Неправильно введен период';
+    }
+	}
+	return result;
+}
+
+// Валидация ИНН:
+
+function innValidate(inn) {
+  var result = {result: false, error: null};
+  if (typeof inn === 'number') {
+		inn = inn.toString();
+	} else if (typeof inn !== 'string') {
+		inn = '';
+	}
+	if (!inn.length) {
+		result.error = 'ИНН пуст';
+  } else if ([10, 12].indexOf(inn.length) === -1) {
+		result.error = 'ИНН может состоять только из 10 или 12 цифр';
+	} else {
+		var checkDigit = function (inn, coefficients) {
+			var n = 0;
+			for (var i in coefficients) {
+				n += coefficients[i] * inn[i];
+			}
+			return parseInt(n % 11 % 10);
+		};
+		switch (inn.length) {
+			case 10:
+				var n10 = checkDigit(inn, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				if (n10 === parseInt(inn[9])) {
+					result.result = true;
+				}
+				break;
+			case 12:
+				var n11 = checkDigit(inn, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				var n12 = checkDigit(inn, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				if ((n11 === parseInt(inn[10])) && (n12 === parseInt(inn[11]))) {
+					result.result = true;
+				}
+				break;
+		}
+		if (!result.result) {
+			result.error = 'Неправильное контрольное число';
+		}
+	}
+	return result;
+}
+
+// Валидация КПП:
+
+function kppValidate(kpp) {
+	var result = {result: false, error: null};
+	if (typeof kpp === 'number') {
+		kpp = kpp.toString();
+	} else if (typeof kpp !== 'string') {
+		kpp = '';
+	}
+	if (!kpp.length) {
+		result.error = 'КПП пуст';
+	} else if (kpp.length !== 9) {
+		result.error = 'КПП может состоять только из 9 знаков';
+	} else if (!/^[0-9]{4}[0-9A-Z]{2}[0-9]{3}$/.test(kpp)) {
+		result.error = 'Неправильный формат КПП';
+	} else {
+		result.result = true;
+	}
+	return result;
 }
 
 // Проверка инпута на валидность:
@@ -2316,6 +2262,41 @@ function testValue(value, regExp) {
     }
   }
   return false;
+}
+
+//=====================================================================================================
+// Работа с формами:
+//=====================================================================================================
+
+// Инициализация формы:
+
+function initForm(el, callback) {
+  el = getEl(el);
+  if (el) {
+    if (el.id) {
+      return window[`${el.id}Form`] = new Form(el, callback);
+    } else {
+      return new Form(el, callback);
+    }
+  }
+}
+
+// Очистка формы:
+
+function clearForm(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Form`]) {
+    window[`${el.id}Form`].clear();
+  }
+}
+
+// Заполнение формы данными:
+
+function fillForm(el, data) {
+  var el = getEl(el);
+  if (window[`${el.id}Form`] && data) {
+    window[`${el.id}Form`].fill(data);
+  }
 }
 
 // Объект формы:
@@ -2459,15 +2440,41 @@ function Form(obj, callback) {
     this.toggleBtn();
   }
 
-    // Инициализация формы:
-    this.init = function() {
-      this.isSubmit = false;
-      this.toggleBtn();
-      this.setEventListeners();
-      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
-      this.calendars.forEach(el => initCalendar(el));
+  // Заполнение формы данными (полное перезаполнение):
+  this.fill = function(data) {
+    this.clear();
+    // console.log(data);
+    var fields = [], type;
+    for (var key in data) {
+      fields = this.form.querySelectorAll(`[name="${key}"]`);
+      fields.forEach(field => {
+        type = field.getAttribute('type');
+        if (type === 'radio' || type === 'checkbox') {
+          if (field.value.toLowerCase() === data[key].toLowerCase()) {
+            field.setAttribute('checked', 'checked');
+          }
+        } else if (type === 'hidden' && field.closest('.activate')) {
+          this.dropDowns.forEach((el, index) => {
+            if (getEl('input', el) === field) {
+              this[`dropDown${index}`].setValue(data[key]);
+            }
+          });
+        } else {
+          field.value = data[key];
+        }
+      });
     }
-    this.init();
+  }
+
+  // Инициализация формы:
+  this.init = function() {
+    this.isSubmit = false;
+    this.toggleBtn();
+    this.setEventListeners();
+    this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
+    this.calendars.forEach(el => initCalendar(el));
+  }
+  this.init();
 }
 
 //=====================================================================================================
@@ -2696,17 +2703,23 @@ function Search(obj, callback) {
 
 // Инициализация выпадающего списка:
 
-function initDropDown(el, handler) {
+function initDropDown(el, handler, data, defaultValue) {
   el = getEl(el);
   if (el) {
-    if (handler) {
-      el.addEventListener('change', event => handler(event));
-    }
     if (el.id) {
-      return window[`${el.id}Dropdown`] = new DropDown(el);
+      return window[`${el.id}Dropdown`] = new DropDown(el, data, handler, defaultValue);
     } else {
-      return new DropDown(el);
+      return new DropDown(el, data);
     }
+  }
+}
+
+// Заполнение выпадающего списка данными:
+
+function fillDropDown(el, data, defaultValue) {
+  var el = getEl(el);
+  if (window[`${el.id}Dropdown`]) {
+    window[`${el.id}Dropdown`].fillItems(data, defaultValue);
   }
 }
 
@@ -2721,15 +2734,16 @@ function clearDropDown(el) {
 
 // Установка значения выпадающего списка:
 
-function setValueDropDown(id, value) {
-  if (window[`${id}Dropdown`]) {
-    window[`${id}Dropdown`].setValue(value);
+function setValueDropDown(el, value) {
+  var el = getEl(el);
+  if (window[`${el.id}Dropdown`]) {
+    window[`${el.id}Dropdown`].setValue(value);
   }
 }
 
 // Объект выпадающего списка:
 
-function DropDown(obj) {
+function DropDown(obj, handler, data, defaultValue) {
   // Элементы для работы:
   this.obj = obj;
   this.hiddenInput = getEl('input[type="hidden"]', obj);
@@ -2748,6 +2762,9 @@ function DropDown(obj) {
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
+    if (handler) {
+      this.obj.addEventListener('change', event => handler(event));
+    }
     if (this.head) {
       this.head.addEventListener('click', event => this.toggle(event));
     }
@@ -2793,6 +2810,23 @@ function DropDown(obj) {
     }
     this.obj.classList.remove('open');
     document.removeEventListener('click', this.close);
+  }
+
+  // Заполнение выпадающего списка:
+  this.fillItems = function(data, defaultValue) {
+    if (!this.items || !data) {
+      return;
+    }
+    if (!this.items.id) {
+      this.items.id = this.obj.id + 'Items';
+    }
+    fillTemplate({
+      area: this.items,
+      items: data
+    });
+    if (defaultValue && this.obj.classList.contains('select')) {
+      this.items.insertAdjacentHTML('afterbegin', `<div class="item" data-value="default">${defaultValue}</div>`)
+    }
   }
 
   // Изменение заголовка:
@@ -2919,6 +2953,9 @@ function DropDown(obj) {
     this.setEventListeners();
     if (this.search) {
       this.search = initSearch(this.search, this.searchValue);
+    }
+    if (data) {
+      this.fillItems(data);
     }
   }
   this.init();
