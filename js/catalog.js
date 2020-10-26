@@ -405,21 +405,36 @@ function addManufInfo(item) {
       manufRow,
       value;
   for (var man in item.manuf.man) {
+    var newMan = man.trim().replace(/с/g, 'c');
+    if (man !== newMan) {
+      item.manuf.man[newMan] = JSON.parse(JSON.stringify(item.manuf.man[man]));
+      delete item.manuf.man[man];
+    }
     manufTableRow = {};
     manufRow = {};
     for (var k in item.manuf) {
       value = [];
       for (var kk in item.manuf[k]) {
-        item.search.push(kk);
+        var newKK = kk.trim().replace(/с/g, 'c');
+        if (kk !== newKK) {
+          item.manuf[k][newKK] = JSON.parse(JSON.stringify(item.manuf[k][kk]));
+          delete item.manuf[k][kk];
+        }
         if (k === 'man') {
-          value.push(kk);
+          value.push(newKK);
         } else {
-          for (var kkk in item.manuf[k][kk]) {
-            if (kkk == man) {
-              value.push(kk);
+          for (var kkk in item.manuf[k][newKK]) {
+            var newKKK = kkk.trim().replace(/с/g, 'c');
+            if (kkk !== newKKK) {
+              item.manuf[k][newKK][newKKK] = JSON.parse(JSON.stringify(item.manuf[k][newKK][kkk]));
+              delete item.manuf[k][newKK][kkk];
+            }
+            if (newKKK == man) {
+              value.push(newKK);
             }
           }
         }
+        item.search.push(newKK);
       }
       manufRow[k] = value;
       value = value.join(', ');
@@ -490,7 +505,7 @@ function adaptMenu() {
   }
 }
 
-// Изменение позиционирования меню фильтров:
+// Изменение позиционирования меню фильтров (на данный момент не задействована):
 
 function setFiltersPosition() {
   if (window.innerWidth > 1080) {
@@ -755,7 +770,7 @@ function renderGallery() {
   showElement('#content', 'flex');
   toggleEventListeners('on');
   initFilters(filter);
-  toggleView(window.innerWidth > 499 ? 'blocks' : 'list');
+  toggleView(view ? view : (window.innerWidth > 499 ? 'blocks' : 'list'));
   showCards();
 }
 
@@ -787,14 +802,14 @@ function toggleEventListeners(toggle) {
 // Запуск обработчиков событий при скролле:
 
 function scrollActs() {
-  setFiltersPosition();
+  setFiltersHeight();
   scrollGallery();
 }
 
 // Запуск обработчиков событий при ресайзе:
 
 function resizeActs() {
-  setFiltersPosition();
+  setFiltersHeight();
   setMinCardWidth()
   setView();
   scrollGallery();
@@ -866,6 +881,7 @@ function clearFilters(event) {
 
 function initFiltersCatalog() {
   var data = checkFiltersIsNeed();
+  console.log(data);
   fillTemplate({
     area: '#catalog-filters',
     items: data,
@@ -987,10 +1003,9 @@ function selectFilterCatalog(event, curEl) {
   }
   var filters = getInfo('filters')[pageUrl];
   if (!filters || isEmptyObj(filters)) {
-    selectedItems = '';
-    showCards();
-  } else {
     selectCards('catalog');
+  } else {
+    selectCards('catalog', true);
   }
   toggleToActualFilters(curEl);
   createFiltersInfo();
@@ -1229,7 +1244,6 @@ function clearFiltersInfo() {
 
 function initFiltersZip() {
   var zipFilters = getEl('#zip-filters');
-
   if (!zipFilters) {
     return;
   }
@@ -1294,12 +1308,12 @@ function getFilterZipData(key) {
     if (item.manuf) {
       for (var k in item.manuf[key]) {
         if (key === 'man' || key === 'oem') {
-          if (data.indexOf(k.trim()) === -1) {
+          if (!data.find(el => el.toLowerCase() === k.trim().toLowerCase())) {
             data.push(k);
           }
         } else {
           for (var kk in item.manuf[key][k]) {
-            if (kk === getEl('#man').value && data.indexOf(k.trim()) === -1) {
+            if (kk === getEl('#man').value && !data.find(el => el.toLowerCase() === k.trim().toLowerCase())) {
               data.push(k);
             }
           }
@@ -1331,7 +1345,7 @@ function lockFilterZip(filter) {
 // Выбор значения фильтра запчастей:
 
 function selectFilterZip(event) {
-  selectCards('zip');
+  selectCards('zip', true);
   var nextFilter = event.currentTarget.nextElementSibling;
   if (nextFilter) {
     fillFilterZip(nextFilter);
@@ -1436,7 +1450,7 @@ function loadCards(cards) {
       addActionTooltip(card);
     });
   }
-  setFiltersPosition();
+  setFiltersHeight();
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1473,10 +1487,8 @@ function showCards() {
   }
   setDocumentScroll(0);
   setMinCardWidth();
-  setFiltersPosition();
-  if (!curSelect || (curSelect && curSelect !== 'search')) {
-    toggleFilterBtns();
-  }
+  setFiltersHeight();
+  toggleFilterBtns();
 }
 
 // Добавление новых карточек при скролле страницы:
@@ -1615,6 +1627,9 @@ function showFullImg(event, data) {
 // Блокировка/разблокировка кнопок фильтра:
 
 function toggleFilterBtns() {
+  if (curSelect === 'search') {
+    return;
+  }
   var count = selectedItems.length,
       clearBtn = getEl('.clear-filter.btn'),
       clearBtnAdaptive = getEl('#filters .clear-btn'),
@@ -1633,12 +1648,14 @@ function toggleFilterBtns() {
   }
 }
 
-// Запуск отбора карточек или его отмена:
+// Запуск отбора карточек или сброс отбора:
 
 function selectCards(search, textToFind) {
   var type = typeof search === 'object' ? 'search' : 'filter';
-  searchText = textToFind;
-  if (!search || type === 'search' && !textToFind) {
+  if (type === 'search') {
+    searchText = textToFind;
+  }
+  if (!search || !textToFind) {
     curSelect = null;
     selectedItems = '';
   } else {
@@ -1663,9 +1680,7 @@ function clearCurSelect(type) {
       clearSearch(`#${curSelect}`);
     }
     selectedItems = '';
-    if (curSelect !== 'search') {
-      toggleFilterBtns();
-    }
+    toggleFilterBtns();
     curSelect = null;
   }
 }
@@ -1703,7 +1718,7 @@ function selectCardsByFilterCatalog() {
             }
           }
         } else {
-          if (card[k] == kk || card[kk] == 1) {
+          if (card[k].toLowerCase() == kk.toLowerCase() || card[kk] == 1) {
             isFound = true;
           }
         }
@@ -1727,7 +1742,7 @@ function selectCardsByFilterZip() {
       for (var row of card.manuf_filter) {
         for (var key in filters) {
           isFound = false;
-          if (row[key] && row[key].indexOf(filters[key]) >= 0) {
+          if (row[key] && row[key].find(el => el.toLowerCase() === filters[key].toLowerCase())) {
             isFound = true;
           } else {
             break;
@@ -1782,7 +1797,7 @@ function selectCardsBySearchOem(textToFind) {
 
 function sortItems(event) {
   var key = event.currentTarget.value;
-  if (!key) {
+  if (key === '') {
     curItems = JSON.parse(JSON.stringify(window[`${pageUrl}Items`]));
     startSelect();
   } else {

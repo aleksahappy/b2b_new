@@ -416,8 +416,10 @@ body {
   max-height: 15em;
 }
 
-#zip-filters .search {
+#zip-filters form.search {
+  width: 100%;
   margin-bottom: 0;
+  padding: 0;
 }
 
 /* =====================================================================================================
