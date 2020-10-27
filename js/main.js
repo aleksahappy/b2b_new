@@ -128,10 +128,7 @@ function addModules(path) {
   modules.dataset.html = url;
   document.body.insertBefore(modules, document.body.firstChild);
   includeHTML();
-  if (path !== '' && path !== 'registr') {
-    initModules();
-    loader.show();
-  }
+  initModules(path);
 }
 
 // Добавление html из других файлов:
@@ -181,9 +178,12 @@ function loadHTML(target, url) {
 
 // Запуск инициализации всех имеющихся модулей страницы:
 
-function initModules() {
-  fillUserInfo();
-  // initNotifications();
+function initModules(path) {
+  if (path !== '' && path !== 'registr') {
+    fillUserInfo();
+    // initNotifications();
+    loader.show();
+  }
   initLoader();
   initAlerts();
   initUpBtn();
