@@ -19,28 +19,28 @@
     <div id="main">
       <div class="container center">
         <div class="pop-up-container locked">
-          <div id="registr" class="pop-up">
+          <div class="pop-up">
             <div class="pop-up-title row" style="text-align: center;">
               <div class="title h1">Заявка на дилерство</div>
             </div>
             <div class="pop-up-body">
-              <form class="post">
+              <form id="registr" class="post">
                 <div class="form-groups">
                   <div class="form-group">
                     <div class="title h3">Информация о компании</div>
                     <div class="form-wrap" required>
                       <div class="title">Название магазина*</div>
-                      <input type="text" value="" name="rega[shopname]" placeholder="Введите название">
+                      <input type="text" value="" name="rega[shopname]" data-type="text" placeholder="Введите название">
                     </div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2">
                         <div class="title">Сайт</div>
-                        <input type="text" value="" name="site_???" placeholder="Введите адрес сайта">
+                        <input type="text" value="" name="rega[site]" data-type="site" placeholder="Введите адрес сайта">
                       </div>
                       <div class="form-wrap form-col2">
                         <div class="title">Тип торговли</div>
                         <div class="activate select">
-                          <input type="hidden" value="" name="rega[area][]">
+                          <input type="hidden" value="" name="rega[area]">
                           <div class="head row">
                             <div class="title">Выберите тип торговли</div>
                             <div class="triangle icon"></div>
@@ -67,17 +67,17 @@
                       </div>
                       <div class="form-wrap form-col2" required>
                         <div class="title">Должность*</div>
-                        <input type="text" value="" name="rega[job]" placeholder="Введите должность">
+                        <input type="text" value="" name="rega[job]" data-type="text" placeholder="Введите должность">
                       </div>
                     </div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2" required>
                         <div class="title">Телефон*</div>
-                        <input type="text" value="" name="tel_???" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30">
+                        <input type="text" value="" name="rega[tel]" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30">
                       </div>
                       <div class="form-wrap form-col2" required>
                         <div class="title">Email*</div>
-                        <input type="text" value="" name="email_???" data-type="email" placeholder="Введите email">
+                        <input type="text" value="" name="rega[email]" data-type="email" placeholder="Введите email">
                       </div>
                     </div>
                   </div>
@@ -91,14 +91,14 @@
                       <div class="form-wrap form-col2" required>
                         <div class="title">Система налогообложения*</div>
                         <div class="activate select">
-                          <input type="hidden" value="" name="system_?">
+                          <input type="hidden" value="" name="rega[system]">
                           <div class="head row">
                             <div class="title">Выберите тип торговли</div>
                             <div class="triangle icon"></div>
                           </div>
                           <div class="drop-down">
                             <div class="item" data-value="Общая">Общая</div>
-                            <div class="item" data-value="Урощенная">Урощенная</div>
+                            <div class="item" data-value="Упрощенная">Упрощенная</div>
                             <div class="item" data-value="Прочая">Прочая</div>
                           </div>
                         </div>
@@ -107,7 +107,7 @@
                   </div>
                 </div>
                 <div class="btns-wrap">
-                  <input class="btn sub-act" type="submit" value="Отправить" onclick="logIn(event)" disabled>
+                  <input class="btn sub-act" type="submit" value="Отправить" disabled>
                 </div>
                 <div class="loader">
                   <div class="loader icon"></div>
@@ -121,6 +121,6 @@
     </div>
 
     <script src ="../js/main.js"></script>
-    <script>initForm('#registr');</script>
+    <script src ="index.js"></script>
   </body>
 </html>

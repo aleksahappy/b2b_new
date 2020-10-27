@@ -1,9 +1,9 @@
-.pop-up {
-  width: 57em;
-}
-
 .container.center {
   min-height: 80vh;
+}
+
+.pop-up-container.locked .pop-up {
+  width: 57em;
 }
 
 .activate {
