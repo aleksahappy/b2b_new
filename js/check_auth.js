@@ -35,10 +35,9 @@ if (local) {
 //     } else {
 //       console.log(xhr.response);
 //       if (xhr.response) {
+//         userInfo = JSON.parse(xhr.response);
 //         if (path === '' || path === 'registr') {
 //           location.href = '/dashboard';
-//         } else {
-//           userInfo = JSON.parse(xhr.response);
 //         }
 //       } else {
 //         if (path !== '' && path !== 'registr') {

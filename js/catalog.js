@@ -771,7 +771,6 @@ function renderGallery() {
   toggleEventListeners('on');
   initFilters(filter);
   toggleView(view ? view : (window.innerWidth > 499 ? 'blocks' : 'list'));
-  showCards();
 }
 
 // Очистка текущего поиска:
@@ -1476,7 +1475,7 @@ function showCards() {
     showElement('#gallery', 'flex');
     hideElement('#gallery-notice');
   } else {
-    if (selectedItems.length === 0) {
+    if (!selectedItems.length) {
       showElement('#gallery-notice', 'flex');
       hideElement('#gallery');
     } else {

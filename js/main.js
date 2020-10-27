@@ -80,8 +80,9 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
-  addModules();
-  if (isCart) {
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
+  addModules(path);
+  if (path !== '' && path !== 'registr' && isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
     .then(result => {
@@ -121,8 +122,7 @@ function addModules(path) {
   if (getEl('#modules')) {
     return;
   }
-  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
-      url = (path === '' || path === 'registr') ? '../modules/main_short.html' : '../modules/main_full.html',
+  var url = (path === '' || path === 'registr') ? '../modules/main_short.html' : '../modules/main_full.html',
       modules = document.createElement('div');
   modules.id = 'modules';
   modules.dataset.html = url;
@@ -2356,7 +2356,6 @@ function Form(obj, callback) {
       if (type === 'tel' && input.value.length) {
         // приведение к формату +7 (000) 000-00-00
         var numbs = input.value.replace(/\D/g, '').match(/^([\+]*[7|8])(\d{3})(\d{3})(\d{2})(\d{2})$/);
-        console.log(numbs);
         input.value = '+7 (' + numbs[2] + ') ' + numbs[3] + '-' + numbs[4] + '-' + numbs[5];
       }
       formWrap.classList.remove('error');
