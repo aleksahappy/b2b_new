@@ -60,7 +60,7 @@
             <div class="form-cols">
               <div class="row">
                 <div class="form-wrap" required>
-                  <div class="title">ИНН*</div>
+                  <div class="title">ИНН<span class="req">*</span></div>
                   <input type="text" value="" name="contr_inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)" oninput="addByInn(event)">
                 </div>
                 <div id="inn-loader" class="loader icon"></div>
@@ -75,11 +75,11 @@
               <input class="after-inn" type="text" value="" name="contr_name" placeholder="" disabled>
             </div>
             <div class="form-wrap" required>
-              <div class="title">Юридический адрес*</div>
+              <div class="title">Юридический адрес<span class="req">*</span></div>
               <textarea class="after-inn" name="address" maxlength="250" placeholder="" disabled></textarea>
             </div>
             <div class="form-wrap" required>
-              <div class="title">Система налогообложения*</div>
+              <div class="title">Система налогообложения<span class="req">*</span></div>
               <div class="activate select after-inn" disabled>
                 <input type="hidden" value="" name="nalog">
                 <div class="head row">

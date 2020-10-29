@@ -155,21 +155,28 @@ function addByInn(event) {
 // Отправка формы на создание контрагента:
 
 function addContr(formData) {
-  sendRequest(urlRequest.main, {action: 'save_contr', data: formData}, 'multipart/form-data')
+  formData.set('action', 'save_contr');
+  sendRequest(urlRequest.main, formData, 'multipart/form-data')
   .then(result => {
     var data = JSON.parse(result);
     console.log(data);
-    if (data.error) {
-      alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
-    } else {
+    if (data.ok) {
       data = convertData(data);
       updateTable('#contr', data);
       closePopUp(null, '#contractor');
+      clearForm('#contr-form');
+    } else {
+      if (data.error) {
+        alerts.show(data.error);
+      } else {
+        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      }
     }
     hideElement('#contractor .loader');
   })
   .catch(error => {
     console.log(error);
     alerts.show('Ошибка сервера. Попробуйте позже.');
+    hideElement('#contractor .loader');
   })
 }

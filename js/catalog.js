@@ -534,9 +534,8 @@ function setFiltersPosition() {
 
 function setFiltersHeight() {
   var filters = getEl('#filters'),
-      scrolled = window.pageYOffset || document.documentElement.scrollTop,
       headerHeight = getEl('#header').clientHeight,
-      footerHeight = Math.max((window.innerHeight + scrolled - getEl('#footer').offsetTop) + 20, 0),
+      footerHeight = Math.max((window.innerHeight + window.pageYOffset - getEl('#footer').offsetTop) + 20, 0),
       filtersHeight = window.innerHeight - headerHeight - footerHeight;
   filters.style.top = headerHeight + 'px';
   filters.style.maxHeight = filtersHeight + 'px';
@@ -616,7 +615,7 @@ function renderContent() {
     renderGallery();
   }
   setPaddingToBody();
-  setDocumentScroll(0);
+  setDocumentScroll(0,0);
 }
 
 // Скрытие неактуальных частей страницы:
@@ -771,6 +770,7 @@ function renderGallery() {
   toggleEventListeners('on');
   initFilters(filter);
   toggleView(view ? view : (window.innerWidth > 499 ? 'blocks' : 'list'));
+  showCards();
 }
 
 // Очистка текущего поиска:
@@ -880,7 +880,6 @@ function clearFilters(event) {
 
 function initFiltersCatalog() {
   var data = checkFiltersIsNeed();
-  console.log(data);
   fillTemplate({
     area: '#catalog-filters',
     items: data,
@@ -1484,7 +1483,7 @@ function showCards() {
       hideElement('#gallery-notice');
     }
   }
-  setDocumentScroll(0);
+  setDocumentScroll(0,0);
   setMinCardWidth();
   setFiltersHeight();
   toggleFilterBtns();
@@ -1493,8 +1492,7 @@ function showCards() {
 // Добавление новых карточек при скролле страницы:
 
 function scrollGallery() {
-  var scrolled = window.pageYOffset || document.documentElement.scrollTop;
-  if (scrolled * 2 + window.innerHeight >= document.body.clientHeight) {
+  if (window.pageYOffset * 2 + window.innerHeight >= document.body.clientHeight) {
     loadCards();
     setMinCardWidth();
   }
@@ -1551,7 +1549,7 @@ function findItemData(id, type) {
 // Отображение полной карточки товара:
 
 function showFullCard(id) {
-  // sendRequest()
+  event.preventDefault();
   var data = findItemData(id, 'catalog');
   if (!data) {
     return;

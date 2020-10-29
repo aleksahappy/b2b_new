@@ -59,8 +59,8 @@ function initPage() {
       search: 'date'
     }, {
       title: 'Телефон',
-      key: 'tel',
-      content: '<a href="tel:#tel#">#tel#</a>'
+      key: 'phone',
+      content: '<a href="tel:#phone#">#phone#</a>'
     }, {
       title: 'Email',
       key: 'email',

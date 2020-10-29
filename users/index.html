@@ -44,7 +44,7 @@
                     <div class="title">Пол: <span class="text">#gender#</span></div>
                   </div>
                   <div>
-                    <div class="title">Телефон: <a href="tel:#tel#">#tel#</a></div>
+                    <div class="title">Телефон: <a href="tel:#phone#">#phone#</a></div>
                     <div class="title">Email: <a href="mailto:#email#">#email#</a></div>
                     <div class="title">Дата заведения: <span class="text">#date#</span></div>
                   </div>
@@ -66,11 +66,11 @@
         <div class="pop-up-body">
           <form id="user-form" class="post">
             <div class="form-wrap" required>
-              <div class="title">Имя*</div>
+              <div class="title">Имя<span class="req">*</span></div>
               <input type="text" value="" name="name" data-type="cyril" placeholder="Введите имя" maxlength="40">
             </div>
             <div class="form-wrap" required>
-              <div class="title">Фамилия*</div>
+              <div class="title">Фамилия<span class="req">*</span></div>
               <input type="text" value="" name="surname" data-type="cyril" placeholder="Введите фамилию" maxlength="40">
             </div>
             <div class="form-wrap">
@@ -79,13 +79,13 @@
             </div>
             <div class="form-cols">
               <div class="form-wrap form-col2" required>
-                <div class="title">День рождения*</div>
+                <div class="title">День рождения<span class="req">*</span></div>
                 <div class="calendar-wrap">
                   <input type="text" value="" name="birth" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
                 </div>
               </div>
               <div class="form-wrap form-col2" required>
-                <div class="title">Пол*</div>
+                <div class="title">Пол<span class="req">*</span></div>
                 <div class="row select-choice">
                   <div class="option row select-qty">
                     <input type="radio" value="Мужской" name="gender">
@@ -101,23 +101,23 @@
               </div>
             </div>
             <div class="form-wrap" required>
-              <div class="title">Должность*</div>
+              <div class="title">Должность<span class="req">*</span></div>
               <input type="text" value="" name="position" placeholder="Введите должность" maxlength="40">
             </div>
             <div class="form-cols">
               <div class="form-wrap form-col2" required>
-                <div class="title">Телефон*</div>
-                <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _"  maxlength="30">
+                <div class="title">Телефон<span class="req">*</span></div>
+                <input type="text" value="" name="phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _"  maxlength="30">
               </div>
               <div class="form-wrap form-col2" required>
-                <div class="title">Email*</div>
+                <div class="title">Email<span class="req">*</span></div>
                 <input type="text" value="" name="email" data-type="email" placeholder="Введите email" maxlength="50">
               </div>
             </div>
             <div class="form-wrap" required>
               <div class="form-cols access">
                 <div class="form-col2">
-                  <div class="title">Тип доступа*</div>
+                  <div class="title">Тип доступа<span class="req">*</span></div>
                   <div class="option row">
                     <input type="radio" value="Полный" name="access">
                     <div class="radio icon"></div>
