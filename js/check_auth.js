@@ -23,7 +23,7 @@ if (local) {
 // Проверка авторизован ли пользователь:
 
 // (function(){
-//   var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
+//   var path = location.pathname.replace('index.html', '').replace(/\//g, '').replace('registr', ''),
 //       xhr = new XMLHttpRequest();
 //   xhr.open('POST', urlRequest.main, false);
 //   try {
@@ -33,21 +33,20 @@ if (local) {
 //       console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //       throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //     } else {
-//       console.log(xhr.response);
 //       if (xhr.response) {
 //         userInfo = JSON.parse(xhr.response);
-//         if (path === '' || path === 'registr') {
+//         if (!path) {
 //           location.href = '/dashboard';
 //         }
 //       } else {
-//         if (path !== '' && path !== 'registr') {
+//         if (path) {
 //           location.href = '/';
 //         }
 //       }
 //     }
 //   } catch(err) {
 //     console.log(err);
-//     if (path !== '' && path !== 'registr') {
+//     if (path) {
 //       location.href = '/';
 //     }
 //   }
