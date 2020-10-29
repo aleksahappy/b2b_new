@@ -9,22 +9,27 @@ initForm('#registr', sendRegistr);
 function sendRegistr(formData) {
   var email;
   formData.forEach((value, key) => {
-    if (key === 'rega[email]') {
+    if (key === 'email') {
       email = value;
     }
   });
+  formData.set('action', 'register');
   formData.set('apikey', 'fc7020775a7cdf161ab5267985c54601');
-  sendRequest(urlRequest.main, {action: 'register', data: formData}, 'multipart/form-data')
-  .then(response => {
-    console.log(response);
-    response = JSON.parse(response);
-    if (response.ok) {
+  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  .then(result => {
+    var data = JSON.parse(result);
+    console.log(data);
+    if (data.ok) {
+      clearForm('#registr');
       alerts.show(`Ваша заявка успешно отправлена.<br>
       После рассмотрения и активации заявки, мы отправим пароль авторизации на указанный при регистрации e-mail<br/>
       <a href="mailto:{email}">{email}</a>`);
-      clearForm('#registr');
     } else {
-      console.log(response.ok);
+      if (data.error) {
+        alerts.show(data.error);
+      } else {
+        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      }
     }
     hideElement('#registr .loader');
   })

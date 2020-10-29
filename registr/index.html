@@ -29,18 +29,18 @@
                   <div class="form-group">
                     <div class="title h3">Информация о компании</div>
                     <div class="form-wrap" required>
-                      <div class="title">Название магазина*</div>
-                      <input type="text" value="" name="rega[shopname]" data-type="text" placeholder="Введите название">
+                      <div class="title">Название магазина<span class="req">*</span></div>
+                      <input type="text" value="" name="shopname" data-type="text" placeholder="Введите название">
                     </div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2">
                         <div class="title">Сайт</div>
-                        <input type="text" value="" name="rega[site]" data-type="site" placeholder="Введите адрес сайта">
+                        <input type="text" value="" name="site" data-type="site" placeholder="Введите адрес сайта">
                       </div>
                       <div class="form-wrap form-col2">
                         <div class="title">Тип торговли</div>
                         <div class="activate select">
-                          <input type="hidden" value="" name="rega[area]">
+                          <input type="hidden" value="" name="area">
                           <div class="head row">
                             <div class="title">Выберите тип торговли</div>
                             <div class="triangle icon"></div>
@@ -62,22 +62,22 @@
                     <div class="title h3">Контактная информация</div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2" required>
-                        <div class="title">Контактное лицо*</div>
-                        <input type="text" value="" name="rega[contact]" data-type="cyril" placeholder="Введите имя">
+                        <div class="title">Контактное лицо<span class="req">*</span></div>
+                        <input type="text" value="" name="contact" data-type="text" placeholder="Введите имя">
                       </div>
                       <div class="form-wrap form-col2" required>
-                        <div class="title">Должность*</div>
-                        <input type="text" value="" name="rega[job]" data-type="text" placeholder="Введите должность">
+                        <div class="title">Должность<span class="req">*</span></div>
+                        <input type="text" value="" name="job" data-type="text" placeholder="Введите должность">
                       </div>
                     </div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2" required>
-                        <div class="title">Телефон*</div>
-                        <input type="text" value="" name="rega[tel]" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30">
+                        <div class="title">Телефон<span class="req">*</span></div>
+                        <input type="text" value="" name="phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30">
                       </div>
                       <div class="form-wrap form-col2" required>
-                        <div class="title">Email*</div>
-                        <input type="text" value="" name="rega[email]" data-type="email" placeholder="Введите email">
+                        <div class="title">Email<span class="req">*</span></div>
+                        <input type="text" value="" name="email" data-type="email" placeholder="Введите email">
                       </div>
                     </div>
                   </div>
@@ -85,13 +85,13 @@
                     <div class="title h3">Юридическая информация</div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2" required>
-                        <div class="title">ИНН*</div>
-                        <input type="text" value="" name="rega[inn]" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)">
+                        <div class="title">ИНН<span class="req">*</span></div>
+                        <input type="text" value="" name="inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)">
                       </div>
                       <div class="form-wrap form-col2" required>
-                        <div class="title">Система налогообложения*</div>
+                        <div class="title">Система налогообложения<span class="req">*</span></div>
                         <div class="activate select">
-                          <input type="hidden" value="" name="rega[system]">
+                          <input type="hidden" value="" name="nalog">
                           <div class="head row">
                             <div class="title">Выберите тип торговли</div>
                             <div class="triangle icon"></div>
@@ -105,6 +105,14 @@
                       </div>
                     </div>
                   </div>
+                  <div class="form-wrap" required>
+                    <div class="option row">
+                      <input type="checkbox" value="1" name="agree">
+                      <div class="checkbox dark icon"></div>
+                      <span class="req">*</span>
+                      <div>Я даю свое согласие <a onclick="openPopUp('#conditions')">на обработку персональных данных</a></div>
+                    </div>
+                  </div>
                 </div>
                 <div class="btns-wrap">
                   <input class="btn sub-act" type="submit" value="Отправить" disabled>
@@ -114,6 +122,34 @@
                   <div class="text">Пожалуйста, подождите</div>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+        <div id="conditions" class="pop-up-container">
+          <div class="pop-up">
+            <div class="pop-up-title row">
+              <div class="title h1">Согласие на обработку</div>
+              <div class="close icon"></div>
+            </div>
+            <div class="pop-up-body">
+              Отправляя данную форму вы даёте согласие на обработку ваших персональных данных
+              ООО "ТОП СПОРТС" и её аффилированных лиц в целях информационного обеспечения для формирования
+              общедоступных источников персональных данных (справочников, адресных книг, информации в СМИ и на сайте
+              организации т.д.), включая выполнение действия по сбору, систематизации, накоплению, хранению, уточнению
+              (обновлению, изменению), распространению (в том числе передаче), размещению для открытого доступа на
+              электронных ресурсах компании ваших персональных данных, входящих в следующий перечень общедоступных
+              сведений:
+              <ul>
+                <li>Фамилия, имя.</li>
+                <li>Номер телефона и адрес электронной почты.</li>
+                <li>Иные сведения, специально предоставленные мной для размещения в общедоступных источниках
+                  персональных данных.</li>
+              </ul>Вышеприведенное согласие на обработку персональных данных представлено с учетом п. 2 ст. 6 и п. 2
+              ст. 9<br>Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных», в соответствии с которыми
+              обработка персональных данных, осуществляемая на основе федерального закона либо для исполнения
+              договора, стороной в котором я являюсь, может осуществляться Оператором без моего дополнительного
+              согласия.
+              * Я соглашаюсь на обработку персональных данных и принимаю политику конфиденциальности.
             </div>
           </div>
         </div>

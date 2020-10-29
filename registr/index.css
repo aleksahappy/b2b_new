@@ -2,10 +2,15 @@
   min-height: 80vh;
 }
 
-.pop-up-container.locked .pop-up {
+.pop-up-container.locked .pop-up,
+#conditions .pop-up {
   width: 57em;
 }
 
 .activate {
   width: 100%;
+}
+
+div.option input {
+  width: 25px;
 }
