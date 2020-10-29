@@ -9,47 +9,67 @@
 // В каком виде нужно передавать данные в функцию initTable:
 
 // var settings = {
-//   data: [{...}, {...}]                             Данные для заполнения таблицы - массив объектов, где каждый объект - данные строки (по умолчанию [])
-//   control: {                                       Имеет ли таблица панель управления (по умолчанию не имеет). Если да, то в объекте перечислить элементы:
-//     area: элемент / селектор элемента                - куда в документе вставлять панель управления (по умолчанию вставится перед таблицей)
+//   data: [{...}, {...}],                            Данные для заполнения таблицы - массив объектов, где каждый объект - данные строки (по умолчанию [])
+//   control: {                                       Панель управления (по умолчанию ее нет). Если необходима, то в объекте указать настройки:
+//     area: элемент / селектор элемента                - место вставки панели управления если нужно расположить не в контейнере таблицы (по умолчанию вставится перед таблицей)
 //     pagination: true / false                         - наличие пагинации (по умолчанию отсутствует)
 //     search: 'Поиск к подсказке' / false              - наличие поиска и его подсказка (по умолчанию отсутствует)
 //     toggle: 'key' / false                            - наличие переключателя и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
 //     pill: 'key' / false                              - наличие чекбоксов-"пилюль" и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
 //     setting: true / false                            - наличие настроек таблицы (по умолчанию отсутствует)
-//   }
-//   head: true / false                               Имеет ли таблица шапку (по умолчанию отсутствует)
-//   result: true / false                             Имеет ли таблица строку "итого" (по умолчанию отсутствует)
-//   sign: '#' / '@@' / другой,                       Символ для поиска мест замены в html (по умолчанию - '#')
-//   sub: [{                                          Данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
-//     area: селектор,
-//     items: название ключа в data
-//   }],
-//   trFunc: 'onclick=functionName(event,#key#)'      Обработчик, навешиваемый на строку таблицы (по умолчанию false)
-//   cols:                                            Параметры столбцов таблицы (для таблиц с готовым шаблонов в html данный параметр пропускаем)
-//   [{                                                 что вкючает параметр одного столбца:
-//     title: 'Заголовок'                               - заголовок столбца
-//     class: 'classname'                               - название класса для столбца (чтобы можно было добавить уникальные стили)
-//     width: 'x%',                                     - ширина столбца в процентах, если не устраивает ширина по умолчанию (по умолчанию все столбцы одинаковой ширины)
-//     align: 'center' / 'right',                       - выравнивание столбца, если не устраивает выравнивание по левому краю
-//     key: 'key'                                       - ключ в данных по которому находится информация для данного столбца
-//     result: 'kolv' / 'sum'                           - наличие и формат итога по колонке (умолчанию отсутствует)
-//     sort: 'text' / 'numb' / 'date'                   - нужна ли сортировка по столбцу и ее формат (по умолчанию отсутствует)
-//     search: 'usual' / 'date'                         - нужен ли поиск по столбцу и его формат (по умолчанию отсутствует)
-//     filter: 'true' / 'false'                         - нужна ли фильтрация по столбцу (по умолчанию отсутствует)
-//     content: #key# / html разметка                   - содержимое ячейки, если отличается от #key#, то вносим html разметку (по умолчанию #key#)
-//   }]
+//   },
+//   desktop: {                                       Настройки основной таблицы:
+//     head: true / false                               - имеет ли таблица шапку (по умолчанию отсутствует)
+//     result: true / false                             - имеет ли таблица строку "итого" (по умолчанию отсутствует)
+//     trFunc: 'onclick=functionName(event,#key#)'      - обработчик, навешиваемый на строку таблицы (по умолчанию false)
+//     sign: '#' / '@@' / другой                        - символ для поиска мест замены в html (по умолчанию - '#')
+//     sub: [{area: селектор, items: ключ в data}]      - данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
+//     cols: [{                                         - параметры столбцов таблицы (для таблиц с готовым шаблоном в html данный параметр пропускаем)
+//       title: 'Заголовок'                               - заголовок столбца
+//       class: 'classname'                               - название класса для столбца (чтобы можно было добавить уникальные стили)
+//       width: 'x%',                                     - ширина столбца в процентах, если не устраивает ширина по умолчанию (по умолчанию все столбцы одинаковой ширины)
+//       align: 'center' / 'right'                        - выравнивание столбца, если не устраивает выравнивание по левому краю
+//       keys: ['key1', 'key2', ...]                      - ключи данных по которым находится информация для данного столбца (первый ключ всегда приоритетный, по нему считаются итоги если они нужны)
+//       result: 'kolv' / 'sum'                           - наличие и формат итога по колонке (умолчанию отсутствует)
+//       content: html разметка                           - содержимое ячейки, по умолчанию это: #key1# #key2#..., иначе вносим html разметку
+//     }, {...}]
+//   },
+//   adaptive: {                                      Настройки адаптивной таблицы (если необходимы):
+//     sign: '#' / '@@' / другой                        - Символ для поиска мест замены в html (по умолчанию - '#')
+//     sub: [{area: селектор, items: ключ в data}]      - данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
+//   },
+//   sorts: {                                         Сортировки таблицы:
+//     key1: {                                          - ключ в данных, по которому будет браться информация
+//       title: 'Заголовок'                               - заголовок сортировки
+//       type: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
+//       isOpen: true / false                           - сортировка открыта или закрыта (true - открыта, по умолчанию false - закрыта)
+//     }
+//     {key2: {...}
+//   },
+//   filters: {                                       Фильтры таблицы:
+//     key1: {                                          - ключ в данных, по которому будет браться информация
+//       title: 'Заголовок'                               - заголовок фильтра
+//       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
+//       filter: 'checkbox' / 'select'                    - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
+//       items: data                                      - данные для заполнения фильтра (чекбоксов или селектов)
+//       isOpen: true / false                           - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
+//     }
+//     {key2: {...}
+//   },
 // }
 
 // Инициализация таблицы:
 
 function initTable(el, settings) {
   var el = getEl(el);
-  if (el && el.id) {
-    if (settings.cols) {
-      createTable(el, settings);
+  if (el) {
+    createTableControl(el, settings.control)
+    createTable(el, settings);
+    if (el.id) {
+      return window[`${el.id}Table`] = new Table(el, settings);
+    } else {
+      return new Table(el, settings);
     }
-    window[`${el.id}Table`] = new Table(el, settings);
   }
 }
 
@@ -64,212 +84,205 @@ function updateTable(el, data) {
   }
 }
 
-// Создание таблицы:
-
-function createTable(area, settings) {
-  if (settings.control) {
-    var control = createTableControl(settings);
-    control.dataset.table = area.id;
-    if (settings.control.area) {
-      var areaControl = getEl(settings.control.area);
-      if (areaControl) {
-        areaControl.appendChild(control);
-      } else {
-        area.appendChild(control);
-      }
-    } else {
-      area.appendChild(control);
-    }
-  }
-  var content = createTableContent(area.id, settings),
-      table = getEl('table', area);
-  if (table) {
-    area.removeChild(table);
-    window[`${area.id}-bodyTemp`] = undefined;
-  }
-  area.appendChild(content);
-}
-
 // Создание панели управления для таблицы:
 
-function createTableControl(settings) {
-  var options = settings.control,
-      pagination = '',
-      search = '',
-      toggle = '',
-      pill = '',
-      setting = '';
-  if (options.pagination) {
-    pagination =
+function createTableControl(area, settings) {
+  if (!settings) {
+    return;
+  }
+  var controlHtml = '';
+  if (settings.pagination) {
+    controlHtml +=
     `<div class="pagination row">
       <div class="arrow blue icon left"></div>
       <div class="title"><span class="cur"></span> из <span class="total"></span></div>
       <div class="arrow blue icon right"></div>
     </div>`;
   }
-  if (options.search) {
-    search =
+  if (settings.search) {
+    controlHtml +=
     `<form class="search row">
-      <input type="text" data-value="" placeholder="${options.search}">
+      <input type="text" data-value="" placeholder="${settings.search}">
       <input class="search icon" type="submit" value="">
       <div class="close icon"></div>
     </form>`;
   }
-  if (options.toggle) {
-    toggle =
+  if (settings.toggle) {
+    controlHtml +=
     ``;
   }
-  if (options.pill) {
-    pill =
+  if (settings.pill) {
+    controlHtml +=
     ``;
   }
-  if (options.setting) {
-    setting = `<div class="settings icon"></div>`;
+  if (settings.setting) {
+    controlHtml += `<div class="settings icon"></div>`;
   }
+  controlHtml += `<div class="relay icon"></div>`;
   var control = document.createElement('div');
   control.classList.add('control', 'row');
-  if (options.pill) {
-    control.classList.add('extend');
+  control.dataset.table = area.id;
+  control.innerHTML = controlHtml;
+  if (settings.area) {
+    var areaControl = getEl(settings.area);
+    if (areaControl) {
+      areaControl.appendChild(control);
+      return;
+    }
   }
-  control.innerHTML =
-  `<div class="left-side row">
-    ${pagination}
-    ${search}
-  </div>
-  <div class="right-side row">
-    ${toggle}
-    ${pill}
-    ${setting}
-  </div>`;
-  return control;
+  area.insertAdjacentElement('afterbegin', control);
 }
 
-// Создание панели управления для таблицы:
+// Создание таблицы для основного разрешения:
 
-function createTableContent(id, settings) {
-  var headList = '',
-      resultList = '',
-      bodyList = '',
-      trFunc = settings.trFunc || '';
+function createTable(area, settings) {
+  if (!settings.desktop) {
+    return;
+  }
+  var headRow = '',
+      resultRow = '',
+      bodyRow = '',
+      tableSettings = settings.desktop;
 
-  settings.cols.forEach((col, index) => {
-    if (settings.head) {
-      headList += createTableHead(col, index);
+  tableSettings.cols.forEach((col, index) => {
+    if (tableSettings.head) {
+      headRow += createTableHeadCell(col, index, settings);
       if (settings.result) {
-        resultList += createTableResult(col);
+        resultRow += createTableResultCell(col);
       }
     }
-    bodyList += createTableBody(col, settings.sign);
+    bodyRow += createTableBodyCell(col, tableSettings.sign);
     if (col.width) {
-      changeCss(`#${id} > table > thead > tr > th:nth-child(${index + 1})`, 'width', col.width);
+      changeCss(`#${area.id} > table > thead > tr > th:nth-child(${index + 1})`, 'width', col.width);
     }
     if (col.align) {
-      changeCss(`#${id} > table > tbody > tr > td:nth-child(${index + 1})`, 'text-align', col.align);
+      changeCss(`#${area.id} > table > tbody > tr > td:nth-child(${index + 1})`, 'text-align', col.align);
     }
   });
 
-  var table = document.createElement('table');
+  var table = getEl('.table-desktop', area);
+  if (table) {
+    area.removeChild(table);
+    window[`${area.id}-bodyTemp`] = undefined;
+  }
+  table = document.createElement('table');
+  table.classList.add('table-desktop');
   table.innerHTML =
   `<thead>
-    <tr>${headList}</tr>
-    <tr class="results">${resultList}</tr>
+    <tr>${headRow}</tr>
+    <tr class="results">${resultRow}</tr>
   </thead>
-  <tbody id=${id}-body>
-    <tr ${trFunc}>${bodyList}</tr>
-  </tbody>`
-  return table;
+  <tbody id=${area.id}-body>
+    <tr ${tableSettings.trFunc || ''}>${bodyRow}</tr>
+  </tbody>`;
+  area.appendChild(table);
 }
 
-// Создание шапки таблицы:
+// Создание ячейки шапки таблицы:
 
-function createTableHead(col, index) {
-  var th;
-  if (!col.sort && !col.search && !col.filter) {
+function createTableHeadCell(col, index, settings) {
+  var th = '';
+  if (col.keys) {
+    var content = '',
+        sorts = settings.sorts,
+        filters = settings.filters;
+    col.keys.forEach(key => {
+      if (sorts && sorts[key]) {
+        var sort = sorts[key];
+        sort =
+        `<div class="group sort" data-key="${key}" data-type="${sort.type}">
+          <div class="title">Сортировка</div>
+          <div class="item sort down row">
+            <div class="sort icon"></div>
+            <div>${getSortText('down', sort.type)}</div>
+          </div>
+          <div class="item sort up row">
+            <div class="sort icon"></div>
+            <div>${getSortText('up', sort.type)}</div>
+          </div>
+        </div>`;
+        content += sort;
+      }
+      if (filters && filters[key]) {
+        var filter = filters[key],
+            filterContent = '',
+            search = filter.search,
+            items = filter.filter;
+        if (search) {
+          if (search === 'date') {
+            search =
+            `<div class="calendar-wrap">
+              <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
+            </div>`;
+          } else {
+            search =
+            `<form class="search row">
+              <input type="text" data-value="" placeholder="Поиск...">
+              <input class="search icon" type="submit" value="">
+              <div class="close icon"></div>
+            </form>`;
+          }
+          filterContent += search;
+        }
+        if (items && filter.search !== 'date') {
+          if (items === 'select') {
+            items =
+            `<div class="items">
+              <div class="item" data-value="#item#">#item#</div>
+            </div>`;
+          } else {
+            items =
+            `<div class="items">
+              <div class="item row" data-value="#item#">
+                <div class="checkbox icon"></div>
+                <div>#item#</div>
+              </div>
+            </div>`;
+          }
+          if (search) {
+            items = '<div class="not-found">Совпадений не найдено</div>' + items;
+          }
+          filterContent += items;
+        }
+        filter =
+        `<div class="group filter" data-key="${key}">
+          <div class="title">Фильтр</div>
+          ${filterContent}
+        </div>`;
+        content += filter;
+      }
+    });
+    if (content) {
+      th =
+      `<th id="${index + 1}" class="activate box">
+        <div class="head row">
+          <div class="title">${col.title || ''}</div>
+          <div class="icons row">
+            <div class="triangle icon"></div>
+            <div class="filter icon"></div>
+          </div>
+          </div>
+          <div class="drop-down">
+            ${content}
+          </div>
+        </div>
+        <div class="resize-btn"></div>
+      </th>`;
+    }
+  }
+  if (!th) {
     th =
     `<th id="${index + 1}">
       <div>${col.title || ''}</div>
-      <div class="resize-btn"></div>
-    </th>`;
-  } else {
-    var sortBox = '',
-        filterBox = '';
-    if (col.sort) {
-      var sortDown = col.sort === 'numb' ? 'По возрастанию' : (col.sort === 'date' ? 'Сначала новые' : 'От А до Я');
-      var sortUp = col.sort === 'numb' ? 'По убыванию' : (col.sort === 'date' ? 'Сначала старые' : 'От Я до А');
-      sortBox =
-      `<div class="sort-box">
-        <div class="title">Сортировка</div>
-        <div class="sort down row">
-          <div class="sort down icon"></div>
-          <div>${sortDown}</div>
-        </div>
-        <div class="sort up row">
-          <div class="sort up icon"></div>
-          <div>${sortUp}</div>
-        </div>
-      </div>`;
-    }
-    if (col.search || col.filter) {
-      var search = '',
-          items = '';
-      if (col.search) {
-        if (col.search === 'date') {
-          search =
-          `<form class="search row">
-            <div class="calendar-wrap">
-              <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
-            </div>
-            <input class="search icon" type="submit" value="">
-            <div class="close icon"></div>
-          </form>`;
-        } else {
-          search =
-          `<form class="search row">
-            <input type="text" data-value="" placeholder="Поиск...">
-            <input class="search icon" type="submit" value="">
-            <div class="close icon"></div>
-          </form>`;
-        }
-      }
-      if (col.filter) {
-        if (col.search) {
-          items =
-          `<div class="not-found">Совпадений не найдено</div>
-          <div class="items"></div>`;
-        } else {
-          items = '<div class="items"></div>';
-        }
-      }
-      filterBox =
-      `<div class="filter-box">
-        <div class="title">Фильтр</div>
-        ${search}
-        ${items}
-      </div>`;
-    }
-    th =
-    `<th id="${index + 1}" class="activate box" data-key="${col.key || ''}" data-sort="${col.sort || ''}">
-      <div class="head row">
-        <div class="title">${col.title || ''}</div>
-        <div class="icons row">
-          <div class="filter icon"></div>
-          <div class="triangle icon"></div>
-        </div>
-        </div>
-        <div class="drop-down">
-          ${sortBox}
-          ${filterBox}
-        </div>
-      </div>
       <div class="resize-btn"></div>
     </th>`;
   }
   return th;
 }
 
-// Создание результатов таблицы:
+// Создание ячейки результатов таблицы:
 
-function createTableResult(col) {
+function createTableResultCell(col) {
   if (!col.result) {
     return '<th></th>';
   }
@@ -277,21 +290,23 @@ function createTableResult(col) {
   `<th>
     <div class="row">
       <div class="sum icon"></div>
-      <div data-key="${col.key}" data-type="${col.result}"></div>
+      <div data-key="${col.keys[0]}" data-type="${col.result}"></div>
     </div>
   </th>`;
   return th;
 }
 
-// Создание тела таблицы:
+// Создание ячейки тела таблицы:
 
-function createTableBody(col, sign = '#') {
+function createTableBodyCell(col, sign = '#') {
   var tdClass = col.class ? `class="${col.class}"` : '';
   if (!col.content) {
-    if (!col.key) {
+    if (!col.keys || !col.keys.length) {
       return `<td ${tdClass}></td>`;
     } else {
-      return `<td ${tdClass}>${sign}${col.key}${sign}</td>`;
+      var content = '';
+      col.keys.forEach(key => content += `${sign}${key}${sign}`);
+      return `<td ${tdClass}>${content}</td>`;
     }
   }
   return `<td ${tdClass}>${col.content}</td>`;
@@ -304,16 +319,23 @@ function Table(obj, settings = {}) {
   this.wrap = obj;
   this.tab = getEl(`.tab[data-table=${obj.id}]`);
   this.control = getEl(`.control[data-table=${obj.id}]`);
+  this.desktop = getEl('.table-desktop', obj);
+  this.adaptive = getEl('.table-adaptive', obj);
   if (this.control) {
     this.pagination = getEl('.pagination', this.control);
     this.search = getEl('form.search', this.control);
   }
-  this.head = getEl('thead', obj);
-  this.results = getEl('.results', this.head);
-  this.body = getEl('tbody', obj);
-  if (this.head) {
-    this.resizeBtns = this.head.querySelectorAll('.resize-btn');
-    this.dropDowns = this.head.querySelectorAll('.activate');
+  if (this.desktop) {
+    this.head = getEl('thead', obj);
+    this.body = getEl('tbody', obj);
+    if (this.head) {
+      this.results = getEl('.results', this.head);
+      this.resizeBtns = this.head.querySelectorAll('.resize-btn');
+      this.dropDowns = this.head.querySelectorAll('.activate');
+    }
+  }
+  if (this.adaptive) {
+    this.adaptive.id = obj.id + '-adaptive';
   }
 
   // Константы:
@@ -325,37 +347,38 @@ function Table(obj, settings = {}) {
   this.dataToLoad = [];
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.incr = 100;
-  this.scrollPos = window.pageYOffset || document.documentElement.scrollTop;
-  this.direction = 'down'
-  this.pageNumb = 0;
-  this.prevColumn = null;
-  this.nextColumn = null;
-  this.startCoord;
-  this.prevWidth;
-  this.nextWidth;
+  this.incr = 50;
+  this.direction;
+  this.scrollPos = window.pageYOffset;
+  if (this.pagination) {
+    this.paginationSwitch = null;
+  }
+  if (this.head) {
+    this.prevColumn = null;
+    this.nextColumn = null;
+    this.startCoord;
+    this.prevWidth;
+    this.nextWidth;
+  }
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.tab) {
       this.tab.addEventListener('click', event => this.open(event));
     }
-    window.addEventListener('scroll', () => this.scrollTable());
+    window.addEventListener('scroll', throttle(() => this.scrollTable()));
     // document.addEventListener('keydown', event => {
     //   if (event.metaKey && event.code === 'ArrowDown') {
     //     console.log('вниз');
     //   }
     // });
     if (this.pagination) {
-      this.pagination.querySelectorAll('.btn').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
+      this.pagination.querySelectorAll('.arrow').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
     }
     if (this.head) {
       if (this.resizeBtns) {
         this.resizeBtns.forEach(el => el.addEventListener('mousedown', event => this.startResize(event)));
       }
-      this.dropDowns.forEach(el => {
-        el.addEventListener('change', event => this.changeData(event));
-      });
     }
   }
 
@@ -363,7 +386,7 @@ function Table(obj, settings = {}) {
   this.prepare = function() {
     this.prepareData();
     this.initTab();
-    this.fill();
+    this.fill('init');
     this.fillItems();
   }
 
@@ -400,20 +423,64 @@ function Table(obj, settings = {}) {
   }
 
   // Заполнение таблицы данными:
-  this.fill = function() {
+  this.fill = function(isInit) {
     this.loadData();
-    if (this.head) {
-      this.fillResults();
+    this.fillResults();
+    this.fillPagination();
+    if (!isInit) {
+      this.wrap.scrollIntoView();
+    }
+  }
+
+  // Заполнение фильтров значениями:
+  this.fillItems = function(curDropDown) {
+    if (!settings.filters) {
+      return;
+    }
+    this.getFilterItems();
+    this.dropDowns.forEach((el, index) => {
+      if (el !== curDropDown) {
+        if (getEl('.items', el)) {
+          var key = getEl('.group.filter', el).dataset.key;
+          if (settings.filters[key]) {
+            this[`dropDown${index}`].fillItems(settings.filters[key].items);
+          }
+        }
+      }
+    });
+    if (curDropDown) {
+    // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
+    } else {
+      // this.adaptiveFilter.fillItems(settings.filters);
+    }
+  }
+
+  // Получение данных для заполнения выпадающих списков таблицы значениями:
+  this.getFilterItems = function() {
+    for (var key in settings.filters) {
+      if (settings.filters[key].filter) {
+        var data = [], value;
+        this.dataToLoad.forEach(el => {
+          value = el[key];
+          value = typeof value === 'string' || typeof value === 'number' ? value : undefined;
+          if (value && data.indexOf(value) === -1) {
+            data.push(value);
+          }
+        });
+        // settings.filters[key].items = data.sort();
+        settings.filters[key].items = data;
+      }
     }
   }
 
   // Загрузка данных в таблицу:
   this.loadData = function(direction) {
+    // console.log(direction);
     if (!this.dataToLoad.length) {
       this.body.innerHTML = '';
       return;
     }
-    if (!direction || direction === 'down') {
+    if (!direction || direction === 'next') {
       if (!direction) {
         this.countItems = 0;
       } else {
@@ -428,11 +495,7 @@ function Table(obj, settings = {}) {
       if (this.countItemsTo > this.dataToLoad.length) {
         this.countItemsTo = this.dataToLoad.length;
       }
-      if (this.countItems === this.countItemsTo) {
-        return;
-      }
-      this.pageNumb += 1;
-    } else if (direction === 'up') {
+    } else if (direction === 'prev') {
       if (this.direction !== direction) {
         this.countItemsTo = this.countItemsTo - this.body.querySelectorAll('tr').length;
         this.direction = direction;
@@ -443,10 +506,9 @@ function Table(obj, settings = {}) {
       if (this.countItems < 0) {
         this.countItems =  0;
       }
-      if (this.countItems === this.countItemsTo) {
-        return;
-      }
-      this.pageNumb -= 1;
+    }
+    if (this.countItems === this.countItemsTo) {
+      return;
     }
 
     var tableItems = [];
@@ -456,60 +518,139 @@ function Table(obj, settings = {}) {
     var list = fillTemplate({
       area: this.body,
       items: tableItems,
-      sub: settings.sub,
-      sign: settings.sign,
+      sub: settings.desktop.sub,
+      sign: settings.desktop.sign,
       action: 'return'
     });
 
     if (!direction) {
       this.body.innerHTML = list;
-    } else if (direction === 'down') {
+      this.paginationSwitch = this.body.lastElementChild;
+    } else if (direction === 'next') {
       this.body.insertAdjacentHTML('beforeend', list);
       if (this.countItems - this.incr * 2 >= 0) {
         for (let i = 0; i < this.incr; i++) {
           this.body.removeChild(this.body.firstElementChild);
-          console.log("remove first")
         }
       }
-    } else if (direction === 'up') {
+    } else if (direction === 'prev') {
       this.body.insertAdjacentHTML('afterbegin', list);
       if (this.countItemsTo + this.incr * 2 <= this.dataToLoad.length) {
         for (let i = 0; i < this.incr; i++) {
           this.body.removeChild(this.body.lastElementChild);
-          console.log("remove last")
         }
       }
     }
-    this.fillPagination();
+    // this.fillPagination();
   }
 
-  // Заполнение пагинации:
-  this.fillPagination = function() {
-    if (!this.pagination) {
-      return;
+  // Замена данных в таблице:
+  this.replaceData = function() {
+    var tableItems = [],
+        from = this.countItems,
+        to = this.countItemsTo;
+    if (this.direction === 'next') {
+      from = this.countItemsTo - this.body.querySelectorAll('tr').length;
     }
-    getEl('.cur', this.pagination).textContent = `${this.incr * (this.pageNumb - 1) + 1} - ${this.incr * this.pageNumb}`;
-    getEl('.total', this.pagination).textContent = this.dataToLoad.length;
+    if (this.direction === 'prev') {
+      to = this.countItems + this.body.querySelectorAll('tr').length;
+    }
+    for (let i = from; i < to; i++) {
+      tableItems.push(this.dataToLoad[i]);
+    }
+    var list = fillTemplate({
+      area: this.body,
+      items: tableItems,
+      sub: settings.desktop.sub,
+      sign: settings.desktop.sign,
+      action: 'return'
+    });
+    this.body.innerHTML = list;
   }
 
   // Подгрузка таблицы при скролле:
   this.scrollTable = function() {
-    var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+    var scrolled = window.pageYOffset,
+        direction;
     if (scrolled > this.scrollPos) {
-      if (this.wrap.getBoundingClientRect().bottom - window.innerHeight < window.innerHeight) {
-        this.loadData('down');
+      direction = 'next';
+      if (this.wrap.getBoundingClientRect().bottom - window.innerHeight < 200) {
+        this.loadData('next');
       }
     } else if (scrolled < this.scrollPos) {
-      if (this.wrap.getBoundingClientRect().top + window.innerHeight * 2  > 0) {
-        this.loadData('up');
+      direction = 'prev';
+      if (this.wrap.getBoundingClientRect().top + window.innerHeight > 200) {
+        this.loadData('prev');
       }
     }
     this.scrollPos = scrolled;
-    this.setResizeHeight();
+    this.changeResizeBtns();
+    this.fillPagination('direction');
   }
 
-  // Установка высоты подсветки кнопки ресайза (чтобы не выходила за пределы таблицы):
-  this.setResizeHeight = function() {
+  // Подгрузка таблицы при нажатии на кнопки пагинации:
+  this.moveTable = function(event) {
+    if (event.target.classList.contains('right')) {
+      this.wrap.scrollIntoView(false);
+    } else if (event.target.classList.contains('left')) {
+      this.wrap.scrollIntoView();
+    }
+  }
+
+  // Заполнение пагинации:
+  this.fillPagination = function(direction) {
+    if (!this.pagination || this.countItems === this.countItemsTo) {
+      return;
+    }
+    var from = this.countItems + 1,
+        to = this.countItemsTo;
+    if (direction) {
+      // console.log(this.direction);
+      // console.log(this.countItems);
+      console.log(this.countItemsTo);
+      // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+      var paginationPos = this.pagination.getBoundingClientRect().bottom + parseInt(window.getComputedStyle(this.pagination).fontSize, 10);
+      if (this.direction === 'next') {
+        if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
+          getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
+          if (this.countItemsTo !== this.dataToLoad.length) {
+            this.paginationSwitch = this.body.lastElementChild;
+            // console.log('next');
+            // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+          }
+        }
+      }
+      if (this.direction === 'prev') {
+        //  console.log(paginationPos);
+        //  console.log(this.paginationSwitch.getBoundingClientRect().top);
+        if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
+          // console.log('toggle');
+          getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
+          if (this.countItems !== 0) {
+            this.paginationSwitch = this.body.firstElementChild;
+            // console.log('prev');
+            // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+          }
+        }
+      }
+    } else {
+      getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
+      getEl('.total', this.pagination).textContent = this.dataToLoad.length;
+    }
+  }
+
+  // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+
+
+  // if (this.direction !== direction) {
+  //   this.countItems = this.countItems + this.body.querySelectorAll('tr').length;
+  //   this.direction = direction;
+  // } else {
+  //   this.countItems = this.countItemsTo;
+  // }
+
+  // Установка высоты кнопки ресайза (чтобы не выходила за пределы таблицы):
+  this.changeResizeBtns = function() {
     if (!this.head) {
       return;
     }
@@ -517,43 +658,6 @@ function Table(obj, settings = {}) {
         bodyRect = this.body.getBoundingClientRect(),
         newHeight =  bodyRect.bottom - headerRect.bottom + 'px';
     changeCss(`#${this.wrap.id} > table > thead > tr > th .resize-btn:hover::after`, 'height', newHeight);
-  }
-
-  // Заполнение фильтров таблицы значениями:
-  this.fillItems = function(curDropDown) {
-    if (!this.dropDowns) {
-      return;
-    }
-    var items;
-    this.dropDowns.forEach(el => {
-      if (el === curDropDown) {
-        return;
-      }
-      items = getEl('.items', el);
-      if (items) {
-        var key = el.dataset.key,
-            unique = [],
-            list = '',
-            value;
-        this.dataToLoad.forEach(el => getValue(el[key]));
-        function getValue(el) {
-          value = (typeof el === 'string' || typeof el === 'number') ? el : undefined;
-          if (value !== undefined && unique.indexOf(value) === -1) {
-            unique.push(value);
-          }
-        }
-        unique.sort();
-        unique.forEach(el => {
-          list +=
-          `<div class="item row" data-value="${el}">
-            <div class="checkbox icon"></div>
-            <div>${el}</div>
-          </div>`;
-        });
-        items.innerHTML = list;
-      }
-    });
-    // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
   }
 
   // Расстановка чекеров на значения после перерендеринга значений:
@@ -595,7 +699,7 @@ function Table(obj, settings = {}) {
   // Визуальное отображение таблицы:
   this.show = function() {
     showElement(this.wrap);
-    this.setResizeHeight();
+    this.changeResizeBtns();
     this.wrap.classList.add('active');
   }
 
@@ -627,54 +731,55 @@ function Table(obj, settings = {}) {
   }
 
   // Запуск сортировки, поиска и фильтрации по столбцу:
-  this.changeData = function(event) {
-    var dropDown = event.currentTarget,
-        target = event.target,
-        key = dropDown.dataset.key;
-    if (event.target.classList.contains('sort')) {
-      this.sortData(dropDown, target, key);
+  this.changeData = event => {
+    var type = event.detail;
+    if (type === 'sort') {
+      this.sortData(event);
     } else {
-      this.findData(dropDown, target, key);
+      this.filterData(event, type);
     }
   }
 
   // Сортировка по столбцу:
-  this.sortData = function(dropDown, target, key) {
-    var type = dropDown.dataset.sort,
-        key = target.classList.contains('down') ? key : '-' + key;
+  this.sortData = function(event) {
+    var group = event.target.closest('.group'),
+        type = group.dataset.type,
+        key = group.dataset.key;
+        key = event.target.classList.contains('down') ? key : '-' + key;
     this.head.querySelectorAll('.sort.checked').forEach(el => {
-      if (el.closest('.activate').id !== dropDown.id) {
+      if (el !== event.target) {
         el.classList.remove('checked');
       }
     });
-    var curSort = getEl('.sort.checked', this.head);
-    if (curSort) {
+    if (event.target.classList.contains('checked')) {
       this.data.sort(sortBy(key, type));
       this.dataToLoad.sort(sortBy(key, type));
     } else {
       this.data = JSON.parse(JSON.stringify(this.initialData));
-      this.filterData();
+      this.selectData();
     }
-    this.loadData();
+    this.replaceData();
   }
 
   // Поиск и фильтрация по столбцу:
-  this.findData = function(dropDown, target, key) {
+  this.filterData = function(event, type) {
     if (this.control) {
       this.resetControl();
     }
-    var type = target.classList.contains('item') ? 'filter' : 'search',
-        value = type === 'search' ? dropDown.value : target.dataset.value,
+    var key = event.target.closest('.group').dataset.key,
+        value,
         action;
     if (type === 'search') {
+      value = event.target.closest('.activate').value,
       action = value ? 'save' : 'remove';
     } else if (type === 'filter') {
-      action = target.classList.contains('checked') ? 'save' : 'remove';
+      value = event.target.dataset.value,
+      action = event.target.classList.contains('checked') ? 'save' : 'remove';
     }
     var oldFilters = JSON.stringify(this.filters);
     this.changeFilter(action, type, key, value);
     if (oldFilters !== JSON.stringify(this.filters)) {
-      this.filterData();
+      this.selectData();
     }
     this.fill();
     // this.fill(action === 'save' ? dropDown : '');
@@ -713,8 +818,8 @@ function Table(obj, settings = {}) {
     }
   }
 
-  // Фильтрация данных:
-  this.filterData = function() {
+  // Отбор данных:
+  this.selectData = function() {
     if (!isEmptyObj(this.filters)) {
       var isFound, filter;
       this.dataToLoad = this.data.filter(item => {
@@ -820,14 +925,17 @@ function Table(obj, settings = {}) {
 
   // Инициализация таблицы:
   this.init = function() {
-    this.prepare();
     this.setEventListeners();
     if (this.search) {
       this.search = initSearch(this.search, this.fullSearch);
     }
     if (this.dropDowns) {
-      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
+      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.changeData));
     }
+    if (this.adaptive) {
+      this.adaptiveFilter = initFilter(obj, {sorts: settings.sorts, filters: settings.filters});
+    }
+    this.prepare();
     if (this.wrap.classList.contains('active')) {
       this.show();
     }
