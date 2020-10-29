@@ -45,7 +45,7 @@ if (isCart) {
 
 var currentElem = null,
     tooltip = null,
-    scrollTop;
+    scrollPos;
 
 // Запускаем рендеринг страницы:
 
@@ -80,9 +80,9 @@ startPage();
 // Запуск страницы:
 
 function startPage() {
-  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '').replace('registr', '');
   addModules(path);
-  if (path !== '' && path !== 'registr' && isCart) {
+  if (path && isCart) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
     .then(result => {
@@ -122,7 +122,7 @@ function addModules(path) {
   if (getEl('#modules')) {
     return;
   }
-  var url = (path === '' || path === 'registr') ? '../modules/main_short.html' : '../modules/main_full.html',
+  var url = path ? '../modules/main_full.html' : '../modules/main_short.html',
       modules = document.createElement('div');
   modules.id = 'modules';
   modules.dataset.html = url;
@@ -179,16 +179,18 @@ function loadHTML(target, url) {
 // Запуск инициализации всех имеющихся модулей страницы:
 
 function initModules(path) {
-  if (path !== '' && path !== 'registr') {
+  if (path) {
     fillUserInfo();
     // initNotifications();
-    loader.show();
   }
   initLoader();
   initAlerts();
   initUpBtn();
   initTooltips();
   initInputFiles();
+  if (path) {
+    loader.show();
+  }
 }
 
 // Вывод информации о пользователе в шапке страницы:
@@ -764,14 +766,17 @@ function hideElement(el) {
 // Получение текущей прокрутки документа:
 
 function getDocumentScroll() {
-  scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  scrollPos = {x: window.pageXOffset, y: window.pageYOffset};
 }
 
 // Установка прокрутки документа:
 
-function setDocumentScroll(top = scrollTop) {
-  document.documentElement.scrollTop = top;
-  document.body.scrollTop = top;
+function setDocumentScroll(x, y) {
+  if (x === undefined && y === undefined) {
+    window.scrollTo(scrollPos.x, scrollPos.y);
+  } else {
+    window.scrollTo(x || 0, y || 0);
+  }
 }
 
 // Удаление значения из инпута при его фокусе:
@@ -1518,7 +1523,7 @@ function changeQty(event, maxQty, minQty = 0) {
   input.dataset.value = qty;
   changeColors(qtyWrap, qty);
   if (sign) {
-    input.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
+    input.dispatchEvent(new CustomEvent('change', {'bubbles': true}));
   }
   return qty;
 }
@@ -2119,15 +2124,15 @@ var dateValidate = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{
 
 // Валидация телефонного номера:
 
-function telValidate(tel) {
+function phoneValidate(phone) {
   var result = {result: false, error: null};
-  if (tel.match(/\d/g).length < 11) {
-    result.error = 'Введены не все цифры номера';
-  } else if (tel.match(/\d/g).length > 11) {
-    result.error = 'Введены лишние цифры';
+  if (phone.match(/\d/g).length < 11) {
+    result.error = 'Номер введен неверно';
+  } else if (phone.match(/\d/g).length > 11) {
+    result.error = 'Номер введен неверно';
   } else {
-    tel = tel.replace(/\s/g, '');
-    if (/^([\+]*[7|8])((\(*\d{3}\)*)|(\-*\d{3}\-*))(\d{3}-*)(\d{2}-*)(\d{2})$/.test(tel)) {
+    phone = phone.replace(/\s/g, '');
+    if (/^([\+]*[7|8])((\(*\d{3}\)*)|(\-*\d{3}\-*))(\d{3}-*)(\d{2}-*)(\d{2})$/.test(phone)) {
       result.result = true;
     } else {
       result.error = 'Номер введен неверно';
@@ -2353,7 +2358,7 @@ function Form(obj, callback) {
     }
     var formWrap = input.closest('.form-wrap');
     if (isValid.result) {
-      if (type === 'tel' && input.value.length) {
+      if (type === 'phone' && input.value.length) {
         // приведение к формату +7 (000) 000-00-00
         var numbs = input.value.replace(/\D/g, '').match(/^([\+]*[7|8])(\d{3})(\d{3})(\d{2})(\d{2})$/);
         input.value = '+7 (' + numbs[2] + ') ' + numbs[3] + '-' + numbs[4] + '-' + numbs[5];
@@ -2570,7 +2575,7 @@ function Search(obj, callback) {
       return;
     }
     var textToFind = this.input.value.trim();
-    if (textToFind === '') {
+    if (!/\S/.test(textToFind)) {
       this.toggleHints();
       return;
     }
@@ -2614,7 +2619,7 @@ function Search(obj, callback) {
     }
     var value;
     if (this.activate.classList.contains('checkbox')) {
-      value = Array.from(this.items.querySelectorAll('.item')).filter(el => el.classList.contains('checked')).length
+      value = Array.from(this.items.querySelectorAll('.item')).filter(el => el.classList.contains('checked')).length;
       value = value ? 'Выбрано: ' + value : '';
     } else {
       value = !curItem.dataset.value ? curItem.dataset.value : curItem.textContent;
@@ -2706,7 +2711,7 @@ function initDropDown(el, handler, data, defaultValue) {
   el = getEl(el);
   if (el) {
     if (el.id) {
-      return window[`${el.id}Dropdown`] = new DropDown(el, data, handler, defaultValue);
+      return window[`${el.id}Dropdown`] = new DropDown(el, handler, data, defaultValue);
     } else {
       return new DropDown(el, data);
     }
@@ -2748,8 +2753,11 @@ function DropDown(obj, handler, data, defaultValue) {
   this.hiddenInput = getEl('input[type="hidden"]', obj);
   this.head = getEl('.head', obj);
   this.title = getEl('.head .title', obj);
-  this.sort = getEl('.sort-box', obj);
+  this.sort = getEl('.group.sort', obj);
   this.search = getEl('form.search', obj);
+  if (!this.search) {
+    this.calendar = getEl('.calendar-wrap', obj);
+  }
   this.items = getEl('.items', obj) || getEl('.drop-down', obj);
   this.clearBtn = getEl('.clear-btn', obj);
 
@@ -2817,7 +2825,7 @@ function DropDown(obj, handler, data, defaultValue) {
       return;
     }
     if (!this.items.id) {
-      this.items.id = this.obj.id + 'Items';
+      this.items.id = this.obj.id + '-items';
     }
     fillTemplate({
       area: this.items,
@@ -2847,7 +2855,7 @@ function DropDown(obj, handler, data, defaultValue) {
 
   // Сортировка значений:
   this.sortValue = function(event) {
-    var item = event.target.closest('.row');
+    var item = event.target.closest('.sort:not(.icon)');
     if (!item) {
       return;
     }
@@ -2860,7 +2868,7 @@ function DropDown(obj, handler, data, defaultValue) {
       }
       item.classList.add('checked');
     }
-    item.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
+    item.dispatchEvent(new CustomEvent('change', {'detail': 'sort', 'bubbles': true}));
   }
 
   // Поиск значения:
@@ -2871,7 +2879,7 @@ function DropDown(obj, handler, data, defaultValue) {
     var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
     this.changeTitle(newTitle);
     this.writeValue(textToFind);
-    search.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
+    search.dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
   }
 
   // Выбор значения из списка:
@@ -2911,7 +2919,7 @@ function DropDown(obj, handler, data, defaultValue) {
       }
     }
     this.writeValue(value);
-    curItem.dispatchEvent(new CustomEvent('change', {"bubbles": true}));
+    curItem.dispatchEvent(new CustomEvent('change', {'detail': 'filter', 'bubbles': true}));
   }
 
   // Установка значения:
@@ -2953,9 +2961,244 @@ function DropDown(obj, handler, data, defaultValue) {
     if (this.search) {
       this.search = initSearch(this.search, this.searchValue);
     }
+    if (this.calendar) {
+      initCalendar(this.calendar);
+    }
     if (data) {
       this.fillItems(data);
     }
   }
   this.init();
+}
+
+//=====================================================================================================
+// Создание и работа блока фильтров:
+//=====================================================================================================
+
+// В каком виде нужно передавать данные для создания фильтров:
+
+// var settings = {
+//   sorts: {                                   Сортировки:
+//     key1: {                                    - ключ в данных, по которому будет браться информация
+//       title: 'Заголовок'                         - заголовок сортировки
+//       type: 'text' / 'numb' / 'date'             - формат сортировки (по умолчанию text)
+//       isOpen: true / false                     - сортировка открыта или закрыта (true - открыта, по умолчанию false - закрыта)
+//     }
+//     {key2: {...}
+//   },
+//   filters: {                                 Фильтры:
+//     key1: {                                    - ключ в данных, по которому будет браться информация
+//       title: 'Заголовок'                         - заголовок фильтра
+//       search: 'usual' / 'date'                   - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
+//       filter: 'checkbox' / 'select'              - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
+//       items: data                                - данные для заполнения фильтра (чекбоксов или селектов)
+//       isOpen: true / false                     - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
+//     }
+//     {key2: {...}
+//   },
+//   isSave: true / false                       Cохранять ли групп фильтров в текущей сессии браузера (открыт/закрыт) (по умолчанию не сохраняются)
+// }
+
+// Инициализация блока фильтров:
+
+function initFilter(el, settings) {
+  el = getEl(el);
+  if (el) {
+    createFilter(el, settings);
+    if (el.id) {
+      return window[`${el.id}Filter`] = new Filter(el);
+    } else {
+      return new Filter(el);
+    }
+  }
+}
+
+// Очистка фильтра:
+
+function fillFilter(el, data) {
+  var el = getEl(el);
+  if (window[`${el.id}Filter`]) {
+    window[`${el.id}Filter`].fillItems(data);
+  }
+}
+
+// Создание блока фильтров:
+
+function createFilter(area, settings) {
+  var content = '',
+      mainTitle,
+      sorts = settings.sorts,
+      filters = settings.filters;
+  if (sorts) {
+    mainTitle = 'Сортировки';
+    var sortsList = '';
+    for (var key in sorts) {
+      var type = sorts[key].type,
+          isOpen = sorts[key].isOpen ? '' : 'close',
+          title = sorts[key].title,
+          groupContent =
+          `<div class="item sort down row">
+            <div class="radio icon"></div>
+            <div>${getSortText('down', type)}</div>
+          </div>
+          <div class="item sort up row">
+            <div class="radio icon"></div>
+            <div>${getSortText('up', type)}</div>
+          </div>`;
+      sortsList +=
+      `<div class="group switch ${isOpen}" data-key="${key}" data-type="${type}">
+        <div class="title row" onclick="switchContent(event)">
+          <div class="title white h3">${title}</div>
+          <div class="open white icon switch-icon"></div>
+        </div>
+        <div class="switch-cont">
+          ${groupContent}
+        </div>
+      </div>`;
+    }
+    content += sortsList;
+  }
+  if (filters) {
+    var filtersList = '';
+    if (mainTitle) {
+      filtersList +=
+      `<div class="title row">
+        <div class="title h2">Фильтры</div>
+      </div>`;
+    } else {
+      mainTitle = 'Фильтры';
+    }
+    for (var key in filters) {
+      var isOpen = filters[key].isOpen ? '' : 'close',
+          title = filters[key].title,
+          search = filters[key].search,
+          filter = filters[key].filter,
+          groupContent = '';
+      if (search) {
+        if (search === 'date') {
+          search =
+          `<div class="calendar-wrap">
+            <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
+          </div>`;
+        } else {
+          search =
+          `<form class="search row">
+            <input type="text" data-value="" placeholder="Поиск...">
+            <input class="search icon" type="submit" value="">
+            <div class="close icon"></div>
+          </form>`;
+        }
+        groupContent += search;
+      }
+      if (filter && filters[key].search !== 'date') {
+        groupContent +=
+        `<div class="items">
+          ${fillFilterItems(filter, filters[key].items)}
+        </div>`;
+      }
+      filtersList +=
+      `<div class="group switch ${isOpen}" data-key="${key}">
+        <div class="title row" onclick="switchContent(event)">
+          <div class="title white h3">${title}</div>
+          <div class="open white icon switch-icon"></div>
+        </div>
+        <div class="switch-cont">
+          ${groupContent}
+        </div>
+      </div>`;
+    }
+    content += filtersList;
+  }
+
+  var filterBlock = document.createElement('div');
+  filterBlock.classList.add('pop-up-container', 'filters');
+  filterBlock.id = area.id + '-filters';
+  filterBlock.innerHTML =
+  `<div class="pop-up">
+    <div class="pop-up-title row">
+      <div class="title h2">${mainTitle}</div>
+      <div class="close icon"></div>
+    </div>
+    <div class="pop-up-body">
+      ${content}
+    </div>
+    <div class="btns-wrap">
+      <div class="clear-btn row">
+        <div>Сбросить</div>
+        <div class="close icon"></div>
+      </div>
+      <div class="btn act disabled">Показать (<span>0</span>)</div>
+    </div>
+  </div>`;
+  area.appendChild(filterBlock);
+}
+
+// Заполнение фильтра значениями:
+
+function fillFilterItems(type, data) {
+  var items = '';
+  if (data && Array.isArray(data)) {
+    data.forEach(el => {
+      var title, value;
+      if (typeof el === 'string') {
+        title = value = el;
+      } else {
+        title = el.title;
+        value = el.value;
+      }
+      if (el.items) {
+        items +=
+        `<div class="item switch close" data-value="${value}">
+          <div class="row">
+            <div class="title row">
+              <div class="checkbox icon"></div>
+              <div class="text">${title}</div>
+            </div>
+            <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+          </div>
+          <div class="items switch-cont">
+           ${fillFilterItems(type, el.items)}
+          </div>
+        </div>`
+      } else {
+        var iconType;
+        if (type === 'select') {
+          iconType = 'radio';
+        } else if (type === 'checkbox') {
+          iconType = 'checkbox';
+        }
+        items +=
+        `<div class="item row" data-value="${value}">
+          <div class="${iconType} icon"></div>
+          <div>${title}</div>
+        </div>`;
+      }
+    });
+    if (data.items) {
+      fillFilterItems(data.items)
+    }
+  }
+  return items;
+}
+
+// Объект фильтра:
+
+function Filter(obj) {
+  // Элементы для работы:
+  this.obj = obj;
+
+  // Установка обработчиков событий:
+  this.setEventListeners = function() {
+  }
+
+  // Заполнение фильтров значениями:
+  this.fillItems = function(data) {
+    for (var key in data) {
+      
+    }
+  }
+
+  // Инициализация блока фильтров:
+  this.init = function() {
+  }
 }
