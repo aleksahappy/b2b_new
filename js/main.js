@@ -224,7 +224,7 @@ function fillUserInfo() {
 
 // Отправка запросов на сервер:
 
-function sendRequest(url, data, type = 'application/json; charset=utf-8') {
+function sendRequest(url, data, type) {
   return new Promise((resolve, reject) => {
     var request = new XMLHttpRequest();
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
@@ -235,11 +235,10 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       resolve(request.response);
     });
     if (data) {
-      if (type === 'application/json; charset=utf-8') {
+      if (!type) {
         data = JSON.stringify(data);
       }
       request.open('POST', url);
-      request.setRequestHeader('Content-type', type);
       request.send(data);
     } else {
       request.open('GET', url);
@@ -2338,8 +2337,8 @@ function Form(obj, callback) {
 
   // Проверка поля:
   this.check = function(event) {
-    this.checkInput(event)
-    this.checkSubmit(event);
+    this.checkSubmit();
+    this.checkInput(event);
   }
 
   // Определение типа поля и его проверка по соответствующему регулярному выражению:
@@ -2348,8 +2347,8 @@ function Form(obj, callback) {
       return;
     }
     var input = event.currentTarget,
-        isValid = checkInput(input),
-        type = input.dataset.type;
+      isValid = checkInput(input),
+      type = input.dataset.type;
     if (type === 'cyril' && input.value.length === 1) {
       input.value = capitalizeFirstLetter(input.value);
     }
@@ -2383,10 +2382,7 @@ function Form(obj, callback) {
   }
 
   // Проверка на заполнение всех обязательных полей и блокировка/разблокировка кнопки submit:
-  this.checkSubmit = function(event) {
-    if (!event.currentTarget.closest('.form-wrap').hasAttribute('required')) {
-      return;
-    }
+  this.checkSubmit = function() {
     var required = Array.from(this.form.querySelectorAll('[required]'));
     this.isSubmit = required.every(el => {
       var fields = el.querySelectorAll('[name]'),
@@ -3131,6 +3127,18 @@ function createFilter(area, settings) {
     </div>
   </div>`;
   area.appendChild(filterBlock);
+}
+
+// Получение текста для кнопок сортировки:
+
+function getSortText(sortOrder, type) {
+  var text;
+  if (sortOrder === 'down') {
+    text = type === 'numb' ? 'По возрастанию' : (type === 'date' ? 'Сначала новые' : 'От А до Я');
+  } else if (sortOrder = 'up') {
+    text = type === 'numb' ? 'По убыванию' : (type === 'date' ? 'Сначала старые' : 'От Я до А');
+  }
+  return text;
 }
 
 // Заполнение фильтра значениями:
