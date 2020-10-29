@@ -43,7 +43,7 @@
 
         </div>
 
-        <!-- Текста на темном фоне -->
+        <!-- Текст на темном фоне -->
         <div class="artboard-title">Текст на темном фоне</div>
         <div class="arboard-block text-white-temp">
 
@@ -660,23 +660,23 @@
             <div class="head row">
               <div class="title">Box-select</div>
               <div class="icons row">
-                <div class="filter icon"></div>
                 <div class="triangle icon"></div>
+                <div class="filter icon"></div>
               </div>
             </div>
             <div class="drop-down">
-              <div class="sort-box">
+              <div class="group sort">
                 <div class="title">Сортировка</div>
-                <div class="sort down row">
-                  <div class="sort down icon"></div>
+                <div class="item sort down row">
+                  <div class="sort icon"></div>
                   <div>От А до Я</div>
                 </div>
-                <div class="sort up row">
-                  <div class="sort up icon"></div>
+                <div class="item sort up row">
+                  <div class="sort icon"></div>
                   <div>От Я до А</div>
                 </div>
               </div>
-              <div class="filter-box">
+              <div class="group filter">
                 <div class="title">Фильтр</div>
                 <form class="search row">
                   <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
@@ -701,23 +701,23 @@
             <div class="head row">
               <div class="title">Box-checkbox</div>
               <div class="icons row">
-                <div class="filter icon"></div>
                 <div class="triangle icon"></div>
+                <div class="filter icon"></div>
               </div>
             </div>
             <div class="drop-down">
-              <div class="sort-box">
+              <div class="group sort">
                 <div class="title">Сортировка</div>
-                <div class="sort down row">
-                  <div class="sort down icon"></div>
+                <div class="item sort down row">
+                  <div class="sort icon"></div>
                   <div>От А до Я</div>
                 </div>
-                <div class="sort up row">
-                  <div class="sort up icon"></div>
+                <div class="item sort up row">
+                  <div class="sort icon"></div>
                   <div>От Я до А</div>
                 </div>
               </div>
-              <div class="filter-box">
+              <div class="group filter">
                 <div class="title">Фильтр</div>
                 <form class="search row">
                   <input type="text" data-value="" autocomplete="off" placeholder="Поиск...">
@@ -754,6 +754,36 @@
                     <div class="checkbox icon"></div>
                     <div>#item7#</div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div>Кастомный выпадающий список с сортировкой и поиском по дате (чекбоксов или селекта тут быть не может)</div>
+          <div id="box-date-search" class="activate box checkbox">
+            <div class="head row">
+              <div class="title">Box-date-search</div>
+              <div class="icons row">
+                <div class="triangle icon"></div>
+                <div class="filter icon"></div>
+              </div>
+            </div>
+            <div class="drop-down">
+              <div class="group sort">
+                <div class="title">Сортировка</div>
+                <div class="item sort down row">
+                  <div class="sort icon"></div>
+                  <div>Сначала новые</div>
+                </div>
+                <div class="item sort up row">
+                  <div class="sort icon"></div>
+                  <div>Сначала старые</div>
+                </div>
+              </div>
+              <div class="group filter">
+                <div class="title">Фильтр</div>
+                <div class="calendar-wrap">
+                  <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
                 </div>
               </div>
             </div>
@@ -935,94 +965,84 @@
                 <div class="title h2">Фильтры</div>
                 <div class="close icon"></div>
               </div>
-              <div class="filter switch">
-                <div class="title row" onclick="switchContent(event)">
-                  <div class="title white h3">Название фильтра 1</div>
-                  <div class="open white icon switch-icon"></div>
-                </div>
-                <div class="items switch-cont">
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 1</div>
-                      </div>
-                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                    </div>
-                    <div class="items switch-cont">
-                      <div class="item">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 1</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+              <div class="pop-up-body">
+                <div class="group switch">
+                  <div class="title row" onclick="switchContent(event)">
+                    <div class="title white h3">Название фильтра 1</div>
+                    <div class="open white icon switch-icon"></div>
                   </div>
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 2</div>
-                      </div>
-                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                    </div>
-                    <div class="items switch-cont">
-                      <div class="item">
+                  <div class="switch-cont">
+                    <div class="items">
+                      <div class="item switch close">
                         <div class="row">
                           <div class="title row">
                             <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 1</div>
+                            <div class="text">Вариант 1</div>
+                          </div>
+                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                        </div>
+                        <div class="items switch-cont">
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 1</div>
+                          </div>
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 2</div>
                           </div>
                         </div>
                       </div>
-                      <div class="item">
+                      <div class="item switch close">
                         <div class="row">
                           <div class="title row">
                             <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 2</div>
+                            <div class="text">Вариант 2</div>
+                          </div>
+                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                        </div>
+                        <div class="items switch-cont">
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 1</div>
+                          </div>
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 2</div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="filter switch">
-                <div class="title row" onclick="switchContent(event)">
-                  <div class="title white h3">Название фильтра 2</div>
-                  <div class="open white icon switch-icon"></div>
-                </div>
-                <div class="items switch-cont">
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 1</div>
+                <div class="group switch">
+                  <div class="title row" onclick="switchContent(event)">
+                    <div class="title white h3">Название фильтра 2</div>
+                    <div class="open white icon switch-icon"></div>
+                  </div>
+                  <div class="switch-cont">
+                    <div class="items">
+                      <div class="item switch close">
+                        <div class="row">
+                          <div class="title row">
+                            <div class="checkbox icon"></div>
+                            <div class="text">Вариант 1</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item switch close">
+                        <div class="row">
+                          <div class="title row">
+                            <div class="checkbox icon"></div>
+                            <div class="text">Вариант 2</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 2</div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div class="btns-wrap">
-                <div class="btn act">Показать (<span>0</span>)</div>
+                <div class="btns-wrap">
+                  <div class="btn act">Показать (<span>0</span>)</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1034,97 +1054,107 @@
           <div id="filters2" class="pop-up-container filters">
             <div class="pop-up">
               <div class="pop-up-title row">
-                <div class="title h2">Фильтры</div>
+                <div class="title h2">Сортировки</div>
                 <div class="close icon"></div>
               </div>
-              <div class="filter switch">
-                <div class="title row" onclick="switchContent(event)">
-                  <div class="title white h3">Название фильтра 1</div>
-                  <div class="open white icon switch-icon"></div>
-                </div>
-                <div class="items switch-cont">
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 1</div>
-                      </div>
-                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                    </div>
-                    <div class="items switch-cont">
-                      <div class="item">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 1</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+              <div class="pop-up-body">
+                <div class="group switch">
+                  <div class="title row" onclick="switchContent(event)">
+                    <div class="title white h3">Название сортировки 1</div>
+                    <div class="open white icon switch-icon"></div>
                   </div>
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 2</div>
-                      </div>
-                      <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                  <div class="switch-cont">
+                    <div class="item sort down row">
+                      <div class="radio icon"></div>
+                      <div>По возрастанию</div>
                     </div>
-                    <div class="items switch-cont">
-                      <div class="item">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 1</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
+                    <div class="item sort up row">
+                      <div class="radio icon"></div>
+                      <div>По убыванию</div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="filter switch">
-                <div class="title row" onclick="switchContent(event)">
-                  <div class="title white h3">Название фильтра 2</div>
-                  <div class="open white icon switch-icon"></div>
+                <div class="title row">
+                  <div class="title h2">Фильтры</div>
                 </div>
-                <div class="items switch-cont">
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
-                        <div class="checkbox icon"></div>
-                        <div class="text">Вариант 1</div>
-                      </div>
-                    </div>
+                <div class="group switch">
+                  <div class="title row" onclick="switchContent(event)">
+                    <div class="title white h3">Название фильтра 1</div>
+                    <div class="open white icon switch-icon"></div>
                   </div>
-                  <div class="item switch close">
-                    <div class="row">
-                      <div class="title row">
+                  <div class="switch-cont">
+                    <div class="items">
+                      <div class="item switch close">
+                        <div class="row">
+                          <div class="title row">
+                            <div class="checkbox icon"></div>
+                            <div class="text">Вариант 1</div>
+                          </div>
+                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                        </div>
+                        <div class="items switch-cont">
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 1</div>
+                          </div>
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 2</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item switch close">
+                        <div class="row">
+                          <div class="title row">
+                            <div class="checkbox icon"></div>
+                            <div class="text">Вариант 2</div>
+                          </div>
+                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
+                        </div>
+                        <div class="items switch-cont">
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 1</div>
+                          </div>
+                          <div class="item row">
+                            <div class="checkbox icon"></div>
+                            <div>Подвариант 2</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item row">
                         <div class="checkbox icon"></div>
-                        <div class="text">Вариант 2</div>
+                        <div>Вариант 3</div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="btns-wrap">
-                <div class="btn act">Показать (<span>0</span>)</div>
+                <div class="group switch">
+                  <div class="title row" onclick="switchContent(event)">
+                    <div class="title white h3">Название фильтра 2</div>
+                    <div class="open white icon switch-icon"></div>
+                  </div>
+                  <div class="switch-cont">
+                    <form class="search row">
+                      <input type="text" data-value="" placeholder="Поиск...">
+                      <input class="search icon" type="submit" value="">
+                      <div class="close icon"></div>
+                    </form>
+                    <div class="items">
+                      <div class="item row">
+                        <div class="checkbox icon"></div>
+                        <div>Вариант 1</div>
+                      </div>
+                      <div class="item row">
+                        <div class="checkbox icon"></div>
+                        <div>Вариант 2</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btns-wrap">
+                  <div class="btn act">Показать (<span>0</span>)</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1195,37 +1225,37 @@
               <div class="form-cols">
                 <div class="form-col2">
                   <div class="form-wrap" required>
-                    <div class="title">Имя*</div>
+                    <div class="title">Имя<span class="req">*</span></div>
                     <input type="text" value="" name="name" data-type="name" placeholder="Введите имя">
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">Фамилия*</div>
+                    <div class="title">Фамилия<span class="req">*</span></div>
                     <input type="text" value="" name="surname" data-type="name" placeholder="Введите фамилию">
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">Отчество*</div>
+                    <div class="title">Отчество<span class="req">*</span></div>
                     <input type="text" value="" name="patronymic" data-type="name" placeholder="Введите отчество">
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">Должность*</div>
+                    <div class="title">Должность<span class="req">*</span></div>
                     <input type="text" value="" name="position" placeholder="Введите должность">
                   </div>
                 </div>
                 <div class="form-col2">
                   <div class="form-wrap" required>
-                    <div class="title">Телефон*</div>
-                    <input type="text" value="" name="tel" data-type="tel" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="30">
+                    <div class="title">Телефон<span class="req">*</span></div>
+                    <input type="text" value="" name="phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _" maxlength="30">
                   </div>
                   <div class="form-wrap">
                     <div class="title">Email</div>
                     <input type="text" value="" name="email" data-type="email" placeholder="Введите email">
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">ИНН*</div>
+                    <div class="title">ИНН<span class="req">*</span></div>
                     <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)">
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">Тип доступа*</div>
+                    <div class="title">Тип доступа<span class="req">*</span></div>
                     <div class="form-cols">
                       <div class="form-col2">
                         <div class="option row">
@@ -1248,7 +1278,7 @@
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Комментарий к заказу*</div>
+                <div class="title">Комментарий к заказу<span class="req">*</span></div>
                 <textarea name="comment2" data-type="text" maxlength="300" autocomplete="off" placeholder="Введите текст" oninput="textareaCounter(this)"></textarea>
                 <div class="text-counter" data-count="comment2">Знаков осталось: <span>300</span></div>
               </div>
@@ -1286,7 +1316,7 @@
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Формат торговли*</div>
+                <div class="title">Формат торговли<span class="req">*</span></div>
                 <div class="option row">
                   <input type="checkbox" value="Розничный магазин" name="format">
                   <div class="checkbox icon"></div>
@@ -1309,7 +1339,7 @@
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Система налогообложения*</div>
+                <div class="title">Система налогообложения<span class="req">*</span></div>
                 <div class="activate select">
                   <!-- обязательно добавляем скрытый инпут с name и пустым value -->
                   <input type="hidden" value="" name="taxsystem">
@@ -1325,19 +1355,19 @@
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Дата*</div>
+                <div class="title">Дата<span class="req">*</span></div>
                 <div class="calendar-wrap">
                   <input type="text" value="" name="date" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Период*</div>
+                <div class="title">Период<span class="req">*</span></div>
                 <div class="calendar-wrap">
                   <input type="text" value="" name="" data-type="range" placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="23" autocomplete="off" oninput="onlyDateChar(event)">
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Количество*</div>
+                <div class="title">Количество<span class="req">*</span></div>
                 <div class="qty qty-box row">
                   <div class="btn minus" data-tooltip="Уменьшить" onclick="changeQty(event, 15)"></div>
                   <input class="choiced-qty" value="0" name="count" type="text" data-value="0" autocomplete="off" onchange="changeQty(event, 15)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" oninput="onlyNumb(event)">
@@ -1345,7 +1375,7 @@
                 </div>
               </div>
               <div class="form-wrap" required>
-                <div class="title">Логотип*</div>
+                <div class="title">Логотип<span class="req">*</span></div>
                 <div class="file-wrap">
                   <input id="load-img1" value="" name="file" type="file" accept="image/*">
                   <div class="file-preview"></div>
@@ -1382,7 +1412,7 @@
                   <div class="row">
                     <div class="row">
                       <div class="form-wrap" required>
-                        <div class="title">ИНН*</div>
+                        <div class="title">ИНН<span class="req">*</span></div>
                         <input type="text" value="" name="" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)">
                       </div>
                       <div id="inn-loader" class="loader icon"></div>
@@ -1397,11 +1427,11 @@
                     <input type="text" value="" name="" placeholder="" disabled>
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">Юридический адрес*</div>
+                    <div class="title">Юридический адрес<span class="req">*</span></div>
                     <textarea name="" maxlength="" placeholder="" disabled></textarea>
                   </div>
                   <div class="form-wrap" required>
-                    <div class="title">Система налогообложения*</div>
+                    <div class="title">Система налогообложения<span class="req">*</span></div>
                     <div class="activate select" disabled>
                       <!-- обязательно добавляем скрытый инпут с name и пустым value -->
                       <input type="hidden" value="" name="taxsystem">
@@ -1433,7 +1463,7 @@
 
         <!-- Таблица -->
         <div class="artboard-title">Таблицы</div>
-        <div class="arboard-block table-temp">
+        <div class="arboard-block table-temp" style="min-height: 40em;">
 
           <!-- Чтобы таблица отобразилась на странице корректно нужно:
           1) создать контейнер для таблицы с классом table-desktop и присвоить ему id
@@ -1442,21 +1472,22 @@
           <div class="title h1">Таблица, созданная динамически</div>
           <div class="title h2">(её адаптивная версия появляется с 1080px)</div>
           <br>
-          <div id="table2" class="table-desktop active"></div>
-          <div id="table2-adaptive" class="table-adaptive">
-            <div class="infoblock">
-              <div class="head">
-                <div class="title">#contr#</div>
-                <div class="toggle dark #accessType#" onclick="toggle(event)">
-                  <div class="toggle-in"></div>
+          <div id="table" class="table active">
+            <div class="table-adaptive">
+              <div class="infoblock">
+                <div class="head">
+                  <div class="title">#contr#</div>
+                  <div class="toggle dark #accessType#" onclick="toggle(event)">
+                    <div class="toggle-in"></div>
+                  </div>
                 </div>
-              </div>
-              <div class="info content">
-                <div class="title">ИНН/КПП: <span class="text">#inn#</span></div>
-                <div class="title">Система налогообложения: <span class="text">#system#</span></div>
-                <div class="title">Дата заведения: <span class="text">#date#</span></div>
-                <div class="title">Юридический адрес: <span class="text">#address#</span></div>
-                <div class="docs row #status#"><div class="mark icon"></div><a href="url">#title#</a></div>
+                <div class="info content">
+                  <div class="title">ИНН/КПП: <span class="text">#inn#</span></div>
+                  <div class="title">Система налогообложения: <span class="text">#system#</span></div>
+                  <div class="title">Дата заведения: <span class="text">#date#</span></div>
+                  <div class="title">Юридический адрес: <span class="text">#address#</span></div>
+                  <div class="docs row #status#"><div class="mark icon"></div><a href="url">#title#</a></div>
+                </div>
               </div>
             </div>
           </div>

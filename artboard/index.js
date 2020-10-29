@@ -11,6 +11,7 @@ initDropDown('#select');
 initDropDown('#checkbox');
 initDropDown('#box-select');
 initDropDown('#box-checkbox');
+initDropDown('#box-date-search');
 initDropDown('#search-select');
 initDropDown('#search-checkbox');
 initCalendar('#calendar1');
@@ -21,11 +22,12 @@ initForm('#form1');
 // Добавление функционала в блок фильтров для демонстрации работы:
 
 document.querySelectorAll('.filters').forEach(el => {
-  el.querySelectorAll('.item .row').forEach (el => el.addEventListener('click', event => {
+  el.querySelectorAll('.item').forEach (el => el.addEventListener('click', event => {
     event.stopPropagation();
-    if (event.target.classList.contains('checkbox') || event.target.classList.contains('text')) {
-      event.currentTarget.classList.toggle('checked');
+    if (event.target.closest('.open.icon')) {
+      return;
     }
+    toggle(event);
   }));
 })
 
@@ -34,11 +36,12 @@ document.querySelectorAll('.filters').forEach(el => {
 //=====================================================================================================
 
 // Созание примера данных для таблицы:
-var data2 = [];
-for (var i = 0; i < 600; i++) {
-  data2.push({
+var data = [];
+for (var i = 0; i < 520; i++) {
+  data.push({
     access: 'checked',
-    inn: '9731002289/637584',
+    inn: '9731002289',
+    kpp: '/637584',
     contr: (i + 1) * 2 - 1,
     // contr: 'ООО, Пилот' + (parseInt(i, 10) + 1),
     system: 'Упрощенная',
@@ -64,9 +67,10 @@ for (var i = 0; i < 600; i++) {
       info: 'Договор от 31.10.2017<br>Заключен с ООО «ТОП СПОРТС»'
     }]
   });
-  data2.push({
+  data.push({
     access: '',
-    inn: '97320002134/637554',
+    inn: '97320002134',
+    kpp: '/637554',
     contr: (i + 1) * 2,
     // contr: 'ООО, Магнолия' + (1 + i),
     system: 'Основная',
@@ -88,73 +92,80 @@ for (var i = 0; i < 600; i++) {
 
 // Настройки таблицы:
 var settings = {
-  data: data2,
+  data: data,
   control: {
     pagination: true,
     search: 'Поиск...',
     setting: true
   },
-  head: true,
-  result: false,
-  cols: [{
-    title: 'Доступ',
-    width: '6%',
-    key: 'access',
-    content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
-  }, {
-    title: 'ИНН/КПП',
-    key: 'inn',
-    sort: 'text',
-    search: 'usual'
-  }, {
-    title: 'Контрагент',
-    key: 'contr',
-    sort: 'text',
-    search: 'usual',
-    filter: true
-  }, {
-    title: 'Система налогообложения',
-    width: '15%',
-    key: 'system',
-    sort: 'text',
-    search: 'usual',
-    filter: true
-  }, {
-    title: 'Дата заведения',
-    align: 'center',
-    key: 'date',
-    sort: 'date',
-    search: 'date'
-  }, {
-    title: 'Юридический адрес',
-    width: '20%',
-    key: 'address',
-    search: 'usual'
-  }, {
-    title: 'Пользователь',
-    key: 'user',
-    sort: 'text',
-    search: 'usual',
-    filter: true
-  }, {
-    title: 'Документы',
-    width: '20%',
-    key: 'docs',
-    content: `<div class="docs row #status#">
-                <div class="mark icon" data-tooltip="#status_info#"></div>
-                <a href="url" data-tooltip="#info#" help>#title#</a>
-              </div>`
-  }],
-  sub: [{area: '.docs', items: 'docs'}]
+  desktop: {
+    head: true,
+    result: false,
+    sub: [{area: '.docs', items: 'docs'}],
+    cols: [{
+      title: 'Доступ',
+      width: '6%',
+      keys: ['access'],
+      content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
+    }, {
+      title: 'ИНН/КПП',
+      keys: ['inn', 'kpp']
+    }, {
+      title: 'Контрагент',
+      keys: ['contr']
+    }, {
+      title: 'Система налогообложения',
+      width: '15%',
+      keys: ['system']
+    }, {
+      title: 'Дата заведения',
+      align: 'center',
+      keys: ['date']
+    }, {
+      title: 'Юридический адрес',
+      width: '20%',
+      keys: ['address']
+    }, {
+      title: 'Пользователь',
+      keys: ['user']
+    }, {
+      title: 'Документы',
+      width: '20%',
+      keys: ['docs.title'],
+      content: `<div class="docs row #status#">
+                  <div class="mark icon" data-tooltip="#status_info#"></div>
+                  <a href="url" data-tooltip="#info#" help>#title#</a>
+                </div>`
+    }]
+  },
+  adaptive: {
+    sub: [{area: '.docs', items: 'docs'}]
+  },
+  sorts: {
+    'inn': {title: 'По ИНН', type: 'numb'},
+    'contr': {title: 'По контрагенту', type: 'text'},
+    'system': {title: 'По системе налогообложения', type: 'text'},
+    'date': {title: 'По дате заведения', type: 'date'},
+    'user': {title: 'По пользователю', type: 'text'}
+  },
+  filters: {
+    'inn': {title: 'По ИНН', search: 'usual'},
+    'contr': {title: 'По контрагенту', search: 'usual', filter: 'checkbox'},
+    'system': {title: 'По системе налогообложения', search: 'usual', filter: 'checkbox'},
+    'date': {title: 'По дате заведения', search: 'date'},
+    'address': {title: 'По юридическому адресу', search: 'usual'},
+    'user': {title: 'По пользователю', search: 'usual', filter: 'checkbox'},
+    'docs.title': {title: 'По документу', search: 'usual'},
+  }
 }
 
 // Инициализация таблицы:
-initTable('#table2', settings);
+initTable('#table', settings);
 
 // Заполнение адаптивной версии таблицы:
 fillTemplate({
   area: "#table2-adaptive",
-  items: data2,
+  items: data,
   sub: [{area: '.docs', items: 'docs'}]
 });
 
