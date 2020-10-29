@@ -1753,7 +1753,8 @@ div.option input {
   cursor: pointer;
 }
 
-div.option .checkbox.icon {
+div.option .checkbox.icon,
+div.option .radio.icon {
   margin-right: 0;
 }
 
@@ -1761,7 +1762,7 @@ div.option .req {
   margin-top: -0.5em;
 }
 
-div.option div:not(.checkbox) {
+div.option div:not(.checkbox):not(.radio) {
   margin-left: 0.5em;
 }
 
@@ -3174,7 +3175,7 @@ form.post .btns-wrap {
 #alerts .pop-up {
   position: relative;
   min-width: 360px;
-  padding: 1.5em;
+  padding: 2em;
 }
 
 #alerts .close.icon {
