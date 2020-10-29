@@ -23,6 +23,15 @@ function initCalendar(el) {
   }
 }
 
+// Очистка календаря:
+
+function clearCalendar(el) {
+  var el = getEl(el);
+  if (window[`${el.id}Calendar`]) {
+    window[`${el.id}Calendar`].clear();
+  }
+}
+
 // Класс календаря:
 
 class Calendar {
@@ -149,6 +158,7 @@ class Calendar {
     this.selectedDate = undefined;
     if (!string && date) {
       this.selectedDate = date;
+      this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar'}, {'bubbles': true}));
     }
     return date;
   }
@@ -172,6 +182,11 @@ class Calendar {
     }
     this.wrap.classList.remove('open');
     document.removeEventListener('click', this.hide);
+  }
+
+  // Очистка календаря:
+  clear() {
+    this.input.value = '';
   }
 
   // Создание/обновление содержимого календаря:
@@ -318,6 +333,7 @@ class CalendarRange extends Calendar {
       this.dateFrom = result[0];
       if (result[1] > this.dateFrom) {
         this.dateTo = result[1];
+        this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
       }
     }
     return result[0];
