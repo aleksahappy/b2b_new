@@ -47,20 +47,21 @@ function Carousel(obj, start) {
   this.carouselType = obj.dataset.type;
   this.galleryWrap = obj.querySelector('.carousel-gallery-wrap');
   this.gallery = obj.querySelector('.carousel-gallery');
-  this.imgCount = this.gallery.querySelectorAll('.carousel-item').length;
+  this.itemsGallery = this.gallery.querySelectorAll('.carousel-item');
+  this.imgCount = this.itemsGallery.length;
   this.nav = obj.querySelector('.carousel-nav');
   this.leftBtn = obj.querySelector('.left-btn');
   this.rightBtn = obj.querySelector('.right-btn');
 
   // КОНСТАНТЫ:
 
-  this.visibleImg = Math.round(this.gallery.clientWidth / this.gallery.querySelector('.carousel-item').clientWidth);
+  this.visibleImg = Math.round(this.gallery.clientWidth / this.itemsGallery[0].clientWidth);
   this.offset = 0;
 
   // ПЕРЕМЕННЫЕ:
 
   this.curImg = 0;
-  this.itemWidth = parseFloat(window.getComputedStyle(this.gallery.querySelector('.carousel-item')).width);
+  this.itemWidth = parseFloat(window.getComputedStyle(this.itemsGallery[0]).width);
   this.galleryMargin = 0;
   this.direction;
   this.touchPrev = true;
@@ -107,7 +108,7 @@ function Carousel(obj, start) {
     };
 
     if (this.settings.isLoupe) {
-      this.gallery.querySelectorAll('.carousel-item').forEach(item => {
+      this.itemsGallery.forEach(item => {
         item.addEventListener('mouseenter', this.initLoupe);
         item.addEventListener('mousemove', this.moveLoupe);
       });
@@ -122,7 +123,7 @@ function Carousel(obj, start) {
     }
     this.nav = document.createElement('div');
     this.nav.classList.add('carousel-nav');
-    this.gallery.querySelectorAll('.carousel-item').forEach((el, index) => {
+    this.itemsGallery.forEach((el, index) => {
       if (this.settings.navType === 'dot') {
         this.newEl = document.createElement('div');
         this.newEl.dataset.numb = index;
@@ -373,7 +374,7 @@ function Carousel(obj, start) {
           this.imgIndex = this.imgIndex + 1 > this.imgCount - 1 ? 0 : this.imgIndex + 1;
         }
       }
-      this.oldEl = this.gallery.querySelectorAll('.carousel-item')[this.imgIndex];
+      this.oldEl = this.itemsGallery[this.imgIndex];
       this.newEl = this.oldEl.cloneNode(true);
       if (this.direction == 'prev') {
         this.gallery.insertBefore(this.newEl, this.gallery.firstElementChild);
@@ -544,7 +545,7 @@ function Carousel(obj, start) {
     }
     this.carousel.dataset.img = 0;
     for (this.i = 0; this.i < this.imgCount; this.i++) {
-      this.gallery.querySelectorAll('.carousel-item')[this.i].dataset.numb = this.i;
+      this.itemsGallery[this.i].dataset.numb = this.i;
     }
     if (this.carouselType) {
       var newSettings = window[this.carouselType + 'Carousel'];
