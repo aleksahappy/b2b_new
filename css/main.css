@@ -163,7 +163,7 @@ select:disabled ,
 
 ul {
   list-style-position: outside;
-  margin-left: 15px;
+  margin-left: 1.2em;
 }
 
 /* =====================================================================================================
@@ -327,6 +327,11 @@ body.no-scroll {
 
 .select-qty {
   margin-right: 1.428em;
+}
+
+.req {
+  margin-left: 3px;
+  vertical-align: top;
 }
 
 /* =====================================================================================================
@@ -1542,20 +1547,26 @@ input.btn {
   height: 13px;
 }
 
+.down .sort.icon,
 .sort.down.icon {
   background-image: url(../img/sort_down.svg);
 }
 
+.down:hover > .sort.icon,
 :hover > .sort.down.icon,
+.down.checked > .sort.icon,
 .checked > .sort.down.icon {
   background-image: url(../img/sort_down_checked.svg);
 }
 
+.up .sort.icon,
 .sort.up.icon {
   background-image: url(../img/sort_up.svg);
 }
 
+.up:hover > .sort.icon,
 :hover > .sort.up.icon,
+.up.checked > .sort.icon,
 .checked > .sort.up.icon {
   background-image: url(../img/sort_up_checked.svg);
 }
@@ -1737,8 +1748,21 @@ div.option input {
   height: 100%;
   top: 0;
   left: 0;
+  padding: 0;
   opacity: 0;
   cursor: pointer;
+}
+
+div.option .checkbox.icon {
+  margin-right: 0;
+}
+
+div.option .req {
+  margin-top: -0.5em;
+}
+
+div.option div:not(.checkbox) {
+  margin-left: 0.5em;
 }
 
 div.option input:checked ~ .checkbox.icon {
@@ -1891,11 +1915,14 @@ div.option input:disabled ~ .checkbox.icon {
   padding-top: 0.3em;
 }
 
-.activate .filter {
+.activate .filter.icon {
+  width: 0;
+  margin-left: 2px;
   visibility: hidden;
 }
 
-.activate.changed .filter {
+.activate.changed .filter.icon {
+  width: 9px;
   visibility: visible;
 }
 
@@ -1993,7 +2020,8 @@ div.option input:disabled ~ .checkbox.icon {
   color: #53606F;
 }
 
-.activate.box .drop-down > div > div:not(.title) {
+.activate.box .drop-down > div > div:not(.title),
+.activate.box form.search {
   font-size: 0.857em;
 }
 
@@ -2002,28 +2030,38 @@ div.option input:disabled ~ .checkbox.icon {
   align-items: center;
 }
 
-.activate.box .drop-down .sort-box {
+.activate.box .drop-down .group.sort {
   padding-bottom: 0.7em;
   border-bottom: 1px solid #C6C6C6;
 }
 
-.activate.box .drop-down .sort-box .row {
+.activate.box .drop-down .group.sort .row {
   padding: 0.3em 1.33em;
   cursor: pointer;
 }
 
-.activate.box .drop-down .sort-box .row:last-child {
+.activate.box .drop-down .group.sort .row:last-child {
   cursor: pointer;
 }
 
-.activate.box .drop-down .sort-box .row:hover {
+.activate.box .drop-down .group.sort .row:hover {
   color: #34495E;
   text-decoration: underline;
 }
 
-.activate.box .drop-down .sort-box .row.checked {
+.activate.box .drop-down .group.sort .row.checked {
   color: #34495E;
   text-decoration: underline;
+}
+
+.activate.box .calendar-wrap {
+  width: 100%;
+  padding: 0 1.14em 0.714em 1.14em;
+}
+
+.activate.box .calendar-wrap .calendar {
+  position: static;
+  margin: 0 auto;
 }
 
 .activate.box form.search {
@@ -2032,24 +2070,16 @@ div.option input:disabled ~ .checkbox.icon {
   margin-bottom: 0.714em;
 }
 
+.activate.box .calendar-wrap input[type="text"],
 .activate.box form.search input[type="text"] {
-  padding-top: 0.11em;
-  padding-bottom: 0.11em;
-}
-
-.activate.box form.search .calendar-wrap {
-  width: 100%;
+  padding-top: 0.21em;
+  padding-bottom: 0.21em;
 }
 
 .activate.box form.search input[data-type="date"],
 .activate.box form.search input[data-type="range"] {
   background: none;
   background-color: #FFFFFF;
-}
-
-.activate.box form.search .calendar {
-  position: static;
-  margin: 0 auto;
 }
 
 .activate.box form.search .search.icon,
@@ -2105,14 +2135,14 @@ div.option input:disabled ~ .checkbox.icon {
   color: transparent;
 }
 
-.disabled .activate .triangle,
-[disabled] .activate .triangle,
-.activate.disabled .triangle,
-.activate[disabled] .triangle,
-.disabled .activate .filter,
-[disabled] .activate .filter,
-.activate.disabled .filter,
-.activate[disabled] .filter {
+.disabled .activate .triangle.icon,
+[disabled] .activate .triangle.icon,
+.activate.disabled .triangle.icon,
+.activate[disabled] .triangle.icon,
+.disabled .activate .filter.icon,
+[disabled] .activate .filter.icon,
+.activate.disabled .filter.icon,
+.activate[disabled] .filter.icon {
   cursor: default;
 }
 
@@ -2700,62 +2730,88 @@ form.post .btns-wrap {
   opacity: 1;
 }
 
-.filters .pop-up-title {
+.filters .pop-up-title,
+.filters .pop-up-body > .title.row {
   display: none;
 }
 
-.filters .filter {
+.filters .pop-up-body > .title.row .h2 {
+  margin-top: -5px;
+}
+
+.filters .group {
   background-color: #FFFFFF;
   padding-bottom: 0.714em;
 }
 
-.filters .filter.close {
+.filters .group.close {
   padding-bottom: 0;
   margin-bottom: 1px;
 }
 
-.filters .filter.close:last-child {
+.filters .group.close:last-child {
   margin-bottom: 0;
 }
 
-.filters .filter .open.icon {
-  width: 12px;
-  height: 7px;
-}
-
-.filters .filter .row {
-  align-items: center;
-}
-
-.filters .filter > .title.row {
+.filters .group > .title.row {
   justify-content: space-between;
   padding: 0.357em 0.714em;
   background-color: #B3BAC2;
   cursor: pointer;
 }
 
-.filters .filter .items > .row {
-  padding: 0.714em;
-  padding-bottom: 0;
+.filters .group > .title.row .open.icon {
+  width: 12px;
+  height: 7px;
 }
 
-.filters .filter .item > .row {
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.714em;
-  padding-bottom: 0;
+.filters .group > .switch-cont {
+  padding: 0 0.714em;
 }
 
-.filters .checked > div > .title .checkbox.icon,
-.filters .checked.title .checkbox.icon {
-  background-image: url(../img/checkbox_checked_orange.svg);
+.filters .group .row {
+  align-items: center;
 }
 
-.filters .filter .item .text {
+.filters .group .search.row,
+.filters .group .calendar-wrap {
+  margin-top: 0.714em;
+}
+
+.filters .group .item {
+  padding-top: 0.714em;
   cursor: pointer;
 }
 
-.filters .filter .item .open.icon {
+.filters .group .item.disabled {
+  cursor: default;
+}
+
+.filters .group .item.disabled .text {
+  color: #B3B3B3;
+  cursor: default;
+}
+
+.filters .group .item.disabled .icon {
+  cursor: default;
+}
+
+.filters .group .item > .row {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.filters .item.checked > .checkbox.icon,
+.filters .item.checked > .row .title.row > .checkbox.icon {
+  background-image: url(../img/checkbox_checked_orange.svg);
+}
+
+.filters .item.disabled > .checkbox.icon,
+.filters .item.disabled > .row .title.row > .checkbox.icon {
+  background-image: url(../img/checkbox_disabled.svg);
+}
+
+.filters .group .item .open.icon {
   width: 15px;
   height: 15px;
   margin-left: 0.714em;
@@ -2763,38 +2819,31 @@ form.post .btns-wrap {
   background-position-x: left;
 }
 
-.filters .filter .item.close .open.icon {
+.filters .group .item.close .open.icon {
   background-position-x: right;
 }
 
-.filters .filter .item > .items {
-  margin-left: 1.3em;
+.filters .group .item > .items {
+  margin-left: 1.1em;
 }
 
-.filters .filter .item.disabled > div > .filter-item-title {
-  cursor: default;
+.filters .search.row,
+.filters .calendar-wrap,
+.filters .activate {
+  width: 100%;
 }
 
-.filters .filter .item.disabled .text {
-  color: #B3B3B3;
-  cursor: default;
-}
-
-.filters .filter .item.disabled .icon {
-  cursor: default;
-}
-
-.pop-up-container.filters .btns-wrap {
+.filters .btns-wrap {
   display: none;
   flex-grow: 1;
 }
 
-.pop-up-container.filters .btn {
+.filters .btn {
   width: 100%;
   border-radius: 0;
 }
 
-.pop-up-container.filters .clear-btn {
+.filters .clear-btn {
   display: none;
   justify-content: center;
   align-items: center;
@@ -2804,7 +2853,7 @@ form.post .btns-wrap {
   cursor: pointer;
 }
 
-.pop-up-container.filters .clear-btn .close.icon {
+.filters .clear-btn .close.icon {
   width: 12px;
   height: 12px;
   margin-left: 0.357em;
@@ -2812,67 +2861,20 @@ form.post .btns-wrap {
 }
 
 /* =====================================================================================================
-Таблицы:
+Панель управления:
 ===================================================================================================== */
-
-/* Стили адаптивной таблицы: */
-
-.table-adaptive {
-  display: none;
-}
-
-/* Основные стили вкладок таблиц */
-
-.tabs .tab {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.tabs .tab.disabled {
-  color: #B3B3B3;
-  background-color: #D3D6D9;
-  border: 1px solid #D3D6D9;
-  cursor: default;
-}
-
-.tabs .tab.disabled .icon {
-  cursor: default;
-}
-
-/* Стили навигации табицы */
 
 .control {
   position: -webkit-sticky;
   position: sticky;
   justify-content: space-between;
   align-items: center;
+  top: 64px;
   width: 100%;
   margin-top: -1em;
   padding: 1em 0;
   background-color: #F2F2F2;
-  z-index: 1;
-}
-
-.table-desktop .control {
-  top: 64px;
-}
-
-.table-adaptive .control {
-  top: 40px;
-  padding: 1em 1.14em;
-  box-shadow: 0px 0px 5px rgba(52, 73, 94, 0.05), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 4px 15px rgba(52, 73, 94, 0.1);
-}
-
-.control .left-side {
-  align-items: center;
-  width: 100%;
-  max-width: 100%;
-}
-
-.control.extend .left-side {
-  width: 50%;
+  z-index: 10;
 }
 
 .control .pagination {
@@ -2894,35 +2896,54 @@ form.post .btns-wrap {
   width: 100%;
 }
 
-.control .right-side {
-  justify-content: flex-end;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-left: 2em;
-}
-
 .control .settings.icon {
   margin-right: 0;
 }
 
-/* Стили для основной таблицы */
+/* =====================================================================================================
+Таблицы:
+===================================================================================================== */
 
-.table-desktop {
+/* Ярлыки таблиц */
+
+.tabs .tab {
   display: none;
-  width: 100%;
-  max-width: 100%;
-  min-height: 32em;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tabs .tab.disabled {
+  color: #B3B3B3;
+  background-color: #D3D6D9;
+  border: 1px solid #D3D6D9;
+  cursor: default;
+}
+
+.tabs .tab.disabled .icon {
+  cursor: default;
+}
+
+/* Контейнеры таблиц: */
+
+.table {
+  display: none;
   visibility: hidden;
 }
 
-.table-desktop.active {
+.table.active {
   visibility: visible;
 }
 
-/* Общие стили для таблицы-заголовка и таблицы-содержимого */
+/* Адаптивная таблица: */
 
-.table-desktop > table {
+.table-adaptive {
+  display: none;
+}
+
+/* Основная таблица */
+
+.table-desktop {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -2935,65 +2956,67 @@ form.post .btns-wrap {
   table-layout: fixed;
 }
 
-.table-desktop > table > thead > tr > th,
-.table-desktop > table > tbody > tr > td {
+/* Общие стили для таблицы-заголовка и таблицы-содержимого */
+
+.table-desktop > thead > tr > th,
+.table-desktop > tbody > tr > td {
   position: relative;
   padding: 0.75em 1.14em;
   white-space: nowrap;
 }
 
-.table-desktop > table > tbody .edit.icon {
+.table-desktop > tbody .edit.icon {
   margin: 0 auto;
 }
 
 /* Общие стили для выпадающих списков в таблице-заголовке */
 
-.table-desktop > table > thead > tr > th.activate {
+.table-desktop > thead > tr > th.activate {
   width: auto;
   padding: 0;
   overflow: visible;
 }
 
-.table-desktop > table > thead > tr > th.activate .drop-down {
+.table-desktop > thead > tr > th.activate .drop-down {
   right: 4px;
 }
 
-.table-desktop > table > thead > tr > th.activate:nth-child(1) .drop-down,
-.table-desktop > table > thead > tr > th.activate:nth-child(2) .drop-down,
-.table-desktop > table > thead > tr > th.activate:nth-child(3) .drop-down {
+.table-desktop > thead > tr > th.activate:nth-child(1) .drop-down,
+.table-desktop > thead > tr > th.activate:nth-child(2) .drop-down,
+.table-desktop > thead > tr > th.activate:nth-child(3) .drop-down {
   right: auto;
 }
 
-.table-desktop > table > thead > tr > th.activate:nth-child(1) .drop-down {
+.table-desktop > thead > tr > th.activate:nth-child(1) .drop-down {
   left: 0px;
 }
 
-.table-desktop > table > thead > tr > th.activate:nth-child(2) .drop-down {
+.table-desktop > thead > tr > th.activate:nth-child(2) .drop-down {
   left: -4px;
 }
 
-.table-desktop > table > thead > tr > th.activate .head {
+.table-desktop > thead > tr > th.activate .head {
   justify-content: center;
   padding: 0.75em 1.14em;
   background-color: initial;
   border: none;
 }
 
-.table-desktop > table > thead > tr > th.activate .head .title {
+.table-desktop > thead > tr > th.activate .head .title {
   color: #FFFFFF;
 }
 
-.table-desktop > table > thead > tr > th.activate .head .triangle {
+.table-desktop > thead > tr > th.activate .head .triangle.icon {
   background-image: url(../img/triangle_white.svg);
 }
 
-.table-desktop > table > thead > tr > th.activate .head .filter {
+.table-desktop > thead > tr > th.activate .head .filter.icon {
   background-image: url(../img/filter_white.svg);
 }
 
 /* Основные стили таблицы-заголовка */
 
-.table-desktop > table > thead > tr > th {
+.table-desktop > thead > tr > th {
   position: -webkit-sticky;
   position: sticky;
   top: 64px;
@@ -3011,11 +3034,11 @@ form.post .btns-wrap {
   z-index: 2;
 }
 
-.table-desktop .control ~ table > thead > tr > th {
+.table .control ~ .table-desktop > thead > tr > th {
   top: 125px;
 }
 
-.table-desktop > table > thead > tr.results > th {
+.table-desktop > thead > tr.results > th {
   color: #666666;
   font-weight: 600;
   background-color: #EEEEEE;
@@ -3023,26 +3046,26 @@ form.post .btns-wrap {
   z-index: 1;
 }
 
-.table-desktop > table > thead > tr.results .row {
+.table-desktop > thead > tr.results .row {
   justify-content: flex-end;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop > table > thead > tr.results .row * {
+.table-desktop > thead > tr.results .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop > table > thead > tr > th > div:first-child {
+.table-desktop > thead > tr > th > div:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
 }
 
-.table-desktop > table > thead > tr > th .resize-btn {
+.table-desktop > thead > tr > th .resize-btn {
   display: block;
   position: absolute;
   top: 0;
@@ -3053,11 +3076,11 @@ form.post .btns-wrap {
   cursor: col-resize;
 }
 
-.table-desktop > table > thead > tr > th:last-child .resize-btn {
+.table-desktop > thead > tr > th:last-child .resize-btn {
   display: none;
 }
 
-.table-desktop > table > thead > tr > th .resize-btn::before {
+.table-desktop > thead > tr > th .resize-btn::before {
   content: '';
   display: inline-block;
   position: absolute;
@@ -3068,7 +3091,7 @@ form.post .btns-wrap {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.table-desktop > table > thead > tr > th .resize-btn::after {
+.table-desktop > thead > tr > th .resize-btn::after {
   content: '';
   display: inline-block;
   position: absolute;
@@ -3083,48 +3106,57 @@ form.post .btns-wrap {
   transition: opacity 200ms;
 }
 
-.table-desktop > table > thead > tr > th .resize-btn:hover::after {
+.table-desktop > thead > tr > th .resize-btn:hover::after {
   opacity: 1;
 }
 
-.table-desktop > table > thead > tr > th:last-child .resize-btn,
-.table-desktop > table > thead > tr > th:last-child .resize-btn::before,
-.table-desktop > table > thead > tr > th:last-child .resize-btn::after {
+.table-desktop > thead > tr > th:last-child .resize-btn,
+.table-desktop > thead > tr > th:last-child .resize-btn::before,
+.table-desktop > thead > tr > th:last-child .resize-btn::after {
   right: 0px;
 }
 
 /* Основные стили таблицы-содержимого */
 
-.table-desktop > table > tbody {
+.table-desktop > tbody {
   color: #666666;
   background-color: #FFFFFF;
 }
 
-.table-desktop > table > tbody > tr:hover {
+.table-desktop > tbody > tr:hover {
   background-color: #F8F8F8;
 }
 
-.table-desktop > table > tbody > tr > td {
+.table-desktop > tbody > tr > td {
   border-bottom: 1px solid #D5D5D5;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop > table > tbody > tr > td > .row {
-  align-items: center;
+.table-desktop > tbody > tr > td > a,
+.table-desktop > tbody > tr > td > .pill {
+  width: 100%;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.2;
 }
 
-.table-desktop > table > tbody > tr > td > .row * {
+.table-desktop > tbody > tr > td > .row {
+  align-items: center;
+  width: 100%;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-desktop > tbody > tr > td > .row * {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop > table > tbody > tr > td.pills {
+.table-desktop > tbody > tr > td.pills {
   padding-top: 0;
   padding-bottom: 0;
   line-height: 0;
@@ -3134,6 +3166,10 @@ form.post .btns-wrap {
 /* =====================================================================================================
 Системное сообщение:
 ===================================================================================================== */
+
+#alerts {
+  z-index: 500;
+}
 
 #alerts .pop-up {
   position: relative;
@@ -3564,8 +3600,8 @@ form.post .btns-wrap {
 .header-top .left-side {
   justify-content: space-between;
   align-items: center;
-  width: 60%;
-  max-width: 100%;
+  width: calc(100% - 18em);
+  max-width: 1080px;
 }
 
 .header-top .logo {
@@ -3592,7 +3628,7 @@ form.post .btns-wrap {
   width: 100%;
 }
 
-.header-top .drop-down .catalog:hover {
+#header .header-top .drop-down .catalog:hover {
   text-decoration: underline;
   background-color: #FFFFFF;
 }
