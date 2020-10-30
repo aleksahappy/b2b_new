@@ -100,6 +100,7 @@ body {
 }
 
 #submenu-hide .drop-down a {
+  width: 100%;
   padding: 0.75em 1.5em;
 }
 
