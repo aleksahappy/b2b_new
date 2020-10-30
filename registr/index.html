@@ -63,7 +63,7 @@
                     <div class="form-cols">
                       <div class="form-wrap form-col2" required>
                         <div class="title">Контактное лицо<span class="req">*</span></div>
-                        <input type="text" value="" name="contact" data-type="text" placeholder="Введите имя">
+                        <input type="text" value="" name="contact" data-type="name" placeholder="Введите имя">
                       </div>
                       <div class="form-wrap form-col2" required>
                         <div class="title">Должность<span class="req">*</span></div>
@@ -73,7 +73,7 @@
                     <div class="form-cols">
                       <div class="form-wrap form-col2" required>
                         <div class="title">Телефон<span class="req">*</span></div>
-                        <input type="text" value="" name="phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30">
+                        <input type="text" value="" name="phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30" oninput="onlyPhoneChar(event)">
                       </div>
                       <div class="form-wrap form-col2" required>
                         <div class="title">Email<span class="req">*</span></div>
