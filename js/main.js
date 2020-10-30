@@ -224,7 +224,7 @@ function fillUserInfo() {
 
 // Отправка запросов на сервер:
 
-function sendRequest(url, data, type) {
+function sendRequest(url, data, type = 'application/json; charset=utf-8') {
   return new Promise((resolve, reject) => {
     var request = new XMLHttpRequest();
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
@@ -235,10 +235,11 @@ function sendRequest(url, data, type) {
       resolve(request.response);
     });
     if (data) {
-      if (!type) {
-        data = JSON.stringify(data);
-      }
       request.open('POST', url);
+      if (type === 'application/json; charset=utf-8') {
+        data = JSON.stringify(data);
+        request.setRequestHeader('Content-type', type);
+      }
       request.send(data);
     } else {
       request.open('GET', url);
@@ -1219,6 +1220,16 @@ function convertYears(stringYears) {
     }
   }
   return resultYears = resultYears.join('');
+}
+
+// Преобразование номера телефона в формат +7 (000) 000-00-00:
+
+function convertPhone(phone) {
+  if (!phone) {
+    return phone;
+  }
+  var numbs = phone.replace(/\D/g, '').match(/^([\+]*[7|8])(\d{3})(\d{3})(\d{2})(\d{2})$/);
+  return '+7 (' + numbs[2] + ') ' + numbs[3] + '-' + numbs[4] + '-' + numbs[5];
 }
 
 //=====================================================================================================
@@ -2296,10 +2307,10 @@ function clearForm(el) {
 
 // Заполнение формы данными:
 
-function fillForm(el, data) {
+function fillForm(el, data, isFull) {
   var el = getEl(el);
   if (window[`${el.id}Form`] && data) {
-    window[`${el.id}Form`].fill(data);
+    window[`${el.id}Form`].fill(data, isFull);
   }
 }
 
@@ -2357,10 +2368,8 @@ function Form(obj, callback) {
     }
     var formWrap = input.closest('.form-wrap');
     if (isValid.result) {
-      if (type === 'phone' && input.value.length) {
-        // приведение к формату +7 (000) 000-00-00
-        var numbs = input.value.replace(/\D/g, '').match(/^([\+]*[7|8])(\d{3})(\d{3})(\d{2})(\d{2})$/);
-        input.value = '+7 (' + numbs[2] + ') ' + numbs[3] + '-' + numbs[4] + '-' + numbs[5];
+      if (type === 'phone') {
+        input.value = convertPhone(input.value);
       }
       formWrap.classList.remove('error');
     } else {
@@ -2433,36 +2442,39 @@ function Form(obj, callback) {
   this.clear = function() {
     this.form.querySelectorAll('textarea').forEach(el => el.value = '');
     this.form.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="submit"])').forEach(el => el.value = '');
-    this.form.querySelectorAll('input[type="radio"]').forEach(el => el.removeAttribute('checked'));
-    this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.removeAttribute('checked'));
+    this.form.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+    this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
     this.isSubmit = false;
     this.toggleBtn();
   }
 
-  // Заполнение формы данными (полное перезаполнение):
-  this.fill = function(data) {
-    this.clear();
-    // console.log(data);
+  // Заполнение/перезаполнение формы данными:
+  this.fill = function(data, isFull) {
+    if (isFull) {
+      this.clear();
+    }
     var fields = [], type;
     for (var key in data) {
-      fields = this.form.querySelectorAll(`[name="${key}"]`);
-      fields.forEach(field => {
-        type = field.getAttribute('type');
-        if (type === 'radio' || type === 'checkbox') {
-          if (field.value.toLowerCase() === data[key].toLowerCase()) {
-            field.setAttribute('checked', 'checked');
-          }
-        } else if (type === 'hidden' && field.closest('.activate')) {
-          this.dropDowns.forEach((el, index) => {
-            if (getEl('input', el) === field) {
-              this[`dropDown${index}`].setValue(data[key]);
+      if (typeof data[key] === 'string') {
+        fields = this.form.querySelectorAll(`[name="${key}"]`);
+        fields.forEach(field => {
+          type = field.getAttribute('type');
+          if (type === 'radio' || type === 'checkbox') {
+            if (field.value.toLowerCase() === data[key].toLowerCase()) {
+              field.checked = true;
             }
-          });
-        } else {
-          field.value = data[key];
-        }
-      });
+          } else if (type === 'hidden' && field.closest('.activate')) {
+            this.dropDowns.forEach((el, index) => {
+              if (getEl('input', el) === field) {
+                this[`dropDown${index}`].setValue(data[key]);
+              }
+            });
+          } else {
+            field.value = data[key];
+          }
+        });
+      }
     }
   }
 
@@ -3148,11 +3160,11 @@ function fillFilterItems(type, data) {
   if (data && Array.isArray(data)) {
     data.forEach(el => {
       var title, value;
-      if (typeof el === 'string') {
-        title = value = el;
-      } else {
+      if (typeof el === 'object') {
         title = el.title;
         value = el.value;
+      } else {
+        title = value = el;
       }
       if (el.items) {
         items +=
@@ -3182,9 +3194,6 @@ function fillFilterItems(type, data) {
         </div>`;
       }
     });
-    if (data.items) {
-      fillFilterItems(data.items)
-    }
   }
   return items;
 }
@@ -3193,20 +3202,33 @@ function fillFilterItems(type, data) {
 
 function Filter(obj) {
   // Элементы для работы:
-  this.obj = obj;
+  this.wrap = obj;
+  this.control = getEl(`.control[data-area=${obj.id}]`);
+  this.filterPopUp = getEl('.pop-up-container.filters', obj);
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
+    var openBtn = getEl('.relay.icon', obj);
+    if (openBtn) {
+      console.log(this.filterPopUp.id);
+      openBtn.addEventListener('click', () => openPopUp(`#${this.filterPopUp.id}`))
+    }
   }
 
   // Заполнение фильтров значениями:
   this.fillItems = function(data) {
+    var items;
     for (var key in data) {
-      
+      items = getEl(`.group[data-key="${key}"] .items`, this.filterPopUp);
+      if (items) {
+        items.innerHTML = fillFilterItems(data[key].filter, data[key].items);
+      }
     }
   }
 
   // Инициализация блока фильтров:
   this.init = function() {
+    this.setEventListeners();
   }
+  this.init();
 }
