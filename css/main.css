@@ -1491,6 +1491,10 @@ input.btn {
   background-image: url(../img/open_blue.svg);
 }
 
+.open.light.icon {
+  background-image: url(../img/open_light_grey.svg);
+}
+
 .close .open.icon {
   transform: rotate(0);
 }
@@ -2631,7 +2635,6 @@ form.post .btns-wrap {
   -o-transition: opacity .15s linear;
   transition: opacity .15s linear;
   transform-origin: 0 0;
-  overflow: hidden;
   opacity: 0;
 }
 
@@ -2770,6 +2773,12 @@ form.post .btns-wrap {
   padding: 0 0.714em;
 }
 
+.filters .group > .switch-cont .open.icon {
+  width: 15px;
+  height: 15px;
+  background-size: 10px 5px;
+}
+
 .filters .group .row {
   align-items: center;
 }
@@ -2777,6 +2786,14 @@ form.post .btns-wrap {
 .filters .group .search.row,
 .filters .group .calendar-wrap {
   margin-top: 0.714em;
+}
+
+.filters .group > .switch-cont > .items {
+  overflow: hidden;
+}
+
+.filters .group > .switch-cont > .items.hide {
+  max-height: 8.5em;
 }
 
 .filters .group .item {
@@ -2797,6 +2814,11 @@ form.post .btns-wrap {
   cursor: default;
 }
 
+.filters .group .item.disabled .icon {
+  margin-left: 0.714em;
+  background-position-x: left;
+}
+
 .filters .group .item > .row {
   justify-content: space-between;
   width: 100%;
@@ -2812,13 +2834,6 @@ form.post .btns-wrap {
   background-image: url(../img/checkbox_disabled.svg);
 }
 
-.filters .group .item .open.icon {
-  width: 15px;
-  height: 15px;
-  margin-left: 0.714em;
-  background-size: 10px 5px;
-  background-position-x: left;
-}
 
 .filters .group .item.close .open.icon {
   background-position-x: right;
@@ -2826,6 +2841,26 @@ form.post .btns-wrap {
 
 .filters .group .item > .items {
   margin-left: 1.1em;
+}
+
+.filters .group .more {
+  justify-content: flex-start;
+  align-items: center;
+  color: #8596A6;
+  margin-top: 0.5em;
+  cursor: pointer;
+}
+
+.filters .group .more .open.icon {
+  /* margin-left: 0.3em; */
+  background-position-x: right;
+  transform: rotate(0);
+  cursor: pointer;
+}
+
+.filters .group .items.show ~ .more .open.icon {
+  background-position-x: left;
+  transform: rotate(-180deg);
 }
 
 .filters .search.row,

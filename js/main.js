@@ -2360,10 +2360,7 @@ function Form(obj, callback) {
     var input = event.currentTarget,
       isValid = checkInput(input),
       type = input.dataset.type;
-    if (type === 'cyril' && input.value.length === 1) {
-      input.value = capitalizeFirstLetter(input.value);
-    }
-    if (type === 'name' && input.value.length === 1) {
+    if (type === 'name') {
       input.value = capitalizeFirstLetter(input.value);
     }
     var formWrap = input.closest('.form-wrap');
@@ -2721,7 +2718,7 @@ function initDropDown(el, handler, data, defaultValue) {
     if (el.id) {
       return window[`${el.id}Dropdown`] = new DropDown(el, handler, data, defaultValue);
     } else {
-      return new DropDown(el, data);
+      return new DropDown(el, handler, data, defaultValue);
     }
   }
 }
@@ -2973,7 +2970,7 @@ function DropDown(obj, handler, data, defaultValue) {
       initCalendar(this.calendar);
     }
     if (data) {
-      this.fillItems(data);
+      this.fillItems(data, defaultValue);
     }
   }
   this.init();
@@ -3004,7 +3001,8 @@ function DropDown(obj, handler, data, defaultValue) {
 //     }
 //     {key2: {...}
 //   },
-//   isSave: true / false                       Cохранять ли групп фильтров в текущей сессии браузера (открыт/закрыт) (по умолчанию не сохраняются)
+//   isHide: true / false                       Скрывать ли значения те значения фильтров если их много (больше 4-х) (по умолчанию скрываются)
+//   isSave: true / false                       Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию не сохраняются)
 // }
 
 // Инициализация блока фильтров:
@@ -3099,10 +3097,20 @@ function createFilter(area, settings) {
         groupContent += search;
       }
       if (filter && filters[key].search !== 'date') {
+        var items = filters[key].items,
+            isHide = settings.isHide ? 'hide' : '';
         groupContent +=
-        `<div class="items">
-          ${fillFilterItems(filter, filters[key].items)}
+        `<div class="items ${isHide}">
+          ${fillFilterItems(filter, items)}
         </div>`;
+        if (isHide) {
+          var isMore = items && items.length > 4 ? 'displayNone': '';
+          groupContent +=
+          `<div class="more row ${isMore}">
+            <div>Больше</div>
+            <div class="open light icon"></div>
+          </div>`
+        }
       }
       filtersList +=
       `<div class="group switch ${isOpen}" data-key="${key}">
@@ -3210,25 +3218,44 @@ function Filter(obj) {
   this.setEventListeners = function() {
     var openBtn = getEl('.relay.icon', obj);
     if (openBtn) {
-      console.log(this.filterPopUp.id);
       openBtn.addEventListener('click', () => openPopUp(`#${this.filterPopUp.id}`))
     }
+    this.filterPopUp.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
   }
 
   // Заполнение фильтров значениями:
   this.fillItems = function(data) {
-    var items;
+    var items, moreBtn;
     for (var key in data) {
       items = getEl(`.group[data-key="${key}"] .items`, this.filterPopUp);
-      if (items) {
+      if (items && data[key].filter !== 'date') {
+        moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filterPopUp);
         items.innerHTML = fillFilterItems(data[key].filter, data[key].items);
+        if (data[key].items.length > 4) {
+          moreBtn.classList.remove('displayNone');
+        } else {
+          moreBtn.classList.add('displayNone');
+        }
       }
+    }
+  }
+
+  // Отображение/скрытие больше значений фильтра :
+  this.toggleMore = function(event) {
+    var items = event.currentTarget.previousElementSibling;
+    if (items.classList.contains('hide')) {
+      items.classList.remove('hide');
+      event.currentTarget.firstElementChild.textContent = 'Меньше';
+    } else {
+      items.classList.add('hide');
+      event.currentTarget.firstElementChild.textContent = 'Больше';
     }
   }
 
   // Инициализация блока фильтров:
   this.init = function() {
     this.setEventListeners();
+    obj.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
 }

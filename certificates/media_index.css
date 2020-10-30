@@ -1,25 +1,27 @@
 @media only screen and (max-width: 1080px) {
-  .cert-filters {
-    justify-content: space-between;
-    align-items: flex-end;
-    top: 40px;
+  .control {
+    padding-bottom: 1em;
+    border-bottom: none;
   }
 
-  .cert-filters .wrap:not(:first-child),
-  #cert-range {
+  .control {
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .control .wrap:not(:first-child) {
     display: none;
   }
 
-  .cert-filters .wrap:first-child {
+  .control .wrap:first-child {
     width: 100%;
   }
 
-  form.search {
-    width: 100%;
-    margin-right: 3em;
+  .control .wrap > .title {
+    display: none;
   }
 
-  #calendar {
-    display: inline-block;
+  #cert {
+    padding-top: 1em
   }
 }
