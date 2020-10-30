@@ -32,9 +32,13 @@
 /* Всплывающее окно редактирования профиля: */
 
 #profile-edit .pop-up {
-  width: 31em;
+  width: 35em;
 }
 
-#profile-edit .gender .option:first-child {
+#profile-form .calendar-wrap input {
+  width: 100%;
+}
+
+#profile-form .gender .option:first-child {
   margin-right: 0.5em;
 }

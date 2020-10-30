@@ -25,23 +25,23 @@
         <div class="profile-info">
           <div class="head row">
             <div class="title h2">Ваши данные</div>
-            <div class="edit icon" onclick="openPopUp('#profile-edit')"></div>
+            <div class="edit icon" onclick="openProfilePopUp()"></div>
           </div>
-          <div class="content row">
+          <div class="content row template">
             <div>
               <div class="title">Имя: <span class="text">#name#</span></div>
-              <div class="title">Фамилия: <span class="text">#surname#</span></div>
-              <div class="title">Отчество: <span class="text">#patronymic#</span></div>
-              <div class="title">Дата рождения: <span class="text">#date_birth#</span></div>
+              <div class="title">Фамилия: <span class="text">#lastname#</span></div>
+              <div class="title">Отчество: <span class="text">#parentname#</span></div>
+              <div class="title">Дата рождения: <span class="text">#birthday#</span></div>
               <div class="title">Должность: <span class="text">#position#</span></div>
-              <div class="title">Пол: <span class="text">#sex#</span></div>
+              <div class="title">Пол: <span class="text">#gender_text#</span></div>
             </div>
             <div>
               <div class="title">Skype: <span class="text">#skype#</span></div>
               <div class="title">Email: <span class="text">#email#</span></div>
-              <div class="title">Мобильный: <span class="text">#cell_phone#</span></div>
+              <div class="title">Мобильный: <span class="text">#phone#</span></div>
               <div class="title">Рабочий: <span class="text">#work_phone#</span></div>
-              <div class="title">Добавочный: <span class="text">#add_phone#</span></div>
+              <div class="title">Добавочный: <span class="text">#work_phone_add#</span></div>
             </div>
           </div>
         </div>
@@ -62,33 +62,33 @@
             </div>
             <div class="form-wrap" required>
               <div class="title">Фамилия<span class="req">*</span></div>
-              <input type="text" value="" name="surname" data-type="name" placeholder="Введите фамилию">
+              <input type="text" value="" name="lastname" data-type="name" placeholder="Введите фамилию">
             </div>
             <div class="form-wrap">
               <div class="title">Отчество</div>
-              <input type="text" value="" name="patronymic" data-type="name" placeholder="Введите отчество">
+              <input type="text" value="" name="parentname" data-type="name" placeholder="Введите отчество">
             </div>
             <div class="form-wrap" required>
               <div class="title">Должность<span class="req">*</span></div>
-              <input type="text" value="" name="position" placeholder="Введите должность">
+              <input type="text" value="" name="position" data-type="text" placeholder="Введите должность">
             </div>
             <div class="form-cols">
               <div class="form-wrap form-col2">
                 <div class="title">День рождения</div>
                 <div class="calendar-wrap">
-                  <input type="text" value="" name="birth" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
+                  <input type="text" value="" name="birthday" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
                 </div>
               </div>
               <div class="form-wrap form-col2">
                 <div class="title">Пол</div>
                 <div class="gender row">
                   <div class="option row">
-                    <input type="radio" value="Мужской" name="gender">
+                    <input type="radio" value="1" name="gender">
                     <div class="radio icon"></div>
                     <div>Мужской</div>
                   </div>
                   <div class="option row">
-                    <input type="radio" value="Женский" name="gender">
+                    <input type="radio" value="2" name="gender">
                     <div class="radio icon"></div>
                     <div>Женский</div>
                   </div>
@@ -102,7 +102,7 @@
               </div>
               <div class="form-wrap form-col2">
                 <div class="title">Skype</div>
-                <input type="text" value="" name="skype" data-type="nickname" placeholder="Введите email">
+                <input type="text" value="" name="skype" data-type="nickname" placeholder="Введите skype">
               </div>
             </div>
             <div class="form-wrap" required="">
@@ -113,16 +113,16 @@
               <div class="form-cols">
                 <div class="form-wrap form-col2">
                   <div class="title">Рабочий номер<span class="req">*</span></div>
-                  <input type="text" value="" name="phone_work" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="30">
+                  <input type="text" value="" name="work_phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _ -_ _ -_ _" maxlength="30">
                 </div>
                 <div class="form-wrap form-col2">
                   <div class="title">Добавочный</div>
-                  <input type="text" value="" name="additional" placeholder="Введите цифры">
+                  <input type="text" value="" name="work_phone_add" placeholder="Введите цифры">
                 </div>
               </div>
             </div>
             <div class="btns-wrap">
-              <input class="btn sub-act" type="submit" value="Сохранить">
+              <input class="btn sub-act" type="submit" value="Сохранить" disabled>
             </div>
             <div class="loader">
               <div class="loader icon"></div>
