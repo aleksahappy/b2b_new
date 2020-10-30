@@ -1,6 +1,6 @@
 "use strict";
 
-// Динамическе переменные:
+// Глобальные переменные:
 
 var items, prevForm;
 
@@ -13,23 +13,22 @@ function startUsersPage() {
   //sendRequest(urlRequest.main, {action: 'users'})
   .then(result => {
     items = JSON.parse(result);
-    convertData();
     initPage();
   })
-  .catch(err => {
-    console.log(err);
-    initPage();
+  .catch(error => {
+    console.log(error);
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
 function initPage() {
-  items = items || [];
-  if (!superUser) {
-    changeCss('#users th:nth-child(1)', 'display', 'none');
-    changeCss('#users td:nth-child(1)', 'display', 'none');
+  if (!data || !data.length) {
+    return;
   }
+  convertData();
   var settings = {
     data: items,
     head: true,
@@ -92,6 +91,9 @@ function initPage() {
       content: `<div class="edit icon" onclick="openUserPopUp('#id#')"></div>`
     }]
   };
+  if (!superUser) {
+    settings.cols.shift();
+  }
   initTable("#users", settings);
   fillTemplate({
     area: "#users-adaptive",
@@ -104,7 +106,6 @@ function initPage() {
 // Преобразование полученных данных:
 
 function convertData() {
-  items = items || [];
   var status, toggle;
   items.forEach(el => {
     if (el.access === 'полный') {
@@ -133,7 +134,7 @@ function openUserPopUp(id) {
     if (id) {
       title.textContent = 'Редактировать пользователя';
       var data = items.find(el => el.id == id);
-      fillForm('#user-form', data);
+      fillForm('#user-form', data, true);
     } else {
       title.textContent = 'Новый пользователь';
       clearForm('#user-form');
@@ -149,12 +150,14 @@ function toggleAccess(event, id) {
     return;
   }
   event.currentTarget.classList.toggle('checked');
-  // var action = event.currentTarget.classList.contains('checked') ? 'off' : 'on';
-  // sendRequest(urlRequest.main, {action: '???', data: {id: id, action: action}})
-  // .then(result => {
-  //   event.currentTarget.classList.toggle('checked');
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  // });
+  var toggle = event.currentTarget.classList.contains('checked') ? '1' : '0';
+  // console.log(toggle);
+  sendRequest(urlRequest.main, {action: '???', data: {id: id, action: toggle}})
+  .then(result => {
+    event.currentTarget.classList.toggle('checked');
+  })
+  .catch(err => {
+    console.log(err);
+    alerts.show('Ошибка сервера. Попробуйте позже.', 2000);
+  });
 }

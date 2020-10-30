@@ -13,23 +13,26 @@ function startDocsPage() {
     var data = JSON.parse(result);
     initPage(data);
   })
-  .catch(err => {
-    console.log(err);
-    initPage();
+  .catch(error => {
+    console.log(error);
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
 function initPage(data) {
-  data = data || [];
+  if (!data || !data.length) {
+    return;
+  }
   var settings = {
     data: data,
     head: true,
     result: false,
     cols: [{
-      key: 'file_name',
       title: 'Наименование',
+      key: 'file_name',
       content: `<div class="row">
                   <a href="https://new.topsports.ru/api.php?action=files&type=docs&id=#id#" target="_blank">
                     <div class="download icon"></div>

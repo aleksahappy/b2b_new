@@ -39,11 +39,11 @@ document.querySelectorAll('.filters').forEach(el => {
 var data = [];
 for (var i = 0; i < 520; i++) {
   data.push({
+    index: (i + 1) * 2 - 1,
     access: 'checked',
     inn: '9731002289',
     kpp: '/637584',
-    contr: (i + 1) * 2 - 1,
-    // contr: 'ООО, Пилот' + (parseInt(i, 10) + 1),
+    contr: 'ООО, Пилот',
     system: 'Упрощенная',
     date: '29.10.2016',
     address: '119331, г. Москва, просп. Вернадского, д. 29, этаж 12, пом. I, ком. 4',
@@ -68,11 +68,11 @@ for (var i = 0; i < 520; i++) {
     }]
   });
   data.push({
+    index: (i + 1) * 2,
     access: '',
     inn: '97320002134',
     kpp: '/637554',
-    contr: (i + 1) * 2,
-    // contr: 'ООО, Магнолия' + (1 + i),
+    contr: 'ООО, Магнолия',
     system: 'Основная',
     date: '01.10.2018',
     address: '443035, г. Самара, просп. Ленина, д. 3, офис 59',
@@ -103,6 +103,9 @@ var settings = {
     result: false,
     sub: [{area: '.docs', items: 'docs'}],
     cols: [{
+      title: 'Порядковый номер',
+      keys: ['index']
+    },{
       title: 'Доступ',
       width: '6%',
       keys: ['access'],
@@ -164,7 +167,7 @@ initTable('#table', settings);
 
 // Заполнение адаптивной версии таблицы:
 fillTemplate({
-  area: "#table2-adaptive",
+  area: "#table-adaptive",
   items: data,
   sub: [{area: '.docs', items: 'docs'}]
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-// Динамическе переменные:
+// Глобальные переменные:
 
 var items, prevForm;
 
@@ -13,19 +13,22 @@ function startAddressPage() {
   //sendRequest(urlRequest.main, {action: 'addresses'})
   .then(result => {
     items = JSON.parse(result);
-    convertData();
     initPage();
   })
-  .catch(err => {
-    console.log(err);
-    initPage();
+  .catch(error => {
+    console.log(error);
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
 function initPage() {
-  items = items || [];
+  if (!items || !items.length) {
+    return;
+  }
+  convertData();
   fillTemplate({
     area: '#shops',
     items: items,
@@ -42,7 +45,6 @@ function initPage() {
 // Преобразование полученных данных:
 
 function convertData() {
-  items = items || [];
   var status, tooltip;
   items.forEach(el => {
     if (el.moderate === 'ok') {
@@ -97,7 +99,7 @@ function openAddressPopUp(id) {
     if (id) {
       title.textContent = 'Изменить адрес';
       var data = items.find(el => el.id == id);
-      fillForm('#address-form', data);
+      fillForm('#address-form', data, true);
     } else {
       title.textContent = 'Новый адрес';
       clearForm('#address');
@@ -135,7 +137,26 @@ function openWorkTime() {
 // Отправка формы на сервер:
 
 function sendForm(formData) {
-  formData.forEach((value, key) => {
-    console.log(key, value);
-  });
+  formData.append('action', '???');
+  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  .then(result => {
+    result = JSON.parse(result);
+    console.log(result);
+    if (result.ok) {
+      alerts.show('Успешно.');
+      closePopUp(null, '#address');
+    } else {
+      if (result.error) {
+        alerts.show(result.error);
+      } else {
+        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      }
+    }
+    hideElement('#address .loader');
+  })
+  .catch(error => {
+    console.log(error);
+    alerts.show('Ошибка сервера. Попробуйте позже.');
+    hideElement('#address .loader');
+  })
 }

@@ -11,19 +11,23 @@ function startOrdersPage() {
   sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
     var data = JSON.parse(result);
-    data = convertData(data);
     // console.log(data);
     initPage(data);
   })
-  .catch(err => {
-    console.log(err);
-    initPage();
+  .catch(error => {
+    console.log(error);
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
-function initPage(data = []) {
+function initPage(data) {
+  if (!data || !data.length) {
+    return;
+  }
+  convertData(data);
   var settings = {
     data: data,
     control: {

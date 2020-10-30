@@ -155,9 +155,10 @@ function initCart() {
     .then(result => {
       initPage();
     })
-    .catch(err => {
-      console.log(err);
-      initPage();
+    .catch(error => {
+      console.log(error);
+      loader.hide();
+      alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
     });
   } else {
     initPage();
@@ -1715,7 +1716,7 @@ function selectCardsByFilterCatalog() {
             }
           }
         } else {
-          if (card[k].toLowerCase() == kk.toLowerCase() || card[kk] == 1) {
+          if (card[k] == kk || card[kk] == 1) {
             isFound = true;
           }
         }

@@ -50,11 +50,9 @@ function startOrderPage() {
 function initPage(data) {
   if (data.id) {
     if (!data.comment && !data.special) {
-      console.log(data);
       data.isDisplay = 'displayNone';
     } else {
       if (!data.comment) {
-        console.log(data.comment);
         data.isComment = 'displayNone';
       }
       if (!data.special) {

@@ -8,21 +8,24 @@ function startContrPage() {
   // sendRequest(`../json/contractors.json`)
   sendRequest(urlRequest.main, {action: 'get_contr'})
   .then(result => {
-    // console.log(result);
     var data = JSON.parse(result);
-    console.log(data);
-    data = convertData(data);
+    // console.log(data);
     initPage(data);
   })
-  .catch(err => {
-    console.log(err);
-    initPage();
+  .catch(error => {
+    console.log(error);
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
-function initPage(data = []) {
+function initPage(data) {
+  if (!data || !data.length) {
+    return;
+  }
+  convertData(data);
   var settings = {
     data: data,
     head: true,
@@ -79,6 +82,9 @@ function initPage(data = []) {
     }],
     sub: [{area: '.docs', items: 'docs'}]
   };
+  if (!superUser) {
+    settings.cols.shift();
+  }
   initTable('#contr', settings);
   fillTemplate({
     area: "#contr-adaptive",
@@ -95,15 +101,17 @@ function convertData(data) {
   data.forEach(el => {
     el.kpp = el.kpp ? '/' + el.kpp : '';
   });
-  return data;
 }
 
 // Включение/отключение доступа:
 
 function toggleAccess(event, id) {
+  if (!superUser) {
+    return;
+  }
   event.currentTarget.classList.toggle('checked');
   var toggle = event.currentTarget.classList.contains('checked') ? '1' : '0';
-  console.log(toggle);
+  // console.log(toggle);
   sendRequest(urlRequest.main, {action: '???', data: {id: id, action: toggle}})
   .then(result => {
     event.currentTarget.classList.toggle('checked');
@@ -136,7 +144,7 @@ function addByInn(event) {
     var data = JSON.parse(result);
     if (data.error) {
       document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
-      alerts.show(result.error, 2000);
+      alerts.show(result.error);
     } else {
       document.querySelectorAll('#contr-form .after-inn').forEach(el => el.removeAttribute('disabled'));
       isFillForm = true;
@@ -148,26 +156,26 @@ function addByInn(event) {
     console.log(err);
     document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
     getEl('#inn-loader').style.visibility = 'hidden';
-    alerts.show('Ошибка сервера. Попробуйте позже.', 2000);
+    alerts.show('Ошибка сервера. Попробуйте позже.');
   });
 }
 
-// Отправка формы на создание контрагента:
+// Отправка формы на сервер:
 
 function addContr(formData) {
   formData.set('action', 'save_contr');
   sendRequest(urlRequest.main, formData, 'multipart/form-data')
   .then(result => {
-    var data = JSON.parse(result);
-    console.log(data);
-    if (data.ok) {
-      data = convertData(data);
-      updateTable('#contr', data);
+    result = JSON.parse(result);
+    console.log(result);
+    if (result.ok) {
+      convertData(result);
+      updateTable('#contr', result);
       closePopUp(null, '#contractor');
       clearForm('#contr-form');
     } else {
-      if (data.error) {
-        alerts.show(data.error);
+      if (result.error) {
+        alerts.show(result.error);
       } else {
         alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
       }
