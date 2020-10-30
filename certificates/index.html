@@ -22,7 +22,7 @@
         <div id="main-header" class="row">
           <div class="title h0">Сертификаты</div>
         </div>
-        <div class="cert-filters row">
+        <div class="control row">
           <div class="wrap">
             <div class="title">Поиск по ключевым словам</div>
             <form id="cert-search" class="search row">
@@ -32,12 +32,6 @@
             </form>
           </div>
           <div class="wrap">
-            <div class="title">Период реализации</div>
-            <div id="cert-range" class="calendar-wrap">
-              <input type="text" value="" data-type="range" placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="23" autocomplete="off" oninput="onlyDateChar(event)">
-            </div>
-          </div>
-          <div class="wrap">
             <div class="title">Бренд</div>
             <div id="cert-brand" class="activate select">
               <div class="head row">
@@ -45,138 +39,34 @@
                 <div class="triangle icon"></div>
               </div>
               <div class="drop-down">
-                <div class="item" data-value="509">509</div>
-                <div class="item" data-value="Abom">Abom</div>
-                <div class="item" data-value="BCA">BCA</div>
-                <div class="item" data-value="EVS">EVS</div>
-                <div class="item" data-value="Helmetex">Helmetex</div>
-                <div class="item" data-value="Jethwear">Jethwear</div>
-                <div class="item" data-value="Ogio">Ogio</div>
-                <div class="item" data-value="PowerTools">PowerTools</div>
-                <div class="item" data-value="SIXS">SIXS</div>
-                <div class="item" data-value="Shark">Shark</div>
-                <div class="item" data-value="Spy Optic">Spy Optic</div>
-                <div class="item" data-value="Tobe">Tobe</div>
-                <div class="item" data-value="FXR">FXR</div>
-                <div class="item" data-value="FullT">FullT</div>
+                <div class="item" data-value="#item#">#item#</div>
               </div>
             </div>
           </div>
-          <div class="relay icon" onclick="openPopUp('#certs-filters')"></div>
+          <div class="relay icon" onclick="openPopUp('#cert-filters')"></div>
         </div>
-        <div id="notice">По вашему запросу ничего не найдено</div>
-        <div id="cert-data" class="template">
-          <div class="item row">
-            <div class="view"></div>
-            <div class="cont">
-              <div class="text">#descr#</div>
-              <div class="row">
-                <a href="https://new.topsports.ru/api.php?action=files&type=cert&id=#id#" target="_blank">
-                  <div class="download icon"></div>
-                </a>
-                <a href="https://new.topsports.ru/api.php?action=files&type=cert&mode=view&id=#id#" target="_blank">#title#</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="certs-filters" class="pop-up-container filters">
-      <div class="pop-up">
-        <div class="pop-up-title row">
-          <div class="title h2">Фильтры</div>
-          <div class="close icon"></div>
-        </div>
-        <div class="filter switch">
-          <div class="title row" onclick="switchContent(event)">
-            <div class="title white h3">Период реализации</div>
-            <div class="open white icon switch-icon"></div>
-          </div>
-          <div class="items switch-cont">
-            <div class="item">
-              <div class="row">
-                <div id="calendar" class="calendar-wrap">
-                  <input type="text" value="" data-type="range" placeholder="ДД.ММ.ГГГГ - ДД.ММ.ГГГГ" maxlength="23" autocomplete="off" oninput="onlyDateChar(event)">
+        <div id="cert">
+          <div class="notice">По вашему запросу ничего не найдено</div>
+          <div class="cert-data template">
+            <div class="item row">
+              <div class="view"></div>
+              <div class="cont">
+                <div class="text">#descr#</div>
+                <div class="row">
+                  <a href="https://new.topsports.ru/api.php?action=files&type=cert&id=#id#" target="_blank">
+                    <div class="download icon"></div>
+                  </a>
+                  <a href="https://new.topsports.ru/api.php?action=files&type=cert&mode=view&id=#id#" target="_blank">#title#</a>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="filter switch">
-          <div class="title row" onclick="switchContent(event)">
-            <div class="title white h3">Бренд</div>
-            <div class="open white icon switch-icon"></div>
-          </div>
-          <div class="items switch-cont">
-            <div class="row" data-value="509">
-              <div class="radio icon"></div>
-              <div class="text">509</div>
-            </div>
-            <div class="row" data-value="Abom">
-              <div class="radio icon"></div>
-              <div class="text">Abom</div>
-            </div>
-            <div class="row" data-value="BCA">
-              <div class="radio icon"></div>
-              <div class="text">BCA</div>
-            </div>
-            <div class="row" data-value="EVS">
-              <div class="radio icon"></div>
-              <div class="text">EVS</div>
-            </div>
-            <div class="row" data-value="Helmetex">
-              <div class="radio icon"></div>
-              <div class="text">Helmetex</div>
-            </div>
-            <div class="row" data-value="Jethwear">
-              <div class="radio icon"></div>
-              <div class="text">Jethwear</div>
-            </div>
-            <div class="row" data-value="Ogio">
-              <div class="radio icon"></div>
-              <div class="text">Ogio</div>
-            </div>
-            <div class="row" data-value="PowerTools">
-              <div class="radio icon"></div>
-              <div class="text">PowerTools</div>
-            </div>
-            <div class="row" data-value="SIXS">
-              <div class="radio icon"></div>
-              <div class="text">SIXS</div>
-            </div>
-            <div class="row" data-value="Shark">
-              <div class="radio icon"></div>
-              <div class="text">Shark</div>
-            </div>
-            <div class="row" data-value="Spy Optic">
-              <div class="radio icon"></div>
-              <div class="text">Spy Optic</div>
-            </div>
-            <div class="row" data-value="Tobe">
-              <div class="radio icon"></div>
-              <div class="text">Tobe</div>
-            </div>
-            <div class="row" data-value="FXR">
-              <div class="radio icon"></div>
-              <div class="text">FXR</div>
-            </div>
-            <div class="row" data-value="FullT">
-              <div class="radio icon"></div>
-              <div class="text">FullT</div>
-            </div>
-          </div>
-        </div>
-        <div class="btns-wrap">
-          <div class="btn act">Показать (<span>0</span>)</div>
         </div>
       </div>
     </div>
 
     <script src="../js/main.js"></script>
     <script src="../js/calendar.js"></script>
-    <script src="../js/table.js"></script>
-    <script src="../js/test.js"></script>
     <script src="index.js"></script>
   </body>
 </html>
