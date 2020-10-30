@@ -121,7 +121,7 @@ function createTableControl(area, settings) {
   controlHtml += `<div class="relay icon"></div>`;
   var control = document.createElement('div');
   control.classList.add('control', 'row');
-  control.dataset.table = area.id;
+  control.dataset.area = area.id;
   control.innerHTML = controlHtml;
   if (settings.area) {
     var areaControl = getEl(settings.area);
@@ -317,8 +317,8 @@ function createTableBodyCell(col, sign = '#') {
 function Table(obj, settings = {}) {
   // Элементы для работы:
   this.wrap = obj;
-  this.tab = getEl(`.tab[data-table=${obj.id}]`);
-  this.control = getEl(`.control[data-table=${obj.id}]`);
+  this.tab = getEl(`.tab[data-area=${obj.id}]`);
+  this.control = getEl(`.control[data-area=${obj.id}]`);
   this.desktop = getEl('.table-desktop', obj);
   this.adaptive = getEl('.table-adaptive', obj);
   if (this.control) {
@@ -336,6 +336,7 @@ function Table(obj, settings = {}) {
   }
   if (this.adaptive) {
     this.adaptive.id = obj.id + '-adaptive';
+    this.filterPopUp = initFilter(obj, {sorts: settings.sorts, filters: settings.filters});
   }
 
   // Константы:
@@ -450,8 +451,8 @@ function Table(obj, settings = {}) {
     });
     if (curDropDown) {
     // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
-    } else {
-      // this.adaptiveFilter.fillItems(settings.filters);
+    } else if (this.filterPopUp) {
+      this.filterPopUp.fillItems(settings.filters);
     }
   }
 
@@ -931,9 +932,6 @@ function Table(obj, settings = {}) {
     }
     if (this.dropDowns) {
       this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.changeData));
-    }
-    if (this.adaptive) {
-      this.adaptiveFilter = initFilter(obj, {sorts: settings.sorts, filters: settings.filters});
     }
     this.prepare();
     if (this.wrap.classList.contains('active')) {
