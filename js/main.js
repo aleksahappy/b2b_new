@@ -844,7 +844,12 @@ function switchContent(event) {
       return;
     }
   }
-  container.classList.toggle('close');
+  if (container.classList.contains('close')) {
+    container.classList.remove('close');
+    container.scrollIntoView(false);
+  } else {
+    container.classList.add('close');
+  }
   if (container.id && container.classList.contains('save')) {
     if (container.classList.contains('close')) {
       savePosition(container.id, 'close');
@@ -1248,7 +1253,7 @@ function showOrder(event, id) {
 // Переход на страницу рекламации:
 
 function showReclm(id) {
-  location.href = '/reclamation/?recl_id=' + id;
+  location.href = `/reclamation/?${id}`;
 }
 
 //=====================================================================================================
@@ -1495,7 +1500,7 @@ function onlyNumb(event) {
   event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '');
 }
 
-// Запрет на ввод в инпут любого значения кроме цифр, точек и тире:
+// Запрет на ввод в инпут любого значения кроме тех что допускаются в дат:
 
 function onlyDateChar(event) {
   if (event.currentTarget.dataset.type === 'range') {
@@ -1503,6 +1508,12 @@ function onlyDateChar(event) {
   } else {
     event.currentTarget.value = event.currentTarget.value.replace(/[^\d|\.]/g, '');
   }
+}
+
+// Запрет на ввод в инпут любого значения кроме тех что допускаются в номере телефона:
+
+function onlyPhoneChar(event) {
+  event.currentTarget.value = event.currentTarget.value.replace(/[^\d|\+|\-|\(|\/)\s]/g, '');
 }
 
 // Изменение количества степпером:
@@ -1786,8 +1797,10 @@ function openPopUp(el, event) {
       el.style.opacity = '0';
     }
     showElement(el, 'flex');
-    document.addEventListener('click', closePopUp);
-    document.addEventListener('keydown', closePopUp);
+    if (!getEl('.pop-up-container.open')) {
+      document.addEventListener('click', closePopUp);
+      document.addEventListener('keydown', closePopUp);
+    }
     if (el.classList.contains('filters')) {
       window.addEventListener('resize', closeFilterPopUp);
     }
@@ -1825,8 +1838,10 @@ function closePopUp(event, el) {
     loader.hide();
     // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => showElement(el, 'flex'));
     el.classList.remove('open');
-    document.removeEventListener('click', closePopUp);
-    document.removeEventListener('keydown', closePopUp);
+    if (!getEl('.pop-up-container.open')) {
+      document.removeEventListener('click', closePopUp);
+      document.removeEventListener('keydown', closePopUp);
+    }
     if (el.classList.contains('filters')) {
       window.removeEventListener('resize', closeFilterPopUp);
     }
@@ -1932,6 +1947,8 @@ function showFullImg(event, articul) {
   }, reject => console.log(reject));
 }
 
+// Открытие картинки на весь экран:
+
 function openFullImg(event, data) {
   if (!data) {
     return;
@@ -1962,7 +1979,7 @@ function openFullImg(event, data) {
 //=====================================================================================================
 
 function initInputFiles() {
-  document.querySelectorAll('input[type="file"]').forEach(el => el.addEventListener('change', event => showSelectFiles(event)));
+  document.querySelectorAll('.file-wrap input[type="file"]').forEach(el => el.addEventListener('change', event => showSelectFiles(event)));
 }
 
 // Отображение выбранных файлов:
@@ -2135,10 +2152,11 @@ var dateValidate = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{
 // Валидация телефонного номера:
 
 function phoneValidate(phone) {
-  var result = {result: false, error: null};
-  if (phone.match(/\d/g).length < 11) {
+  var result = {result: false, error: null},
+      numbs = phone.match(/\d/g);
+  if (numbs && numbs.length < 11) {
     result.error = 'Номер введен неверно';
-  } else if (phone.match(/\d/g).length > 11) {
+  } else if (numbs && numbs.length > 11) {
     result.error = 'Номер введен неверно';
   } else {
     phone = phone.replace(/\s/g, '');
@@ -3229,12 +3247,14 @@ function Filter(obj) {
     for (var key in data) {
       items = getEl(`.group[data-key="${key}"] .items`, this.filterPopUp);
       if (items && data[key].filter !== 'date') {
-        moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filterPopUp);
         items.innerHTML = fillFilterItems(data[key].filter, data[key].items);
-        if (data[key].items.length > 4) {
-          moreBtn.classList.remove('displayNone');
-        } else {
-          moreBtn.classList.add('displayNone');
+        moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filterPopUp);
+        if (moreBtn) {
+          if (data[key].items.length > 4) {
+            moreBtn.classList.remove('displayNone');
+          } else {
+            moreBtn.classList.add('displayNone');
+          }
         }
       }
     }
