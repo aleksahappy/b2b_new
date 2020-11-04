@@ -9,6 +9,8 @@ $(function () {
 		'png': 'jpg',
 		'gif': 'jpg'
 	};
+
+// Видимо подсказки
 	$(document).on({
 		mouseenter: function () {
 			var cont = $('#item_title');
@@ -19,6 +21,8 @@ $(function () {
 			cont.html(cont.attr('data-title-preview'));
 		}
 	}, '#item_title');
+
+// Видимо что-то переключалось
 	$(document).on('click', '.descr_toggle', function () {
 		$(this).toggleClass('a');
 		if ($(this).hasClass('a')) {
@@ -27,6 +31,8 @@ $(function () {
 			$('.item_descr_view,.chat_cont').removeClass('a');
 		}
 	});
+
+	// Видимо сворачивалась/разворачивалась карточка
 	$(document).on('click', '.defect_toggle', function () {
 		var p = $('.recl_defect_cont');
 		state = (p.hasClass('a')) ? 1 : 0;
@@ -38,9 +44,8 @@ $(function () {
 		title = (state == 0) ? 'Свернуть' : 'Раскрыть';
 		$(this).attr('title', title).tooltip('fixTitle').tooltip('setContent');
 	});
-	$(document).on('click', ".file_select_btn", function (e) {
-		$('#user_files').trigger('click');
-	});
+
+	// Видимо открыть полное изображение
 	$(document).on('click', "#files [data-img]", function (e) {
 		var recl_id = $(this).attr('data-recl');
 		var recl_img = $(this).attr('data-img');
@@ -54,6 +59,15 @@ $(function () {
 			}
 		});
 	});
+
+	// Загрузка файла:
+
+	// На кнопку выбора файлов
+	$(document).on('click', ".file_select_btn", function (e) {
+		$('#user_files').trigger('click');
+	});
+
+	// выбираем файл
 	$(document).on('change', "#user_files", function (e) {
 		var FileList = ($('#frm_upload input[type="file"]').get(0).files);
 		$.map(FileList, function (file) {
@@ -68,6 +82,7 @@ $(function () {
 		});
 		$('#frm_upload').submit();
 	});
+	// загружаем файл:
 	$(document).on('submit', "#frm_upload", function (e) {
 		e.preventDefault();
 		var files = new Array();
@@ -81,9 +96,63 @@ $(function () {
 		});
 		createFormData(files, $(this));
 	});
+	// создаем formData
+	function createFormData(files, obj) {
+		for (var i = 0; i < files.length; i++) {
+			var formFile = new FormData();
+			formFile.append('UserFile', files[i]);
+			uploadFormData(formFile, obj);
+		}
+	}
+	// отправляем на сервер:
+	function uploadFormData(formFile, obj) {
+		var fn = formFile.get('UserFile');
+		var file_name = fn.name.split('.').slice(0, -1).join('.');
+		var recl_id = obj.attr('data-recl');
+		var filetypes = get_filetypes();
+		var add = '';
+		$.ajax({
+			url: "/-aleksa-/TopSports/b2b_new_design/recl/recl.php?action=upload_file&recl_id=" + recl_id,
+			type: "POST",
+			data: formFile,
+			contentType: false,
+			cache: false,
+			processData: false,
+			xhr: function () {
+				var xhr = $.ajaxSettings.xhr();
+				xhr.upload.addEventListener('progress', function (evt) {
+					if (evt.lengthComputable) {
+						var percentComplete = Math.ceil(evt.loaded / evt.total * 100);
+						$('div[data-file="' + file_name + '"]').css('background-size', percentComplete + '%');
+					}
+				}, false);
+				return xhr;
+			},
+			success: function (response) {
+				var cont = $('div[data-file="' + response.file_name_view + '"]');
+				cont.addClass('done');
+				if (response.folder == 'images') {
+					add = "data-fancybox='img'";
+				}
+				if (response.folder == 'videos') {
+					add = "data-fancybox='vid'";
+				}
+				file_type = (filetypes[response.file_type]) ? filetypes[response.file_type] : 'txt';
+				var ico = '<img src="http://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
+				var href = 'http://80.234.34.212:2000/-aleksa-/TopSports/b2b_new_design/recl/storage_remote/' + recl_id + '/' + response.folder + '/' + response.file_name + '.' + response.file_type;
+				cont.html('<a href="' + href + '" ' + add + ' target="_blank">' + ico + ' ' + response.file_name_view + '</a>')
+	//			$('#' + data.folder).removeClass('hide').addClass('nohide').append('<a href="' + data.link + '" ' + add + '>' + data.file_name + '</a>')
+			}
+		});
+	}
+
+	// При завершении каждого запроса, jQuery проверяет наличие активных Ajax запросов. Если их нет, то будет вызвано событие ajaxStop. В этот момент срабатывают все методы-обработчики, которые были прикреплены в методе
 	$(document).ajaxStop(function () {
 		$('#user_files').val('');
 	});
+
+
+// Работа с сообщениями:
 	$(document).on('submit', "#message", function (e) {
 		e.preventDefault();
 		var recl_id = $(this).attr('data-recl');
@@ -104,14 +173,8 @@ $(function () {
 		var day = (date.getDate() < 10) ? '0' + date.getDate() : date.getDate();
 		var hour = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours();
 		var minutes = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes();
-
-
 		/* var hour = (dateMy.getHours() < 10) ? '0' + dateMy.getHours() : dateMy.getHours();
 		var minutes = (dateMy.getMinutes() < 10) ? '0' + dateMy.getMinutes() : dateMy.getMinutes(); */
-
-
-
-
 		var time = hour + ':' + minutes;
 		date = time + ' ' + day + '.' + month + '.' + date.getFullYear();
 		if (message != '') {
@@ -126,7 +189,10 @@ $(function () {
 			$('textarea', this).val('').focus();
 		}
 	});
-	/*$.ajax({
+
+
+// Первоначальная загрузка данных на страницу:
+	$.ajax({
 		url: "/vitaly/skipperparts/recl/recl.php?action=get_recl&recl_id=" + recl_id,
 		type: "GET",
 		success: function (response) {
@@ -161,7 +227,6 @@ $(function () {
 						status_comment = status_comment + '<br/>Распечатайте лист возврата и<br/>вложите в посылку.<a href="/recl.php?action=get_return_list&recl_id=' + recl_id + '&mode=pdf" target="_blank"><img src="/d/img/recl_print.png" alt="печатать"/></a>'
 					}
 					$('#status_comment_cont .comment').html(status_comment);
-					/!*
 					$.each(recl.status_history, function (k, v) {
 						if (k > 0 && k < recl.status) {
 							new_status_comment = v.pop();
@@ -170,7 +235,6 @@ $(function () {
 							}
 						}
 					});
-					 *!/
 				} else {
 					$('.status_text span').html('Зарегистрирована');
 				}
@@ -228,7 +292,7 @@ $(function () {
 			}
 			check_show_switcher();
 		}
-	});*/
+	});
 });
 
 function brtext(text) {
@@ -243,55 +307,6 @@ function check_show_switcher() {
 	if (def_cont.height() <= cont.height()) {
 		$('.hidder, .defect_toggle').hide();
 	}
-}
-
-function createFormData(files, obj) {
-	for (var i = 0; i < files.length; i++) {
-		var formFile = new FormData();
-		formFile.append('UserFile', files[i]);
-		uploadFormData(formFile, obj);
-	}
-}
-
-function uploadFormData(formFile, obj) {
-	var fn = formFile.get('UserFile');
-	var file_name = fn.name.split('.').slice(0, -1).join('.');
-	var recl_id = obj.attr('data-recl');
-	var filetypes = get_filetypes();
-	var add = '';
-	$.ajax({
-		url: "/-aleksa-/TopSports/b2b_new_design/recl/recl.php?action=upload_file&recl_id=" + recl_id,
-		type: "POST",
-		data: formFile,
-		contentType: false,
-		cache: false,
-		processData: false,
-		xhr: function () {
-			var xhr = $.ajaxSettings.xhr();
-			xhr.upload.addEventListener('progress', function (evt) {
-				if (evt.lengthComputable) {
-					var percentComplete = Math.ceil(evt.loaded / evt.total * 100);
-					$('div[data-file="' + file_name + '"]').css('background-size', percentComplete + '%');
-				}
-			}, false);
-			return xhr;
-		},
-		success: function (response) {
-			var cont = $('div[data-file="' + response.file_name_view + '"]');
-			cont.addClass('done');
-			if (response.folder == 'images') {
-				add = "data-fancybox='img'";
-			}
-			if (response.folder == 'videos') {
-				add = "data-fancybox='vid'";
-			}
-			file_type = (filetypes[response.file_type]) ? filetypes[response.file_type] : 'txt';
-			var ico = '<img src="http://b2b.topsports.ru/d/img/recl_ico_' + file_type + '.png">';
-			var href = 'http://80.234.34.212:2000/-aleksa-/TopSports/b2b_new_design/recl/storage_remote/' + recl_id + '/' + response.folder + '/' + response.file_name + '.' + response.file_type;
-			cont.html('<a href="' + href + '" ' + add + ' target="_blank">' + ico + ' ' + response.file_name_view + '</a>')
-//			$('#' + data.folder).removeClass('hide').addClass('nohide').append('<a href="' + data.link + '" ' + add + '>' + data.file_name + '</a>')
-		}
-	});
 }
 
 function get_filetypes() {
@@ -309,3 +324,5 @@ function get_filetypes() {
 	};
 	return filetypes;
 }
+
+// http://b2b.topsports.ru/d/img/recl_ico_mp4.png

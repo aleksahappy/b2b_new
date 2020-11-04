@@ -1,23 +1,111 @@
 {
-  "name": "Бочаров Павел",
-  "manager": "Гвоздовская Анна",
-  "type": "Распродажа",
-  "num": "TC-225",
-  "date": "05.03.2020",
-  "real-date": "20.03.2020",
-  "qty": "1",
-  "cat": "Производственный брак",
-  "product-name": "Шлем 509 Tactical (ECE), взрослые (Hi-Vis Blue, L)",
-  "product-code": "F01001100-201",
-  "product-articul": "F01001100-110-201",
-  "stock-qty": "3",
-  "pend-qty": "5",
-  "pend-date": "15.09.2020",
-  "big-price": "14560",
-  "retail-price": "9315",
-  "description": "Justice ubermensch victorious chaos transvaluation endless philosophy christianity depths marvelous overcome depths spirit mountains. Ocean insofar madness right convictions right. Oneself transvaluation snare moral moral pious faith horror christian. Transvaluation hatred justice suicide passion self depths victorious snare eternal-return contradict ultimate against evil. Depths eternal-return mountains play christian zarathustra burying god ascetic chaos free. Suicide merciful overcome hatred ocean ascetic.",
-  "status1" : "0",
-  "status2" : "0",
-  "status3" : "0",
-  "status4" : "1"
+  "recl_messages": [
+    {
+      "date": "15:45 13.10.2020",
+      "user": "Гвоздовская Анна",
+      "message": " Жду от вас скан бухгалтерского документа (возвратной накладной) на товар по рекламации на почту ag@topsports.ru. После получения скана мы проведем возврат в своей базе и у вас появится депозит на сумму рекламации. Данный депозит вы сможете зачесть в оплату любого нового заказа.\n\n"
+    },
+    {
+      "date": "15:44 13.10.2020",
+      "user": "Гвоздовская Анна",
+      "message": " Добрый день, рекламацию удовлетворяем.Просьба утилизировать визор и прикрепить подтверждающее фото к рекламации на портале\n\n"
+    },
+    {
+      "date": "12:13 08.10.2020",
+      "user": "Безлепкин Алексей Андреевич",
+      "message": "15\/09\/2020\n\n"
+    },
+    {
+      "date": "12:09 08.10.2020",
+      "user": "Гвоздовская Анна",
+      "message": "В любом случае, уточните пожалуйста дату передачи визора сотруднику - нам нужно понимать, сколько визор был в эксплуатации\n\n"
+    },
+    {
+      "date": "18:33 07.10.2020",
+      "user": "Безлепкин Алексей Андреевич",
+      "message": "Добрый день! Это был подарок сотруднику нашей компании.\nКак таковой продажи не было.\n\n\n"
+    },
+    {
+      "date": "17:06 07.10.2020",
+      "user": "Гвоздовская Анна",
+      "message": " Добрый день, просьба уточнить дату продажи визора розничному клиенту"
+    }
+  ],
+  "recl": {
+    "id": "410",
+    "recl_num": "ТС-368",
+    "creator_id": "4601",
+    "user_id": "4601",
+    "user_code_1c": "1f3f680d-fc8e-11e5-80de-3ca82a9f50d9",
+    "user_name": "Алексей",
+    "user_lastname": "Безлепкин",
+    "user_parentname": "Андреевич",
+    "user_phone": "+7(495)777-33-59",
+    "client_number": "TS00000632",
+    "contr_name": "АТВ Партс",
+    "recl_date_create": "2020-10-07 16:55:45",
+    "recl_date_update": "2020-10-13 15:46:12",
+    "recl_code_1c": "69f34cf3-089c-11eb-b338-4c5262213ebe",
+    "recl_category": "Производственный брак",
+    "recl_messages_date_update": "2020-10-13 15:46:12",
+    "recl_descr": "Нарушение целостности уплотнителя между линзами, вследствие этого скапливание влаги и запотевание визора.",
+    "order_id": "4834",
+    "order_num": "ТС-323",
+    "order_date": "05.03.2019",
+    "order_code_1c": "55513ab6-3f33-11e9-8166-002590467a5e",
+    "order_type": "Предзаказ-19 509",
+    "item_code_str": "62",
+    "item_title": "Визор 509 Delta R3 Carbon Fiber с подогревом (Clear)",
+    "item_articul": "F01006200-000-999",
+    "item_options": {
+      "Категория": "Визоры",
+      "Цвет поставщика": "Clear",
+      "Применяемость": "Снегоход",
+      "Год коллекции": 2020
+    },
+    "item_descr": "",
+    "item_nakl": "ТС-588",
+    "item_nakl_date": "20.10.2011",
+    "item_nakl_code_1c": null,
+    "item_img": "14941.jpg",
+    "item_count": "1",
+    "item_price": "5864.60",
+    "item_price_compensation": "5864.60",
+    "manager_id": "5482",
+    "manager_name": "Анна",
+    "manager_lastname": "Гвоздовская",
+    "manager_parentname": "",
+    "manager_phone": "",
+    "date_view": null,
+    "status": "3",
+    "status_text": "Удовлетворена",
+    "status_comment": "",
+    "status_history": {
+      "2": [
+        {
+          "title": "Обрабатывается",
+          "comment": "",
+          "date": "2020-10-07T17:04:50"
+        }
+      ],
+      "3": [
+        {
+          "title": "Удовлетворена",
+          "comment": "",
+          "date": "2020-10-13T15:45:44"
+        }
+      ]
+    },
+    "status_date_update": "2020-10-13 15:46:12",
+    "deleted": "0",
+    "export_1c": "1",
+    "item_title_preview": "Визор 509 Delta R3 Carbon Fiber с подогревом ",
+    "recl_date": "07.10.2020",
+    "user": "Чаплыгина Александра"
+  },
+  "recl_files": {
+    "id": "837",
+    "file_name_view": "06f4da28-235c-4e8e-8005-c07ff837a5c6",
+    "file_type": "jpg"
+  }
 }
