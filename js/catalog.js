@@ -1602,7 +1602,7 @@ function showFullCard(id) {
 // Отображение информационной карточки товара:
 
 function showInfoCard(id) {
-  var data = findItemData();
+  var data = findItemData(id, 'cart');
   openInfoCard(data);
 }
 

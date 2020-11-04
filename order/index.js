@@ -39,8 +39,8 @@ function startOrderPage() {
     var data = JSON.parse(result);
     initPage(data);
   })
-  .catch(err => {
-    console.log(err);
+  .catch(error => {
+    console.log(error);
     location.href = '/err404.html';
   });
 }

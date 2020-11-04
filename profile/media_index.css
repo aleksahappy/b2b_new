@@ -13,3 +13,9 @@
     margin-bottom: 0.714em;
   }
 }
+
+@media only screen and (max-width: 599px) {
+  .calendar-wrap {
+    width: 100%;
+  }
+}

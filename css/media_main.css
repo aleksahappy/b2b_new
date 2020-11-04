@@ -400,6 +400,13 @@ Tablet:
 /* Стили на ширину от 0 до 599px включительно: */
 @media only screen and (max-width: 599px) {
 
+  /* Основные стили: */
+
+  body.no-scroll {
+    position: fixed;
+    overflow: hidden;
+  }
+
   /* Всплывающие окна: */
 
   .pop-up-container,
