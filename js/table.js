@@ -183,12 +183,13 @@ function createTable(area, settings) {
 function createTableHeadCell(col, index, settings) {
   var th = '';
   if (col.keys) {
-    var content = '',
-        sorts = settings.sorts,
-        filters = settings.filters;
+    var sorts = settings.sorts,
+        filters = settings.filters,
+        sort = '',
+        filter = '';
     col.keys.forEach(key => {
       if (sorts && sorts[key]) {
-        var sort = sorts[key];
+        sort = sorts[key];
         sort =
         `<div class="group sort" data-key="${key}" data-type="${sort.type}">
           <div class="title">Сортировка</div>
@@ -201,11 +202,10 @@ function createTableHeadCell(col, index, settings) {
             <div>${getSortText('up', sort.type)}</div>
           </div>
         </div>`;
-        content += sort;
       }
       if (filters && filters[key]) {
-        var filter = filters[key],
-            filterContent = '',
+        filter = filters[key];
+        var filterContent = '',
             search = filter.search,
             items = filter.filter;
         if (search) {
@@ -249,10 +249,9 @@ function createTableHeadCell(col, index, settings) {
           <div class="title">Фильтр</div>
           ${filterContent}
         </div>`;
-        content += filter;
       }
     });
-    if (content) {
+    if (sort || filter) {
       th =
       `<th id="${index + 1}" class="activate box">
         <div class="head row">
@@ -263,7 +262,8 @@ function createTableHeadCell(col, index, settings) {
           </div>
           </div>
           <div class="drop-down">
-            ${content}
+            ${sort}
+            ${filter}
           </div>
         </div>
         <div class="resize-btn"></div>
@@ -336,7 +336,9 @@ function Table(obj, settings = {}) {
   }
   if (this.adaptive) {
     this.adaptive.id = obj.id + '-adaptive';
-    this.filterPopUp = initFilter(obj, {sorts: settings.sorts, filters: settings.filters});
+    if (getEl('.relay.icon', this.wrap)) {
+      this.filterPopUp = initFilter(obj, {sorts: settings.sorts, filters: settings.filters});
+    }
   }
 
   // Константы:
