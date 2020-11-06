@@ -108,8 +108,12 @@ function logOut(event) {
 // Отображение/скрытие мобильного меню (адаптивного хедера):
 
 function toggleMobMenu() {
-  getEl('#header').classList.toggle('mobile');
-  getEl('#mob-menu').classList.toggle('active');
+  var mobMenu = getEl('#mob-menu');
+  if (mobMenu.classList.contains('open')) {
+    closePopUp(null, mobMenu);
+  } else {
+    openPopUp(mobMenu);
+  }
 }
 
 //=====================================================================================================
@@ -620,38 +624,42 @@ function getDataFromTotals(type) {
 
 // Преобразование данных о картинках:
 
-function addImgInfo(item) {
-  if (!item.images) {
+function addImgInfo(item, key = 'images') {
+  if (!item[key]) {
     return;
   }
-  item.images = item.images.toString().split(';');
-  if (item.images.length) {
+  item[key] = item[key].toString().split(';');
+  if (item[key].length) {
     item.image = `https://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
   } else {
     item.image = `../img/no_img.jpg`;
   }
 }
 
-
 // Преобразование данных для создания списка характеристик:
 
-function addOptionsInfo(item, optnames) {
-  if (!item.options || item.options == 0) {
+function addOptionsInfo(item, optnames, key = 'options') {
+  if (!item[key] || item[key] == 0) {
     return;
   }
-  var options = [],
-    title, value;
-  for (var key in item.options) {
-    title = optnames[key.replace('id_', '')];
+  var options = [], title, value;
+  for (var k in item[key]) {
+    if (optnames) {
+      title = optnames[k.replace('id_', '')];
+    } else {
+      title = k;
+    }
     if (title == 'Производитель техники' ||
       title == 'OEM' ||
       title == 'Модель техники' ||
       title == 'Год модели техники') {
       continue;
     }
-    value = item.options[key];
-    item.search.push(value.replace(/\"/g, ''));
-    value = value.replace(/\,/gi, ', ').replace(/\//gi, '/ ');
+    value = item[key][k];
+    if (optnames) {
+      item.search.push(value.toString().replace(/\"/g, ''));
+    }
+    value = value.toString().replace(/\,/gi, ', ').replace(/\//gi, '/ ');
     if (title == 'Категория' ||
       title == 'Бренд' ||
       title == 'Модель' ||
@@ -684,7 +692,7 @@ function addOptionsInfo(item, optnames) {
       value: value
     });
   }
-  item.options = options;
+  item[key] = options;
 }
 
 //=====================================================================================================
@@ -805,6 +813,25 @@ function textareaCounter(textarea) {
   }
 }
 
+// Изменение высоты textarea в зависимости от содержимого:
+
+function setTextareaHeight(textarea, min = 40, max = 150) {
+  if (textarea.scrollTop == 0) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = min + 'px';
+  }
+  if (textarea.scrollHeight < min) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = min + 'px';
+  } else if (textarea.scrollHeight < max) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  } else {
+    textarea.style.overflowY = 'scroll';
+    textarea.style.height = max + 'px';
+  }
+}
+
 //=====================================================================================================
 // Функции сворачивания/разворачивания контейнеров:
 //=====================================================================================================
@@ -919,6 +946,14 @@ function isEmptyObj(obj) {
   return true;
 }
 
+// Замена символов переноса в тексте на тег <br/>:
+
+function brText(text) {
+	text = text.trim();
+	text = text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '<br/>');
+	return text;
+}
+
 // Нахождение суммы элементов массива:
 
 function arraySum(arr) {
@@ -1020,7 +1055,7 @@ function sortBy(key, type = 'text') {
       case 'text':
         return '' + value;
       case 'numb':
-        value = value.replace(/\s/g, '');
+        value = value.toString().replace(/\s/g, '');
         return parseFloat(value);
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
@@ -1810,6 +1845,9 @@ function openPopUp(el, event) {
       // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => hideElement(el));
       document.body.classList.add('no-scroll');
     }, 50);
+    if (el.id === 'mob-menu') {
+      setTimeout(() => hideElement('.header-bottom'), 80);
+    }
   }
 }
 
@@ -1852,6 +1890,9 @@ function closePopUp(event, el) {
       }
       // setDocumentScroll();
     }, 200);
+    if (el.id === 'mob-menu') {
+      setTimeout(() => showElement('.header-bottom'), 190);
+    }
   }
 }
 
@@ -1928,7 +1969,8 @@ function openInfoCard(data) {
       items: 'options'
     }]
   });
-  getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => showFullImg(event, data));
+  checkImg(infoCardContainer);
+  getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
   openPopUp(infoCardContainer);
   loader.hide();
 }
@@ -1964,12 +2006,17 @@ function openFullImg(event, data) {
     }]
   });
   var fullCarousel = getEl('.carousel', fullImgContainer),
-      curCarousel = event.currentTarget.closest('.carousel'),
+      curCarousel = event ? event.currentTarget.closest('.carousel') : null,
       curImg = curCarousel ? curCarousel.dataset.img : null;
   openPopUp(fullImgContainer);
   renderCarousel(fullCarousel, curImg)
   .then(result => {
-    fullImgContainer.style.opacity = 1;
+    if (getEl('img',fullImgContainer).src.indexOf('/img/no_img.jpg') >= 0) {
+      closePopUp(null, fullImgContainer);
+      alerts.show('При загрузке изображения произошла ошибка');
+    } else {
+      fullImgContainer.style.opacity = 1;
+    }
     loader.hide();
   });
 }
@@ -3116,19 +3163,17 @@ function createFilter(area, settings) {
       }
       if (filter && filters[key].search !== 'date') {
         var items = filters[key].items,
-            isHide = settings.isHide ? 'hide' : '';
+            isHide = settings.isHide ? '' : 'hide';
         groupContent +=
         `<div class="items ${isHide}">
           ${fillFilterItems(filter, items)}
         </div>`;
-        if (isHide) {
-          var isMore = items && items.length > 4 ? 'displayNone': '';
-          groupContent +=
-          `<div class="more row ${isMore}">
-            <div>Больше</div>
-            <div class="open light icon"></div>
-          </div>`
-        }
+        var isMore = items && items.length > 4 ? 'displayNone': '';
+        groupContent +=
+        `<div class="more row ${isMore}">
+          <div>Больше</div>
+          <div class="open light icon"></div>
+        </div>`
       }
       filtersList +=
       `<div class="group switch ${isOpen}" data-key="${key}">

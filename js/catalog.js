@@ -188,6 +188,7 @@ function addCatalogModules() {
   document.body.classList.add('main', type);
 
   var catalogHeader = document.createElement('div');
+  catalogHeader.classList.add('header-bottom');
   catalogHeader.dataset.html = '../modules/catalog_header.html';
   getEl('#header').appendChild(catalogHeader);
 
