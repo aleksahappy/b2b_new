@@ -622,31 +622,31 @@ body.no-scroll {
 Цветовая гамма статусов рекламаций:
 ===================================================================================================== */
 
-.registr.recl {
+.recl[data-status="1"] {
   border: 1px solid #8596A6;
   color: #8596A6;
   background: #E7EAED;
 }
 
-.wait.recl {
+.recl[data-status="2"] {
   border: 1px solid #F69C00;
   color: #F69C00;
   background: #FEF5E5;
 }
 
-.yes.recl {
+.recl[data-status="3"] {
   border: 1px solid #228007;
   color: #3F9726;
   background: #ECF5E9;
 }
 
-.no.recl {
+.recl[data-status="4"] {
   border: 1px solid #CE0014;
   color: #CE0014;
   background: #FAE5E7;
 }
 
-.done.recl {
+.recl[data-status="5"] {
   border: 1px solid #2C6DA8;
   color: #2C6DA8;
   background: #E7EAED;
@@ -786,10 +786,12 @@ body.no-scroll {
 .calendar-wrap {
   position: relative;
   display: inline-block;
+  width: 16.5em;
 }
 
 input[data-type="date"],
 input[data-type="range"] {
+  width: 100%;
   background: #FFFFFF url('../img/calendar.svg') no-repeat 95%;
 }
 
@@ -1334,7 +1336,8 @@ input.btn {
   -webkit-tap-highlight-color: transparent;
 }
 
-.disabled .icon {
+.disabled .icon,
+.icon.disabled {
   cursor: default;
 }
 
@@ -1438,6 +1441,8 @@ input.btn {
 /* Крестик (закрытие, сброс) */
 
 .close.icon {
+  margin-right: 0;
+  margin-left: 1em;
   background-image: url(../img/close_grey.svg);
 }
 
@@ -1497,6 +1502,20 @@ input.btn {
 
 .close .open.icon {
   transform: rotate(0);
+}
+
+/* Доступное количество: */
+
+.free-qty.icon {
+  background-image: url(../img/qty_free.svg);
+}
+
+.arrive-qty.icon {
+  background-image: url(../img/qty_arrive.svg);
+}
+
+.warehouse-qty.icon {
+  background-image: url(../img/qty_warehouse.svg);
 }
 
 /* Доступ (замочек): */
@@ -1652,6 +1671,15 @@ input.btn {
 
 .download.icon {
   background-image: url(../img/download.svg);
+}
+
+.download.white.icon {
+  background-image: url(../img/download_white.svg);
+}
+
+.disabled .download.icon,
+.download.icon.disabled {
+  background-image: url(../img/download_disabled.svg);
 }
 
 /* Кошелек */
@@ -2187,6 +2215,8 @@ div.option input:disabled ~ .checkbox.icon {
   width: 100%;
   margin-bottom: 1.428em;
   background: #FFFFFF;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .infoblock.close {
@@ -2649,10 +2679,6 @@ form.post .btns-wrap {
   margin-bottom: 1.785em;
 }
 
-.pop-up-title .title {
-  margin-right: 0.5em;
-}
-
 .pop-up-title div {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2669,7 +2695,7 @@ form.post .btns-wrap {
 .pop-up-title .close.icon {
   width: 19px;
   height: 19px;
-  margin-right: 0;
+  margin-left: 0.5em;
   background-image: url(../img/close_blue.svg);
 }
 
@@ -2714,11 +2740,6 @@ form.post .btns-wrap {
   background-color: transparent;
 }
 
-.pop-up-container.filters.visible {
-  position: static;
-  opacity: 1;
-}
-
 .filters .pop-up {
   display: none;
   width: 18em;
@@ -2727,11 +2748,6 @@ form.post .btns-wrap {
   background-color: transparent;
   box-shadow: none;
   transform-origin: 0 0;
-}
-
-.filters.visible .pop-up {
-  display: block;
-  opacity: 1;
 }
 
 .filters .pop-up-title,
@@ -2834,7 +2850,6 @@ form.post .btns-wrap {
   background-image: url(../img/checkbox_disabled.svg);
 }
 
-
 .filters .group .item.close .open.icon {
   background-position-x: right;
 }
@@ -2852,7 +2867,6 @@ form.post .btns-wrap {
 }
 
 .filters .group .more .open.icon {
-  /* margin-left: 0.3em; */
   background-position-x: right;
   transform: rotate(0);
   cursor: pointer;
@@ -2893,7 +2907,18 @@ form.post .btns-wrap {
   width: 12px;
   height: 12px;
   margin-left: 0.357em;
-  margin-right: 0;
+}
+
+/* Блок фильтров видимый на всех разрешениях: */
+
+.pop-up-container.filters.visible {
+  position: static;
+  opacity: 1;
+}
+
+.filters.visible .pop-up {
+  display: block;
+  opacity: 1;
 }
 
 /* =====================================================================================================
@@ -2960,7 +2985,7 @@ form.post .btns-wrap {
   cursor: default;
 }
 
-/* Контейнеры таблиц: */
+/* Контейнер таблицы: */
 
 .table {
   display: none;
@@ -3178,6 +3203,10 @@ form.post .btns-wrap {
   text-overflow: ellipsis;
 }
 
+.table-desktop > tbody > tr > td > .pill {
+  width: auto;
+}
+
 .table-desktop > tbody > tr > td > .row {
   align-items: center;
   width: 100%;
@@ -3197,6 +3226,7 @@ form.post .btns-wrap {
   padding-bottom: 0;
   line-height: 0;
   vertical-align: middle;
+  text-align: center;
 }
 
 /* =====================================================================================================
@@ -3210,7 +3240,6 @@ form.post .btns-wrap {
 #alerts .pop-up {
   position: relative;
   min-width: 360px;
-  padding: 2em;
 }
 
 #alerts .close.icon {
@@ -3741,20 +3770,11 @@ form.post .btns-wrap {
   margin-right: 0.5em;
 }
 
-#profile,
 #profile .title,
 #profile .username {
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#profile .title {
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-#profile .username {
-  white-space: nowrap;
 }
 
 .header-top .notifications.icon {
@@ -3766,29 +3786,36 @@ form.post .btns-wrap {
 /* Мобильное меню (адаптив хедера) */
 
 #mob-menu {
-  position: fixed;
-  display: none;
-  top: -110%;
-  right: 0;
-  left: 0;
-  padding: 88px 30px 30px 30px;
-  background: #ffffff;
-  transition: 0.9s;
-  overflow-y: auto;
-  z-index: 151;
+  padding: 0;
+  background-color: transparent;
+  opacity: 1;
+  z-index: 199;
 }
 
-#mob-menu .template {
-  display: none;
+#mob-menu .pop-up {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  padding: 0;
+  padding-top: 65px;
+  padding-bottom: 1.6rem;
+  background-color: #FFFFFF;
+  -webkit-transition: transform .5s ease-out;
+  -moz-transition: transform .5s ease-out;
+  -o-transition: transform .5s ease-out;
+  transition: transform .5s ease-out;
+  transform: translate(0, -150%);
+  opacity: 1;
 }
 
-#mob-menu.active {
-  top: 0;
-  bottom: 0;
+#mob-menu a {
+  text-decoration: none;
 }
 
-#mob-menu .profile-wrap {
-  margin-bottom: 2.21em;
+#mob-menu .profile.row {
+  width: fit-content;
+  margin-bottom: 2em;
 }
 
 #mob-menu .profile.icon {
@@ -3796,86 +3823,79 @@ form.post .btns-wrap {
   height: 36px;
 }
 
+#mob-profile .title,
+#mob-profile .username {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #mob-menu .list > .item {
-  margin-bottom: 1.92em;
+  margin-bottom: 2em;
   cursor: pointer;
 }
 
-#mob-menu .list .item .title {
-  text-transform: uppercase;
-  font-size: 1.543em;
+#mob-menu .list > .item:last-child {
+  margin-top: 3em;
+  margin-bottom: 0;
 }
 
-#mob-menu .list .item .title a {
-  text-decoration: none;
-  color: #34495E;
-}
-
-#mob-menu .list .item .item-wrap {
+#mob-menu .list .item-title {
   display: flex;
   align-items: center;
   margin-bottom: 1em;
 }
 
-#mob-menu .list > .item:last-child {
-  margin-top: 3.85em;
+#mob-menu .list .item-title .title {
+  font-size: 1.143em;
+  text-transform: uppercase;
 }
 
-#mob-menu .list .item-wrap .title {
-  margin-right: 0.714em;
-}
-
-#mob-menu .list .open.dark.icon {
+#mob-menu .list .item-title .open.icon {
   width: 13px;
   height: 7px;
+  margin-left: 0.714em;
 }
 
-#mob-menu .sublist {
+#mob-menu .items {
   margin-left: 1em;
 }
 
-#mob-menu .subitem {
+#mob-menu .items .item {
+  display: block;
   padding: 0.714em 0;
+  color: #666666;
 }
 
-#mob-menu .sublist .row a {
+#mob-menu .items .item a {
+  color: #666666;
+}
+
+#mob-menu #mob-catalogs > .row {
+  margin-top: -2px;
+}
+
+#mob-menu .catalog.item {
+  width: 100%;
+  padding-right: 1em;
+  border-right: 1px solid #C6C6C6;
+}
+
+#mob-menu .item.cart-info {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  padding: 0.6em 0 0.6em 1em;
+  border: 1px solid transparent;
 }
 
-#mob-menu .sublist .row a,
-#mob-menu .subitem a {
-  font-size: 1.3em;
-  color: #666666;
-  text-decoration: none;
+#mob-menu .cart-info .cart.icon {
+  width: 21px;
+  height: 21px;
+  margin-right: 0.5em;
 }
 
-#mob-menu .sublist-items {
-  padding-top: 0.714em;
-  margin-right: 3em;
-}
-
-#mob-menu .sublist-items > a {
-  display: block;
-}
-
-#mob-menu .sublist-items {
-
-}
-
-#mob-menu .sublist-qty {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  padding-top: 0.714em;
-  padding-left: 3em;
-  border-left: 1px solid #C6C6C6;
-}
-
-#mob-menu .sublist-items a,
-#mob-menu .sublist-qty a {
-  margin-bottom: 1em;
+#mob-menu .cart-info.full .cart.icon {
+  background-image: url(../img/cart_red.svg);
 }
 
 #mob-menu .cart-info .qty {
@@ -3888,11 +3908,6 @@ form.post .btns-wrap {
 #mob-menu .cart-info.full .qty {
   color: #FFFFFF;
   background-color: #CE0014;
-}
-
-#mob-menu .sublist .row {
-  align-items: stretch;
-  justify-content: space-between;
 }
 
 /* =====================================================================================================
@@ -3926,6 +3941,7 @@ form.post .btns-wrap {
   justify-content: flex-end;
   align-items: flex-start;
   padding: 0;
+  opacity: 1;
 }
 
 #notifications .row {
@@ -4024,8 +4040,9 @@ body#auth .notice {
 Страница 404:
 ===================================================================================================== */
 
-body#err #main .container {
+body#err .container.center {
   flex-direction: column;
+  min-height: 80vh;
 }
 
 body#err .img {
@@ -4036,6 +4053,6 @@ body#err .img {
   background-size: contain;
 }
 
-body#err a {
+body#err #main a {
   font-size: 1.143em;
 }

@@ -332,18 +332,6 @@ body {
   background-image: url(../img/view_blocks_active.svg);
 }
 
-.free-qty.icon {
-  background-image: url(../img/qty_free.svg);
-}
-
-.arrive-qty.icon {
-  background-image: url(../img/qty_arrive.svg);
-}
-
-.warehouse-qty.icon {
-  background-image: url(../img/qty_warehouse.svg);
-}
-
 /* =====================================================================================================
 Стили для основного содержимого:
 ===================================================================================================== */

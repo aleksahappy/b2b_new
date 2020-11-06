@@ -14,7 +14,7 @@
             <div class="title">Каталоги</div>
             <div class="triangle icon"></div>
           </div>
-          <div id="catalogs" class="drop-down template catalogs">
+          <div id="catalogs" class="drop-down template">
             <div class="row">
               <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
               <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
@@ -39,10 +39,10 @@
       </div>
       <div class="right-side row">
         <div class="activate hover select">
-          <a href="../profile" class="head row">
+          <a class="head row" href="../profile">
             <div class="profile icon"></div>
             <div id="profile" class="template">
-              <div class="title">#login#</div>
+              <div class="title h3">#login#</div>
               <div class="username text light">#username#</div>
             </div>
           </a>
@@ -51,8 +51,6 @@
               <a class="item" href="../users">Пользователи</a>
               <a class="item" href="../contractors">Контрагенты</a>
               <a class="item" href="../addresses">Мои адреса</a>
-              <!-- <a class="item" href="../shops">Магазины</a> -->
-              <!-- <a class="item" href="../monitoring">Мониторинг</a> -->
               <a class="item" href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
             </div>
             <a class="item" onclick="logOut(event)">Выход</a>
@@ -68,92 +66,87 @@
 </div>
 
 <!-- Мобильное меню (адаптив хедера) -->
-<div id="mob-menu">
-  <div class="profile-wrap">
-    <a href="../profile" class="row">
-      <div class="profile icon"></div>
-      <div id="mob-profile" class="template">
-        <div class="title">#login#</div>
-        <div class="username text light">#username#</div>
-      </div>
-    </a>
-  </div>
-  <div class="list">
-    <div class="item switch close">
-      <div class="item-wrap" onclick="switchContent(event)">
-        <div class="title" >Профиль</div>
-        <div class="open dark icon switch-icon"></div>
-      </div>
-      <div class="sublist switch-cont">
-        <div class="subitem">
-          <a href="../users">Пользователи</a>
+<div id="mob-menu" class="pop-up-container">
+  <div class="pop-up">
+    <div class="container">
+      <a class="profile row" href="../profile">
+        <div class="profile icon"></div>
+        <div id="mob-profile" class="template">
+          <div class="title h3">#login#</div>
+          <div class="username text light">#username#</div>
         </div>
-        <div class="subitem">
-          <a href="../contractors">Контрагенты</a>
-        </div>
-        <div class="subitem">
-          <a href="../addresses">Мои адреса</a>
-        </div>
-        <div class="subitem">
-          <a href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-wrap">
-        <div class="title">
-          <a href="../dashboard">Рабочий стол</a>
-        </div>
-      </div>
-    </div>
-    <div class="item switch close">
-      <div class="item-wrap" onclick="switchContent(event)">
-        <div class="title">Каталоги</div>
-        <div class="open dark icon switch-icon"></div>
-      </div>
-      <div id="mob-catalogs" class="sublist switch-cont template">
-        <div class="row">
-          <div class="sublist-items">
-            <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
+      </a>
+      <div class="list">
+        <div class="item switch close">
+          <div class="item-title" onclick="switchContent(event)">
+            <div class="title">Профиль</div>
+            <div class="open dark icon switch-icon"></div>
           </div>
-          <div class="sublist-qty">
-            <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
-              <div class="cart icon"></div>
-              <div class="qty">#qty#</div>
-            </a>
+          <div class="items switch-cont">
+            <div class="item">
+              <a href="../users">Пользователи</a>
+            </div>
+            <div class="item">
+              <a href="../contractors">Контрагенты</a>
+            </div>
+            <div class="item">
+              <a href="../addresses">Мои адреса</a>
+            </div>
+            <div class="item">
+              <a href="https://yadi.sk/d/I03PCO253MFRuj" target="_blank">Медиабанк</a>
+            </div>
           </div>
         </div>
+        <div class="item">
+          <div class="item-title">
+            <a class="title"href="../dashboard">Рабочий стол</a>
+          </div>
+        </div>
+        <div class="item switch close">
+          <div class="item-title" onclick="switchContent(event)">
+            <div class="title">Каталоги</div>
+            <div class="open dark icon switch-icon"></div>
+          </div>
+          <div id="mob-catalogs" class="items switch-cont drop-down template">
+            <div class="row">
+              <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
+              <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
+                <div class="cart icon"></div>
+                <div class="qty">#qty#</div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="item switch close">
+          <div class="item-title" onclick="switchContent(event)">
+            <div class="title">Закупки</div>
+            <div class="open dark icon switch-icon"></div>
+          </div>
+          <div class="items switch-cont">
+            <div class="item">
+              <a href="../orders/">Заказы</a>
+            </div>
+            <div class="item">
+              <a href="../reclamations/">Рекламации</a>
+            </div>
+            <div class="item">
+              <a href="../documents/">Документы</a>
+            </div>
+            <div class="item">
+              <a href="../certificates/">Сертификаты</a>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-title">
+            <a class="title" onclick="logOut(event)">Выход</a>
+        </div>
+      </div>
       </div>
     </div>
-    <div class="item switch close">
-      <div class="item-wrap" onclick="switchContent(event)">
-        <div class="title">Закупки</div>
-        <div class="open dark icon switch-icon"></div>
-      </div>
-      <div class="sublist switch-cont">
-        <div class="subitem">
-          <a href="../orders">Заказы</a>
-        </div>
-        <div class="subitem">
-          <a href="../reclamations">Рекламации</a>
-        </div>
-        <div class="subitem">
-          <a href="../documents">Документы</a>
-        </div>
-        <div class="subitem">
-          <a href="../certificates">Сертификаты</a>
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-wrap">
-        <div class="title">
-          <a onclick="logOut(event)">Выход</a>
-        </div>
-    </div>
-  </div>
   </div>
 </div>
+
 
 <!-- Футер -->
 <div id="footer">
