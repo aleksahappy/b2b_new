@@ -1,0 +1,46 @@
+<!-- Всплывающее окно с отгрузками: -->
+
+<div id="shipment" class="pop-up-container">
+  <div class="pop-up">
+    <div class="pop-up-title row">
+      <div class="title h1">Отгрузки</div>
+      <div class="close icon"></div>
+    </div>
+    <div class="pop-up-body">
+      <table>
+        <thead>
+          <tr>
+            <th class="title">Документ</th>
+            <th class="title">Количество</th>
+            <th class="title">Сумма</th>
+            <th class="title">Трекинг</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a class="row" href="id=#id#">
+                <div class="download icon"></div>
+                <div>Накладная #number# от #date#</div>
+              </a>
+            </td>
+            <td>
+              <div class="row">
+                <a href="">
+                  <div class="barcode icon" data-tooltip="Скачать штрихкоды"></div>
+                </a>
+                <div>#kolv#</div>
+              </div>
+            </td>
+            <td>#summ#</td>
+            <td><a href="#id#">#trac#</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="loader">
+      <div class="loader icon"></div>
+      <div class="text">Пожалуйста, подождите</div>
+    </div>
+  </div>
+</div>

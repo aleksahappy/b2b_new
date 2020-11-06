@@ -2922,6 +2922,66 @@ form.post .btns-wrap {
 }
 
 /* =====================================================================================================
+Всплывающее окно отгрузок:
+===================================================================================================== */
+
+#shipment .pop-up {
+  min-width: 56em;
+}
+
+#shipment table {
+  min-width: 100%;
+  max-width: 100%;
+  color: #666666;
+  font-weight: 400;
+  background-color: #FFFFFF;
+  border-collapse: collapse;
+  border: none;
+  border-spacing: 0;
+  text-align: left;
+  direction: ltr;
+  overflow: hidden;
+}
+
+#shipment thead {
+  background-color: #EEEEEE;
+}
+
+#shipment th,
+#shipment td {
+  padding: 0.75em 1.14em;
+  font-weight: 400;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+#shipment th {
+  text-align: center;
+}
+
+#shipment .icon {
+  margin-right: 0.5em;
+}
+
+#shipment td:nth-child(2),
+#shipment td:nth-child(3),
+#shipment td:nth-child(4) {
+  white-space: nowrap;
+}
+
+#shipment td:nth-child(1) .row {
+  color: #666666;
+  text-decoration: none;
+}
+
+#shipment td:nth-child(2) .row {
+  justify-content: center;
+}
+
+#shipment td:nth-child(3) {
+  text-align: right;
+}
+
+/* =====================================================================================================
 Панель управления:
 ===================================================================================================== */
 
