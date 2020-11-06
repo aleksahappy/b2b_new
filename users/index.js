@@ -25,78 +25,82 @@ function startUsersPage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (!data || !data.length) {
+  if (!items || !items.length) {
     return;
   }
   convertData();
   var settings = {
     data: items,
-    head: true,
-    cols: [{
-      title: 'Доступ',
-      width: '6%',
-      align: 'center',
-      class: 'pills',
-      content: '<div class="toggle #toggle#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
-    }, {
-      title: 'ФИО',
-      width: '15%',
-      key: 'fio',
-      sort: 'text',
-      search: 'usual'
-    }, {
-      title: 'Пол',
-      key: 'gender',
-      sort: 'text',
-      search: 'usual',
-      filter: true
-    }, {
-      title: 'Дата рождения',
-      align: 'center',
-      key: 'birth',
-      sort: 'date',
-      search: 'date'
-    }, {
-      title: 'Телефон',
-      key: 'phone',
-      content: '<a href="tel:#phone#">#phone#</a>'
-    }, {
-      title: 'Email',
-      key: 'email',
-      content: '<a href="mailto:#email#">#email#</a>'
-    }, {
-      title: 'Тип доступа',
-      align: 'center',
-      class: 'pills',
-      key: 'access',
-      sort: 'text',
-      search: 'usual',
-      filter: true,
-      content: '<div class="pill access #status#">#access#</div>'
-    }, {
-      title: 'Дата заведения',
-      align: 'center',
-      key: 'date',
-      sort: 'date',
-      search: 'date'
-    }, {
-      title: 'Должность',
-      key: 'position',
-      sort: 'text',
-      search: 'usual'
-    }, {
-      title: 'Редактировать',
-      align: 'center',
-      class: 'pills',
-      content: `<div class="edit icon" onclick="openUserPopUp('#id#')"></div>`
-    }]
+    desktop: {
+      head: true,
+      cols: [{
+        title: 'Доступ',
+        width: '6%',
+        align: 'center',
+        class: 'pills',
+        content: '<div class="toggle #toggle#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
+      }, {
+        title: 'ФИО',
+        width: '15%',
+        keys: ['fio']
+      }, {
+        title: 'Пол',
+        keys: ['gender']
+      }, {
+        title: 'Дата рождения',
+        align: 'center',
+        keys: ['birth']
+      }, {
+        title: 'Телефон',
+        keys: ['phone'],
+        content: '<a href="tel:#phone#">#phone#</a>'
+      }, {
+        title: 'Email',
+        keys: ['email'],
+        content: '<a href="mailto:#email#">#email#</a>'
+      }, {
+        title: 'Тип доступа',
+        align: 'center',
+        class: 'pills',
+        keys: ['access'],
+        content: '<div class="pill access #status#">#access#</div>'
+      }, {
+        title: 'Дата заведения',
+        align: 'center',
+        keys: ['date']
+      }, {
+        title: 'Должность',
+        keys: ['position']
+      }, {
+        title: 'Редактировать',
+        align: 'center',
+        class: 'pills',
+        content: `<div class="edit icon" onclick="openUserPopUp('#id#')"></div>`
+      }]
+    },
+    sorts: {
+      'fio': {title: 'По ФИО', type: 'text'},
+      'gender': {title: 'По полу', type: 'text'},
+      'birth': {title: 'По дате рождения', type: 'date'},
+      'access': {title: 'По типу доступа', type: 'text'},
+      'date': {title: 'По дате заведения', type: 'date'},
+      'position': {title: 'По должности', type: 'text'}
+    },
+    filters: {
+      'fio': {title: 'По ФИО', search: 'usual'},
+      'gender': {title: 'По полу', search: 'usual', filter: 'checkbox'},
+      'birth': {title: 'По дате рождения', search: 'date'},
+      'access': {title: 'По типу доступа', search: 'usual', filter: 'checkbox'},
+      'date': {title: 'По дате заведения', search: 'date'},
+      'position': {title: 'По должности', search: 'usual'},
+    }
   };
   if (!superUser) {
-    settings.cols.shift();
+    settings.desktop.cols.shift();
   }
   initTable("#users", settings);
   fillTemplate({
-    area: "#users-adaptive",
+    area: ".table-adaptive",
     items: items
   });
   initForm('#user-form');

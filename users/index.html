@@ -25,32 +25,33 @@
           <div class="add icon" onclick="openUserPopUp()"></div>
         </div>
         <div class="btn" onclick="openUserPopUp()">Добавить</div>
-        <div id="users" class="table-desktop active"></div>
-        <div id="users-adaptive" class="table-adaptive template">
-          <div class="infoblock">
-            <div class="head">
-              <div class="title">#fio#</div>
-              <div class="toggle dark #toggle# #accessType#" onclick="toggleAccess(event, #id#)">
-                <div class="toggle-in"></div>
-              </div>
-            </div>
-            <div class="info row">
-              <div class="wrap row">
-                <div class="lock icon #status#"></div>
-                <div class="content row">
-                  <div>
-                    <div class="title">Должность: <span class="text">#position#</span></div>
-                    <div class="title">Дата рождения: <span class="text">#birth#</span></div>
-                    <div class="title">Пол: <span class="text">#gender#</span></div>
-                  </div>
-                  <div>
-                    <div class="title">Телефон: <a href="tel:#phone#">#phone#</a></div>
-                    <div class="title">Email: <a href="mailto:#email#">#email#</a></div>
-                    <div class="title">Дата заведения: <span class="text">#date#</span></div>
-                  </div>
+        <div id="users" class="table active">
+          <div class="table-adaptive template">
+            <div class="infoblock">
+              <div class="head">
+                <div class="title">#fio#</div>
+                <div class="toggle dark #toggle# #accessType#" onclick="toggleAccess(event, #id#)">
+                  <div class="toggle-in"></div>
                 </div>
               </div>
-              <div class="edit icon" onclick="openUserPopUp('#id#')"></div>
+              <div class="info row">
+                <div class="wrap row">
+                  <div class="lock icon #status#"></div>
+                  <div class="content row">
+                    <div>
+                      <div class="title">Должность: <span class="text">#position#</span></div>
+                      <div class="title">Дата рождения: <span class="text">#birth#</span></div>
+                      <div class="title">Пол: <span class="text">#gender#</span></div>
+                    </div>
+                    <div>
+                      <div class="title">Телефон: <a href="tel:#phone#">#phone#</a></div>
+                      <div class="title">Email: <a href="mailto:#email#">#email#</a></div>
+                      <div class="title">Дата заведения: <span class="text">#date#</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="edit icon" onclick="openUserPopUp('#id#')"></div>
+              </div>
             </div>
           </div>
         </div>

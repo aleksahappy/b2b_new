@@ -1,9 +1,3 @@
-/* Стили навигации табицы */
-
-.control .right-side {
-  display: none;
-}
-
 /* Стили таблицы */
 
 #reclm > table > tbody > tr > td {
@@ -18,23 +12,23 @@
   border-bottom: 1px solid #C6C6C6;
 }
 
-.infoblock.registr {
+.infoblock[data-status="1"] {
   border-left: 2px solid #8596A6;
 }
 
-.infoblock.wait {
+.infoblock[data-status="2"] {
   border-left: 2px solid #F69C00;
 }
 
-.infoblock.yes {
+.infoblock[data-status="3"] {
   border-left: 2px solid #3F9726;
 }
 
-.infoblock.no {
+.infoblock[data-status="4"] {
   border-left: 2px solid #CE0014;
 }
 
-.infoblock.done {
+.infoblock[data-status="5"] {
   border-left: 2px solid #2C6DA8;
 }
 

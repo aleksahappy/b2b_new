@@ -28,66 +28,73 @@ function initPage(data) {
   convertData(data);
   var settings = {
     data: data,
-    head: true,
-    result: false,
-    cols: [{
-      title: 'Доступ',
-      width: '6%',
-      key: 'access',
-      content: '<div class="toggle #access#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
-    }, {
-      title: 'ИНН/КПП',
-      width: '11%',
-      sort: 'numb',
-      search: 'usual',
-      content: '#inn##kpp#'
-    }, {
-      title: 'Контрагент',
-      width: '15%',
-      key: 'title',
-      sort: 'text',
-      search: 'usual',
-      filter: 'true'
-    }, {
-      title: 'Система налогообложения',
-      key: 'system',
-      sort: 'text',
-      search: 'usual',
-      filter: 'true'
-    }, {
-      title: 'Дата заведения',
-      align: 'center',
-      key: 'date',
-      sort: 'date',
-      search: 'date',
-    }, {
-      title: 'Юридический адрес',
-      width: '20%',
-      key: 'address',
-      search: 'usual',
-    }, {
-      title: 'Пользователь',
-      key: 'user',
-      sort: 'text',
-      search: 'usual',
-      filter: 'true'
-    }, {
-      title: 'Документы',
-      width: '21%',
-      key: 'docs',
-      content: `<div class="docs row">
-                  <div class="mark icon #status#" data-tooltip="#status_info#"></div>
-                  <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
-                </div>`
-    }],
-    sub: [{area: '.docs', items: 'docs'}]
+    desktop: {
+      head: true,
+      result: false,
+      sub: [{area: '.docs', items: 'docs'}],
+      cols: [{
+        title: 'Доступ',
+        width: '6%',
+        class: 'pills',
+        keys: ['access'],
+        content: '<div class="toggle #access#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
+      }, {
+        title: 'ИНН/КПП',
+        width: '11%',
+        keys: ['inn', 'kpp']
+      }, {
+        title: 'Контрагент',
+        width: '15%',
+        keys: ['title']
+      }, {
+        title: 'Система налогообложения',
+        keys: ['system']
+      }, {
+        title: 'Дата заведения',
+        align: 'center',
+        keys: ['date']
+      }, {
+        title: 'Юридический адрес',
+        width: '20%',
+        keys: ['address']
+      }, {
+        title: 'Пользователь',
+        keys: ['user']
+      }, {
+        title: 'Документы',
+        width: '21%',
+        keys: ['docs'],
+        content: `<div class="docs row">
+                    <div class="mark icon #status#" data-tooltip="#status_info#"></div>
+                    <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
+                  </div>`
+      }]
+    },
+    adaptive: {
+      sub: [{area: '.docs', items: 'docs'}]
+    },
+    sorts: {
+      'inn': {title: 'По ИНН', type: 'numb'},
+      'title': {title: 'По контрагенту', type: 'text'},
+      'system': {title: 'По системе налогообложения', type: 'text'},
+      'date': {title: 'По дате заведения', type: 'date'},
+      'user': {title: 'По пользователю', type: 'text'}
+    },
+    filters: {
+      'inn': {title: 'По ИНН', search: 'usual'},
+      'title': {title: 'По контрагенту', search: 'usual', filter: 'checkbox'},
+      'system': {title: 'По системе налогообложения', search: 'usual', filter: 'checkbox'},
+      'date': {title: 'По дате заведения', search: 'date'},
+      'address': {title: 'По юридическому адресу', search: 'usual'},
+      'user': {title: 'По пользователю', search: 'usual', filter: 'checkbox'}
+    }
   };
   if (!superUser) {
-    settings.cols.shift();
+    settings.desktop.cols.shift();
   }
   initTable('#contr', settings);
   fillTemplate({
-    area: "#contr-adaptive",
+    area: ".table-adaptive",
     items: data,
     sub: [{area: '.docs', items: 'docs'}]
   });
@@ -100,6 +107,7 @@ function initPage(data) {
 function convertData(data) {
   data.forEach(el => {
     el.kpp = el.kpp ? '/' + el.kpp : '';
+    el.accessType = superUser ? '' : 'displayNone';
   });
 }
 

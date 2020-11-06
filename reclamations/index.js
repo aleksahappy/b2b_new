@@ -1,5 +1,12 @@
 'use strict';
 
+// Статусы рекламаций:
+// 1: "Зарегистрирована"
+// 2: "Обрабатывается"
+// 3: "Удовлетворена"
+// 4: "Не удовлетворена"
+// 5: "Исполнена"
+
 // Запуск страницы рекламаций:
 
 startReclmPage();
@@ -22,11 +29,10 @@ function startReclmPage() {
 
 // Инициализация страницы:
 
-function initPage() {
+function initPage(data) {
   if (!data || !data.length) {
     return;
   }
-  convertData(data);
   var settings = {
     data: data,
     control: {
@@ -34,87 +40,54 @@ function initPage() {
       search: 'Поиск...',
       setting: true
     },
-    head: true,
-    result: false,
-    trFunc: 'onclick=showReclm(#id#)',
-    cols: [{
-      title: '№',
-      width: '7%',
-      key: 'recl_num',
-      sort: 'text',
-      search: 'usual'
-    }, {
-      title: 'Дата',
-      width: '10%',
-      align: 'center',
-      key: 'recl_date',
-      sort: 'date',
-      search: 'date'
-    }, {
-      title: 'Наименование',
-      width: '30%',
-      key: 'item_title',
-      sort: 'text',
-      search: 'usual'
-    }, {
-      title: 'Артикул',
-      key: 'item_articul',
-      sort: 'text',
-      search: 'usual'
-    }, {
-      title: 'Менеджер',
-      key: 'manager_lastname',
-      sort: 'text',
-      search: 'usual',
-      filter: true
-    }, {
-      title: 'Статус',
-      class: 'pills',
-      align: 'center',
-      key: 'status_text',
-      sort: 'text',
-      search: 'usual',
-      filter: true,
-      content: `<div class="#status# recl pill">#status_text#</div>`
-    }]
+    desktop: {
+      head: true,
+      result: false,
+      trFunc: 'onclick=showReclm(#id#)',
+      cols: [{
+        title: '№',
+        width: '7%',
+        keys: ['recl_num']
+      }, {
+        title: 'Дата',
+        width: '10%',
+        align: 'center',
+        keys: ['recl_date']
+      }, {
+        title: 'Наименование',
+        width: '30%',
+        keys: ['item_title']
+      }, {
+        title: 'Артикул',
+        keys: ['item_articul']
+      }, {
+        title: 'Менеджер',
+        keys: ['manager_lastname']
+      }, {
+        title: 'Статус',
+        class: 'pills',
+        align: 'center',
+        keys: ['status_text'],
+        content: `<div class="recl pill" data-status="#status#">#status_text#</div>`
+      }]
+    },
+    sorts: {
+      'recl_num': {title: 'По номеру рекламации', type: 'text'},
+      'recl_date': {title: 'По дате создания', type: 'date'},
+      'item_articul': {title: 'По артикулу', type: 'date'}
+    },
+    filters: {
+      'recl_num': {title: 'По номеру рекламации', search: 'usual'},
+      'recl_date': {title: 'По дате создания', search: 'date'},
+      'item_articul': {title: 'По артикулу', search: 'usual'},
+      'manager_lastname': {title: 'По менеджеру', search: 'usual', filter: 'checkbox'},
+      'status_text': {title: 'По статусу рекламации', search: 'usual', filter: 'checkbox'}
+    }
   };
   initTable('#reclm', settings);
   fillTemplate({
-    area: '#reclm-adaptive .table',
+    area: '.table-adaptive',
     items: data
   });
   loader.hide();
 }
-
-// Преобразование полученных данных:
-
-function convertData(data) {
-  var status;
-  data.forEach(el => {
-    switch (el.status) {
-      case '1':
-        status = 'registr';
-        break;
-      case '2':
-        status = 'wait';
-        break;
-      case '3':
-        status = 'yes';
-        break;
-      case '4':
-        status = 'no';
-        break;
-      case '5':
-        status = 'done';
-        break;
-    }
-    el.status = status;
-  });
-  return data;
-}
-
-// 1: "Зарегистрирована"
-// 2: "Обрабатывается"
-// 3: "Удовлетворена"
-// 4: "Не удовлетворена"
-// 5: "Исполнена"

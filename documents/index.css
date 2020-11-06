@@ -1,14 +1,14 @@
 /* Стили таблицы: */
 
-.table-desktop > table > thead > tr > th div:first-child {
+.table-desktop > thead > tr > th div:first-child {
   text-align: left;
 }
 
-.table-desktop > table > tbody > tr > td a {
+.table-desktop > tbody > tr > td a {
   flex-grow: 0;
   flex-shrink: 0;
 }
 
-#docs {
-  display: block!important;
+.table-desktop {
+  display: table!important;
 }

@@ -167,7 +167,7 @@ initTable('#table', settings);
 
 // Заполнение адаптивной версии таблицы:
 fillTemplate({
-  area: "#table-adaptive",
+  area: ".table-adaptive",
   items: data,
   sub: [{area: '.docs', items: 'docs'}]
 });

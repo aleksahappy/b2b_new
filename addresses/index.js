@@ -10,7 +10,7 @@ startAddressPage();
 
 function startAddressPage() {
   sendRequest(`../json/addresses.json`)
-  //sendRequest(urlRequest.main, {action: 'addresses'})
+  //sendRequest(urlRequest.main, {action: '???'})
   .then(result => {
     items = JSON.parse(result);
     initPage();
