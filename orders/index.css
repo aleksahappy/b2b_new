@@ -9,4 +9,42 @@
   padding-bottom: 0;
   line-height: 0;
   vertical-align: top;
+  text-align: left;
 }
+
+/* Стили адаптивной таблицы */
+
+.infoblock {
+  margin-bottom: 0;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.infoblock .info {
+  align-items: center;
+}
+
+.infoblock .info > .row {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 45%;
+}
+
+.infoblock .info > .row > div:first-child {
+  width: 13em;
+  min-width: 13em;
+  margin-right: 1.428em;
+}
+
+.infoblock .info > .pills {
+  margin-left: 1em;
+  flex-grow: 0;
+  line-height: normal;
+  white-space: normal;
+}
+
+.infoblock .info div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

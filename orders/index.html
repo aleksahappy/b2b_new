@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/media_main.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <!-- <link rel="stylesheet" type="text/css" href="media_index.css"> -->
+    <link rel="stylesheet" type="text/css" href="media_index.css">
   </head>
 
   <body>
@@ -22,9 +22,26 @@
         <div id="main-header" class="row">
           <div class="title h0">Заказы</div>
         </div>
-        <div id="orderslist" class="table-desktop active"></div>
+        <div id="orderslist" class="table active">
+          <div class="table-adaptive template">
+            <div class="infoblock template" onclick=showOrder(event,#id#)>
+              <div class="info row">
+                <div class="row">
+                  <div>#order_number# от #order_date#</div>
+                  <div>#order_type#</div>
+                </div>
+                <div class="pills">
+                  <div class="pill c10 #type# #display#">#sum#</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Подключение всплывающего окна отгрузок: -->
+    <div data-html="../modules/shipment.html"></div>
 
     <script src="../js/main.js"></script>
     <script src="../js/table.js"></script>
