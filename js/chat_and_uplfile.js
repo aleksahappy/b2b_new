@@ -10,7 +10,7 @@ $(function () {
 		'gif': 'jpg'
 	};
 
-// Видимо подсказки
+// Раскрытие названия товара в карточке полностью при наведении:
 	$(document).on({
 		mouseenter: function () {
 			var cont = $('#item_title');
@@ -22,7 +22,7 @@ $(function () {
 		}
 	}, '#item_title');
 
-// Видимо что-то переключалось
+	// Что-то переключалось при сворачивании/разворачивании описания дефекта
 	$(document).on('click', '.descr_toggle', function () {
 		$(this).toggleClass('a');
 		if ($(this).hasClass('a')) {
@@ -32,7 +32,7 @@ $(function () {
 		}
 	});
 
-	// Видимо сворачивалась/разворачивалась карточка
+	// Сворачивание/разворачивание описания дефекта
 	$(document).on('click', '.defect_toggle', function () {
 		var p = $('.recl_defect_cont');
 		state = (p.hasClass('a')) ? 1 : 0;
@@ -45,7 +45,7 @@ $(function () {
 		$(this).attr('title', title).tooltip('fixTitle').tooltip('setContent');
 	});
 
-	// Видимо открыть полное изображение
+	// Открытие изображения на весь экран:
 	$(document).on('click', "#files [data-img]", function (e) {
 		var recl_id = $(this).attr('data-recl');
 		var recl_img = $(this).attr('data-img');
