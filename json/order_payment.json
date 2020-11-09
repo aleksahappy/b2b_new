@@ -1,0 +1,31 @@
+{
+  "summ": "100 000,00",
+  "summ_pre": "20 000,00",
+  "summ_cur": "90 000,00",
+  "summ_over": "10 000, 00",
+  "items": [{
+    "date": "03.03.20",
+    "summ": "20 000,00",
+    "summ_pre": "20 000,00",
+    "summ_cur": "&ndash;",
+    "summ_over": "&ndash;"
+  }, {
+    "date": "02.09.20",
+    "summ": "40 000,00",
+    "summ_pre": "40 000,00",
+    "summ_cur": "&ndash;",
+    "summ_over": "&ndash;"
+  }, {
+    "date": "11.10.20",
+    "summ": "25 000,00",
+    "summ_pre": "&ndash;",
+    "summ_cur": "25 000,00",
+    "summ_over": "&ndash;"
+  }, {
+    "date": "05.11.20",
+    "summ": "20 000,00",
+    "summ_pre": "&ndash;",
+    "summ_cur": "25 000,00",
+    "summ_over": "10 000,00"
+  }]
+}

@@ -125,22 +125,16 @@ function convertData(data) {
       if (type > 0 && type < 6) {
         item = {};
         if (el.sum[sum] != 0) {
-          switch (type) {
-            case '1':
-              type = 'vputi';
-              break;
-            case '2':
-              type = 'vnali';
-              break;
-            case '3':
-              type = 'sobrn';
-              break;
-            case '4':
-              type = 'otgrz';
-              break;
-            case '5':
-              type = 'nedop';
-              break;
+          if (type === '1') {
+            type = 'vputi';
+          } else if (type === '2') {
+            type = 'vnali';
+          } else if (type === '3') {
+            type = 'sobrn';
+          } else if (type === '4') {
+            type = 'otgrz';
+          } else if (type === '5') {
+            type = 'nedop';
           }
           item.sum = convertPrice(el.sum[sum], 2);
           item.type = type;

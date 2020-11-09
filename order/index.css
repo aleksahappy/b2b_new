@@ -33,10 +33,12 @@
 
 .side:first-child .row > .title {
   width: 7.5em;
+  min-width: 7.5em;
 }
 
 .side:last-child .row > .title {
   width: 13em;
+  min-width: 13em;
 }
 
 .details {
@@ -45,12 +47,20 @@
   flex-shrink: 0;
 }
 
+.details .sum {
+  display: none;
+}
+
+.details .sum span {
+  font-weight: 700;
+}
+
 .details .btn {
   width: 10em;
   margin-bottom: 1em;
 }
 
-.details > .row {
+.details .docs {
   justify-content: flex-end;
   align-items: center;
   width: fit-content;
@@ -88,19 +98,15 @@
 
 /* Стили для всех таблиц */
 
-.added .attention.icon {
-  background-image: url(../img/attention_red.svg);
-}
-
-.table-desktop > table > tbody > tr:last-child > td {
+.table-desktop > tbody > tr:last-child > td {
   border-bottom: none;
 }
 
-.table-desktop > table > thead > tr > th {
+.table-desktop > thead > tr > th {
   top: 116px;
 }
 
-.table-desktop > table > thead > tr.results > th {
+.table-desktop > thead > tr.results > th {
   top: 156px;
 }
 
@@ -154,19 +160,19 @@
   background-color: #79B667;
 }
 
-#otgrz > table > tbody > tr > td.kolv {
+#otgrz > table > tbody > tr > td.qty {
   min-width: 10em;
   padding-top: 0;
   padding-bottom: 0;
   vertical-align: middle;
 }
 
-#otgrz > table > tbody > tr > td.kolv .row {
+#otgrz > table > tbody > tr > td.qty .row {
   justify-content: flex-end;
   align-items: center;
 }
 
-#otgrz > table > tbody > tr > td.kolv .icon {
+#otgrz > table > tbody > tr > td.qty .icon {
   width: 26px;
   height: 26px;
 }
@@ -192,7 +198,7 @@
 }
 
 /* =====================================================================================================
-Всплывающее окно рекламаций:
+Всплывающее окно cоздания рекламации:
 ===================================================================================================== */
 
 #make-reclm .pop-up {
@@ -219,66 +225,6 @@
 
 #make-reclm textarea {
   height: 5.5em;
-}
-
-/* =====================================================================================================
-Всплывающее окно отгрузок:
-===================================================================================================== */
-
-#shipment .pop-up {
-  min-width: 56em;
-}
-
-#shipment table {
-  min-width: 100%;
-  max-width: 100%;
-  color: #666666;
-  font-weight: 400;
-  background-color: #FFFFFF;
-  border-collapse: collapse;
-  border: none;
-  border-spacing: 0;
-  text-align: left;
-  direction: ltr;
-  overflow: hidden;
-}
-
-#shipment thead {
-  background-color: #EEEEEE;
-}
-
-#shipment th,
-#shipment td {
-  padding: 0.75em 1.14em;
-  font-weight: 400;
-  border-bottom: 1px solid #D5D5D5;
-}
-
-#shipment th {
-  text-align: center;
-}
-
-#shipment .icon {
-  margin-right: 0.5em;
-}
-
-#shipment td:nth-child(2),
-#shipment td:nth-child(3),
-#shipment td:nth-child(4) {
-  white-space: nowrap;
-}
-
-#shipment td:nth-child(1) .row {
-  color: #666666;
-  text-decoration: none;
-}
-
-#shipment td:nth-child(2) .row {
-  justify-content: center;
-}
-
-#shipment td:nth-child(3) {
-  text-align: right;
 }
 
 /* =====================================================================================================
@@ -318,11 +264,15 @@
   white-space: nowrap;
 }
 
-#payment .pop-up-body > div > div > .title {
-  background-color: #EEEEEE;
-  text-align: center;
+#payment .head.row  .info > div {
+  text-align: left;
 }
 
-#payment .pop-up-body > div > div:not(:first-child) > div:not(.title) {
+#payment .scroll.row  .info > div {
   text-align: right;
+}
+
+#payment .pop-up-body .info .title {
+  background-color: #EEEEEE;
+  text-align: center;
 }
