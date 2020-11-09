@@ -147,7 +147,7 @@ function createTable(area, settings) {
   tableSettings.cols.forEach((col, index) => {
     if (tableSettings.head) {
       headRow += createTableHeadCell(col, index, settings);
-      if (settings.result) {
+      if (tableSettings.result) {
         resultRow += createTableResultCell(col);
       }
     }
@@ -711,7 +711,7 @@ function Table(obj, settings = {}) {
     if (event.currentTarget.classList.contains('disabled')) {
       return;
     }
-    var activeTable = getEl('.table-desktop.active');
+    var activeTable = getEl('.table.active');
     if (activeTable) {
       hideElement(activeTable);
       activeTable.classList.remove('active');
@@ -890,6 +890,9 @@ function Table(obj, settings = {}) {
 
   // Запуск перетаскивания столбца:
   this.startResize = function(event) {
+    if (event.button != 0) {
+      return;
+    }
     this.prevColumn = event.currentTarget.parentElement;
     this.nextColumn = this.prevColumn.nextElementSibling;
     this.startCoord = event.pageX;
