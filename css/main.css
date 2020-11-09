@@ -2572,14 +2572,6 @@ form.post .form-cols > div:last-child {
   padding-right: 0;
 }
 
-form.post .form-col2 {
-  width: 50%;
-}
-
-form.post .form-col3 {
-  width: 33%;
-}
-
 form.post .form-wrap {
   position: relative;
   width: 100%;
@@ -2598,6 +2590,14 @@ form.post .form-wrap[disabled] > .title {
 
 form.post .form-wrap > .title {
   margin-bottom: 0.35em;
+}
+
+form.post .form-col2 {
+  width: 50%;
+}
+
+form.post .form-col3 {
+  width: 33%;
 }
 
 form.post input:not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not(.choiced-qty):not([data-type="date"]):not([data-type="range"]),
@@ -3258,7 +3258,7 @@ form.post .btns-wrap {
 .table-desktop > tbody > tr > td > a,
 .table-desktop > tbody > tr > td > .pill {
   width: 100%;
-  vertical-align: top;
+  vertical-align: middle;
   overflow: hidden;
   text-overflow: ellipsis;
 }

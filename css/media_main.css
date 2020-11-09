@@ -506,10 +506,6 @@ Mobile:
     width: 100%;
   }
 
-  form.post .btns-wrap {
-    padding-top: 0;
-  }
-
   /* Блок фильтров (в т.ч. видимый на всех разрешениях): */
 
   .filters .pop-up,
