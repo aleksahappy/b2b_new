@@ -331,6 +331,7 @@ function getItems(id) {
     sendRequest(urlRequest.main, data)
     .then(result => {
       var data = JSON.parse(result);
+      // console.log(data)
       resolve(data);
     })
     .catch(error => {
@@ -351,7 +352,7 @@ function getItem(articul) {
     sendRequest(urlRequest.main, data)
     .then(result => {
       var data = JSON.parse(result);
-      console.log(data);
+      // console.log(data);
       resolve(data);
     })
     .catch(error => {
@@ -656,7 +657,7 @@ function addOptionsInfo(item, optnames, key = 'options') {
       continue;
     }
     value = item[key][k];
-    if (optnames) {
+    if (item.search) {
       item.search.push(value.toString().replace(/\"/g, ''));
     }
     value = value.toString().replace(/\,/gi, ', ').replace(/\//gi, '/ ');
@@ -839,12 +840,7 @@ function setTextareaHeight(textarea, min = 40, max = 150) {
 // Свернуть/развернуть сам контейнер:
 
 function toggleEl(event, className = 'close') {
-  var target = event.target,
-      tag = target.tagName;
-  if (tag) {
-    tag = tag.toLowerCase();
-  }
-  if (target.hasAttribute('onclick') || tag === 'a') {
+  if (checkIsLink(event)) {
     return;
   }
   event.currentTarget.classList.toggle(className);
@@ -853,12 +849,7 @@ function toggleEl(event, className = 'close') {
 // Свернуть/развернуть содержимое контейнера:
 
 function switchContent(event) {
-  var target = event.target,
-      tag = target.tagName;
-  if (tag) {
-    tag = tag.toLowerCase();
-  }
-  if (target !== event.currentTarget && (target.hasAttribute('onclick') || tag === 'a')) {
+  if (checkIsLink(event)) {
     return;
   }
   var container = event.currentTarget.closest('.switch');
@@ -944,6 +935,21 @@ function isEmptyObj(obj) {
     return false;
   }
   return true;
+}
+
+// Проверка кликнутого элемента на наличие onclick или сслыки:
+
+function checkIsLink(event) {
+  var target = event.target,
+      tag = target.tagName;
+  if (tag) {
+    tag = tag.toLowerCase();
+  }
+  if (event.target !== event.currentTarget && target.hasAttribute('onclick') || tag === 'a') {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // Замена символов переноса в тексте на тег <br/>:
@@ -1195,11 +1201,17 @@ function getChar(event) {
 // Конвертация всей вложенности свойств объекта в строку:
 
 function convertToString(obj) {
+  if (typeof obj !== 'object') {
+    return;
+  }
   var objProps = '';
   crossObj(obj);
   return objProps;
 
   function crossObj(obj) {
+    if (typeof obj !== 'object') {
+      return;
+    }
     var prop;
     for (let k in obj) {
       prop = obj[k];
@@ -1279,7 +1291,7 @@ function convertPhone(phone) {
 // Переход на страницу заказа:
 
 function showOrder(event, id) {
-  if (event.target.closest('.download.icon')) {
+  if (checkIsLink(event)) {
     return;
   }
   location.href = `/order/?${id}`;
@@ -1287,7 +1299,10 @@ function showOrder(event, id) {
 
 // Переход на страницу рекламации:
 
-function showReclm(id) {
+function showReclm(event, id) {
+  if (checkIsLink(event)) {
+    return;
+  }
   location.href = `/reclamation/?${id}`;
 }
 
@@ -1940,17 +1955,25 @@ function initNotifications() {
 // Отображение информационной карточки товара:
 
 function showInfoCard(articul) {
+  loader.show();
   getItem(articul)
   .then(result => {
-    var item = result.item,
+    var item = result.items[0],
         optnames = result.optnames;
     if (item && optnames) {
       addImgInfo(item);
       addOptionsInfo(item, optnames);
       item.isDesc = item.desc ? '' : 'displayNone';
       openInfoCard(item);
+    } else {
+      loader.hide();
+      alerts.show('При загрузке карточки товара произошла ошибка');
     }
-  }, reject => console.log(reject));
+  }, reject => {
+    console.log(reject);
+    loader.hide();
+    alerts.show('При загрузке карточки товара произошла ошибка');
+  });
 }
 
 // Открытие информационной карточки товара:
@@ -1972,7 +1995,6 @@ function openInfoCard(data) {
   checkImg(infoCardContainer);
   getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
   openPopUp(infoCardContainer);
-  loader.hide();
 }
 
 // Отображение картинки на весь экран:
@@ -1981,12 +2003,20 @@ function showFullImg(event, articul) {
   if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
     return;
   }
+  loader.show();
   getItem(articul)
   .then(result => {
     if (result.item) {
       openFullImg(event, result.item);
+    } else {
+    loader.hide();
+    alerts.show('При загрузке изображения произошла ошибка');
     }
-  }, reject => console.log(reject));
+  }, reject => {
+    console.log(reject);
+    loader.hide();
+    alerts.show('При загрузке изображения произошла ошибка');
+  });
 }
 
 // Открытие картинки на весь экран:
@@ -2017,7 +2047,6 @@ function openFullImg(event, data) {
     } else {
       fullImgContainer.style.opacity = 1;
     }
-    loader.hide();
   });
 }
 
@@ -2602,7 +2631,7 @@ function Search(obj, callback) {
     this.obj.addEventListener('submit', event => {
       event.preventDefault();
       if (this.type !== 'inSearchBox') {
-        this.search(event);
+        this.search();
       }
     });
     if (!this.obj.classList.contains('positioned')) {
@@ -2695,11 +2724,11 @@ function Search(obj, callback) {
       value = !curItem.dataset.value ? curItem.dataset.value : curItem.textContent;
     }
     this.input.value = value;
-    this.search(event);
+    this.search();
   }
 
   // Поиск:
-  this.search = function(event) {
+  this.search = function() {
     var textToFind = this.input.value.trim();
     if (!/\S/.test(textToFind)) {
       return;
@@ -2739,9 +2768,6 @@ function Search(obj, callback) {
       this.input.focus();
     }
     this.clear();
-    if (this.calendar) {
-      this.input.dispatchEvent(new CustomEvent('input', {'bubbles': true}));
-    }
     if (callback) {
       callback(this.obj);
     }
@@ -2848,6 +2874,12 @@ function DropDown(obj, handler, data, defaultValue) {
     if (this.sort) {
       this.sort.addEventListener('click', event => this.sortValue(event))
     }
+    if (this.calendar) {
+      this.calendar.addEventListener('change', event => {
+        var textToFind = event.currentTarget.value;
+        this.searchValue(null, textToFind);
+      });
+    }
     if (this.items) {
       this.items.addEventListener('click', event => this.selectValue(event));
     }
@@ -2949,7 +2981,7 @@ function DropDown(obj, handler, data, defaultValue) {
     var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
     this.changeTitle(newTitle);
     this.writeValue(textToFind);
-    search.dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
+    this.obj.dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
   }
 
   // Выбор значения из списка:
@@ -3001,7 +3033,7 @@ function DropDown(obj, handler, data, defaultValue) {
     });
   }
 
-  // Сброс значения:
+  // Запись выбранных значений в value объекта:
 
   this.writeValue = function(value = '') {
     this.obj.value = value;
@@ -3320,7 +3352,7 @@ function Filter(obj) {
   // Инициализация блока фильтров:
   this.init = function() {
     this.setEventListeners();
-    obj.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
+    this.filterPopUp.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
 }
