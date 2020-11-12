@@ -79,7 +79,7 @@ function sendProfile(formData) {
   })
   .catch(error => {
     console.log(error);
-    alerts.show('Ошибка сервера. Попробуйте позже.');
+    alerts.show('Произошла ошибка, попробуйте позже.');
     hideElement('#profile-edit .loader');
   })
 }

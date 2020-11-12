@@ -1610,7 +1610,7 @@ function showInfoCard(id) {
     openInfoCard(data);
   } else {
     loader.hide();
-    alerts.show('При загрузке карточки товара произошла ошибка');
+    alerts.show('При загрузке карточки товара произошла ошибка.');
   }
 }
 
@@ -1628,7 +1628,7 @@ function showFullImg(event, data) {
     openFullImg(event, data);
   } else {
     loader.hide();
-    alerts.show('При загрузке изображения произошла ошибка');
+    alerts.show('При загрузке изображения произошла ошибка.');
   }
 }
 

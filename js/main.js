@@ -1967,12 +1967,12 @@ function showInfoCard(articul) {
       openInfoCard(item);
     } else {
       loader.hide();
-      alerts.show('При загрузке карточки товара произошла ошибка');
+      throw new Error('Ошибка');
     }
   }, reject => {
     console.log(reject);
     loader.hide();
-    alerts.show('При загрузке карточки товара произошла ошибка');
+    alerts.show('При загрузке карточки товара произошла ошибка.');
   });
 }
 
@@ -2010,12 +2010,12 @@ function showFullImg(event, articul) {
       openFullImg(event, result.item);
     } else {
     loader.hide();
-    alerts.show('При загрузке изображения произошла ошибка');
+    throw new Error('Ошибка');
     }
   }, reject => {
     console.log(reject);
     loader.hide();
-    alerts.show('При загрузке изображения произошла ошибка');
+    alerts.show('При загрузке изображения произошла ошибка.');
   });
 }
 
@@ -2043,7 +2043,7 @@ function openFullImg(event, data) {
   .then(result => {
     if (getEl('img',fullImgContainer).src.indexOf('/img/no_img.jpg') >= 0) {
       closePopUp(null, fullImgContainer);
-      alerts.show('При загрузке изображения произошла ошибка');
+      alerts.show('При загрузке изображения произошла ошибка.');
     } else {
       fullImgContainer.style.opacity = 1;
     }

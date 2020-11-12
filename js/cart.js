@@ -88,6 +88,8 @@ function sendOrder(formData) {
         console.log('Были отправлены не все позиции из заказа.');
       }
       document.location.href = '../orders';
+    } else {
+      throw new Error('Ошибка');
     }
   })
   .catch(error => {
@@ -1066,7 +1068,7 @@ function loadInCart() {
   }
   if (error) {
     loader.hide();
-    alerts.show(error, 2000);
+    alerts.show(error);
     return;
   }
   addInCart.forEach(el => {
@@ -1076,7 +1078,7 @@ function loadInCart() {
   loader.hide();
   closePopUp(null, 'load-container');
   if (addInCart.length < strings.length) {
-    alerts.show('При загрузке были найдены не все артикулы', 3000);
+    alerts.show('При загрузке были найдены не все артикулы.');
   }
   loadText.value = '';
 }
@@ -1100,7 +1102,7 @@ function addInCart(event) {
       changeCartInHeader();
       createCart();
     } else {
-      alerts.show('Файл не загружен. Неверный формат данных.', 2000);
+      alerts.show('Файл не загружен. Неверный формат данных.');
       showElement(loadBtn);
       hideElement(submitBtn);
     }
@@ -1109,7 +1111,7 @@ function addInCart(event) {
   .catch(error => {
     console.log(error);
     loader.hide();
-    alerts.show('Файл не загружен. Ошибка сервера.', 2000);
+    alerts.show('Файл не загружен. Ошибка сервера.');
     showElement(loadBtn);
     hideElement(submitBtn);
   })
@@ -1147,7 +1149,7 @@ function openCheckout(event) {
     return;
   }
   if (!userData.address) {
-    alerts.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses">Адреса доставки</a> для их добавления/включения.');
+    alerts.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses">Мои адреса</a> для их добавления/включения.');
     getEl('#order-form .activate.delivery .item[data-value="2"]').style.display = 'none';
     getEl('#order-form .activate.delivery .item[data-value="3"').style.display = 'none';
   }
