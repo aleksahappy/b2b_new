@@ -14,8 +14,14 @@
 //     area: элемент / селектор элемента                - место вставки панели управления если нужно расположить не в контейнере таблицы (по умолчанию вставится перед таблицей)
 //     pagination: true / false                         - наличие пагинации (по умолчанию отсутствует)
 //     search: 'Поиск к подсказке' / false              - наличие поиска и его подсказка (по умолчанию отсутствует)
-//     toggle: 'key' / false                            - наличие переключателя и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
-//     pill: 'key' / false                              - наличие чекбоксов-"пилюль" и ключ в данных, по которому брать данные для работы (по умолчанию отсутствует)
+//     toggle: {                                        - наличие переключателя и его настройки (по умолчанию отсутствует):
+//       title: 'Заголовок'                               - заголовок переключателя
+//       key:                                             - ключ в данных, по которому брать данные для работы
+//     }
+//     pill: {                                          - наличие чекбоксов-"пилюль" (по умолчанию отсутствуют)
+//       key:                                             - ключ в данных, по которому брать данные для работы
+//       key:                                             - ключ в данных, по которому брать данные для работы
+//     }
 //     setting: true / false                            - наличие настроек таблицы (по умолчанию отсутствует)
 //   },
 //   desktop: {                                       Настройки основной таблицы:
@@ -30,6 +36,7 @@
 //       width: 'x%',                                     - ширина столбца в процентах, если не устраивает ширина по умолчанию (по умолчанию все столбцы одинаковой ширины)
 //       align: 'center' / 'right'                        - выравнивание столбца, если не устраивает выравнивание по левому краю
 //       keys: ['key1', 'key2', ...]                      - ключи данных по которым находится информация для данного столбца (первый ключ всегда приоритетный, по нему считаются итоги если они нужны)
+//                                                          (если ключ находится во вложенности объектов, то указывать его как 'key1/key1.1')
 //       result: 'kolv' / 'sum'                           - наличие и формат итога по колонке (умолчанию отсутствует)
 //       content: html разметка                           - содержимое ячейки, по умолчанию это: #key1# #key2#..., иначе вносим html разметку
 //     }, {...}]
@@ -109,11 +116,16 @@ function createTableControl(area, settings) {
   }
   if (settings.toggle) {
     controlHtml +=
-    ``;
+    `<div class="tog row">
+      <div class="text">${title}</div>
+      <div class="toggle">
+        <div class="toggle-in"></div>
+      </div>
+    </div>`;
   }
   if (settings.pill) {
     controlHtml +=
-    ``;
+    `<div class="pills row"></div>`;
   }
   if (settings.setting) {
     controlHtml += `<div class="settings icon"></div>`;
@@ -399,15 +411,12 @@ function Table(obj, settings = {}) {
     if (this.initialData) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.data.forEach(el => {
-        el.search = [];
         for (var key in el) {
           if (!el[key] && el[key] != 0) {
             el[key] = '&ndash;';
-          } else {
-            el.search.push(el[key]);
           }
         }
-        el.search = el.search.join(',').replace(/\s/g, ' ');
+        el.search = convertToString(el).replace(/\s/g, ' ');
       });
       this.dataToLoad = this.data;
     }
@@ -463,11 +472,24 @@ function Table(obj, settings = {}) {
     for (var key in settings.filters) {
       if (settings.filters[key].filter) {
         var data = [], value;
-        this.dataToLoad.forEach(el => {
-          value = el[key];
-          value = typeof value === 'string' || typeof value === 'number' ? value : undefined;
-          if (value && data.indexOf(value) === -1) {
-            data.push(value);
+        this.dataToLoad.forEach(item => {
+          if (key.indexOf('/') > 0) {
+            var keys = key.split('/');
+            if (Array.isArray(item[keys[0]])) {
+              item[keys[0]].forEach(item => {
+                value = item[keys[1]];
+                value = typeof value === 'string' || typeof value === 'number' ? value : undefined;
+                if (value && data.indexOf(value) === -1) {
+                  data.push(value);
+                }
+              });
+            }
+          } else {
+            value = item[key];
+            value = typeof value === 'string' || typeof value === 'number' ? value : undefined;
+            if (value && data.indexOf(value) === -1) {
+              data.push(value);
+            }
           }
         });
         // settings.filters[key].items = data.sort();
@@ -745,7 +767,7 @@ function Table(obj, settings = {}) {
 
   // Сортировка по столбцу:
   this.sortData = function(event) {
-    var group = event.target.closest('.group'),
+    var group = getEl('.group.sort', event.currentTarget),
         type = group.dataset.type,
         key = group.dataset.key;
         key = event.target.classList.contains('down') ? key : '-' + key;
@@ -769,7 +791,7 @@ function Table(obj, settings = {}) {
     if (this.control) {
       this.resetControl();
     }
-    var key = event.target.closest('.group').dataset.key,
+    var key = getEl('.group.filter', event.currentTarget).dataset.key,
         value,
         action;
     if (type === 'search') {
@@ -829,8 +851,19 @@ function Table(obj, settings = {}) {
         for (var key in this.filters) {
           filter = this.filters[key];
           isFound = false;
-          if (checkValue(filter.type, filter.values, item[key])) {
-            isFound = true;
+          if (key.indexOf('/') > 0) {
+            var keys = key.split('/');
+            if (Array.isArray(item[keys[0]])) {
+              item[keys[0]].forEach(item => {
+                if (checkValue(filter.type, filter.values, item[keys[1]])) {
+                  isFound = true;
+                }
+              });
+            }
+          } else {
+            if (checkValue(filter.type, filter.values, item[key])) {
+              isFound = true;
+            }
           }
           if (!isFound) {
             return false;
@@ -849,7 +882,7 @@ function Table(obj, settings = {}) {
     for (var value of filterValues) {
       if (type === 'search') {
         var regEx = RegExp(value, 'gi');
-        if (('' + itemValue).search(regEx) >= 0) {
+        if ((itemValue.toString()).search(regEx) >= 0) {
           isFound = true;
         }
       } else {
