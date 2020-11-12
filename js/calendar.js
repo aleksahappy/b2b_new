@@ -136,6 +136,12 @@ class Calendar {
     }
   }
 
+  // Запись выбранной даты в value объекта:
+
+  writeValue = function(value = '') {
+    this.wrap.value = value;
+  }
+
   // Установка даты, на которой следует открыть календарь:
   setStartDate() {
     var date = this.getStartDate();
@@ -152,13 +158,19 @@ class Calendar {
   // Получение даты, на которой следует открыть календарь:
   getStartDate(string) {
     if (!string) {
-      this.inputValue = this.input.value.replace(/\s/g, '');
+      var inputValue = this.input.value.replace(/\s/g, '');
     }
-    var date = this.convertInDate(string || this.inputValue);
-    this.selectedDate = undefined;
-    if (!string && date) {
-      this.selectedDate = date;
-      this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar'}, {'bubbles': true}));
+    var date = this.convertInDate(string || inputValue);
+    if (!string) {
+      if (date) {
+        this.selectedDate = date;
+        this.writeValue(inputValue);
+        this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
+      } else if (this.selectedDate) {
+        this.selectedDate = undefined;
+        this.writeValue();
+        this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
+      }
     }
     return date;
   }
@@ -296,7 +308,8 @@ class Calendar {
       this.formateTwoDigitNumber(this.selectedDate.getDate()) + '.' +
       this.formateTwoDigitNumber(this.selectedDate.getMonth() + 1) + '.' +
       this.selectedDate.getFullYear();
-      this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar'}, {'bubbles': true}));
+      this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
+    this.writeValue(this.input.value);
     this.hide();
   }
 
@@ -317,8 +330,6 @@ class CalendarRange extends Calendar {
   getStartDate(string) {
     var result = [],
         isString = string ? true : false;
-    this.dateFrom = undefined;
-    this.dateTo = undefined;
     if (!string) {
       string = this.input.value.replace(/\s/g, '');
     }
@@ -329,10 +340,20 @@ class CalendarRange extends Calendar {
       result.push(this.convertInDate(string));
     }
     result = result.filter(el => el);
-    if (!isString && result.length) {
-      this.dateFrom = result[0];
-      if (result[1] > this.dateFrom) {
-        this.dateTo = result[1];
+    if (!isString) {
+      if (result.length) {
+        this.dateFrom = result[0];
+        if (result[1] > this.dateFrom) {
+          this.dateTo = result[1];
+          this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
+          this.writeValue(string);
+        } else {
+          this.dateTo = undefined;
+        }
+      } else if (this.dateFrom) {
+        this.dateFrom = undefined;
+        this.dateTo = undefined;
+        this.writeValue();
         this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
       }
     }
@@ -398,7 +419,8 @@ class CalendarRange extends Calendar {
         this.formateTwoDigitNumber(this.dateTo.getDate()) + '.' +
         this.formateTwoDigitNumber(this.dateTo.getMonth() + 1) + '.' +
         this.dateTo.getFullYear();
-        this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar'}, {'bubbles': true}));
+        this.input.dispatchEvent(new CustomEvent('change', {'detail': 'calendar', 'bubbles': true}));
+      this.writeValue(this.input.value.replace(/\s/g, ''));
       this.hide();
     }
   }
