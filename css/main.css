@@ -2969,12 +2969,14 @@ form.post .btns-wrap {
 }
 
 #shipment td:nth-child(1) .row {
+  align-items: baseline;
   color: #666666;
   text-decoration: none;
 }
 
 #shipment td:nth-child(2) .row {
   justify-content: center;
+  align-items: center;
 }
 
 #shipment td:nth-child(3) {
@@ -3015,6 +3017,19 @@ form.post .btns-wrap {
 
 .control .search.row {
   width: 100%;
+}
+
+.control .tog.row {
+  align-items: center;
+  margin: 0 2em;
+}
+
+.control .tog.row .text {
+  margin-right: 1em;
+}
+
+.control .pills.row {
+  margin-left: 2em;
 }
 
 .control .settings.icon {
@@ -3256,14 +3271,14 @@ form.post .btns-wrap {
 }
 
 .table-desktop > tbody > tr > td > a,
-.table-desktop > tbody > tr > td > .pill {
+.table-desktop > tbody > tr > td > div:not(.toggle) {
   width: 100%;
   vertical-align: middle;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-desktop > tbody > tr > td > .pill {
+.table-desktop > tbody > tr > td > div.pill {
   width: auto;
 }
 

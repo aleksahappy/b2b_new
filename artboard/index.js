@@ -37,7 +37,7 @@ document.querySelectorAll('.filters').forEach(el => {
 
 // Созание примера данных для таблицы:
 var data = [];
-for (var i = 0; i < 520; i++) {
+for (var i = 0; i < 80; i++) {
   data.push({
     index: (i + 1) * 2 - 1,
     access: 'checked',
@@ -134,7 +134,7 @@ var settings = {
     }, {
       title: 'Документы',
       width: '20%',
-      keys: ['docs.title'],
+      keys: ['docs/title'],
       content: `<div class="docs row #status#">
                   <div class="mark icon" data-tooltip="#status_info#"></div>
                   <a href="url" data-tooltip="#info#" help>#title#</a>
@@ -158,7 +158,7 @@ var settings = {
     'date': {title: 'По дате заведения', search: 'date'},
     'address': {title: 'По юридическому адресу', search: 'usual'},
     'user': {title: 'По пользователю', search: 'usual', filter: 'checkbox'},
-    'docs.title': {title: 'По документу', search: 'usual'},
+    'docs/title': {title: 'По документу', search: 'usual', filter: 'checkbox'},
   }
 }
 
