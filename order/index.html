@@ -25,8 +25,8 @@
             <span class="name">#contr_name#</span>
           </div>
         </div>
-        <div class="up row">
-          <div class="info row">
+        <div class="info row">
+          <div class="main row">
             <div class="side">
               <div class="title h3">Детали заказа</div>
               <div class="row">
@@ -64,18 +64,18 @@
               <div class="btn #isShipment#" onclick="openPopUp('#shipment', event)">Отгрузки</div>
               <div class="btn #isPayment#" onclick="openPopUp('#payment', event)">Платежи</div>
             </div>
-            <a class="docs row" href="https://new.topsports.ru/api.php?action=order&order_id=#id#&file=bill&type=pdf">
+            <a class="docs row" href="https://new.topsports.ru/api.php?action=order&order_id=#id#&mode=bill&type=pdf">
               <div class="download icon"></div>
               <div>Скачать счет</div>
             </a>
           </div>
         </div>
-        <div class="down row #isDownRow#">
+        <div class="more row #isMoreRow#">
           <div class="comment row #isComment#">
             <div class="title">Комментарий:</div>
             <div class="text">#comment#</div>
           </div>
-          <div class="btns #isOrderBnts#">
+          <div class="btns #isSpecial#">
             <div class="btn" onclick="cancelOrder(#id#)">Отменить заказ</div>
             <div class="btn sub-act" onclick="confirmOrder(#id#)">Подтвердить заказ</div>
           </div>
@@ -107,7 +107,7 @@
         </div>
         <div class="pop-up-body">
           <div class="order-info">
-            <div>К заказу <a href="../order/?order_id=#id#">№#order_number#</a> от #order_date#</div>
+            <div>К заказу <a href="../order/?#id#">№#order_number#</a> от #order_date#</div>
             <div>#titl#</div>
             <div class="text midlight">Артикул #artc#</div>
           </div>
@@ -238,6 +238,7 @@
     <script src="../js/main.js"></script>
     <script src="../js/table.js"></script>
     <script src="../js/calendar.js"></script>
+    <script src="../js/carousel.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

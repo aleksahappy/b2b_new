@@ -1,18 +1,5 @@
 'use strict';
 
-// Запрос файлов:
-
-// get
-// action=order&order_id=123&file=filemode&type=filetype
-// filemodes: bill,report,bar,nakl
-// filetypes: pdf,xls
-// addintion for nakl & bar:
-// name=rencname
-// id=rdocid
-
-// отчет об оплатах - всегда xls
-// штрихкоды - всегда xls
-
 // Глобальные переменные:
 
 var data, reclData, reclIcon;
@@ -25,7 +12,7 @@ startOrderPage();
 
 function startOrderPage() {
   var id = document.location.search.replace('?', '');
-  sendRequest(`../json/order1.json`)
+  sendRequest(`../json/order.json`)
   // sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
   .then(result => {
     data = JSON.parse(result);
@@ -50,7 +37,7 @@ function startOrderPage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (data.id) {
+  if (data.id && data.orderitems.arlistk || !data.orderitems.arlistv) {
     convertData();
     fillTemplate({
       area: '#main',
@@ -81,18 +68,21 @@ function convertData() {
     addReclmInfo();
     delete data.orderitems;
   }
-  data.isShipment = (!data.nakls || !data.nakls.length) ? 'disabled' : '';
+  data.isShipment = data.nakls && data.nakls.length ? '' : 'disabled';
   data.isPayment = data.payment ? '' : 'disabled';
-  data.isDownRow = data.comment || data.special ? '' : 'displayNone';
+  data.isMoreRow = data.comment || data.special ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
   data.isOrderBnts = data.special ? '' : 'hidden';
   data.isReclms = (data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true;
-  console.log(data);
+  // console.log(data);
 }
 
 // Получение данных о накладных из csv-формата:
 
 function getNaklsData() {
+  if (!data.orderitems.arnaklk || !data.orderitems.arnaklv) {
+    return;
+  }
   var keys = data.orderitems.arnaklk.split('@$'),
       values = data.orderitems.arnaklv.split('^@^'),
       result = [];
@@ -114,14 +104,17 @@ function getNaklsData() {
 // Получение данных о товарах из csv-формата:
 
 function getItemsData() {
+  if (!data.orderitems.arlistk || !data.orderitems.arlistv) {
+    return;
+  }
   var tableKeys = {
     'nomen': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'], //Номенклатура
-    'vputi': ['artc', 'titl', 'dpst', 'kolv', 'paid', 'kdop'], //Ожидается
+    'vputi': ['artc', 'titl', 'dpst', 'kolv', 'summ', 'paid', 'kdop'], //Ожидается
     'vnali': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'],  //В наличии
     'sobrn': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'], // Собран
     'otgrz': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid', 'cods', 'harid', 'naklid', 'nakl', 'dotg', 'recl_num'], // Отгружен
     'nedop': ['artc', 'titl', 'pric', 'kolv', 'summ', 'stat'], //Недопоставка
-    'reclm': ['recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'comp_summ', 'trac'] //Рекламации
+    'reclm': ['reclid', 'recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'summ', 'trac'] //Рекламации
     // 'debzd': ['artc, titl, kolv, pric, summ, dpst, paid, prcd, prcp, kdop, vdlg, recv, nakl, over, lnk, preview, titllnk'] // Дебиторская задолженность
   };
 
@@ -156,6 +149,20 @@ function getItemsData() {
         result[name] = [];
       }
       if (checkInclusion(name, obj)) {
+        if (name == 'reclm') {
+          var status = list[name].trac.toLowerCase();
+          if (status == 'зарегистрирована') {
+            list[name].status = '1';
+          } else if (status == 'обрабатывается') {
+            list[name].status = '2';
+          } else if (status == 'удовлетворена') {
+            list[name].status = '3';
+          } else if (status == 'ну удовлетворена') {
+            list[name].status = '4';
+          } else if (status == 'исполнена') {
+            list[name].status = '5';
+          }
+        }
         result[name].push(list[name]);
       }
     }
@@ -209,7 +216,9 @@ function createTables() {
       }, {
         title: 'Наименование',
         width: '30%',
-        keys: ['titl']
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Цена',
         align: 'right',
@@ -260,7 +269,9 @@ function createTables() {
       }, {
         title: 'Наименование',
         width: '30%',
-        keys: ['titl']
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Дата поступления',
         align: 'center',
@@ -270,6 +281,11 @@ function createTables() {
         align: 'right',
         keys: ['kolv'],
         result: 'kolv'
+      }, {
+        title: 'Cтоимость',
+        align: 'right',
+        keys: ['summ'],
+        result: 'sum'
       }, {
         title: 'Оплачено',
         align: 'right',
@@ -287,6 +303,7 @@ function createTables() {
       'titl': {title: 'По наименованию', type: 'text'},
       'dpst': {title: 'По дате поступления', type: 'date'},
       'kolv': {title: 'По количеству', type: 'numb'},
+      'summ': {title: 'По стоимости', type: 'numb'},
       'paid': {title: 'По оплаченной сумме', type: 'numb'},
       'kdop': {title: 'По сумме к оплате', type: 'numb'}
     },
@@ -295,6 +312,7 @@ function createTables() {
       'titl': {title: 'По наименованию', search: 'usual'},
       'dpst': {title: 'По дате поступления', search: 'date'},
       'kolv': {title: 'По количеству', search: 'usual'},
+      'summ': {title: 'По стоимости', search: 'usual'},
       'paid': {title: 'По оплаченной сумме', search: 'usual'},
       'kdop': {title: 'По сумме к оплате', search: 'usual'}
     }
@@ -312,7 +330,9 @@ function createTables() {
       }, {
         title: 'Наименование',
         width: '30%',
-        keys: ['titl']
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Цена',
         align: 'right',
@@ -363,7 +383,9 @@ function createTables() {
       }, {
         title: 'Наименование',
         width: '30%',
-        keys: ['titl']
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Цена',
         align: 'right',
@@ -414,7 +436,9 @@ function createTables() {
       }, {
         title: 'Наименование',
         width: '30%',
-        keys: ['titl']
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Цена',
         align: 'right',
@@ -467,7 +491,9 @@ function createTables() {
       }, {
         title: 'Наименование',
         width: '30%',
-        keys: ['titl']
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Цена',
         align: 'right',
@@ -513,11 +539,12 @@ function createTables() {
       result: true,
       cols: [{
         title: '№ Рекламации',
-        keys: ['recl_num']
+        keys: ['recl_num'],
+        content: `<a href="../reclamation/?#reclid#">#recl_num#</a>`
       }, {
         title: 'Дата',
         align: 'center',
-        key: 'recl_date',
+        keys: ['recl_date'],
         sort: 'date',
         search: 'date'
       }, {
@@ -525,8 +552,10 @@ function createTables() {
         keys: ['artc']
       }, {
         title: 'Наименование',
-        width: '20%',
-        keys: ['titl']
+        width: '25%',
+        class: 'link',
+        keys: ['titl'],
+        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
       }, {
         title: 'Цена',
         align: 'right',
@@ -539,14 +568,14 @@ function createTables() {
       }, {
         title: 'Сумма компенсации',
         align: 'right',
-        keys: ['comp_summ'],
+        keys: ['summ'],
         result: 'sum'
       }, {
         title: 'Статус',
         class: 'pills',
         align: 'center',
         keys: ['trac'],
-        content: `<div class='#status# recl pill'>#trac#</div>`
+        content: `<div class='recl pill' data-status="#status#">#trac#</div>`
       }]
     },
     sorts: {
@@ -556,7 +585,7 @@ function createTables() {
       'titl': {title: 'По наименованию', type: 'text'},
       'pric': {title: 'По цене', type: 'numb'},
       'kolv': {title: 'По количеству', type: 'numb'},
-      'comp_summ': {title: 'По сумме компенсации', type: 'numb'},
+      'summ': {title: 'По сумме компенсации', type: 'numb'},
       'trac': {title: 'По статусу рекламации', type: 'text'}
     },
     filters: {
@@ -566,7 +595,7 @@ function createTables() {
       'titl': {title: 'По наименованию', search: 'usual'},
       'pric': {title: 'По цене', search: 'usual'},
       'kolv': {title: 'По количеству', search: 'usual'},
-      'comp_summ': {title: 'По сумме компенсации', search: 'usual'},
+      'summ': {title: 'По сумме компенсации', search: 'usual'},
       'trac': {title: 'По статусу рекламации', search: 'usual', filter: 'checkbox'}
     }
   }
@@ -615,8 +644,8 @@ function openReclmPopUp(event) {
     if (!reclData.image) {
       getItem(reclData.artc)
       .then(result => {
-        if (result.item && result.item.images) {
-          reclData.images = result.item.images;
+        if (result.items && result.items[0].images) {
+          reclData.images = result.items[0].images;
           addImgInfo(reclData);
         }
         showReclPopUp();
@@ -632,7 +661,6 @@ function openReclmPopUp(event) {
 // Заполение данными и отображение мастера создания рекламации:
 
 function showReclPopUp() {
-  console.log(reclData);
   fillTemplate({
     area: '#make-reclm',
     items: reclData
