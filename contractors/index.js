@@ -117,16 +117,20 @@ function toggleAccess(event, id) {
   if (!superUser) {
     return;
   }
-  event.currentTarget.classList.toggle('checked');
-  var toggle = event.currentTarget.classList.contains('checked') ? '1' : '0';
+  var toggle = event.currentTarget.classList.contains('checked') ? '0' : '1';
   // console.log(toggle);
   sendRequest(urlRequest.main, {action: '???', data: {id: id, action: toggle}})
   .then(result => {
-    event.currentTarget.classList.toggle('checked');
+    result = JSON.parse(result);
+    if (result.ok) {
+      event.currentTarget.classList.toggle('checked');
+    } else {
+      throw new Error('Ошибка');
+    }
   })
   .catch(err => {
     console.log(err);
-    alerts.show('Ошибка сервера. Попробуйте позже.', 2000);
+    alerts.show('Произошла ошибка, попробуйте позже.');
   });
 }
 
@@ -164,7 +168,7 @@ function addByInn(event) {
     console.log(err);
     document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
     getEl('#inn-loader').style.visibility = 'hidden';
-    alerts.show('Ошибка сервера. Попробуйте позже.');
+    alerts.show('Произошла ошибка, попробуйте позже.');
   });
 }
 
@@ -192,7 +196,7 @@ function addContr(formData) {
   })
   .catch(error => {
     console.log(error);
-    alerts.show('Ошибка сервера. Попробуйте позже.');
+    alerts.show('Произошла ошибка, попробуйте позже.');
     hideElement('#contractor .loader');
   })
 }
