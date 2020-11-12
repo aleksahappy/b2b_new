@@ -103,26 +103,33 @@ function convertData(data) {
   recl.item.isDesc = recl.item_descr ? '' : 'displayNone';
 
   // Данные сообщений чата:
-  var dates = [];
-  messages.forEach(el => {
-    var arr = el.date.split(' '),
-        string = arr[1].replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
-    el.time = arr[0];
-    el.date = arr[1];
-    el.dateObj = new Date(string + ' ' + arr[0]);
-    dates.push(el.dateObj);
-  });
+  if (messages) {
+    var dates = [];
+    messages.forEach(el => {
+      var arr = el.date.split(' '),
+          string = arr[1].replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
+      el.time = arr[0];
+      el.date = arr[1];
+      el.dateObj = new Date(string + ' ' + arr[0]);
+      dates.push(el.dateObj);
+    });
+  }
 }
 
 // Заполнение галереи файлов:
 
 function fillFiles(data) {
-
+  if (!data.recl_files) {
+    return;
+  }
 }
 
 // Заполнение чата:
 
 function fillChat(data) {
+  if (!data.recl_messages) {
+    return;
+  }
   var chat = getEl('#chat .body .wrap'),
       chatText = '',
       user,

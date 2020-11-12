@@ -43,7 +43,7 @@ function initPage(data) {
     desktop: {
       head: true,
       result: false,
-      trFunc: 'onclick=showReclm(#id#)',
+      trFunc: 'onclick=showReclm(event,#id#)',
       cols: [{
         title: '№',
         width: '7%',
