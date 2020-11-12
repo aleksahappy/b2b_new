@@ -1552,6 +1552,7 @@ function findItemData(id, type) {
 
 function showFullCard(id) {
   event.preventDefault();
+  loader.show();
   var data = findItemData(id, 'catalog');
   if (!data) {
     return;
@@ -1603,20 +1604,32 @@ function showFullCard(id) {
 // Отображение информационной карточки товара:
 
 function showInfoCard(id) {
+  loader.show();
   var data = findItemData(id, 'cart');
-  openInfoCard(data);
+  if (data) {
+    openInfoCard(data);
+  } else {
+    loader.hide();
+    alerts.show('При загрузке карточки товара произошла ошибка');
+  }
 }
 
 // Отображение картинки на весь экран:
 
 function showFullImg(event, data) {
+  loader.show();
   if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
     return;
   }
   if (typeof data !== 'object') {
     data = findItemData(data);
   }
-  openFullImg(event, data);
+  if (data) {
+    openFullImg(event, data);
+  } else {
+    loader.hide();
+    alerts.show('При загрузке изображения произошла ошибка');
+  }
 }
 
 //=====================================================================================================
