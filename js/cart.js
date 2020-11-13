@@ -998,8 +998,8 @@ function deleteCartRow(id) {
 
 function findInCart(search, textToFind) {
   if (textToFind) {
-    var regEx = new RegExp(textToFind, 'gi');
-    // selectedItems = curItems.filter(el => el.search.search(regEx) >= 0);
+    var regExp = getRegExp(textToFind);
+    // selectedItems = curItems.filter(el => findByRegExp(el.search, regExp));
   } else {
 
   }

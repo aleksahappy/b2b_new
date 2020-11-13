@@ -78,21 +78,13 @@ function initPage() {
         content: `<div class="edit icon" onclick="openUserPopUp('#id#')"></div>`
       }]
     },
-    sorts: {
-      'fio': {title: 'По ФИО', type: 'text'},
-      'gender': {title: 'По полу', type: 'text'},
-      'birth': {title: 'По дате рождения', type: 'date'},
-      'access': {title: 'По типу доступа', type: 'text'},
-      'date': {title: 'По дате заведения', type: 'date'},
-      'position': {title: 'По должности', type: 'text'}
-    },
     filters: {
-      'fio': {title: 'По ФИО', search: 'usual'},
-      'gender': {title: 'По полу', search: 'usual', filter: 'checkbox'},
-      'birth': {title: 'По дате рождения', search: 'date'},
-      'access': {title: 'По типу доступа', search: 'usual', filter: 'checkbox'},
-      'date': {title: 'По дате заведения', search: 'date'},
-      'position': {title: 'По должности', search: 'usual'},
+      'fio': {title: 'По ФИО', sort: 'text', search: 'usual'},
+      'gender': {title: 'По полу', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'birth': {title: 'По дате рождения', sort: 'date', search: 'date'},
+      'access': {title: 'По типу доступа', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'date': {title: 'По дате заведения', sort: 'date', search: 'date'},
+      'position': {title: 'По должности', sort: 'text', search: 'usual'},
     }
   };
   if (!superUser) {

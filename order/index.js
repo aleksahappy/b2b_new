@@ -278,21 +278,13 @@ function createTables() {
         keys: ['skid']
       }]
     },
-    sorts: {
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По контрагенту', type: 'text'},
-      'pric': {title: 'По цене', type: 'numb'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По сумме', type: 'numb'},
-      'skid': {title: 'По скидке', type: 'numb'},
-    },
     filters: {
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По контрагенту', search: 'usual'},
-      'pric': {title: 'По цене', search: 'usual'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По сумме', search: 'usual'},
-      'skid': {title: 'По скидке', search: 'usual'}
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
     }
   }
   initTable('#nomen', nomenSettings);
@@ -337,23 +329,14 @@ function createTables() {
         result: 'sum'
       }]
     },
-    sorts: {
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По наименованию', type: 'text'},
-      'dpst': {title: 'По дате поступления', type: 'date'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По стоимости', type: 'numb'},
-      'paid': {title: 'По оплаченной сумме', type: 'numb'},
-      'kdop': {title: 'По сумме к оплате', type: 'numb'}
-    },
     filters: {
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По наименованию', search: 'usual'},
-      'dpst': {title: 'По дате поступления', search: 'date'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По стоимости', search: 'usual'},
-      'paid': {title: 'По оплаченной сумме', search: 'usual'},
-      'kdop': {title: 'По сумме к оплате', search: 'usual'}
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'dpst': {title: 'По дате поступления', sort: 'date', search: 'date'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+      'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
+      'kdop': {title: 'По сумме к оплате', sort: 'numb', search: 'usual'}
     }
   }
   initTable('#vputi', vputiSettings);
@@ -392,21 +375,13 @@ function createTables() {
         keys: ['skid']
       }]
     },
-    sorts: {
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По контрагенту', type: 'text'},
-      'pric': {title: 'По цене', type: 'numb'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По сумме', type: 'numb'},
-      'skid': {title: 'По скидке', type: 'numb'},
-    },
     filters: {
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По контрагенту', search: 'usual'},
-      'pric': {title: 'По цене', search: 'usual'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По сумме', search: 'usual'},
-      'skid': {title: 'По скидке', search: 'usual'}
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
     }
   }
   initTable('#vnali', vnaliSettings);
@@ -445,21 +420,13 @@ function createTables() {
         keys: ['skid']
       }]
     },
-    sorts: {
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По контрагенту', type: 'text'},
-      'pric': {title: 'По цене', type: 'numb'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По сумме', type: 'numb'},
-      'skid': {title: 'По скидке', type: 'numb'},
-    },
     filters: {
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По контрагенту', search: 'usual'},
-      'pric': {title: 'По цене', search: 'usual'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По сумме', search: 'usual'},
-      'skid': {title: 'По скидке', search: 'usual'}
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
     }
   }
   initTable('#sobrn', sobrnSettings);
@@ -500,21 +467,13 @@ function createTables() {
         keys: ['skid']
       }]
     },
-    sorts: {
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По контрагенту', type: 'text'},
-      'pric': {title: 'По цене', type: 'numb'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По сумме', type: 'numb'},
-      'skid': {title: 'По скидке', type: 'numb'},
-    },
     filters: {
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По контрагенту', search: 'usual'},
-      'pric': {title: 'По цене', search: 'usual'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По сумме', search: 'usual'},
-      'skid': {title: 'По скидке', search: 'usual'}
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
     }
   }
   initTable('#otgrz', otgrzSettings);
@@ -552,21 +511,13 @@ function createTables() {
         keys: ['stat']
       }]
     },
-    sorts: {
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По контрагенту', type: 'text'},
-      'pric': {title: 'По цене', type: 'numb'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По сумме', type: 'numb'},
-      'stat': {title: 'По инициатору отмены', type: 'text'},
-    },
     filters: {
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По контрагенту', search: 'usual'},
-      'pric': {title: 'По цене', search: 'usual'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По сумме', search: 'usual'},
-      'stat': {title: 'По инициатору отмены', search: 'usual', filter: 'checkbox'}
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+      'stat': {title: 'По инициатору отмены', sort: 'text', search: 'usual', filter: 'checkbox'}
     }
   }
   initTable('#nedop', nedopSettings);
@@ -617,25 +568,15 @@ function createTables() {
         content: `<div class='recl pill' data-status="#status#">#trac#</div>`
       }]
     },
-    sorts: {
-      'recl_num': {title: 'По номеру рекламации', type: 'numb'},
-      'recl_date': {title: 'По дате рекламации', type: 'date'},
-      'artc': {title: 'По артикулу', type: 'text'},
-      'titl': {title: 'По наименованию', type: 'text'},
-      'pric': {title: 'По цене', type: 'numb'},
-      'kolv': {title: 'По количеству', type: 'numb'},
-      'summ': {title: 'По сумме компенсации', type: 'numb'},
-      'trac': {title: 'По статусу рекламации', type: 'text'}
-    },
     filters: {
-      'recl_num': {title: 'По номеру рекламации', search: 'usual'},
-      'recl_date': {title: 'По дате рекламации', search: 'date'},
-      'artc': {title: 'По артикулу', search: 'usual'},
-      'titl': {title: 'По наименованию', search: 'usual'},
-      'pric': {title: 'По цене', search: 'usual'},
-      'kolv': {title: 'По количеству', search: 'usual'},
-      'summ': {title: 'По сумме компенсации', search: 'usual'},
-      'trac': {title: 'По статусу рекламации', search: 'usual', filter: 'checkbox'}
+      'recl_num': {title: 'По номеру рекламации', sort: 'text', search: 'usual'},
+      'recl_date': {title: 'По дате рекламации', sort: 'date', search: 'date'},
+      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+      'summ': {title: 'По сумме компенсации', sort: 'numb', search: 'usual'},
+      'trac': {title: 'По статусу рекламации', sort: 'text', search: 'usual', filter: 'checkbox'}
     }
   }
   initTable('#reclm', reclmSettings);

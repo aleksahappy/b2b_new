@@ -1783,8 +1783,8 @@ function getFilterZipItems() {
 // Отбор карточек поиском по странице:
 
 function selectCardsBySearchPage(textToFind) {
-  var regEx = new RegExp(textToFind, 'gi');
-  selectedItems = curItems.filter(el => el.search.search(regEx) >= 0);
+  var regExp = getRegExp(textToFind);
+  selectedItems = curItems.filter(el => findByRegExp(el.search, regExp));
 }
 
 // Отбор карточек поиском по OEM:

@@ -73,20 +73,13 @@ function initPage(data) {
     adaptive: {
       sub: [{area: '.docs', items: 'docs'}]
     },
-    sorts: {
-      'inn': {title: 'По ИНН', type: 'numb'},
-      'title': {title: 'По контрагенту', type: 'text'},
-      'system': {title: 'По системе налогообложения', type: 'text'},
-      'date': {title: 'По дате заведения', type: 'date'},
-      'user': {title: 'По пользователю', type: 'text'}
-    },
     filters: {
-      'inn': {title: 'По ИНН', search: 'usual'},
-      'title': {title: 'По контрагенту', search: 'usual', filter: 'checkbox'},
-      'system': {title: 'По системе налогообложения', search: 'usual', filter: 'checkbox'},
-      'date': {title: 'По дате заведения', search: 'date'},
+      'inn': {title: 'По ИНН', sort: 'numb', search: 'usual'},
+      'title': {title: 'По контрагенту', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'system': {title: 'По системе налогообложения', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'date': {title: 'По дате заведения', sort: 'date', search: 'date'},
       'address': {title: 'По юридическому адресу', search: 'usual'},
-      'user': {title: 'По пользователю', search: 'usual', filter: 'checkbox'}
+      'user': {title: 'По пользователю', sort: 'text', search: 'usual', filter: 'checkbox'}
     }
   };
   if (!superUser) {

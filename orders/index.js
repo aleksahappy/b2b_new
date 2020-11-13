@@ -43,7 +43,7 @@ function initPage(data) {
       search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
       pill: {
         key: 'sum',
-        content: '<div class="pill ord c10 ctr checked" data-status="#value#" data-value="#value#">#title#</div>',
+        content: '<div class="pill ord c10 ctr" data-status="#value#" data-value="#value#">#title#</div>',
         sort: 'value'
       },
       setting: true
@@ -89,26 +89,19 @@ function initPage(data) {
         title: 'Состояние товаров',
         class: 'pills',
         width: '15%',
+        keys: ['sum'],
         content: '<div class="pill ord c10 #display#" data-status="#value#">#sum#</div>'
       }]
     },
-    sorts: {
-      'order_date': {title: 'По дате заказа', type: 'date'},
-      'order_status': {title: 'По статусу заказа', type: 'text'},
-      'contr_name': {title: 'По контрагенту', type: 'text'},
-      'user_fio': {title: 'По заказчику', type: 'text'},
-      'order_type': {title: 'По типу заказа', type: 'text'},
-      'order_sum': {title: 'По сумме счета', type: 'numb'},
-      'debt': {title: 'По ДЗ/КЗ', type: 'numb'}
-    },
     filters: {
+      'order_date': {title: 'По дате заказа', sort: 'date'},
       'order_number': {title: 'По номеру заказа', search: 'usual'},
-      'order_status': {title: 'По статусу заказа', search: 'usual', filter: 'checkbox'},
-      'contr_name': {title: 'По контрагенту', search: 'usual'},
-      'user_fio': {title: 'По заказчику', search: 'usual'},
-      'order_type': {title: 'По типу заказа', search: 'usual', filter: 'checkbox'},
-      'order_sum': {title: 'По сумме счета', search: 'usual'},
-      'debt': {title: 'По ДЗ/КЗ', search: 'usual'}
+      'order_status': {title: 'По статусу заказа', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'contr_name': {title: 'По контрагенту', sort: 'text', search: 'usual'},
+      'user_fio': {title: 'По заказчику', sort: 'text', search: 'usual'},
+      'order_type': {title: 'По типу заказа', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'order_sum': {title: 'По сумме счета', sort: 'numb', search: 'usual'},
+      'debt': {title: 'По ДЗ/КЗ', sort: 'numb', search: 'usual'}
     }
   };
   initTable('#orderslist', settings);

@@ -107,8 +107,8 @@ function loadData(data) {
 function findCert(search, textToFind) {
   if (textToFind) {
     clearDropDown('#cert-brand');
-    var regEx = new RegExp(textToFind, 'gi');
-    selectedItems = items.filter(el => el.search.search(regEx) >= 0);
+    var regExp = getRegExp(textToFind);
+    selectedItems = items.filter(el => findByRegExp(el.search, regExp));
     loadData(selectedItems);
   } else {
     loadData();

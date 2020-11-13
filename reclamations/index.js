@@ -71,15 +71,10 @@ function initPage(data) {
         content: `<div class="recl pill" data-status="#status#">#status_text#</div>`
       }]
     },
-    sorts: {
-      'recl_num': {title: 'По номеру рекламации', type: 'text'},
-      'recl_date': {title: 'По дате создания', type: 'date'},
-      'item_articul': {title: 'По артикулу', type: 'date'}
-    },
     filters: {
-      'recl_num': {title: 'По номеру рекламации', search: 'usual'},
-      'recl_date': {title: 'По дате создания', search: 'date'},
-      'item_articul': {title: 'По артикулу', search: 'usual'},
+      'recl_num': {title: 'По номеру рекламации', sort: 'text', search: 'usual'},
+      'recl_date': {title: 'По дате создания', sort: 'date', search: 'date'},
+      'item_articul': {title: 'По артикулу', sort: 'text', search: 'usual'},
       'manager_lastname': {title: 'По менеджеру', search: 'usual', filter: 'checkbox'},
       'status_text': {title: 'По статусу рекламации', search: 'usual', filter: 'checkbox'}
     }
