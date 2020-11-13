@@ -25,13 +25,13 @@
 //     }
 //     setting: true / false                            - наличие настроек таблицы (по умолчанию отсутствует)
 //   },
-//   desktop: {                                       Настройки основной таблицы:
+//   desktop: {                                       Настройки основной таблицы (для таблиц с готовым шаблоном в html данный параметр пропускаем):
 //     head: true / false                               - имеет ли таблица шапку (по умолчанию отсутствует)
 //     result: true / false                             - имеет ли таблица строку "итого" (по умолчанию отсутствует)
 //     trFunc: 'onclick=functionName(event,#key#)'      - обработчик, навешиваемый на строку таблицы (по умолчанию false)
 //     sign: '#' / '@@' / другой                        - символ для поиска мест замены в html (по умолчанию - '#')
 //     sub: [{area: селектор, items: ключ в data}]      - данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
-//     cols: [{                                         - параметры столбцов таблицы (для таблиц с готовым шаблоном в html данный параметр пропускаем)
+//     cols: [{                                         - параметры столбцов таблицы
 //       title: 'Заголовок'                               - заголовок столбца
 //       class: 'classname'                               - название класса для столбца (чтобы можно было добавить уникальные стили)
 //       width: 'x%',                                     - ширина столбца в процентах, если не устраивает ширина по умолчанию (по умолчанию все столбцы одинаковой ширины)
@@ -46,46 +46,27 @@
 //     sign: '#' / '@@' / другой                        - Символ для поиска мест замены в html (по умолчанию - '#')
 //     sub: [{area: селектор, items: ключ в data}]      - данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
 //   },
-//   sorts: {                                         Сортировки таблицы:
+//   filters: {                                       Сортировки и фильтры таблицы:
 //     key1: {                                          - ключ в данных, по которому будет браться информация
 //       title: 'Заголовок'                               - заголовок сортировки
-//       type: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
-//       isOpen: true / false                           - сортировка открыта или закрыта (true - открыта, по умолчанию false - закрыта)
-//     }
-//     {key2: {...}
-//   },
-//   filters: {                                       Фильтры таблицы:
-//     key1: {                                          - ключ в данных, по которому будет браться информация (если ключ находится во вложенности объектов, то указывать его как 'key1/key1.1')
-//       title: 'Заголовок'                               - заголовок фильтра
+//       sort: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
 //       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
 //       filter: 'checkbox' / 'select'                    - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
-//       items: data                                      - данные для заполнения фильтра (чекбоксов или селектов)
-//       isOpen: true / false                           - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
-//     }
-//     {key2: {...}
-//   },
-// }
-
-
-// Сортировки и фильтры вместе:
-// filters: {
-//   key1: {
-//     title: 'Заголовок'
-//     sort: 'text' / 'numb' / 'date'
-//     search: 'usual' / 'date'
-//     filter: 'checkbox' / 'select'
-//     items: {
-//       title: 'Заголовок'
-//       value: 'значение для поиска'
-//       items: { - если есть подфильтры:
-//         title: 'Заголовок'
-//         value: 'значение для поиска'
-//         items: ...
-//       }
-//     }
-//     isOpen: true / false
-//   },
-//   key2: {...}
+//       items:                                           - данные для заполнения фильтра (чекбоксов или селектов):
+//        {{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
+//           title: 'заголовок'                               - заголовок пункта фильтра
+//           value: 'значение для поиска'                     - значение, которое будет искаться в данных
+//           items: { - если есть подфильтры:                 - данные для заполнения подфильтра (если нужно, если нет то пропускаем этот ключ)
+//             title: 'Заголовок'
+//             value: 'значение для поиска'
+//             items: ...
+//           }
+//         }, {...}
+//         или ['значение1', 'значение2', ...]              2) второй вариант заполнения (когда название и значение одинаковые и нет подфильтров)
+//       isOpen: true / false                             - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
+//     },
+//     key2: {...}
+//   }
 // }
 
 // Инициализация таблицы:
@@ -93,7 +74,7 @@
 function initTable(el, settings) {
   var el = getEl(el);
   if (el) {
-    createTableControl(el, settings.control)
+    createTableControl(el, settings)
     createTable(el, settings);
     if (el.id) {
       return window[`${el.id}Table`] = new Table(el, settings);
@@ -117,15 +98,16 @@ function updateTable(el, data) {
 // Создание панели управления для таблицы:
 
 function createTableControl(area, settings) {
-  if (!settings) {
+  var controlSettings = settings.control;
+  if (!controlSettings) {
     return;
   }
   var main = '',
       options = '',
       btns = '';
-  if (settings.pagination || settings.search) {
+  if (controlSettings.pagination || controlSettings.search) {
     var pagination = '', search = '';
-    if (settings.pagination) {
+    if (controlSettings.pagination) {
       pagination =
       `<div class="pagination row">
         <div class="arrow blue icon left"></div>
@@ -133,10 +115,10 @@ function createTableControl(area, settings) {
         <div class="arrow blue icon right"></div>
       </div>`;
     }
-    if (settings.search) {
+    if (controlSettings.search) {
       search =
       `<form class="search row">
-        <input type="text" data-value="" placeholder="${settings.search}">
+        <input type="text" data-value="" placeholder="${controlSettings.search}">
         <input class="search icon" type="submit" value="">
         <div class="close icon"></div>
       </form>`;
@@ -147,9 +129,9 @@ function createTableControl(area, settings) {
       ${search}
     </div>`
   }
-  if (settings.toggle || settings.pill) {
+  if (controlSettings.toggle || controlSettings.pill) {
     var toggle = '', pill = '';
-    if (settings.toggle) {
+    if (controlSettings.toggle) {
       toggle =
       `<div class="tog row">
         <div class="text">${title}</div>
@@ -158,10 +140,10 @@ function createTableControl(area, settings) {
         </div>
       </div>`;
     }
-    if (settings.pill) {
+    if (controlSettings.pill) {
       pill =
-      `<div class="pills row" data-key="${settings.pill.key}/value">
-        ${settings.pill.content || '<div class="pill ctr checked" data-value="#value#">#title#</div>'}
+      `<div class="pills row" data-key="${controlSettings.pill.key}/value">
+        ${controlSettings.pill.content || '<div class="pill ctr checked" data-value="#value#">#title#</div>'}
       </div>`;
     }
     options =
@@ -170,13 +152,12 @@ function createTableControl(area, settings) {
       ${pill}
     </div>`
   }
-  var isAdaptiveFilters = settings.adaptive && settings.filters ? true : false;
-  if (settings.setting || isAdaptiveFilters) {
+  if (controlSettings.setting || settings.filters) {
     var setting = '', relay = '';
-    if (settings.setting) {
+    if (controlSettings.setting) {
       setting = `<div class="settings icon"></div>`;
     }
-    if (isAdaptiveFilters) {
+    if (settings.filters) {
       relay = `<div class="relay icon"></div>`;
     }
     btns =
@@ -196,7 +177,7 @@ function createTableControl(area, settings) {
   control.classList.add('control', 'row');
   control.dataset.area = area.id;
   control.innerHTML = controlHtml;
-  if (settings.area) {
+  if (controlSettings.area) {
     var areaControl = getEl(settings.area);
     if (areaControl) {
       areaControl.appendChild(control);
@@ -219,7 +200,7 @@ function createTable(area, settings) {
 
   tableSettings.cols.forEach((col, index) => {
     if (tableSettings.head) {
-      headRow += createTableHeadCell(col, index, settings);
+      headRow += createTableHeadCell(col, index, settings.filters);
       if (tableSettings.result) {
         resultRow += createTableResultCell(col);
       }
@@ -256,75 +237,75 @@ function createTable(area, settings) {
 function createTableHeadCell(col, index, settings) {
   var th = '';
   if (col.keys) {
-    var sorts = settings.sorts,
-        filters = settings.filters,
-        sort = '',
-        filter = '';
+    var sorts = '',
+        filters = '';
     col.keys.forEach(key => {
-      if (sorts && sorts[key]) {
-        sort = sorts[key];
-        sort =
-        `<div class="group sort" data-key="${key}" data-type="${sort.type}">
-          <div class="title">Сортировка</div>
-          <div class="item sort down row">
-            <div class="sort icon"></div>
-            <div>${getSortText('down', sort.type)}</div>
-          </div>
-          <div class="item sort up row">
-            <div class="sort icon"></div>
-            <div>${getSortText('up', sort.type)}</div>
-          </div>
-        </div>`;
-      }
-      if (filters && filters[key]) {
-        filter = filters[key];
-        var filterContent = '',
-            search = filter.search,
-            items = filter.filter;
-        if (search) {
-          if (search === 'date') {
-            search =
-            `<div class="calendar-wrap">
-              <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
-            </div>`;
-          } else {
-            search =
-            `<form class="search row">
-              <input type="text" data-value="" placeholder="Поиск...">
-              <input class="search icon" type="submit" value="">
-              <div class="close icon"></div>
-            </form>`;
-          }
-          filterContent += search;
+      var data = settings[key];
+      if (data) {
+        if (data.sort) {
+          var type = data.sort;
+          sorts =
+          `<div class="group sort" data-key="${key}" data-type="${type}">
+            <div class="title">Сортировка</div>
+            <div class="item sort down row">
+              <div class="sort icon"></div>
+              <div>${getSortText('down', type)}</div>
+            </div>
+            <div class="item sort up row">
+              <div class="sort icon"></div>
+              <div>${getSortText('up', type)}</div>
+            </div>
+          </div>`;
         }
-        if (items && filter.search !== 'date') {
-          if (items === 'select') {
-            items =
-            `<div class="items">
-              <div class="item" data-value="#value#">#title#</div>
-            </div>`;
-          } else {
-            items =
-            `<div class="items">
-              <div class="item row" data-value="#value#">
-                <div class="checkbox icon"></div>
-                <div>#title#</div>
-              </div>
-            </div>`;
+        if (data.search || data.filter) {
+          var filterContent = '',
+              search = data.search,
+              filter = data.filter;
+          if (search) {
+            if (search === 'date') {
+              search =
+              `<div class="calendar-wrap">
+                <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
+              </div>`;
+            } else {
+              search =
+              `<form class="search row">
+                <input type="text" data-value="" placeholder="Поиск...">
+                <input class="search icon" type="submit" value="">
+                <div class="close icon"></div>
+              </form>`;
+            }
+            filterContent += search;
           }
-          if (search && search !== 'date') {
-            items = '<div class="not-found">Совпадений не найдено</div>' + items;
+          if (filter && search !== 'date') {
+            if (filter === 'select') {
+              filter =
+              `<div class="items">
+                <div class="item" data-value="#value#">#title#</div>
+              </div>`;
+            } else {
+              filter =
+              `<div class="items">
+                <div class="item row" data-value="#value#">
+                  <div class="checkbox icon"></div>
+                  <div>#title#</div>
+                </div>
+              </div>`;
+            }
+            if (search) {
+              filter = '<div class="not-found">Совпадений не найдено</div>' + filter;
+            }
+            filterContent += filter;
           }
-          filterContent += items;
+          filters =
+          `<div class="group filter" data-key="${key}">
+            <div class="title">Фильтр</div>
+            ${filterContent}
+          </div>`;
         }
-        filter =
-        `<div class="group filter" data-key="${key}">
-          <div class="title">Фильтр</div>
-          ${filterContent}
-        </div>`;
       }
     });
-    if (sort || filter) {
+    if (sorts || filters) {
       th =
       `<th id="${index + 1}" class="activate box">
         <div class="head row">
@@ -335,8 +316,8 @@ function createTableHeadCell(col, index, settings) {
           </div>
           </div>
           <div class="drop-down">
-            ${sort}
-            ${filter}
+            ${sorts}
+            ${filters}
           </div>
         </div>
         <div class="resize-btn"></div>
@@ -483,9 +464,27 @@ function Table(obj, settings = {}) {
             el[key] = '&ndash;';
           }
         }
-        el.search = convertToString(el).replace(/\s/g, ' ');
+        this.addDataForSearch(el);
       });
       this.dataToLoad = this.data;
+    }
+  }
+
+  // Добавление данных для поиска по всей таблице:
+  this.addDataForSearch = function(el) {
+    if (settings.desktop.cols) {
+      el.search = '';
+      settings.desktop.cols.forEach(col => {
+        if (col.keys) {
+          col.keys.forEach(key => {
+            key = key.split('/')[0];
+            el.search += ',' + convertToString(el[key]);
+          });
+        }
+      });
+      el.search = el.search.replace(/\s/g, ' ');
+    } else {
+      el.search = convertToString(el).replace(/\s/g, ' ');
     }
   }
 
@@ -540,29 +539,6 @@ function Table(obj, settings = {}) {
     });
   }
 
-  // Заполнение фильтров значениями:
-  this.fillItems = function(curDropDown) {
-    if (!settings.filters) {
-      return;
-    }
-    this.getFilterItems();
-    this.dropDowns.forEach((el, index) => {
-      if (el !== curDropDown) {
-        if (getEl('.items', el)) {
-          var key = getEl('.group.filter', el).dataset.key;
-          if (settings.filters[key]) {
-            this[`dropDown${index}`].fillItems(settings.filters[key].items);
-          }
-        }
-      }
-    });
-    if (curDropDown) {
-    // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
-    } else if (this.filterPopUp) {
-      this.filterPopUp.fillItems(settings.filters);
-    }
-  }
-
   // Получение данных для заполнения выпадающих списков таблицы значениями:
   this.getFilterItems = function() {
     for (var key in settings.filters) {
@@ -609,6 +585,32 @@ function Table(obj, settings = {}) {
     }
 
     return data;
+  }
+
+  // Заполнение фильтров значениями:
+  this.fillItems = function(curDropDown) {
+    if (!settings.filters) {
+      return;
+    }
+    this.getFilterItems();
+    if (this.dropDowns) {
+      this.dropDowns.forEach((el, index) => {
+        if (el !== curDropDown) {
+          if (getEl('.items', el)) {
+            var key = getEl('.group.filter', el).dataset.key;
+            if (settings.filters[key].items) {
+              this[`dropDown${index}`].fillItems(settings.filters[key].items);
+            }
+          }
+        }
+      });
+      if (curDropDown) {
+        // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
+      }
+    }
+    if (this.filterPopUp && !curDropDown) {
+      this.filterPopUp.fillItems(settings.filters);
+    }
   }
 
   // Загрузка данных в таблицу:
@@ -860,8 +862,8 @@ function Table(obj, settings = {}) {
   this.fullSearch = (search, textToFind) => {
     this.resetFilters();
     if (textToFind) {
-      var regEx = RegExp(textToFind, 'gi');
-      this.dataToLoad = this.data.filter(item => item.search.search(regEx) >= 0);
+      var regExp = getRegExp(textToFind);
+      this.dataToLoad = this.data.filter(item => findByRegExp(item.search, regExp));
     } else {
       this.dataToLoad = this.data;
     }
@@ -994,8 +996,8 @@ function Table(obj, settings = {}) {
     var isFound = false;
     for (var value of filterValues) {
       if (type === 'search') {
-        var regEx = RegExp(value, 'gi');
-        if ((itemValue.toString()).search(regEx) >= 0) {
+        var regExp = getRegExp(value);
+        if (findByRegExp(itemValue, regExp)) {
           isFound = true;
         }
       } else {
