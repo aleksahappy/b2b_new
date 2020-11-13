@@ -39,7 +39,7 @@
               </div>
               <div class="row">
                 <div class="title">Статус заказа:</div>
-                <div class="text">#order_status#</div>
+                <div id="order-status" class="text">#order_status#</div>
               </div>
             </div>
             <div class="side">
@@ -76,8 +76,8 @@
             <div class="text">#comment#</div>
           </div>
           <div class="btns #isSpecial#">
-            <div class="btn" onclick="cancelOrder(#id#)">Отменить заказ</div>
-            <div class="btn sub-act" onclick="confirmOrder(#id#)">Подтвердить заказ</div>
+            <div id="cancel" class="btn" onclick="changeOrderStatus(event)">Отменить заказ</div>
+            <div id="confirm" class="btn sub-act" onclick="changeOrderStatus(event)">Подтвердить заказ</div>
           </div>
         </div>
         <div class="tabs row">
@@ -112,7 +112,6 @@
             <div class="text midlight">Артикул #artc#</div>
           </div>
           <form id="reclm-form" class="post">
-            <input type="hidden" name="order_id" value="#id#">
             <!-- <input type="hidden" name="code_1c" value="#???#"> -->
             <input type="hidden" name="code_str" value="#cods#">
             <input type="hidden" name="articul" value="#artc#">

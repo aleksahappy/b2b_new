@@ -1,5 +1,13 @@
 'use strict';
 
+// Статусы заказа:
+// 1: "Ожидает подтверждения"
+// 2: "Подтвержден"
+// 3: "Не оплачен"
+// 4: "Оплачен"
+// 5: "Завершен"
+// 10: "Отменен"
+
 // Глобальные переменные:
 
 var data, reclData, reclIcon;
@@ -15,6 +23,7 @@ function startOrderPage() {
   sendRequest(`../json/order.json`)
   // sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
   .then(result => {
+    console.log(result);
     data = JSON.parse(result);
     sendRequest(`../json/order_payment.json`)
     // sendRequest(urlRequest.main, {action: '???', data: {order_id: id})
@@ -39,6 +48,7 @@ function startOrderPage() {
 function initPage() {
   if (data.id && data.orderitems.arlistk || !data.orderitems.arlistv) {
     convertData();
+    toggleOrderBtns();
     fillTemplate({
       area: '#main',
       items: data
@@ -70,11 +80,40 @@ function convertData() {
   }
   data.isShipment = data.nakls && data.nakls.length ? '' : 'disabled';
   data.isPayment = data.payment ? '' : 'disabled';
-  data.isMoreRow = data.comment || data.special ? '' : 'displayNone';
+  data.isMoreRow = data.comment || data.source_id > 0 ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
-  data.isOrderBnts = data.special ? '' : 'hidden';
+  data.isOrderBnts = data.source_id > 0 ? '' : 'hidden';
   data.isReclms = (data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true;
-  // console.log(data);
+  toggleOrderBtns();
+  console.log(data);
+}
+
+// Блокировка/разблокировка кнопок отмены/подтверждения заказа:
+
+function toggleOrderBtns() {
+  var orderStatus = data.order_status.toLowerCase(),
+      cancelBtn = getEl('#cancel'),
+      confirmBtn = getEl('#confirm');
+  if (data.source_id > 0 && orderStatus == 'ожидает подтверждения') {
+    data.isCancel = true;
+    data.isConfirm = true;
+  } else if (data.source_id > 0 && (orderStatus == 'подтвержден' || orderStatus == 'не оплачен')) {
+    data.isCancel = true;
+    data.isConfirm = false;
+  } else {
+    data.isCancel = false;
+    data.isConfirm = false;
+  }
+  if (data.isCancel) {
+    cancelBtn.classList.remove('disabled');
+  } else {
+    cancelBtn.classList.add('disabled');
+  }
+  if (data.isConfirm) {
+    confirmBtn.classList.remove('disabled');
+  } else {
+    confirmBtn.classList.add('disabled');
+  }
 }
 
 // Получение данных о накладных из csv-формата:
@@ -602,30 +641,29 @@ function createTables() {
   initTable('#reclm', reclmSettings);
 }
 
-// Отмена заказа:
+// Отмена/подтверждение заказа:
 
-function cancelOrder(id) {
-  if (data.special) {
-    sendRequest(urlRequest.main, {action: '???', data: {order_id: id}})
+function changeOrderStatus(event, action) {
+  if ((action === 'cancel' && data.isCancel) || (action === 'confirm' && data.isConfirm)) {
+    sendRequest(urlRequest.main, {action: 'order', data: {order_id: data.id, mode: action}})
     .then(result => {
       console.log(result);
+      result = JSON.parse(result);
+      if (result.ok) {
+        if (action === 'cancel') {
+          data.order_status = 'Отменен';
+        } else if (action === 'confirm') {
+          data.order_status = 'Подтвержден';
+        }
+        getEl('#order-status').textContent = data.order_status;
+        toggleOrderBtns();
+      } else {
+        throw new Error('Ошибка');
+      }
     })
     .catch(error => {
       console.log(error);
-    });
-  }
-}
-
-// Подтверждение заказа:
-
-function confirmOrder(id) {
-  if (data.special) {
-    sendRequest(urlRequest.main, {action: '???', data: {id: id}})
-    .then(result => {
-      console.log(result);
-    })
-    .catch(error => {
-      console.log(error);
+      alerts.show('Произошла ошибка, попробуйте позже.');
     });
   }
 }
@@ -654,7 +692,7 @@ function openReclmPopUp(event) {
       showReclPopUp();
     }
   } else {
-    alerts.show('Рекламации уже поданы на все товары.')
+    alerts.show('Рекламации уже поданы на все товары.');
   }
 }
 
@@ -679,14 +717,16 @@ function sendReclm(formData) {
       qty = value;
     }
   });
-  formData.set('action', '???');
+  formData.set('action', 'order');
+  formData.set('order_id', data.id);
   sendRequest(urlRequest.main, formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);
-    if (result.ok) {
+    if (result.ok && result.data) {
       reclIcon.classList.add('red');
       reclData.reclm_kolv = (+reclData.reclm_kolv) + (+qty);
+      updateReclm(data);
       closePopUp(null, '#make-reclm');
     } else {
       if (result.error) {
@@ -699,7 +739,27 @@ function sendReclm(formData) {
   })
   .catch(error => {
     console.log(error);
-    alerts.show('Ошибка сервера. Попробуйте позже.');
+    alerts.show('Произошла ошибка, попробуйте позже.');
     hideElement('#make-reclm .loader');
   })
+}
+
+// Обновление данных о рекламациях:
+
+function updateReclm(data) {
+  var items = data.items;
+  items.reclm.push(data);
+  updateTable('#reclm', reclmSettings);
+  // {
+  //   artc: "U00TS2LXNEFI",
+  //   kolv: "1",
+  //   pric: "3 696.00",
+  //   recl_date: "10.11.2020",
+  //   recl_num: "ТС-396",
+  //   reclid: "440",
+  //   status: "1",
+  //   summ: "3 696.00",
+  //   titl: "Термокофта SIXS TS2, взрослые, унисекс (Black Carbon, XL)",
+  //   trac: "Загеристрирована"
+  // }
 }
