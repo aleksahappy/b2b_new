@@ -2926,9 +2926,6 @@ function DropDown(obj, handler, data, defaultValue) {
     if (!this.items || !data) {
       return;
     }
-    if (!this.items.id) {
-      this.items.id = this.obj.id + '-items';
-    }
     fillTemplate({
       area: this.items,
       items: data

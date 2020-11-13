@@ -465,26 +465,32 @@ body.no-scroll {
 
 /* Текст и обводка 100% цвета */
 
+.ord[data-status="1"],
 .vputi {
   color: #2C6DA8;
   border: 1px solid #2C6DA8;
 }
 
+.ord[data-status="2"],
 .vnali {
   color: #F69C00;
   border: 1px solid #F69C00;
 }
 
+.ord[data-status="3"],
 .sobrn {
   color: #6C4D77;
   border: 1px solid #6C4D77;
 }
 
+.ord[data-status="4"],
 .otgrz {
   color: #3F9726;
   border: 1px solid #3F9726;
 }
 
+.ord[data-status="5"],
+.ord[data-status="6"],
 .nomen,
 .nedop,
 .reclm {
@@ -494,22 +500,28 @@ body.no-scroll {
 
 /* Заливка 10% цвета */
 
+.ord[data-status="1"].c10,
 .vputi.c10 {
   background-color: #EAF0F6;
 }
 
+.ord[data-status="2"].c10,
 .vnali.c10 {
   background-color: #FEF5E5;
 }
 
+.ord[data-status="3"].c10,
 .sobrn.c10 {
   background-color: #F0EDF1;
 }
 
+.ord[data-status="4"].c10,
 .otgrz.c10 {
   background-color: #ECF5E9;
 }
 
+.ord[data-status="5"].c10,
+.ord[data-status="6"].c10,
 .nomen.c10,
 .nedop.c10,
 .reclm.c10 {
@@ -518,22 +530,28 @@ body.no-scroll {
 
 /* Заливка 30% цвета */
 
+.ord[data-status="1"].c30,
 .vputi.c30 {
   background-color: #C0D3E5;
 }
 
+.ord[data-status="2"].c30,
 .vnali.c30 {
   background-color: #FCE1B3;
 }
 
+.ord[data-status="3"].c30,
 .sobrn.c30 {
   background-color: #D3CAD6;
 }
 
+.ord[data-status="4"].c30,
 .otgrz.c30 {
   background-color: #C5E0BE;
 }
 
+.ord[data-status="5"].c30,
+.ord[data-status="6"].c30,
 .nomen.c30,
 .nedop.c30,
 .reclm.c30 {
@@ -542,6 +560,18 @@ body.no-scroll {
 
 /* Цветовая гамма статусов заказа - выбранные */
 
+.checked.ord[data-status="1"],
+.checked.ord[data-status="2"],
+.checked.ord[data-status="3"],
+.checked.ord[data-status="4"],
+.checked.ord[data-status="5"],
+.checked.ord[data-status="6"],
+.checked .ord[data-status="1"],
+.checked .ord[data-status="2"],
+.checked .ord[data-status="3"],
+.checked .ord[data-status="4"],
+.checked .ord[data-status="5"],
+.checked .ord[data-status="6"],
 .checked.vputi,
 .checked.vnali,
 .checked.sobrn,
@@ -559,30 +589,42 @@ body.no-scroll {
   color: #FFFFFF;
 }
 
+.checked.ord[data-status="1"],
+.checked .ord[data-status="1"],
 .checked.vputi,
 .checked .vputi {
   background-color: #6B99C2;
   border: 1px solid #6B99C2;
 }
 
+.checked.ord[data-status="2"],
+.checked .ord[data-status="2"],
 .checked.vnali,
 .checked .vnali {
   background-color: #F9BA4D;
   border: 1px solid #F9BA4D;
 }
 
+.checked.ord[data-status="3"],
+.checked .ord[data-status="3"],
 .checked.sobrn,
 .checked .sobrn {
   background-color: #9882A0;
   border: 1px solid #9882A0;
 }
 
+.checked.ord[data-status="4"],
+.checked .ord[data-status="4"],
 .checked.otgrz,
 .checked .otgrz {
   background-color: #79B667;
   border: 1px solid #79B667;
 }
 
+.checked.ord[data-status="5"],
+.checked .ord[data-status="5"],
+.checked.ord[data-status="6"],
+.checked .ord[data-status="6"],
 .checked.nomen,
 .checked.nedop,
 .checked.reclm,
@@ -3000,6 +3042,16 @@ form.post .btns-wrap {
   z-index: 10;
 }
 
+.control .wrap {
+  align-items: center;
+  width: 100%;
+}
+
+.control .main {
+  align-items: center;
+  width: 100%;
+}
+
 .control .pagination {
   justify-content: space-between;
   align-items: center;
@@ -3009,7 +3061,7 @@ form.post .btns-wrap {
 }
 
 .control .pagination .title {
-  min-width: 15em;
+  min-width: 12em;
   padding: 0 0.3em;
   font-weight: bold;
   text-align: center;
@@ -3019,17 +3071,26 @@ form.post .btns-wrap {
   width: 100%;
 }
 
-.control .tog.row {
+.control .options {
   align-items: center;
-  margin: 0 2em;
 }
 
-.control .tog.row .text {
+.control .tog {
+  align-items: center;
+  margin-left: 2em;
+}
+
+.control .tog .text {
   margin-right: 1em;
 }
 
-.control .pills.row {
+.control .pills {
+  justify-content: flex-end;
   margin-left: 2em;
+}
+
+.control .btns {
+  align-items: center;
 }
 
 .control .settings.icon {
