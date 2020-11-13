@@ -1177,6 +1177,58 @@ function checkDate(start, end, date = new Date()) {
 }
 
 //=====================================================================================================
+// Работа с регулярными выражениями:
+//=====================================================================================================
+
+// Получение регулярного выражения/массива регулярных выражений:
+
+function getRegExp(value) {
+  if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(value)) {
+    var regExp = [RegExp(value, 'gi')];
+    value = convertPrice(value, 2);
+    regExp.push(RegExp(value, 'gi'));
+    return regExp;
+  } else {
+    return RegExp(value, 'gi');
+  }
+}
+
+// Поиск в значении регулярным выражением/ями:
+
+function findByRegExp(value, regExp) {
+  if (Array.isArray(regExp)) {
+    for (var el of regExp) {
+      if (find(el)) {
+        return true;
+      }
+    }
+  } else if (find(regExp)) {
+    return true;
+  }
+  function find(exp) {
+    if (value.toString().search(exp) >= 0) {
+      return true;
+    }
+  }
+}
+
+// Проверка значения на соответствие регулярному выражению/ям:
+
+function testValue(value, regExp) {
+  var result;
+  if (!Array.isArray(regExp)) {
+    regExp = [regExp];
+  }
+  for (var exp of regExp) {
+    result = exp.test(value);
+    if (result) {
+      return result;
+    }
+  }
+  return false;
+}
+
+//=====================================================================================================
 // Конвертирующие функции:
 //=====================================================================================================
 
@@ -1201,26 +1253,27 @@ function getChar(event) {
 // Конвертация всей вложенности свойств объекта в строку:
 
 function convertToString(obj) {
-  if (typeof obj !== 'object') {
-    return;
-  }
-  var objProps = '';
-  crossObj(obj);
-  return objProps;
+  if (typeof obj === 'object' ) {
+    var string = '';
+    crossObj(obj);
+    return string;
 
-  function crossObj(obj) {
-    if (typeof obj !== 'object') {
-      return;
-    }
-    var prop;
-    for (let k in obj) {
-      prop = obj[k];
-      if (typeof prop === 'string') {
-        objProps += prop + ',';
-      } else if (typeof prop === 'object') {
-        crossObj(prop);
+    function crossObj(obj) {
+      if (typeof obj !== 'object') {
+        return;
+      }
+      var prop;
+      for (let k in obj) {
+        prop = obj[k];
+        if (typeof prop === 'string') {
+          string += prop + ',';
+        } else if (typeof prop === 'object') {
+          crossObj(prop);
+        }
       }
     }
+  } else {
+    return obj;
   }
 }
 
@@ -1231,14 +1284,16 @@ function declOfNum(number, titles) {
   return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
 }
 
-// Функция преобразования цены к формату с пробелами и запятой:
+// Функция преобразования числа к ценовому формату (с пробелами):
 
-function convertPrice(price, fix = 0) {
-  if (isNaN(Number(price))) {
-    return price;
+function convertPrice(numb, fix = 0, sign = ',') {
+  numb = numb.toString().replace(',', '.').replace(/\s/g, '');
+  numb = parseFloat(numb);
+  if (isNaN(Number(numb))) {
+    return numb;
   }
-  price = Number(price).toFixed(fix);
-  return price = (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', ',');
+  numb = Number(numb).toFixed(fix);
+  return (numb + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', sign);
   // второй вариант (менее кросс-браузерный):
   // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: fix, maximumFractionDigits: fix });
 }
@@ -2357,22 +2412,6 @@ function checkInput(input) {
   }
 }
 
-// Проверка значения по регулярным выражениям:
-
-function testValue(value, regExp) {
-  var result;
-  if (!Array.isArray(regExp)) {
-    regExp = [regExp];
-  }
-  for (var exp of regExp) {
-    result = exp.test(value);
-    if (result) {
-      return result;
-    }
-  }
-  return false;
-}
-
 //=====================================================================================================
 // Работа с формами:
 //=====================================================================================================
@@ -2678,9 +2717,9 @@ function Search(obj, callback) {
       this.toggleHints();
       return;
     }
-    var regEx = new RegExp(textToFind, 'gi'),
+    var regExp = getRegExp(textToFind),
         items = Array.from(this.items.querySelectorAll('.item')),
-        curItems = items.filter(el => el.textContent.search(regEx) >= 0);
+        curItems = items.filter(el => findByRegExp(el.textContent, regExp));
 
     items.forEach(el => hideElement(el));
     if (curItems.length > 0) {
@@ -2876,8 +2915,9 @@ function DropDown(obj, handler, data, defaultValue) {
     }
     if (this.calendar) {
       this.calendar.addEventListener('change', event => {
+        event.stopPropagation();
         var textToFind = event.currentTarget.value;
-        this.searchValue(null, textToFind);
+        this.searchValue(event.currentTarget, textToFind);
       });
     }
     if (this.items) {
@@ -2978,7 +3018,7 @@ function DropDown(obj, handler, data, defaultValue) {
     var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
     this.changeTitle(newTitle);
     this.writeValue(textToFind);
-    this.obj.dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
+    search.closest('.group').dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
   }
 
   // Выбор значения из списка:
@@ -3077,23 +3117,26 @@ function DropDown(obj, handler, data, defaultValue) {
 // В каком виде нужно передавать данные для создания фильтров:
 
 // var settings = {
-//   sorts: {                                   Сортировки:
-//     key1: {                                    - ключ в данных, по которому будет браться информация
-//       title: 'Заголовок'                         - заголовок сортировки
-//       type: 'text' / 'numb' / 'date'             - формат сортировки (по умолчанию text)
-//       isOpen: true / false                     - сортировка открыта или закрыта (true - открыта, по умолчанию false - закрыта)
-//     }
-//     {key2: {...}
-//   },
-//   filters: {                                 Фильтры:
-//     key1: {                                    - ключ в данных, по которому будет браться информация
-//       title: 'Заголовок'                         - заголовок фильтра
-//       search: 'usual' / 'date'                   - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
-//       filter: 'checkbox' / 'select'              - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
-//       items: data                                - данные для заполнения фильтра (чекбоксов или селектов)
-//       isOpen: true / false                     - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
-//     }
-//     {key2: {...}
+//   filters: {                                       Сортировки и фильтры таблицы:
+//     key1: {                                          - ключ в данных, по которому будет браться информация
+//       title: 'Заголовок'                               - заголовок сортировки
+//       sort: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
+//       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
+//       filter: 'checkbox' / 'select'                    - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
+//       items:                                           - данные для заполнения фильтра (чекбоксов или селектов):
+//        {{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
+//           title: 'заголовок'                               - заголовок пункта фильтра
+//           value: 'значение для поиска'                     - значение, которое будет искаться в данных
+//           items: { - если есть подфильтры:                 - данные для заполнения подфильтра (если нужно, если нет то пропускаем этот ключ)
+//             title: 'Заголовок'
+//             value: 'значение для поиска'
+//             items: ...
+//           }
+//         }, {...}
+//         или ['значение1', 'значение2', ...]              2) второй вариант заполнения (когда название и значение одинаковые и нет подфильтров)
+//       isOpen: true / false                             - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
+//     },
+//     key2: {...}
 //   },
 //   isHide: true / false                       Скрывать ли значения те значения фильтров если их много (больше 4-х) (по умолчанию скрываются)
 //   isSave: true / false                       Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию не сохраняются)
@@ -3125,55 +3168,41 @@ function fillFilter(el, data) {
 // Создание блока фильтров:
 
 function createFilter(area, settings) {
-  var content = '',
-      mainTitle,
-      sorts = settings.sorts,
-      filters = settings.filters;
-  if (sorts) {
-    mainTitle = 'Сортировки';
-    var sortsList = '';
-    for (var key in sorts) {
-      var type = sorts[key].type,
-          isOpen = sorts[key].isOpen ? '' : 'close',
-          title = sorts[key].title,
-          groupContent =
-          `<div class="item sort down row">
-            <div class="radio icon"></div>
-            <div>${getSortText('down', type)}</div>
-          </div>
-          <div class="item sort up row">
-            <div class="radio icon"></div>
-            <div>${getSortText('up', type)}</div>
-          </div>`;
-      sortsList +=
-      `<div class="group switch ${isOpen}" data-key="${key}" data-type="${type}">
+  var mainTitle,
+      sortList = '',
+      filterList = '';
+
+  for (var key in settings.filters) {
+    var data = settings.filters[key],
+        isOpen = data.isOpen ? '' : 'close',
+        title = data.title,
+        sort = data.sort,
+        search = data.search,
+        filter = data.filter;
+    if (sort) {
+      if (!mainTitle) {
+        mainTitle = 'Сортировки';
+      }
+      sortList +=
+      `<div class="group switch ${isOpen}" data-key="${key}" data-type="${sort}">
         <div class="title row" onclick="switchContent(event)">
           <div class="title white h3">${title}</div>
           <div class="open white icon switch-icon"></div>
         </div>
         <div class="switch-cont">
-          ${groupContent}
+          <div class="item sort down row">
+            <div class="radio icon"></div>
+            <div>${getSortText('down', sort)}</div>
+          </div>
+          <div class="item sort up row">
+            <div class="radio icon"></div>
+            <div>${getSortText('up', sort)}</div>
+          </div>
         </div>
       </div>`;
     }
-    content += sortsList;
-  }
-  if (filters) {
-    var filtersList = '';
-    if (mainTitle) {
-      filtersList +=
-      `<div class="title row">
-        <div class="title h2">Фильтры</div>
-      </div>`;
-    } else {
-      mainTitle = 'Фильтры';
-    }
-    for (var key in filters) {
-      var isOpen = filters[key].isOpen ? '' : 'close',
-          title = filters[key].title,
-          search = filters[key].search,
-          filter = filters[key].filter,
-          groupContent = '';
+    if (search || filter) {
+      var content = '';
       if (search) {
         if (search === 'date') {
           search =
@@ -3188,34 +3217,42 @@ function createFilter(area, settings) {
             <div class="close icon"></div>
           </form>`;
         }
-        groupContent += search;
+        content += search;
       }
-      if (filter && filters[key].search !== 'date') {
-        var items = filters[key].items,
+      if (filter && search !== 'date') {
+        var items = data.items,
             isHide = settings.isHide ? '' : 'hide';
-        groupContent +=
+        content +=
         `<div class="items ${isHide}">
           ${fillFilterItems(filter, items)}
         </div>`;
         var isMore = items && items.length > 4 ? 'displayNone': '';
-        groupContent +=
+        content +=
         `<div class="more row ${isMore}">
           <div>Больше</div>
           <div class="open light icon"></div>
         </div>`
       }
-      filtersList +=
+      filterList +=
       `<div class="group switch ${isOpen}" data-key="${key}">
         <div class="title row" onclick="switchContent(event)">
           <div class="title white h3">${title}</div>
           <div class="open white icon switch-icon"></div>
         </div>
         <div class="switch-cont">
-          ${groupContent}
+          ${content}
         </div>
       </div>`;
     }
-    content += filtersList;
+  }
+
+  if (mainTitle) {
+    filterList =
+    `<div class="title row">
+      <div class="title h2">Фильтры</div>
+    </div>` + filterList;
+  } else {
+    mainTitle = 'Фильтры';
   }
 
   var filterBlock = document.createElement('div');
@@ -3228,7 +3265,7 @@ function createFilter(area, settings) {
       <div class="close icon"></div>
     </div>
     <div class="pop-up-body">
-      ${content}
+      ${sortList + filterList}
     </div>
     <div class="btns-wrap">
       <div class="clear-btn row">
