@@ -1,3 +1,21 @@
+@media only screen and (max-width: 1340px) {
+  .control .wrap {
+    display: block;
+  }
+
+  .control .options {
+    margin-top: 1em;
+  }
+
+  .control .pills {
+    margin-left: 0;
+  }
+
+  .table .control ~ .table-desktop > thead > tr > th {
+    top: 164px;
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   .infoblock .info > .row {
     flex-grow: 0;

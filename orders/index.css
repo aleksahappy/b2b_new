@@ -1,3 +1,13 @@
+/* Общие стили: */
+
+.control .pills {
+  min-width: 40em;
+}
+
+[data-status="nostatus"] {
+  display: none;
+}
+
 /* Стили таблицы: */
 
 #orderslist > table > tbody > tr > td {

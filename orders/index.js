@@ -1,11 +1,12 @@
 'use strict';
 
-// Статусы заказов:
+// Статусы товаров в заказе:
 // 1: "В пути"
 // 2: "В наличии"
 // 3: "Собран"
 // 4: "Отгружен"
 // 5: "Недопоставка"
+// 6: "Рекламации"
 
 // Запускаем рендеринг страницы заказов:
 
@@ -40,6 +41,11 @@ function initPage(data) {
     control: {
       pagination: true,
       search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
+      pill: {
+        key: 'sum',
+        content: '<div class="pill ord c10 ctr checked" data-status="#value#" data-value="#value#">#title#</div>',
+        sort: 'value'
+      },
       setting: true
     },
     desktop: {
@@ -83,7 +89,7 @@ function initPage(data) {
         title: 'Состояние товаров',
         class: 'pills',
         width: '15%',
-        content: '<div class="pill c10 #type# #display#">#sum#</div>'
+        content: '<div class="pill ord c10 #display#" data-status="#value#">#sum#</div>'
       }]
     },
     sorts: {
@@ -106,11 +112,11 @@ function initPage(data) {
     }
   };
   initTable('#orderslist', settings);
-  fillTemplate({
-    area: '.table-adaptive',
-    items: data,
-    sub: [{area: '.pill', items: 'sum'}]
-  });
+  // fillTemplate({
+  //   area: '.table-adaptive',
+  //   items: data,
+  //   sub: [{area: '.pill', items: 'sum'}]
+  // });
   loader.hide();
 }
 
@@ -119,33 +125,33 @@ function initPage(data) {
 function convertData(data) {
   data.forEach(el => {
     el.order_sum = convertPrice(el.order_sum, 2);
-    var data = [],type, item;
-    for (var sum in el.sum) {
-      type = sum.substr(-1);
-      if (type > 0 && type < 6) {
-        item = {};
-        if (el.sum[sum] != 0) {
-          if (type === '1') {
-            type = 'vputi';
-          } else if (type === '2') {
-            type = 'vnali';
-          } else if (type === '3') {
-            type = 'sobrn';
-          } else if (type === '4') {
-            type = 'otgrz';
-          } else if (type === '5') {
-            type = 'nedop';
-          }
-          item.sum = convertPrice(el.sum[sum], 2);
-          item.type = type;
-          item.display = '';
-        } else {
-          item.display =  'displayNone';
+    if (!el.sum) {
+      el.sum = {"nostatus": 0};
+    }
+    var sum = [], title;
+    for (var key in el.sum) {
+      if ((key > 0 && key < 6) || key === 'nostatus') {
+        if (key == '1') {
+          title = 'В пути';
+        } else if (key == '2') {
+          title = 'В наличии';
+        } else if (key == '3') {
+          title = 'Собран';
+        } else if (key == '4') {
+          title = 'Отгружен';
+        } else if (key == '5') {
+          title = 'Непоставка';
+        } else if (key === 'nostatus') {
+          title = 'Без статуса';
         }
-        data.push(item);
+        sum.push({
+          title: title,
+          value: key,
+          sum: convertPrice(el.sum[key], 2)
+        });
       }
     }
-    el.sum = data;
+    el.sum = sum;
   });
-  return data;
+  console.log(data);
 }
