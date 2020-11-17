@@ -8,12 +8,13 @@
   [tooltip]:hover::after {
     display: none;
   }
+
   .tooltip {
     display: none;
   }
 
   .question.icon[tooltip]:hover::before,
-  [tooltip]:hover::after {
+  .question.icon[tooltip]:hover::after {
     display: block;
   }
 
@@ -403,29 +404,18 @@ Mobile:
 
   /* Основные стили: */
 
-  body.no-scroll {
-    position: fixed;
-    overflow: hidden;
-  }
-
   .container {
     margin: 0 1.6rem;
   }
 
-  input:not([type="submit"]) {
-    padding: 0.25em 0.714em;
-  }
-
-  textarea {
+  input:not([type="submit"]),
+  textarea,
+  .activate .head {
     padding: 0.25em 0.714em;
   }
 
   select {
     padding: 0.25em 1.7em 0.25em 0.714em;
-  }
-
-  .activate .head {
-    padding: 0.25em 0.714em;
   }
 
   /* Стили текста: */
@@ -452,6 +442,7 @@ Mobile:
   .pop-up-container,
   .pop-up-container.filters {
     padding: 0;
+    background-color: #FFFFFF;
   }
 
   .pop-up {
@@ -463,6 +454,7 @@ Mobile:
     max-width: 100%;
     min-height: 100%;
     padding: 1.5em;
+    box-shadow: none;
   }
 
   .pop-up-title {
