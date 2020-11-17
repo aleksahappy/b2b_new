@@ -628,7 +628,7 @@ body {
   width: 18.3em;
   min-width: 18.3em;
   max-width: 28em;
-  height: 31em;
+  height: 32.2em;
   margin: 0 -1px -1px 0;
   border: 2px solid #F2F2F2;
   border-radius: 3px;
@@ -678,14 +678,14 @@ body {
   cursor: pointer;
 }
 
-.min-card .action {
+.min-card .card-action {
   max-width: 100%;
-  height: 1.834em;
+  height: 3.5em;
   margin: 1em 0;
 }
 
-.min-card .action.displayNone {
-  display: inline-block !important;
+.min-card .card-action.displayNone {
+  display: block !important;
   visibility: hidden;
 }
 
@@ -1014,11 +1014,13 @@ body.zip .big-card .card-info {
   padding: 1.167em 2.917em;
 }
 
+/* Дополнительные стили для карточек ЗИП: */
+
 body.zip .full-card .card-content {
   border-bottom: none;
 }
 
-.manuf-table {
+.full-card .manuf-table {
   min-width: 100%;
   max-width: 100%;
   color: #666666;
@@ -1032,40 +1034,46 @@ body.zip .full-card .card-content {
   overflow: hidden;
 }
 
-.manuf-table thead {
+.full-card .manuf-table thead {
   background-color: #EEEEEE;
 }
 
-.manuf-table th,
-.manuf-table td {
+.full-card .manuf-table th,
+.full-card .manuf-table td {
   padding: 0.75em 1.14em;
   font-weight: 400;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.full-card .manuf-table td {
   border-bottom: 1px solid #D5D5D5;
 }
 
-.manuf-table th,
-.manuf-table td {
-  text-align: center;
+.full-card .manuf-table th:nth-child(3) {
+  max-width: 5em;
 }
 
-.card-details .info {
+.full-card .card-info > .card-details .info {
   padding: 1em 0;
 }
 
-.card-details .search.row {
+.full-card .card-details .search.row {
   width: 100%;
   padding: 0 2.5em 1em 2.5em;
 }
 
-.card-details .detail-row {
-  padding: 0 2.5em 1em 2.5em;
+.full-card .card-details .detail {
+  flex-wrap: wrap;
+  padding: 0.75em 2.5em;
   text-transform: uppercase;
 }
 
-.card-details .detail {
-  padding: 0.75em 2.5em;
+.full-card .card-details .detail:nth-child(2n+1) {
+  background-color: #F8F8F8;
 }
 
-.card-details .detail:nth-child(2n+1) {
-  background-color: #F8F8F8;
+.full-card .card-details .detail span {
+  white-space: nowrap;
 }

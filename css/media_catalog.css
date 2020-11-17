@@ -213,7 +213,7 @@
     width: 17em;
     min-width: 17em;
     max-width: 26.5em;
-    height: 30em;
+    height: 31.2em;
   }
 
   .min-card .img-wrap {
@@ -274,7 +274,7 @@
 }
 
 /* Стили на ширину от 0 до 699px включительно: */
-@media only screen and (max-width: 599px) {
+@media only screen and (max-width: 699px) {
   .full-card .card-content {
     position: relative;
     flex-direction: column;
@@ -312,10 +312,23 @@
   .full-card .card-options.adaptive {
     display: block;
   }
+
+  .full-card .manuf-table th,
+  .full-card .manuf-table td {
+    padding: 0.75em 0.5em;
+  }
 }
 
-/* Стили на ширину от 0 до 499px включительно: */
-@media only screen and (max-width: 499px) {
+/* Стили на ширину от 0 до 599px включительно: */
+@media only screen and (max-width: 599px) {
+  #header-menu .submenu-item:first-child {
+    padding-left: 1.6rem;
+  }
+
+  #header-menu .submenu-item:last-child {
+    padding-right: 1.6rem;
+  }
+
   #search {
     left: 1.6rem;
     width: calc(100vw - 80px) !important;
@@ -363,5 +376,13 @@
 
   .full-card .card-info > div .info {
     padding: 1em 1.75em;
+  }
+
+  .full-card .card-details .search.row {
+    padding: 0 1.75em 1em 1.75em;
+  }
+
+  .full-card .card-details .detail {
+    padding: 0.75em 1.75em;
   }
 }

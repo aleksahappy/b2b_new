@@ -317,10 +317,11 @@ function addActionInfo(item) {
   item.isAction = item.actiontitle ? '' : 'displayNone';
   if (actions && item.action_id && item.action_id > 0) {
     var action = actions[item.action_id];
-    if (action && (action.unending || checkDate(action.begin, action.expire))) {
+    if (action && (action.unending != 0 || checkDate(action.begin, action.expire))) {
       item.actiontitle = action.title;
       item.actioncolor = action.color ? `#${action.color}` : '';
       item.actiondescr = action.descr;
+      item.actionexpire = action.unending != 0 ? '' : `до: ${getDateStr(action.expire)}`;
       item.isAction = '';
       return;
     }
@@ -771,7 +772,7 @@ function renderGallery() {
   showElement('#content', 'flex');
   toggleEventListeners('on');
   initFilters(filter);
-  toggleView(view ? view : (window.innerWidth > 499 ? 'blocks' : 'list'));
+  toggleView(window.innerWidth > 499 && view ? view : 'blocks');
   showCards();
 }
 
@@ -1458,7 +1459,7 @@ function loadCards(cards) {
 function addActionTooltip(card) {
   var id = card.dataset.action;
   if (id && actions && actions[id]) {
-    var pill = getEl('.action', card);
+    var pill = getEl('.pill', card);
     pill.dataset.tooltip = actions[id].descr || '';
     pill.setAttribute('text-align', 'left');
   }
