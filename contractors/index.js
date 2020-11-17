@@ -132,6 +132,7 @@ function toggleAccess(event, id) {
 var isFillForm = false;
 
 function addByInn(event) {
+  onlyNumb(event);
   var value = event.currentTarget.value,
       isValid = innValidate(value);
   if (!isValid.result) {

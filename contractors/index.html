@@ -21,7 +21,7 @@
       <div class="container">
         <div id="main-header" class="row">
           <div class="title h0">Контрагенты</div>
-          <div class="add icon" tooltip="Добавить" onclick="openPopUp('#contractor')"></div>
+          <div class="add icon" onclick="openPopUp('#contractor')"></div>
         </div>
         <div class="basic btn" onclick="openPopUp('#contractor')">Добавить</div>
         <div id="contr" class="table active">
@@ -62,7 +62,7 @@
               <div class="row">
                 <div class="form-wrap" required>
                   <div class="title">ИНН<span class="req">*</span></div>
-                  <input type="text" value="" name="contr_inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)" oninput="addByInn(event)">
+                  <input type="text" value="" name="contr_inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="addByInn(event)">
                 </div>
                 <div id="inn-loader" class="loader icon"></div>
               </div>

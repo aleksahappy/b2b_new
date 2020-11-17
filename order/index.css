@@ -274,5 +274,6 @@
 
 #payment .pop-up-body .info .title {
   background-color: #EEEEEE;
+  border-bottom: none;
   text-align: center;
 }

@@ -7,6 +7,10 @@
     padding-left: 0;
   }
 
+  .infoblock .content > div:first-child {
+    margin-bottom: 0.357em;
+  }
+
   #user .access {
     display: flex;
   }
