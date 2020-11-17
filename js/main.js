@@ -514,14 +514,6 @@ function setCookie(key, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
-// Функция для установки срока хранения cookie:
-
-function getDateExpires(days) {
-  var date = new Date;
-  date.setDate(date.getDate() + days);
-  return date;
-}
-
 // Чтение cookie:
 
 function getCookie(key) {
@@ -1142,19 +1134,51 @@ function sortObjByValue(obj, type = 'string') {
 // Работа с датами:
 //=====================================================================================================
 
+// Получение объекта даты срока истечения:
+
+function getDateExpires(days, date = new Date) {
+  if (isNaN(date.getTime())) {
+    return;
+  }
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
 // Создание объекта даты из строки:
 
-function getDateObj(string, format) {
-  if (format === 'yy-mm-dd' || format === 'yy-mm-dddd') {
-    string = string.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1');
-  } else if (format === 'dd.mm.yy' || format === 'dd.mm.yyyy'){
+function getDateObj(string, format = 'dd.mm.yyyy') {
+  if (format === 'dd.mm.yy' || format === 'dd.mm.yyyy'){
     string = string.replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
+  } else if (format === 'yy-mm-dd' || format === 'yyyy-mm-dd') {
+    string = string.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1');
   }
   var date = new Date(string);
   if (isNaN(date.getTime())) {
     return;
   }
   return date;
+}
+
+// Получение строки с датой из объекта даты:
+
+function getDateStr(date, format = 'dd.mm.yyyy') {
+  if (isNaN(date.getTime())) {
+    return;
+  }
+  var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate(),
+      month = date.getMonth() + 1,
+      year = date.getFullYear(),
+      string;
+  if (format === 'dd.mm.yyyy'){
+    string = `${day}.${month}.${year}`;
+  } else if (format === 'dd.mm.yy') {
+    string = `${day}.${month}.${year.toString().slice(2, 4)}`;
+  } else if (format === 'yyyy-mm-dd') {
+    string = `${year}.${month}.${day}`;
+  } else if (format === 'yy-mm-dd') {
+    string = `${year.toString().slice(2, 4)}.${month}.${day}`;
+  }
+  return string;
 }
 
 // Проверка актуальности даты в периоде (принимает объекты даты):
@@ -1169,7 +1193,7 @@ function checkDate(start, end, date = new Date()) {
   if (!end) {
     end = new Date().setDate(date.getDate() + 1);
   }
-  if (date > start && date < end) {
+  if (date >= start && date < end) {
     return true;
   } else {
     return false;
@@ -3211,7 +3235,7 @@ function createFilter(area, settings) {
           </div>`;
         } else {
           search =
-          `<form class="search row">
+          `<form class="search row" action="#">
             <input type="text" data-value="" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
