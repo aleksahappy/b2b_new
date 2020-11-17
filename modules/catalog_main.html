@@ -349,13 +349,15 @@
                     <div>
                       <div class="title">Заказ - <span>#title#</span></div>
                       <div class="title">Итого: <span class="text red">#sum#&nbsp;руб.</span></div>
-                      <div class="title">Аванс, #prepaid_percent#: <span class="text red">#prepaid_sum#&nbsp;руб.</span></div>
+                      <!-- Аванс только для предзаказа (фиксированный для предзаказа процент) -->
+                      <div class="title #isPrepaid#">Аванс, #prepaid_percent#: <span class="text red">#prepaid_sum#&nbsp;руб.</span></div>
                     </div>
                     <div>
-                      <div class="">В розничных ценах: <span>#sumRetail#&nbsp;руб.</span></div>
+                      <div>В розничных ценах: <span>#sumRetail#&nbsp;руб.</span></div>
                       <div class="#isDiscount#">Скидка: <span>#percentDiscount#%, #sumDiscount#&nbsp;руб.</span></div>
-                      <div class="">Количество: <span>#qty#&nbsp;шт.</span></div>
-                      <div class="">Оплатить до: <span>#date#</span></div>
+                      <div>Количество: <span>#qty#&nbsp;шт.</span></div>
+                      <!-- Дата только для предзаказа, срок 5 дней -->
+                      <div class="#isDate#">Оплатить до: <span>#date#</span></div>
                     </div>
                   </div>
                   <div class="form-wrap">

@@ -481,6 +481,9 @@ function countFromCart(idList = undefined, totals = true) {
       el.sumRetail = convertPrice(el.sumRetail);
       el.sumDiscount = convertPrice(el.sumDiscount);
       el.isDiscount = el.sumDiscount == 0 ? 'displayNone' : '';
+      el.isPrepaid = pageId.indexOf('preorder') == 0 ? '' : 'displayNone';
+      el.isDate = pageId.indexOf('preorder') == 0 ? '' : 'displayNone';
+      el.date = el.isDate ? '' : getDateStr(getDateExpires(5));
     });
     result.orders = orders;
     result.sumRetail = sumRetail;
