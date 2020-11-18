@@ -3,8 +3,8 @@
 // Глобальные переменные:
 
 var items = [],
-    brands = [], // ['509', 'Abom', 'BCA', 'EVS', 'FXR', 'FullT', 'Helmetex', 'Jethwear', 'Ogio', 'PowerTools', 'SIXS', 'Shark', 'Spy Optic', 'Tobe'];
-    selectedItems = '';
+    itemsToLoad,
+    brands = [];
 
 // Запускаем рендеринг страницы сертификатов:
 
@@ -13,8 +13,8 @@ startCertPage();
 // Запуск страницы сертификатов:
 
 function startCertPage() {
-  // sendRequest(`../json/certificates.json`)
-  sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
+  sendRequest(`../json/certificates.json`)
+  // sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
     items = JSON.parse(result);
     initPage();
@@ -36,7 +36,7 @@ function initPage() {
   loadData();
   initSearch('#cert-search', findCert);
   initDropDown('#cert-brand', selectBrand, brands, 'Сбросить');
-  initFilter('#cert', {
+  initFilter('#main', {
     filters: {
       'brands': {
         title: 'По бренду',
@@ -55,12 +55,12 @@ function initPage() {
 function convertData() {
   items.forEach(el => {
     var curBrands = [];
-    var findBrands = el.descr.match(/"\w{3,}"/gm);
+    var findBrands = el.descr.match(/"\w{2,}\s{0,1}\w*"/gm);
     if (findBrands) {
       findBrands.forEach(brand => {
         brand = brand.replace(/"/g, '');
+        curBrands.push(brand);
         if (brands.indexOf(brand) === -1) {
-          curBrands.push(brand);
           brands.push(brand);
         }
       });
@@ -75,55 +75,44 @@ function convertData() {
     el.search = el.search.join(',').replace(/\s/g, ' ');
   });
   brands.sort();
+  itemsToLoad = items;
 }
 
 // Загрузка данных на страницу:
 
-function loadData(data) {
-  if (data) {
-    if (data.length) {
-      hideElement('.notice');
-      fillTemplate({
-        area: '.cert-data',
-        items: selectedItems
-      });
-      showElement('.cert-data');
-    } else {
-      hideElement('.cert-data');
-      showElement('.notice');
-    }
-  } else {
+function loadData() {
+  var area = getEl('#cert');
+  if (itemsToLoad.length) {
     fillTemplate({
-      area: '.cert-data',
-      items: items
+      area: area,
+      items: itemsToLoad
     });
-    hideElement('.notice');
-    showElement('.cert-data');
+  } else {
+    area.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
   }
 }
 
 // Поиск по ключевым словам:
 
 function findCert(search, textToFind) {
+  clearDropDown('#cert-brand');
   if (textToFind) {
-    clearDropDown('#cert-brand');
-    var regExp = getRegExp(textToFind);
-    selectedItems = items.filter(el => findByRegExp(el.search, regExp));
-    loadData(selectedItems);
+    itemsToLoad = items.filter(el => findByRegExp(el.search, getRegExp(textToFind)));
   } else {
-    loadData();
+    itemsToLoad = items;
   }
+  loadData();
 }
 
 // Фильтр по бренду:
 
 function selectBrand(event) {
   var value = event.target.dataset.value;
+  clearSearch('#cert-search');
   if (value === 'default') {
-    loadData();
+    itemsToLoad = items;
   } else {
-    clearSearch('#cert-search');
-    selectedItems = items.filter(el => el.brands.indexOf(value) >= 0);
-    loadData(selectedItems);
+    itemsToLoad = items.filter(el => el.brands.indexOf(value) >= 0);
   }
+  loadData();
 }

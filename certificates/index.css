@@ -13,15 +13,11 @@
 }
 
 .control .wrap:first-child {
-  width: 28em;
+  width: 25vw;
+  min-width: 25em;
 }
 
-#cert .notice {
-  display: none;
-  margin-top: 1em;
-}
-
-.cert-data .item {
+#cert .item {
   padding: 1.428em;
   margin-bottom: 0.75em;
   border: 1px solid #D5D5D5;
@@ -29,11 +25,11 @@
   background: #F8F8F8;
 }
 
-.cert-data .item:first-child {
+#cert .item:first-child {
   border-top: none;
 }
 
-.cert-data .item .view {
+#cert .item .view {
   width: 73px;
   min-width: 73px;
   height: 101px;
@@ -42,26 +38,30 @@
   background-size: contain;
 }
 
-.cert-data .item .cont {
+#cert .item .cont {
   width: calc(100% - 90.5px);
   height: 101px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.cert-data .item .cont > div:first-child {
+#cert .item .cont > div:first-child {
   height: 77px;
   margin-bottom: 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.cert-data .item .cont .row {
+#cert .item .cont .row {
   align-items: center;
   white-space: nowrap;
 }
 
-.cert-data .item .cont .row > a:last-child {
+#cert .item .cont .row > a:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#cert .notice {
+  margin-top: 1em;
 }

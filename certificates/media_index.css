@@ -1,12 +1,9 @@
-@media only screen and (max-width: 1080px) {
-  .control {
-    padding-bottom: 1em;
-    border-bottom: none;
-  }
-
+@media only screen and (max-width: 1280px) {
   .control {
     justify-content: space-between;
     align-items: flex-end;
+    padding-bottom: 1em;
+    border-bottom: none;
   }
 
   .control .wrap:not(:first-child) {
@@ -23,5 +20,9 @@
 
   #cert {
     padding-top: 1em
+  }
+
+  #cert .item:first-child {
+    border-top: 1px solid #D5D5D5;
   }
 }
