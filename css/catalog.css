@@ -225,15 +225,14 @@ body {
   display: inline-block;
 }
 
-.search-info {
+.gallery-head .search-info {
   position: relative;
   width: 100%;
   margin-right: 2em;
   overflow: hidden;
 }
 
-.search-info > div:not(.fade) {
-  display: none;
+.gallery-head .search-info > div:not(.fade) {
   justify-content: flex-start;
   width: 100%;
 }
@@ -242,7 +241,7 @@ body {
   display: none;
 }
 
-.search-info .fade {
+.gallery-head .search-info .fade {
   position: absolute;
   width: 5em;
   top: 0;
@@ -598,7 +597,7 @@ body {
 /* Стили для галереи: */
 
 #gallery {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
@@ -606,13 +605,13 @@ body {
   padding-bottom: 14em;
 }
 
-#gallery-notice {
-  display: none;
-  width: calc(100% - 20em);
-  min-height: 30vh;
+#gallery .notice {
+  display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  width: 100%;
+  min-height: 30vh;
   font-size: 1.15em;
 }
 
@@ -665,7 +664,6 @@ body {
   width: 25px;
   height: 25px;
   margin-right: 0.3em;
-  cursor: help;
 }
 
 .min-card .qty.in-circle {
@@ -772,14 +770,18 @@ body {
   border-top: none;
 }
 
+.big-card .carousel,
+.big-card .img-wrap {
+  width: 20em;
+  margin-right: 1.428em;
+  margin-bottom: 1em;
+}
+
 .big-card .carousel {
   align-self: center;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 20em;
   padding: 0 25px;
-  margin-right: 1.428em;
-  margin-bottom: 1em;
 }
 
 .big-card .carousel .left-btn,
@@ -865,7 +867,8 @@ body.zip .big-card .select-info {
   margin-bottom: 0.714em;
 }
 
-body.zip .big-card .carousel {
+body.zip .big-card .carousel,
+body.zip .big-card .img-wrap {
   width: 16.5em;
   margin-bottom: 0;
 }

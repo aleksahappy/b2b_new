@@ -12,7 +12,7 @@ var pageUrl = pageId,
     path,
     cartItems = {},
     curItems,
-    selectedItems = '',
+    itemsToLoad,
     filterItems = [],
     curSelect = null,
     searchText = null;
@@ -211,6 +211,10 @@ function addCatalogModules() {
   popUpModules.insertBefore(getEl('#full-card-container'), popUpModules.firstElementChild);
   minCard = getEl('.min-card');
   bigCard = getEl('.big-card');
+  if (isCart) {
+    cartSectionTemp = getEl('.cart-section');
+    cartRowTemp = getEl('.cart-row');
+  }
 }
 
 // Динамическое заполнение второго уровня меню:
@@ -389,7 +393,6 @@ function addSizeInfo(item) {
     cartItem.price_cur1 = item.price_cur1;
     cartItem.price_user = item.price_user;
     cartItem.price_user1 = item.price_user1;
-    cartItem.actiontitle = item.actiontitle;
     cartItem.action_id = item.action_id;
     cartItem.action_name = actions && actions[item.action_id] ? actions[item.action_id].title : 'Склад';
   }
@@ -482,7 +485,7 @@ function addDescrInfo(item) {
 // Скрытие не умещающихся пунктов меню в кнопку "Еще":
 
 function adaptMenu() {
-  if (window.innerWidth > 1080) {
+  if (window.innerWidth > 1280) {
     var container = getEl('#header-menu .container'),
         searchWidth = location.search === '?cart' ? 0 : 5,
         maxWidth = container.clientWidth - (34 + searchWidth) * parseInt(window.getComputedStyle(container).fontSize, 10) - getEl('#submenu-hide').clientWidth,
@@ -631,8 +634,6 @@ function hideContent() {
   hideElement('#cart-name');
   hideElement('#filters-container');
   hideElement('#content');
-  hideElement('#gallery');
-  hideElement('#gallery-notice');
   hideElement('#cart');
 }
 
@@ -762,6 +763,7 @@ function renderGallery() {
     });
     window[`${pageUrl}Items`] = JSON.parse(JSON.stringify(curItems));
   }
+  itemsToLoad = curItems;
   if (!curItems.length) {
     return;
   }
@@ -786,7 +788,7 @@ function clearCurSearch() {
     clearSearch(`#${curSelect}`);
   }
   curSelect = null;
-  selectedItems = '';
+  itemsToLoad = curItems;
 }
 
 // Добавление/удаление обработчиков событий на странице:
@@ -1066,8 +1068,7 @@ function removeAllFilters() {
 // Блокировка неактуальных фильтров:
 
 function toggleToActualFilters(filter) {
-  var curArray = selectedItems === '' ? curItems : selectedItems,
-      catalogFilters = getEl('#catalog-filters'),
+  var catalogFilters = getEl('#catalog-filters'),
       curFilters = catalogFilters.querySelectorAll(`.item:not(.subitem).checked[data-key="${filter.dataset.key}"]`),
       checked = catalogFilters.querySelectorAll('.item:not(.subitem).checked'),
       filterItems;
@@ -1100,7 +1101,7 @@ function toggleToActualFilters(filter) {
         subitem.classList.remove('disabled');
       });
     } else {
-      isExsist = curArray.find(card => {
+      isExsist = itemsToLoad.find(card => {
         if (card[key] == value || card[value] == 1) {
           item.classList.remove('disabled');
           return true;
@@ -1120,7 +1121,7 @@ function toggleToActualFilters(filter) {
       }
       item.querySelectorAll('.subitem').forEach(subitem => {
         isFound = false;
-        isFound = curArray.find(card => {
+        isFound = itemsToLoad.find(card => {
           if (card.cat == value && card.subcat == subitem.dataset.value) {
             subitem.classList.remove('disabled');
             return true;
@@ -1262,7 +1263,7 @@ function initFiltersZip() {
   showElement(zipFilters);
 }
 
-// Заполнение выпадающего списка вариантов фильтра/поиска:
+// Заполнение выпадающего списка фильтра/поиска вариантами:
 
 function fillFilterZip(filter) {
   if (!filter) {
@@ -1274,38 +1275,17 @@ function fillFilterZip(filter) {
     items: data,
     sign: '@@'
   });
-  if (filter.id !== 'oem') {
-    toggleFilterZip(filter, data.length);
-  }
-}
-
-// Переключение блокировки фильтров, следующих за заполняемым:
-
-function toggleFilterZip(filter, data) {
-  var nextFilter = filter.nextElementSibling;
-  if (data) {
-    unlockFilterZip(filter);
-    while (nextFilter) {
-      lockFilterZip(nextFilter);
-      nextFilter = nextFilter.nextElementSibling;
-    }
-  } else {
-    lockFilterZip(filter);
-    if (nextFilter && getEl('#zip-selects').firstElementChild !== filter) {
-      fillFilterZip(nextFilter);
-    }
-  }
+  toggleFilterZip(filter, data.length);
 }
 
 // Подготовка данных для создания списка вариантов фильтра/поиска:
 
 function getFilterZipData(key) {
-  var curArray = curItems;
-  if (selectedItems && key !== 'man' && key !== 'oem') {
-    curArray = selectedItems;
+  if (key === 'man' || key === 'oem') {
+    itemsToLoad = curItems;
   }
   var data = [];
-  curArray.forEach(item => {
+  itemsToLoad.forEach(item => {
     if (item.manuf) {
       for (var k in item.manuf[key]) {
         if (key === 'man' || key === 'oem') {
@@ -1324,6 +1304,32 @@ function getFilterZipData(key) {
   });
   data.sort();
   return data;
+}
+
+// Блокировка/разблокировка фильтра:
+
+function toggleFilterZip(filter, data) {
+  if (filter.id === 'oem') {
+    return;
+  }
+  if (data) {
+    unlockFilterZip(filter);
+  } else {
+    lockFilterZip(filter);
+    if (filter.id !== 'man') {
+      fillFilterZip(filter.nextElementSibling);
+    }
+  }
+}
+
+// Переключение блокировки фильтров, следующих за заполняемым:
+
+function lockNextFilterZip(filter) {
+  var nextFilter = filter.nextElementSibling;
+  while (nextFilter) {
+    lockFilterZip(nextFilter);
+    nextFilter = nextFilter.nextElementSibling;
+  }
 }
 
 // Разблокировка фильтра:
@@ -1346,23 +1352,18 @@ function lockFilterZip(filter) {
 // Выбор значения фильтра запчастей:
 
 function selectFilterZip(event) {
+  var filter = event.currentTarget;
+  lockNextFilterZip(filter);
   selectCards('zip', true);
-  var nextFilter = event.currentTarget.nextElementSibling;
-  if (nextFilter) {
-    fillFilterZip(nextFilter);
-  }
+  fillFilterZip(filter.nextElementSibling);
 }
 
 // Очистка фильтров запчастей:
 
 function clearFiltersZip() {
-  var filter = getEl('#zip-selects').firstElementChild,
-      nextFilter = filter.nextElementSibling;
+  var filter = getEl('#zip-selects').firstElementChild;
   clearDropDown(filter);
-  while (nextFilter) {
-    lockFilterZip(nextFilter);
-    nextFilter = nextFilter.nextElementSibling;
-  }
+  lockNextFilterZip(filter);
 }
 
 //=====================================================================================================
@@ -1373,13 +1374,11 @@ function clearFiltersZip() {
 
 var countItems = 0,
     countItemsTo = 0,
-    itemsToLoad,
     incr;
 
 function loadCards(cards) {
   if (cards) {
     countItems = 0;
-    itemsToLoad = cards;
   } else {
     countItems = countItemsTo;
   }
@@ -1472,19 +1471,10 @@ function addActionTooltip(card) {
 // Отображение карточек на странице:
 
 function showCards() {
-  if (curItems.length && selectedItems === '') {
-    loadCards(curItems);
-    showElement('#gallery', 'flex');
-    hideElement('#gallery-notice');
+  if (itemsToLoad.length) {
+    loadCards(itemsToLoad)
   } else {
-    if (!selectedItems.length) {
-      showElement('#gallery-notice', 'flex');
-      hideElement('#gallery');
-    } else {
-      loadCards(selectedItems)
-      showElement('#gallery', 'flex');
-      hideElement('#gallery-notice');
-    }
+    getEl('#gallery').innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
   }
   setDocumentScroll(0,0);
   setMinCardWidth();
@@ -1505,7 +1495,7 @@ function scrollGallery() {
 
 function toggleView(newView, isAuto) {
   if (view != newView) {
-    if (window.innerWidth <= 499 && newView === 'list') {
+    if (window.innerWidth <= 768 && newView === 'list') {
       return;
     }
     var viewBtn = getEl(`.view .${view}.icon`),
@@ -1530,7 +1520,7 @@ function toggleView(newView, isAuto) {
 // Автоматическое переключение вида каталога на разных разрешениях:
 
 function setView() {
-  if (window.innerWidth > 499) {
+  if (window.innerWidth > 768) {
     if (view !== userView) {
       toggleView(userView);
     }
@@ -1544,7 +1534,7 @@ function setView() {
 function findItemData(id, type) {
   var data = items.find(item => item.object_id == id);
   if (!data && type === 'cart') {
-    data = missingItems.find(item => item.object_id == id);
+    data = soldOutItems.find(item => item.object_id == id);
   }
   return data;
 }
@@ -1640,14 +1630,14 @@ function showFullImg(event, data) {
 // Блокировка/разблокировка кнопок фильтра:
 
 function toggleFilterBtns() {
-  if (curSelect === 'search') {
-    return;
-  }
-  var count = selectedItems.length,
-      clearBtn = getEl('.clear-filter.btn'),
+  var clearBtn = getEl('.clear-filter.btn'),
       clearBtnAdaptive = getEl('#filters .clear-btn'),
       showBtn = getEl('#filters .btn.act'),
-      showCount = getEl('span', showBtn);
+      showCount = getEl('span', showBtn),
+      count = 0;
+  if (curSelect && curSelect !== 'search') {
+    count = itemsToLoad.length;
+  }
   if (count) {
     clearBtn.classList.remove('disabled');
     showElement(clearBtnAdaptive, 'flex')
@@ -1670,7 +1660,7 @@ function selectCards(search, textToFind) {
   }
   if (!search || !textToFind) {
     curSelect = null;
-    selectedItems = '';
+    itemsToLoad = curItems;
   } else {
     type = type === 'search' ? search.id : search;
     clearCurSelect(type);
@@ -1678,7 +1668,7 @@ function selectCards(search, textToFind) {
     startSelect(textToFind);
   }
   showCards();
-  return selectedItems.length;
+  return itemsToLoad.length;
 }
 
 // Очистка текущего отбора:
@@ -1692,9 +1682,9 @@ function clearCurSelect(type) {
     } else {
       clearSearch(`#${curSelect}`);
     }
-    selectedItems = '';
-    toggleFilterBtns();
+    itemsToLoad = curItems;
     curSelect = null;
+    toggleFilterBtns();
   }
 }
 
@@ -1720,7 +1710,7 @@ function startSelect() {
 function selectCardsByFilterCatalog() {
   var filters = getInfo('filters')[pageUrl],
       isFound;
-  selectedItems = curItems.filter(card => {
+  itemsToLoad = curItems.filter(card => {
     for (var k in filters) {
       isFound = false;
       for (var kk in filters[k]) {
@@ -1747,10 +1737,9 @@ function selectCardsByFilterCatalog() {
 // Отбор карточек фильтром запчастей:
 
 function selectCardsByFilterZip() {
-  var curArray = curItems,
-      filters = getFilterZipItems(),
+  var filters = getFilterZipItems(),
       isFound;
-  selectedItems = curArray.filter(card => {
+  itemsToLoad = curItems.filter(card => {
     if (card.manuf_filter) {
       for (var row of card.manuf_filter) {
         for (var key in filters) {
@@ -1785,13 +1774,13 @@ function getFilterZipItems() {
 
 function selectCardsBySearchPage(textToFind) {
   var regExp = getRegExp(textToFind);
-  selectedItems = curItems.filter(el => findByRegExp(el.search, regExp));
+  itemsToLoad = curItems.filter(el => findByRegExp(el.search, regExp));
 }
 
 // Отбор карточек поиском по OEM:
 
 function selectCardsBySearchOem(textToFind) {
-  selectedItems = curItems.filter(item => {
+  itemsToLoad = curItems.filter(item => {
     if (item.manuf) {
       for (var k in item.manuf.oem) {
         if (k == textToFind) {
@@ -1812,13 +1801,12 @@ function sortItems(event) {
   var key = event.currentTarget.value;
   if (key === '') {
     curItems = JSON.parse(JSON.stringify(window[`${pageUrl}Items`]));
+    itemsToLoad = curItems;
     startSelect();
   } else {
     var type = key.indexOf('price') >= 0 ? 'numb' : 'text';
     curItems.sort(sortBy(key, type));
-    if (selectedItems !== '') {
-      selectedItems.sort(sortBy(key, type));
-    }
+    itemsToLoad.sort(sortBy(key, type));
   }
   showCards();
 }

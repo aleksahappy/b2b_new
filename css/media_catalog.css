@@ -23,7 +23,7 @@
   }
 
   #search {
-    right: calc(3vw+ 18em);
+    right: calc(3vw + 18em);
   }
 
   .full-card {
@@ -32,8 +32,8 @@
   }
 }
 
-/* Стили на ширину свыше 1080px: */
-@media only screen and (min-width: 1081px) {
+/* Стили на ширину свыше 1280px: */
+@media only screen and (min-width: 1281px) {
   #search:not(:focus-within) .search.icon {
     visibility: visible !important;
   }
@@ -60,11 +60,12 @@
 
 /* Стили на ширину от 0 до 1360px включительно: */
 @media only screen and (max-width: 1360px) {
-  .search-info {
+  .gallery-head .search-info {
     display: none !important;
   }
 
-  .big-card .carousel {
+  .big-card .carousel,
+  .big-card .img-wrap {
     width: 18em;
   }
 
@@ -73,8 +74,8 @@
   }
 }
 
-/* Стили на ширину от 0 до 1080px включительно: */
-@media only screen and (max-width: 1080px) {
+/* Стили на ширину от 0 до 1280px включительно: */
+@media only screen and (max-width: 1280px) {
   #header-menu .container {
     display: block;
     margin: 0;
@@ -182,7 +183,6 @@
   }
 
   .gallery-head,
-  #gallery-notice,
   #gallery {
     width: 100%;
   }
@@ -196,19 +196,19 @@
   }
 
   .view .blocks.icon {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     margin-right: 1em;
   }
 
   .view .list.icon {
-    width: 34px;
-    height: 30px;
+    width: 38px;
+    height: 34px;
   }
 }
 
-/* Стили на ширину от 0 до 768px включительно: */
-@media only screen and (max-width: 768px) {
+/* Стили на ширину от 0 до 960px включительно: */
+@media only screen and (max-width: 960px) {
   .min-card {
     width: 17em;
     min-width: 17em;
@@ -220,7 +220,8 @@
     height: 15em;
   }
 
-  .big-card .carousel {
+  .big-card .carousel,
+  .big-card .img-wrap {
     width: 16em;
     max-width: 40%;
     margin-top: 4em;
@@ -273,6 +274,17 @@
   }
 }
 
+/* Стили на ширину от 0 до 768px включительно: */
+@media only screen and (max-width: 768px) {
+  #search {
+    width: calc(100vw - 100px) !important;
+  }
+
+  .view.row {
+    display: none;
+  }
+}
+
 /* Стили на ширину от 0 до 699px включительно: */
 @media only screen and (max-width: 699px) {
   .full-card .card-content {
@@ -284,11 +296,15 @@
     width: 100%;
   }
 
+  .full-card .carousel,
+  .full-card .img-wrap {
+    margin-bottom: 1.428em;
+  }
+
   .full-card .carousel {
     display: flex;
     justify-content: center;
     padding-right: 0;
-    margin-bottom: 1.428em;
   }
 
   .full-card .carousel-gallery-wrap {
@@ -332,11 +348,6 @@
   #search {
     left: 1.6rem;
     width: calc(100vw - 80px) !important;
-    visibility: visible;
-  }
-
-  .view.row {
-    display: none;
   }
 
   .full-card .pop-up-title {
@@ -348,10 +359,6 @@
   .full-card .card-content {
     padding-left: 1.5em;
     padding-right: 1.5em;
-  }
-
-  .full-card .carousel {
-    margin-bottom: 1.428em;
   }
 
   .full-card .card-price {
