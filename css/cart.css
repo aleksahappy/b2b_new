@@ -24,6 +24,26 @@
   width: 100%;
 }
 
+#header-cart .search-info {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 24.684em;
+  margin-left: 5em;
+  text-align: right;
+}
+
+#header-cart .pill {
+  background-color: #D3D6D9;
+}
+
+#header-cart .make-order {
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 5em;
+}
+
 #checkout-info {
   flex-wrap: wrap;
   flex-grow: 0;
@@ -34,12 +54,8 @@
   visibility: hidden;
 }
 
-#header-cart .make-order {
-  justify-content: space-between;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-left: 5em;
+#checkout-info > div {
+  white-space: nowrap;
 }
 
 /* =====================================================================================================
@@ -89,9 +105,14 @@
 .cart-row {
   justify-content: space-between;
   align-items: center;
-  padding: 1.428em 0;
-  margin: 0 1.428em;
+  background-color: #F8F8F8;
   z-index: 1;
+}
+
+.cart-section .head,
+.cart-section .cart-row {
+  margin: 0 1.428em;
+  padding: 1.428em 0;
 }
 
 .cart-section .head .row,
@@ -100,10 +121,11 @@
 }
 
 .cart-section .head {
+  position: -webkit-sticky;
   position: sticky;
   top: 275px;
-  background-color: #F8F8F8;
   border-bottom: 1px solid #C6C6C6;
+  z-index: 10;
 }
 
 .cart-section.close .head {
@@ -148,7 +170,7 @@
 
 .cart-row {
   align-items: stretch;
-  padding-top: 1.428em;
+  padding: 1.428em;
   border-bottom: 1px solid #C6C6C6;
 }
 
@@ -262,11 +284,18 @@
   background-color: #E2E2E2;
 }
 
-.sold .cart-row img {
+.cart-section.sold .cart-row,
+.cart-row.sold {
+  background-color: #E2E2E2;
+}
+
+.sold .cart-row img,
+.cart-row.sold img {
   opacity: 0.5;
 }
 
-.sold .cart-row .out {
+.sold .cart-row .out,
+.cart-row.sold .out {
   display: block;
 }
 
@@ -274,15 +303,19 @@
   display: block;
 }
 
-.sold .cart-row .tooltips > .row {
+.sold .cart-row .tooltips > .row,
+.cart-row.sold .tooltips > .row {
   display: none;
 }
 
 .sold .cart-row .qty-box,
 .sold .cart-row .price,
 .sold .cart-row .discount,
-.cart-row.bonus .qty,
-.cart-row.bonus .checkbox {
+.cart-row.sold .qty-box,
+.cart-row.sold .price,
+.cart-row.sold .discount,
+.cart-row.bonus .checkbox,
+.cart-row.bonus .qty {
  visibility: hidden;
 }
 
