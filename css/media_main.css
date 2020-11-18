@@ -24,7 +24,7 @@
 }
 
 /* =====================================================================================================
-Все разрешения по ориентации экрана:
+Разрешения по ориентации экрана:
 ===================================================================================================== */
 
 /* Портретная ориентация: */
@@ -52,7 +52,7 @@
 }
 
 /* =====================================================================================================
-Desktop:
+Разрешения по ширине экрана:
 ===================================================================================================== */
 
 /* Стили на ширину больше 1920px: */
@@ -78,8 +78,8 @@ Desktop:
   }
 }
 
-/* Стили на ширину больше 1080px: */
-@media only screen and (min-width: 1081px) {
+/* Стили на ширину больше 1280px: */
+@media only screen and (min-width: 1281px) {
 
   /* Окно уведомлений: */
 
@@ -112,10 +112,6 @@ Desktop:
   }
 }
 
-/* =====================================================================================================
-Laptop:
-===================================================================================================== */
-
 /* Стили на ширину от 0 до 1440px включительно: */
 @media only screen and (max-width: 1440px) {
 
@@ -144,12 +140,8 @@ Laptop:
   }
 }
 
-/* =====================================================================================================
-Tablet:
-===================================================================================================== */
-
-/* Стили на ширину от 0 до 1080px включительно: */
-@media only screen and (max-width: 1080px) {
+/* Стили на ширину от 0 до 1280px включительно: */
+@media only screen and (max-width: 1280px) {
 
   /* Основные стили: */
 
@@ -224,6 +216,10 @@ Tablet:
     height: 24px;
   }
 
+  .header-top .right-side .btn {
+    display: none;
+  }
+
   .header-top .notifications.icon {
     background-image: url('../img/notifications_min.svg');
   }
@@ -247,15 +243,15 @@ Tablet:
     box-shadow: 0px 0px 5px rgba(52, 73, 94, 0.05), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 4px 15px rgba(52, 73, 94, 0.1);
   }
 
+  .control .wrap {
+    width: calc(100% - 44px);
+  }
+
   .control .pagination {
     display: none !important;
   }
 
   /* Таблицы: */
-
-  .control {
-    top: 40px;
-  }
 
   .table-desktop {
     display: none !important;
@@ -352,10 +348,8 @@ Tablet:
   /* Кнопка "Наверх страницы": */
 
   #up-btn {
-    width: 25px;
-    height: 20px;
     right: 2.4rem;
-    bottom: 15px;
+    bottom: 9px;
   }
 
   /* Футер */
@@ -377,6 +371,12 @@ Tablet:
 
 /* Стили на ширину от 0 до 960px включительно: */
 @media only screen and (max-width: 960px) {
+  /* Заголовок страницы: */
+
+  #main-header {
+    padding: 1.6rem 0;
+  }
+
   /* Окно уведомлений: */
   #notifications .message.icon {
     width: 25px;
@@ -395,10 +395,6 @@ Tablet:
   }
 }
 
-/* =====================================================================================================
-Mobile:
-===================================================================================================== */
-
 /* Стили на ширину от 0 до 599px включительно: */
 @media only screen and (max-width: 599px) {
 
@@ -410,12 +406,20 @@ Mobile:
 
   input:not([type="submit"]),
   textarea,
-  .activate .head {
-    padding: 0.25em 0.714em;
+  .activate .head,
+  select,
+  input[type="file"] ~ .file-name {
+    font-size: 16px;
+    padding: 0.25em 0.625em;
   }
 
   select {
-    padding: 0.25em 1.7em 0.25em 0.714em;
+    padding: 0.25em 1.7em 0.25em 0.625em;
+  }
+
+  .activate,
+  .calendar-wrap {
+    font-size: 16px;
   }
 
   /* Стили текста: */
@@ -427,19 +431,22 @@ Mobile:
   /* Заголовок страницы: */
 
   #main-header {
-    padding: 1.6rem 0;
+    padding: 0.7rem 0;
   }
 
-  /* Поля поиска: */
+  /* Иконки */
 
-  form.search .search.icon,
-  form.search .close.icon {
-    height: 24px;
+  .question.icon,
+  .settings.icon,
+  .add.icon,
+  .relay.icon {
+    width: 32px;
+    height: 32px;
   }
 
   /* Всплывающие окна: */
 
-  .pop-up-container,
+  .pop-up-container:not(#alerts),
   .pop-up-container.filters {
     padding: 0;
     background-color: #FFFFFF;
@@ -537,6 +544,10 @@ Mobile:
     width: auto;
     max-width: 90%;
     min-height: auto;
+  }
+
+  #alerts .close.icon {
+    margin: 0.6em;
   }
 
   /* Информационная карточка товара: */

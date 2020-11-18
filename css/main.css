@@ -334,6 +334,18 @@ body.no-scroll {
   vertical-align: top;
 }
 
+[data-search] {
+  display: none;
+}
+
+[data-search].show {
+  display: block;
+}
+
+[data-search] .pill {
+  max-width: 90%;
+}
+
 /* =====================================================================================================
 Стили текста:
 ===================================================================================================== */
@@ -415,6 +427,20 @@ body.no-scroll {
 
 .articul {
   color: #8596A6;
+}
+
+/* =====================================================================================================
+Заголовок страницы:
+===================================================================================================== */
+
+#main-header {
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.8rem 0;
+}
+
+#main-header + .btn {
+  margin-bottom: 1.428em;
 }
 
 /* =====================================================================================================
@@ -709,20 +735,6 @@ body.no-scroll {
 }
 
 /* =====================================================================================================
-Заголовок страницы:
-===================================================================================================== */
-
-#main-header {
-  justify-content: space-between;
-  align-items: center;
-  padding: 2.8rem 0;
-}
-
-#main-header + .btn {
-  margin-bottom: 1.428em;
-}
-
-/* =====================================================================================================
 Карусель:
 ===================================================================================================== */
 
@@ -1004,6 +1016,7 @@ input[data-type="range"] {
 
 [tooltip] {
   position: relative;
+  cursor: help;
 }
 
 [tooltip]::before,
@@ -1169,6 +1182,10 @@ input[data-type="range"] {
 }
 
 /* Всплывающие подсказки на js (атрибут data-tooltip="текст" - можно вставлять html): */
+
+[data-tooltip] {
+  cursor: help;
+}
 
 .tooltip {
   position: fixed;
@@ -1378,6 +1395,11 @@ input.btn {
   -webkit-tap-highlight-color: transparent;
 }
 
+[data-tooltip] .icon,
+[data-tooltip].icon {
+  cursor: help;
+}
+
 .disabled .icon,
 .icon.disabled {
   cursor: default;
@@ -1408,8 +1430,15 @@ input.btn {
 .settings.icon,
 .add.icon,
 .relay.icon {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
+}
+
+.settings.icon,
+.add.icon,
+.relay.icon {
+  margin-right: 0;
+  margin-left: 1em;
 }
 
 /* Подсказки */
@@ -1429,8 +1458,6 @@ input.btn {
 
 .add.icon {
   display: none;
-  margin-right: 0;
-  margin-left: 1em;
   background-image: url(../img/add.svg);
 }
 
@@ -1438,8 +1465,6 @@ input.btn {
 
 .relay.icon {
   display: none;
-  margin-right: 0;
-  margin-left: 1em;
   background-image: url(../img/relay.svg);
 }
 
@@ -2908,14 +2933,14 @@ form.post .btns-wrap {
 }
 
 .filters .group .more .open.icon {
-  background-position-x: right;
-  transform: rotate(0);
+  background-position-x: left;
+  transform: rotate(-180deg);
   cursor: pointer;
 }
 
-.filters .group .items.show ~ .more .open.icon {
-  background-position-x: left;
-  transform: rotate(-180deg);
+.filters .group .items.hide ~ .more .open.icon {
+  background-position-x: right;
+  transform: rotate(0);
 }
 
 .filters .search.row,
@@ -3084,16 +3109,15 @@ form.post .btns-wrap {
 }
 
 .control .pills {
-  justify-content: flex-end;
+  flex-grow: 0;
   margin-left: 2em;
+  line-height: 0;
+  text-align: right;
+  white-space: normal;
 }
 
 .control .btns {
   align-items: center;
-}
-
-.control .settings.icon {
-  margin-right: 0;
 }
 
 /* =====================================================================================================
@@ -3189,6 +3213,10 @@ form.post .btns-wrap {
 
 .table-desktop > thead > tr > th.activate:nth-child(2) .drop-down {
   left: -4px;
+}
+
+.table-desktop > thead > tr > th:last-child.activate .drop-down {
+  right: 0px;
 }
 
 .table-desktop > thead > tr > th.activate .head {
@@ -3374,7 +3402,7 @@ form.post .btns-wrap {
 
 #alerts .pop-up {
   position: relative;
-  min-width: 360px;
+  min-width: 300px;
 }
 
 #alerts .close.icon {
@@ -3389,6 +3417,7 @@ form.post .btns-wrap {
 
 #alerts .text {
   text-align: center;
+  padding: 0 1em;
 }
 
 #alerts.confirm .text {
@@ -3559,7 +3588,6 @@ form.post .btns-wrap {
   display: inline-block;
   font-size: 0.857em;
   color: #8596A6;
-  cursor: help;
 }
 
 .card-size .qty.row {
@@ -3581,14 +3609,12 @@ form.post .btns-wrap {
   flex-shrink: 0;
   font-size: 0.857em;
   white-space: nowrap;
-  cursor: help;
 }
 
 .tooltips .icon {
   width: 12px;
   height: 12px;
   margin-right: 0.2em;
-  cursor: help;
 }
 
 .tooltips .free {
@@ -3814,8 +3840,8 @@ form.post .btns-wrap {
 .header-top .left-side {
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 18em);
-  max-width: 1080px;
+  width: calc(100% - 35em);
+  max-width: 1280px;
 }
 
 .header-top .logo {
@@ -3897,16 +3923,16 @@ form.post .btns-wrap {
 
 .header-top .right-side .icon {
   width: 36px;
-  height: 36px
+  height: 36px;
+}
+
+.header-top .right-side .btn {
+  margin-right: 1.428em;
 }
 
 .header-top .right-side .activate {
   width: auto;
   max-width: 18em;
-}
-
-.header-top .account a {
-  display: block;
 }
 
 .header-top .burger.icon {
@@ -3917,6 +3943,11 @@ form.post .btns-wrap {
 
 .header-top .profile.icon {
   margin-right: 0.5em;
+}
+
+#profile {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #profile .title,
