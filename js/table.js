@@ -117,7 +117,7 @@ function createTableControl(area, settings) {
     }
     if (controlSettings.search) {
       search =
-      `<form class="search row">
+      `<form class="search row" action="#">
         <input type="text" data-value="" placeholder="${controlSettings.search}">
         <input class="search icon" type="submit" value="">
         <div class="close icon"></div>
@@ -142,7 +142,7 @@ function createTableControl(area, settings) {
     }
     if (controlSettings.pill) {
       pill =
-      `<div class="pills row" data-key="${controlSettings.pill.key}/value">
+      `<div class="pills" data-key="${controlSettings.pill.key}/value">
         ${controlSettings.pill.content || '<div class="pill ctr checked" data-value="#value#">#title#</div>'}
       </div>`;
     }
@@ -234,17 +234,16 @@ function createTable(area, settings) {
 
 // Создание ячейки шапки таблицы:
 
-function createTableHeadCell(col, index, settings) {
+function createTableHeadCell(col, index, filters) {
   var th = '';
-  if (col.keys) {
-    var sorts = '',
-        filters = '';
+  if (col.keys && filters) {
+    var content = '';
     col.keys.forEach(key => {
-      var data = settings[key];
+      var data = filters[key];
       if (data) {
         if (data.sort) {
           var type = data.sort;
-          sorts =
+          content =
           `<div class="group sort" data-key="${key}" data-type="${type}">
             <div class="title">Сортировка</div>
             <div class="item sort down row">
@@ -269,13 +268,13 @@ function createTableHeadCell(col, index, settings) {
               </div>`;
             } else {
               search =
-              `<form class="search row">
+              `<form class="search row" action="#">
                 <input type="text" data-value="" placeholder="Поиск...">
                 <input class="search icon" type="submit" value="">
                 <div class="close icon"></div>
               </form>`;
             }
-            filterContent += search;
+            filterContent = search;
           }
           if (filter && search !== 'date') {
             if (filter === 'select') {
@@ -297,7 +296,7 @@ function createTableHeadCell(col, index, settings) {
             }
             filterContent += filter;
           }
-          filters =
+          content +=
           `<div class="group filter" data-key="${key}">
             <div class="title">Фильтр</div>
             ${filterContent}
@@ -305,7 +304,7 @@ function createTableHeadCell(col, index, settings) {
         }
       }
     });
-    if (sorts || filters) {
+    if (content) {
       th =
       `<th id="${index + 1}" class="activate box">
         <div class="head row">
@@ -316,8 +315,7 @@ function createTableHeadCell(col, index, settings) {
           </div>
           </div>
           <div class="drop-down">
-            ${sorts}
-            ${filters}
+            ${content}
           </div>
         </div>
         <div class="resize-btn"></div>
