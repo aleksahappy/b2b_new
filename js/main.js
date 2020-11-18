@@ -263,11 +263,12 @@ function getTotals() {
         if (!result || JSON.parse(result).err) {
           reject('Итоги не пришли');
         }
-        if (JSON.stringify(cartTotals) === result) {
+        result = JSON.parse(result);
+        if (JSON.stringify(cartTotals) === JSON.stringify(result)) {
           reject('Итоги не изменились');
         } else {
           console.log('Итоги обновились');
-          cartTotals = JSON.parse(result);
+          cartTotals = result;
           resolve();
         }
       }
@@ -832,7 +833,7 @@ function setTextareaHeight(textarea, min = 40, max = 150) {
 // Свернуть/развернуть сам контейнер:
 
 function toggleEl(event, className = 'close') {
-  if (checkIsLink(event)) {
+  if (checkIsAction(event)) {
     return;
   }
   event.currentTarget.classList.toggle(className);
@@ -841,7 +842,7 @@ function toggleEl(event, className = 'close') {
 // Свернуть/развернуть содержимое контейнера:
 
 function switchContent(event) {
-  if (checkIsLink(event)) {
+  if (checkIsAction(event)) {
     return;
   }
   var container = event.currentTarget.closest('.switch');
@@ -915,7 +916,7 @@ function getEl(el, area = document) {
   if (typeof el === 'string') {
     el = el.trim();
     area = typeof area === 'string' ? getEl(area): area;
-    el = area.querySelector(el);
+    el = area ? area.querySelector(el) : undefined;
   }
   return el || undefined;
 }
@@ -929,15 +930,15 @@ function isEmptyObj(obj) {
   return true;
 }
 
-// Проверка кликнутого элемента на наличие onclick или сслыки:
+// Проверка кликнутого элемента на наличие действия в нем:
 
-function checkIsLink(event) {
+function checkIsAction(event) {
   var target = event.target,
       tag = target.tagName;
   if (tag) {
     tag = tag.toLowerCase();
   }
-  if (event.target !== event.currentTarget && target.hasAttribute('onclick') || tag === 'a') {
+  if (event.target !== event.currentTarget && (target.hasAttribute('onclick') || tag === 'a' || target.hasAttribute('data-tooltip'))) {
     return true;
   } else {
     return false;
@@ -1130,13 +1131,21 @@ function sortObjByValue(obj, type = 'string') {
   return sortedObj;
 }
 
+// Перемещение данных по ключy в конец объекта:
+
+function moveToEndObj(obj, key) {
+  var movable = obj[key];
+  delete obj[key];
+  obj[key] = movable;
+}
+
 //=====================================================================================================
 // Работа с датами:
 //=====================================================================================================
 
 // Получение объекта даты срока истечения:
 
-function getDateExpires(days, date = new Date) {
+function getDateExpires(days, date = new Date()) {
   if (isNaN(date.getTime())) {
     return;
   }
@@ -1161,7 +1170,7 @@ function getDateObj(string, format = 'dd.mm.yyyy') {
 
 // Получение строки с датой из объекта даты:
 
-function getDateStr(date, format = 'dd.mm.yyyy') {
+function getDateStr(date = new Date(), format = 'dd.mm.yyyy') {
   if (isNaN(date.getTime())) {
     return;
   }
@@ -1311,8 +1320,7 @@ function declOfNum(number, titles) {
 // Функция преобразования числа к ценовому формату (с пробелами):
 
 function convertPrice(numb, fix = 0, sign = ',') {
-  numb = numb.toString().replace(',', '.').replace(/\s/g, '');
-  numb = parseFloat(numb);
+  numb = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''));
   if (isNaN(Number(numb))) {
     return numb;
   }
@@ -1370,7 +1378,7 @@ function convertPhone(phone) {
 // Переход на страницу заказа:
 
 function showOrder(event, id) {
-  if (checkIsLink(event)) {
+  if (checkIsAction(event)) {
     return;
   }
   location.href = `/order/?${id}`;
@@ -1379,10 +1387,18 @@ function showOrder(event, id) {
 // Переход на страницу рекламации:
 
 function showReclm(event, id) {
-  if (checkIsLink(event)) {
+  if (checkIsAction(event)) {
     return;
   }
   location.href = `/reclamation/?${id}`;
+}
+
+// Переход на старый интерфейс:
+
+function goToOldInterface() {
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
+  console.log(path);
+  // location.href = ``;
 }
 
 //=====================================================================================================
@@ -1728,6 +1744,7 @@ function changeColors(el, qty) {
 // Включение работы подсказок:
 
 function initTooltips() {
+  window.addEventListener('scroll', () => removeTooltip());
   document.addEventListener('mouseover', event => showTooltip(event));
   document.addEventListener('mouseout', event => hideTooltip(event));
 }
@@ -1862,9 +1879,17 @@ function hideTooltip() {
     }
     relatedTarget = relatedTarget.parentNode;
   }
-  tooltip.remove();
-  currentElem = null;
-  tooltip = null;
+  removeTooltip();
+}
+
+// Удаление подсказки со страницы:
+
+function removeTooltip() {
+  if (tooltip) {
+    tooltip.remove();
+    currentElem = null;
+    tooltip = null;
+  }
 }
 
 //=====================================================================================================
@@ -1990,12 +2015,12 @@ function closePopUp(event, el) {
   }
 }
 
-// Автоматическое закрытие блоков фильтров на разрешении больше 1080px:
+// Автоматическое закрытие блоков фильтров на разрешении больше 1280px:
 
 function closeFilterPopUp() {
   clearTimeout(window.resizedFinished);
   window.resizedFinished = setTimeout(function(){
-    if (window.innerWidth > 1080) {
+    if (window.innerWidth > 1280) {
       document.querySelectorAll('.pop-up-container.filters.open').forEach(el => closePopUp(null, el));
     }
   }, 250);
@@ -2844,9 +2869,9 @@ function Search(obj, callback) {
     if (text) {
       getEl('.search-text', this.result).textContent = text;
       getEl('.search-count', this.result).textContent = count;
-      showElement(this.result, 'flex');
+      this.result.classList.add('show');
     } else {
-      hideElement(this.result);
+      this.result.classList.remove('show');
     }
   }
 
@@ -3058,6 +3083,10 @@ function DropDown(obj, handler, data, defaultValue) {
     }
     var value;
     if (this.obj.classList.contains('select')) {
+      if (curItem.classList.contains('checked') && !this.obj.classList.contains('box')) {
+        this.obj.classList.remove('open');
+        return;
+      }
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
       if (curItem.dataset.value === 'default') {
         this.changeTitle();
