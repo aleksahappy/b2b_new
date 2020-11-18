@@ -176,6 +176,8 @@ function getItemsData() {
           }
           if (keys[ii] === 'skid' && value[ii]) {
             list[name][keys[ii]] = value[ii] + '%'
+          } else if (['pric', 'summ', 'paid', 'kdop'].indexOf(keys[ii]) >= 0) {
+            list[name][keys[ii]] = value[ii].replace('.', ',');
           } else {
             list[name][keys[ii]] = value[ii];
           }
@@ -244,342 +246,334 @@ function addReclmInfo() {
 
 function createTables() {
   var items = data.items;
-  var nomenSettings = {
-    data: items.nomen,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '30%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Цена',
-        align: 'right',
-        keys: ['pric']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        keys: ['kolv'],
-        result: 'kolv'
-      }, {
-        title: 'Cтоимость',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Скидка',
-        align: 'right',
-        keys: ['skid']
-      }]
+  var settings = {
+    nomen: {
+      data: items.nomen,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '30%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          keys: ['kolv'],
+          result: 'kolv'
+        }, {
+          title: 'Cтоимость',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Скидка',
+          align: 'right',
+          keys: ['skid']
+        }]
+      },
+      filters: {
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+      }
     },
-    filters: {
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
-    }
-  }
-  initTable('#nomen', nomenSettings);
-
-  var vputiSettings = {
-    data: items.vputi,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '30%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Дата поступления',
-        align: 'center',
-        keys: ['dpst']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        keys: ['kolv'],
-        result: 'kolv'
-      }, {
-        title: 'Cтоимость',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Оплачено',
-        align: 'right',
-        keys: ['paid'],
-        result: 'sum'
-      }, {
-        title: 'К оплате',
-        align: 'right',
-        keys: ['kdop'],
-        result: 'sum'
-      }]
+    vputi: {
+      data: items.vputi,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '30%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Дата поступления',
+          align: 'center',
+          keys: ['dpst']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          keys: ['kolv'],
+          result: 'kolv'
+        }, {
+          title: 'Cтоимость',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Оплачено',
+          align: 'right',
+          keys: ['paid'],
+          result: 'sum'
+        }, {
+          title: 'К оплате',
+          align: 'right',
+          keys: ['kdop'],
+          result: 'sum'
+        }]
+      },
+      filters: {
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'dpst': {title: 'По дате поступления', sort: 'date', search: 'date'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+        'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
+        'kdop': {title: 'По сумме к оплате', sort: 'numb', search: 'usual'}
+      }
     },
-    filters: {
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'dpst': {title: 'По дате поступления', sort: 'date', search: 'date'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-      'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
-      'kdop': {title: 'По сумме к оплате', sort: 'numb', search: 'usual'}
-    }
-  }
-  initTable('#vputi', vputiSettings);
-
-  var vnaliSettings = {
-    data: items.vnali,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '30%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Цена',
-        align: 'right',
-        keys: ['pric']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        keys: ['kolv'],
-        result: 'kolv'
-      }, {
-        title: 'Cтоимость',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Скидка',
-        align: 'right',
-        keys: ['skid']
-      }]
+    vnali: {
+      data: items.vnali,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '30%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          keys: ['kolv'],
+          result: 'kolv'
+        }, {
+          title: 'Cтоимость',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Скидка',
+          align: 'right',
+          keys: ['skid']
+        }]
+      },
+      filters: {
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+      }
     },
-    filters: {
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
-    }
-  }
-  initTable('#vnali', vnaliSettings);
-
-  var sobrnSettings = {
-    data: items.sobrn,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '30%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Цена',
-        align: 'right',
-        keys: ['pric']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        keys: ['kolv'],
-        result: 'kolv'
-      }, {
-        title: 'Cтоимость',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Скидка',
-        align: 'right',
-        keys: ['skid']
-      }]
+    sobrn: {
+      data: items.sobrn,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '30%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          keys: ['kolv'],
+          result: 'kolv'
+        }, {
+          title: 'Cтоимость',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Скидка',
+          align: 'right',
+          keys: ['skid']
+        }]
+      },
+      filters: {
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+      }
     },
-    filters: {
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
-    }
-  }
-  initTable('#sobrn', sobrnSettings);
-
-  var otgrzSettings = {
-    data: items.otgrz,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '30%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Цена',
-        align: 'right',
-        keys: ['pric']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        class: 'qty',
-        keys: ['kolv'],
-        result: 'kolv',
-        content: data.isReclms ? `<div class='row'><div class='attention icon #isReclm#' data-tooltip='Подать рекламацию' data-artc="#artc#" onclick='openReclmPopUp(event)'></div><div>#kolv#</div></div>` : false
-      }, {
-        title: 'Cтоимость',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Скидка',
-        align: 'right',
-        keys: ['skid']
-      }]
+    otgrz: {
+      data: items.otgrz,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '30%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          class: 'qty',
+          keys: ['kolv'],
+          result: 'kolv',
+          content: data.isReclms ? `<div class='row'><div class='attention icon #isReclm#' data-tooltip='Подать рекламацию' data-artc="#artc#" onclick='openReclmPopUp(event)'></div><div>#kolv#</div></div>` : false
+        }, {
+          title: 'Cтоимость',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Скидка',
+          align: 'right',
+          keys: ['skid']
+        }]
+      },
+      filters: {
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+      }
     },
-    filters: {
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-      'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
-    }
-  }
-  initTable('#otgrz', otgrzSettings);
-
-  var nedopSettings = {
-    data: items.nedop,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '30%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Цена',
-        align: 'right',
-        keys: ['pric']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        keys: ['kolv'],
-        result: 'kolv'
-      }, {
-        title: 'Cтоимость',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Инициатор отмены',
-        keys: ['stat']
-      }]
+    nedop: {
+      data: items.nedop,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '30%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          keys: ['kolv'],
+          result: 'kolv'
+        }, {
+          title: 'Cтоимость',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Инициатор отмены',
+          keys: ['stat']
+        }]
+      },
+      filters: {
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
+        'stat': {title: 'По инициатору отмены', sort: 'text', search: 'usual', filter: 'checkbox'}
+      }
     },
-    filters: {
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-      'stat': {title: 'По инициатору отмены', sort: 'text', search: 'usual', filter: 'checkbox'}
+    reclm: {
+      data: items.reclm,
+      desktop: {
+        head: true,
+        result: true,
+        cols: [{
+          title: '№ Рекламации',
+          keys: ['recl_num'],
+          content: `<a href="../reclamation/?#reclid#">#recl_num#</a>`
+        }, {
+          title: 'Дата',
+          align: 'center',
+          keys: ['recl_date'],
+          sort: 'date',
+          search: 'date'
+        }, {
+          title: 'Артикул',
+          keys: ['artc']
+        }, {
+          title: 'Наименование',
+          width: '25%',
+          class: 'link',
+          keys: ['titl'],
+          content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
+        }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
+          title: 'Количество',
+          align: 'right',
+          keys: ['kolv'],
+          result: 'kolv'
+        }, {
+          title: 'Сумма компенсации',
+          align: 'right',
+          keys: ['summ'],
+          result: 'sum'
+        }, {
+          title: 'Статус',
+          class: 'pills',
+          align: 'center',
+          keys: ['trac'],
+          content: `<div class='recl pill' data-status="#status#">#trac#</div>`
+        }]
+      },
+      filters: {
+        'recl_num': {title: 'По номеру рекламации', sort: 'text', search: 'usual'},
+        'recl_date': {title: 'По дате рекламации', sort: 'date', search: 'date'},
+        'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
+        'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
+        'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
+        'summ': {title: 'По сумме компенсации', sort: 'numb', search: 'usual'},
+        'trac': {title: 'По статусу рекламации', sort: 'text', search: 'usual', filter: 'checkbox'}
+      }
     }
+  };
+  for (var key in settings) {
+    initTable(`#${key}`, settings[key]);
   }
-  initTable('#nedop', nedopSettings);
-
-  var reclmSettings = {
-    data: items.reclm,
-    desktop: {
-      head: true,
-      result: true,
-      cols: [{
-        title: '№ Рекламации',
-        keys: ['recl_num'],
-        content: `<a href="../reclamation/?#reclid#">#recl_num#</a>`
-      }, {
-        title: 'Дата',
-        align: 'center',
-        keys: ['recl_date'],
-        sort: 'date',
-        search: 'date'
-      }, {
-        title: 'Артикул',
-        keys: ['artc']
-      }, {
-        title: 'Наименование',
-        width: '25%',
-        class: 'link',
-        keys: ['titl'],
-        content: `<div data-artc="#artc#" onclick="showInfoCard(this.dataset.artc)">#titl#</div>`
-      }, {
-        title: 'Цена',
-        align: 'right',
-        keys: ['pric']
-      }, {
-        title: 'Количество',
-        align: 'right',
-        keys: ['kolv'],
-        result: 'kolv'
-      }, {
-        title: 'Сумма компенсации',
-        align: 'right',
-        keys: ['summ'],
-        result: 'sum'
-      }, {
-        title: 'Статус',
-        class: 'pills',
-        align: 'center',
-        keys: ['trac'],
-        content: `<div class='recl pill' data-status="#status#">#trac#</div>`
-      }]
-    },
-    filters: {
-      'recl_num': {title: 'По номеру рекламации', sort: 'text', search: 'usual'},
-      'recl_date': {title: 'По дате рекламации', sort: 'date', search: 'date'},
-      'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
-      'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
-      'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
-      'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-      'summ': {title: 'По сумме компенсации', sort: 'numb', search: 'usual'},
-      'trac': {title: 'По статусу рекламации', sort: 'text', search: 'usual', filter: 'checkbox'}
-    }
-  }
-  initTable('#reclm', reclmSettings);
 }
 
 // Отмена/подтверждение заказа:
@@ -658,17 +652,19 @@ function sendReclm(formData) {
       qty = value;
     }
   });
-  formData.set('action', 'order');
+  formData.set('action', 'reclsend');
   formData.set('order_id', data.id);
   sendRequest(urlRequest.main, formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);
     if (result.ok && result.data) {
+      result = result.data;
       reclIcon.classList.add('red');
       reclData.reclm_kolv = (+reclData.reclm_kolv) + (+qty);
-      updateReclm(data);
+      updateReclmTable(result);
       closePopUp(null, '#make-reclm');
+      alerts.show(`Создана рекламация <a href="/reclamation/?${result.recl_id}">№ ${result.number}</a>`);
     } else {
       if (result.error) {
         alerts.show(result.error);
@@ -687,20 +683,19 @@ function sendReclm(formData) {
 
 // Обновление данных о рекламациях:
 
-function updateReclm(data) {
-  var items = data.items;
-  items.reclm.push(data);
-  updateTable('#reclm', reclmSettings);
-  // {
-  //   artc: "U00TS2LXNEFI",
-  //   kolv: "1",
-  //   pric: "3 696.00",
-  //   recl_date: "10.11.2020",
-  //   recl_num: "ТС-396",
-  //   reclid: "440",
-  //   status: "1",
-  //   summ: "3 696.00",
-  //   titl: "Термокофта SIXS TS2, взрослые, унисекс (Black Carbon, XL)",
-  //   trac: "Загеристрирована"
-  // }
+function updateReclmTable(result) {
+  var summ = parseFloat(reclData.pric.replace(',', '.').replace(/\s/g, '')) * reclData.reclm_kolv;
+  data.items.reclm.push({
+    artc: reclData.artc,
+    kolv: reclData.reclm_kolv,
+    pric: reclData.pric,
+    recl_date: getDateStr(),
+    recl_num: result.number,
+    reclid: result.recl_id,
+    status: "1",
+    summ: convertPrice(summ, 2),
+    titl: reclData.titl,
+    trac: "Загеристрирована"
+  });
+  updateTable('#reclm', data.items.reclm);
 }

@@ -12,20 +12,6 @@
   }
 }
 
-@media only screen and (max-width: 1080px) {
-  .tabs .tab {
-    height: 40px;
-  }
-
-  .table-desktop > thead > tr > th {
-    top: 103px;
-  }
-
-  .table-desktop > thead > tr.results > th {
-    top: 143px;
-  }
-}
-
 @media only screen and (max-width: 599px) {
   #make-reclm .img-wrap {
     margin-bottom: 1.785em;
