@@ -302,6 +302,14 @@
   .filters .pop-up-body > .title.row {
     display: flex;
     margin-bottom: 0;
+  }
+
+  .filters .pop-up-title {
+    padding: 2.5em;
+    padding-bottom: 1.785em;
+  }
+
+  .filters .pop-up-body > .title.row {
     padding: 1.785em 2.5em;
   }
 
@@ -523,9 +531,13 @@
     flex-grow: 1;
   }
 
-  .filters .pop-up-title,
+  .filters .pop-up-title {
+    padding: 1.438em;
+    padding-bottom: 1em;
+  }
+
   .filters .pop-up-body > .title.row {
-    padding: 1em 1.428em;
+    padding: 1em 1.438em;
   }
 
   .filters .group > .title.row {
