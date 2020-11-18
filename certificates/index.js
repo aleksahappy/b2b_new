@@ -13,8 +13,8 @@ startCertPage();
 // Запуск страницы сертификатов:
 
 function startCertPage() {
-  sendRequest(`../json/certificates.json`)
-  // sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
+  // sendRequest(`../json/certificates.json`)
+  sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
     items = JSON.parse(result);
     initPage();

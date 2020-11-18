@@ -1,4 +1,9 @@
 @media only screen and (max-width: 1340px) {
+  .control {
+    align-items: flex-start;
+    padding-bottom: 0;
+  }
+
   .control .wrap {
     display: block;
   }
@@ -8,7 +13,13 @@
   }
 
   .control .pills {
+    min-width: auto;
     margin-left: 0;
+    text-align: left;
+  }
+
+  .control .pills .pill {
+    margin-bottom: 1em;
   }
 
   .table .control ~ .table-desktop > thead > tr > th {

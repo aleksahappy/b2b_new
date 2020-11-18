@@ -1,7 +1,7 @@
 /* Общие стили: */
 
 .control .pills {
-  min-width: 40em;
+  min-width: 41em;
 }
 
 [data-status="nostatus"] {
