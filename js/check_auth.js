@@ -28,19 +28,24 @@ if (local) {
 //   xhr.open('POST', urlRequest.main, false);
 //   try {
 //     xhr.setRequestHeader('Content-Type', 'application/json');
-//     xhr.send(JSON.stringify({action: 'checkauth'}));
+//     xhr.send(JSON.stringify({action: 'checkauth', data: {redirect: location.href}}));
 //     if (xhr.status != 200) {
 //       console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //       throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //     } else {
-//       if (xhr.response) {
-//         userInfo = JSON.parse(xhr.response);
+//       var result = JSON.parse(xhr.response);
+//       if (result.login) {
+//         userInfo = result;
 //         if (!path) {
 //           location.href = '/dashboard';
 //         }
 //       } else {
 //         if (path) {
-//           location.href = '/';
+//           if (result.redirect) {
+//             location.href = `/?${result.redirect}`;
+//           } else {
+//             location.href = '/';
+//           }
 //         }
 //       }
 //     }
