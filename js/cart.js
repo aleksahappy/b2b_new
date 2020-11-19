@@ -171,7 +171,7 @@ function createCart(data) {
   });
   document.querySelectorAll('.cart-section').forEach(el => changeCartSectionInfo(el));
   changeCheckoutInfo();
-  setTimeout(() => setPaddingToBody(), 0)
+  setTimeout(() => setPaddingToBody(), 0);
 }
 
 // Cоздание копии корзины:

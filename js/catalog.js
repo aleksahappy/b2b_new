@@ -620,6 +620,7 @@ function renderContent() {
   } else {
     renderGallery();
   }
+  toggleMobMenu('close');
   setPaddingToBody();
   setDocumentScroll(0,0);
 }
@@ -1226,7 +1227,6 @@ function createFiltersInfo() {
     area: '#filters-info',
     items: filterItems
   });
-  setPaddingToBody();
   showElement('#filters-info', 'flex');
 }
 

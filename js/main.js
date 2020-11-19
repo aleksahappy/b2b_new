@@ -107,11 +107,18 @@ function logOut(event) {
 
 // Отображение/скрытие мобильного меню (адаптивного хедера):
 
-function toggleMobMenu() {
-  var mobMenu = getEl('#mob-menu');
-  if (mobMenu.classList.contains('open')) {
+function toggleMobMenu(action) {
+  var mobMenu = getEl('#mob-menu'),
+      isOpen = mobMenu.classList.contains('open');
+  if (action === 'close') {
+    setTimeout(() => setPaddingToBody(), 200);
+  }
+  if (!action) {
+    action = isOpen ? 'close' : 'open';
+  }
+  if (isOpen && action === 'close') {
     closePopUp(null, mobMenu);
-  } else {
+  } else if (!isOpen && action === 'open') {
     openPopUp(mobMenu);
   }
 }
@@ -1948,7 +1955,6 @@ function openPopUp(el, event) {
   }
   el = getEl(el);
   if (el) {
-    // getDocumentScroll();
     if (el.classList.contains('preload')) {
       el.style.opacity = '0';
     }
@@ -2009,7 +2015,6 @@ function closePopUp(event, el) {
       if (!document.querySelector('.pop-up-container.open')) {
         document.body.classList.remove('no-scroll');
       }
-      // setDocumentScroll();
     }, 200);
     if (el.id === 'mob-menu') {
       setTimeout(() => showElement('.header-bottom'), 190);
