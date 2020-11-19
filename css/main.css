@@ -1781,20 +1781,17 @@ input.btn {
 }
 
 .checked.checkbox.icon,
-.checked > .checkbox.icon,
-.checked > div > .checkbox.icon {
+.checked .checkbox.icon {
   background-image: url(../img/checkbox_checked.svg);
 }
 
 .checked.checkbox.orange.icon,
-.checked > .checkbox.orange.icon,
-.checked > div > .checkbox.orange.icon {
+.checked .checkbox.orange.icon {
   background-image: url(../img/checkbox_checked_orange.svg);
 }
 
 .checked.checkbox.dark.icon,
-.checked > .checkbox.dark.icon,
-.checked > div > .checkbox.dark.icon  {
+.checked .checkbox.dark.icon {
   background-image: url(../img/checkbox_checked_blue.svg);
 }
 
@@ -2896,7 +2893,7 @@ form.post .btns-wrap {
   cursor: default;
 }
 
-.filters .group .item.disabled .icon {
+.filters .group .item.disabled .open.icon {
   margin-left: 0.714em;
   background-position-x: left;
 }
@@ -2904,6 +2901,12 @@ form.post .btns-wrap {
 .filters .group .item > .row {
   justify-content: space-between;
   width: 100%;
+}
+
+.filters .checked .checkbox.icon,
+.filters .checked .checkbox.orange.icon,
+.filters .checked .checkbox.dark.icon {
+  background-image: url(../img/checkbox.svg);
 }
 
 .filters .item.checked > .checkbox.icon,
@@ -3346,6 +3349,10 @@ form.post .btns-wrap {
 .table-desktop > tbody {
   color: #666666;
   background-color: #FFFFFF;
+}
+
+.table-desktop > tbody.template {
+  display: none;
 }
 
 .table-desktop > tbody > tr:hover {
