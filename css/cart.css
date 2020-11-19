@@ -96,23 +96,13 @@
   display: none;
 }
 
-.cart-section {
-  margin-bottom: 1.428em;
-  background-color: #F8F8F8;
+#cart-full .notice {
+  font-size: 1.15em;
 }
 
 .cart-section .head,
 .cart-row {
-  justify-content: space-between;
-  align-items: center;
   background-color: #F8F8F8;
-  z-index: 1;
-}
-
-.cart-section .head,
-.cart-section .cart-row {
-  margin: 0 1.428em;
-  padding: 1.428em 0;
 }
 
 .cart-section .head .row,
@@ -120,19 +110,39 @@
   align-items: center;
 }
 
+.cart-section .head .wrap,
+.cart-row .wrap {
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1.428em;
+  padding: 1.428em 0;
+}
+
+.cart-section {
+  margin-bottom: 1.428em;
+  background-color: #F8F8F8;
+}
+
 .cart-section .head {
   position: -webkit-sticky;
   position: sticky;
   top: 275px;
-  border-bottom: 1px solid #C6C6C6;
   z-index: 10;
 }
 
-.cart-section.close .head {
+.cart-section .head .wrap {
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.cart-section.close .head .wrap {
   border-bottom: none;
 }
 
-.cart-section .head > div {
+.cart-section > div:nth-child(2) .wrap {
+  border-top: none;
+}
+
+.cart-section .head .wrap > div {
   margin-right: 1.142em;
 }
 
@@ -152,10 +162,18 @@
   margin-right: 1.428em;
 }
 
+.cart-section.search .head .type >span:first-child {
+  display: none;
+}
+
 .cart-section .head .question {
   width: 24px;
   height: 24px;
   margin-right: 3em;
+}
+
+.cart-section.search .question {
+  display: none;
 }
 
 .cart-section .head .btn {
@@ -168,24 +186,29 @@
   min-width: 30.5em;
 }
 
-.cart-row {
+.cart-row .wrap {
   align-items: stretch;
-  padding: 1.428em;
-  border-bottom: 1px solid #C6C6C6;
+  border-top: 1px solid #C6C6C6;
 }
 
-.cart-row:last-child {
-  border-bottom: none;
+.cart-row:first-child .wrap {
+  border-top: none;
 }
 
 .cart-row .adaptive {
   display: none;
 }
 
-.cart-row > .row:last-child {
+.cart-row .wrap > .row:last-child {
   flex-shrink: 0;
   width: 53%;
   min-width: 46em;
+}
+
+.cart-row .checkbox {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 1.428em;
 }
 
 .cart-row .checkbox {
@@ -276,16 +299,10 @@
   margin-left: 0.5em;
 }
 
-.cart-section.sold {
-  background-color: #E2E2E2;
-}
-
-.cart-section.sold .head {
-  background-color: #E2E2E2;
-}
-
+.cart-section.sold,
+.cart-section.sold .head,
 .cart-section.sold .cart-row,
-.cart-row.sold {
+.cart-row.sold  {
   background-color: #E2E2E2;
 }
 
@@ -364,7 +381,7 @@
 }
 
 #order-form .payment .form-col2:first-child {
-  margin-bottom: 1.75em;
+  /* margin-bottom: 1.75em; стиль при доп.информации по уточнению выбора способа оплаты */
 }
 
 #order-form .payment-info .row {
@@ -424,7 +441,8 @@
 }
 
 #order-details {
-  height: 46.2em;
+  /* height: 46.2em; стиль при доп.информации по уточнению выбора способа оплаты */
+  height: 40.5em;
   margin-right: -2.5em;
   padding-bottom: 2.5em;
   padding-right: 2.5em;

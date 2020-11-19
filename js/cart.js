@@ -130,7 +130,6 @@ function addCatalogLink() {
 // Отображение контента корзины:
 
 function showCart() {
-  console.log(cartData);
   if (isEmptyObj(cartData)) {
     hideElement('#header-cart');
     hideElement('#cart-full');
@@ -147,33 +146,25 @@ function showCart() {
 // Cоздание корзины:
 
 function createCart(data) {
-  if (data && !data.length) {
+  if (data && !data.search.items.length) {
     getEl('#cart-full').innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
     return;
   }
-  if (data) {
-    fillTemplate({
-      area: cartRowTemp,
-      items: data,
-      source: 'outer',
-      target: '#cart-full'
-    });
-  } else {
+  if (!data) {
     cartData = sortObjByKey(cartData);
     moveToEndObj(cartData, 'Нет в наличии');
-    fillTemplate({
-      area: cartSectionTemp,
-      items: cartData,
-      source: 'outer',
-      target: '#cart-full',
-      type: 'list',
-      sub: [{
-        area: '.cart-row',
-        items: 'items',
-        type: 'list'
-      }]
-    });
+    data = cartData;
   }
+  fillTemplate({
+    area: '#cart-full',
+    items: data,
+    type: 'list',
+    sub: [{
+      area: '.cart-row',
+      items: 'items',
+      type: 'list'
+    }]
+  });
   document.querySelectorAll('.cart-row').forEach(row => {
     checkImg(row);
     changeCartRow(row);
@@ -226,11 +217,7 @@ function updateCart() {
       createCartData()
       .then(result => {
         if (location.search === '?cart') {
-          showCart();
-          changeCartInHeader();
-          if (getEl('#checkout').classList.contains('open')) {
-            fillCheckout();
-          }
+          renderCart();
         } else {
           var cards;
           if (view === 'list') {
@@ -1018,25 +1005,27 @@ function deleteFromCart(event) {
       }
       if (cartSection && !cartSection.querySelectorAll('.cart-row').length) {
         cartList.removeChild(cartSection);
+        cartSection = null;
       }
     } else {
       // Удаление секции корзины:
-      cartSection.querySelectorAll('.cart-row:not(.bonus)').forEach(el => {
+      cartSection.querySelectorAll('.cart-row').forEach(el => {
         deleteCartRow(el.dataset.id);
       });
       cartList.removeChild(cartSection);
+      cartSection = null;
     }
-    if (cartSection) {
-      if (!cartList.querySelectorAll('.cart-section').length) {
-        hideElement('#header-cart');
-        hideElement('#cart-full');
-        showElement('#cart-empty', 'flex');
-      } else {
-        changeCartSectionInfo(cartSection);
-      }
+    if (isEmptyObj(cart)) {
+      hideElement('#header-cart');
+      hideElement('#cart-full');
+      showElement('#cart-empty', 'flex');
     } else {
-      if (!cartList.querySelectorAll('.cart-row').length) {
-        cartList.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
+      if (cartSection) {
+        changeCartSectionInfo(cartSection);
+      } else {
+        if (!cartList.querySelectorAll('.cart-row').length) {
+          cartList.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
+        }
       }
     }
     changeCheckoutInfo();
@@ -1058,23 +1047,23 @@ function deleteCartRow(id) {
 function findInCart(search, textToFind) {
   var data;
   if (textToFind) {
-    data = [];
+    data = {
+      'search': {
+        action_name: 'Результаты поиска',
+        items: [],
+        type: 'search'
+      }
+    }
     cartData = sortObjByKey(cartData);
     moveToEndObj(cartData, 'Нет в наличии');
-    data = [];
     var regExp = getRegExp(textToFind);
     for (var key in cartData) {
       for (var id in cartData[key].items) {
         if (findByRegExp(cartData[key].items[id].search, regExp)) {
-          data.push(cartData[key].items[id]);
+          data.search.items.push(cartData[key].items[id]);
         }
       }
     }
-    // getEl('.make-order').style.visibility = 'hidden';
-    // hideElement('.make-order');
-  } else {
-    // getEl('.make-order').style.visibility = 'visible';
-    // showElement('.make-order', 'flex')
   }
   createCart(data);
   if (data) {
@@ -1231,7 +1220,7 @@ function openCheckout(event) {
     getEl('#order-form .activate.delivery .item[data-value="2"]').style.display = 'none';
     getEl('#order-form .activate.delivery .item[data-value="3"').style.display = 'none';
   }
-  togglePaymentChoice();
+  // togglePaymentChoice();
   toggleAddressField();
   fillCheckout();
   openPopUp('#checkout');
