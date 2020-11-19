@@ -433,8 +433,10 @@ function Table(obj, settings = {}) {
     }
     if (this.pills) {
       this.pills.addEventListener('click', event => {
-        event.target.classList.toggle('checked');
-        this.filterData(event, 'filter');
+        if (event.target.classList.contains('pill')) {
+          event.target.classList.toggle('checked');
+          this.filterData(event, 'filter');
+        }
       });
     }
     if (this.resizeBtns) {
