@@ -226,7 +226,7 @@ function createTable(area, settings) {
     <tr>${headRow}</tr>
     <tr class="results">${resultRow}</tr>
   </thead>
-  <tbody id=${area.id}-body>
+  <tbody id=${area.id}-body class="template">
     <tr ${tableSettings.trFunc || ''}>${bodyRow}</tr>
   </tbody>`;
   area.appendChild(table);
@@ -613,11 +613,6 @@ function Table(obj, settings = {}) {
 
   // Загрузка данных в таблицу:
   this.loadData = function(direction) {
-    // console.log(direction);
-    if (!this.dataToLoad.length) {
-      this.body.innerHTML = '';
-      return;
-    }
     if (!direction || direction === 'next') {
       if (!direction) {
         this.countItems = 0;
@@ -653,26 +648,23 @@ function Table(obj, settings = {}) {
     for (let i = this.countItems; i < this.countItemsTo; i++) {
       tableItems.push(this.dataToLoad[i]);
     }
-    var list = fillTemplate({
+    fillTemplate({
       area: this.body,
       items: tableItems,
       sub: settings.desktop.sub,
       sign: settings.desktop.sign,
-      action: 'return'
+      method: !direction ? 'inner': (direction === 'next' ? 'beforeend' : 'afterbegin')
     });
 
     if (!direction) {
-      this.body.innerHTML = list;
       this.paginationSwitch = this.body.lastElementChild;
     } else if (direction === 'next') {
-      this.body.insertAdjacentHTML('beforeend', list);
       if (this.countItems - this.incr * 2 >= 0) {
         for (let i = 0; i < this.incr; i++) {
           this.body.removeChild(this.body.firstElementChild);
         }
       }
     } else if (direction === 'prev') {
-      this.body.insertAdjacentHTML('afterbegin', list);
       if (this.countItemsTo + this.incr * 2 <= this.dataToLoad.length) {
         for (let i = 0; i < this.incr; i++) {
           this.body.removeChild(this.body.lastElementChild);
