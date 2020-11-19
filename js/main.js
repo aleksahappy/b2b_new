@@ -1135,8 +1135,10 @@ function sortObjByValue(obj, type = 'string') {
 
 function moveToEndObj(obj, key) {
   var movable = obj[key];
-  delete obj[key];
-  obj[key] = movable;
+  if (movable) {
+    delete obj[key];
+    obj[key] = movable;
+  }
 }
 
 //=====================================================================================================
