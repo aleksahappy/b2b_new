@@ -268,7 +268,7 @@ main {
 .table-btn {
 	/* width: 110px;
 	height: 28px; */
-  padding: 4px 30px 4px 10px;
+  padding: 0.5rem 1rem;
   border: 1px solid transparent;
 	border-radius: 20px;
 	text-align: center;
@@ -787,24 +787,19 @@ thead .legend {
 /* Карусель с баннерами */
 
 #banners .left-btn {
-  top: 10px;
-  left: 10px;
   width: 3em;
   opacity: 1;
-  background: url(../img/slider_left_btn.svg) no-repeat center!important;
-  background-size: contain;
+	background: transparent url(../img/slider_arrow.svg) no-repeat center;
 }
 
 #banners .right-btn {
-  top: 10px;
-  right: 10px;
+  right: 20px;
   width: 3em;
+	background: transparent url(../img/slider_arrow.svg) no-repeat center;
   opacity: 1;
-  background: url(../img/slider_right_btn.svg) no-repeat center!important;
-  background-size: contain;
 }
 
-#banners .carousel-nav { /* навигация не является обязательной, это пример стилей для навигации точками */
+#banners .carousel-nav {
   position: absolute;
   display: flex;
   flex-direction: row;
@@ -829,3 +824,78 @@ thead .legend {
 #banners .carousel-nav > div.active {
   opacity: 1;
 }
+
+/* Стиль от Алексея: */
+
+.speed-chart {
+	margin-bottom: 2rem;
+}
+
+/* Стили из main.css: */
+
+.orderTable {
+  max-height: 100%;
+  overflow: auto;
+  height: 45rem;
+}
+
+.orderTable .row {
+  padding: 1rem;
+  border-bottom: 1px solid #cccccc;
+  align-items: center;
+  min-height: 4.5rem;
+}
+
+.textR,
+.sumR {
+  display: flex;
+}
+
+.textR {
+  width: 40%;
+  text-align: left;
+}
+
+.nameO,
+.typeO {
+  width: 50%;
+}
+
+.sumR {
+  margin-left: 2rem;
+  width: 50%;
+}
+
+.tabO {
+  padding: 0.5rem 2rem;
+  border-radius: 30px;
+  border: 1.5px solid #000;
+}
+
+.tabO:hover {
+  cursor: pointer;
+}
+
+.orderTable .row:last-child {
+  border-bottom: none;
+}
+
+.pieChart {
+  width: 85%;
+  height: 100%;
+  margin: 0 0;
+}
+
+.orders-info {
+  top: 40%;
+  left: 13%;
+}
+
+.waitO{background: rgba(44, 109, 168, 0.1); border-color: #2C6DA8; color: #2C6DA8;}
+.stockO{background: rgba(108, 77, 119, 0.2); border-color: #6C4D77; color: #6C4D77;}
+.assembledO{background: rgba(246, 156, 0, 0.1); border-color: #F69C00; color: #F69C00;}
+.shippedO{background: rgba(63, 151, 38, 0.1); border-color: #3F9726; color: #3F9726;}
+.waitO:hover{background: #2C6DA8; color: #fff;  transition: 0.3s;}
+.stockO:hover{background: #6C4D77; color: #fff;  transition: 0.3s;}
+.assembledO:hover{background: #F69C00; color: #fff;  transition: 0.3s;}
+.shippedO:hover{background: #3F9726; color: #fff;  transition: 0.3s;}
