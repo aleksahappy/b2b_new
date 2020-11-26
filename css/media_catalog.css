@@ -393,3 +393,10 @@
     padding: 0.75em 1.75em;
   }
 }
+
+/* Стили на ширину от 0 до 499px включительно: */
+@media only screen and (max-width: 499px) {
+  .full-card .manuf-table th:nth-child(3) {
+    max-width: 5em;
+  }
+}

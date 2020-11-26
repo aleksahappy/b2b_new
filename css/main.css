@@ -461,6 +461,10 @@ body.no-scroll {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -491,30 +495,35 @@ body.no-scroll {
 
 /* Текст и обводка 100% цвета */
 
+/* ожидается */
 .ord[data-status="1"],
 .vputi {
   color: #2C6DA8;
   border: 1px solid #2C6DA8;
 }
 
+/* в наличии */
 .ord[data-status="2"],
 .vnali {
   color: #F69C00;
   border: 1px solid #F69C00;
 }
 
+/* собран */
 .ord[data-status="3"],
 .sobrn {
   color: #6C4D77;
   border: 1px solid #6C4D77;
 }
 
+/* отгружен */
 .ord[data-status="4"],
 .otgrz {
   color: #3F9726;
   border: 1px solid #3F9726;
 }
 
+/* номенклатура, непоставка и рекламации */
 .ord[data-status="5"],
 .ord[data-status="6"],
 .nomen,
@@ -665,6 +674,7 @@ body.no-scroll {
 Цветовая гамма статусов доступа:
 ===================================================================================================== */
 
+/* полный */
 .full.access,
 .full .access {
   color: #3F9726;
@@ -672,6 +682,7 @@ body.no-scroll {
   border: 1px solid #3F9726;
 }
 
+/* частичный */
 .limit.access,
 .limit .access {
   color: #F69C00;
@@ -679,6 +690,7 @@ body.no-scroll {
   border: 1px solid #F69C00;
 }
 
+/* отключен */
 .off.access,
 .off .access {
   color: #B3BAC2;
@@ -690,30 +702,35 @@ body.no-scroll {
 Цветовая гамма статусов рекламаций:
 ===================================================================================================== */
 
+/* зарегистрирована */
 .recl[data-status="1"] {
   border: 1px solid #8596A6;
   color: #8596A6;
   background: #E7EAED;
 }
 
+/* обрабатывается */
 .recl[data-status="2"] {
   border: 1px solid #F69C00;
   color: #F69C00;
   background: #FEF5E5;
 }
 
+/* удовлетворена */
 .recl[data-status="3"] {
   border: 1px solid #228007;
   color: #3F9726;
   background: #ECF5E9;
 }
 
+/* не удовлетворена */
 .recl[data-status="4"] {
   border: 1px solid #CE0014;
   color: #CE0014;
   background: #FAE5E7;
 }
 
+/* исполнена */
 .recl[data-status="5"] {
   border: 1px solid #2C6DA8;
   color: #2C6DA8;
@@ -3021,11 +3038,18 @@ form.post .btns-wrap {
 #shipment td {
   padding: 0.75em 1.14em;
   font-weight: 400;
-  border-bottom: 1px solid #D5D5D5;
 }
 
 #shipment th {
   text-align: center;
+}
+
+#shipment td {
+  border-bottom: 1px solid #D5D5D5;
+}
+
+#shipment tr:last-child td {
+  border-bottom: none;
 }
 
 #shipment .icon {

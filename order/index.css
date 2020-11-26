@@ -90,6 +90,12 @@
   border-radius: 3px 3px 0px 0px;
 }
 
+.tabs .tab.nomen.disabled {
+  color: #FFFFFF;
+  background-color: #91A0AE;
+  border: 1px solid #91A0AE;
+}
+
 /* Стили для всех таблиц */
 
 .table-desktop > tbody > tr:last-child > td {
@@ -264,11 +270,11 @@
   white-space: nowrap;
 }
 
-#payment .head.row  .info > div {
+#payment .head.row .info > div {
   text-align: left;
 }
 
-#payment .scroll.row  .info > div {
+#payment .scroll.row .info > div {
   text-align: right;
 }
 
@@ -276,4 +282,8 @@
   background-color: #EEEEEE;
   border-bottom: none;
   text-align: center;
+}
+
+#payment .pop-up-body .info > div:last-child {
+  border-bottom: none;
 }

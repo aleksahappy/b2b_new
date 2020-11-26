@@ -29,8 +29,8 @@ startReclPage();
 // Запуск страницы рекламации:
 
 function startReclPage() {
-  // sendRequest(urlRequest.main, {action: 'recl', data: {recl_id: document.location.search.replace('?', '')}})
-  sendRequest(`../json/reclamation.json`)
+  sendRequest(urlRequest.main, {action: 'recl', data: {recl_id: document.location.search.replace('?', '')}})
+  // sendRequest(`../json/reclamation.json`)
   .then(result => {
     var data = JSON.parse(result);
     // console.log(data);
@@ -38,7 +38,7 @@ function startReclPage() {
   })
   .catch(error => {
     console.log(error);
-    // location.href = '/err404.html';
+    location.href = '/err404.html';
   });
 }
 

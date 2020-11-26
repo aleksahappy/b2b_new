@@ -1047,6 +1047,14 @@ body.zip .full-card .card-content {
   background-color: #EEEEEE;
 }
 
+.full-card .manuf-table tr {
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.full-card .manuf-table tr:last-child {
+  border-bottom: none;
+}
+
 .full-card .manuf-table th,
 .full-card .manuf-table td {
   padding: 0.75em 1.14em;
@@ -1054,14 +1062,6 @@ body.zip .full-card .card-content {
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.full-card .manuf-table td {
-  border-bottom: 1px solid #D5D5D5;
-}
-
-.full-card .manuf-table th:nth-child(3) {
-  max-width: 5em;
 }
 
 .full-card .card-info > .card-details .info {

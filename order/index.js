@@ -20,70 +20,67 @@ startOrderPage();
 
 function startOrderPage() {
   var id = document.location.search.replace('?', '');
-  sendRequest(`../json/order.json`)
-  // sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
+  // sendRequest(`../json/order.json`)
+  sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
   .then(result => {
+    if (!result) {
+      location.href = '/err404.html';
+    }
     console.log(result);
     data = JSON.parse(result);
     sendRequest(`../json/order_payment.json`)
     // sendRequest(urlRequest.main, {action: '???', data: {order_id: id})
     .then(result => {
-      data.payment = JSON.parse(result);
+      try {
+        data.payment = JSON.parse(result);
+      } catch(error) {
+        data.payment = {};
+      }
       initPage();
     })
-    .catch(error => {
-      console.log(error);
-      initPage();
-    });
   })
   .catch(error => {
     console.log(error);
     loader.hide();
-    location.href = '/err404.html';
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
 function initPage() {
-  if (data.id && data.orderitems.arlistk || !data.orderitems.arlistv) {
-    convertData();
-    toggleOrderBtns();
-    fillTemplate({
-      area: '#main',
-      items: data
-    });
-    fillTemplate({
-      area: '#shipment tbody',
-      items: data.nakls
-    });
-    fillTemplate({
-      area: '#payment',
-      items: data.payment,
-      sub: [{area: '.scroll.row .info', items: 'items'}]
-    });
-    createTables();
-    loader.hide();
-  } else {
-    location.href = '/err404.html';
-  }
+  convertData();
+  toggleOrderBtns();
+  fillTemplate({
+    area: '#main',
+    items: data
+  });
+  fillTemplate({
+    area: '#shipment tbody',
+    items: data.nakls
+  });
+  fillTemplate({
+    area: '#payment',
+    items: data.payment,
+    sub: [{area: '.scroll.row .info', items: 'items'}]
+  });
+  createTables();
+  loader.hide();
 }
 
 // Преобразование полученных данных:
 
 function convertData() {
-  if (data.orderitems) {
-    getNaklsData();
-    getItemsData();
-    addReclmInfo();
-    delete data.orderitems;
-  }
-  data.isShipment = data.nakls && data.nakls.length ? '' : 'disabled';
-  data.isPayment = data.payment ? '' : 'disabled';
+  getNaklsData();
+  getItemsData();
+  addReclmInfo();
+  delete data.orderitems;
+  data.isShipment = data.nakls.length ? '' : 'disabled';
+  data.isPayment = isEmptyObj(data.payment) ? 'disabled' : '';
   data.isMoreRow = data.comment || data.source_id > 0 ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
   data.isOrderBnts = data.source_id > 0 ? '' : 'hidden';
-  data.isReclms = (data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true;
+  data.isReclms = data.order_type ? ((data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true) : true;
   toggleOrderBtns();
   console.log(data);
 }
@@ -119,7 +116,8 @@ function toggleOrderBtns() {
 // Получение данных о накладных из csv-формата:
 
 function getNaklsData() {
-  if (!data.orderitems.arnaklk || !data.orderitems.arnaklv) {
+  if (!data.orderitems || !data.orderitems.arnaklk || !data.orderitems.arnaklv) {
+    data.nakls = [];
     return;
   }
   var keys = data.orderitems.arnaklk.split('@$'),
@@ -143,6 +141,9 @@ function getNaklsData() {
 // Получение данных о товарах из csv-формата:
 
 function getItemsData() {
+  if (!data.orderitems) {
+    return;
+  }
   if (!data.orderitems.arlistk || !data.orderitems.arlistv) {
     return;
   }
@@ -229,6 +230,9 @@ function checkInclusion(name, obj) {
 // Добавление в данные информации для мастера создания рекламаций:
 
 function addReclmInfo() {
+  if (!data.items) {
+    return;
+  }
   data.items.makeReclm = [];
   data.items.otgrz.forEach(item => {
     var newItem = Object.assign(item),
@@ -245,7 +249,7 @@ function addReclmInfo() {
 // Создание таблиц:
 
 function createTables() {
-  var items = data.items;
+  var items = data.items || [];
   var settings = {
     nomen: {
       data: items.nomen,
@@ -578,18 +582,15 @@ function createTables() {
 
 // Отмена/подтверждение заказа:
 
-function changeOrderStatus(event, action) {
+function changeOrderStatus(event) {
+  var action = event.currentTarget.id;
   if ((action === 'cancel' && data.isCancel) || (action === 'confirm' && data.isConfirm)) {
     sendRequest(urlRequest.main, {action: 'order', data: {order_id: data.id, mode: action}})
     .then(result => {
       console.log(result);
       result = JSON.parse(result);
       if (result.ok) {
-        if (action === 'cancel') {
-          data.order_status = 'Отменен';
-        } else if (action === 'confirm') {
-          data.order_status = 'Подтвержден';
-        }
+        data.order_status = result.status;
         getEl('#order-status').textContent = data.order_status;
         toggleOrderBtns();
       } else {

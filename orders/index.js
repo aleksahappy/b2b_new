@@ -1,25 +1,25 @@
 'use strict';
 
 // Статусы товаров в заказе:
-// 1: "В пути"
+// 1: "Ожидается
 // 2: "В наличии"
 // 3: "Собран"
 // 4: "Отгружен"
-// 5: "Недопоставка"
+// 5: "Непоставка"
 // 6: "Рекламации"
 
 // Запускаем рендеринг страницы заказов:
 
 startOrdersPage();
-
 // Запуск страницы заказов:
 
 function startOrdersPage() {
-  sendRequest(`../json/orders.json`)
-  // sendRequest(urlRequest.main, {action: 'orderslist'})
+  // sendRequest(`../json/orders.json`)
+  sendRequest(urlRequest.main, {action: 'orderslist'})
   .then(result => {
-    var data = JSON.parse(result);
-    // console.log(data);
+    if (result) {
+      var data = JSON.parse(result);
+    }
     initPage(data);
   })
   .catch(error => {
@@ -31,10 +31,7 @@ function startOrdersPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  if (!data || !data.length) {
-    return;
-  }
+function initPage(data = []) {
   convertData(data);
   var settings = {
     data: data,
@@ -57,7 +54,7 @@ function initPage(data) {
         width: '10%',
         keys: ['order_number', 'order_date'],
         content: `<div class="row">
-                    <div class="download icon" onclick="openPopUp('#shipment')"></div>
+                    <div class="download icon" onclick="openShipment(#id#)"></div>
                     <div>
                       <div>#order_number#</div>
                       <div class="text light">#order_date#</div>
@@ -117,15 +114,18 @@ function initPage(data) {
 
 function convertData(data) {
   data.forEach(el => {
+    if (!el.order_number) {
+      el.order_status = 'В обработке';
+    }
     el.order_sum = convertPrice(el.order_sum, 2);
     if (!el.sum) {
-      el.sum = {"nostatus": 0};
+      el.sum = {"deleted": 0};
     }
     var sum = [], title;
     for (var key in el.sum) {
-      if ((key > 0 && key < 6) || key === 'nostatus') {
+      if ((key > 0 && key < 6) || key === 'deleted') {
         if (key == '1') {
-          title = 'В пути';
+          title = 'Ожидается';
         } else if (key == '2') {
           title = 'В наличии';
         } else if (key == '3') {
@@ -134,8 +134,8 @@ function convertData(data) {
           title = 'Отгружен';
         } else if (key == '5') {
           title = 'Непоставка';
-        } else if (key === 'nostatus') {
-          title = 'Без статуса';
+        } else if (key === 'deleted') {
+          title = 'Удален';
         }
         sum.push({
           title: title,
@@ -146,5 +146,47 @@ function convertData(data) {
     }
     el.sum = sum;
   });
-  console.log(data);
+}
+
+// Загрузка данных о накладных и открытие всплывающего окна отгрузок:
+
+function openShipment(id) {
+  sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
+  .then(result => {
+    result = JSON.parse(result);
+    fillTemplate({
+      area: '#shipment tbody',
+      items: getNaklsData(result)
+    });
+    openPopUp('#shipment');
+  })
+  .catch(error => {
+    console.log(error);
+    alerts.show('Отсутствуют данные для загрузки.');
+  });
+}
+
+
+// Получение данных о накладных из csv-формата:
+
+function getNaklsData(data) {
+  var result = [];
+  if (!data.orderitems || !data.orderitems.arnaklk || !data.orderitems.arnaklv) {
+    return result;
+  }
+  var keys = data.orderitems.arnaklk.split('@$'),
+      values = data.orderitems.arnaklv.split('^@^');
+  for (var i = 0; i < values.length; i++) {
+    var value = values[i].split('@$'),
+        list = [];
+    for (var ii = 0; ii < value.length; ii++) {
+      list[keys[ii]] = value[ii];
+    }
+    list.id = data.id;
+    if (list.rtrac.indexOf('<a ') >= 0) {
+      list.rtrac = list.rtrac.match(/\<a.+\<\/a>/gm)[0];
+    }
+    result[i] = list;
+  }
+  return result;
 }

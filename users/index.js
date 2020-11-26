@@ -2,17 +2,19 @@
 
 // Глобальные переменные:
 
-var items, prevForm;
+var items = [], prevForm;
 
 // Запуск страницы пользователей:
 
 startUsersPage();
 
 function startUsersPage() {
-  sendRequest(`../json/users.json`)
-  //sendRequest(urlRequest.main, {action: 'users'})
+  // sendRequest(`../json/users.json`)
+  sendRequest(urlRequest.main, {action: 'userslist'})
   .then(result => {
-    items = JSON.parse(result);
+    if (result) {
+      items = JSON.parse(result);
+    }
     initPage();
   })
   .catch(error => {
@@ -25,9 +27,6 @@ function startUsersPage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (!items || !items.length) {
-    return;
-  }
   convertData();
   var settings = {
     data: items,
@@ -38,14 +37,14 @@ function initPage() {
         width: '6%',
         align: 'center',
         class: 'pills',
-        content: '<div class="toggle #toggle#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
+        content: '<div class="toggle #isChecked#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
       }, {
         title: 'ФИО',
         width: '15%',
         keys: ['fio']
       }, {
         title: 'Пол',
-        keys: ['gender']
+        keys: ['gender_text']
       }, {
         title: 'Дата рождения',
         align: 'center',
@@ -62,8 +61,8 @@ function initPage() {
         title: 'Тип доступа',
         align: 'center',
         class: 'pills',
-        keys: ['access'],
-        content: '<div class="pill access #status#">#access#</div>'
+        keys: ['status_text'],
+        content: '<div class="pill access #status#">#status_text#</div>'
       }, {
         title: 'Дата заведения',
         align: 'center',
@@ -87,62 +86,35 @@ function initPage() {
       'position': {title: 'По должности', sort: 'text', search: 'usual'},
     }
   };
-  if (!superUser) {
+  if (!isAdmin) {
     settings.desktop.cols.shift();
+    getEl('.table-adaptive .infoblock .head').removeChild(getEl('.table-adaptive .toggle'));
   }
   initTable("#users", settings);
   fillTemplate({
     area: ".table-adaptive",
     items: items
   });
-  initForm('#user-form');
+  initForm('#user-form', sendForm);
   loader.hide();
 }
 
 // Преобразование полученных данных:
 
 function convertData() {
-  var status, toggle;
   items.forEach(el => {
-    if (el.access === 'полный') {
-      status = 'full';
-      toggle = 'checked';
-    } else if (el.access === 'частичный') {
-      status = 'limit';
-      toggle = 'checked';
-    } else if (el.access === 'отключен') {
-      status = 'off';
-      toggle = '';
-    }
-    el.status = status;
-    el.toggle = toggle;
-    el.accessType = superUser ? '' : 'displayNone';
+    el.isChecked = el.checked > 0 ? 'checked' : '';
+    el.gender_text = el.gender == '1' ? 'муж.' : 'жен.';
+    el.phone = convertPhone(el.phone);
+    el.status = el.checked > 0 ? el.access > 0 ? 'full' : 'limit' : 'off';
+    el.status_text = el.checked  > 0 ? el.access > 0 ? 'Полный' : 'Частичный' : 'Отключен';
   });
-}
-
-// Открытие всплывающего окна с формой:
-
-function openUserPopUp(id) {
-  var userPopUp = getEl('#user'),
-      title = getEl('.pop-up-title .title', userPopUp);
-  if (prevForm !== id) {
-    prevForm = id;
-    if (id) {
-      title.textContent = 'Редактировать пользователя';
-      var data = items.find(el => el.id == id);
-      fillForm('#user-form', data, true);
-    } else {
-      title.textContent = 'Новый пользователь';
-      clearForm('#user-form');
-    }
-  }
-  openPopUp(userPopUp);
 }
 
 // Включение/отключение доступа:
 
 function toggleAccess(event, id) {
-  if (!superUser) {
+  if (!isAdmin) {
     return;
   }
   var toggle = event.currentTarget.classList.contains('checked') ? '0' : '1';
@@ -160,4 +132,53 @@ function toggleAccess(event, id) {
     console.log(err);
     alerts.show('Произошла ошибка, попробуйте позже.');
   });
+}
+
+// Открытие всплывающего окна с формой:
+
+function openUserPopUp(id) {
+  if (!id) {
+    return;
+  }
+  var userPopUp = getEl('#user'),
+      title = getEl('.pop-up-title .title', userPopUp);
+  if (prevForm !== id) {
+    prevForm = id;
+    if (id) {
+      title.textContent = 'Редактировать пользователя';
+      var data = items.find(el => el.id == id);
+      fillForm('#user-form', data, true);
+    } else {
+      title.textContent = 'Новый пользователь';
+      clearForm('#user-form');
+    }
+  }
+  openPopUp(userPopUp);
+}
+
+// Отправка формы на сервер:
+
+function sendForm(formData) {
+  formData.append('action', '???');
+  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  .then(result => {
+    result = JSON.parse(result);
+    console.log(result);
+    if (result.ok) {
+      alerts.show('Успешно.');
+      closePopUp(null, '#user');
+    } else {
+      if (result.error) {
+        alerts.show(result.error);
+      } else {
+        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      }
+    }
+    hideElement('#user .loader');
+  })
+  .catch(error => {
+    console.log(error);
+    alerts.show('Произошла ошибка, попробуйте позже.');
+    hideElement('#user .loader');
+  })
 }

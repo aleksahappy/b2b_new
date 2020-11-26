@@ -24,13 +24,13 @@
           <div class="title h0">Пользователи</div>
           <div class="add icon" onclick="openUserPopUp()"></div>
         </div>
-        <div class="btn" onclick="openUserPopUp()">Добавить</div>
+        <!-- <div class="btn" onclick="openUserPopUp()">Добавить</div> -->
         <div id="users" class="table active">
           <div class="table-adaptive template">
             <div class="infoblock">
               <div class="head">
                 <div class="title">#fio#</div>
-                <div class="toggle dark #toggle# #accessType#" onclick="toggleAccess(event, #id#)">
+                <div class="toggle dark #isChecked#" onclick="toggleAccess(event, #id#)">
                   <div class="toggle-in"></div>
                 </div>
               </div>
@@ -89,12 +89,12 @@
                 <div class="title">Пол<span class="req">*</span></div>
                 <div class="row select-choice">
                   <div class="option row select-qty">
-                    <input type="radio" value="Мужской" name="gender">
+                    <input type="radio" value="1" name="gender">
                     <div class="radio icon"></div>
                     <div>Мужской</div>
                   </div>
                   <div class="option row">
-                    <input type="radio" value="Женский" name="gender">
+                    <input type="radio" value="2" name="gender">
                     <div class="radio icon"></div>
                     <div>Женский</div>
                   </div>
@@ -120,12 +120,12 @@
                 <div class="form-col2">
                   <div class="title">Тип доступа<span class="req">*</span></div>
                   <div class="option row">
-                    <input type="radio" value="Полный" name="access">
+                    <input type="radio" value="1" name="access">
                     <div class="radio icon"></div>
                     <div>Полный</div>
                   </div>
                   <div class="option row">
-                    <input type="radio" value="Частичный" name="access">
+                    <input type="radio" value="0" name="access">
                     <div class="radio icon"></div>
                     <div>Частичный</div>
                   </div>

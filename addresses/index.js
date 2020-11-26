@@ -2,7 +2,7 @@
 
 // Глобальные переменные:
 
-var items, prevForm;
+var items = [], prevForm;
 
 // Запуск страницы адресов:
 
@@ -12,7 +12,9 @@ function startAddressPage() {
   sendRequest(`../json/addresses.json`)
   //sendRequest(urlRequest.main, {action: '???'})
   .then(result => {
-    items = JSON.parse(result);
+    if (result) {
+      items = JSON.parse(result);
+    }
     initPage();
   })
   .catch(error => {
@@ -25,9 +27,6 @@ function startAddressPage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (!items || !items.length) {
-    return;
-  }
   convertData();
   fillTemplate({
     area: '#shops',

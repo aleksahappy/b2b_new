@@ -1,10 +1,10 @@
 /* Общие стили: */
 
 .control .pills {
-  min-width: 41em;
+  min-width: 43em;
 }
 
-[data-status="nostatus"] {
+[data-status="deleted"] {
   display: none;
 }
 

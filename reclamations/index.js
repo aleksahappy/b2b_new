@@ -15,9 +15,9 @@ function startReclmPage() {
   // sendRequest(`../json/reclamations.json`)
   sendRequest(urlRequest.main, {action: 'recllist'})
   .then(result => {
-    // console.log(result);
-    var data = JSON.parse(result);
-    console.log(data);
+    if (result) {
+      var data = JSON.parse(result);
+    }
     initPage(data);
   })
   .catch(error => {
@@ -29,10 +29,7 @@ function startReclmPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  if (!data || !data.length) {
-    return;
-  }
+function initPage(data = []) {
   var settings = {
     data: data,
     control: {

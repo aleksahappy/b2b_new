@@ -8,8 +8,9 @@ function startContrPage() {
   // sendRequest(`../json/contractors.json`)
   sendRequest(urlRequest.main, {action: 'get_contr'})
   .then(result => {
-    var data = JSON.parse(result);
-    // console.log(data);
+    if (result) {
+      var data = JSON.parse(result);
+    }
     initPage(data);
   })
   .catch(error => {
@@ -21,10 +22,7 @@ function startContrPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  if (!data || !data.length) {
-    return;
-  }
+function initPage(data = []) {
   convertData(data);
   var settings = {
     data: data,
@@ -37,7 +35,7 @@ function initPage(data) {
         width: '6%',
         class: 'pills',
         keys: ['access'],
-        content: '<div class="toggle #access#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
+        content: '<div class="toggle #isChecked#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
       }, {
         title: 'ИНН/КПП',
         width: '11%',
@@ -82,8 +80,9 @@ function initPage(data) {
       'user': {title: 'По пользователю', sort: 'text', search: 'usual', filter: 'checkbox'}
     }
   };
-  if (!superUser) {
+  if (!isAdmin) {
     settings.desktop.cols.shift();
+    getEl('.table-adaptive .head').removeChild(getEl('.table-adaptive .toggle'));
   }
   initTable('#contr', settings);
   fillTemplate({
@@ -99,15 +98,15 @@ function initPage(data) {
 
 function convertData(data) {
   data.forEach(el => {
+    el.isChecked = el.checked > 0 ? 'checked' : '';
     el.kpp = el.kpp ? '/' + el.kpp : '';
-    el.accessType = superUser ? '' : 'displayNone';
   });
 }
 
 // Включение/отключение доступа:
 
 function toggleAccess(event, id) {
-  if (!superUser) {
+  if (!isAdmin) {
     return;
   }
   var toggle = event.currentTarget.classList.contains('checked') ? '0' : '1';

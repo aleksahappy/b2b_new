@@ -6,7 +6,9 @@
 
 // Основные настройки:
 
-var superUser = userInfo ? userInfo.super_user: undefined,
+var isManager = userInfo ? (userInfo.group_id > 0 ? true : false) : false,
+    isUser = isManager ? false : true,
+    isAdmin = userInfo ? (userInfo.super_user > 0 ? true : false) : false,
     website = 'ts_b2b',
     isCart = true,
     pageId = document.body.id;
@@ -1287,7 +1289,8 @@ function convertToString(el) {
 
   function convert(el) {
     if (typeof el === 'string' || typeof el === 'number') {
-      if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(el.toString())) {
+      el = el.toString();
+      if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(el)) {
         el = el.replace(/\s/g, '').replace('.', ',');
       }
       string += el + ';';
@@ -1303,18 +1306,22 @@ function convertToString(el) {
 
 function declOfNum(number, titles) {
   var cases = [2, 0, 1, 1, 1, 2];
-  return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
+  return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 }
 
 // Функция преобразования числа к ценовому формату (с пробелами):
 
 function convertPrice(numb, fix = 0, sign = ',') {
-  numb = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''));
-  if (isNaN(Number(numb))) {
+  try {
+    if (/[^\d|\.|\,]/g.test(price)) {
+      return numb;
+    }
+    var price = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''));
+    price = Number(price).toFixed(fix);
+    return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', sign);
+  } catch(error) {
     return numb;
   }
-  numb = Number(numb).toFixed(fix);
-  return (numb + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', sign);
   // второй вариант (менее кросс-браузерный):
   // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: fix, maximumFractionDigits: fix });
 }

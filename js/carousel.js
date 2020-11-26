@@ -55,7 +55,7 @@ function Carousel(obj, start) {
 
   // КОНСТАНТЫ:
 
-  this.visibleImg = Math.round(this.gallery.clientWidth / this.itemsGallery[0].clientWidth);
+  this.visibleImg = Math.round(this.gallery.clientWidth / this.itemsGallery[0].clientWidth) || 0;
   this.offset = 0;
 
   // ПЕРЕМЕННЫЕ:
@@ -143,7 +143,7 @@ function Carousel(obj, start) {
   // Инициализация кнопок карусели:
 
   this.initBtns = function() {
-    if (this.imgCount <= this.visibleImg) {
+    if (this.imgCount < this.visibleImg) {
       this.leftBtn.style.visibility = 'hidden';
       this.rightBtn.style.visibility = 'hidden';
       this.touchPrev = false;
@@ -182,6 +182,9 @@ function Carousel(obj, start) {
   // Запуск автоматической прокрутки:
 
   this.setAvtoScroll = function() {
+    if (this.imgCount < this.visibleImg) {
+      return;
+    }
     if (this.settings.isInfinitie && this.settings.isAvtoScroll) {
       this.scrollTimeout = setTimeout(() => this.startMoveImg(this.settings.avtoDirection), this.settings.interval);
     }

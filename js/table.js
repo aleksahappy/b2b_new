@@ -237,13 +237,14 @@ function createTable(area, settings) {
 function createTableHeadCell(col, index, filters) {
   var th = '';
   if (col.keys && filters) {
-    var content = '';
+    var sortConternt = '',
+        filterContent = '';
     col.keys.forEach(key => {
       var data = filters[key];
       if (data) {
         if (data.sort) {
           var type = data.sort;
-          content =
+          sortConternt =
           `<div class="group sort" data-key="${key}" data-type="${type}">
             <div class="title">Сортировка</div>
             <div class="item sort down row">
@@ -257,7 +258,7 @@ function createTableHeadCell(col, index, filters) {
           </div>`;
         }
         if (data.search || data.filter) {
-          var filterContent = '',
+          var content = '',
               search = data.search,
               filter = data.filter;
           if (search) {
@@ -274,7 +275,7 @@ function createTableHeadCell(col, index, filters) {
                 <div class="close icon"></div>
               </form>`;
             }
-            filterContent = search;
+            content = search;
           }
           if (filter && search !== 'date') {
             if (filter === 'select') {
@@ -294,17 +295,17 @@ function createTableHeadCell(col, index, filters) {
             if (search) {
               filter = '<div class="not-found">Совпадений не найдено</div>' + filter;
             }
-            filterContent += filter;
+            content += filter;
           }
-          content +=
+          filterContent =
           `<div class="group filter" data-key="${key}">
             <div class="title">Фильтр</div>
-            ${filterContent}
+            ${content}
           </div>`;
         }
       }
     });
-    if (content) {
+    if (sortConternt || filterContent) {
       th =
       `<th id="${index + 1}" class="activate box">
         <div class="head row">
@@ -315,7 +316,8 @@ function createTableHeadCell(col, index, filters) {
           </div>
           </div>
           <div class="drop-down">
-            ${content}
+            ${sortConternt}
+            ${filterContent}
           </div>
         </div>
         <div class="resize-btn"></div>
@@ -656,12 +658,6 @@ function Table(obj, settings = {}) {
       sign: settings.desktop.sign,
       method: !direction ? 'inner': (direction === 'next' ? 'beforeend' : 'afterbegin')
     });
-
-    if (!this.dataToLoad.length) {
-      this.body.innerHTML = '';
-      this.fillPagination();
-      return;
-    }
 
     if (!direction) {
       this.paginationSwitch = this.body.lastElementChild;

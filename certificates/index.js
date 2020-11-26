@@ -16,7 +16,9 @@ function startCertPage() {
   // sendRequest(`../json/certificates.json`)
   sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
   .then(result => {
-    items = JSON.parse(result);
+    if (result) {
+      items = JSON.parse(result);
+    }
     initPage();
   })
   .catch(error => {
@@ -29,9 +31,6 @@ function startCertPage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (!items || !items.length) {
-    return;
-  }
   convertData();
   loadData();
   initSearch('#cert-search', findCert);
@@ -54,18 +53,18 @@ function initPage() {
 
 function convertData() {
   items.forEach(el => {
-    var curBrands = [];
+    var itemBrands = [];
     var findBrands = el.descr.match(/"\w{2,}\s{0,1}\w*"/gm);
     if (findBrands) {
       findBrands.forEach(brand => {
         brand = brand.replace(/"/g, '');
-        curBrands.push(brand);
+        itemBrands.push(brand);
         if (brands.indexOf(brand) === -1) {
           brands.push(brand);
         }
       });
     };
-    el.brands = curBrands;
+    el.brands = itemBrands;
     for (var key in el) {
       el.search += convertToString(el[key]);
     }

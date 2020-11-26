@@ -25,9 +25,6 @@ function startProfilePage() {
 // Инициализация страницы:
 
 function initPage() {
-  if (!data || isEmptyObj(data)) {
-    return;
-  }
   convertData();
   fillTemplate({
     area: '.profile-info .content',
@@ -40,6 +37,9 @@ function initPage() {
 // Преобразование полученных данных:
 
 function convertData() {
+  if (isEmptyObj(data)) {
+    return
+  }
   data.gender_text = data.gender == '1' ? 'муж.' : 'жен.';
   data.phone = convertPhone(data.phone);
   data.work_phone = convertPhone(data.phone);

@@ -275,14 +275,8 @@ function convertItems() {
     window.items = [];
     return;
   }
-  if (pageId == 'boats') {
-    items = items.filter(el => el.lodkimotor == 1);
-  }
-  if (pageId == 'snow') {
-    items = items.filter(el => el.snegohod == 1);
-  }
   items.forEach(item => convertItem(item));
-  items.sort(sortBy(('catid'))); // Сортировка по id категории:
+  // items.sort(sortBy(('catid'))); // Сортировка по id категории:
 }
 
 // Преобразование данных по одному товару:
@@ -303,6 +297,7 @@ function convertItem(item) {
     }
     item.manuf = manuf;
   }
+  item.isManuf = item.manuf ? '' : 'displayNone';
   addImgInfo(item);
   addActionInfo(item);
   addPriceInfo(item);
