@@ -668,11 +668,12 @@ function getBanners() {
     fillTemplate({
       area: '#dashboard-banners',
       items: imagesData
-    });
+		});
+		document.querySelectorAll('#dashboard-banners .banner').forEach(el => checkImg(el, 'delete'));
     fillTemplate({
       area: '#banners .carousel-gallery',
       items: imagesData
-    });
+		});
     var curCarousel = getEl('#banners .carousel');
     renderCarousel(curCarousel);
   })

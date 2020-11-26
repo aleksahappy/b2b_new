@@ -36,7 +36,7 @@ function initPage() {
       items: 'time'
     }]
   });
-  document.querySelectorAll('.shop').forEach(el => checkImg(el));
+  document.querySelectorAll('.shop').forEach(el => checkImg(el, 'delete'));
   initForm('#address-form', sendForm);
   loader.hide();
 }

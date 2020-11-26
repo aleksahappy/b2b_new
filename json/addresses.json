@@ -8,7 +8,7 @@
   "phone": "+7 (937) 867-10-11",
   "site": "stels-offroad.ru",
   "full_address": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-  "img": "../img/content/shop-logo.jpg",
+  "img": "shop-logo.jpg",
   "time": [{
     "day": "Понедельник",
     "time": "9:00 - 18:00"
@@ -71,7 +71,7 @@
   "phone": "+7 (937) 867-10-11",
   "site": "stels-offroad.ru",
   "full_address": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-  "img": "../img/content/shop-logo.jpg"
+  "img": "shop-logo.jpg"
 }, {
   "id": "4",
   "moderate": "ok",
@@ -81,7 +81,7 @@
   "address": "Горная улица, 5",
   "phone": "+7 (937) 867-10-11",
   "full_address": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-  "img": "../img/content/shop-logo.jpg",
+  "img": "shop-logo.jpg",
   "time": [{
     "day": "Понедельник",
     "time": "9:00 - 18:00"
@@ -112,7 +112,7 @@
   "phone": "+7 (937) 867-10-11",
   "site": "stels-offroad.ru",
   "full_address": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-  "img": "../img/content/shop-logo.jpg",
+  "img": "shop-logo.jpg",
   "time": [{
     "day": "Понедельник",
     "time": "9:00 - 18:00"
@@ -145,7 +145,7 @@
   "phone": "+7 (937) 867-10-11",
   "site": "stels-offroad.ru",
   "full_address": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-  "img": "../img/content/shop-logo.jpg",
+  "img": "shop-logo.jpg",
   "time": [{
     "day": "Понедельник",
     "time": "9:00 - 18:00"
@@ -176,7 +176,7 @@
   "phone": "+7 (937) 867-10-11",
   "site": "stels-offroad.ru",
   "full_address": "ул. 22 Партсъездаб д.46В, Самара, Самарская обл. 443107",
-  "img": "../img/content/shop-logo.jpg",
+  "img": "shop-logo.jpg",
   "time": [{
     "day": "Понедельник",
     "time": "9:00 - 18:00"

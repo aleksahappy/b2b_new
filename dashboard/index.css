@@ -786,6 +786,10 @@ thead .legend {
 
 /* Карусель с баннерами */
 
+section.banners-carousel .img-wrap {
+	display: none;
+}
+
 #banners .left-btn {
   width: 3em;
   opacity: 1;
