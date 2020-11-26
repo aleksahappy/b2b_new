@@ -79,7 +79,7 @@ function sendOrder(formData) {
     cart: cartInfo,
     info: orderInfo
   };
-  // console.log(data);
+  console.log(data);
 
   sendRequest(urlRequest.main, {action: 'send_order', data: data})
   .then(result => {
@@ -166,6 +166,7 @@ function createCart(data) {
     }]
   });
   document.querySelectorAll('.cart-row').forEach(row => {
+    row.classList.add('checked');
     checkImg(row);
     changeCartRow(row);
   });
@@ -192,7 +193,7 @@ function createCartCopy() {
 // Cоздание строки корзины:
 
 function createCartRow(id, qty, row, status) {
-  var data = createCartItemData(id, qty, 0, status);
+  var data = createCartItemData(id, qty, '0', status);
   if (data) {
     fillTemplate({
       area: cartRowTemp,
@@ -299,7 +300,7 @@ function createCartItemData(id, qty, checker, status = '') {
   }
   item.search = `${item.articul},${item.options},${item.title}`;
   item.isSold = item.total_qty > 0 ? '' : 'sold';
-  item.isChecked = checker > 0 ? 'checked' : '';
+  // item.isChecked = checker > 0 ? 'checked' : '';
   return item;
 }
 
@@ -318,6 +319,7 @@ function saveInCart(id, qty) {
   cart[id].cartId = cartId;
   cart[id].actionId = cartItems[id].action_id;
   cart[id].actionName = cartItems[id].action_name;
+  // cart[id].checker = '1';
 
   cartChanges[id] = cart[id];
   cartSentServer();
@@ -333,16 +335,16 @@ function saveInCart(id, qty) {
 
 // Сохранение значения чекера товара в корзину (выбран/не выбран в корзине):
 
-function saveCheckerInCart(id, checker) {
-  id = 'id_' + id;
-  if (!cart[id]) {
-    return;
-  }
-  cart[id].checker = checker;
-  cartChanges[id] = cart[id];
-  cartSentServer();
-  saveInCartData(id);
-}
+// function saveCheckerInCart(id, checker) {
+//   id = 'id_' + id;
+//   if (!cart[id]) {
+//     return;
+//   }
+//   cart[id].checker = checker;
+//   cartChanges[id] = cart[id];
+//   cartSentServer();
+//   saveInCartData(id);
+// }
 
 // Сохранение изменений товара в данные для рендеринга корзины:
 
@@ -352,7 +354,7 @@ function saveInCartData(id) {
   }
   var data = cart[id],
       qty = data.qty,
-      checker = data.checker ? data.checker : 0;
+      checker = data.checker > 0 ? data.checker : '0';
   var item = createCartItemData(id, qty, checker);
   if (!item) {
     return;
@@ -403,12 +405,15 @@ function saveCartTotals() {
 
 function getCheckedId() {
   var list = [];
-  for (var id in cart) {
-    var checker = cart[id].checker ? cart[id].checker : 0;
-    if (checker > 0) {
-      list.push(id);
-    }
-  }
+  getEl('#cart-full').querySelectorAll('.cart-row:not(.sold):not(.bonud).checked').forEach(el => {
+    list.push(el.dataset.id);
+  });
+  // for (var id in cart) {
+  //   var checker = cart[id].checker ? cart[id].checker : 0;
+  //   if (checker > 0) {
+  //     list.push(id);
+  //   }
+  // }
   return list;
 }
 
@@ -466,6 +471,7 @@ function countFromCart(idList = undefined, totals = true) {
       if (!curOrder) {
         orders.push({
           title: curItem.action_name,
+          id: curItem.action_id,
           qty: 0,
           sum: 0,
           sumOpt: 0,
@@ -963,7 +969,7 @@ function toggleInCart(event) {
     }
   } else {
     var mainCheckbox = getEl('.head .checkbox', cartSection);
-    checker = mainCheckbox.classList.contains('checked') ? 0 : 1;
+    checker = mainCheckbox.classList.contains('checked') ? '0' : '1';
     cartSection.querySelectorAll('.cart-row:not(.bonus)').forEach(row => toggleCartRow(row, checker));
   }
   changeCartSectionInfo(cartSection);
@@ -973,13 +979,12 @@ function toggleInCart(event) {
 // Выделение/снятие одного пункта корзины:
 
 function toggleCartRow(row, checker) {
-  var id = row.dataset.id;
-  if (checker) {
+  if (checker > 0) {
     row.classList.add('checked');
   } else {
     row.classList.remove('checked');
   }
-  saveCheckerInCart(id, checker);
+  // saveCheckerInCart(row.dataset.id, checker);
 }
 
 // Удаление данных из корзины:
@@ -1243,15 +1248,15 @@ function fillOrderForm() {
 // Блокировка/разблокировка чекеров выбора способа оплаты:
 
 function togglePaymentChoice() {
-  var paymentType = getEl('#payment'),
-      paymentChoice = getEl('#payment-choice');
-  if (paymentType.value) {
-    paymentChoice.removeAttribute('disabled');
-    paymentChoice.querySelectorAll('input').forEach(el => el.removeAttribute('disabled'));
-  } else {
-    paymentChoice.setAttribute('disabled', 'disabled');
-    paymentChoice.querySelectorAll('input').forEach(el => el.setAttribute('disabled', 'disabled'));
-  }
+  // var paymentType = getEl('#payment'),
+  //     paymentChoice = getEl('#payment-choice');
+  // if (paymentType.value) {
+  //   paymentChoice.removeAttribute('disabled');
+  //   paymentChoice.querySelectorAll('input').forEach(el => el.removeAttribute('disabled'));
+  // } else {
+  //   paymentChoice.setAttribute('disabled', 'disabled');
+  //   paymentChoice.querySelectorAll('input').forEach(el => el.setAttribute('disabled', 'disabled'));
+  // }
 }
 
 // Блокировка/разблокировка поля выбора адреса доставки:

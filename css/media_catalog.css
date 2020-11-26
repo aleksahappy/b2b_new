@@ -210,8 +210,8 @@
 /* Стили на ширину от 0 до 960px включительно: */
 @media only screen and (max-width: 960px) {
   .min-card {
-    width: 17em;
-    min-width: 17em;
+    width: 16.5em;
+    min-width: 16.5em;
     max-width: 26.5em;
     height: 31.2em;
   }

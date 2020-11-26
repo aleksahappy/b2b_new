@@ -748,11 +748,15 @@ function renderCarousel(carousel, curImg = 0) {
   });
 }
 
-// Проверка загружено ли изображение и вставка заглушки при отсутствии изображения:
+// Проверка загружено ли изображение и вставка заглушки/удаление изображения при его отсутствии:
 
-function checkImg(element) {
+function checkImg(element, action = 'replace') {
   getEl('img', element).addEventListener('error', (event) => {
-    event.currentTarget.src = '../img/no_img.jpg';
+    if (action === 'replace') {
+      event.currentTarget.src = '../img/no_img.jpg';
+    } else if (action === 'delete') {
+      event.currentTarget.remove();
+    }
   });
 }
 
@@ -771,6 +775,22 @@ function hideElement(el) {
   el = getEl(el);
   if (el) {
     el.style.display = 'none';
+  }
+}
+
+// Предотвращение прокручивания страницы:
+
+function stopBodyScroll(event) {
+  var el = event.currentTarget,
+      scrollTo = null;
+  if (event.type == 'mousewheel') {
+    scrollTo = (event.wheelDelta * -1);
+  } else if (event.type == 'DOMMouseScroll') {
+    scrollTo = 40 * event.detail;
+  }
+  if (scrollTo) {
+    event.preventDefault();
+    el.scrollTop = scrollTo + el.scrollTop;
   }
 }
 
@@ -866,7 +886,6 @@ function switchContent(event) {
   }
   if (container.classList.contains('close')) {
     container.classList.remove('close');
-    container.scrollIntoView(false);
   } else {
     container.classList.add('close');
   }
@@ -1313,7 +1332,7 @@ function declOfNum(number, titles) {
 
 function convertPrice(numb, fix = 0, sign = ',') {
   try {
-    if (/[^\d|\.|\,]/g.test(price)) {
+    if (/[^\d|\.|\,]/g.test(numb)) {
       return numb;
     }
     var price = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''));

@@ -154,18 +154,22 @@ function openShipment(id) {
   sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
   .then(result => {
     result = JSON.parse(result);
-    fillTemplate({
-      area: '#shipment tbody',
-      items: getNaklsData(result)
-    });
-    openPopUp('#shipment');
+    result = getNaklsData(result);
+    if (result.length) {
+      fillTemplate({
+        area: '#shipment tbody',
+        items: result
+      });
+      openPopUp('#shipment');
+    } else {
+      throw new Error('Нет данных.');
+    }
   })
   .catch(error => {
     console.log(error);
     alerts.show('Отсутствуют данные для загрузки.');
   });
 }
-
 
 // Получение данных о накладных из csv-формата:
 

@@ -358,13 +358,13 @@ body {
 
 #filters-container {
   display: none;
-  width: calc(18em + 7px);
+  width: 19em;
 }
 
 #filters {
   position: fixed;
   top: 164px;
-  width: calc(18em + 7px);
+  width: 19em;
   min-height: 50vh;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -373,6 +373,10 @@ body {
 
 #filters:hover {
   overflow-y: auto;
+}
+
+#filters .pop-up {
+  margin-right: 20px;
 }
 
 #filters .filter:last-child {
@@ -630,8 +634,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 18.3em;
-  min-width: 18.3em;
+  width: 18em;
+  min-width: 18em;
   max-width: 28em;
   height: 32.2em;
   margin: 0 -1px -1px 0;

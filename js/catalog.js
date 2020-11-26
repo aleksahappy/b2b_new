@@ -509,7 +509,7 @@ function adaptMenu() {
 // Изменение позиционирования меню фильтров (на данный момент не задействована):
 
 function setFiltersPosition() {
-  if (window.innerWidth > 1080) {
+  if (window.innerWidth > 1280) {
     var gallery = getEl('#gallery'),
         filters = getEl('#filters'),
         filtersContent = getEl('#filters .pop-up');
@@ -518,7 +518,6 @@ function setFiltersPosition() {
         filters.style.position = 'static';
         filters.style.top = '0px';
         filters.style.maxHeight = 'none';
-        document.body.classList.remove('no-scroll')
       } else {
         setFiltersHeight();
       }
@@ -544,13 +543,13 @@ function setFiltersHeight() {
 
 // Установка ширины малых карточек товаров:
 
-function setMinCardWidth() {
+function setMinCardWidth(width) {
   if (view === 'list') {
     return;
   }
   var gallery = getEl('#gallery'),
-      width = window.innerWidth > 768 ? 18.3 : 17,
-      standartWidth = width * parseInt(window.getComputedStyle(gallery).fontSize, 10),
+      width = window.innerWidth > 768 ? 18 : 16.5,
+      standartWidth = width * parseInt(getComputedStyle(gallery).fontSize, 10),
       countCards = Math.floor(gallery.clientWidth / standartWidth),
       restGallery = gallery.clientWidth - countCards * standartWidth,
       changeMinCard = restGallery / countCards,
@@ -562,9 +561,9 @@ function setMinCardWidth() {
     minCardWidth = gallery.clientWidth / countCards;
   }
   var style = gallery.style.justifyContent;
-  if (countCards === 1 && style !== 'center') {
+  if (countCards - 1 === 1 && style !== 'center') {
     gallery.style.justifyContent = 'center';
-  } else if (countCards > 1 && style !== 'flex-start') {
+  } else if (countCards - 1 > 1 && style !== 'flex-start') {
     gallery.style.justifyContent = 'flex-start';
   }
   document.querySelectorAll('.min-card').forEach(minCard => {
