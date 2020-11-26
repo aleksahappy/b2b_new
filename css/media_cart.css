@@ -1,3 +1,10 @@
+/* Стили на ширину больше 2000px: */
+@media only screen and (min-width: 2001px) {
+  .cart-section .head .main-info {
+    width: 53%;
+  }
+}
+
 /* Стили на ширину от 0 до 1440px включительно: */
 @media only screen and (max-width: 1440px) {
   .order-block {

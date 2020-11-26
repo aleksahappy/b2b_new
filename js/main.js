@@ -937,16 +937,17 @@ function isEmptyObj(obj) {
   return true;
 }
 
-// Проверка кликнутого элемента на наличие действия в нем:
+// Проверка кликнутого элемента на наличие действия в нем или родителе:
 
 function checkIsAction(event) {
-  var target = event.target,
-      tag = target.tagName;
-  if (tag) {
-    tag = tag.toLowerCase();
-  }
-  if (event.target !== event.currentTarget && (target.hasAttribute('onclick') || tag === 'a' || target.hasAttribute('data-tooltip'))) {
-    return true;
+  var target = event.target;
+  if (event.target !== event.currentTarget) {
+    var onclickEl = target.closest('[onclick]');
+    if ((onclickEl && onclickEl !== event.currentTarget) || target.closest('a') || target.closest('[data-tooltip]')) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
     return false;
   }
@@ -1222,35 +1223,20 @@ function checkDate(start, end, date = new Date()) {
 // Работа с регулярными выражениями:
 //=====================================================================================================
 
-// Получение регулярного выражения/массива регулярных выражений:
+// Получение регулярного выражения:
 
 function getRegExp(value) {
   if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(value)) {
-    var regExp = [RegExp(value, 'gi')];
-    value = convertPrice(value, 2);
-    regExp.push(RegExp(value, 'gi'));
-    return regExp;
-  } else {
-    return RegExp(value, 'gi');
+    value = value.replace(/\s/g, '').replace('.', ',');
   }
+  return RegExp(value, 'gi');
 }
 
-// Поиск в значении регулярным выражением/ями:
+// Поиск в значении регулярным выражением:
 
 function findByRegExp(value, regExp) {
-  if (Array.isArray(regExp)) {
-    for (var el of regExp) {
-      if (find(el)) {
-        return true;
-      }
-    }
-  } else if (find(regExp)) {
+  if (value.toString().search(regExp) >= 0) {
     return true;
-  }
-  function find(exp) {
-    if (value.toString().search(exp) >= 0) {
-      return true;
-    }
   }
 }
 
@@ -1294,28 +1280,22 @@ function getChar(event) {
 
 // Конвертация всей вложенности свойств объекта в строку:
 
-function convertToString(obj) {
-  if (typeof obj === 'object' ) {
-    var string = '';
-    crossObj(obj);
-    return string;
+function convertToString(el) {
+  var string = '';
+  convert(el);
+  return string;
 
-    function crossObj(obj) {
-      if (typeof obj !== 'object') {
-        return;
+  function convert(el) {
+    if (typeof el === 'string' || typeof el === 'number') {
+      if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(el.toString())) {
+        el = el.replace(/\s/g, '').replace('.', ',');
       }
-      var prop;
-      for (let k in obj) {
-        prop = obj[k];
-        if (typeof prop === 'string') {
-          string += prop + ',';
-        } else if (typeof prop === 'object') {
-          crossObj(prop);
-        }
+      string += el + ';';
+    } else if (typeof el === 'object') {
+      for (var k in el) {
+        convert(el[k]);
       }
     }
-  } else {
-    return obj;
   }
 }
 
@@ -3281,7 +3261,7 @@ function createFilter(area, settings) {
       }
       if (filter && search !== 'date') {
         var items = data.items,
-            isHide = settings.isHide ? '' : 'hide';
+            isHide = settings.isHide ? 'hide' : '';
         content +=
         `<div class="items ${isHide}">
           ${fillFilterItems(filter, items)}

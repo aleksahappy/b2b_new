@@ -473,12 +473,11 @@ function Table(obj, settings = {}) {
   // Добавление данных для поиска по всей таблице:
   this.addDataForSearch = function(el) {
     if (settings.desktop.cols) {
-      el.search = '';
       settings.desktop.cols.forEach(col => {
         if (col.keys) {
           col.keys.forEach(key => {
             key = key.split('/')[0];
-            el.search += ',' + convertToString(el[key]);
+            el.search += convertToString(el[key]);
           });
         }
       });
@@ -642,7 +641,7 @@ function Table(obj, settings = {}) {
         this.countItems =  0;
       }
     }
-    if (this.countItems === this.countItemsTo) {
+    if (this.dataToLoad.length && this.countItems === this.countItemsTo) {
       return;
     }
 
@@ -657,6 +656,12 @@ function Table(obj, settings = {}) {
       sign: settings.desktop.sign,
       method: !direction ? 'inner': (direction === 'next' ? 'beforeend' : 'afterbegin')
     });
+
+    if (!this.dataToLoad.length) {
+      this.body.innerHTML = '';
+      this.fillPagination();
+      return;
+    }
 
     if (!direction) {
       this.paginationSwitch = this.body.lastElementChild;
@@ -673,7 +678,6 @@ function Table(obj, settings = {}) {
         }
       }
     }
-    // this.fillPagination();
   }
 
   // Замена данных в таблице:
@@ -731,10 +735,10 @@ function Table(obj, settings = {}) {
 
   // Заполнение пагинации:
   this.fillPagination = function(direction) {
-    if (!this.pagination || this.countItems === this.countItemsTo) {
+    if (!this.pagination || (this.dataToLoad.length && (this.countItems === this.countItemsTo))) {
       return;
     }
-    var from = this.countItems + 1,
+    var from = this.dataToLoad.length ? this.countItems + 1 : 0,
         to = this.countItemsTo;
     if (direction) {
       // console.log(this.direction);
@@ -989,6 +993,9 @@ function Table(obj, settings = {}) {
     for (var value of filterValues) {
       if (type === 'search') {
         var regExp = getRegExp(value);
+        if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(itemValue)) {
+          itemValue = itemValue.replace(/\s/g, '').replace('.', ',');
+        }
         if (findByRegExp(itemValue, regExp)) {
           isFound = true;
         }

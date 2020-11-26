@@ -297,7 +297,7 @@ function createCartItemData(id, qty, checker, status = '') {
     item.qty = qty;
     item.price_cur = 0;
   }
-  item.search = `${item.action_name},${item.articul},${item.options},${item.title}`;
+  item.search = `${item.articul},${item.options},${item.title}`;
   item.isSold = item.total_qty > 0 ? '' : 'sold';
   item.isChecked = checker > 0 ? 'checked' : '';
   return item;
@@ -987,7 +987,7 @@ function toggleCartRow(row, checker) {
 function deleteFromCart(event) {
   var btn = event.currentTarget,
       curRow = btn.closest('.cart-row:not(.bonus)'),
-      question = curRow ? 'Удалить данный товар из корзины' : 'Удалить данный раздел из корзины';
+      question = curRow ? 'Удалить данный товар из корзины' : event.currentTarget.closest('.search') ? 'Удалить найденное из корзины' : 'Удалить данный раздел из корзины';
   alerts.confirm(question, function() {
     var cartSection = btn.closest('.cart-section'),
         cartList = getEl('#cart-full');
@@ -1024,7 +1024,8 @@ function deleteFromCart(event) {
         changeCartSectionInfo(cartSection);
       } else {
         if (!cartList.querySelectorAll('.cart-row').length) {
-          cartList.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
+          clearSearch('#cart-search');
+          createCart();
         }
       }
     }

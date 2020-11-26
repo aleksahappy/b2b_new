@@ -217,8 +217,8 @@ body {
 }
 
 .gallery-head .pill {
-  background-color: #D3D6D9;
   margin-bottom: 0.714em;
+  background-color: #D3D6D9;
 }
 
 .gallery-head .pill .close.icon {
@@ -237,8 +237,18 @@ body {
   width: 100%;
 }
 
+#zip-info,
 #filters-info {
   display: none;
+}
+
+#filters-info .pill {
+  max-width: 15em;
+}
+
+#zip-info .pill {
+  max-width: 90%;
+  background-color: rgba(242, 201, 76, 0.5);
 }
 
 .gallery-head .search-info .fade {
@@ -249,10 +259,6 @@ body {
   right: -1px;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #F2F2F2 100%);
   z-index: 1;
-}
-
-#filters-info .pill {
-  max-width: 15em;
 }
 
 .sortbox {

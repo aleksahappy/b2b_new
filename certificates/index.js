@@ -66,13 +66,9 @@ function convertData() {
       });
     };
     el.brands = curBrands;
-    el.search = [];
     for (var key in el) {
-      if (el[key] == 0 || el[key]) {
-        el.search.push(el[key]);
-      }
+      el.search += convertToString(el[key]);
     }
-    el.search = el.search.join(',').replace(/\s/g, ' ');
   });
   brands.sort();
   itemsToLoad = items;

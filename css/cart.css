@@ -142,7 +142,7 @@
   border-top: none;
 }
 
-.cart-section .head .wrap > div {
+.cart-section .head .wrap > div:not(:last-child) {
   margin-right: 1.142em;
 }
 
@@ -170,6 +170,18 @@
   width: 24px;
   height: 24px;
   margin-right: 3em;
+}
+
+.cart-section .head .btn.trash span:last-child {
+  display: none;
+}
+
+.cart-section.search .head .btn.trash span:first-child {
+  display: none;
+}
+
+.cart-section.search .head .btn.trash span:last-child {
+  display: inline;
 }
 
 .cart-section.search .question {
