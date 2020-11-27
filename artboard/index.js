@@ -36,6 +36,7 @@ document.querySelectorAll('.filters').forEach(el => {
 //=====================================================================================================
 
 // Созание примера данных для таблицы:
+
 var data = [];
 for (var i = 0; i < 80; i++) {
   data.push({
@@ -91,6 +92,7 @@ for (var i = 0; i < 80; i++) {
 }
 
 // Настройки таблицы:
+
 var settings = {
   data: data,
   control: {
@@ -157,9 +159,11 @@ var settings = {
 }
 
 // Инициализация таблицы:
+
 initTable('#table', settings);
 
 // Заполнение адаптивной версии таблицы:
+
 fillTemplate({
   area: ".table-adaptive",
   items: data,

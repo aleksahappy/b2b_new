@@ -22,11 +22,9 @@ var fileTypes = {
   'xlsx': 'xls'
 };
 
-// Запускаем рендеринг страницы рекламации:
+// Запуск страницы рекламации:
 
 startReclPage();
-
-// Запуск страницы рекламации:
 
 function startReclPage() {
   sendRequest(urlRequest.main, {action: 'recl', data: {recl_id: document.location.search.replace('?', '')}})

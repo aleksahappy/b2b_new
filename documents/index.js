@@ -1,10 +1,8 @@
 'use strict';
 
-// Запускаем рендеринг страницы документов:
+// Запуск страницы документов:
 
 startDocsPage();
-
-// Запуск страницы документов:
 
 function startDocsPage() {
   // sendRequest(`../json/documents.json`)

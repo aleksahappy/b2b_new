@@ -12,11 +12,9 @@
 
 var data, reclData, reclIcon;
 
-// Запускаем рендеринг страницы заказа:
+// Запуск страницы заказа:
 
 startOrderPage();
-
-// Запуск страницы заказа:
 
 function startOrderPage() {
   var id = document.location.search.replace('?', '');

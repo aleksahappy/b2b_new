@@ -6,11 +6,9 @@ var items = [],
     itemsToLoad,
     brands = [];
 
-// Запускаем рендеринг страницы сертификатов:
+// Запуск страницы сертификатов:
 
 startCertPage();
-
-// Запуск страницы сертификатов:
 
 function startCertPage() {
   // sendRequest(`../json/certificates.json`)
