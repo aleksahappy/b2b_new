@@ -19,7 +19,7 @@ startOrderPage();
 function startOrderPage() {
   var id = document.location.search.replace('?', '');
   // sendRequest(`../json/order.json`)
-  sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
+  sendRequest(urlRequest.main, 'order', {order_id: id})
   .then(result => {
     if (!result) {
       location.href = '/err404.html';
@@ -27,7 +27,7 @@ function startOrderPage() {
     console.log(result);
     data = JSON.parse(result);
     sendRequest(`../json/order_payment.json`)
-    // sendRequest(urlRequest.main, {action: '???', data: {order_id: id})
+    // sendRequest(urlRequest.main, '???', {order_id: id})
     .then(result => {
       try {
         data.payment = JSON.parse(result);
@@ -583,7 +583,7 @@ function createTables() {
 function changeOrderStatus(event) {
   var action = event.currentTarget.id;
   if ((action === 'cancel' && data.isCancel) || (action === 'confirm' && data.isConfirm)) {
-    sendRequest(urlRequest.main, {action: 'order', data: {order_id: data.id, mode: action}})
+    sendRequest(urlRequest.main, 'order', {order_id: data.id, mode: action})
     .then(result => {
       console.log(result);
       result = JSON.parse(result);
@@ -651,9 +651,8 @@ function sendReclm(formData) {
       qty = value;
     }
   });
-  formData.set('action', 'reclsend');
-  formData.set('order_id', data.id);
-  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  formData.append('order_id', data.id);
+  sendRequest(urlRequest.main, 'reclsend', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);

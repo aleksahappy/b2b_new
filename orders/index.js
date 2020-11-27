@@ -14,7 +14,7 @@ startOrdersPage();
 
 function startOrdersPage() {
   // sendRequest(`../json/orders.json`)
-  sendRequest(urlRequest.main, {action: 'orderslist'})
+  sendRequest(urlRequest.main, 'orderslist')
   .then(result => {
     if (result) {
       var data = JSON.parse(result);
@@ -150,7 +150,7 @@ function convertData(data) {
 // Загрузка данных о накладных и открытие всплывающего окна отгрузок:
 
 function openShipment(id) {
-  sendRequest(urlRequest.main, {action: 'order', data: {order_id: id}})
+  sendRequest(urlRequest.main, 'order', {order_id: id})
   .then(result => {
     result = JSON.parse(result);
     result = getNaklsData(result);

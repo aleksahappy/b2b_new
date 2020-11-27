@@ -100,7 +100,7 @@ function startPage() {
 
 function logOut(event) {
   event.preventDefault();
-  sendRequest(urlRequest.main, {action: 'logout'})
+  sendRequest(urlRequest.main, 'logout')
   .then(result => {
     clearLocal();
     document.location.href = '/';
@@ -237,7 +237,7 @@ function fillUserInfo() {
 
 // Отправка запросов на сервер:
 
-function sendRequest(url, data, type = 'application/json; charset=utf-8') {
+function sendRequest(url, action, data, type = 'application/json; charset=utf-8') {
   return new Promise((resolve, reject) => {
     var request = new XMLHttpRequest();
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
@@ -247,11 +247,14 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
       }
       resolve(request.response);
     });
-    if (data) {
+    if (action) {
       request.open('POST', url);
       if (type === 'application/json; charset=utf-8') {
+        data = data ? {action: action, data: data} : {action: action};
         data = JSON.stringify(data);
         request.setRequestHeader('Content-type', type);
+      } else if (type === 'multipart/form-data') {
+        data.append('action', action);
       }
       request.send(data);
     } else {
@@ -265,7 +268,7 @@ function sendRequest(url, data, type = 'application/json; charset=utf-8') {
 
 function getTotals() {
   return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, {action: 'get_total'})
+    // sendRequest(urlRequest.main, 'get_total')
     sendRequest('../json/cart_totals.json')
     .then(
       result => {
@@ -292,7 +295,7 @@ function getTotals() {
 
 function getCart() {
   return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, {action: 'get_cart', data: {cart_type: cartId}})
+    // sendRequest(urlRequest.main, 'get_cart', {cart_type: cartId})
     sendRequest(`../json/cart_${document.body.id}.json`)
     .then(
       result => {
@@ -331,14 +334,11 @@ function getCart() {
 
 function getItems(id) {
   return new Promise((resolve, reject) => {
-    var data = {
-      action: 'items',
-      data: {cat_type: cartId}
-    }
+    var data = {cat_type: cartId};
     if (id) {
-      data.data.list = id;
+      data.list = id;
     }
-    sendRequest(urlRequest.main, data)
+    sendRequest(urlRequest.main, 'items', data)
     .then(result => {
       var data = JSON.parse(result);
       // console.log(data)
@@ -355,11 +355,7 @@ function getItems(id) {
 
 function getItem(articul) {
   return new Promise((resolve, reject) => {
-    var data = {
-      action: 'item',
-      data: {articul: articul}
-    }
-    sendRequest(urlRequest.main, data)
+    sendRequest(urlRequest.main, 'item', {articul: articul})
     .then(result => {
       var data = JSON.parse(result);
       // console.log(data);
@@ -2046,7 +2042,7 @@ function closeFilterPopUp() {
 // Инициализация работы окна уведомлений:
 
 function initNotifications() {
-  // sendRequest(urlRequest.main, {action: 'notifications'})
+  // sendRequest(urlRequest.main, 'notifications')
   sendRequest(`../json/notifications.json`)
   .then(result => {
     var data = JSON.parse(result),

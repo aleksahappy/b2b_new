@@ -136,8 +136,7 @@ function openWorkTime() {
 // Отправка формы на сервер:
 
 function sendForm(formData) {
-  formData.append('action', '???');
-  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, '???', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);

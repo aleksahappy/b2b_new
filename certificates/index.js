@@ -12,7 +12,7 @@ startCertPage();
 
 function startCertPage() {
   // sendRequest(`../json/certificates.json`)
-  sendRequest(urlRequest.main, {action: 'files', data: {type: 'cert'}})
+  sendRequest(urlRequest.main, 'files',  {type: 'cert'})
   .then(result => {
     if (result) {
       items = JSON.parse(result);

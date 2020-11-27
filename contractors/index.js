@@ -6,7 +6,7 @@ startContrPage();
 
 function startContrPage() {
   // sendRequest(`../json/contractors.json`)
-  sendRequest(urlRequest.main, {action: 'get_contr'})
+  sendRequest(urlRequest.main, 'get_contr')
   .then(result => {
     if (result) {
       var data = JSON.parse(result);
@@ -111,7 +111,7 @@ function toggleAccess(event, id) {
   }
   var toggle = event.currentTarget.classList.contains('checked') ? '0' : '1';
   // console.log(toggle);
-  sendRequest(urlRequest.main, {action: '???', data: {id: id, action: toggle}})
+  sendRequest(urlRequest.main, '???', {id: id, action: toggle})
   .then(result => {
     result = JSON.parse(result);
     if (result.ok) {
@@ -144,7 +144,7 @@ function addByInn(event) {
     return;
   }
   getEl('#inn-loader').style.visibility = 'visible';
-  sendRequest(urlRequest.main, {action: 'check_inn', data: {inn: value}})
+  sendRequest(urlRequest.main, 'check_inn', {inn: value})
   .then(result => {
     var data = JSON.parse(result);
     if (data.error) {
@@ -168,8 +168,7 @@ function addByInn(event) {
 // Отправка формы на сервер:
 
 function addContr(formData) {
-  formData.set('action', 'save_contr');
-  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, 'save_contr', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);

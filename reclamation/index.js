@@ -27,7 +27,8 @@ var fileTypes = {
 startReclPage();
 
 function startReclPage() {
-  sendRequest(urlRequest.main, {action: 'recl', data: {recl_id: document.location.search.replace('?', '')}})
+  var id = document.location.search.replace('?', '');
+  sendRequest(urlRequest.main, 'recl', {recl_id: id})
   // sendRequest(`../json/reclamation.json`)
   .then(result => {
     var data = JSON.parse(result);

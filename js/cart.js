@@ -26,7 +26,7 @@ function cartSentServer() {
   clearTimeout(cartTimer);
   cartTimer = setTimeout(function () {
     // console.log(JSON.stringify(cartChanges));
-    sendRequest(urlRequest.main, {action: 'set_cart', data: {[cartId]: cartChanges}})
+    sendRequest(urlRequest.main, 'set_cart', {[cartId]: cartChanges})
       .then(response => {
         cartChanges = {};
         console.log(response);
@@ -79,19 +79,15 @@ function sendOrder(formData) {
     cart: cartInfo,
     info: orderInfo
   };
-  console.log(data);
+  // console.log(data);
 
-  sendRequest(urlRequest.main, {action: 'send_order', data: data})
+  sendRequest(urlRequest.main, 'send_order', data)
   .then(result => {
     console.log(result);
-    if (result) {
-      var added = JSON.parse(result);
-      if (added.length !== idList.length) {
-        console.log('Были отправлены не все позиции из заказа.');
-      }
-      document.location.href = '../orders';
-    } else {
+    if (result.error) {
       throw new Error('Ошибка');
+    } else {
+      document.location.href = '../orders';
     }
   })
   .catch(error => {
@@ -1165,7 +1161,7 @@ function addInCart(event) {
       formData = new FormData(form),
       loadBtn = getEl('label', form),
       submitBtn = getEl('input[type="submit"]', form);
-  sendRequest(`${urlRequest.api}???`, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, '???', formData, 'multipart/form-data')
   .then(result => {
     // console.log(result);
     var data = JSON.parse(result);

@@ -10,7 +10,7 @@ startUsersPage();
 
 function startUsersPage() {
   // sendRequest(`../json/users.json`)
-  sendRequest(urlRequest.main, {action: 'userslist'})
+  sendRequest(urlRequest.main, 'userslist')
   .then(result => {
     if (result) {
       items = JSON.parse(result);
@@ -119,7 +119,7 @@ function toggleAccess(event, id) {
   }
   var toggle = event.currentTarget.classList.contains('checked') ? '0' : '1';
   // console.log(toggle);
-  sendRequest(urlRequest.main, {action: '???', data: {id: id, action: toggle}})
+  sendRequest(urlRequest.main, '???', {id: id, action: toggle})
   .then(result => {
     result = JSON.parse(result);
     if (result.ok) {
@@ -159,8 +159,7 @@ function openUserPopUp(id) {
 // Отправка формы на сервер:
 
 function sendForm(formData) {
-  formData.append('action', '???');
-  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, '???', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);

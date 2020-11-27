@@ -6,7 +6,7 @@ startDocsPage();
 
 function startDocsPage() {
   // sendRequest(`../json/documents.json`)
-  sendRequest(urlRequest.main, {action: 'files', data: {type: 'docs'}})
+  sendRequest(urlRequest.main, 'files', {type: 'docs'})
   .then(result => {
     if (result) {
       var data = JSON.parse(result);

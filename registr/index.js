@@ -13,9 +13,8 @@ function sendRegistr(formData) {
       email = value;
     }
   });
-  formData.set('action', 'register');
-  formData.set('apikey', 'fc7020775a7cdf161ab5267985c54601');
-  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  formData.append('apikey', 'fc7020775a7cdf161ab5267985c54601');
+  sendRequest(urlRequest.main, 'register', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     // console.log(result);

@@ -13,7 +13,7 @@ startReclmPage();
 
 function startReclmPage() {
   // sendRequest(`../json/reclamations.json`)
-  sendRequest(urlRequest.main, {action: 'recllist'})
+  sendRequest(urlRequest.main, 'recllist')
   .then(result => {
     if (result) {
       var data = JSON.parse(result);

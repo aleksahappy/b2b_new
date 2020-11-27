@@ -1033,6 +1033,14 @@ function showFullCard(id) {
     fullCardContainer.style.opacity = 1;
     loader.hide();
   });
+
+  sendRequest(urlRequest.main, 'item_models', {id: id})
+  .then(result => {
+    console.log(result);
+  })
+  .catch(error => {
+    console.log(error);
+  });
 }
 
 // Отображение информационной карточки товара:

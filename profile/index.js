@@ -10,7 +10,7 @@ startProfilePage();
 
 function startProfilePage() {
   // sendRequest(`../json/profile.json`)
-  sendRequest(urlRequest.main, {action: 'profile'})
+  sendRequest(urlRequest.main, 'profile')
   .then(result => {
     data = JSON.parse(result);
     initPage();
@@ -55,8 +55,7 @@ function openProfilePopUp() {
 // Отправка формы на сервер:
 
 function sendProfile(formData) {
-  formData.append('action', 'profile_save');
-  sendRequest(urlRequest.main, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, 'profile_save', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);
