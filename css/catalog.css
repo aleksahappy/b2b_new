@@ -883,6 +883,14 @@ body.zip .big-card .img-wrap {
   margin-bottom: 0;
 }
 
+body.zip .big-card .card-content {
+  width: calc(100% - 18em);
+}
+
+body.zip .big-card .card-title .title {
+  margin-right: 0;
+}
+
 body.zip .big-card .card-price {
   margin-bottom: 0;
 }
@@ -894,6 +902,12 @@ body.zip .big-card .card-sizes {
 
 body.zip .big-card .card-info {
   width: 100%;
+}
+
+body.zip .big-card .card-info .oem {
+  max-height: 5.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* =====================================================================================================

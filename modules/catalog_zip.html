@@ -113,16 +113,16 @@
         </div>
       </div>
       <div class="card-info">
-        <div class="title">Вид изделия: <span class="text">#type#</span></div>
+        <!-- <div class="title">Вид изделия: <span class="text">#type#</span></div> -->
         <div class="title">Артикул: <span class="text">#articul#</span></div>
-        <div class="title">OEM: <span class="text">#eom#</span></div>
-        <div class="title">Количество в узле: <span class="text">#node_qty#</span></div>
+        <div class="title oem #isOem#">OEM: <span class="text">#oem#</span></div>
+        <!-- <div class="title">Количество в узле: <span class="text">#node_qty#</span></div> -->
         <a class="card-open" onclick="showFullCard(#object_id#)">Раскрыть полностью</a>
       </div>
     </div>
   </div>
 </div>
-<div id="full-card-container" class="pop-up-container preload">
+<div id="full-card-container" class="pop-up-container">
   <div class="full-card card manage pop-up" data-id="#object_id#" data-action="#action_id#">
     <div class="pop-up-title row">
       <div class="card-title">
@@ -260,22 +260,8 @@
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
             </form>
-            <div class="details">
-              <div class="detail">
-                <span>#brand# — &ensp;</span>
-                <span>#year# — &ensp;</span>
-                <span>#model#</span>
-              </div>
-              <div class="detail row">
-                <span>Polaris —&ensp;</span>
-                <span>2019 —&ensp;</span>
-                <span>550 VOYAGEUR 155</span>
-              </div>
-              <div class="detail row">
-                <span>Polaris —&ensp;</span>
-                <span>2019 —&ensp;</span>
-                <span>550 VOYAGEUR 155</span>
-              </div>
+            <div id="details">
+              <div class="detail">@item@</div>
             </div>
           </div>
         </div>

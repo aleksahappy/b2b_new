@@ -6,7 +6,8 @@
 
 // Динамически изменяемые переменные:
 
-var pageUrl = pageId,
+var catalogType = document.body.id === 'boats' || document.body.id === 'snow' ? 'zip' : document.body.id,
+    pageUrl = pageId,
     view,
     userView,
     path,
@@ -169,7 +170,7 @@ function initCart() {
 
 function initPage() {
   loader.hide();
-  path = location.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
+  path = location.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?').filter(el => el);
   renderContent();
   initDropDown('#gallery-sort', sortItems);
   initSearch('#search', selectCards);
@@ -184,8 +185,7 @@ function initPage() {
 // Добавление второго уровня меню и "прилипающей" части каталога:
 
 function addCatalogModules() {
-  var type = document.body.id === 'equip' ? 'equip' : 'zip';
-  document.body.classList.add('main', type);
+  document.body.classList.add('main', catalogType);
 
   var catalogHeader = document.createElement('div');
   catalogHeader.classList.add('header-bottom');
@@ -200,7 +200,7 @@ function addCatalogModules() {
 
   var catalogGallery = document.createElement('div');
   catalogGallery.id = 'gallery';
-  catalogGallery.dataset.html = `../modules/catalog_${type}.html`;
+  catalogGallery.dataset.html = `../modules/catalog_${catalogType}.html`;
   getEl('#content').appendChild(catalogGallery);
 
   var popUpModules = document.createElement('div');
@@ -292,20 +292,22 @@ function convertItem(item) {
     var manuf;
     try {
       manuf = JSON.parse(item.manuf);
+      item.manuf = manuf;
     } catch(error) {
-      item.manuf = 0;
+      item.manuf = '';
     }
-    item.manuf = manuf;
   }
-  item.isManuf = item.manuf ? '' : 'displayNone';
   addImgInfo(item);
   addActionInfo(item);
   addPriceInfo(item);
   addMarkupInfo(item);
   addSizeInfo(item);
   addOptionsInfo(item, optnames);
+  addOemInfo(item);
   addManufInfo(item);
   addDescrInfo(item);
+  item.isOem = item.oem ? '' : 'displayNone';
+  item.isManuf = item.manuf ? '' : 'displayNone';
   item.search = item.search.join(';').replace(/\s/g, ' ');
   return item;
 }
@@ -393,60 +395,53 @@ function addSizeInfo(item) {
   }
 }
 
+// Добавление данных об OEM:
+
+function addOemInfo(item) {
+  if (!item.manuf) {
+    return;
+  }
+  item.oem = [];
+  for (var key in item.manuf.oem) {
+    item.oem.push(key);
+  }
+  item.oem = item.oem.join(', ');
+}
+
 // Преобразование данных о производителе для фильтров и построения таблицы:
 
 function addManufInfo(item) {
   if (!item.manuf) {
     return;
   }
-  var heads = ['oem', 'years', 'man', 'model'],
-      manufTable = [],
+  var manufTable = [],
       manufTableRow,
       manuf = [],
       manufRow,
       value;
+
   for (var man in item.manuf.man) {
-    var newMan = man.trim().replace(/с/g, 'c');
-    if (man !== newMan) {
-      item.manuf.man[newMan] = JSON.parse(JSON.stringify(item.manuf.man[man]));
-      delete item.manuf.man[man];
-    }
-    manufTableRow = {};
     manufRow = {};
+    manufRow.man = [man];
+    manufTableRow = {};
+    manufTableRow.man = man;
+
     for (var k in item.manuf) {
-      value = [];
-      for (var kk in item.manuf[k]) {
-        var newKK = kk.trim().replace(/с/g, 'c');
-        if (kk !== newKK) {
-          item.manuf[k][newKK] = JSON.parse(JSON.stringify(item.manuf[k][kk]));
-          delete item.manuf[k][kk];
-        }
-        if (k === 'man') {
-          value.push(newKK);
-        } else {
-          for (var kkk in item.manuf[k][newKK]) {
-            var newKKK = kkk.trim().replace(/с/g, 'c');
-            if (kkk !== newKKK) {
-              item.manuf[k][newKK][newKKK] = JSON.parse(JSON.stringify(item.manuf[k][newKK][kkk]));
-              delete item.manuf[k][newKK][kkk];
-            }
-            if (newKKK == man) {
-              value.push(newKK);
+      if (k !== 'man') {
+        value = [];
+        for (var kk in item.manuf[k]) {
+          for (var kkk in item.manuf[k][kk]) {
+            if (kkk == man) {
+              value.push(kk);
             }
           }
         }
-        item.search.push(newKK);
-      }
-      manufRow[k] = value;
-      value = value.join(', ');
-      if (value && k === 'years') {
-        value = convertYears(value);
-      }
-      manufTableRow[k] = value || '&ndash;';
-      for (var key of heads) {
-        if (!manufTableRow[key]) {
-          manufTableRow[key] = '&ndash;';
+        manufRow[k] = value;
+        value = value.join(', ');
+        if (value && k === 'years') {
+          value = convertYears(value);
         }
+        manufTableRow[k] = value || '&ndash;';
       }
     }
     manuf.push(manufRow);
@@ -461,12 +456,15 @@ function addManufInfo(item) {
 function addDescrInfo(item) {
   item.describe = [];
   if (item.desc) {
+    item.desc = item.desc.replace(/\\n/g, '');
     item.describe.push({title: 'Описание товара', info: item.desc});
   }
   if (item.actiondescr) {
+    item.actiondescr = item.actiondescr.replace(/\\n/g, '');
     item.describe.push({title: 'Условия акции', info: item.actiondescr});
   }
   if (item.defect_desc) {
+    item.defect_desc = item.defect_desc.replace(/\\n/g, '');
     item.describe.push({title: 'Описание дефекта', info: item.defect_desc});
   }
   delete item.actiondescr;
@@ -587,7 +585,7 @@ function openPage(event) {
     }
   } else {
     var oldPath = path;
-    path = event.currentTarget.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?');
+    path = event.currentTarget.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?').filter(el => el);
     if (path.length === oldPath.length && JSON.stringify(oldPath) === JSON.stringify(path)) {
       return;
     }
@@ -990,56 +988,65 @@ function showFullCard(id) {
   loader.show();
   var data = findItemData(id, 'catalog');
   if (!data) {
+    loader.hide();
     return;
   }
-  loader.show();
-  var fullCardContainer = getEl('#full-card-container');
-  openPopUp(fullCardContainer);
 
-  fillTemplate({
-    area: fullCardContainer,
-    items: data,
-    sub: [{
-      area: '.carousel-item',
-      items: 'images'
-    }, {
-      area: '.card-size',
-      items: 'sizes'
-    }, {
-      area: '.desk .card-option',
-      items: 'options'
-    }, {
-      area: '.adaptive .card-option',
-      items: 'options'
-    }, {
-      area: '.manuf-row',
-      items: 'manuf_table'
-    }, {
-      area: '.describe',
-      items: 'describe'
-    }]
-  });
-  checkCart(getEl('.full-card'));
-  addActionTooltip(getEl('.full-card'));
-
-  var curCarousel = getEl('.carousel', fullCardContainer);
-  renderCarousel(curCarousel)
+  addDetailsInfo(data)
   .then(result => {
-    curCarousel = getEl('.carousel', fullCardContainer);
-    if (curCarousel) {
-      getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
-      getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+    var fullCardContainer = getEl('#full-card-container');
+    fillTemplate({
+      area: fullCardContainer,
+      items: data,
+      sub: [{
+        area: '.carousel-item',
+        items: 'images'
+      }, {
+        area: '.card-size',
+        items: 'sizes'
+      }, {
+        area: '.desk .card-option',
+        items: 'options'
+      }, {
+        area: '.adaptive .card-option',
+        items: 'options'
+      }, {
+        area: '.manuf-row',
+        items: 'manuf_table'
+      }, {
+        area: '.describe',
+        items: 'describe'
+      }]
+    });
+
+    if (catalogType === 'zip') {
+      if (data.details) {
+        fillTemplate({
+          area: '#details',
+          items: data.details,
+          sign: '@'
+        });
+        console.log(getEl('#details'));
+        initSearch('#detail-search', detailsSearch);
+      } else {
+        getEl('.card-details', fullCardContainer).remove();
+      }
     }
-    fullCardContainer.style.opacity = 1;
-    loader.hide();
-  });
 
-  sendRequest(urlRequest.main, 'item_models', {id: id})
-  .then(result => {
-    console.log(result);
-  })
-  .catch(error => {
-    console.log(error);
+    var curCarousel = getEl('.carousel', fullCardContainer);
+    renderCarousel(curCarousel)
+    .then(result => {
+      curCarousel = getEl('.carousel', fullCardContainer);
+      if (curCarousel) {
+        getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+        getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+      }
+    });
+
+    checkCart(getEl('.full-card'));
+    addActionTooltip(getEl('.full-card'));
+    openPopUp(fullCardContainer);
+    loader.hide();
   });
 }
 
@@ -1071,6 +1078,69 @@ function showFullImg(event, data) {
   } else {
     loader.hide();
     alerts.show('При загрузке изображения произошла ошибка.');
+  }
+}
+
+//=====================================================================================================
+// Применяемость деталей:
+//=====================================================================================================
+
+// Добавление информации о применяемости деталей:
+
+function addDetailsInfo(data) {
+  return new Promise(resolve => {
+    if (catalogType !== 'zip') {
+      resolve();
+    }
+    if (data.details) {
+      resolve();
+    }
+    sendRequest(`../json/details.json`)
+    // sendRequest(urlRequest.main, 'item_models', {id: data.object_id})
+    .then(result => {
+      if (result) {
+        result = JSON.parse(result);
+        var details = [];
+        result.forEach((el, index) => {
+          details[index] = '';
+          if (el.brand) {
+            details[index] += el.brand;
+          }
+          if (el.year) {
+            details[index] += ' — ' + el.year;
+          }
+          if (el.model) {
+            details[index] += ' — ' + el.model;
+          }
+        });
+        data.details = details;
+        resolve();
+      } else {
+        throw new Error('Пустой ответ.');
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      resolve();
+    })
+  });
+}
+
+// Поиск по применяемости:
+
+function detailsSearch(search, textToFind) {
+  var data = items.find(el => el.object_id == getEl('.full-card').dataset.id);
+  if (data && data.details) {
+    data = data.details;
+    if (textToFind) {
+      var regExp = getRegExp(textToFind);
+      data = data.filter(item => findByRegExp(item, regExp));
+    }
+    fillTemplate({
+      area: '#details',
+      items: data,
+      sign: '@'
+    });
   }
 }
 
