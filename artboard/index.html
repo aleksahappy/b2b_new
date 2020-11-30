@@ -115,9 +115,9 @@
           <div class="lock icon limit"></div>
           <div class="lock icon off"></div>
 
-          <div class="mark icon full"></div>
-          <div class="mark icon limit"></div>
-          <div class="mark icon off"></div>
+          <div class="mark icon process"></div>
+          <div class="mark icon done"></div>
+          <div class="mark icon fail"></div>
 
           <div class="search icon"></div>
           <div class="search white icon"></div>
@@ -1487,7 +1487,10 @@
                   <div class="title">Система налогообложения: <span class="text">#system#</span></div>
                   <div class="title">Дата заведения: <span class="text">#date#</span></div>
                   <div class="title">Юридический адрес: <span class="text">#address#</span></div>
-                  <div class="docs row #status#"><div class="mark icon"></div><a href="url">#title#</a></div>
+                  <div class="docs row">
+                    <div class="mark icon" data-status="#status#" data-tooltip="#status_text#"></div>
+                    <a href="url">#title#</a>
+                  </div>
                 </div>
               </div>
             </div>

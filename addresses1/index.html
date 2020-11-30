@@ -26,13 +26,12 @@
             <div class="add icon" onclick="openAddressPopUp()"></div>
           </div>
         </div>
-        <div class="addresses-wrap row">
-          <div class="left-side">
-            <div class="basic btn" data-tooltip="Добавьте магазин,<br>чтобы он отобразился<br>на карте дилера" onclick="openAddressPopUp()">Добавить</div>
-            <div id="addresses" class="template">
-              <div class="address close" onclick="toggleEl(event)">
+        <div id="addresses" class="table active">
+          <div class="table-adaptive template">
+            <div class="address" onclick="toggleAddress(event)">
+              <div class="col">
                 <div class="info row">
-                  <div class="wrap">
+                  <div class="wrap col">
                     <div class="name row">
                       <div class="title">#title#</div>
                       <div class="row">
@@ -43,6 +42,7 @@
                     <div class="text light">#type#</div>
                     <a class="phone" href="tel:#phone#">#phone#</a>
                     <a href="http://#site#" target="_blank">#site#</a>
+                    <div class="open icon"></div>
                   </div>
                   <div class="img-wrap">
                     <img src="#img#" alt="логотип">
@@ -60,7 +60,6 @@
               </div>
             </div>
           </div>
-          <div id="map"></div>
         </div>
       </div>
     </div>
@@ -228,26 +227,7 @@
     </div>
 
     <script src="../js/main.js"></script>
+    <script src="../js/table.js"></script>
     <script src ="index.js"></script>
-    <!-- <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript"></script> -->
-    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A86fb7acaf015666acc5a70ee0dcee3541c64c33886a6519986d7ea4315a67e8f&amp;width=100%25&amp;height=calc(100vh - 261px)&amp;lang=ru_RU&amp;scroll=true&amp;id=map"></script>
-    <!-- <script type="text/javascript">
-      // Функция ymaps.ready() будет вызвана, когда
-      // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-      ymaps.ready(init);
-      function init() {
-        // Создание карты.
-        var myMap = new ymaps.Map("map", {
-          // Координаты центра карты.
-          // Порядок по умолчанию: «широта, долгота».
-          // Чтобы не определять координаты центра карты вручную,
-          // воспользуйтесь инструментом Определение координат.
-          center: [55.76, 37.64],
-          // Уровень масштабирования. Допустимые значения:
-          // от 0 (весь мир) до 19.
-          zoom: 7
-        });
-      }
-    </script> -->
   </body>
 </html>

@@ -63,7 +63,7 @@ function initPage(data = []) {
         width: '21%',
         keys: ['docs'],
         content: `<div class="docs row">
-                    <div class="mark icon #status#" data-tooltip="#status_info#"></div>
+                    <div class="mark icon" data-status="#status#" data-tooltip="#status_text#"></div>
                     <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
                   </div>`
       }]
@@ -172,17 +172,19 @@ function addContr(formData) {
   .then(result => {
     result = JSON.parse(result);
     console.log(result);
-    if (result.ok) {
+    if (result.error) {
+      alerts.show(result.error);
+    } else {
+      alerts.show('Контрагент успешно добавлен.');
       convertData(result);
       updateTable('#contr', result);
+      fillTemplate({
+        area: ".table-adaptive",
+        items: data,
+        sub: [{area: '.docs', items: 'docs'}]
+      });
       closePopUp(null, '#contractor');
       clearForm('#contr-form');
-    } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
-      }
     }
     hideElement('#contractor .loader');
   })

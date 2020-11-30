@@ -699,42 +699,74 @@ body.no-scroll {
 }
 
 /* =====================================================================================================
+Цветовая гамма статусов обработки/действия:
+===================================================================================================== */
+
+/* в обработке */
+
+.status[data-status="2"],
+.status.process,
+.process .status {
+  color: #F69C00;
+  background-color: #FEF5E5;
+  border: 1px solid #F69C00;
+}
+
+/* успешно/действует */
+.status[data-status="1"],
+.status.done,
+.done .status {
+  color: #3F9726;
+  background-color: #ECF5E9;
+  border: 1px solid #3F9726;
+}
+
+/* отказ/не действует */
+.status[data-status="0"],
+.status.fail,
+.fail .status {
+  color: #CE0014;
+  background-color: #FAE5E7;
+  border: 1px solid #CE0014;
+}
+
+/* =====================================================================================================
 Цветовая гамма статусов рекламаций:
 ===================================================================================================== */
 
 /* зарегистрирована */
 .recl[data-status="1"] {
-  border: 1px solid #8596A6;
   color: #8596A6;
-  background: #E7EAED;
+  background-color: #E7EAED;
+  border: 1px solid #8596A6;
 }
 
 /* обрабатывается */
 .recl[data-status="2"] {
-  border: 1px solid #F69C00;
   color: #F69C00;
-  background: #FEF5E5;
+  background-color: #FEF5E5;
+  border: 1px solid #F69C00;
 }
 
 /* удовлетворена */
 .recl[data-status="3"] {
-  border: 1px solid #228007;
   color: #3F9726;
-  background: #ECF5E9;
+  background-color: #ECF5E9;
+  border: 1px solid #228007;
 }
 
 /* не удовлетворена */
 .recl[data-status="4"] {
-  border: 1px solid #CE0014;
   color: #CE0014;
-  background: #FAE5E7;
+  background-color: #FAE5E7;
+  border: 1px solid #CE0014;
 }
 
 /* исполнена */
 .recl[data-status="5"] {
-  border: 1px solid #2C6DA8;
   color: #2C6DA8;
-  background: #E7EAED;
+  background-color: #E7EAED;
+  border: 1px solid #2C6DA8;
 }
 
 /* =====================================================================================================
@@ -1624,7 +1656,7 @@ input.btn {
   background-image: url(../img/access_disabled.svg);
 }
 
-/* Отметка (кружок) */
+/* Маркер (кружок) */
 
 .mark.icon {
   width: 10px;
@@ -1632,18 +1664,21 @@ input.btn {
   border-radius: 50%;
 }
 
-.full.mark.icon,
-.full .mark.icon {
-  background-color: #228007;
-}
-
-.limit.mark.icon,
-.limit .mark.icon {
+.mark.icon[data-status="2"],
+.mark.icon.process,
+.process .mark.icon {
   background-color: #F69C00;
 }
 
-.off.mark.icon,
-.off .mark.icon {
+.mark.icon[data-status="1"],
+.mark.icon.done,
+.done .mark.icon {
+  background-color: #3F9726;
+}
+
+.mark.icon[data-status="0"],
+.mark.icon.fail,
+.fail .mark.icon {
   background-color: #CE0014;
 }
 

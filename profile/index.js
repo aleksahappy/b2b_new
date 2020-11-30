@@ -40,7 +40,11 @@ function convertData() {
   if (isEmptyObj(data)) {
     return
   }
-  data.gender_text = data.gender == '1' ? 'муж.' : 'жен.';
+  if (data.gender == '1') {
+    data.gender_text = 'муж.';
+  } else if (data.gender == '2') {
+    data.gender_text = 'жен.';
+  }
   data.phone = convertPhone(data.phone);
   data.work_phone = convertPhone(data.phone);
 }

@@ -2,7 +2,9 @@
 
 // Глобальные переменные:
 
-var items = [], prevForm;
+var items = [],
+    formMode,
+    curId;
 
 // Запуск страницы пользователей:
 
@@ -104,7 +106,11 @@ function initPage() {
 function convertData() {
   items.forEach(el => {
     el.isChecked = el.checked > 0 ? 'checked' : '';
-    el.gender_text = el.gender == '1' ? 'муж.' : 'жен.';
+    if (el.gender == '1') {
+      el.gender_text = 'муж.';
+    } else if (el.gender == '2') {
+      el.gender_text = 'жен.';
+    }
     el.phone = convertPhone(el.phone);
     el.status = el.checked > 0 ? el.access > 0 ? 'full' : 'limit' : 'off';
     el.status_text = el.checked  > 0 ? el.access > 0 ? 'Полный' : 'Частичный' : 'Отключен';
@@ -137,18 +143,17 @@ function toggleAccess(event, id) {
 // Открытие всплывающего окна с формой:
 
 function openUserPopUp(id) {
-  if (!id) {
-    return;
-  }
   var userPopUp = getEl('#user'),
       title = getEl('.pop-up-title .title', userPopUp);
-  if (prevForm !== id) {
-    prevForm = id;
+  if (curId !== id) {
+    curId = id;
     if (id) {
+      formMode = 'edit';
       title.textContent = 'Редактировать пользователя';
       var data = items.find(el => el.id == id);
       fillForm('#user-form', data, true);
     } else {
+      formMode = 'add';
       title.textContent = 'Новый пользователь';
       clearForm('#user-form');
     }
@@ -159,19 +164,30 @@ function openUserPopUp(id) {
 // Отправка формы на сервер:
 
 function sendForm(formData) {
-  sendRequest(urlRequest.main, '???', formData, 'multipart/form-data')
+  var action;
+  if (formMode === 'add') {
+    action = '???';
+  } else if (formMode === 'edit') {
+    action = '???';
+  }
+  formData.append('id', curId);
+  sendRequest(urlRequest.main, action, formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);
-    if (result.ok) {
-      alerts.show('Успешно.');
-      closePopUp(null, '#user');
+    if (result.error) {
+      alerts.show(result.error);
     } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      if (formMode === 'add') {
+        alerts.show('Пользователь успешно добавлен.');
+      } else if (formMode === 'edit') {
+        alerts.show('Данные пользователя успешно изменены.');
       }
+      items = result;
+      convertData();
+      updateTable('#users', items);
+      closePopUp(null, '#user');
+      clearForm('#user-form');
     }
     hideElement('#user .loader');
   })

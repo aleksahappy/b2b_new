@@ -226,7 +226,7 @@ function createTable(area, settings) {
     <tr>${headRow}</tr>
     <tr class="results">${resultRow}</tr>
   </thead>
-  <tbody id=${area.id}-body class="template">
+  <tbody id=${area.id}-body>
     <tr ${tableSettings.trFunc || ''}>${bodyRow}</tr>
   </tbody>`;
   area.appendChild(table);
@@ -460,14 +460,7 @@ function Table(obj, settings = {}) {
     this.initialData = Array.isArray(this.initialData) ? this.initialData.filter(el => el) : [];
     if (this.initialData) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
-      this.data.forEach(el => {
-        for (var key in el) {
-          if (!el[key] && el[key] != 0) {
-            el[key] = '&ndash;';
-          }
-        }
-        this.addDataForSearch(el);
-      });
+      this.data.forEach(el => this.addDataForSearch(el));
       this.dataToLoad = this.data;
     }
   }
@@ -651,23 +644,27 @@ function Table(obj, settings = {}) {
     for (let i = this.countItems; i < this.countItemsTo; i++) {
       tableItems.push(this.dataToLoad[i]);
     }
-    fillTemplate({
+    var list = fillTemplate({
       area: this.body,
       items: tableItems,
       sub: settings.desktop.sub,
       sign: settings.desktop.sign,
-      method: !direction ? 'inner': (direction === 'next' ? 'beforeend' : 'afterbegin')
+      action: 'return'
     });
+    list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
 
     if (!direction) {
+      this.body.innerHTML = list;
       this.paginationSwitch = this.body.lastElementChild;
     } else if (direction === 'next') {
+      this.body.insertAdjacentHTML('beforeend', list);
       if (this.countItems - this.incr * 2 >= 0) {
         for (let i = 0; i < this.incr; i++) {
           this.body.removeChild(this.body.firstElementChild);
         }
       }
     } else if (direction === 'prev') {
+      this.body.insertAdjacentHTML('afterbegin', list);
       if (this.countItemsTo + this.incr * 2 <= this.dataToLoad.length) {
         for (let i = 0; i < this.incr; i++) {
           this.body.removeChild(this.body.lastElementChild);
@@ -697,6 +694,7 @@ function Table(obj, settings = {}) {
       sign: settings.desktop.sign,
       action: 'return'
     });
+    list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
     this.body.innerHTML = list;
   }
 
@@ -1051,6 +1049,7 @@ function Table(obj, settings = {}) {
         this.prevColumn.style.width = newPrevWidth;
         this.nextColumn.style.width = newNextWidth;
       }
+      this.changeResizeBtns();
     }
   });
 

@@ -1,0 +1,28 @@
+@media only screen and (max-width: 1280px) {
+  .question.icon {
+    display: block;
+  }
+
+  .table-adaptive {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #address-form .main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .address {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+
+}

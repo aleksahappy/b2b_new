@@ -3,40 +3,72 @@
   margin-right: 0;
 }
 
-.addresses-wrap .left-side {
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-right: 1.428em;
-  background: transparent;
+.edit.icon {
+  width: 19px;
+  height: 19px;
+  margin-right: 0;
 }
 
-.addresses-wrap .left-side .btn {
-  width: 100%;
-  margin-bottom: 20px;
+.trash.icon {
+  width: 19px;
+  height: 19px;
+  margin-right: 0;
 }
 
-#addresses {
-  height: calc(100vh - 321px);
-  overflow: auto;
+.table-desktop .edit.icon {
+  background-image: url(../img/edit_address.svg);
+}
+
+.table-desktop > tbody > tr > td.name {
+  white-space: normal;
+}
+
+.table-desktop .text {
+  font-size: 0.857em;
+}
+
+.table-desktop > tbody > tr > td.pills {
+  padding-top: 0.5em;
+  padding-bottom: 0;
+  line-height: 0;
+  vertical-align: top;
 }
 
 .address {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 30em;
-  border-bottom: 1px solid #C6C6C6;
+  position: relative;
+  width: 49%;
+  height: 9.5em;
+  margin-bottom: 0.5em;
   transition: 0.2s;
+  overflow: hidden;
   cursor: pointer;
 }
 
-.address:last-child {
-  border-bottom: none;
+.address.open {
+  overflow: visible;
 }
 
-.address .info {
-  justify-content: space-between;
-  padding: 0.714em 1.428em;
+.address > .col {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  min-height: 100%;
+  align-items: initial;
   background: #FFFFFF;
+}
+
+.address.open > .col {
+  box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
+  z-index: 1;
+}
+
+.address .info.row {
+  justify-content: space-between;
+  align-items: stretch;
+  height: 9.5em;
+  flex-grow: 1;
+  padding: 0.714em 1.428em;
 }
 
 .address .info .wrap {
@@ -48,9 +80,16 @@
   margin-bottom: 0.357em;
 }
 
+.address .info .wrap > :nth-child(4) {
+  margin-bottom: 0.75em;
+}
+
 .address .name .title {
   margin-right: 0.714em;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .address .name > .row {
@@ -59,12 +98,6 @@
 
 .address .mark.icon {
   margin-right: 0.714em;
-}
-
-.address .edit.icon {
-  width: 19px;
-  height: 19px;
-  margin-right: 0;
 }
 
 .address .text {
@@ -88,10 +121,21 @@
   height: 90px;
 }
 
+.address .open.icon {
+  flex-grow: 1;
+  background-position: bottom center;
+  transform: rotate(0);
+}
+
+.address.open .open.icon {
+  flex-grow: 1;
+  background-position: bottom center;
+  transform: rotate(-180deg)
+}
+
 .address .more {
   padding: 0.714em 1.428em;
   padding-top: 0;
-  background: #FFFFFF;
 }
 
 .address .more > div:first-child {
@@ -106,16 +150,6 @@
 .address .time > div:first-child {
   width: 7em;
   margin-right: 0.714em;
-}
-
-.address:hover .info,
-.address:hover .more {
-  background: #E7EAED;
-}
-
-#map {
-  width: calc(100% - 30em);
-  height: auto;
 }
 
 /* Всплывающее окно добавления/редактирования адреса */

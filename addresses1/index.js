@@ -29,14 +29,72 @@ function startAddressPage() {
 // Инициализация страницы:
 
 function initPage() {
+  document.addEventListener('click', toggleAddress);
   convertData();
+  var settings = {
+    data: items,
+    desktop: {
+      head: true,
+      result: false,
+      // sub: [{area: '.time', items: 'time'}],
+      cols: [{
+        title: 'Адрес',
+        width: '30%',
+        class: 'name',
+        keys: ['full_address']
+      }, {
+        title: 'Название',
+        width: '15%',
+        keys: ['title', 'type'],
+        content: `<div>#title#</div><div class="text light">#type#</div>`
+      }, {
+        title: 'Сайт',
+        keys: ['site'],
+        content: '<a href="http://#site#" target="_blank">#site#</a>'
+      }, {
+        title: 'Телефон',
+        keys: ['phone'],
+        content: '<a href="tel:#phone#">#phone#</a>'
+      }, {
+      //   title: 'Время работы',
+      //   keys: ['time'],
+      //   content: `<div class="time row">
+      //               <div>#day#</div>
+      //               <div>#time#</div>
+      //             </div>`
+      // }, {
+        title: 'Статус модерации',
+        align: 'center',
+        class: 'pills',
+        keys: ['status_text'],
+        content: `<div class="status pill" data-status="#status#">#status_text#</div>`
+      }, {
+        title: 'Редактировать',
+        width: '8%',
+        align: 'center',
+        class: 'pills',
+        content: `<div class="edit icon" onclick="openAddressPopUp('#id#')"></div>`
+      }, {
+        title: 'Удалить',
+        width: '6%',
+        align: 'center',
+        class: 'pills',
+        content: `<div class="trash icon" onclick="deleteAddress('#id#')"></div>`
+      }]
+    },
+    filters: {
+      'full_address': {title: 'По адресу', sort: 'text', search: 'usual'},
+      'title': {title: 'По названию', sort: 'text', search: 'usual'},
+      'type': {title: 'По типу торговли', filter: 'checkbox'},
+      'site': {title: 'По сайту', sort: 'text', search: 'usual'},
+      'status': {title: 'По статусу модерации', sort: 'text', search: 'usual', filter: 'checkbox'}
+    }
+  }
+  initTable('#addresses', settings);
   fillTemplate({
-    area: '#addresses',
+    area: ".table-adaptive",
     items: items,
-    sub:[{
-      area: '.time',
-      items: 'time'
-    }]
+    sub: [{area: '.time', items: 'time'}]
   });
   document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
   initForm('#address-form', sendForm);
@@ -47,7 +105,7 @@ function initPage() {
 
 function convertData() {
   items.forEach(el => {
-    el.status_text = el.status == '1' ? 'Магазин прошел модерацию' : el.status == '0' ? 'Магазин не прошел модерацию,<br>свяжитесь с вашим менеджером' : 'Магазин проходит модерацию';
+    el.status_text = el.status == '1' ? 'Успешно' : el.status == '0' ? 'Ошибка' : 'В обработке';
   });
 }
 
@@ -76,6 +134,21 @@ function FormAddresses(obj, callback) {
     }
   }
   this.toggleBtn();
+}
+
+
+function toggleAddress(event) {
+  var openAddress = getEl('.address.open'),
+      curAddress = event.target.closest('.address');
+  if (curAddress) {
+    if (checkIsAction(event)) {
+      return;
+    }
+    curAddress.classList.toggle('open');
+  }
+  if (openAddress) {
+    openAddress.classList.remove('open');
+  }
 }
 
 // Открытие всплывающего окна с формой:
@@ -118,7 +191,7 @@ function toggleTradeTypeField() {
   }
 }
 
-// Открытие для заполнения в форме времени работы магазина:
+// Открытие для заполнения во всплывающем окне времени работы магазина:
 
 function openWorkTime() {
   showElement('#address .work-time');
@@ -149,13 +222,11 @@ function sendForm(formData) {
       }
       items = result;
       convertData();
+      updateTable('#addresses', result);
       fillTemplate({
-        area: '#addresses',
-        items: items,
-        sub:[{
-          area: '.time',
-          items: 'time'
-        }]
+        area: ".table-adaptive",
+        items: data,
+        sub: [{area: '.time', items: 'time'}]
       });
       document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
       closePopUp(null, '#address');
@@ -167,5 +238,33 @@ function sendForm(formData) {
     console.log(error);
     alerts.show('Произошла ошибка, попробуйте позже.');
     hideElement('#address .loader');
+  })
+}
+
+// Удаление адреса:
+
+function deleteAddress(id) {
+  sendRequest(urlRequest.main, '???', {id: id})
+  .then(result => {
+    result = JSON.parse(result);
+    console.log(result);
+    if (result.ok) {
+      alerts.show('Адрес успешно удален.');
+      items = result;
+      convertData();
+      updateTable('#addresses', result);
+      fillTemplate({
+        area: ".table-adaptive",
+        items: data,
+        sub: [{area: '.time', items: 'time'}]
+      });
+      document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
+    } else {
+      throw new Error('Ошибка.');
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    alerts.show('Произошла ошибка, попробуйте позже.');
   })
 }
