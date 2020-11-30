@@ -468,6 +468,7 @@ function Table(obj, settings = {}) {
   // Добавление данных для поиска по всей таблице:
   this.addDataForSearch = function(el) {
     if (settings.desktop.cols) {
+      el.search = '';
       settings.desktop.cols.forEach(col => {
         if (col.keys) {
           col.keys.forEach(key => {
