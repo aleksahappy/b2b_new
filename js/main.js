@@ -341,7 +341,6 @@ function getItems(id) {
     sendRequest(urlRequest.main, 'items', data)
     .then(result => {
       var data = JSON.parse(result);
-      // console.log(data)
       resolve(data);
     })
     .catch(error => {
@@ -358,7 +357,6 @@ function getItem(articul) {
     sendRequest(urlRequest.main, 'item', {articul: articul})
     .then(result => {
       var data = JSON.parse(result);
-      // console.log(data);
       resolve(data);
     })
     .catch(error => {
@@ -1229,7 +1227,7 @@ function checkDate(start, end, date = new Date()) {
   if (!end) {
     end = new Date().setDate(date.getDate() + 1);
   }
-  if (date >= start && date < end) {
+  if (date >= start && date <= end) {
     return true;
   } else {
     return false;
@@ -1305,6 +1303,7 @@ function convertToString(el) {
   function convert(el) {
     if (typeof el === 'string' || typeof el === 'number') {
       el = el.toString();
+      el = el.replace(/&nbsp;/g, ' ');
       if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(el)) {
         el = el.replace(/\s/g, '').replace('.', ',');
       }
@@ -2089,7 +2088,6 @@ function showInfoCard(articul) {
       item.isDesc = item.desc ? '' : 'displayNone';
       openInfoCard(item);
     } else {
-      loader.hide();
       throw new Error('Ошибка');
     }
   }, reject => {
@@ -2118,6 +2116,7 @@ function openInfoCard(data) {
   checkImg(infoCardContainer);
   getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
   openPopUp(infoCardContainer);
+  loader.hide();
 }
 
 // Отображение картинки на весь экран:
@@ -2132,7 +2131,6 @@ function showFullImg(event, articul) {
     if (result.item) {
       openFullImg(event, result.item);
     } else {
-    loader.hide();
     throw new Error('Ошибка');
     }
   }, reject => {
@@ -2170,6 +2168,7 @@ function openFullImg(event, data) {
     } else {
       fullImgContainer.style.opacity = 1;
     }
+    loader.hide();
   });
 }
 

@@ -234,7 +234,7 @@ function fillCatalogHeader() {
 // Преобразование входящих данных:
 //=====================================================================================================
 
-// Преобразование входящих данных о скидках:
+// Преобразование входящих данных об акциях:
 
 function convertActions() {
   if (!window.actions) {
@@ -244,7 +244,9 @@ function convertActions() {
   for (var key in actions) {
     var action = actions[key];
     action.begin = getDateObj(action.begin, 'yy-mm-dd');
+    action.begin.setHours(0, 0, 1);
     action.expire = getDateObj(action.expire, 'yy-mm-dd');
+    action.expire.setHours(23, 59, 59);
     if (action.art_cnt_perc) {
       action.art_cnt_perc = action.art_cnt_perc.split(';').map(el => el.split(','));
     }
@@ -318,7 +320,7 @@ function addActionInfo(item) {
   item.isAction = item.actiontitle ? '' : 'displayNone';
   if (actions && item.action_id && item.action_id > 0) {
     var action = actions[item.action_id];
-    if (action && (action.unending != 0 || checkDate(action.begin, action.expire))) {
+    if (action && (checkDate(action.begin, action.unending > 0 ? undefined : action.expire))) {
       item.actiontitle = action.title;
       item.actioncolor = action.color ? `#${action.color}` : '';
       item.actiondescr = action.descr;
@@ -1120,7 +1122,7 @@ function addDetailsInfo(data) {
       }
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
       resolve();
     })
   });
