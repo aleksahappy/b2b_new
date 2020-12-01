@@ -283,20 +283,15 @@ function createCartItemData(id, qty, checker, status = '') {
   if (!cartItems[id]) {
     return;
   }
+  if (status === 'bonus' && item.total_qty < 0) {
+    return;
+  }
   var item = Object.assign(cartItems[id]);
-  item.status = status;
-  if (status === 'bonus') {
-    item.price_cur = 'Подарок';
-  }
-  if (item.total_qty > 0) {
-    item.qty = qty > item.total_qty ? item.total_qty : qty;
-  } else {
-    item.qty = qty;
-    item.price_cur = 0;
-  }
-  item.search = `${item.articul},${item.options},${item.title}`;
-  item.isSold = item.total_qty > 0 ? '' : 'sold';
+  item.qty = qty;
+  item.price_cur = status === 'bonus' ? 'Подарок' : item.total_qty > 0 ? item.price_cur : 0;
+  item.status = status === 'bonus' ? 'bonus' : item.total_qty > 0 ? qty > item.total_qty ? 'attention' : '' : 'sold';
   // item.isChecked = checker > 0 ? 'checked' : '';
+  item.search = `${item.articul};${item.options};${item.title};${convertToString(item.price_cur)}`;
   return item;
 }
 
@@ -419,7 +414,7 @@ function getCheckedId() {
 
 // Подсчет по корзине (всей корзины целиком или только выбранных элементов):
 
-function countFromCart(idList = undefined, totals = true) {
+function countFromCart(idList = undefined, totals = true, soldOut = true) {
   var qty = 0,
       sum = 0,
       sumOpt = 0;
@@ -453,11 +448,15 @@ function countFromCart(idList = undefined, totals = true) {
       return;
     }
     curItem = cartItems[id];
-    if (!curItem || !(curItem.total_qty != 0)) {
+    if (!curItem || !(curItem.total_qty > 0)) {
       qty += el.qty;
       return;
     }
-    curQty = el.qty > curItem.total_qty ? curItem.total_qty : el.qty;
+    if (soldOut) {
+      curQty = el.qty;
+    } else {
+      curQty = el.qty > curItem.total_qty ? curItem.total_qty : el.qty;
+    }
     qty += curQty;
     sumOpt += curQty * curItem.price_cur1;
 
@@ -578,7 +577,7 @@ function numMinusProc(condition, curItem, qty) {
     return null;
   }
   for (var el of condition) {
-    if (el[0] === curItem.articul) {
+    if (el[0].toLowerCase() === curItem.articul.toLowerCase()) {
       var price = curItem.price_cur1,
           retailPrice = curItem.price_user1,
           rest = qty % el[1];
@@ -652,6 +651,7 @@ function sumLessProc(sum) {
 function changeCartInHeader(totals) {
   if (!totals) {
     totals = countFromCart();
+    console.log(totals);
   }
   var qty = totals.qty,
       sum = totals.sum;
@@ -803,6 +803,7 @@ function changeCart(event, id) {
       checkCart(getEl(`#gallery .card[data-id="${curEl.dataset.id}"]`));
     }
   } else {
+    curEl.classList.remove('attention');
     changeCartRow(curEl);
   }
 }
@@ -813,7 +814,7 @@ function changeCard(card) {
   var selectInfo = getEl('.select-info', card),
       bonusRow = getEl('.bonus', selectInfo),
       idList = getIdList(card),
-      totals = countFromCart(idList, false);
+      totals = countFromCart(idList, false, false);
 
   if (bonusRow && totals.bonusQty) {
     var bonusItem = cartItems[totals.bonusId];
@@ -844,7 +845,7 @@ function changeCartRow(row) {
   }
   var input = getEl('.choiced-qty', row),
       id = input.dataset.id,
-      totals = countFromCart([id], false),
+      totals = countFromCart([id], false, false),
       sum = convertPrice(totals.sum);
 
   getEl('.discount', row).textContent = totals.percentDiscount > 0 ? totals.percentDiscount + '%' : '';
@@ -893,9 +894,9 @@ function changeCartRowCopy(id, qty, sum) {
 // Изменение информации о заказах и блокировка/разблокировка кнопки оформления заказа:
 
 function changeCheckoutInfo() {
-  var info = getEl('#checkout-info'),
+  var totals = countFromCart(getCheckedId(), true, false),
+      info = getEl('#checkout-info'),
       btn = getEl('#checkout-btn');
-  var totals = countFromCart(getCheckedId(), true);
   getEl('.qty', info).textContent = getCheckoutInfo(totals.orders.length);
   getEl('.sum', info).textContent = convertPrice(totals.sum);
   if (totals.sum) {
@@ -910,7 +911,7 @@ function changeCheckoutInfo() {
 // Изменение информации о заказе:
 
 function fillCheckout() {
-  var totals = countFromCart(getCheckedId()),
+  var totals = countFromCart(getCheckedId(), true, false),
       warnblock = getEl('#checkout .warnblock'),
       ordersQty = totals.orders.length;
   if (ordersQty > 1) {
@@ -942,7 +943,7 @@ function changeCartSectionInfo(cartSection) {
     return;
   }
   var mainCheckbox = getEl('.head .checkbox', cartSection),
-      totals = countFromCart(getIdList(cartSection), false);
+      totals = countFromCart(getIdList(cartSection), false, false);
   getEl('.select-qty span', cartSection).textContent = totals.qty;
   getEl('.select-sum span', cartSection).textContent = convertPrice(totals.sum);
   if (!getEl('.cart-row:not(.bonus):not(.checked)', cartSection)) {

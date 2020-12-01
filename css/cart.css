@@ -258,9 +258,20 @@
 
 .cart-row .qty {
   justify-content: center;
-  min-width: 7.5em;
   margin-right: 0.5em;
   text-align: center;
+}
+
+.cart-row.attention .qty {
+  box-shadow: 0 0 7px #CE0014;
+}
+
+.cart-row.attention .choiced-qty {
+  color: #CE0014;
+}
+
+.cart-row.attention .choiced-qty:focus {
+  color: #34495E;
 }
 
 .cart-row .qty-fix {
