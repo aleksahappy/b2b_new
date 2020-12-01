@@ -63,9 +63,7 @@ function convertData() {
       });
     };
     el.brands = itemBrands;
-    for (var key in el) {
-      el.search += convertToString(el[key]);
-    }
+    el.search = convertToString(el);
   });
   brands.sort();
   itemsToLoad = items;

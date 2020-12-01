@@ -123,13 +123,13 @@ function toggleAccess(event, id) {
   if (!isAdmin) {
     return;
   }
-  var toggle = event.currentTarget.classList.contains('checked') ? '0' : '1';
-  // console.log(toggle);
-  sendRequest(urlRequest.main, '???', {id: id, action: toggle})
+  var toggle = event.currentTarget,
+      mode = toggle.classList.contains('checked') ? '0' : '1';
+  sendRequest(urlRequest.main, ' change_user_access', {id: id, mode: mode})
   .then(result => {
     result = JSON.parse(result);
     if (result.ok) {
-      event.currentTarget.classList.toggle('checked');
+      toggle.classList.toggle('checked');
     } else {
       throw new Error('Ошибка');
     }
