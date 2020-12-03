@@ -23,7 +23,7 @@
           <div class="title h0">Рекламация №#recl_num# от #recl_date#</div>
         </div>
         <div class="recl-title row">
-          <div class="status row" data-status="#status#">
+          <div class="state row" data-status="#status#">
             <div class="item row">
               <div class="title">Зарегистрирована</div>
               <div class="icon"></div>
@@ -46,7 +46,7 @@
           </div>
           <div class="return-list row">
             <div class="info">Распечатайте лист возврата и вложите в посылку</div>
-            <a class="btn act row #isReturnList#" href="https://new.topsports.ru/api.php?action=recl&recl_id=#id#&return_list=pdf" onclick="getReturnList(event)">
+            <a class="btn act row #isReturnList#" href="https://new.topsports.ru/api.php?action=recl&recl_id=#id#&mode=return_list&type=pdf" target="_blank" onclick="getReturnList(event)">
               <div>Лист возврата</div>
               <div class="download white icon"></div>
             </a>
@@ -109,12 +109,8 @@
                   <input id="load-files" type="file" name="files" multiple="multiple">
                   <label class="text" for="load-files">загрузить</label>
                 </form>
-                <div class="items template">
-                  <div class="item img-wrap">
-                    <img src="@item@">
-                    <!-- https://new.topsports.ru/api.php?action=recl&recl_id=#id#&file_id=#file_id# -->
-                  </div>
-                </div>
+                <a class="item img-wrap" data-name="@file_name_view@" data-tooltip="@file_name_view@.@file_type@" href="https://api.topsports.ru/recl/storage_remote/#recl_code_1c#/@file_folder@/@file_name@.@file_type@" target="_blank" onclick="@isFunc@" style="@style@"></a>
+                <!-- <a class="item img-wrap" data-name="@file_name_view@" data-tooltip="@file_name_view@.@file_type@" href="https://api.topsports.ru/recl/storage_remote/#recl_code_1c#/@file_folder@/@file_name@.@file_type@" target="_blank" onclick="@isFunc@">@file@</a> -->
               </div>
             </div>
           </div>
@@ -127,8 +123,8 @@
               <div class="wrap">
               </div>
             </div>
-            <form class="footer row" method="post" enctype="multipart/form-data" name="message" id="message" data-recl="69f34cf3-089c-11eb-b338-4c5262213ebe" data-user="Атемасов Максим">
-              <input type="hidden" name="recl[recl_id]" value="69f34cf3-089c-11eb-b338-4c5262213ebe">
+            <form class="footer row" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="recl_id" value="#id#">
               <textarea name="comment" placeholder="Введите сообщение..." oninput="setTextareaHeight(this)"></textarea>
               <input class="btn" type="submit" value="Отправить">
             </form>

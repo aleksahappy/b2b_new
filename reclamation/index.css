@@ -6,22 +6,22 @@
 
 /* Статус рекламации: */
 
-.status {
+.state {
   width: 75%;
   padding-right: 1.428em;
 }
 
-.status .item {
+.state .item {
   position: relative;
   align-items: center;
   width: 30%;
 }
 
-.status .item:first-child {
+.state .item:first-child {
   width: auto;
 }
 
-.status .item .title {
+.state .item .title {
   position: absolute;
   top: -2em;
   right: 0;
@@ -30,20 +30,20 @@
   transform: translateX(30%);
 }
 
-.status .item:first-child .title {
+.state .item:first-child .title {
   left: 0;
   right: auto;
   transform: none;
 }
 
-.status .item .line {
+.state .item .line {
   width: 100%;
   height: 2px;
   margin: 0 0.714em;
   background: #D3D6D9;
 }
 
-.status .item .icon {
+.state .item .icon {
   flex-grow: 0;
   flex-shrink: 0;
   width: 36px;
@@ -54,86 +54,86 @@
 
 /* Индикатор "Зарегистрирована": */
 
-.status .item:nth-child(1) .title {
+.state .item:nth-child(1) .title {
   color: #34495E;
 }
 
-.status .item:nth-child(1) .icon {
+.state .item:nth-child(1) .icon {
   background: url('../img/recl_registr.svg') no-repeat center;
 }
 
 /* Индикатор "Обрабатывается": */
 
-.status[data-status="2"] .item:nth-child(2) .title,
-.status[data-status="3"] .item:nth-child(2) .title,
-.status[data-status="4"] .item:nth-child(2) .title,
-.status[data-status="5"] .item:nth-child(2) .title {
+.state[data-status="2"] .item:nth-child(2) .title,
+.state[data-status="3"] .item:nth-child(2) .title,
+.state[data-status="4"] .item:nth-child(2) .title,
+.state[data-status="5"] .item:nth-child(2) .title {
   color: #34495E;
 }
 
-.status[data-status="2"] .item:nth-child(2) .line,
-.status[data-status="3"] .item:nth-child(2) .line,
-.status[data-status="4"] .item:nth-child(2) .line,
-.status[data-status="5"] .item:nth-child(2) .line {
+.state[data-status="2"] .item:nth-child(2) .line,
+.state[data-status="3"] .item:nth-child(2) .line,
+.state[data-status="4"] .item:nth-child(2) .line,
+.state[data-status="5"] .item:nth-child(2) .line {
   background: #B3B3B3;
 }
 
-.status .item:nth-child(2) .icon {
+.state .item:nth-child(2) .icon {
   background: url('../img/recl_process_disabled.svg') no-repeat center;
 }
 
-.status[data-status="2"] .item:nth-child(2) .icon,
-.status[data-status="3"] .item:nth-child(2) .icon,
-.status[data-status="4"] .item:nth-child(2) .icon,
-.status[data-status="5"] .item:nth-child(2) .icon  {
+.state[data-status="2"] .item:nth-child(2) .icon,
+.state[data-status="3"] .item:nth-child(2) .icon,
+.state[data-status="4"] .item:nth-child(2) .icon,
+.state[data-status="5"] .item:nth-child(2) .icon  {
   background: url('../img/recl_process.svg') no-repeat center;
 }
 
 /* Индикатор "Решение": */
 
-.status[data-status="3"] .item:nth-child(3) .title,
-.status[data-status="5"] .item:nth-child(3) .title {
+.state[data-status="3"] .item:nth-child(3) .title,
+.state[data-status="5"] .item:nth-child(3) .title {
   color: #228007;
 }
 
-.status[data-status="4"] .item:nth-child(3) .title {
+.state[data-status="4"] .item:nth-child(3) .title {
   color: #CE0014;
 }
 
-.status[data-status="3"] .item:nth-child(3) .line,
-.status[data-status="4"] .item:nth-child(3) .line,
-.status[data-status="5"] .item:nth-child(3) .line {
+.state[data-status="3"] .item:nth-child(3) .line,
+.state[data-status="4"] .item:nth-child(3) .line,
+.state[data-status="5"] .item:nth-child(3) .line {
   background: #B3B3B3;
 }
 
-.status .item:nth-child(3) .icon {
+.state .item:nth-child(3) .icon {
   background: url('../img/recl_decision_disabled.svg') no-repeat center;
 }
 
-.status[data-status="3"] .item:nth-child(3) .icon,
-.status[data-status="5"] .item:nth-child(3) .icon {
+.state[data-status="3"] .item:nth-child(3) .icon,
+.state[data-status="5"] .item:nth-child(3) .icon {
   background: url('../img/recl_decision_yes.svg') no-repeat center;
 }
 
-.status[data-status="4"] .item:nth-child(3) .icon {
+.state[data-status="4"] .item:nth-child(3) .icon {
   background: url('../img/recl_decision_no.svg') no-repeat center;
 }
 
 /* Индикатор "Исполнена": */
 
-.status[data-status="5"] .item:nth-child(4) .title {
+.state[data-status="5"] .item:nth-child(4) .title {
   color: #34495E;
 }
 
-.status[data-status="5"] .item:nth-child(4) .line {
+.state[data-status="5"] .item:nth-child(4) .line {
   background: #B3B3B3;
 }
 
-.status .item:nth-child(4) .icon {
+.state .item:nth-child(4) .icon {
   background: url('../img/recl_done_disabled.svg') no-repeat center;
 }
 
-.status[data-status="5"] .item:nth-child(4) .icon {
+.state[data-status="5"] .item:nth-child(4) .icon {
   background: url('../img/recl_done.svg') no-repeat center;
 }
 
@@ -245,16 +245,31 @@
 
 /* Файлы: */
 
+#files {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 #files .item {
+  /* принудительно 150px, картинка будет непропорциональной или будут большие пробелы*/
   width: 150px;
   height: 150px;
+    /* разные по ширине - пропорционально картинке */
+  /* min-width: 80px;
+  max-width: 100%;
+  max-height: 150px; */
   margin-right: 0.714em;
   margin-bottom: 0.714em;
-  border: 1px solid #D3D6D9;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
 }
 
 #files form {
   position: relative;
+  width: 150px;
+  height: 150px;
 }
 
 input[type="file"] ~ .text {
@@ -266,9 +281,21 @@ input[type="file"] ~ .text {
   background: #D3D6D9 url(../img/clip.svg) no-repeat center 30px;
 }
 
-#files .img-wrap img {
-  max-width: 100%;
-  max-height: none;
+#files .files {
+  flex-wrap: wrap;
+}
+
+#files .img-wrap img,
+#files .img-wrap video {
+  /* принудительно 150px, картинка будет непропорциональной */
+  width: 150px;
+  height: 150px;
+  /* максимум 150px - будут большие пробелы между картинками */
+  /* max-width: 150px;
+  max-height: 150px; */
+  /* разные по ширине - пропорционально картинке */
+  /* max-width: 100%;
+  max-height: 150px; */
 }
 
 /* Чат: */

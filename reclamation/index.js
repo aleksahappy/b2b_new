@@ -10,16 +10,37 @@
 // Глобальные переменные:
 
 var fileTypes = {
-  'mp4': 'mp4',
   'jpg': 'jpg',
   'jpeg': 'jpg',
-  'png': 'jpg',
+  'png': 'png',
   'gif': 'jpg',
+  'mp4': 'mp4',
   'pdf': 'pdf',
   'doc': 'doc',
   'docx': 'doc',
   'xls': 'xls',
-  'xlsx': 'xls'
+  'xlsx': 'xls',
+  'svg': 'svg',
+  'html': 'html',
+  'ppt': 'ppt',
+  'pptx': 'ppt',
+  'rar': 'rar',
+  'zip': 'zip',
+  'al': 'al',
+  'other': 'other'
+};
+
+var imgTypes = {
+  'jpg': 'jpg',
+  'jpeg': 'jpg',
+  'png': 'jpg',
+  'gif': 'jpg'
+};
+
+var videoTypes = {
+  'avi': 'avi',
+  'mp4': 'mp4',
+  'mpeg': 'mpeg'
 };
 
 // Запуск страницы рекламации:
@@ -31,22 +52,22 @@ function startReclPage() {
   sendRequest(urlRequest.main, 'recl', {recl_id: id})
   // sendRequest(`../json/reclamation.json`)
   .then(result => {
+    if (!result) {
+      location.href = '/err404.html';
+    }
     var data = JSON.parse(result);
-    // console.log(data);
     initPage(data);
   })
   .catch(error => {
     console.log(error);
-    location.href = '/err404.html';
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
   });
 }
 
 // Инициализация страницы:
 
 function initPage(data) {
-  if (!data) {
-    return;
-  }
   convertData(data);
   fillTemplate({
     area: '#main',
@@ -57,7 +78,6 @@ function initPage(data) {
   fillChat(data);
   getEl('#main .card .img-wrap').addEventListener('click', () => openFullImg(null, data.recl.item));
   getEl('#main .card .card-open').addEventListener('click', () => openInfoCard(data.recl.item));
-
   loader.hide();
 }
 
@@ -101,16 +121,32 @@ function convertData(data) {
   recl.item.desc = recl.item_descr;
   recl.item.isDesc = recl.item_descr ? '' : 'displayNone';
 
+  // Данные о файлах:
+
+  if (files) {
+    files.forEach(el => {
+      var type = el.file_type.toLowerCase();
+      type = fileTypes[type] ? fileTypes[type] : 'other';
+      el.file_folder = imgTypes[type] ? 'images' : videoTypes[type] ? 'videos' : 'other';
+      el.file_type_add = type == 'txt' ? '.txt' : '';
+      el.isFunc = imgTypes[type] ? 'showImgFile(event)' : '';
+      el.style = imgTypes[type] ? `background-image: url(https://api.topsports.ru/recl/storage_remote/${recl.recl_code_1c}/images/${el.file_name}.${el.file_type}); background-color: #D3D6D9;` :`background-image: url(img/${type}.svg); background-size: auto`;
+      // el.file = imgTypes[type] ?
+      //   `<img src=https://api.topsports.ru/recl/storage_remote/${recl.recl_code_1c}/images/${el.file_name}.${el.file_type}"></https:>` :
+      //   type == 'mp4' ?
+      //   `<video src="http://127.0.0.1:5500/reclamation/storage/${recl.id}/videos/${el.file_name}.${el.file_type}" controls></video>` :
+      //   `<img src="img/${type}.svg">`;
+    });
+  }
+
   // Данные сообщений чата:
   if (messages) {
-    var dates = [];
     messages.forEach(el => {
       var arr = el.date.split(' '),
           string = arr[1].replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
       el.time = arr[0];
       el.date = arr[1];
       el.dateObj = new Date(string + ' ' + arr[0]);
-      dates.push(el.dateObj);
     });
   }
 }
@@ -118,9 +154,22 @@ function convertData(data) {
 // Заполнение галереи файлов:
 
 function fillFiles(data) {
-  if (!data.recl_files) {
-    return;
-  }
+  fillTemplate({
+    area: '#files',
+    items: data,
+    sign: '@',
+    sub: [{area: '.img-wrap', items: 'recl_files'}]
+  });
+  // document.querySelectorAll('#files img').forEach(el => replaceError(el));
+  // document.querySelectorAll('#files video').forEach(el => replaceError(el));
+}
+
+// Замена изображений и видео с ошибкой загрузки на иконки:
+
+function replaceError(el) {
+  // var type = el.src.split('.').pop().toLowerCase();
+  // type = fileTypes[type] ? fileTypes[type] : 'txt';
+  // checkMedia(el, 'replace', `img/${type}.svg`);
 }
 
 // Заполнение чата:
@@ -191,4 +240,10 @@ function uploadFiles() {
 
 function sendMessage() {
 
+}
+
+// Отображение загруженных картинок на весь экран:
+
+function showImgFile(event) {
+  // event.preventDefault();
 }

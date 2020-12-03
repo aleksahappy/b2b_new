@@ -1,111 +1,184 @@
 {
   "recl_messages": [
     {
-      "date": "15:45 13.10.2020",
+      "date": "13:08 02.12.2020",
       "user": "Гвоздовская Анна",
-      "message": " Жду от вас скан бухгалтерского документа (возвратной накладной) на товар по рекламации на почту ag@topsports.ru. После получения скана мы проведем возврат в своей базе и у вас появится депозит на сумму рекламации. Данный депозит вы сможете зачесть в оплату любого нового заказа.\n\n"
+      "message": " Претензия исполнена.\n\n"
     },
     {
-      "date": "15:44 13.10.2020",
+      "date": "13:07 02.12.2020",
       "user": "Гвоздовская Анна",
-      "message": " Добрый день, рекламацию удовлетворяем.Просьба утилизировать визор и прикрепить подтверждающее фото к рекламации на портале\n\n"
+      "message": " Добрый день, Михаил. Мы изменили цену шлема в заказе УУТС-001486 до уровня 7500,0. Ваш депозит по дисплею увеличился на сумму разницы в ценах (на 10546,0) и на текущий момент составляет 288 501,0 р.\n\n"
     },
     {
-      "date": "12:13 08.10.2020",
-      "user": "Безлепкин Алексей Андреевич",
-      "message": "15\/09\/2020\n\n"
+      "date": "18:04 27.11.2020",
+      "user": "Попов Михаил Сергеевич",
+      "message": "Прошу прощения, депозит монитора (интерактивной панели) \n\n"
     },
     {
-      "date": "12:09 08.10.2020",
+      "date": "15:46 27.11.2020",
+      "user": "Попов Михаил Сергеевич",
+      "message": "Добрый день, готовы оставить шлем за 7 500. Оставшиеся средства переведите пожалуйста на счёт нашего депозита (терминала). Спасибо \n\n"
+    },
+    {
+      "date": "13:49 27.11.2020",
       "user": "Гвоздовская Анна",
-      "message": "В любом случае, уточните пожалуйста дату передачи визора сотруднику - нам нужно понимать, сколько визор был в эксплуатации\n\n"
-    },
-    {
-      "date": "18:33 07.10.2020",
-      "user": "Безлепкин Алексей Андреевич",
-      "message": "Добрый день! Это был подарок сотруднику нашей компании.\nКак таковой продажи не было.\n\n\n"
-    },
-    {
-      "date": "17:06 07.10.2020",
-      "user": "Гвоздовская Анна",
-      "message": " Добрый день, просьба уточнить дату продажи визора розничному клиенту"
+      "message": "Михаил, добрый день. Предлагаем вам скидку на данный шлем (скидка озвучена по телефону) и ждем вашего решения"
     }
   ],
   "recl": {
-    "id": "410",
-    "recl_num": "ТС-368",
-    "creator_id": "4601",
-    "user_id": "4601",
-    "user_code_1c": "1f3f680d-fc8e-11e5-80de-3ca82a9f50d9",
-    "user_name": "Алексей",
-    "user_lastname": "Безлепкин",
-    "user_parentname": "Андреевич",
-    "user_phone": "+7(495)777-33-59",
-    "client_number": "TS00000632",
-    "contr_name": "АТВ Партс",
-    "recl_date_create": "2020-10-07 16:55:45",
-    "recl_date_update": "2020-10-13 15:46:12",
-    "recl_code_1c": "69f34cf3-089c-11eb-b338-4c5262213ebe",
-    "recl_category": "Производственный брак",
-    "recl_messages_date_update": "2020-10-13 15:46:12",
-    "recl_descr": "Нарушение целостности уплотнителя между линзами, вследствие этого скапливание влаги и запотевание визора.",
-    "order_id": "4834",
-    "order_num": "ТС-323",
-    "order_date": "05.03.2019",
-    "order_code_1c": "55513ab6-3f33-11e9-8166-002590467a5e",
-    "order_type": "Предзаказ-19 509",
-    "item_code_str": "62",
-    "item_title": "Визор 509 Delta R3 Carbon Fiber с подогревом (Clear)",
-    "item_articul": "F01006200-000-999",
+    "id": "472",
+    "recl_num": "ТС-423",
+    "creator_id": "5476",
+    "user_id": "5476",
+    "user_code_1c": "abaa25e9-d457-11e9-81f4-002590467a5e",
+    "user_name": "Михаил",
+    "user_lastname": "Попов",
+    "user_parentname": "Сергеевич",
+    "user_phone": "+7(912)346-58-84",
+    "client_number": "TS00001230",
+    "contr_name": "Мотокруг 56",
+    "recl_date_create": "2020-11-26 14:46:46",
+    "recl_date_update": "2020-12-02 13:08:15",
+    "recl_code_1c": "ad6f6168-2fd4-11eb-b36d-4c5262213ebe",
+    "recl_category": "Не могу определить",
+    "recl_messages_date_update": "2020-12-02 13:08:15",
+    "recl_descr": "Царапины по всему шлему, отклеены обшивки, повреждения окантовки, через сетку видны повреждения наполнителя шлема, винт крепления козырька не соответствует остальным, трещины и отслоение краски .",
+    "order_id": "14308",
+    "order_num": "УУТС-001486",
+    "order_date": "17.11.2020",
+    "order_code_1c": "76b84b14-28ac-11eb-b364-4c5262213ebe",
+    "order_type": "Экипировка",
+    "item_code_str": "1",
+    "item_title": "Шлем 509 Altitude 2.0, взрослые (Fresh Greens, XL)",
+    "item_articul": "F01009400-150-301_UC",
     "item_options": {
-      "Категория": "Визоры",
-      "Цвет поставщика": "Clear",
-      "Применяемость": "Снегоход",
-      "Год коллекции": 2020
+      "Возраст": "Взрослые",
+      "Цвет поставщика": "Fresh Greens",
+      "Вес шлема": "от 1152 г",
+      "Материал": "Стеклопластик",
+      "Застежка шлема": "Fidlock",
+      "Применяемость": "Снегоход"
     },
     "item_descr": "",
-    "item_nakl": "ТС-588",
-    "item_nakl_date": "20.10.2011",
+    "item_nakl": "ТС-1192",
+    "item_nakl_date": "20.11.2018",
     "item_nakl_code_1c": null,
-    "item_img": "14941.jpg",
+    "item_img": "20681.jpg",
     "item_count": "1",
-    "item_price": "5864.60",
-    "item_price_compensation": "5864.60",
+    "item_price": "18046.00",
+    "item_price_compensation": "18046.00",
     "manager_id": "5482",
     "manager_name": "Анна",
     "manager_lastname": "Гвоздовская",
     "manager_parentname": "",
     "manager_phone": "",
     "date_view": null,
-    "status": "3",
-    "status_text": "Удовлетворена",
+    "status": "5",
+    "status_text": "Исполнена",
     "status_comment": "",
     "status_history": {
       "2": [
         {
           "title": "Обрабатывается",
           "comment": "",
-          "date": "2020-10-07T17:04:50"
+          "date": "2020-11-26T14:51:10"
         }
       ],
       "3": [
         {
           "title": "Удовлетворена",
           "comment": "",
-          "date": "2020-10-13T15:45:44"
+          "date": "2020-12-02T13:08:06"
+        }
+      ],
+      "5": [
+        {
+          "title": "Исполнена",
+          "comment": "",
+          "date": "2020-12-02T13:08:08"
         }
       ]
     },
-    "status_date_update": "2020-10-13 15:46:12",
+    "status_date_update": "2020-12-02 13:08:15",
     "deleted": "0",
     "export_1c": "1",
-    "item_title_preview": "Визор 509 Delta R3 Carbon Fiber с подогревом ",
-    "recl_date": "07.10.2020",
+    "item_title_preview": "Шлем 509 Altitude 2.0, взрослые (Fresh Greens",
+    "recl_date": "26.11.2020",
     "user": "Чаплыгина Александра"
   },
-  "recl_files": {
-    "id": "837",
-    "file_name_view": "06f4da28-235c-4e8e-8005-c07ff837a5c6",
-    "file_type": "jpg"
-  }
+  "recl_files": [
+    {
+      "id": "976",
+      "file_name": "12bfa1d92a5678cb0a13d277ce709c98",
+      "file_name_view": "_Ks2YUigIsA",
+      "file_type": "jpg"
+    },
+    {
+      "id": "977",
+      "file_name": "96b94484180d6b0a640eee770bb76330",
+      "file_name_view": "eguaNtGc49o",
+      "file_type": "jpg"
+    },
+    {
+      "id": "978",
+      "file_name": "3dd8afd6a475d3c8d890b06b866562fc",
+      "file_name_view": "IVNBnHhh_lo",
+      "file_type": "jpg"
+    },
+    {
+      "id": "979",
+      "file_name": "c18857d630fdb2c1c7af0ab52d00192e",
+      "file_name_view": "HJVsv3I5hWA",
+      "file_type": "jpg"
+    },
+    {
+      "id": "980",
+      "file_name": "e11b0fd0a9e0c497cf35077561e95177",
+      "file_name_view": "1zJ_R847LKc",
+      "file_type": "jpg"
+    },
+    {
+      "id": "981",
+      "file_name": "aca73a97cd882f60bcba913ba01a6a99",
+      "file_name_view": "hPbVJDlx1nw",
+      "file_type": "jpg"
+    },
+    {
+      "id": "982",
+      "file_name": "0a76bdc0a8f72d879b1c35430ab002fb",
+      "file_name_view": "45KidkHJXzQ",
+      "file_type": "jpg"
+    },
+    {
+      "id": "983",
+      "file_name": "5e4fb1073770c8de42456fcc4c56451a",
+      "file_name_view": "F5OjstY2NSQ",
+      "file_type": "jpg"
+    },
+    {
+      "id": "984",
+      "file_name": "8abcede35b9d680fe4c0a6048d55f8d0",
+      "file_name_view": "yu-wuWfkqVM",
+      "file_type": "jpg"
+    },
+    {
+      "id": "985",
+      "file_name": "951e9abb14f4aaac282ef12f98686611",
+      "file_name_view": "jll78bkPggc",
+      "file_type": "jpg"
+    },
+    {
+      "id": "986",
+      "file_name": "2f52e7cc45e5a4bc55f81aeb2f8bbcf4",
+      "file_name_view": "J8_PPcMzdZE",
+      "file_type": "jpg"
+    },
+    {
+      "id": "987",
+      "file_name": "9c4b7b0be47f3fe722cac1837a0f62ae",
+      "file_name_view": "nkpEbQBnkqs",
+      "file_type": "jpg"
+    }
+  ]
 }
