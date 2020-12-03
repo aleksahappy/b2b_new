@@ -96,7 +96,7 @@ function initPage() {
     items: items,
     sub: [{area: '.time', items: 'time'}]
   });
-  document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
+  document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
   initForm('#address-form', sendForm);
   loader.hide();
 }
@@ -228,7 +228,7 @@ function sendForm(formData) {
         items: data,
         sub: [{area: '.time', items: 'time'}]
       });
-      document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
+      document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
       closePopUp(null, '#address');
       clearForm('#address-form');
     }
@@ -258,7 +258,7 @@ function deleteAddress(id) {
         items: data,
         sub: [{area: '.time', items: 'time'}]
       });
-      document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
+      document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
     } else {
       throw new Error('Ошибка.');
     }

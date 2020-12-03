@@ -669,7 +669,7 @@ function getBanners() {
       area: '#dashboard-banners',
       items: imagesData
 		});
-		document.querySelectorAll('#dashboard-banners .banner').forEach(el => checkImg(el, 'delete'));
+		document.querySelectorAll('#dashboard-banners .banner img').forEach(el => checkMedia(el, 'delete'));
     fillTemplate({
       area: '#banners .carousel-gallery',
       items: imagesData

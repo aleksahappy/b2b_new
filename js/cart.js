@@ -163,7 +163,7 @@ function createCart(data) {
   });
   document.querySelectorAll('.cart-row').forEach(row => {
     row.classList.add('checked');
-    checkImg(row);
+    checkMedia(getEl('img', row));
     changeCartRow(row);
   });
   document.querySelectorAll('.cart-section').forEach(el => changeCartSectionInfo(el));
@@ -821,7 +821,7 @@ function changeCard(card) {
     if (bonusItem) {
       getEl('.bonus-qty span', bonusRow).textContent = totals.bonusQty;
       getEl('.bonus-img', bonusRow).src = bonusItem.image;
-      checkImg(bonusRow);
+      checkMedia(getEl('img', bonusRow));
       showElement(bonusRow, 'flex');
     }
   } else {
@@ -863,7 +863,7 @@ function changeCartRow(row) {
       } else {
         createCartRow('id_' + bonusId, qty, row, 'bonus');
         bonusRow = row.nextElementSibling;
-        checkImg(bonusRow);
+        checkMedia(getEl('img', bonusRow));
         bonusRow.dataset.parentId = id;
         if (!row.classList.contains('checked')) {
           bonusRow.classList.remove('checked');

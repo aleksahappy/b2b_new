@@ -38,7 +38,7 @@ function initPage() {
       items: 'time'
     }]
   });
-  document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
+  document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
   initForm('#address-form', sendForm);
   loader.hide();
 }
@@ -157,7 +157,7 @@ function sendForm(formData) {
           items: 'time'
         }]
       });
-      document.querySelectorAll('.address').forEach(el => checkImg(el, 'delete'));
+      document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
       closePopUp(null, '#address');
       clearForm('#address-form');
     }

@@ -24,7 +24,6 @@ function startOrderPage() {
     if (!result) {
       location.href = '/err404.html';
     }
-    console.log(result);
     data = JSON.parse(result);
     sendRequest(`../json/order_payment.json`)
     // sendRequest(urlRequest.main, '???', {order_id: id})
@@ -637,7 +636,7 @@ function showReclPopUp() {
     area: '#make-reclm',
     items: reclData
   })
-  checkImg('#make-reclm');
+  checkMedia('#make-reclm img');
   initForm('#reclm-form', sendReclm);
   openPopUp('#make-reclm');
 }

@@ -916,7 +916,7 @@ function loadCards(cards) {
   }
   if (view === 'blocks') {
     document.querySelectorAll('.min-card').forEach(card => {
-      checkImg(card);
+      checkMedia(getEl('img', card));
       checkCart(card);
       addActionTooltip(card);
     });

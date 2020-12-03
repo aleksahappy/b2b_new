@@ -731,9 +731,9 @@ function renderCarousel(carousel, curImg = 0) {
       var imgs = carousel.querySelectorAll('img'),
           count = imgs.length;
       if (count === 0 || (count === 1 && imgs[0].src.indexOf('/img/no_img.jpg') >= 0)) {
-        var cardContent = carousel.parentElement;
-        carousel.remove();
-        cardContent.insertAdjacentHTML('afterbegin', '<div class="img-wrap row"><img src="../img/no_img.jpg"></div>');
+        var parent = carousel.parentElement;
+        parent.removeChild(carousel);
+        parent.insertAdjacentHTML('afterbegin', '<div class="img-wrap row"><img src="../img/no_img.jpg"></div>');
       } else {
         startCarouselInit(carousel, curImg);
       }
@@ -742,16 +742,29 @@ function renderCarousel(carousel, curImg = 0) {
   });
 }
 
-// Проверка загружено ли изображение и вставка заглушки/удаление изображения при его отсутствии:
+// Проверка загружено ли изображение/видео и вставка заглушки/удаление при его отсутствии:
 
-function checkImg(element, action = 'replace') {
-  getEl('img', element).addEventListener('error', (event) => {
-    if (action === 'replace') {
-      event.currentTarget.src = '../img/no_img.jpg';
-    } else if (action === 'delete') {
-      event.currentTarget.remove();
-    }
-  });
+function checkMedia(element, action = 'replace', path = '../img/no_img.jpg') {
+  element = getEl(element);
+  if (element) {
+    element.addEventListener('error', (event) => {
+      var el = event.currentTarget;
+      if (action === 'replace') {
+        var type = el.tagName.toLowerCase();
+        if (type == 'img') {
+          el.src = path;
+        } else if (type == 'video') {
+          var parent = el.parentElement,
+              newEl = document.createElement('img');
+          newEl.src = path;
+          parent.removeChild(el);
+          parent.appendChild(newEl);
+        }
+      } else if (action === 'delete') {
+        event.currentTarget.remove();
+      }
+    });
+  }
 }
 
 // Показ элемента:
@@ -2113,7 +2126,7 @@ function openInfoCard(data) {
       items: 'options'
     }]
   });
-  checkImg(infoCardContainer);
+  checkMedia(getEl('img', infoCardContainer));
   getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
   openPopUp(infoCardContainer);
   loader.hide();
