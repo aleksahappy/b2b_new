@@ -774,13 +774,13 @@ body.no-scroll {
 ===================================================================================================== */
 
 .pill.disabled {
-  color: #B3B3B3;
-  background-color: #D3D6D9;
-  border: 1px solid #D3D6D9;
+  color: #B3B3B3 !important;;
+  background-color: #D3D6D9 !important;
+  border: 1px solid #D3D6D9 !important;;
 }
 
 .pill.disabled .close.icon {
-  display: none;
+  display: none !important;;
 }
 
 /* =====================================================================================================
@@ -1618,6 +1618,12 @@ input.btn {
 
 .close .open.icon {
   transform: rotate(0);
+}
+
+/* Копирование: */
+
+.copy.icon {
+  background-image: url(../img/copy.svg);
 }
 
 /* Доступное количество: */
@@ -2671,7 +2677,7 @@ form.post .form-group > .title {
 form.post .form-cols {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 form.post .form-cols > div {
@@ -2685,6 +2691,10 @@ form.post .form-cols > div:first-child {
 
 form.post .form-cols > div:last-child {
   padding-right: 0;
+}
+
+form.post .form-cols .calendar-wrap {
+  width: 100%;
 }
 
 form.post .form-wrap {
@@ -2808,10 +2818,12 @@ form.post .btns-wrap {
 }
 
 .pop-up-title .close.icon {
-  width: 19px;
-  height: 19px;
-  margin-left: 0.5em;
+  width: 50px;
+  height: 50px;
+  margin: -15px;
+  margin-left: -10px;
   background-image: url(../img/close_blue.svg);
+  background-size: 19px;
 }
 
 .pop-up-container .pop-up > .loader {
@@ -3583,7 +3595,7 @@ form.post .btns-wrap {
 }
 
 .card .select-info {
-  visibility: hidden;
+  /* visibility: hidden; */
 }
 
 .card .select-info.show {
@@ -3652,7 +3664,7 @@ form.post .btns-wrap {
 }
 
 .card-size .name {
-  display: inline-block;
+  align-items: center;
   font-size: 0.857em;
   color: #8596A6;
 }

@@ -507,8 +507,7 @@
     padding: 0;
   }
 
-  form.post input[data-type="date"],
-  form.post input[data-type="range"],
+  form.post .calendar-wrap,
   form.post .activate {
     width: 100%;
   }
