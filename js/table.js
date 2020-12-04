@@ -20,7 +20,13 @@
 //     }
 //     pill: {                                          - наличие чекбоксов-"пилюль" (по умолчанию отсутствуют)
 //       key: 'key1'                                      - ключ в данных, по которому брать данные для работы (если ключ находится во вложенности объектов, то указывать его как 'key1/key1.1')
-//       content: html разметка                           - html "пилюли", при отсутствии будет html по умолчанию
+//       content: html разметка                           - html "пилюли", при отсутствии будет html по умолчанию,
+//       items:                                           - данные для заполнения "пилюль" (если данных нет, то пилюли создадутся на основе имеющихся данных в данных для заполнения таблицы):
+//        {{                                                1) первый вариант заполенения (когда название отличается от значения):
+//           title: 'заголовок'                               - заголовок "пилюли"
+//           value: 'значение для поиска'                     - значение, которое будет искаться в данных
+//         }, {...}
+//         или ['значение1', 'значение2', ...]              2) второй вариант заполнения (когда название и значение одинаковые)
 //       sort: 'title' / 'value'                          - нужна ли сортировка, если нужна то указать по заголовку или значению
 //     }
 //     setting: true / false                            - наличие настроек таблицы (по умолчанию отсутствует)
@@ -117,7 +123,7 @@ function createTableControl(area, settings) {
     }
     if (controlSettings.search) {
       search =
-      `<form class="search row" action="#">
+      `<form class="search row" data-type="fast" action="#">
         <input type="text" data-value="" placeholder="${controlSettings.search}">
         <input class="search icon" type="submit" value="">
         <div class="close icon"></div>
@@ -221,11 +227,17 @@ function createTable(area, settings) {
   }
   table = document.createElement('table');
   table.classList.add('table-desktop');
+
+  var thead = '';
+  if (tableSettings.head) {
+    thead =
+    `<thead>
+      <tr>${headRow}</tr>
+      ${resultRow ? `<tr class="results">${resultRow}</tr>` : ''}
+    </thead>`;
+  }
   table.innerHTML =
-  `<thead>
-    <tr>${headRow}</tr>
-    <tr class="results">${resultRow}</tr>
-  </thead>
+  `${thead}
   <tbody id=${area.id}-body>
     <tr ${tableSettings.trFunc || ''}>${bodyRow}</tr>
   </tbody>`;
@@ -436,7 +448,11 @@ function Table(obj, settings = {}) {
     if (this.pills) {
       this.pills.addEventListener('click', event => {
         if (event.target.classList.contains('pill')) {
-          event.target.classList.toggle('checked');
+          var pill = event.target;
+          if (pill.classList.contains('disabled')) {
+            return;
+          }
+          pill.classList.toggle('checked');
           this.filterData(event, 'filter');
         }
       });
@@ -499,27 +515,35 @@ function Table(obj, settings = {}) {
   this.fill = function(isInit) {
     this.loadData();
     this.fillResults();
-    this.fillPagination();
+    this.changeResizeBtns();
     // if (!isInit) {
     //   this.wrap.scrollIntoView();
     // }
   }
 
-  // Заполнение "пилюль" значениями:
+  // Заполнение "пилюль" значениями и блокировка неактуальных:
   this.fillPills = function() {
     if (!this.pills) {
       return;
     }
-    var key = settings.control.pill.key,
-        sort = settings.control.pill.sort,
+    var setting = settings.control.pill,
+        key = setting.key,
+        sort = setting.sort,
         data = this.getItems(key);
-    if (sort === 'title' || sort === 'value') {
+    if (sort) {
       data.sort(sortBy(sort));
     }
     fillTemplate({
       area: this.pills,
-      items: data
+      items: setting.items || data
     });
+    if (setting.items) {
+      this.pills.querySelectorAll('.pill').forEach(pill => {
+        if (!data.find(el => el.value == pill.dataset.value)) {
+          pill.classList.add('disabled');
+        }
+      });
+    }
     this.addPillsInFilter();
   }
 
@@ -528,7 +552,7 @@ function Table(obj, settings = {}) {
     if (!this.pills) {
       return;
     }
-    this.pills.querySelectorAll('.pill').forEach(el => {
+    this.pills.querySelectorAll('.pill:not(.disabled)').forEach(el => {
       el.classList.add('checked');
       this.changeFilter('save', 'filter', this.pills.dataset.key, el.dataset.value);
     });
@@ -578,7 +602,6 @@ function Table(obj, settings = {}) {
         }
       }
     }
-
     return data;
   }
 
@@ -614,24 +637,14 @@ function Table(obj, settings = {}) {
       if (!direction) {
         this.countItems = 0;
       } else {
-        if (this.direction !== direction) {
-          this.countItems = this.countItems + this.body.querySelectorAll('tr').length;
-          this.direction = direction;
-        } else {
-          this.countItems = this.countItemsTo;
-        }
+        this.countItems = parseInt(this.desktop.lastElementChild.dataset.to, 10);
       }
       this.countItemsTo = this.countItems + this.incr;
       if (this.countItemsTo > this.dataToLoad.length) {
         this.countItemsTo = this.dataToLoad.length;
       }
     } else if (direction === 'prev') {
-      if (this.direction !== direction) {
-        this.countItemsTo = this.countItemsTo - this.body.querySelectorAll('tr').length;
-        this.direction = direction;
-      } else {
-        this.countItemsTo = this.countItems;
-      }
+      this.countItemsTo = parseInt(this.head.nextElementSibling.dataset.from, 10);
       this.countItems = this.countItemsTo - this.incr;
       if (this.countItems < 0) {
         this.countItems =  0;
@@ -654,69 +667,90 @@ function Table(obj, settings = {}) {
     });
     list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
 
-    if (!direction) {
-      this.body.innerHTML = list;
-      this.paginationSwitch = this.body.lastElementChild;
-    } else if (direction === 'next') {
-      this.body.insertAdjacentHTML('beforeend', list);
-      if (this.countItems - this.incr * 2 >= 0) {
-        for (let i = 0; i < this.incr; i++) {
-          this.body.removeChild(this.body.firstElementChild);
+    var bodyBlock = document.createElement('tbody');
+    bodyBlock.dataset.from = this.countItems;
+    bodyBlock.dataset.to = this.countItemsTo;
+    bodyBlock.innerHTML = list;
+
+    if (!direction || direction === 'next') {
+      if (!direction) {
+        this.wrap.querySelectorAll('.table-desktop > tbody').forEach(el => el.remove());
+      }
+      this.desktop.insertAdjacentElement('beforeend', bodyBlock);
+      if (direction === 'next') {
+        if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
+          this.head.nextElementSibling.remove();
         }
+      } else {
+        this.curBodyBlock = this.desktop.lastElementChild;
+        this.fillPagination(this.dataToLoad.length);
       }
     } else if (direction === 'prev') {
-      this.body.insertAdjacentHTML('afterbegin', list);
-      if (this.countItemsTo + this.incr * 2 <= this.dataToLoad.length) {
-        for (let i = 0; i < this.incr; i++) {
-          this.body.removeChild(this.body.lastElementChild);
-        }
+      this.head.insertAdjacentElement('afterend', bodyBlock);
+      if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
+        this.desktop.lastElementChild.remove();
       }
     }
   }
 
   // Замена данных в таблице:
   this.replaceData = function() {
-    var tableItems = [],
-        from = this.countItems,
-        to = this.countItemsTo;
-    if (this.direction === 'next') {
-      from = this.countItemsTo - this.body.querySelectorAll('tr').length;
-    }
-    if (this.direction === 'prev') {
-      to = this.countItems + this.body.querySelectorAll('tr').length;
-    }
-    for (let i = from; i < to; i++) {
-      tableItems.push(this.dataToLoad[i]);
-    }
-    var list = fillTemplate({
-      area: this.body,
-      items: tableItems,
-      sub: settings.desktop.sub,
-      sign: settings.desktop.sign,
-      action: 'return'
-    });
-    list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
-    this.body.innerHTML = list;
+    // var tableItems = [],
+    //     from = this.countItems,
+    //     to = this.countItemsTo;
+    // if (this.direction === 'next') {
+    //   from = this.countItemsTo - this.body.querySelectorAll('tr').length;
+    // }
+    // if (this.direction === 'prev') {
+    //   to = this.countItems + this.body.querySelectorAll('tr').length;
+    // }
+    // for (let i = from; i < to; i++) {
+    //   tableItems.push(this.dataToLoad[i]);
+    // }
+    // var list = fillTemplate({
+    //   area: this.body,
+    //   items: tableItems,
+    //   sub: settings.desktop.sub,
+    //   sign: settings.desktop.sign,
+    //   action: 'return'
+    // });
+    // list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
+    // this.body.innerHTML = list;
   }
 
   // Подгрузка таблицы при скролле:
   this.scrollTable = function() {
-    var scrolled = window.pageYOffset,
-        direction;
-    if (scrolled > this.scrollPos) {
-      direction = 'next';
-      if (this.wrap.getBoundingClientRect().bottom - window.innerHeight < 200) {
-        this.loadData('next');
+    if (this.dataToLoad.length) {
+      var scrolled = window.pageYOffset;
+      if (scrolled > this.scrollPos) {
+        if (this.wrap.getBoundingClientRect().bottom - window.innerHeight < 200) {
+          this.loadData('next');
+        }
+      } else if (scrolled < this.scrollPos) {
+        if (this.wrap.getBoundingClientRect().top + window.innerHeight > 200) {
+          this.loadData('prev');
+        }
       }
-    } else if (scrolled < this.scrollPos) {
-      direction = 'prev';
-      if (this.wrap.getBoundingClientRect().top + window.innerHeight > 200) {
-        this.loadData('prev');
-      }
+      this.scrollPos = scrolled;
+      this.changeResizeBtns();
+
+      // var headerCoords = this.wrap.querySelector('.table-desktop > thead > tr:last-child > th').getBoundingClientRect(),
+      //     curBodyCoords = this.curBodyBlock.getBoundingClientRect();
+      // if (curBodyCoords.top < headerCoords.bottom && curBodyCoords.bottom < headerCoords.bottom) {
+      //   console.log(this.curBodyBlock);
+      //   this.curBodyBlock = this.curBodyBlock.nextElementSibling;
+      //   this.fillPagination();
+      //   console.log(this.curBodyBlock);
+      //   console.log('переключить на следующий');
+      // }
+      // if (curBodyCoords.top > headerCoords.bottom && curBodyCoords.bottom > headerCoords.bottom) {
+      //   console.log(this.curBodyBlock);
+      //   this.curBodyBlock = this.curBodyBlock.prevElementSibling;
+      //   this.fillPagination();
+      //   console.log(this.curBodyBlock);
+      //   console.log('переключить на предыдущий');
+      // }
     }
-    this.scrollPos = scrolled;
-    this.changeResizeBtns();
-    this.fillPagination('direction');
   }
 
   // Подгрузка таблицы при нажатии на кнопки пагинации:
@@ -729,55 +763,61 @@ function Table(obj, settings = {}) {
   }
 
   // Заполнение пагинации:
-  this.fillPagination = function(direction) {
-    if (!this.pagination || (this.dataToLoad.length && (this.countItems === this.countItemsTo))) {
+  this.fillPagination = function(dataLength) {
+    if (!this.pagination) {
       return;
     }
-    var from = this.dataToLoad.length ? this.countItems + 1 : 0,
-        to = this.countItemsTo;
-    if (direction) {
-      // console.log(this.direction);
-      // console.log(this.countItems);
-      console.log(this.countItemsTo);
-      // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-      var paginationPos = this.pagination.getBoundingClientRect().bottom + parseInt(window.getComputedStyle(this.pagination).fontSize, 10);
-      if (this.direction === 'next') {
-        if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
-          getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
-          if (this.countItemsTo !== this.dataToLoad.length) {
-            this.paginationSwitch = this.body.lastElementChild;
-            // console.log('next');
-            // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-          }
-        }
-      }
-      if (this.direction === 'prev') {
-        //  console.log(paginationPos);
-        //  console.log(this.paginationSwitch.getBoundingClientRect().top);
-        if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
-          // console.log('toggle');
-          getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
-          if (this.countItems !== 0) {
-            this.paginationSwitch = this.body.firstElementChild;
-            // console.log('prev');
-            // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-          }
-        }
-      }
-    } else {
+    if (dataLength) {
+      getEl('.total', this.pagination).textContent = dataLength;
+    }
+    if (this.dataToLoad.length) {
+      var from = parseInt(this.curBodyBlock.dataset.from, 10) + 1,
+          to = this.curBodyBlock.dataset.to;
       getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
-      getEl('.total', this.pagination).textContent = this.dataToLoad.length;
+    } else {
+      getEl('.cur', this.pagination).textContent = `0`;
     }
   }
 
-  // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-
-
-  // if (this.direction !== direction) {
-  //   this.countItems = this.countItems + this.body.querySelectorAll('tr').length;
-  //   this.direction = direction;
-  // } else {
-  //   this.countItems = this.countItemsTo;
+  // this.fillPagination = function(direction) {
+  //   if (!this.pagination || (this.dataToLoad.length && (this.countItems === this.countItemsTo))) {
+  //     return;
+  //   }
+  //   var from = this.dataToLoad.length ? this.countItems + 1 : 0,
+  //       to = this.countItemsTo;
+  //   if (direction) {
+  //     // console.log(this.direction);
+  //     // console.log(this.countItems);
+  //     console.log(this.countItemsTo);
+  //     // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+  //     var paginationPos = this.pagination.getBoundingClientRect().bottom + parseInt(window.getComputedStyle(this.pagination).fontSize, 10);
+  //     if (this.direction === 'next') {
+  //       if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
+  //         getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
+  //         if (this.countItemsTo !== this.dataToLoad.length) {
+  //           this.paginationSwitch = this.body.lastElementChild;
+  //           // console.log('next');
+  //           // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+  //         }
+  //       }
+  //     }
+  //     if (this.direction === 'prev') {
+  //       //  console.log(paginationPos);
+  //       //  console.log(this.paginationSwitch.getBoundingClientRect().top);
+  //       if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
+  //         // console.log('toggle');
+  //         getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
+  //         if (this.countItems !== 0) {
+  //           this.paginationSwitch = this.body.firstElementChild;
+  //           // console.log('prev');
+  //           // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
+  //     getEl('.total', this.pagination).textContent = this.dataToLoad.length;
+  //   }
   // }
 
   // Установка высоты кнопки ресайза (чтобы не выходила за пределы таблицы):
@@ -785,9 +825,9 @@ function Table(obj, settings = {}) {
     if (!this.head) {
       return;
     }
-    var headerRect = getEl('th', this.head).getBoundingClientRect(),
-        bodyRect = this.body.getBoundingClientRect(),
-        newHeight =  bodyRect.bottom - headerRect.bottom + 'px';
+    var tableRect = this.desktop.getBoundingClientRect(),
+        headerRect = getEl('th', this.head).getBoundingClientRect(),
+        newHeight =  tableRect.bottom - headerRect.bottom + 'px';
     changeCss(`#${this.wrap.id} > table > thead > tr > th .resize-btn:hover::after`, 'height', newHeight);
   }
 
