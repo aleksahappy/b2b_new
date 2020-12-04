@@ -15,11 +15,18 @@
 }
 
 #orderslist > table > tbody > tr > td.pills {
+  flex-grow: 0;
   padding-top: 0.5em;
   padding-bottom: 0;
-  line-height: 0;
+  /* line-height: 0; */
+  line-height: normal;
   vertical-align: top;
   text-align: left;
+  white-space: normal;
+}
+
+#orderslist > table > tbody > tr > td.pills > .pill {
+  margin-bottom: 0.5em;
 }
 
 /* Стили адаптивной таблицы */

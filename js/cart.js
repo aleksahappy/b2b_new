@@ -828,13 +828,15 @@ function changeCard(card) {
     hideElement(bonusRow);
   }
 
-  if (totals.qty > 0) {
+  if (totals.qty >= 0) {
     getEl('.select-qty span', card).textContent = totals.qty;
     getEl('.select-sum span', card).textContent = convertPrice(totals.sum);
-    selectInfo.classList.add('show');
-  } else {
-    selectInfo.classList.remove('show');
   }
+  // if (totals.qty > 0) {
+  //   selectInfo.classList.add('show');
+  // } else {
+  //   selectInfo.classList.remove('show');
+  // }
 }
 
 // Изменение информации в строке корзины:

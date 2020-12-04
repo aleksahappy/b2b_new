@@ -40,7 +40,14 @@ function initPage(data = []) {
       pill: {
         key: 'sum',
         content: '<div class="pill ord c10 ctr" data-status="#value#" data-value="#value#">#title#</div>',
-        sort: 'value'
+        items: [
+          {title: "Ожидается", value: "1"},
+          {title: "В наличии", value: "2"},
+          {title: "Собран", value: "3"},
+          {title: "Отгружен", value: "4"},
+          {title: "Непоставка", value: "5"},
+          {title: "Удален", value: "deleted"},
+        ]
       },
       setting: true
     },
@@ -84,7 +91,7 @@ function initPage(data = []) {
       }, {
         title: 'Состояние товаров',
         class: 'pills',
-        width: '15%',
+        width: '25em',
         keys: ['sum'],
         content: '<div class="pill ord c10 #display#" data-status="#value#">#sum#</div>'
       }]
@@ -121,25 +128,25 @@ function convertData(data) {
       el.sum = {"deleted": 0};
     }
     var sum = [], title;
-    for (var key in el.sum) {
-      if ((key > 0 && key < 6) || key === 'deleted') {
-        if (key == '1') {
+    for (var status in el.sum) {
+      if ((status > 0 && status < 6) || status === 'deleted') {
+        if (status == '1') {
           title = 'Ожидается';
-        } else if (key == '2') {
+        } else if (status == '2') {
           title = 'В наличии';
-        } else if (key == '3') {
+        } else if (status == '3') {
           title = 'Собран';
-        } else if (key == '4') {
+        } else if (status == '4') {
           title = 'Отгружен';
-        } else if (key == '5') {
+        } else if (status == '5') {
           title = 'Непоставка';
-        } else if (key === 'deleted') {
+        } else if (status === 'deleted') {
           title = 'Удален';
         }
         sum.push({
           title: title,
-          value: key,
-          sum: convertPrice(el.sum[key], 2)
+          value: status,
+          sum: convertPrice(el.sum[status], 2)
         });
       }
     }

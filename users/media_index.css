@@ -23,4 +23,8 @@
     width: 60%;
     padding-left: 1em;
   }
+
+  #user .gender {
+    margin-top: 0;
+  }
 }

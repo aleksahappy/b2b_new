@@ -35,10 +35,10 @@
   width: 35em;
 }
 
-#profile-form .calendar-wrap input {
-  width: 100%;
-}
-
 #profile-form .gender .option:first-child {
   margin-right: 0.5em;
+}
+
+#profile-form .gender {
+  margin-top: 0.95em;
 }

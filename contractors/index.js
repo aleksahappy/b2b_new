@@ -171,7 +171,6 @@ function addContr(formData) {
   sendRequest(urlRequest.main, 'save_contr', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    console.log(result);
     if (result.error) {
       alerts.show(result.error);
     } else {

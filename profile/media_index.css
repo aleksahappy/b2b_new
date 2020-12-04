@@ -15,7 +15,7 @@
 }
 
 @media only screen and (max-width: 599px) {
-  .calendar-wrap {
-    width: 100%;
+  #profile-form .gender {
+    margin-top: 0;
   }
 }
