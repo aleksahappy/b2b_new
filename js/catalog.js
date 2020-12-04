@@ -301,6 +301,7 @@ function convertItem(item) {
   }
   addImgInfo(item);
   addActionInfo(item);
+  addStateInfo(item);
   addPriceInfo(item);
   addMarkupInfo(item);
   addSizeInfo(item);
@@ -330,6 +331,17 @@ function addActionInfo(item) {
     }
   }
   item.action_id = '0';
+}
+
+// Добавление данных о состоянии товара (в наличии/ожидает поступления):
+
+function addStateInfo(item) {
+  if (item.free_qty && item.free_qty > 0) {
+    item.free = '1';
+  }
+  if (item.arrive_qty && item.arrive_qty > 0) {
+    item.arrive = '1';
+  }
 }
 
 // Добавление данных о текущей цене и отображении/скрытии старой:
@@ -459,15 +471,15 @@ function addDescrInfo(item) {
   item.describe = [];
   if (item.desc) {
     item.desc = item.desc.replace(/\\n/g, '');
-    item.describe.push({title: 'Описание товара', info: item.desc});
+    item.describe.push({title: 'Описание товара', info: item.desc,});
   }
   if (item.actiondescr) {
     item.actiondescr = item.actiondescr.replace(/\\n/g, '');
-    item.describe.push({title: 'Условия акции', info: item.actiondescr});
+    item.describe.push({title: 'Условия акции', info: item.actiondescr, isClose: 'close'});
   }
   if (item.defect_desc) {
     item.defect_desc = item.defect_desc.replace(/\\n/g, '');
-    item.describe.push({title: 'Описание дефекта', info: item.defect_desc});
+    item.describe.push({title: 'Описание дефекта', info: item.defect_desc, isClose: 'close'});
   }
   delete item.actiondescr;
   delete item.defect_desc;
@@ -1028,7 +1040,6 @@ function showFullCard(id) {
           items: data.details,
           sign: '@'
         });
-        console.log(getEl('#details'));
         initSearch('#detail-search', detailsSearch);
       } else {
         getEl('.card-details', fullCardContainer).remove();
@@ -1081,6 +1092,24 @@ function showFullImg(event, data) {
     loader.hide();
     alerts.show('При загрузке изображения произошла ошибка.');
   }
+}
+
+// Копирование артикула из карточки товара:
+
+function copyArticul(event, articul) {
+  var name = event.currentTarget.parentElement,
+      textArea = document.createElement('textarea');
+  name.appendChild(textArea);
+  textArea.value = articul;
+  textArea.focus();
+  textArea.setSelectionRange(0, textArea.value.length);
+  try {
+    document.execCommand('copy');
+    alerts.show('Артикул скопирован в буфер обмена.', 2000)
+  } catch (error) {
+    alerts.show('Не удалось скопировать артикул.', 2000)
+  }
+  name.removeChild(textArea);
 }
 
 //=====================================================================================================
@@ -1143,6 +1172,11 @@ function detailsSearch(search, textToFind) {
       items: data,
       sign: '@'
     });
+    if (data.length) {
+      hideElement('.card-details .notice')
+    } else {
+      showElement('.card-details .notice')
+    }
   }
 }
 
@@ -1571,7 +1605,9 @@ function initFiltersZip() {
   if (!zipFilters) {
     return;
   }
-  if (path[path.length - 1] !== 'zip') {
+  // if (path[path.length - 1] !== 'zip') {
+  if (catalogType !== 'zip') {
+    hideElement('#oem');
     hideElement(zipFilters);
     return;
   }
@@ -1865,7 +1901,7 @@ function selectCardsBySearchOem(textToFind) {
   itemsToLoad = curItems.filter(item => {
     if (item.manuf) {
       for (var k in item.manuf.oem) {
-        if (k == textToFind) {
+        if (k.toLowerCase().trim() == textToFind.toLowerCase().trim()) {
           return true;
         }
       }

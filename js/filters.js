@@ -7,6 +7,11 @@ var catalogFiltersData,
 // Ручные данные для фильтров каталога:
 //=====================================================================================================
 
+var state = {
+  'free': 'В наличии',
+  'arrive': 'Ожидает поступления'
+};
+
 var use = {
   'moto': 'Мотоцикл',
   'quadro': 'Квадроцикл',
@@ -153,6 +158,11 @@ function createCatalogFiltersData() {
   }
 
   var data = [{
+    title: 'Доступность',
+    isOpen: 'default-open',
+    key: 'state',
+    items: createFilterData(state)
+  }, {
     title: 'Спецпредложение',
     isOpen: 'default-open',
     key: 'action_id',
@@ -174,27 +184,27 @@ function createCatalogFiltersData() {
       title: 'Применяемость',
       isOpen: 'close',
       key: 'use',
-      items: createFilterData(window.use)
+      items: createFilterData(use)
     }, {
       title: 'Возраст',
       isOpen: 'close',
       key: 'age',
-      items: createFilterData(window.ages)
+      items: createFilterData(ages)
     }, {
       title: 'Пол',
       isOpen: 'close',
       key: 'gender',
-      items: createFilterData(window.gender)
+      items: createFilterData(gender)
     }, {
       title: 'Размер',
       isOpen: 'close',
       key: 'size',
-      items: createFilterData(window.sizes)
+      items: createFilterData(sizes)
     }, {
       title: 'Цвет',
       isOpen: 'close',
       key: 'color',
-      items: createFilterData(window.colors)
+      items: createFilterData(colors)
     });
   }
   data.forEach((filter, index) => {

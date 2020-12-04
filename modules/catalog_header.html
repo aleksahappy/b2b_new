@@ -16,7 +16,7 @@
         <div class="drop-down"></div>
       </div>
     </div>
-    <form id="search" class="search row positioned" action="#">
+    <form id="search" class="search row positioned" data-type="fast" action="#">
       <input type="text" data-value="" placeholder="Поиск">
       <input class="search icon" type="submit" value="">
       <div class="close icon"></div>
@@ -25,7 +25,7 @@
   <div id="carts" class="template">
     <div class="wrap">
       <div class="items">
-        <a class="cart-#id# item col #isFull#" href="../#id#/?cart" data-title="Корзина" onclick="`#isFunc#`">
+        <a class="cart-#id# item col #isFull#" href="../#id#/?cart" data-title="Корзина" onclick="#isFunc#">
           <div class="row">
             <div class="sum"><span>#sum#</span>&nbsp;руб.</div>
             <div class="cart icon white">
@@ -88,7 +88,7 @@
   <div class="container">
     <div id="cart-name" class="title h0"></div>
     <div class="row">
-      <form id="cart-search" class="search row" action="#">
+      <form id="cart-search" class="search row" data-type="fast" action="#">
         <input type="text" data-value="" placeholder="Поиск по корзине: артикул, наименование...">
         <input class="search icon" type="submit" value="">
         <div class="close icon"></div>

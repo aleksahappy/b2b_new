@@ -1,5 +1,5 @@
 <!-- Карточки товара для ЗИП -->
-<div class="min-card card template" data-id="#object_id#" data-action="#action_id#" onclick="showFullCard(#object_id#)">
+<div class="min-card card template" data-id="#object_id#" data-action="#action_id#" onclick="showFullCard(`#object_id#`)">
   <div class="wrap">
     <div class="cart icon in-circle" data-tooltip="В корзине">
       <div class="qty in-circle full row">0</div>
@@ -25,7 +25,7 @@
       </div>
       <div class="arrive row #isArrive#">
         <span class="arrive-qty icon"></span>
-        <span>#arrive_qty# шт. #arrive_date#</span>
+        <span>#arrive_qty# шт. к #arrive_date#</span>
       </div>
       <div class="warehouse row #isWarehouse#">
         <span class="warehouse-qty icon"></span>
@@ -41,7 +41,7 @@
     <div class="right-btn"></div>
     <div class="carousel-gallery-wrap">
       <div class="carousel-gallery">
-        <div class="carousel-item" onclick="showFullImg(event, #object_id#)">
+        <div class="carousel-item" onclick="showFullImg(event, `#object_id#`)">
           <img src="https://b2b.topsports.ru/c/productpage/#item#.jpg">
         </div>
       </div>
@@ -88,12 +88,15 @@
           </div>
         </div>
         <div class="card-size">
-          <div class="name" data-tooltip="артикул: #articul#">#size#</div>
+          <div class="name row">
+            <div data-tooltip="Копировать артикул"class="copy icon" onclick="copyArticul(event, `#articul#`)"></div>
+            <div data-tooltip="Артикул: #articul#">#size#</div>
+          </div>
           <div class="qty row">
             <div class="qty-box row">
-              <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
-              <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" oninput="onlyNumb(event)">
-              <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
+              <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, `#object_id#`)"></div>
+              <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, `#object_id#`)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" oninput="onlyNumb(event)">
+              <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, `#object_id#`)"></div>
             </div>
           </div>
           <div class="tooltips row">
@@ -101,9 +104,9 @@
               <span class="free-qty icon"></span>
               <span>#free_qty#</span>
             </div>
-            <div class="arrive row #isArrive#" data-tooltip="#arrive_qty# шт. #arrive_date#">
+            <div class="arrive row #isArrive#" data-tooltip="#arrive_qty# шт. к #arrive_date#">
               <span class="arrive-qty icon"></span>
-              <span>#arrive_qty#</span>
+              <span>#arrive_qty# к #arrive_date#</span>
             </div>
             <div class="warehouse row #isWarehouse#" data-tooltip="#warehouse_qty# шт.">
               <span class="warehouse-qty icon"></span>
@@ -117,7 +120,7 @@
         <div class="title">Артикул: <span class="text">#articul#</span></div>
         <div class="title oem #isOem#">OEM: <span class="text">#oem#</span></div>
         <!-- <div class="title">Количество в узле: <span class="text">#node_qty#</span></div> -->
-        <a class="card-open" onclick="showFullCard(#object_id#)">Раскрыть полностью</a>
+        <a class="card-open" onclick="showFullCard(`#object_id#`)">Раскрыть полностью</a>
       </div>
     </div>
   </div>
@@ -177,12 +180,15 @@
           </div>
           <div class="card-sizes row">
             <div class="card-size">
-              <div class="name" data-tooltip="артикул: #articul#">#size#</div>
+              <div class="name row">
+                <div data-tooltip="Копировать артикул"class="copy icon" onclick="copyArticul(event, `#articul#`)"></div>
+                <div data-tooltip="Артикул: #articul#">#size#</div>
+              </div>
               <div class="qty row">
                 <div class="qty-box row">
-                  <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, #object_id#)"></div>
-                  <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, #object_id#)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" oninput="onlyNumb(event)">
-                  <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, #object_id#)"></div>
+                  <div class="btn minus" data-tooltip="Уменьшить" onclick="changeCart(event, `#object_id#`)"></div>
+                  <input class="choiced-qty" type="text" value="0" data-value="0" data-id="#object_id#" autocomplete="off" onchange="changeCart(event, `#object_id#`)" onblur="onBlurInput(this)" onfocus="onFocusInput(this)" oninput="onlyNumb(event)">
+                  <div class="btn plus" data-tooltip="Добавить" onclick="changeCart(event, `#object_id#`)"></div>
                 </div>
               </div>
               <div class="tooltips row">
@@ -190,9 +196,9 @@
                   <span class="free-qty icon"></span>
                   <span>#free_qty#</span>
                 </div>
-                <div class="arrive row #isArrive#" data-tooltip="#arrive_qty# шт. #arrive_date#">
+                <div class="arrive row #isArrive#" data-tooltip="#arrive_qty# шт. к #arrive_date#">
                   <span class="arrive-qty icon"></span>
-                  <span>#arrive_qty#</span>
+                  <span>#arrive_qty# к #arrive_date#</span>
                 </div>
                 <div class="warehouse row #isWarehouse#" data-tooltip="#warehouse_qty# шт.">
                   <span class="warehouse-qty icon"></span>
@@ -242,7 +248,7 @@
             </div>
           </div>
         </div>
-        <div class="describe switch close">
+        <div class="describe switch #isClose#">
           <div class="head" onclick="switchContent(event)">
             <div class="title h3">#title#</div>
             <div class="open white icon switch-icon"></div>
@@ -255,7 +261,7 @@
             <div class="open white icon switch-icon"></div>
           </div>
           <div class="info switch-cont">
-            <form id="detail-search"  class="search row" action="#">
+            <form id="detail-search"  class="search row" data-type="fast" action="#">
               <input type="text" data-value="" placeholder="Введите бренд, год или модель">
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
@@ -263,6 +269,7 @@
             <div id="details">
               <div class="detail">@item@</div>
             </div>
+            <div class="notice">По вашему запросу ничего не найдено.</div>
           </div>
         </div>
       </div>

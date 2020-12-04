@@ -187,8 +187,20 @@
     position: static !important;
   }
 
+  #filters .pop-up {
+    margin-right: 0;
+  }
+
   #filters .filter:last-child {
     margin-bottom: 1px;
+  }
+
+  #filters .wrap {
+    padding: 0 2.5em 0.6em;
+  }
+
+  #zip-filters > .items {
+    padding: 0.714em 2.5em;
   }
 
   .gallery-head,
@@ -414,6 +426,14 @@
     width: calc(100vw - 80px) !important;
   }
 
+  #filters .wrap {
+    padding: 0 1.428em 0.6em;
+  }
+
+  #zip-filters > .items {
+    padding: 0.714em 1.428em;
+  }
+
   .full-card .pop-up-title {
     padding: 1.5em;
     padding-bottom: 0;
@@ -453,7 +473,8 @@
     padding: 0 1.75em 1em 1.75em;
   }
 
-  .full-card .card-details .detail {
+  .full-card .card-details .detail,
+  .full-card .card-details .notice {
     padding: 0.75em 1.75em;
   }
 }
