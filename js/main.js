@@ -1056,6 +1056,19 @@ function throttle(callback) {
   }
 }
 
+// Вызов функций по окончанию группы событий:
+
+function debounce(callback, delay) {
+  let timeout;
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      timeout = null;
+      callback();
+    }, delay);
+  };
+};
+
 // Динамическая загрузка скриптов:
 
 function loadScript(url) {
@@ -2571,8 +2584,8 @@ function Form(obj, callback) {
       return;
     }
     var input = event.currentTarget,
-      isValid = checkInput(input),
-      type = input.dataset.type;
+        isValid = checkInput(input),
+        type = input.dataset.type;
     if (type === 'name') {
       input.value = capitalizeFirstLetter(input.value);
     }
@@ -2708,10 +2721,19 @@ function Form(obj, callback) {
 function initSearch(el, callback) {
   el = getEl(el);
   if (el) {
-    if (el.id) {
-      return window[`${el.id}Search`] = new Search(el, callback);
+    var type = el.dataset.type;
+    if (type === 'fast') {
+      if (el.id) {
+        return window[`${el.id}Search`] = new SearchFast(el, callback);
+      } else {
+        return new SearchFast(el, callback);
+      }
     } else {
-      return new Search(el, callback);
+      if (el.id) {
+        return window[`${el.id}Search`] = new Search(el, callback);
+      } else {
+        return new Search(el, callback);
+      }
     }
   }
 }
@@ -2747,6 +2769,7 @@ function Search(obj, callback) {
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     this.input.addEventListener('change', event => event.detail ? this.search() : event.stopPropagation());
+
     this.obj.addEventListener('submit', event => {
       event.preventDefault();
       if (this.type !== 'inSearchBox') {
@@ -2850,6 +2873,7 @@ function Search(obj, callback) {
   this.search = function() {
     var textToFind = this.input.value.trim();
     if (!/\S/.test(textToFind)) {
+      this.cancel();
       return;
     }
     this.input.dataset.value = this.input.value;
@@ -2883,7 +2907,7 @@ function Search(obj, callback) {
 
   // Сброс поиска:
   this.cancel = function(event) {
-    if (event.currentTarget.classList.contains('close')) {
+    if (event && event.currentTarget.classList.contains('close')) {
       this.input.focus();
     }
     this.clear();
@@ -2914,6 +2938,18 @@ function Search(obj, callback) {
     }
   }
   this.init();
+}
+
+// Объект быстрого поля поиска(поиск во время ввода):
+
+function SearchFast(obj, callback) {
+  Search.apply(this, arguments);
+  this.input.addEventListener('input', debounce(() => {
+    if (this.items) {
+      return;
+    }
+    this.search();
+  }, 500));
 }
 
 //=====================================================================================================
