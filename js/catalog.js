@@ -120,6 +120,11 @@ function startCatalogPage() {
         initCart();
       }
     )
+    .catch(error => {
+      // console.log(error);
+      loader.hide();
+      alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
+    })
   }
 }
 
@@ -1079,10 +1084,10 @@ function showInfoCard(id) {
 // Отображение картинки на весь экран:
 
 function showFullImg(event, data) {
-  loader.show();
   if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
     return;
   }
+  loader.show();
   if (typeof data !== 'object') {
     data = findItemData(data);
   }
