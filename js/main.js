@@ -242,10 +242,10 @@ function sendRequest(url, action, data, type = 'application/json; charset=utf-8'
     var request = new XMLHttpRequest();
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
     request.addEventListener('load', () => {
-      if (request.status !== 200) {
-        reject(new Error(request.status + ':' + request.statusText));
+      if (request.status === 200) {
+        resolve(request.response);
       }
-      resolve(request.response);
+      reject(new Error(request.status));
     });
     if (action) {
       request.open('POST', url);
@@ -626,6 +626,8 @@ function addImgInfo(item, key = 'images') {
     return;
   }
   item[key] = item[key].toString().split(';');
+  item.images_full = [];
+  item[key].forEach(el => item.images_full.push(`https://b2b.topsports.ru/c/source/${el}.jpg`));
   if (item[key].length) {
     item.image = `https://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
   } else {
@@ -844,6 +846,11 @@ function textareaCounter(textarea) {
 }
 
 // Изменение высоты textarea в зависимости от содержимого:
+window.addEventListener('resize', () => {
+  document.querySelectorAll('textarea[oninput^="setTextareaHeight"]').forEach(el => {
+    setTextareaHeight(el);
+  });
+});
 
 function setTextareaHeight(textarea, min = 40, max = 150) {
   if (textarea.scrollTop == 0) {
@@ -1090,8 +1097,8 @@ function loadScript(url) {
 function sortBy(key, type = 'text') {
   var sortOrder = 1;
   if (key[0] === "-") {
-      sortOrder = -1;
-      key = key.substr(1);
+    sortOrder = -1;
+    key = key.substr(1);
   }
 
   function getValue(item) {
@@ -1110,8 +1117,8 @@ function sortBy(key, type = 'text') {
     }
   }
 
-  var result;
   return function (a, b) {
+    var result;
     a = getValue(a);
     b = getValue(b);
     switch (type) {
@@ -1133,27 +1140,39 @@ function sortBy(key, type = 'text') {
 // Сортировка объектов:
 //=====================================================================================================
 
-// Сортировка по ключу:
+// Сортировка объекта по ключу:
 
-function sortObjByKey(obj, type = 'string') {
+function sortObjByKey(obj, type = 'string', sortOrder = 1) {
   var arrayObj = Object.keys(obj),
       sortedObj = {};
-  switch (type) {
-    case 'string':
-      arrayObj = arrayObj.sort();
-      break;
-    case 'number':
-      arrayObj = arrayObj.sort((a,b) =>  a - b);
-      break;
-    case 'number from string':
-      arrayObj = arrayObj.sort((a,b) => parseInt(a, 10) - parseInt(b, 10));
-      break;
+  arrayObj = arrayObj.sort(sortObj());
+
+  function sortObj() {
+    return function (a, b) {
+      var result;
+      switch (type) {
+        case 'string':
+          result = (a < b) ? -1 : (a > b) ? 1 : 0;
+          break;
+        case 'number':
+          a = typeof a === 'string' ? parseFloat(a.toString().replace(/\s/g, '')) : a;
+          a = typeof b === 'string' ? parseFloat(a.toString().replace(/\s/g, '')) : b;
+          result = a - b;
+          break;
+        case 'date':
+          a = getDateObj(a, 'dd.mm.yy');
+          b = getDateObj(b, 'dd.mm.yy');
+          result = b - a;
+          break;
+      }
+      return result * sortOrder;
+    }
   }
   arrayObj.forEach(key => sortedObj[key] = obj[key]);
   return sortedObj;
 }
 
-// Сортировка по значению:
+// Сортировка объекта по значению:
 
 function sortObjByValue(obj, type = 'string') {
   var arrayObj = Object.keys(obj),
@@ -1207,6 +1226,9 @@ function getDateExpires(days, date = new Date()) {
 // Создание объекта даты из строки:
 
 function getDateObj(string, format = 'dd.mm.yyyy') {
+  if (!string) {
+    return string;
+  }
   if (format === 'dd.mm.yy' || format === 'dd.mm.yyyy'){
     string = string.replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
   } else if (format === 'yy-mm-dd' || format === 'yyyy-mm-dd') {
@@ -1432,9 +1454,31 @@ function showReclm(event, id) {
 // Переход на старый интерфейс:
 
 function goToOldInterface() {
-  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
-  console.log(path);
-  // location.href = ``;
+  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
+      inCart = location.search && location.search == '?cart';
+  var links = {
+    dashboard: '',
+    profile: 'cabinet/',
+    equip: inCart ? 'cart/' : 'ekipirovka/',
+    boats: inCart ? 'cart/' : 'zip/',
+    snow: inCart ? 'cart/' : '/zip/',
+    orders: 'orders/',
+    order: 'orders/order',
+    reclamations: 'recl/',
+    reclamation: `recl/recl`,
+    documents: 'documents/',
+    certificates: 'sertifikaty/',
+    users: '',
+    contractors: 'cabinet/',
+    addresses: 'cabinet/'
+  };
+  if (path === 'order') {
+    links[path] = links[path] + `${location.search.replace(/\D/g, '')}.html`;
+  }
+  if (path === 'reclamation') {
+    links[path] = links[path] + `${data.recl.order_id}_${data.recl.recl_code_1c}.html`;
+  }
+  location.href = 'https://b2b.topsports.ru/' + links[path];
 }
 
 //=====================================================================================================
@@ -2048,6 +2092,7 @@ function closePopUp(event, el) {
       window.removeEventListener('resize', closeFilterPopUp);
     }
     setTimeout(() => {
+      loader.hide();
       hideElement(el);
       if (!document.querySelector('.pop-up-container.open')) {
         document.body.classList.remove('no-scroll');
@@ -2168,7 +2213,7 @@ function showFullImg(event, articul) {
 
 // Открытие картинки на весь экран:
 
-function openFullImg(event, data) {
+function openFullImg(event, data, curImg) {
   if (!data) {
     return;
   }
@@ -2179,12 +2224,12 @@ function openFullImg(event, data) {
     items: data,
     sub: [{
       area: '.carousel-item',
-      items: 'images'
+      items: 'images_full'
     }]
   });
   var fullCarousel = getEl('.carousel', fullImgContainer),
-      curCarousel = event ? event.currentTarget.closest('.carousel') : null,
-      curImg = curCarousel ? curCarousel.dataset.img : null;
+      curCarousel = event ? event.currentTarget.closest('.carousel') : null;
+  curImg = curImg || (curCarousel ? curCarousel.dataset.img : null);
   openPopUp(fullImgContainer);
   renderCarousel(fullCarousel, curImg)
   .then(result => {
