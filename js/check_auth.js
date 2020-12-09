@@ -28,8 +28,8 @@ if (local) {
 //   xhr.open('POST', urlRequest.main, false);
 //   try {
 //     xhr.setRequestHeader('Content-Type', 'application/json');
-//     xhr.send(JSON.stringify({action: 'checkauth', data: {redirect: location.href}}));
-//     if (xhr.status != 200) {
+//     xhr.send(JSON.stringify({action: 'checkauth'}));
+//     if (xhr.status !== 200) {
 //       console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //       throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //     } else {
@@ -41,18 +41,14 @@ if (local) {
 //         }
 //       } else {
 //         if (path) {
-//           if (result.redirect) {
-//             location.href = `/?${result.redirect}`;
-//           } else {
-//             location.href = '/';
-//           }
+//           location.href = `/?${location.href}`;
 //         }
 //       }
 //     }
 //   } catch(err) {
 //     console.log(err);
 //     if (path) {
-//       location.href = '/';
+//       location.href = `/?${location.href}`;
 //     }
 //   }
 // })();
