@@ -103,14 +103,21 @@
                 </div>
                 <a class="card-open">Подробнее</a>
               </div>
-              <div id="files" class="row">
-                <form class="item" method="post" enctype="multipart/form-data">
-                  <input type="hidden" name="recl_id" value="#id#">
-                  <input id="load-files" type="file" name="files" multiple="multiple">
+              <div id="files">
+                <form class="item" method="post" enctype="multipart/form-data" onsubmit="sendFiles(event)">
+                  <input id="load-files" value="" name="files" type="file"  multiple="multiple" onchange="uploadFiles(event)">
                   <label class="text" for="load-files">загрузить</label>
+                  <input type="submit" value="Загрузить">
                 </form>
-                <a class="item img-wrap" data-name="@file_name_view@" data-tooltip="@file_name_view@.@file_type@" href="https://api.topsports.ru/recl/storage_remote/#recl_code_1c#/@file_folder@/@file_name@.@file_type@" target="_blank" onclick="@isFunc@" style="@style@"></a>
-                <!-- <a class="item img-wrap" data-name="@file_name_view@" data-tooltip="@file_name_view@.@file_type@" href="https://api.topsports.ru/recl/storage_remote/#recl_code_1c#/@file_folder@/@file_name@.@file_type@" target="_blank" onclick="@isFunc@">@file@</a> -->
+                <div class="files row">
+                  <a class="item img-wrap @isLoading@" data-name="@file_name_view@" data-tooltip="@file_name_view@.@file_type@" href="@url@" target="_blank" onclick="showFullImg(event)">
+                    <div class="@class@" style="background-image: url(@preview_url@)"></div>
+                    <div class="progress">
+                      <div class="indicator"></div>
+                      <div class="status">0%</div>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -120,12 +127,20 @@
               <div class="close icon"></div>
             </div>
             <div class="body">
-              <div class="wrap">
+              <div class="wrap template">
+                <div class="date">
+                  <div class="pill">@date@</div>
+                  <div class="message">
+                    <div class="title">@user@:</div>
+                    <div class="text">@text@</div>
+                    <div class="time">@time@</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <form class="footer row" method="post" enctype="multipart/form-data">
+            <form class="footer row" method="post" enctype="multipart/form-data" onsubmit="sendMessage(event)">
               <input type="hidden" name="recl_id" value="#id#">
-              <textarea name="comment" placeholder="Введите сообщение..." oninput="setTextareaHeight(this)"></textarea>
+              <textarea name="comment" value="" placeholder="Введите сообщение..." oninput="setTextareaHeight(this)" onkeydown="sendMessage(event)"></textarea>
               <input class="btn" type="submit" value="Отправить">
             </form>
           </div>

@@ -246,8 +246,7 @@
 /* Файлы: */
 
 #files {
-  flex-wrap: wrap;
-  align-items: center;
+  position: relative;
 }
 
 #files .item {
@@ -258,8 +257,8 @@
   /* min-width: 80px;
   max-width: 100%;
   max-height: 150px; */
-  margin-right: 0.714em;
-  margin-bottom: 0.714em;
+  margin-right: 10px;
+  margin-bottom: 10px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -267,7 +266,8 @@
 }
 
 #files form {
-  position: relative;
+  position: absolute;
+  top: 0;
   width: 150px;
   height: 150px;
 }
@@ -281,8 +281,33 @@ input[type="file"] ~ .text {
   background: #D3D6D9 url(../img/clip.svg) no-repeat center 30px;
 }
 
-#files .files {
+#files > .files {
   flex-wrap: wrap;
+  align-items: center;
+}
+
+#files > .row > :first-child {
+  margin-left: 160px;
+}
+
+#files .img-wrap .img,
+#files .img-wrap .ico {
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #D3D6D9;
+}
+
+#files .img-wrap .ico {
+  background-size: auto;
+  background-color: transparent;
+}
+
+#files .img-wrap.loading .img,
+#files .img-wrap.loading .ico {
+  opacity: 0.4;
 }
 
 #files .img-wrap img,
@@ -296,6 +321,42 @@ input[type="file"] ~ .text {
   /* разные по ширине - пропорционально картинке */
   /* max-width: 100%;
   max-height: 150px; */
+}
+
+#files .progress {
+  display: none;
+  position: absolute;
+  width: 140px;
+  height: 22px;
+  color: #666666;
+  background-color: #FFFFFF;
+  border: 1px solid #666666;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+#files .img-wrap.loading .progress {
+  display: block;
+}
+
+#files .img-wrap.error .progress {
+  color: #CE0014;
+  border-color: #CE0014;
+}
+
+#files .indicator {
+  width: 0;
+  height: 20px;
+  background-color: #D3D6D9;
+}
+
+#files .status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  overflow: hidden;
 }
 
 /* Чат: */

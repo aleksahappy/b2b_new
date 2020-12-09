@@ -9,6 +9,8 @@
 
 // Глобальные переменные:
 
+var data;
+
 var fileTypes = {
   'jpg': 'jpg',
   'jpeg': 'jpg',
@@ -43,20 +45,29 @@ var videoTypes = {
   'mpeg': 'mpeg'
 };
 
+var fullImgCarousel = {
+  isNav: true,
+  navType: 'dot',
+  isAnimate: false
+};
+
 // Запуск страницы рекламации:
 
 startReclPage();
 
 function startReclPage() {
-  var id = document.location.search.replace('?', '');
+  var id = document.location.search.replace(/\D/g, '');
+  if (!id) {
+    location.href = '/err404.html';
+  }
   sendRequest(urlRequest.main, 'recl', {recl_id: id})
   // sendRequest(`../json/reclamation.json`)
   .then(result => {
     if (!result) {
       location.href = '/err404.html';
     }
-    var data = JSON.parse(result);
-    initPage(data);
+    data = JSON.parse(result);
+    initPage();
   })
   .catch(error => {
     console.log(error);
@@ -67,29 +78,33 @@ function startReclPage() {
 
 // Инициализация страницы:
 
-function initPage(data) {
-  convertData(data);
+function initPage() {
+  convertData();
   fillTemplate({
     area: '#main',
     items: data.recl,
     sub: [{area: '.card', items: 'item'}]
   });
-  fillFiles(data);
-  fillChat(data);
+  checkMedia(getEl('.card img'));
+  fillFiles();
+  fillChat();
   getEl('#main .card .img-wrap').addEventListener('click', () => openFullImg(null, data.recl.item));
   getEl('#main .card .card-open').addEventListener('click', () => openInfoCard(data.recl.item));
+  setInterval(checkNewMessages, 60000); // Проверка чата на наличие новых сообщений раз в минуту (polling)
+  // checkNewMessages(); // Проверка чата на наличие новых сообщений (polling)
   loader.hide();
 }
 
 // Преобразование полученных данных:
 
-function convertData(data) {
+function convertData() {
   if (!data) {
     return;
   }
-  var recl = data.recl,
-      files = data.recl_files,
-      messages = data.recl_messages;
+  data.recl_files = data.recl_files || [];
+  data.recl_messages = data.recl_messages || [];
+
+  var recl = data.recl;
 
   // Cтатус рекламации:
   if (recl.status == 3 || recl.status == 5) {
@@ -112,6 +127,7 @@ function convertData(data) {
   recl.isFree = recl.item_free_qty > 0 ? '' : 'displayNone';
   recl.isArrive = recl.item_arrive_qty > 0 ? '' : 'displayNone';
   recl.isWarehouse = recl.item_warehouse_qty > 0 ? '' : 'displayNone';
+  recl.item_price = convertPrice(recl.item_price),
   recl.item = {};
   recl.item.title = recl.item_title;
   recl.item.images = recl.item_img ? [recl.item_img.replace('.jpg', '')] : [];
@@ -121,44 +137,72 @@ function convertData(data) {
   recl.item.desc = recl.item_descr;
   recl.item.isDesc = recl.item_descr ? '' : 'displayNone';
 
-  // Данные о файлах:
+  // Данные для открытия изображений на весь экран:
+  recl.images_full = [];
 
-  if (files) {
-    files.forEach(el => {
-      var type = el.file_type.toLowerCase();
-      type = fileTypes[type] ? fileTypes[type] : 'other';
-      el.file_folder = imgTypes[type] ? 'images' : videoTypes[type] ? 'videos' : 'other';
-      el.file_type_add = type == 'txt' ? '.txt' : '';
-      el.isFunc = imgTypes[type] ? 'showImgFile(event)' : '';
-      el.style = imgTypes[type] ? `background-image: url(https://api.topsports.ru/recl/storage_remote/${recl.recl_code_1c}/images/${el.file_name}.${el.file_type}); background-color: #D3D6D9;` :`background-image: url(img/${type}.svg); background-size: auto`;
-      // el.file = imgTypes[type] ?
-      //   `<img src=https://api.topsports.ru/recl/storage_remote/${recl.recl_code_1c}/images/${el.file_name}.${el.file_type}"></https:>` :
-      //   type == 'mp4' ?
-      //   `<video src="http://127.0.0.1:5500/reclamation/storage/${recl.id}/videos/${el.file_name}.${el.file_type}" controls></video>` :
-      //   `<img src="img/${type}.svg">`;
-    });
-  }
+  // Данные для галереи файлов и чата:
+  convertFilesData();
+  convertMessagesData();
+}
 
-  // Данные сообщений чата:
-  if (messages) {
-    messages.forEach(el => {
-      var arr = el.date.split(' '),
-          string = arr[1].replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3');
-      el.time = arr[0];
-      el.date = arr[1];
-      el.dateObj = new Date(string + ' ' + arr[0]);
+// Преобразование данных для заполнения галереи файлов:
+
+function convertFilesData() {
+  data.recl_files.forEach(el => {
+    var type = el.file_type.toLowerCase();
+    type = fileTypes[type] ? fileTypes[type] : 'other';
+    el.type = type;
+    el.file_folder = imgTypes[type] ? 'images' : videoTypes[type] ? 'videos' : 'other';
+    el.url = `https://api.topsports.ru/recl/storage_remote/${data.recl.recl_code_1c}/${el.file_folder}/${el.file_name}.${el.file_type}`;
+    el.preview_url = imgTypes[type] ? `https://api.topsports.ru/recl/storage_remote/${data.recl.recl_code_1c}/${el.file_folder}/${el.file_name}_250.${el.file_type}` : `img/${type}.svg`;
+    el.class = imgTypes[type] ? 'img' : 'ico';
+      // `<img src="${el.url}">` :
+      // type == 'mp4' ?
+      // `<video src="${el.url}" controls></video>` :
+      // `<img src="img/${type}.svg">`;
+    if (imgTypes[type]) {
+      data.recl.images_full.push(el.url);
+    }
+  });
+}
+
+// Преобразование данных для заполнения чата:
+
+function convertMessagesData() {
+  var chat = {};
+  data.recl_messages.forEach(el => {
+    var arr = el.date.split(' '),
+        string = arr[1].replace(/(\d+).(\d+).(\d+)/, '$2/$1/$3'),
+        time = arr[0],
+        date = arr[1];
+    if (!chat[date]) {
+      chat[date] = {
+        date: date,
+        items: []
+      };
+    }
+    chat[date].items.push({
+      user: data.recl.user_fio == el.user? 'Вы' : el.user,
+      text: brText(el.message),
+      time: time,
+      timestamp: new Date(string + ' ' + arr[0]).getTime()
     });
+  });
+  chat = sortObjByKey(chat, 'date', -1);
+  for (var date in chat) {
+    chat[date].items.sort(sortBy('timestamp', 'numb'));
   }
+  data.chat = chat;
 }
 
 // Заполнение галереи файлов:
 
-function fillFiles(data) {
+function fillFiles(filesData) {
   fillTemplate({
-    area: '#files',
-    items: data,
+    area: '.files',
+    items: filesData || data.recl_files,
     sign: '@',
-    sub: [{area: '.img-wrap', items: 'recl_files'}]
+    method: filesData ? 'afterbegin' : 'inner'
   });
   // document.querySelectorAll('#files img').forEach(el => replaceError(el));
   // document.querySelectorAll('#files video').forEach(el => replaceError(el));
@@ -174,51 +218,20 @@ function replaceError(el) {
 
 // Заполнение чата:
 
-function fillChat(data) {
-  if (!data.recl_messages) {
-    return;
-  }
-  var chat = getEl('#chat .body .wrap'),
-      chatText = '',
-      user,
-      dates = [];
-  data.recl_messages.forEach(el => {
-    user = data.recl.user_fio == el.user ? 'Вы' : el.user;
-    if (!dates.find(date => date.title == el.date)) {
-      dates.push({
-        title: el.date,
-        messages: []
-      })
-    }
-    var message = {
-      time: el.dateObj.getTime(),
-      content:
-      `<div class="message">
-        <div class="title">${user}:</div>
-        <div class="text">${brText(el.message)}</div>
-        <div class="time">${el.time}</div>
-      </div>`
-    };
-    var curDate = dates.find(date => date.title == el.date);
-    curDate.messages.push(message);
+function fillChat() {
+  var chat = getEl('#chat .wrap');
+  fillTemplate({
+    area: chat,
+    items: data.chat,
+    type: 'list',
+    sign: '@',
+    sub: [{
+      area: '.message',
+      items: 'items'
+    }]
   });
-  dates.sort(sortBy('-title', 'date'));
-  dates.forEach(date => {
-    date.messages.sort(sortBy('time', 'numb'));
-    date.content = '';
-    date.messages.forEach(el => {
-      date.content += el.content;
-    });
-    var text =
-    `<div class="date">
-      <div class="pill">${date.title}</div>
-      ${date.content}
-    </div>`;
-    chatText += text;
-  });
-  chat.innerHTML = chatText;
   chat.scrollTop = chat.scrollHeight;
-  // setTimeout(() => chat.scrollTop = chat.scrollHeight, 100);
+  setTimeout(() => chat.scrollTop = chat.scrollHeight, 100);
 }
 
 // Запрет загрузки листа возврата:
@@ -229,21 +242,293 @@ function getReturnList(event) {
   }
 }
 
-// Загрузка документов:
+// Загрузка файлов:
 
-function uploadFiles() {
+function uploadFiles(event) {
+  var files = Array.from(event.currentTarget.files);
+  files.forEach(file => {
+    var fileName = file.name.split('.').slice(0, -1).join('.');
+    // if (!getEl(`#files .item[data-name="${fileName}"]`) && file.size <= 500000) {
+    if (!getEl(`#files .item[data-name="${fileName}"]`)) {
+      var filesData = {
+        file_name_view: fileName,
+        file_type: file.name.split('.').pop(),
+        isLoading: 'loading'
+      };
+      var type = filesData.file_type.toLowerCase();
+      type = fileTypes[type] ? fileTypes[type] : 'other';
+      filesData.type = type;
 
+      if (imgTypes[type]) {
+        var reader = new FileReader();
+        reader.addEventListener('load', event => {
+          filesData.preview_url = event.target.result;
+          var img = getEl(`#files .item[data-name="${fileName}"] .img`);
+          if (img) {
+            img.style.backgroundImage = `url(${event.target.result})`;
+          }
+        });
+        if (file) {
+          reader.readAsDataURL(file);
+          filesData.class = 'img';
+        }
+      } else {
+        filesData.preview_url = `img/${type}.svg`;
+        filesData.class = 'ico';
+      }
+      fillFiles(filesData);
+    }
+  });
+  getEl('#files input[type="submit"]').click();
 }
 
+// Отправка файлов на сервер:
 
-// Отправка сообщений чата:
+function sendFiles(event) {
+  event.preventDefault();
+  var inputFile = getEl('#files input[type="file"]'),
+      files = Array.from(inputFile.files),
+      counter = 0,
+      errors = {
+        repeat: {
+          title: 'Файл с таким именем уже существует',
+          items: []
+        },
+        // size: {
+        //   title: 'Размер файла превышает 0.5мб:',
+        //   items: []
+        // },
+        server: {
+          title: 'Ошибка сервера',
+          items: []
+        }
+      };
+  files.forEach(file => {
+    var fileName = file.name.split('.').slice(0, -1).join('.');
+    // if (!getEl(`#files .item[data-name="${fileName}"]:not(.loading)`) && file.size <= 500000) {
+    if (!getEl(`#files .item:not(.loading)[data-name="${fileName}"]`)) {
+      var curItem = getEl(`#files .item[data-name="${fileName}"]`);
+      sendFileForm(curItem, file)
+      .then(result => {
+        result = JSON.parse(result);
+        data.recl_files = result;
+        updateFile(curItem);
+        checkComplete();
+      })
+      .catch(error => {
+        removeFile(curItem);
+        errors.server.items.push(fileName);
+        checkComplete();
+      })
+    } else {
+      removeFile(curItem);
+      errors.repeat.items.push(fileName);
+      checkComplete();
+    }
+    // } else if (file.size > 500000) {
+    //   errors.size.push(fileName);
+    //   checkComplete();
+    // }
+  });
 
-function sendMessage() {
-
+  function checkComplete() {
+    counter += 1;
+    if (counter === files.length) {
+      inputFile.value = '';
+      showErrors(errors);
+    }
+  }
 }
 
-// Отображение загруженных картинок на весь экран:
+// Отправка формы с файлом на сервер:
 
-function showImgFile(event) {
-  // event.preventDefault();
+function sendFileForm(curItem, file) {
+  return new Promise((resolve, reject) => {
+    var formData = new FormData();
+    formData.append('action', 'upload_file');
+    formData.append('recl_id', data.recl.id);
+    formData.append('UserFile', file);
+
+    var request = new XMLHttpRequest();
+    request.upload.addEventListener('progress', (event) => {
+      if (event.lengthComputable) {
+        var percentComplete = Math.ceil(event.loaded / event.total * 100) + '%';
+        getEl('indicator', curItem).style.width = percentComplete;
+        getEl('status', curItem).textContent = percentComplete;
+      }
+    });
+    request.addEventListener('error', () => reject(new Error('Ошибка сети')));
+    request.addEventListener('load', () => {
+      if (request.status === 200) {
+        resolve(request.response);
+      } else {
+        reject(new Error(request.status + ':' + request.statusText));
+      }
+    });
+    request.open('POST', urlRequest.main);
+    request.send(data);
+  });
 }
+
+// Обновление файла в галерее после его загрузки на сервер:
+
+function updateFile(curItem) {
+  convertFilesData();
+  var curData = data.recl_files.find(el => curItem.dataset.name == el.file_name_view);
+  if (curData) {
+    curItem.classList.remove('loading');
+    curItem.href = curData.url;
+    var img = getEl('div', curItem);
+    if (imgTypes[curData.type]) {
+      img.style.backgroundImage = `url(${curData.preview_url})`;
+    } else {
+      img.style.backgroundImage = `url(img/${curData.type}.svg)`;
+    }
+  } else {
+    removeFile(curItem);
+  }
+}
+
+// Удаление файла из галереи при ошибке загрузки:
+
+function removeFile(curItem) {
+  curItem.classList.add('error');
+  getEl('.progress .status', curItem).textContent = 'Ошибка';
+  setTimeout(() => curItem.remove(), 500);
+}
+
+// Отображение ошибок загрузки файлов:
+
+function showErrors(errors) {
+  var text = '';
+  for (var type in errors) {
+    if (errors[type].items.length) {
+      var list = '';
+      errors[type].items.forEach(el => list += `<li>${el}</г>`);
+      text += `<div>${errors[type].title}:</div><ul>${list}</ul>`;
+    }
+  }
+  alerts.show(`
+  <div style="text-align: left;">
+    <div style="text-transform: uppercase;">Не загружены файлы:</div><br>
+    ${text}
+  </div>`);
+}
+
+// Отображение загруженных картинок на весь экран/ предотвращение открытия ссылки незагруженных изображений:
+
+function showFullImg(event) {
+  var curData = data.recl_files.find(el => event.currentTarget.dataset.name == el.file_name_view);
+  if (curData) {
+    if (imgTypes[curData.type]) {
+      event.preventDefault();
+      var curImg = data.recl.images_full.findIndex(el => el === curData.url);
+      openFullImg(event, data.recl, curImg);
+    }
+  } else {
+    event.preventDefault();
+  }
+}
+
+// Отправка сообщения на сервер:
+
+function sendMessage(event) {
+  if (event && event.type === 'keydown') {
+    if (event.keyCode !== 13 || event.keyCode === 13 && event.shiftKey) {
+      return;
+    }
+  }
+  event.preventDefault();
+  var textarea = getEl('#chat textarea'),
+      message = textarea.value.trim();
+  if (message === '') {
+    return;
+  }
+  var curDate = new Date(),
+      hours = (curDate.getHours() < 10) ? '0' + curDate.getHours() : curDate.getHours(),
+      minutes = (curDate.getMinutes() < 10) ? '0' + curDate.getMinutes() : curDate.getMinutes(),
+      day = (curDate.getDate() < 10) ? '0' + curDate.getDate() : curDate.getDate(),
+      month = (curDate.getMonth() < 10) ? '0' + parseInt(curDate.getMonth() + 1) : parseInt(curDate.getMonth() + 1),
+      year = curDate.getFullYear(),
+      date = hours + ':' + minutes + ' ' + day + '.' + month + '.' + year;
+
+  data.recl_messages.push({
+    date: date,
+    user: data.recl.user_fio,
+    message: brText(message)
+  });
+  updateChat();
+
+  var formData = new FormData(getEl('#chat form'));
+  formData.append('recl_id', data.recl.id);
+  textarea.value = '';
+  setTextareaHeight(textarea);
+
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
+
+  sendRequest(urlRequest.main, 'send_message', {recl_id: data.recl.id})
+  .then(result => {
+    result = JSON.parse(result);
+    // console.log(result);
+    // Снова обновить чат или просто обновить данные?
+    data.recl_files = result;
+    // updateChat(result);
+  })
+  .catch(error => {
+    // console.log(error);
+    alerts.show(`Ошибка сервера.<br>Сообщение "${message}" не было отправлено.<br>Попробуйте позже.`);
+    data.recl_messages.pop();
+    updateChat();
+  })
+}
+
+// Обновление сообщений в чате:
+
+function updateChat(result) {
+  if (result) {
+    data.recl_messages = result;
+  }
+  convertMessagesData();
+  fillChat();
+}
+
+// Проверка чата на наличие новых сообщений (polling):
+
+function checkNewMessages() {
+  sendRequest(urlRequest.main, '???', {recl_id: data.recl.id})
+  .then(result => {
+    result = JSON.parse(result);
+    // console.log(result);
+    if (JSON.stringify(result) !== JSON.stringify(data.recl_files)) {
+      updateChat(result);
+    }
+  })
+  .catch(error => {
+    // console.log(error);
+  })
+}
+
+// Проверка чата на наличие новых сообщений (long polling):
+
+// function checkNewMessages() {
+//   sendRequest(urlRequest.main, '???', {recl_id: data.recl.id})
+//   .then(result => {
+//     result = JSON.parse(result);
+//     // console.log(result);
+//     if (JSON.stringify(result) !== JSON.stringify(data.recl_files)) {
+//       updateChat(result);
+//     }
+//     checkNewMessages();
+//   },
+//   reject => {
+//     // Статус 502 - это таймаут соединения. Возможен, когда соединение ожидало слишком долго и сервер закрыл его.
+//     console.log(reject);
+//     checkNewMessages();
+//   })
+//   .catch(error => {
+//     // console.log(error);
+//     alerts.show('Произошла ошибка, попробуйте позже.');
+//   })
+// }
