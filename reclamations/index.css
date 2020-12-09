@@ -10,6 +10,11 @@
   margin-bottom: 0;
   border-left: 2px solid transparent;
   border-bottom: 1px solid #C6C6C6;
+  cursor: pointer;
+}
+
+.infoblock:hover {
+  background-color: #F8F8F8;
 }
 
 .infoblock[data-status="1"] {
