@@ -146,6 +146,7 @@ function createCart(data) {
     getEl('#cart-full').innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
     return;
   }
+  var isData = data ? true : false;
   if (!data) {
     cartData = sortObjByKey(cartData);
     moveToEndObj(cartData, 'Нет в наличии');
@@ -167,7 +168,9 @@ function createCart(data) {
     changeCartRow(row);
   });
   document.querySelectorAll('.cart-section').forEach(el => changeCartSectionInfo(el));
-  changeCheckoutInfo();
+  if (!isData) {
+    changeCheckoutInfo();
+  }
   setTimeout(() => setPaddingToBody(), 0);
 }
 
@@ -270,7 +273,11 @@ function getSoldOutItems() {
           soldOutItems.push(convertItem(result.items[key]));
         }
         resolve();
-      }, reject => resolve())
+      })
+      .catch(err => {
+        console.log(err);
+        resolve();
+      })
     } else {
       resolve();
     }
@@ -845,7 +852,8 @@ function changeCartRow(row) {
   if (row.closest('.sold') || row.classList.contains('bonus')) {
     return;
   }
-  var input = getEl('.choiced-qty', row),
+  var curSection = row.closest('.cart-section'),
+      input = getEl('.choiced-qty', row),
       id = input.dataset.id,
       totals = countFromCart([id], false, false),
       sum = convertPrice(totals.sum);
@@ -853,8 +861,10 @@ function changeCartRow(row) {
   getEl('.discount', row).textContent = totals.percentDiscount > 0 ? totals.percentDiscount + '%' : '';
   getEl('.sum span', row).textContent = sum;
   changeCartRowCopy(id, totals.qty, sum);
-  changeCartSectionInfo(row.closest('.cart-section'));
-  changeCheckoutInfo();
+  changeCartSectionInfo(curSection);
+  if (!curSection.classList.contains('search')) {
+    changeCheckoutInfo();
+  }
 
   if (totals.bonusId) {
     var bonusRow = getEl(`.cart-row.bonus[data-parent-id="${id}"]`);
@@ -972,7 +982,9 @@ function toggleInCart(event) {
     cartSection.querySelectorAll('.cart-row:not(.bonus)').forEach(row => toggleCartRow(row, checker));
   }
   changeCartSectionInfo(cartSection);
-  changeCheckoutInfo();
+  if (!cartSection.classList.contains('search')) {
+    changeCheckoutInfo();
+  }
 }
 
 // Выделение/снятие одного пункта корзины:
