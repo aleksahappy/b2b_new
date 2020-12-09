@@ -17,7 +17,10 @@ var data, reclData, reclIcon;
 startOrderPage();
 
 function startOrderPage() {
-  var id = document.location.search.replace('?', '');
+  var id = document.location.search.replace(/\D/g, '');
+  if (!id) {
+    location.href = '/err404.html';
+  }
   // sendRequest(`../json/order.json`)
   sendRequest(urlRequest.main, 'order', {order_id: id})
   .then(result => {
@@ -25,8 +28,8 @@ function startOrderPage() {
       location.href = '/err404.html';
     }
     data = JSON.parse(result);
-    sendRequest(`../json/order_payment.json`)
-    // sendRequest(urlRequest.main, '???', {order_id: id})
+    // sendRequest(`../json/order_payment.json`)
+    sendRequest(urlRequest.main, 'get_orderpayments', {order_id: id})
     .then(result => {
       try {
         data.payment = JSON.parse(result);
