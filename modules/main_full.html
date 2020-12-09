@@ -40,15 +40,16 @@
       <div class="right-side row">
         <div class="btn" onclick="goToOldInterface()">Старый интерфейс</div>
         <div class="activate hover select">
-          <a class="head row" href="../profile">
+          <div class="head row">
             <div class="profile icon"></div>
             <div id="profile" class="template">
               <div class="title h3">#login#</div>
               <div class="username text light">#username#</div>
             </div>
-          </a>
+          </div>
           <div class="drop-down">
             <div class="links">
+              <a class="item" href="../profile">Профиль</a>
               <a class="item" href="../users">Пользователи</a>
               <a class="item" href="../contractors">Контрагенты</a>
               <a class="item" href="../addresses">Мои адреса (с картой)</a>
@@ -71,13 +72,13 @@
 <div id="mob-menu" class="pop-up-container">
   <div class="pop-up">
     <div class="container">
-      <a class="profile row" href="../profile">
+      <div class="profile row">
         <div class="profile icon"></div>
         <div id="mob-profile" class="template">
           <div class="title h3">#login#</div>
           <div class="username text light">#username#</div>
         </div>
-      </a>
+      </div>
       <div class="list">
         <div class="item switch close">
           <div class="item-title" onclick="switchContent(event)">
@@ -85,6 +86,9 @@
             <div class="open dark icon switch-icon"></div>
           </div>
           <div class="items switch-cont">
+            <div class="item">
+              <a href="../profile">Профиль</a>
+            </div>
             <div class="item">
               <a href="../users">Пользователи</a>
             </div>
@@ -193,7 +197,9 @@
 <!-- Системные сообщения -->
 <div id="alerts" class="pop-up-container">
   <div class="pop-up">
-    <div class="close icon"></div>
+    <div class="pop-up-title row">
+      <div class="close icon"></div>
+    </div>
     <div class="text"></div>
     <div class="btns-wrap">
       <div class="btn cancel">Отмена</div>
