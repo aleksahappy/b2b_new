@@ -33,7 +33,7 @@
     max-width: 90vw;
     max-height: 90vw;
   }
-  #full-img .carousel-gallery img {
+  #full-img .carousel-gallery .carousel-item {
     max-width: 90vw;
     max-height: 90vw;
   }
@@ -45,7 +45,7 @@
     max-width: 90vh;
     max-height: 90vh;
   }
-  #full-img .carousel-gallery img {
+  #full-img .carousel-gallery .carousel-item {
     max-width: 90vh;
     max-height: 90vh;
   }
