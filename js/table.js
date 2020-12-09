@@ -929,7 +929,8 @@ function Table(obj, settings = {}) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.selectData();
     }
-    this.replaceData();
+    this.fill();
+    // this.replaceData();
   }
 
   // Поиск и фильтрация по ключу:
