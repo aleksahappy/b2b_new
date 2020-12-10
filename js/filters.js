@@ -224,7 +224,7 @@ function createZipSelectsData() {
     title: 'Производитель',
     key: 'man',
   }, {
-    title: 'Год',
+    title: 'Год выпуска',
     key: 'years',
   }, {
     title: 'Модель',

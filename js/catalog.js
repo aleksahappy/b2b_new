@@ -1215,7 +1215,7 @@ function setFilterOnPage(filter) {
     filterData[1] = filterData[1].replace('_', ' ');
     setValueDropDown(`#${filterData[0].replace('manuf_', '')}`, filterData[1])
   } else {
-    getEl('#catalog-filters').querySelectorAll('.filter-item').forEach(el => {
+    getEl('#catalog-filters').querySelectorAll('.item:not(.subitem)').forEach(el => {
       key = el.dataset.key;
       value = el.dataset.value;
       if (key.toLowerCase() == filterData[0] && value.toLowerCase() == filterData[1]) {
@@ -1234,11 +1234,13 @@ function clearFilters(event) {
   if (curSelect !== 'search') {
     getDocumentScroll();
     clearCurSelect();
-    getEl('#filters').querySelectorAll('.filter').forEach(el => {
-      if (window.innerWidth > 1280 && el.classList.contains('default-open')) {
-        el.classList.remove('close');
-      }
-    });
+    if (window.innerWidth > 1280) {
+      getEl('#filters').querySelectorAll('.group').forEach(el => {
+        if (!el.classList.contains('default-open')) {
+          el.classList.add('close');
+        }
+      });
+    }
     selectCards();
   }
 }
@@ -1356,9 +1358,9 @@ function selectFilterCatalog(event, curEl) {
       addInFiltersInfo(parentItem.dataset.key, parentItem.dataset.value, parentItem);
     }
     if (!event) {
-      var filterItem = curEl.closest('.filter');
-      if (filterItem) {
-        filterItem.classList.remove('close');
+      var filterGroup = curEl.closest('.group');
+      if (filterGroup) {
+        filterGroup.classList.remove('close');
       }
     }
     saveFilter(key, value, subkey);
@@ -1369,10 +1371,10 @@ function selectFilterCatalog(event, curEl) {
   var filters = getInfo('filters')[pageUrl];
   if (!filters || isEmptyObj(filters)) {
     selectCards('catalog');
+    toggleToActualFilters();
   } else {
     selectCards('catalog', true);
   }
-  toggleToActualFilters(curEl);
   createFiltersInfo();
 }
 
@@ -1429,70 +1431,42 @@ function removeAllFilters() {
 
 // Блокировка неактуальных фильтров:
 
-function toggleToActualFilters(filter) {
-  var catalogFilters = getEl('#catalog-filters'),
-      curFilters = catalogFilters.querySelectorAll(`.item:not(.subitem).checked[data-key="${filter.dataset.key}"]`),
-      checked = catalogFilters.querySelectorAll('.item:not(.subitem).checked'),
-      filterItems;
-
-  if (checked.length == 0) {
-    catalogFilters.querySelectorAll('.item:not(.subitem)').forEach(item => {
-      item.classList.remove('disabled');
-      item.querySelectorAll('.subitem').forEach(subitem => {
-        subitem.classList.remove('disabled');
-      });
-    });
+function toggleToActualFilters(filterKey, filterLength) {
+  if (!filterKey) {
+    document.querySelectorAll('#catalog-filters .item').forEach(item => item.classList.remove('disabled'));
     return;
   }
-
-  if (curFilters.length > 0) {
-    filterItems = catalogFilters.querySelectorAll(`.item:not(.subitem):not([data-key="${filter.dataset.key}"])`);
-  } else {
-    filterItems = catalogFilters.querySelectorAll('.item:not(.subitem)');
+  if (filterLength === 1) {
+    document.querySelectorAll(`#catalog-filters .item[data-key="${filterKey}"]`).forEach(item => item.classList.remove('disabled'));
   }
+  var filterItems = document.querySelectorAll(`#catalog-filters .item:not(.subitem):not([data-key="${filterKey}"])`);
 
-  var key, value, isExsist, isFound;
+  var key, value, isItem, isSubitem;
   filterItems.forEach(item => {
-    isExsist = false;
+    isItem = false;
     key = item.dataset.key;
     value = item.dataset.value;
-
-    if (checked.length == 1 && key == checked[0].dataset.key) {
+    isItem = itemsToLoad.find(card => card[key] == value || card[value] == 1);
+    if (isItem) {
       item.classList.remove('disabled');
       item.querySelectorAll('.subitem').forEach(subitem => {
-        subitem.classList.remove('disabled');
-      });
-    } else {
-      isExsist = itemsToLoad.find(card => {
-        if (card[key] == value || card[value] == 1) {
-          item.classList.remove('disabled');
-          return true;
-        }
-      });
-      if (!isExsist) {
-        item.classList.add('disabled');
-        item.classList.add('close');
-        if (item.classList.contains('checked')) {
-          item.classList.remove('checked');
-          item.querySelectorAll('.subitem').forEach(subitem => {
-            subitem.classList.remove('checked');
-          });
-          removeFilter(key, value);
-          deleteFromFiltersInfo(key, value);
-        }
-      }
-      item.querySelectorAll('.subitem').forEach(subitem => {
-        isFound = false;
-        isFound = itemsToLoad.find(card => {
-          if (card.cat == value && card.subcat == subitem.dataset.value) {
-            subitem.classList.remove('disabled');
-            return true;
-          }
-        });
-        if (!isFound) {
+        isSubitem = false;
+        isSubitem = itemsToLoad.find(card => card.cat == value && card.subcat == subitem.dataset.value);
+        if (isSubitem) {
+          subitem.classList.remove('disabled');
+        } else {
           subitem.classList.add('disabled');
         }
       });
+    } else {
+      item.classList.add('disabled');
+      item.classList.add('close');
+      if (item.classList.contains('checked')) {
+        item.classList.remove('checked');
+        item.querySelectorAll('.subitem').forEach(subitem => subitem.classList.remove('checked'));
+        removeFilter(key, value);
+        deleteFromFiltersInfo(key, value);
+      }
     }
   });
 }
@@ -1843,30 +1817,26 @@ function startSelect() {
 // Отбор карточек фильтром каталога:
 
 function selectCardsByFilterCatalog() {
-  var filters = getInfo('filters')[pageUrl],
-      isFound;
-  itemsToLoad = curItems.filter(card => {
-    for (var k in filters) {
-      isFound = false;
+  var filters = getInfo('filters')[pageUrl];
+  itemsToLoad = curItems;
+  for (var k in filters) {
+    itemsToLoad = itemsToLoad.filter(card => {
       for (var kk in filters[k]) {
         if (filters[k][kk] && !isEmptyObj(filters[k][kk])) {
           for (var kkk in filters[k][kk]) {
             if (card.cat == kk && card.subcat == kkk) {
-              isFound = true;
+              return true;
             }
           }
         } else {
           if (card[k] == kk || card[kk] == 1) {
-            isFound = true;
+            return true;
           }
         }
       }
-      if (!isFound) {
-        return false;
-      }
-    }
-    return true;
-  });
+    });
+    toggleToActualFilters(k, Object.keys(filters).length);
+  }
 }
 
 // Отбор карточек фильтром запчастей:
