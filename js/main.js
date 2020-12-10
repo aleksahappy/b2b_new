@@ -937,7 +937,7 @@ function checkPositions() {
   var positions = getInfo('positions', 'sessionStorage')[pageUrl],
       el;
   for (var key in positions) {
-    el = getEl(key);
+    el = getEl(`#${key}`);
     if (el) {
       if (positions[key] === 'close') {
         el.classList.add('close');
@@ -1103,7 +1103,7 @@ function sortBy(key, type = 'text') {
 
   function getValue(item) {
     var value = item[key];
-    if (value === '&ndash;') {
+    if (!value && value != 0) {
       return null;
     }
     switch (type) {
@@ -3185,7 +3185,7 @@ function DropDown(obj, handler, data, defaultValue) {
   // Выбор значения из списка:
   this.selectValue = function(event, curItem) {
     if (event) {
-      curItem = event.target.closest('.item');
+      curItem = event.target.closest('.item:not(.sort)');
     }
     if (!curItem) {
       return;
@@ -3228,7 +3228,7 @@ function DropDown(obj, handler, data, defaultValue) {
 
   // Установка значения:
   this.setValue = function(value) {
-    this.obj.querySelectorAll('.item').forEach(el => {
+    this.obj.querySelectorAll('.item:not(.sort)').forEach(el => {
       if ((el.dataset.value).toLowerCase() === value.toLowerCase()) {
         this.selectValue(null, el);
       }

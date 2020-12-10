@@ -2206,6 +2206,7 @@ div.option input:disabled ~ .checkbox.icon {
 
 .activate.box .drop-down .group.sort .row.checked {
   color: #34495E;
+  background-color: transparent;
   text-decoration: underline;
 }
 
