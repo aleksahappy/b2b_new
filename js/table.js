@@ -418,7 +418,6 @@ function Table(obj, settings = {}) {
   this.countItemsTo = 0;
   this.incr = 50;
   this.direction;
-  this.scrollPos = window.pageYOffset;
   if (this.pagination) {
     this.paginationSwitch = null;
   }
@@ -512,13 +511,11 @@ function Table(obj, settings = {}) {
   }
 
   // Заполнение таблицы данными:
-  this.fill = function(isInit) {
+  this.fill = function() {
     this.loadData();
     this.fillResults();
+    this.fillPagination()
     this.changeResizeBtns();
-    // if (!isInit) {
-    //   this.wrap.scrollIntoView();
-    // }
   }
 
   // Заполнение "пилюль" значениями и блокировка неактуальных:
@@ -633,18 +630,20 @@ function Table(obj, settings = {}) {
 
   // Загрузка данных в таблицу:
   this.loadData = function(direction) {
+    var curBodyBlock = this.curBodyBlock;
+    this.curBodyBlock = null;
     if (!direction || direction === 'next') {
       if (!direction) {
         this.countItems = 0;
       } else {
-        this.countItems = parseInt(this.desktop.lastElementChild.dataset.to, 10);
+        this.countItems = parseInt(curBodyBlock.dataset.to, 10);
       }
       this.countItemsTo = this.countItems + this.incr;
       if (this.countItemsTo > this.dataToLoad.length) {
         this.countItemsTo = this.dataToLoad.length;
       }
-    } else if (direction === 'prev') {
-      this.countItemsTo = parseInt(this.head.nextElementSibling.dataset.from, 10);
+    } else if (direction == 'prev') {
+      this.countItemsTo = parseInt(curBodyBlock.dataset.from, 10);
       this.countItems = this.countItemsTo - this.incr;
       if (this.countItems < 0) {
         this.countItems =  0;
@@ -667,29 +666,33 @@ function Table(obj, settings = {}) {
     });
     list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
 
-    var bodyBlock = document.createElement('tbody');
-    bodyBlock.dataset.from = this.countItems;
-    bodyBlock.dataset.to = this.countItemsTo;
-    bodyBlock.innerHTML = list;
+    var newBodyBlock = document.createElement('tbody');
+    newBodyBlock.dataset.from = this.countItems;
+    newBodyBlock.dataset.to = this.countItemsTo;
+    newBodyBlock.innerHTML = list;
 
     if (!direction || direction === 'next') {
       if (!direction) {
         this.wrap.querySelectorAll('.table-desktop > tbody').forEach(el => el.remove());
+      } else if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
+        this.head.nextElementSibling.remove();
       }
-      this.desktop.insertAdjacentElement('beforeend', bodyBlock);
-      if (direction === 'next') {
-        if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
-          this.head.nextElementSibling.remove();
-        }
-      } else {
-        this.curBodyBlock = this.desktop.lastElementChild;
-        this.fillPagination(this.dataToLoad.length);
-      }
+      this.desktop.insertAdjacentElement('beforeend', newBodyBlock);
     } else if (direction === 'prev') {
-      this.head.insertAdjacentElement('afterend', bodyBlock);
       if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
         this.desktop.lastElementChild.remove();
       }
+      this.head.insertAdjacentElement('afterend', newBodyBlock);
+    }
+    if (!direction) {
+      this.curBodyBlock = newBodyBlock;
+      this.scrollPos = window.pageYOffset;
+    } else {
+      setTimeout(() => {
+        this.curBodyBlock = newBodyBlock;
+        this.scrollPos = window.pageYOffset;
+        this.fillPagination();
+      }, 100);
     }
   }
 
@@ -720,55 +723,53 @@ function Table(obj, settings = {}) {
 
   // Подгрузка таблицы при скролле:
   this.scrollTable = function() {
-    if (this.dataToLoad.length) {
-      var scrolled = window.pageYOffset;
-      if (scrolled > this.scrollPos) {
-        if (this.wrap.getBoundingClientRect().bottom - window.innerHeight < 200) {
-          this.loadData('next');
-        }
-      } else if (scrolled < this.scrollPos) {
-        if (this.wrap.getBoundingClientRect().top + window.innerHeight > 200) {
-          this.loadData('prev');
-        }
-      }
-      this.scrollPos = scrolled;
-      this.changeResizeBtns();
-
-      // var headerCoords = this.wrap.querySelector('.table-desktop > thead > tr:last-child > th').getBoundingClientRect(),
-      //     curBodyCoords = this.curBodyBlock.getBoundingClientRect();
-      // if (curBodyCoords.top < headerCoords.bottom && curBodyCoords.bottom < headerCoords.bottom) {
-      //   console.log(this.curBodyBlock);
-      //   this.curBodyBlock = this.curBodyBlock.nextElementSibling;
-      //   this.fillPagination();
-      //   console.log(this.curBodyBlock);
-      //   console.log('переключить на следующий');
-      // }
-      // if (curBodyCoords.top > headerCoords.bottom && curBodyCoords.bottom > headerCoords.bottom) {
-      //   console.log(this.curBodyBlock);
-      //   this.curBodyBlock = this.curBodyBlock.prevElementSibling;
-      //   this.fillPagination();
-      //   console.log(this.curBodyBlock);
-      //   console.log('переключить на предыдущий');
-      // }
+    if (!this.curBodyBlock) {
+      return;
     }
+    var scrolled = window.pageYOffset;
+    if (scrolled > this.scrollPos &&
+        this.curBodyBlock.dataset.to < this.dataToLoad.length &&
+        this.curBodyBlock.getBoundingClientRect().bottom - window.innerHeight < 200
+      ) {
+      var next = this.curBodyBlock.nextElementSibling;
+      if (next) {
+        this.curBodyBlock = next;
+        this.fillPagination('next');
+      } else {
+        this.loadData('next');
+      }
+    } else if (scrolled < this.scrollPos &&
+      this.curBodyBlock.dataset.from > 0 &&
+      this.curBodyBlock.getBoundingClientRect().top + window.innerHeight > 200
+      ) {
+      var prev = this.curBodyBlock.previousElementSibling;
+      if (prev && prev.tagName.toLowerCase() == 'tbody') {
+        this.curBodyBlock = prev;
+        this.fillPagination('prev');
+      } else {
+        this.loadData('prev');
+      }
+    }
+    this.scrollPos = scrolled;
+    this.changeResizeBtns();
   }
 
   // Подгрузка таблицы при нажатии на кнопки пагинации:
   this.moveTable = function(event) {
     if (event.target.classList.contains('right')) {
-      this.wrap.scrollIntoView(false);
+      this.curBodyBlock.scrollIntoView(false);
     } else if (event.target.classList.contains('left')) {
-      this.wrap.scrollIntoView();
+      this.curBodyBlock.scrollIntoView();
     }
   }
 
   // Заполнение пагинации:
-  this.fillPagination = function(dataLength) {
+  this.fillPagination = function(direction) {
     if (!this.pagination) {
       return;
     }
-    if (dataLength) {
-      getEl('.total', this.pagination).textContent = dataLength;
+    if (!direction) {
+      getEl('.total', this.pagination).textContent = this.dataToLoad.length;
     }
     if (this.dataToLoad.length) {
       var from = parseInt(this.curBodyBlock.dataset.from, 10) + 1,
@@ -778,47 +779,6 @@ function Table(obj, settings = {}) {
       getEl('.cur', this.pagination).textContent = `0`;
     }
   }
-
-  // this.fillPagination = function(direction) {
-  //   if (!this.pagination || (this.dataToLoad.length && (this.countItems === this.countItemsTo))) {
-  //     return;
-  //   }
-  //   var from = this.dataToLoad.length ? this.countItems + 1 : 0,
-  //       to = this.countItemsTo;
-  //   if (direction) {
-  //     // console.log(this.direction);
-  //     // console.log(this.countItems);
-  //     console.log(this.countItemsTo);
-  //     // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-  //     var paginationPos = this.pagination.getBoundingClientRect().bottom + parseInt(window.getComputedStyle(this.pagination).fontSize, 10);
-  //     if (this.direction === 'next') {
-  //       if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
-  //         getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
-  //         if (this.countItemsTo !== this.dataToLoad.length) {
-  //           this.paginationSwitch = this.body.lastElementChild;
-  //           // console.log('next');
-  //           // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-  //         }
-  //       }
-  //     }
-  //     if (this.direction === 'prev') {
-  //       //  console.log(paginationPos);
-  //       //  console.log(this.paginationSwitch.getBoundingClientRect().top);
-  //       if (paginationPos >= this.paginationSwitch.getBoundingClientRect().top) {
-  //         // console.log('toggle');
-  //         getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
-  //         if (this.countItems !== 0) {
-  //           this.paginationSwitch = this.body.firstElementChild;
-  //           // console.log('prev');
-  //           // console.log(getEl('td:nth-child(3)', this.paginationSwitch).textContent);
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     getEl('.cur', this.pagination).textContent = `${from} - ${to}`;
-  //     getEl('.total', this.pagination).textContent = this.dataToLoad.length;
-  //   }
-  // }
 
   // Установка высоты кнопки ресайза (чтобы не выходила за пределы таблицы):
   this.changeResizeBtns = function() {
