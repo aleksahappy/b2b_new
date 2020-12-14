@@ -441,6 +441,11 @@ function Table(obj, settings = {}) {
     //     console.log('вниз');
     //   }
     // });
+    // document.addEventListener('keydown', event => {
+    //   if (event.metaKey && event.code === 'ArrowUp') {
+    //     console.log('вверх');
+    //   }
+    // });
     if (this.pagination) {
       this.pagination.querySelectorAll('.arrow').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
     }
@@ -630,20 +635,19 @@ function Table(obj, settings = {}) {
 
   // Загрузка данных в таблицу:
   this.loadData = function(direction) {
-    var curBodyBlock = this.curBodyBlock;
-    this.curBodyBlock = null;
+    this.stopScroll = true;
     if (!direction || direction === 'next') {
       if (!direction) {
         this.countItems = 0;
       } else {
-        this.countItems = parseInt(curBodyBlock.dataset.to, 10);
+        this.countItems = parseInt(this.desktop.lastElementChild.dataset.to, 10);
       }
       this.countItemsTo = this.countItems + this.incr;
       if (this.countItemsTo > this.dataToLoad.length) {
         this.countItemsTo = this.dataToLoad.length;
       }
     } else if (direction == 'prev') {
-      this.countItemsTo = parseInt(curBodyBlock.dataset.from, 10);
+      this.countItemsTo = parseInt(this.head.nextElementSibling.dataset.from, 10);
       this.countItems = this.countItemsTo - this.incr;
       if (this.countItems < 0) {
         this.countItems =  0;
@@ -674,80 +678,80 @@ function Table(obj, settings = {}) {
     if (!direction || direction === 'next') {
       if (!direction) {
         this.wrap.querySelectorAll('.table-desktop > tbody').forEach(el => el.remove());
-      } else if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
+      } else if (this.curBodyBlock.previousElementSibling && this.curBodyBlock.previousElementSibling.previousElementSibling && this.curBodyBlock.previousElementSibling.previousElementSibling.tagName.toLowerCase() === 'tbody') {
         this.head.nextElementSibling.remove();
       }
       this.desktop.insertAdjacentElement('beforeend', newBodyBlock);
     } else if (direction === 'prev') {
-      if (this.wrap.querySelectorAll('.table-desktop > tbody').length > 2) {
+      if (this.curBodyBlock.nextElementSibling && this.curBodyBlock.nextElementSibling.nextElementSibling) {
         this.desktop.lastElementChild.remove();
       }
       this.head.insertAdjacentElement('afterend', newBodyBlock);
     }
     if (!direction) {
+      this.stopScroll = false;
       this.curBodyBlock = newBodyBlock;
       this.scrollPos = window.pageYOffset;
+      this.loadData('next');
     } else {
       setTimeout(() => {
-        this.curBodyBlock = newBodyBlock;
+        this.stopScroll = false;
         this.scrollPos = window.pageYOffset;
-        this.fillPagination();
       }, 100);
     }
   }
 
   // Замена данных в таблице:
   this.replaceData = function() {
-    // var tableItems = [],
-    //     from = this.countItems,
-    //     to = this.countItemsTo;
-    // if (this.direction === 'next') {
-    //   from = this.countItemsTo - this.body.querySelectorAll('tr').length;
-    // }
-    // if (this.direction === 'prev') {
-    //   to = this.countItems + this.body.querySelectorAll('tr').length;
-    // }
-    // for (let i = from; i < to; i++) {
-    //   tableItems.push(this.dataToLoad[i]);
-    // }
-    // var list = fillTemplate({
-    //   area: this.body,
-    //   items: tableItems,
-    //   sub: settings.desktop.sub,
-    //   sign: settings.desktop.sign,
-    //   action: 'return'
-    // });
-    // list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
-    // this.body.innerHTML = list;
+    this.stopScroll = true;
+    this.wrap.querySelectorAll('.table-desktop > tbody').forEach(bodyBlock => {
+      var tableItems = [],
+          from = parseInt(bodyBlock.dataset.from, 10),
+          to = parseInt(bodyBlock.dataset.to, 10);
+      for (let i = from; i < to; i++) {
+        tableItems.push(this.dataToLoad[i]);
+      }
+      var list = fillTemplate({
+        area: this.body,
+        items: tableItems,
+        sub: settings.desktop.sub,
+        sign: settings.desktop.sign,
+        action: 'return'
+      });
+      list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
+      bodyBlock.innerHTML = list;
+    });
+    this.stopScroll = false;
+    this.scrollPos = window.pageYOffset;
   }
 
   // Подгрузка таблицы при скролле:
   this.scrollTable = function() {
-    if (!this.curBodyBlock) {
+    if (this.stopScroll) {
       return;
     }
     var scrolled = window.pageYOffset;
     if (scrolled > this.scrollPos &&
-        this.curBodyBlock.dataset.to < this.dataToLoad.length &&
-        this.curBodyBlock.getBoundingClientRect().bottom - window.innerHeight < 200
+        this.curBodyBlock.getBoundingClientRect().bottom - window.innerHeight < 0
       ) {
       var next = this.curBodyBlock.nextElementSibling;
       if (next) {
         this.curBodyBlock = next;
         this.fillPagination('next');
-      } else {
-        this.loadData('next');
+        if (this.desktop.lastElementChild.dataset.to < this.dataToLoad.length) {
+          this.loadData('next');
+        }
       }
     } else if (scrolled < this.scrollPos &&
-      this.curBodyBlock.dataset.from > 0 &&
-      this.curBodyBlock.getBoundingClientRect().top + window.innerHeight > 200
+      this.curBodyBlock.getBoundingClientRect().top + window.innerHeight > 0
       ) {
       var prev = this.curBodyBlock.previousElementSibling;
-      if (prev && prev.tagName.toLowerCase() == 'tbody') {
+      if (prev && prev.tagName.toLowerCase() === 'tbody') {
         this.curBodyBlock = prev;
         this.fillPagination('prev');
-      } else {
-        this.loadData('prev');
+        if (this.head.nextElementSibling.dataset.from > 0) {
+          this.loadData('prev');
+        }
       }
     }
     this.scrollPos = scrolled;
@@ -756,10 +760,13 @@ function Table(obj, settings = {}) {
 
   // Подгрузка таблицы при нажатии на кнопки пагинации:
   this.moveTable = function(event) {
-    if (event.target.classList.contains('right')) {
-      this.curBodyBlock.scrollIntoView(false);
-    } else if (event.target.classList.contains('left')) {
-      this.curBodyBlock.scrollIntoView();
+    if (event.target.classList.contains('right') &&  this.curBodyBlock.nextElementSibling) {
+      this.curBodyBlock.nextElementSibling.scrollIntoView();
+    } else if (event.target.classList.contains('left') &&
+      this.curBodyBlock.previousElementSibling &&
+      this.curBodyBlock.previousElementSibling.tagName.toLowerCase() === 'tbody')
+    {
+      this.curBodyBlock.previousElementSibling.scrollIntoView(false);
     }
   }
 
@@ -816,10 +823,11 @@ function Table(obj, settings = {}) {
       if (this.dataToLoad && this.dataToLoad.length) {
         this.dataToLoad.forEach(el => {
           if (el[result.dataset.key]) {
-            total += parseFloat(el[result.dataset.key].toString().replace(" ", ''), 10);
+            total += parseFloat(el[result.dataset.key].toString().replace(',', '.').replace(/\s/g, ''));
           }
         });
       }
+      console.log(total);
       if (result.dataset.type === 'sum') {
         total = convertPrice(total, 2);
       }
@@ -889,8 +897,8 @@ function Table(obj, settings = {}) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.selectData();
     }
-    this.fill();
-    // this.replaceData();
+    // this.fill();
+    this.replaceData();
   }
 
   // Поиск и фильтрация по ключу:
