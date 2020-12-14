@@ -199,7 +199,7 @@ function getItemsData() {
             list[name].status = '2';
           } else if (status == 'удовлетворена') {
             list[name].status = '3';
-          } else if (status == 'ну удовлетворена') {
+          } else if (status == 'не удовлетворена') {
             list[name].status = '4';
           } else if (status == 'исполнена') {
             list[name].status = '5';
@@ -657,9 +657,7 @@ function sendReclm(formData) {
   sendRequest(urlRequest.main, 'reclsend', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    console.log(result);
-    if (result.ok && result.data) {
-      result = result.data;
+    if (result.ok) {
       reclIcon.classList.add('red');
       reclData.reclm_kolv = (+reclData.reclm_kolv) + (+qty);
       updateReclmTable(result);
