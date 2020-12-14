@@ -85,7 +85,7 @@ function initPage() {
     items: data.recl,
     sub: [{area: '.card', items: 'item'}]
   });
-  checkMedia(getEl('.card img'));
+  checkMedia(getEl('.recl-info .card img'));
   fillFiles();
   fillChat();
   getEl('#main .card .img-wrap').addEventListener('click', () => openFullImg(null, data.recl.item));
@@ -130,7 +130,8 @@ function convertData() {
   recl.item_price = convertPrice(recl.item_price),
   recl.item = {};
   recl.item.title = recl.item_title;
-  recl.item.images = recl.item_img ? [recl.item_img.replace('.jpg', '')] : [];
+  recl.item_img = recl.item_img.split('.').slice(0, -1).join('.');
+  recl.item.images = recl.item_img ? [recl.item_img] : [];
   addImgInfo(recl.item);
   recl.item.options = recl.item_options;
   addOptionsInfo(recl.item);
@@ -234,11 +235,13 @@ function fillChat() {
   setTimeout(() => chat.scrollTop = chat.scrollHeight, 100);
 }
 
-// Запрет загрузки листа возврата:
+// Скачивание листа возврата:
 
 function getReturnList(event) {
-  if (btn.classlist.contains('disabled')) {
+  if (event.currentTarget.classList.contains('disabled') || data.recl.status_comment != 'Ожидается товар') {
     event.preventDefault();
+  } else {
+    window.open(`https://new.topsports.ru/api.php?action=recl&recl_id=${data.recl.id}&mode=return_list&type=pdf`);
   }
 }
 
@@ -468,13 +471,21 @@ function sendMessage(event) {
     console.log(key, value);
   });
 
-  sendRequest(urlRequest.main, 'send_message', {recl_id: data.recl.id})
+  sendRequest(urlRequest.main, 'send_recl_message', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     // console.log(result);
-    // Снова обновить чат или просто обновить данные?
-    data.recl_files = result;
-    // updateChat(result);
+    if (result.ok) {
+      data.recl_messages = result.recl_messages;
+      convertMessagesData();
+      // updateChat(result); // Обновить чат или просто обновить данные?
+    } else {
+      if (result.error) {
+        alerts.show(result.error);
+      } else {
+        throw new Error('Ошибка');
+      }
+    }
   })
   .catch(error => {
     // console.log(error);
@@ -497,12 +508,12 @@ function updateChat(result) {
 // Проверка чата на наличие новых сообщений (polling):
 
 function checkNewMessages() {
-  sendRequest(urlRequest.main, '???', {recl_id: data.recl.id})
+  sendRequest(urlRequest.main, 'recl', {recl_id: id})
   .then(result => {
     result = JSON.parse(result);
     // console.log(result);
-    if (JSON.stringify(result) !== JSON.stringify(data.recl_files)) {
-      updateChat(result);
+    if (JSON.stringify(result.recl_messages) !== JSON.stringify(data.recl_messages)) {
+      updateChat(result.recl_messages);
     }
   })
   .catch(error => {
