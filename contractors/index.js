@@ -64,7 +64,7 @@ function initPage(data = []) {
         keys: ['docs'],
         content: `<div class="docs row">
                     <div class="mark icon" data-status="#status#" data-tooltip="#status_text#"></div>
-                    <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
+                    <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" target="_blank" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
                   </div>`
       }]
     },
