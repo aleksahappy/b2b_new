@@ -187,6 +187,7 @@ body {
 
 body.no-scroll {
   overflow: hidden;
+  margin-right: 20px;
 }
 
 .container {
@@ -3852,6 +3853,12 @@ form.post .btns-wrap {
 
 #full-img .carousel-nav > div.active {
   opacity: 1;
+}
+
+#full-img-container .pop-up > .loader {
+  background-color: transparent;
+  visibility: visible;
+  z-index: -1;
 }
 
 /* =====================================================================================================

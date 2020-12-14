@@ -1375,10 +1375,10 @@ function declOfNum(number, titles) {
 
 function convertPrice(numb, fix = 0, sign = ',') {
   try {
-    if (/[^\d|\.|\,]/g.test(numb)) {
+    if (/[^\d|\.|\,|\-]/g.test(numb)) {
       return numb;
     }
-    var price = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''));
+    var price = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''), 10);
     price = Number(price).toFixed(fix);
     return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', sign);
   } catch(error) {
@@ -2217,7 +2217,6 @@ function openFullImg(event, data, curImg) {
   if (!data) {
     return;
   }
-  loader.show();
   var fullImgContainer = getEl('#full-img-container');
   fillTemplate({
     area: fullImgContainer,
@@ -2236,10 +2235,7 @@ function openFullImg(event, data, curImg) {
     if (getEl('img',fullImgContainer).src.indexOf('/img/no_img.jpg') >= 0) {
       closePopUp(null, fullImgContainer);
       alerts.show('При загрузке изображения произошла ошибка.');
-    } else {
-      fullImgContainer.style.opacity = 1;
     }
-    loader.hide();
   });
 }
 
