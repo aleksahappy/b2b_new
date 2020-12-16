@@ -176,11 +176,11 @@ function initCart() {
 function initPage() {
   loader.hide();
   path = location.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?').filter(el => el);
-  renderContent();
   initDropDown('#gallery-sort', sortItems);
   initSearch('#search', selectCards);
   initSearch('#oem', selectCards);
   initSearch('#cart-search', findInCart);
+  renderContent();
 }
 
 //=====================================================================================================
@@ -779,7 +779,7 @@ function renderGallery() {
   if (!curItems.length) {
     return;
   }
-  clearDropDown('#gallery-sort')
+  setValueDropDown('#gallery-sort', '-price_cur1');
   clearCurSearch();
   showElement('#search', 'flex');
   showElement('#header-catalog');
@@ -947,7 +947,7 @@ function addActionTooltip(card) {
   var id = card.dataset.action;
   if (id && actions && actions[id]) {
     var pill = getEl('.pill', card);
-    pill.dataset.tooltip = actions[id].descr || '';
+    pill.dataset.tooltip = actions[id].descr ? brText(actions[id].descr) : '';
     pill.setAttribute('text-align', 'left');
   }
 }

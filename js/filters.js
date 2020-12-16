@@ -124,7 +124,7 @@ function createFilterData(data, parent) {
   return items;
 }
 
-// Получение для фильтра названия, которое будет отображаться на странице:
+// Получение названия для фильтра, которое будет отображаться на странице:
 
 function getTitle(key, value) {
   var title;
@@ -142,6 +142,8 @@ function getTitle(key, value) {
     title = 'Troy Lee Designs';
   } else if (title == 'KingDolphin') {
     title = 'King Dolphin';
+  } else if (title == 'LASleeve') {
+    title = 'LA Sleeve';
   }
   return title;
 }
