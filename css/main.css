@@ -254,6 +254,11 @@ body.no-scroll {
   visibility: hidden;
 }
 
+.highlight {
+  color: #FFFFFF;
+  background-color: #F05A28;
+}
+
 .preload {
   opacity: 0;
 }
@@ -1069,6 +1074,10 @@ input[data-type="range"] {
   cursor: help;
 }
 
+[tooltip=''] {
+  cursor: inherit;
+}
+
 [tooltip]::before,
 [tooltip]::after {
   display: none;
@@ -1235,6 +1244,10 @@ input[data-type="range"] {
 
 [data-tooltip] {
   cursor: help;
+}
+
+[data-tooltip=''] {
+  cursor: inherit;
 }
 
 .tooltip {
