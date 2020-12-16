@@ -137,9 +137,6 @@ function convertData() {
   recl.item.desc = recl.item_descr;
   recl.item.isDesc = recl.item_descr ? '' : 'displayNone';
 
-  // Данные для открытия изображений на весь экран:
-  recl.images_full = [];
-
   // Данные для галереи файлов и чата:
   convertFilesData();
   convertMessagesData();
@@ -148,6 +145,7 @@ function convertData() {
 // Преобразование данных для заполнения галереи файлов:
 
 function convertFilesData() {
+  data.recl.images_full = [];
   data.recl_files.forEach(el => {
     var type = el.file_type.toLowerCase();
     type = fileTypes[type] ? fileTypes[type] : 'other';
@@ -202,7 +200,7 @@ function fillFiles(filesData) {
     area: '.files',
     items: filesData || data.recl_files,
     sign: '@',
-    method: filesData ? 'afterbegin' : 'inner'
+    method: filesData ? 'beforeend' : 'inner'
   });
   // document.querySelectorAll('#files img').forEach(el => replaceError(el));
   // document.querySelectorAll('#files video').forEach(el => replaceError(el));
@@ -220,6 +218,10 @@ function replaceError(el) {
 
 function fillChat() {
   var chat = getEl('#chat .wrap');
+  if (isEmptyObj(data.chat)) {
+    chat.classList.add('template');
+    return;
+  }
   fillTemplate({
     area: chat,
     items: data.chat,
@@ -314,7 +316,7 @@ function sendFiles(event) {
       .then(result => {
         result = JSON.parse(result);
         if (result.ok) {
-          data.recl_files = result;
+          data.recl_files = result.recl_files;
           updateFile(curItem);
         } else {
           removeFile(curItem);
@@ -328,7 +330,6 @@ function sendFiles(event) {
         checkComplete();
       })
     } else {
-      removeFile(curItem);
       errors.repeat.items.push(fileName);
       checkComplete();
     }
@@ -353,7 +354,7 @@ function sendFiles(event) {
 function sendFileForm(curItem, file) {
   return new Promise((resolve, reject) => {
     var formData = new FormData();
-    formData.append('action', 'upload_file');
+    formData.append('action', 'upload_recl_file');
     formData.append('recl_id', data.recl.id);
     formData.append('UserFile', file);
 
@@ -361,8 +362,8 @@ function sendFileForm(curItem, file) {
     request.upload.addEventListener('progress', (event) => {
       if (event.lengthComputable) {
         var percentComplete = Math.ceil(event.loaded / event.total * 100) + '%';
-        getEl('indicator', curItem).style.width = percentComplete;
-        getEl('status', curItem).textContent = percentComplete;
+        getEl('.indicator', curItem).style.width = percentComplete;
+        getEl('.status', curItem).textContent = percentComplete;
       }
     });
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
@@ -416,11 +417,13 @@ function showErrors(errors) {
       text += `<div>${errors[type].title}:</div><ul>${list}</ul>`;
     }
   }
-  alerts.show(`
-  <div style="text-align: left;">
-    <div style="text-transform: uppercase;">Не загружены файлы:</div><br>
-    ${text}
-  </div>`);
+  if (text) {
+    alerts.show(`
+    <div style="text-align: left;">
+      <div style="text-transform: uppercase;">Не загружены файлы:</div><br>
+      ${text}
+    </div>`);
+  }
 }
 
 // Отображение загруженных картинок на весь экран/ предотвращение открытия ссылки незагруженных изображений:
@@ -465,28 +468,28 @@ function sendMessage(event) {
         message: brText(message)
       };
 
-  addMessage(curMessage);
-  updateChat();
-
   var formData = new FormData(getEl('#chat form'));
   formData.append('recl_id', data.recl.id);
-  textarea.value = '';
-  setTextareaHeight(textarea);
-
   sendRequest(urlRequest.main, 'send_recl_message', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    // console.log(result);
     if (!result.ok) {
       throw new Error('Ошибка');
     }
   })
   .catch(error => {
-    // console.log(error);
+    console.log(error);
     alerts.show(`Ошибка сервера.<br>Сообщение "${message}" не было отправлено.<br>Попробуйте позже.`);
     deleteMessage(curMessage);
     updateChat();
+    textarea.value = message;
+    setTextareaHeight(textarea);
   })
+
+  textarea.value = '';
+  setTextareaHeight(textarea);
+  addMessage(curMessage);
+  updateChat();
 }
 
 // Добавление сообщения в данные:
