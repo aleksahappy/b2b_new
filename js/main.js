@@ -210,6 +210,7 @@ function initModules(path) {
 
 function fillUserInfo() {
   if (window.userInfo) {
+    userInfo.fio = userInfo.lastname + ' ' + userInfo.name + ' ' + userInfo.parentname;
     fillTemplate({
       area: '#profile',
       items: {
@@ -225,9 +226,9 @@ function fillUserInfo() {
       }
     });
   } else {
-    // if (location.pathname !== '/') {
-    //   location.href = '/';
-    // }
+    if (location.pathname !== '/') {
+      location.href = '/';
+    }
   }
 }
 
@@ -831,42 +832,6 @@ function onFocusInput(input) {
 
 function onBlurInput(input) {
   input.value = input.dataset.value || '';
-}
-
-// Отображение количества знаков, оставшихся для заполнения в textarea:
-
-function textareaCounter(textarea) {
-  var maxLength = textarea.getAttribute('maxlength');
-  if (maxLength) {
-    var counter = getEl(`[data-count="${textarea.getAttribute('name')}"] span`);
-    if (counter) {
-      counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
-    }
-  }
-}
-
-// Изменение высоты textarea в зависимости от содержимого:
-window.addEventListener('resize', () => {
-  document.querySelectorAll('textarea[oninput^="setTextareaHeight"]').forEach(el => {
-    setTextareaHeight(el);
-  });
-});
-
-function setTextareaHeight(textarea, min = 40, max = 150) {
-  if (textarea.scrollTop == 0) {
-    textarea.style.overflow = 'hidden';
-    textarea.style.height = min + 'px';
-  }
-  if (textarea.scrollHeight < min) {
-    textarea.style.overflow = 'hidden';
-    textarea.style.height = min + 'px';
-  } else if (textarea.scrollHeight < max) {
-    textarea.style.overflow = 'hidden';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  } else {
-    textarea.style.overflowY = 'scroll';
-    textarea.style.height = max + 'px';
-  }
 }
 
 // Выделение слов в тексте:
@@ -2039,6 +2004,51 @@ function removeTooltip() {
 }
 
 //=====================================================================================================
+// Работа текстовых полей:
+//=====================================================================================================
+
+// Включение ресайза текстовых полей:
+
+function initResizeTextarea() {
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('textarea[oninput^="setTextareaHeight"]').forEach(el => {
+      setTextareaHeight(el);
+    });
+  });
+}
+
+// Изменение высоты textarea в зависимости от содержимого:
+
+function setTextareaHeight(textarea, min = 40, max = 150) {
+  if (textarea.scrollTop == 0) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = min + 'px';
+  }
+  if (textarea.scrollHeight < min) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = min + 'px';
+  } else if (textarea.scrollHeight < max) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  } else {
+    textarea.style.overflowY = 'scroll';
+    textarea.style.height = max + 'px';
+  }
+}
+
+// Отображение количества знаков, оставшихся для заполнения в textarea:
+
+function textareaCounter(textarea) {
+  var maxLength = textarea.getAttribute('maxlength');
+  if (maxLength) {
+    var counter = getEl(`[data-count="${textarea.getAttribute('name')}"] span`);
+    if (counter) {
+      counter.textContent = parseInt(maxLength, 10) - textarea.value.length;
+    }
+  }
+}
+
+//=====================================================================================================
 // Работа кнопки "Наверх страницы":
 //=====================================================================================================
 
@@ -2295,8 +2305,10 @@ function openFullImg(event, data, curImg) {
 }
 
 //=====================================================================================================
-// Работа полей для загрузки файлов:
+// Работа полей загрузки файлов:
 //=====================================================================================================
+
+// Включение работы полей загрузки файлов:
 
 function initInputFiles() {
   document.querySelectorAll('.file-wrap input[type="file"]').forEach(el => el.addEventListener('change', event => showSelectFiles(event)));
