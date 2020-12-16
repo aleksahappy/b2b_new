@@ -827,7 +827,6 @@ function Table(obj, settings = {}) {
           }
         });
       }
-      console.log(total);
       if (result.dataset.type === 'sum') {
         total = convertPrice(total, 2);
       }

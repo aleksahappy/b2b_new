@@ -869,6 +869,61 @@ function setTextareaHeight(textarea, min = 40, max = 150) {
   }
 }
 
+// Выделение слов в тексте:
+
+function highlightText(el, textToFind) {
+  el = getEl(el);
+  if (!el) {
+    return;
+  }
+  var children = Array.prototype.slice.call(el.childNodes);
+  children.forEach(child => {
+    if (child.nodeType === 3) {
+      checkAndReplace(child);
+    } else if (child.nodeType === 1) {
+      highlightText(child, textToFind);
+    }
+  });
+
+  function checkAndReplace(node) {
+    var nodeVal = node.nodeValue,
+        parentNode = node.parentNode;
+    if (nodeVal) {
+      var isFirst = true,
+          textNode, begin, matched, span;
+
+      while (true) {
+        var index = nodeVal.toLowerCase().indexOf(textToFind.toLowerCase());
+
+        if (index < 0) {
+          if (isFirst)
+            break;
+          if (nodeVal) {
+            textNode = document.createTextNode(nodeVal);
+            parentNode.insertBefore(textNode, node);
+          }
+          parentNode.removeChild(node);
+          break;
+        }
+
+        isFirst = false;
+        begin = nodeVal.substring(0, index);
+        matched = nodeVal.substr(index, textToFind.length);
+        if (begin) {
+          textNode = document.createTextNode(begin);
+          parentNode.insertBefore(textNode, node);
+        }
+        span = document.createElement('span');
+        span.classList.add('highlight');
+        span.appendChild(document.createTextNode(matched));
+        parentNode.insertBefore(span, node);
+
+        nodeVal = nodeVal.substring(index + textToFind.length);
+      }
+    }
+  }
+};
+
 //=====================================================================================================
 // Функции сворачивания/разворачивания контейнеров:
 //=====================================================================================================
@@ -1351,7 +1406,7 @@ function convertToString(el) {
   function convert(el) {
     if (typeof el === 'string' || typeof el === 'number') {
       el = el.toString();
-      el = el.replace(/&nbsp;/g, ' ');
+      el = el.replace(/\s/g, ' ');
       if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(el)) {
         el = el.replace(/\s/g, '').replace('.', ',');
       }
@@ -3191,10 +3246,6 @@ function DropDown(obj, handler, data, defaultValue) {
     }
     var value;
     if (this.obj.classList.contains('select')) {
-      if (curItem.classList.contains('checked') && !this.obj.classList.contains('box')) {
-        this.obj.classList.remove('open');
-        return;
-      }
       this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
       if (curItem.dataset.value === 'default') {
         this.changeTitle();
