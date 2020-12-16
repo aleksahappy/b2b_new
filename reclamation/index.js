@@ -101,18 +101,17 @@ function convertData() {
   if (!data) {
     return;
   }
+  var recl = data.recl;
   data.recl_files = data.recl_files || [];
   data.recl_messages = data.recl_messages || [];
 
-  var recl = data.recl;
-
   // Cтатус рекламации:
   if (recl.status == 3 || recl.status == 5) {
-    recl.status_text = 'Удовлетворена';
-  } else if (data.status == 4) {
-    recl.status_text = 'Не удовлетворена';
+    recl.decision_text = 'Удовлетворена';
+  } else if (recl.status == 4) {
+    recl.decision_text = 'Не удовлетворена';
   } else {
-    recl.status_text = 'Решение';
+    recl.decision_text = 'Решение';
   }
 
   // Блокировка/разблокировка листа возврата:
@@ -183,7 +182,7 @@ function convertMessagesData() {
       };
     }
     chat[date].items.push({
-      user: data.recl.user_fio == el.user? 'Вы' : el.user,
+      user: userInfo.fio == el.user? 'Вы' : el.user,
       text: brText(el.message),
       time: time,
       timestamp: new Date(string + ' ' + arr[0]).getTime()
@@ -239,7 +238,7 @@ function fillChat() {
 
 function getReturnList(event) {
   if (event.currentTarget.classList.contains('disabled') || data.recl.status_comment != 'Ожидается товар') {
-    event.preventDefault();
+    return;
   } else {
     window.open(`https://new.topsports.ru/api.php?action=recl&recl_id=${data.recl.id}&mode=return_list&type=pdf`);
   }
@@ -314,8 +313,13 @@ function sendFiles(event) {
       sendFileForm(curItem, file)
       .then(result => {
         result = JSON.parse(result);
-        data.recl_files = result;
-        updateFile(curItem);
+        if (result.ok) {
+          data.recl_files = result;
+          updateFile(curItem);
+        } else {
+          removeFile(curItem);
+          errors.server.items.push(fileName);
+        }
         checkComplete();
       })
       .catch(error => {
@@ -339,6 +343,7 @@ function sendFiles(event) {
     if (counter === files.length) {
       inputFile.value = '';
       showErrors(errors);
+      inputFile.focus();
     }
   }
 }
@@ -369,7 +374,7 @@ function sendFileForm(curItem, file) {
       }
     });
     request.open('POST', urlRequest.main);
-    request.send(data);
+    request.send(formData);
   });
 }
 
@@ -453,13 +458,14 @@ function sendMessage(event) {
       day = (curDate.getDate() < 10) ? '0' + curDate.getDate() : curDate.getDate(),
       month = (curDate.getMonth() < 10) ? '0' + parseInt(curDate.getMonth() + 1) : parseInt(curDate.getMonth() + 1),
       year = curDate.getFullYear(),
-      date = hours + ':' + minutes + ' ' + day + '.' + month + '.' + year;
+      date = hours + ':' + minutes + ' ' + day + '.' + month + '.' + year,
+      curMessage = {
+        date: date,
+        user: userInfo.fio,
+        message: brText(message)
+      };
 
-  data.recl_messages.push({
-    date: date,
-    user: data.recl.user_fio,
-    message: brText(message)
-  });
+  addMessage(curMessage);
   updateChat();
 
   var formData = new FormData(getEl('#chat form'));
@@ -467,40 +473,65 @@ function sendMessage(event) {
   textarea.value = '';
   setTextareaHeight(textarea);
 
-  formData.forEach((value, key) => {
-    console.log(key, value);
-  });
-
   sendRequest(urlRequest.main, 'send_recl_message', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     // console.log(result);
-    if (result.ok) {
-      data.recl_messages = result.recl_messages;
-      convertMessagesData();
-      // updateChat(result); // Обновить чат или просто обновить данные?
-    } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        throw new Error('Ошибка');
-      }
+    if (!result.ok) {
+      throw new Error('Ошибка');
     }
   })
   .catch(error => {
     // console.log(error);
     alerts.show(`Ошибка сервера.<br>Сообщение "${message}" не было отправлено.<br>Попробуйте позже.`);
-    data.recl_messages.pop();
+    deleteMessage(curMessage);
     updateChat();
   })
 }
 
+// Добавление сообщения в данные:
+
+function addMessage(message) {
+  data.recl_messages.push(message);
+}
+
+// Удалений сообщения из данных:
+
+function deleteMessage(message) {
+  var index = getMessageIndex(message);
+  if (index >= 0) {
+    data.recl_messages.splice(index, 1);
+  }
+}
+
+// Получение новых сообщений из данных:
+
+function getNewMessages(messages) {
+  if (!messages) {
+    return;
+  }
+  var isNew = false;
+  messages.forEach(el => {
+    var index = getMessageIndex(el);
+    if (index == -1) {
+      isNew = true;
+      addMessage(el);
+    }
+  });
+  if (isNew) {
+    updateChat();
+  }
+}
+
+// Поиск сообщения в данных:
+
+function getMessageIndex(message) {
+  return data.recl_messages.findIndex(el => el.date == message.date && el.user == message.user && el.message == message.message);
+}
+
 // Обновление сообщений в чате:
 
-function updateChat(result) {
-  if (result) {
-    data.recl_messages = result;
-  }
+function updateChat() {
   convertMessagesData();
   fillChat();
 }
@@ -508,16 +539,13 @@ function updateChat(result) {
 // Проверка чата на наличие новых сообщений (polling):
 
 function checkNewMessages() {
-  sendRequest(urlRequest.main, 'recl', {recl_id: id})
+  sendRequest(urlRequest.main, 'recl', {recl_id: data.recl.id})
   .then(result => {
     result = JSON.parse(result);
-    // console.log(result);
-    if (JSON.stringify(result.recl_messages) !== JSON.stringify(data.recl_messages)) {
-      updateChat(result.recl_messages);
-    }
+    getNewMessages(result.recl_messages);
   })
   .catch(error => {
-    // console.log(error);
+    console.log(error);
   })
 }
 
@@ -527,10 +555,7 @@ function checkNewMessages() {
 //   sendRequest(urlRequest.main, '???', {recl_id: data.recl.id})
 //   .then(result => {
 //     result = JSON.parse(result);
-//     // console.log(result);
-//     if (JSON.stringify(result) !== JSON.stringify(data.recl_files)) {
-//       updateChat(result);
-//     }
+//     getNewMessages(result.recl_messages);
 //     checkNewMessages();
 //   },
 //   reject => {
@@ -539,7 +564,7 @@ function checkNewMessages() {
 //     checkNewMessages();
 //   })
 //   .catch(error => {
-//     // console.log(error);
-//     alerts.show('Произошла ошибка, попробуйте позже.');
+//     console.log(error);
+//     checkNewMessages();
 //   })
 // }
