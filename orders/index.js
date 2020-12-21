@@ -163,10 +163,10 @@ function openShipment(id) {
     result = getNaklsData(result);
     if (result.length) {
       fillTemplate({
-        area: '#shipment tbody',
+        area: '#shipments tbody',
         items: result
       });
-      openPopUp('#shipment');
+      openPopUp('#shipments');
     } else {
       throw new Error('Нет данных.');
     }
