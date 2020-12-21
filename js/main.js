@@ -1020,10 +1020,14 @@ function brText(text) {
 
 function arraySum(arr) {
   var sum = 0;
-  for (var i = 0; i < arr.length; i++) {
-    sum += arr[i];
-  }
+  arr.forEach(el => sum += getNumb(el));
   return sum;
+}
+
+// Получение числа из строки:
+
+function getNumb(item) {
+  return parseFloat(item.toString().replace(',', '.').replace(/\s/g, ''));
 }
 
 // Получение сколько процентов составляет часть в целом:
@@ -2148,6 +2152,7 @@ function closePopUp(event, el) {
   }
   if (el) {
     // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => showElement(el, 'flex'));
+    loader.hide();
     el.classList.remove('open');
     if (!getEl('.pop-up-container.open')) {
       document.removeEventListener('click', closePopUp);
@@ -2157,7 +2162,6 @@ function closePopUp(event, el) {
       window.removeEventListener('resize', closeFilterPopUp);
     }
     setTimeout(() => {
-      loader.hide();
       hideElement(el);
       if (!document.querySelector('.pop-up-container.open')) {
         document.body.classList.remove('no-scroll');
@@ -3342,7 +3346,7 @@ function DropDown(obj, handler, data, defaultValue) {
 
 // var settings = {
 //   filters: {                                       Сортировки и фильтры таблицы:
-//     key1: {                                          - ключ в данных, по которому будет браться информация
+//     key1: {                                          - ключ в данных, по которому находится информация
 //       title: 'Заголовок'                               - заголовок сортировки
 //       sort: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
 //       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
@@ -3351,9 +3355,12 @@ function DropDown(obj, handler, data, defaultValue) {
 //        {{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
 //           title: 'заголовок'                               - заголовок пункта фильтра
 //           value: 'значение для поиска'                     - значение, которое будет искаться в данных
-//           items: { - если есть подфильтры:                 - данные для заполнения подфильтра (если нужно, если нет то пропускаем этот ключ)
+//           (Если есть подфильтры:)
+//           key: 'ключ для подфильтров'                      - ключ в данных, по которому находится информация для подфильтров (если нужно, если нет то пропускаем)
+//           items: {                                         - данные для заполнения подфильтра (если нужно, если нет то пропускаем)
 //             title: 'Заголовок'
 //             value: 'значение для поиска'
+//             key: ...
 //             items: ...
 //           }
 //         }, {...}
@@ -3368,14 +3375,14 @@ function DropDown(obj, handler, data, defaultValue) {
 
 // Инициализация блока фильтров:
 
-function initFilter(el, settings) {
+function initFilter(el, settings, handler) {
   el = getEl(el);
   if (el) {
     createFilter(el, settings);
     if (el.id) {
-      return window[`${el.id}Filter`] = new Filter(el);
+      return window[`${el.id}Filter`] = new Filter(el, handler);
     } else {
-      return new Filter(el);
+      return new Filter(el, handler);
     }
   }
 }
@@ -3447,7 +3454,7 @@ function createFilter(area, settings) {
         var items = data.items,
             isHide = settings.isHide ? 'hide' : '';
         content +=
-        `<div class="items ${isHide}">
+        `<div class="items ${isHide}" data-key="${data.key || ''}">
           ${fillFilterItems(filter, items)}
         </div>`;
         var isMore = items && items.length > 4 ? 'displayNone': '';
@@ -3561,29 +3568,30 @@ function fillFilterItems(type, data) {
 
 // Объект фильтра:
 
-function Filter(obj) {
+function Filter(obj, handler) {
   // Элементы для работы:
-  this.wrap = obj;
-  this.control = getEl(`.control[data-area=${obj.id}]`);
-  this.filterPopUp = getEl('.pop-up-container.filters', obj);
+  this.filter = getEl('.pop-up-container.filters', obj);
+  this.openBtn = getEl('.relay.icon', obj);
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
-    var openBtn = getEl('.relay.icon', obj);
-    if (openBtn) {
-      openBtn.addEventListener('click', () => openPopUp(`#${this.filterPopUp.id}`))
+    if (this.openBtn) {
+      this.openBtn.addEventListener('click', () => openPopUp(`#${this.filter.id}`));
     }
-    this.filterPopUp.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
+    if (handler) {
+      this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => handler(event)));
+    }
+    this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
   }
 
   // Заполнение фильтров значениями:
   this.fillItems = function(data) {
     var items, moreBtn;
     for (var key in data) {
-      items = getEl(`.group[data-key="${key}"] .items`, this.filterPopUp);
+      items = getEl(`.group[data-key="${key}"] .items`, this.filter);
       if (items && data[key].filter !== 'date') {
         items.innerHTML = fillFilterItems(data[key].filter, data[key].items);
-        moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filterPopUp);
+        moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filter);
         if (moreBtn) {
           if (data[key].items.length > 4) {
             moreBtn.classList.remove('displayNone');
@@ -3610,7 +3618,7 @@ function Filter(obj) {
   // Инициализация блока фильтров:
   this.init = function() {
     this.setEventListeners();
-    this.filterPopUp.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
+    this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
 }
