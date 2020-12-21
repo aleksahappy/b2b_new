@@ -3074,11 +3074,11 @@ form.post .btns-wrap {
 Всплывающее окно отгрузок:
 ===================================================================================================== */
 
-#shipment .pop-up {
+#shipments .pop-up {
   min-width: 56em;
 }
 
-#shipment table {
+#shipments table {
   min-width: 100%;
   max-width: 100%;
   color: #666666;
@@ -3092,50 +3092,50 @@ form.post .btns-wrap {
   overflow: hidden;
 }
 
-#shipment thead {
+#shipments thead {
   background-color: #EEEEEE;
 }
 
-#shipment th,
-#shipment td {
+#shipments th,
+#shipments td {
   padding: 0.75em 1.14em;
   font-weight: 400;
 }
 
-#shipment th {
+#shipments th {
   text-align: center;
 }
 
-#shipment td {
+#shipments td {
   border-bottom: 1px solid #D5D5D5;
 }
 
-#shipment tr:last-child td {
+#shipments tr:last-child td {
   border-bottom: none;
 }
 
-#shipment .icon {
+#shipments .icon {
   margin-right: 0.5em;
 }
 
-#shipment td:nth-child(2),
-#shipment td:nth-child(3),
-#shipment td:nth-child(4) {
+#shipments td:nth-child(2),
+#shipments td:nth-child(3),
+#shipments td:nth-child(4) {
   white-space: nowrap;
 }
 
-#shipment td:nth-child(1) .row {
+#shipments td:nth-child(1) .row {
   align-items: baseline;
   color: #666666;
   text-decoration: none;
 }
 
-#shipment td:nth-child(2) .row {
+#shipments td:nth-child(2) .row {
   justify-content: center;
   align-items: center;
 }
 
-#shipment td:nth-child(3) {
+#shipments td:nth-child(3) {
   text-align: right;
 }
 
