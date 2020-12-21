@@ -431,36 +431,24 @@ body {
 Стили для фильтров каталога:
 ===================================================================================================== */
 
-#filter-size > .items,
-#filter-color > .items {
+.group[data-key="size"] .switch-cont > .items,
+.group[data-key="colors"] .switch-cont > .items {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
-  padding: 0.714em;
-  padding-bottom: 0;
 }
 
-#filter-size.close > .items,
-#filter-color.close > .items {
+.group[data-key="size"] .checkbox,
+.group[data-key="colors"] .checkbox,
+.group[data-key="size"] .item .open.icon,
+.group[data-key="colors"] .item .open.icon {
   display: none;
 }
 
-#filter-size > .items .item > .row,
-#filter-color > .items .item > .row {
-  padding: 0;
-}
-
-#filter-size .checkbox,
-#filter-color .checkbox,
-#filter-size .item .open.icon,
-#filter-color .item .open.icon {
-  display: none;
-}
-
-#filter-size .text {
+.group[data-key="size"] .text {
   width: 2.75em;
   padding: 0;
   font-size: 0.857em;
@@ -470,7 +458,6 @@ body {
   text-transform: uppercase;
   text-align: center;
   margin-right: 0.417em;
-  margin-bottom: 0.417em;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -479,13 +466,13 @@ body {
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-#filter-size .item.checked .text {
+.group[data-key="size"] .item.checked .text {
   color: #FFFFFF;
   background-color: #F05A28;
   border: 1px solid #F05A28;
 }
 
-#filter-color .item .title.row {
+.group[data-key="colors"] .item .title.row {
   width: 25px;
   height: 25px;
   margin: 4px;
@@ -495,114 +482,143 @@ body {
   cursor: pointer;
 }
 
-#filter-color .item:hover .title.row {
+.group[data-key="colors"] .item:hover .title.row {
   transform: scale(1.12, 1.12);
 }
 
-#filter-color .item.checked .title.row {
+.group[data-key="colors"] .item.checked .title.row {
   background-position-x: -25px;
 }
 
-#filter-color .item.disabled .title.row {
+.group[data-key="colors"] .item.disabled .title.row {
   display: none;
 }
 
-#filter-color .item[data-value="white"] .title.row {
+.group[data-key="colors"] .item[data-value="Белый"] .title.row,
+.group[data-key="colors"] .item[data-value="white"] .title.row {
   background-image: url(../img/colors/color_white.png);
 }
 
-#filter-color .item[data-value="black"] .title.row {
+.group[data-key="colors"] .item[data-value="Черный"] .title.row,
+.group[data-key="colors"] .item[data-value="black"] .title.row {
   background-image: url(../img/colors/color_black.png);
 }
 
-#filter-color .item[data-value="grey"] .title.row {
+.group[data-key="colors"] .item[data-value="Серый"] .title.row,
+.group[data-key="colors"] .item[data-value="grey"] .title.row {
   background-image: url(../img/colors/color_gray.png);
 }
 
-#filter-color .item[data-value="brown"] .title.row {
+.group[data-key="colors"] .item[data-value="Коричневый"] .title.row,
+.group[data-key="colors"] .item[data-value="brown"] .title.row {
   background-image: url(../img/colors/color_brown.png);
 }
 
-#filter-color .fitem[data-value="blue"] .title.row {
+.group[data-key="colors"] .item[data-value="Синий"] .title.row,
+.group[data-key="colors"] .fitem[data-value="blue"] .title.row {
   background-image: url(../img/colors/color_blue.png);
 }
 
-#filter-color .item[data-value="cyan"] .title.row {
+.group[data-key="colors"] .item[data-value="Голубой"] .title.row,
+.group[data-key="colors"] .item[data-value="cyan"] .title.row {
   background-image: url(../img/colors/color_lightblue.png);
 }
 
-#filter-color .item[data-value="turquoise"] .title.row {
+.group[data-key="colors"] .item[data-value="Бирюзовый"] .title.row,
+.group[data-key="colors"] .item[data-value="turquoise"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="bordo"] .title.row {
+.group[data-key="colors"] .item[data-value="Бордовый"] .title.row,
+.group[data-key="colors"] .item[data-value="bordo"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="red"] .title.row {
+.group[data-key="colors"] .item[data-value="Красный"] .title.row,
+.group[data-key="colors"] .item[data-value="red"] .title.row {
   background-image: url(../img/colors/color_red.png);
 }
 
-#filter-color .item[data-value="pink"] .title.row {
+.group[data-key="colors"] .item[data-value="Розовый"] .title.row,
+.group[data-key="colors"] .item[data-value="pink"] .title.row {
   background-image: url(../img/colors/color_pink.png);
 }
 
-#filter-color .item[data-value="green"] .title.row {
-  background-image: url(../img/colors/color_green.png);
-}
-
-#filter-color .item[data-value="yellow"] .title.row {
-  background-image: url(../img/colors/color_yellow.png);
-}
-
-#filter-color .item[data-value="orange"] .title.row {
-  background-image: url(../img/colors/color_orange.png);
-}
-
-#filter-color .item[data-value="fiol"] .title.row {
+.group[data-key="colors"] .item[data-value="Фиолетовый"] .title.row,
+.group[data-key="colors"] .item[data-value="fiol"] .title.row {
   background-image: url(../img/colors/color_purple.png);
 }
 
-#filter-color .item[data-value="fuxy"] .title.row {
+.group[data-key="colors"] .item[data-value="Фуксия"] .title.row,
+.group[data-key="colors"] .item[data-value="fuxy"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="camo"] .title.row {
+.group[data-key="colors"] .item[data-value="Зеленый"] .title.row,
+.group[data-key="colors"] .item[data-value="green"] .title.row {
+  background-image: url(../img/colors/color_green.png);
+}
+
+.group[data-key="colors"] .item[data-value="Оливковый"] .title.row,
+.group[data-key="colors"] .item[data-value="olive"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="haki"] .title.row {
+.group[data-key="colors"] .item[data-value="Желтый"] .title.row,
+.group[data-key="colors"] .item[data-value="yellow"] .title.row {
+  background-image: url(../img/colors/color_yellow.png);
+}
+
+.group[data-key="colors"] .item[data-value="Оранжевый"] .title.row,
+.group[data-key="colors"] .item[data-value="orange"] .title.row {
+  background-image: url(../img/colors/color_orange.png);
+}
+
+.group[data-key="colors"] .item[data-value="Камуфляж"] .title.row,
+.group[data-key="colors"] .item[data-value="camo"] .title.row {
+  display: none;
+  /* background-image: url(../img/colors); */
+}
+
+.group[data-key="colors"] .item[data-value="Хаки"] .title.row,
+.group[data-key="colors"] .item[data-value="haki"] .title.row {
   background-image: url(../img/colors/color_khaki.png);
 }
 
-#filter-color .item[data-value="multicolor"] .title.row {
+.group[data-key="colors"] .item[data-value="Мульти"] .title.row,
+.group[data-key="colors"] .item[data-value="multicolor"] .title.row {
   background-image: url(../img/colors/color_colorful.png);
 }
 
-#filter-color .item[data-value="transparent"] .title.row {
+.group[data-key="colors"] .item[data-value="Прозрачный"] .title.row,
+.group[data-key="colors"] .item[data-value="transparent"] .title.row {
   background-image: url(../img/colors/color_transparent.png);
 }
 
-#filter-color .item[data-value="black/pink"] .title.row {
+.group[data-key="colors"] .item[data-value="Черный/розовый"] .title.row,
+.group[data-key="colors"] .item[data-value="black/pink"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="black/grey"] .title.row {
+.group[data-key="colors"] .item[data-value="Черный/серый"] .title.row,
+.group[data-key="colors"] .item[data-value="black/grey"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="metallic"] .title.row{
+.group[data-key="colors"] .item[data-value="Металик"] .title.row,
+.group[data-key="colors"] .item[data-value="metallic"] .title.row{
   display: none;
   /* background-image: url(../img/colors); */
 }
 
-#filter-color .item[data-value="graphite"] .title.row {
+.group[data-key="colors"] .item[data-value="Графитовый"] .title.row,
+.group[data-key="colors"] .item[data-value="graphite"] .title.row {
   display: none;
   /* background-image: url(../img/colors); */
 }

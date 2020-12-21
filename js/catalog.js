@@ -306,7 +306,6 @@ function convertItem(item) {
   }
   addImgInfo(item);
   addActionInfo(item);
-  addStateInfo(item);
   addPriceInfo(item);
   addMarkupInfo(item);
   addSizeInfo(item);
@@ -314,6 +313,7 @@ function convertItem(item) {
   addOemInfo(item);
   addManufInfo(item);
   addDescrInfo(item);
+  addFiltersInfo(item);
   item.isOem = item.oem ? '' : 'displayNone';
   item.isManuf = item.manuf ? '' : 'displayNone';
   item.search = item.search.join(';').replace(/\s/g, ' ');
@@ -336,17 +336,6 @@ function addActionInfo(item) {
     }
   }
   item.action_id = '0';
-}
-
-// Добавление данных о состоянии товара (в наличии/ожидает поступления):
-
-function addStateInfo(item) {
-  if (item.free_qty && item.free_qty > 0) {
-    item.free = '1';
-  }
-  if (item.arrive_qty && item.arrive_qty > 0) {
-    item.arrive = '1';
-  }
 }
 
 // Добавление данных о текущей цене и отображении/скрытии старой:
@@ -488,6 +477,18 @@ function addDescrInfo(item) {
   }
   delete item.actiondescr;
   delete item.defect_desc;
+}
+
+// Добавление данных для фильтрации:
+
+function addFiltersInfo(item) {
+  // фильтр по доступности
+  if (item.free_qty && item.free_qty > 0) {
+    item.free = '1';
+  }
+  if (item.arrive_qty && item.arrive_qty > 0) {
+    item.arrive = '1';
+  }
 }
 
 //=====================================================================================================
@@ -1253,14 +1254,15 @@ function clearFilters(event) {
 
 function initFiltersCatalog() {
   var data = checkFiltersIsNeed();
+  // console.log(data);
   fillTemplate({
     area: '#catalog-filters',
     items: data,
     sub: [{
-      area: '.item.item',
+      area: '.items .item',
       items: 'items',
       sub: [{
-        area: '.item.subitem',
+        area: '.items .items .item',
         items: 'items',
       }]
     }]
@@ -1297,22 +1299,19 @@ function checkFiltersIsNeed() {
               }
             });
           }
-          if (item.items && !isEmptyObj(item.items)) {
-            item.isBtn = '';
-          } else {
-            item.isBtn = 'hidden';
-          }
+          item.isBtn = item.items && item.items.length ? '' : 'hidden';
           return true;
         }
       });
     }
-    if (filter.items && !isEmptyObj(filter.items)) {
+    if (filter.items && filter.items.length) {
       if (filter.key === 'cat' && pageId === 'equip' && !location.search) {
         return;
       }
       if (filter.key === 'brand' && pageId === 'equip' && location.search) {
         filter.isOpen = 'close';
       }
+      filter.isMore = filter.items && filter.items.length > 4 ? '': 'displayNone';
       return true;
     }
   });
@@ -1321,24 +1320,17 @@ function checkFiltersIsNeed() {
 
 // Выбор значения фильтра каталога:
 
-function selectFilterCatalog(event, curEl) {
-  if (event) {
-    event.stopPropagation();
-    if (event.currentTarget.classList.contains('pill')) {
-      curEl = getEl(`#catalog-filters [data-key="${event.currentTarget.dataset.key}"][data-value="${event.currentTarget.dataset.value}"]`);
-    } else {
-      if (event.target.classList.contains('switch-icon') || event.currentTarget.classList.contains('disabled')) {
-        return;
-      }
-      curEl = event.currentTarget;
-    }
-  }
-  if (!curEl) {
+function selectFilterCatalog(event) {
+  if (event.target.classList.contains('switch-icon')) {
     return;
   }
-  var key = curEl.dataset.key,
-      value = curEl.dataset.value,
-      subkey = curEl.dataset.subkey;
+  var curEl = event.target.closest('.item');
+  if (!curEl || curEl.classList.contains('disabled')) {
+    return;
+  }
+  var key = event.currentTarget.dataset.key,
+      subkey = curEl.dataset.subkey,
+      value = curEl.dataset.value;
 
   if (curEl.classList.contains('checked')) {
     curEl.classList.remove('checked');
@@ -1357,11 +1349,9 @@ function selectFilterCatalog(event, curEl) {
       parentItem.classList.remove('close');
       addInFiltersInfo(parentItem.dataset.key, parentItem.dataset.value, parentItem);
     }
-    if (!event) {
-      var filterGroup = curEl.closest('.group');
-      if (filterGroup) {
-        filterGroup.classList.remove('close');
-      }
+    var filterGroup = curEl.closest('.group');
+    if (filterGroup) {
+      filterGroup.classList.remove('close');
     }
     saveFilter(key, value, subkey);
     if (!subkey) {
@@ -1504,14 +1494,14 @@ function checkFilters() {
       }
       curItem = getCurFilterItem(k, kk);
       if (curItem) {
-        selectFilterCatalog(null, curItem);
+        curItem.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
         for (var kkk in pageFilters[k][kk]) {
           if (!kkk) {
             continue;
           }
           curItem = getCurFilterItem(k, kkk, kk);
           if (curItem) {
-            selectFilterCatalog(null, curItem);
+            curItem.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
           }
         }
       }
@@ -1519,14 +1509,14 @@ function checkFilters() {
   }
 }
 
-// Поиск значения фильтра на странице:
+// Поиск пункта фильтра на странице:
 
 function getCurFilterItem(key, value, subkey) {
   var curItem;
   if (subkey) {
-    curItem = getEl(`#catalog-filters [data-subkey="${subkey}"][data-value="${value}"]`);
+    curItem = getEl(`#catalog-filters [data-key="${key}"] [data-subkey="${subkey}"][data-value="${value}"]`);
   } else {
-    curItem = getEl(`#catalog-filters [data-key="${key}"][data-value="${value}"]`);
+    curItem = getEl(`#catalog-filters [data-key="${key}"] [data-value="${value}"]`);
   }
   return curItem;
 }
@@ -1571,6 +1561,18 @@ function clearFiltersInfo() {
   filterItems = [];
   createFiltersInfo();
   hideElement('#filters-info');
+}
+
+// Снятие выбранного фильтра:
+
+function changeFilterCatalog(event) {
+  if (!event.target.classList.contains('pill')) {
+    return;
+  }
+  var curItem = getCurFilterItem(event.target.dataset.key, event.target.dataset.value);
+  if (curItem) {
+    curItem.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
+  }
 }
 
 //=====================================================================================================
