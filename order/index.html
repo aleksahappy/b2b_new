@@ -61,8 +61,8 @@
           <div class="details col">
             <div class="sum">Сумма заказа: <span>#order_sum#</span></div>
             <div class="btns">
-              <div class="btn #isShipment#" onclick="openPopUp('#shipment', event)">Отгрузки</div>
-              <div class="btn #isPayment#" onclick="openPopUp('#payment', event)">Платежи</div>
+              <div class="btn #isShipments#" onclick="openPopUp('#shipments', event)">Отгрузки</div>
+              <div class="btn #isPayments#" onclick="openPopUp('#payments', event)">Платежи</div>
             </div>
             <a class="docs row" href="https://new.topsports.ru/api.php?action=order&order_id=#id#&mode=bill&type=pdf">
               <div class="download icon"></div>
@@ -186,7 +186,7 @@
     </div>
 
     <!-- Всплывающее окно платежей: -->
-    <div id="payment" class="pop-up-container">
+    <div id="payments" class="pop-up-container">
       <div class="pop-up">
         <div class="pop-up-title row">
           <div class="title h1">Платежи</div>
@@ -197,15 +197,17 @@
             <div class="info">
               <div class="title">Тип платежа</div>
               <div>График платежей</div>
-              <div>Аванс</div>
+              <!-- <div>Аванс</div> -->
               <div>Поступление</div>
+              <div>К оплате</div>
               <div>Переплата</div>
             </div>
             <div class="info">
               <div class="title">Итого</div>
               <div>#summ#</div>
-              <div>#summ_pre#</div>
-              <div>#summ_cur#</div>
+              <!-- <div>#summ_pre#</div> -->
+              <div>#summ_paid#</div>
+              <div>#summ_to_pay#</div>
               <div>#summ_over#</div>
             </div>
           </div>
@@ -213,8 +215,9 @@
             <div class="info">
               <div class="title">#date#</div>
               <div>#summ#</div>
-              <div>#summ_pre#</div>
-              <div>#summ_cur#</div>
+              <!-- <div>#summ_pre#</div> -->
+              <div>#summ_paid#</div>
+              <div>#summ_to_pay#</div>
               <div>#summ_over#</div>
             </div>
           </div>
@@ -227,7 +230,7 @@
     </div>
 
     <!-- Подключение всплывающего окна отгрузок: -->
-    <div data-html="../modules/shipment.html"></div>
+    <div data-html="../modules/shipments.html"></div>
 
     <!-- Подключение информационной карточки и изображения на весь экран: -->
     <div data-html="../modules/infocard_and_img.html"></div>

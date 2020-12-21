@@ -21,23 +21,14 @@ function startOrderPage() {
   if (!id) {
     location.href = '/err404.html';
   }
-  // sendRequest(`../json/order.json`)
+  // sendRequest(`../json/order1.json`)
   sendRequest(urlRequest.main, 'order', {order_id: id})
   .then(result => {
     if (!result) {
       location.href = '/err404.html';
     }
     data = JSON.parse(result);
-    // sendRequest(`../json/order_payment.json`)
-    sendRequest(urlRequest.main, 'get_orderpayments', {order_id: id})
-    .then(result => {
-      try {
-        data.payment = JSON.parse(result);
-      } catch(error) {
-        data.payment = {};
-      }
-      initPage();
-    })
+    initPage();
   })
   .catch(error => {
     console.log(error);
@@ -56,12 +47,12 @@ function initPage() {
     items: data
   });
   fillTemplate({
-    area: '#shipment tbody',
+    area: '#shipments tbody',
     items: data.nakls
   });
   fillTemplate({
-    area: '#payment',
-    items: data.payment,
+    area: '#payments',
+    items: data.payments,
     sub: [{area: '.scroll.row .info', items: 'items'}]
   });
   createTables();
@@ -73,16 +64,16 @@ function initPage() {
 function convertData() {
   getNaklsData();
   getItemsData();
+  getPaymentsData();
   addReclmInfo();
   delete data.orderitems;
-  data.isShipment = data.nakls.length ? '' : 'disabled';
-  data.isPayment = isEmptyObj(data.payment) ? 'disabled' : '';
+  data.isShipments = data.nakls.length ? '' : 'disabled';
+  data.isPayments = isEmptyObj(data.payments) ? 'disabled' : '';
   data.isMoreRow = data.comment || data.source_id > 0 ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
   data.isOrderBnts = data.source_id > 0 ? '' : 'hidden';
   data.isReclms = data.order_type ? ((data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true) : true;
   toggleOrderBtns();
-  console.log(data);
 }
 
 // Блокировка/разблокировка кнопок отмены/подтверждения заказа:
@@ -141,20 +132,18 @@ function getNaklsData() {
 // Получение данных о товарах из csv-формата:
 
 function getItemsData() {
-  if (!data.orderitems) {
+  if (!data.orderitems || !data.orderitems.arlistk || !data.orderitems.arlistv) {
     return;
   }
-  if (!data.orderitems.arlistk || !data.orderitems.arlistv) {
-    return;
-  }
+
   var tableKeys = {
-    'nomen': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'], //Номенклатура
-    'vputi': ['artc', 'titl', 'dpst', 'kolv', 'summ', 'paid', 'kdop'], //Ожидается
-    'vnali': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'],  //В наличии
-    'sobrn': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid'], // Собран
-    'otgrz': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid', 'cods', 'harid', 'naklid', 'nakl', 'dotg', 'recl_num'], // Отгружен
-    'nedop': ['artc', 'titl', 'pric', 'kolv', 'summ', 'stat'], //Недопоставка
-    'reclm': ['reclid', 'recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'summ', 'trac'] //Рекламации
+    'nomen': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid', 'bkma', 'paid', 'dpst'], // Номенклатура
+    'vputi': ['artc', 'titl', 'dpst', 'pric', 'kolv', 'summ', 'paid', 'kdop'], // Ожидается
+    'vnali': ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop'],  // В наличии
+    'sobrn': ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop'], // Собран
+    'otgrz': ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop', 'cods', 'harid', 'naklid', 'nakl', 'dotg', 'recl_num'], // Отгружен
+    'nedop': ['artc', 'titl', 'pric', 'kolv', 'summ', 'stat'], // Недопоставка
+    'reclm': ['reclid', 'recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'summ', 'trac'] // Рекламации
     // 'debzd': ['artc, titl, kolv, pric, summ, dpst, paid, prcd, prcp, kdop, vdlg, recv, nakl, over, lnk, preview, titllnk'] // Дебиторская задолженность
   };
 
@@ -199,7 +188,7 @@ function getItemsData() {
             list[name].status = '2';
           } else if (status == 'удовлетворена') {
             list[name].status = '3';
-          } else if (status == 'не удовлетворена') {
+          } else if (status == 'ну удовлетворена') {
             list[name].status = '4';
           } else if (status == 'исполнена') {
             list[name].status = '5';
@@ -217,7 +206,7 @@ function getItemsData() {
 // Проверка включения в данные таблицы объекта данных:
 
 function checkInclusion(name, obj) {
-  if (name == 'nomen' && obj['bkma'] != 'Рекламации' && obj['bkma'] != 'Собран') return 1;
+  if (name == 'nomen' && obj['bkma'] != 'Собран' && obj['bkma'] != 'Рекламации' ) return 1;
   if (name == 'vputi' && obj['bkma'] == 'ВПути') return 1;
   if (name == 'vnali' && obj['bkma'] == 'ВНаличии') return 1;
   if (name == 'sobrn' && obj['bkma'] == 'Собран') return 1;
@@ -225,6 +214,99 @@ function checkInclusion(name, obj) {
   if (name == 'nedop' && obj['bkma'] == 'Недопоставка') return 1;
   if (name == 'reclm' && obj['bkma'] == 'Рекламации') return 1;
   // if ((name == 'debzd' && obj['recv'] > ' ') || (name == 'debzd' && obj['vdlg'] > ' ' && obj['kdop'] > ' ')) return 1;
+}
+
+// Получение данных о платежах:
+
+// Логика расчета:
+// - Стоимость товара (по всем товарам кроме недопоставки) идет:
+//   * в общую колонку "итого"
+//   * в колонку "итого" соответствующей даты (как распределяется по датам описано ниже).
+// - Оплата или переплата (по всем товарам в том числе и по недопоставке) идет в дату реализации (считаем что оплатил тогда, когда сделал заказ).
+// - Неоплата или недоплата (по всем товарам кроме тех что ожидаются) идет в текущую дату (считаем что ждем оплату на текущий момент).
+// - Неоплата или недоплата (по товарам, что ожидаются) идет в дату ожидаемой поставки если она есть, иначе тоже в текущую дату (считаем что ждем оплату к моменту поставки).
+// - В колонке "итого" получается:
+//   * "график платежей" (общая сумма) складывается из стоимости всех товаров, кроме товаров недопоставки
+//   * "поступление" складывается из всех поступлений в том числе и по товарам недопоставки
+//   * "переплата" высчитывается исходя из общей суммы и общих поступлений
+
+function getPaymentsData() {
+  if (!data.items) {
+    data.payments = {};
+    return;
+  }
+  var info = data.items.nomen;
+  if (!info || !info.length) {
+    data.payments = {};
+    return;
+  }
+  var payments = {};
+  payments.summ = 0;
+  payments.summ_paid = 0;
+  payments.summ_to_pay = 0;
+  payments.summ_over = 0;
+  payments.items = [];
+
+  var date, sumEl, sumPaidEl, diff, sumToPayEl, sumOverEl;
+  info.forEach(el => {
+    sumEl = el.bkma == 'Недопоставка' ? 0 : getNumb(el.summ);
+    sumPaidEl = getNumb(el.paid);
+    diff = sumEl - sumPaidEl;
+    sumToPayEl = diff > 0 ? diff : 0;
+    sumOverEl = diff < 0 ? sumPaidEl - sumEl : 0;
+
+    if (diff <= 0) {
+      date = data.order_date;
+    } else if (el.bkma == 'ВПути' && el.dpst.trim() != '') {
+      date = el.dpst;
+    } else {
+      date = getDateStr();
+    }
+
+    payments.summ += sumEl;
+    payments.summ_paid += sumPaidEl;
+
+    if ((el.bkma != 'Недопоставка') || (el.bkma == 'Недопоставка' && sumPaidEl > 0)) {
+      if (!payments.items.find(el => el.date === date)) {
+        payments.items.push({
+          date: date,
+          summ: 0,
+          summ_paid: 0,
+          summ_to_pay: 0,
+          summ_over: 0
+        });
+      }
+      date = payments.items.find(el => el.date === date);
+      date.summ += sumEl;
+      date.summ_paid += sumPaidEl;
+      date.summ_to_pay += sumToPayEl;
+      date.summ_over += sumOverEl;
+    }
+  });
+
+  if (payments.summ == 0 && payments.summ_paid == 0) {
+    data.payments = {};
+    return;
+  }
+
+  payments.summ_to_pay = payments.summ > payments.summ_paid  ? payments.summ - payments.summ_paid : 0;
+  payments.summ_over = payments.summ_paid > payments.summ ? payments.summ_paid - payments.summ : 0;
+  convertSum(payments);
+
+  function convertSum(obj) {
+    Object.keys(obj).forEach(key => {
+      if (key !== 'date') {
+        if (key === 'items') {
+          obj[key].forEach(el => convertSum(el));
+        } else {
+          obj[key] = obj[key] > 0 ? convertPrice(obj[key], 2) : '—';
+        }
+      }
+    });
+  }
+
+  payments.items.sort(sortBy('-date', 'date'));
+  data.payments = payments;
 }
 
 // Добавление в данные информации для мастера создания рекламаций:
@@ -313,6 +395,10 @@ function createTables() {
           align: 'center',
           keys: ['dpst']
         }, {
+          title: 'Цена',
+          align: 'right',
+          keys: ['pric']
+        }, {
           title: 'Количество',
           align: 'right',
           keys: ['kolv'],
@@ -338,6 +424,7 @@ function createTables() {
         'artc': {title: 'По артикулу', sort: 'text', search: 'usual'},
         'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
         'dpst': {title: 'По дате поступления', sort: 'date', search: 'date'},
+        'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
         'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
         'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
         'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
@@ -373,9 +460,15 @@ function createTables() {
           keys: ['summ'],
           result: 'sum'
         }, {
-          title: 'Скидка',
+          title: 'Оплачено',
           align: 'right',
-          keys: ['skid']
+          keys: ['paid'],
+          result: 'sum'
+        }, {
+          title: 'К оплате',
+          align: 'right',
+          keys: ['kdop'],
+          result: 'sum'
         }]
       },
       filters: {
@@ -384,7 +477,8 @@ function createTables() {
         'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
         'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
         'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+        'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
+        'kdop': {title: 'По сумме к оплате', sort: 'numb', search: 'usual'}
       }
     },
     sobrn: {
@@ -416,9 +510,15 @@ function createTables() {
           keys: ['summ'],
           result: 'sum'
         }, {
-          title: 'Скидка',
+          title: 'Оплачено',
           align: 'right',
-          keys: ['skid']
+          keys: ['paid'],
+          result: 'sum'
+        }, {
+          title: 'К оплате',
+          align: 'right',
+          keys: ['kdop'],
+          result: 'sum'
         }]
       },
       filters: {
@@ -427,7 +527,8 @@ function createTables() {
         'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
         'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
         'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+        'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
+        'kdop': {title: 'По сумме к оплате', sort: 'numb', search: 'usual'}
       }
     },
     otgrz: {
@@ -461,9 +562,15 @@ function createTables() {
           keys: ['summ'],
           result: 'sum'
         }, {
-          title: 'Скидка',
+          title: 'Оплачено',
           align: 'right',
-          keys: ['skid']
+          keys: ['paid'],
+          result: 'sum'
+        }, {
+          title: 'К оплате',
+          align: 'right',
+          keys: ['kdop'],
+          result: 'sum'
         }]
       },
       filters: {
@@ -471,8 +578,8 @@ function createTables() {
         'titl': {title: 'По наименованию', sort: 'text', search: 'usual'},
         'pric': {title: 'По цене', sort: 'numb', search: 'usual'},
         'kolv': {title: 'По количеству', sort: 'numb', search: 'usual'},
-        'summ': {title: 'По стоимости', sort: 'numb', search: 'usual'},
-        'skid': {title: 'По скидке', sort: 'numb', search: 'usual'}
+        'paid': {title: 'По оплаченной сумме', sort: 'numb', search: 'usual'},
+        'kdop': {title: 'По сумме к оплате', sort: 'numb', search: 'usual'}
       }
     },
     nedop: {
@@ -642,6 +749,7 @@ function showReclPopUp() {
   checkMedia('#make-reclm img');
   initForm('#reclm-form', sendReclm);
   openPopUp('#make-reclm');
+  loader.hide();
 }
 
 // Подача рекламации:
