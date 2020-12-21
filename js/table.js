@@ -823,7 +823,7 @@ function Table(obj, settings = {}) {
       if (this.dataToLoad && this.dataToLoad.length) {
         this.dataToLoad.forEach(el => {
           if (el[result.dataset.key]) {
-            total += parseFloat(el[result.dataset.key].toString().replace(',', '.').replace(/\s/g, ''));
+            total += getNumb(el[result.dataset.key]);
           }
         });
       }
