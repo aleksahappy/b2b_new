@@ -11,12 +11,11 @@ var items = [],
 startAddressPage();
 
 function startAddressPage() {
-  // sendRequest(`../json/addresses.json`)
-  sendRequest(urlRequest.main, 'get_delivery')
+  sendRequest(`../json/addresses_test.json`)
+  // sendRequest(urlRequest.main, 'get_delivery')
   .then(result => {
     if (result) {
-      result = JSON.parse(result);
-      items = result.user_address_list || [];
+      items = JSON.parse(result);
     }
     initPage();
   })
@@ -31,43 +30,15 @@ function startAddressPage() {
 
 function initPage() {
   convertData();
-  var settings = {
-    data: items,
-    desktop: {
-      head: true,
-      result: false,
-      cols: [{
-        title: '',
-        width: '7.5em',
-        align: 'center',
-        class: 'pills',
-        content: '<div class="toggle #isChecked#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
-      }, {
-        title: 'Адрес',
-        width: '50%',
-        class: 'name',
-        keys: ['title']
-      }, {
-        title: 'Название',
-        keys: ['address_name', 'type'],
-        content: `<div>#address_name#</div><div class="text light">#type#</div>`
-      }, {
-        title: 'Редактировать',
-        align: 'center',
-        class: 'pills',
-        content: `<div class="edit icon" onclick="openAddressPopUp('#id#')"></div>`
-      }]
-    },
-    filters: {
-      'title': {title: 'По адресу', sort: 'text', search: 'usual'}
-    }
-  }
-  var table = getEl('#addresses');
-  if (!isAdmin) {
-    settings.desktop.cols.shift();
-    table.classList.remove('admin');
-  }
-  initTable(table, settings);
+  fillTemplate({
+    area: '#addresses',
+    items: items,
+    sub:[{
+      area: '.time',
+      items: 'time'
+    }]
+  });
+  document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
   initForm('#address-form', sendForm);
   loader.hide();
 }
@@ -76,31 +47,35 @@ function initPage() {
 
 function convertData() {
   items.forEach(el => {
-    el.isChecked = el.checked > 0 ? 'checked' : '';
+    el.status_text = el.status == '1' ? 'Магазин прошел модерацию' : el.status == '0' ? 'Магазин не прошел модерацию,<br>свяжитесь с вашим менеджером' : 'Магазин проходит модерацию';
   });
 }
 
-// Включение/отключение доступа:
+// Инициализация формы для данной страницы:
 
-function toggleAccess(event, id) {
-  if (!isAdmin) {
-    return;
+function initForm(el, callback) {
+  var el = getEl(el);
+  if (el && el.id) {
+    window[`${el.id}Form`] = new FormAddresses(el, callback);
   }
-  var toggle = event.currentTarget,
-      mode = toggle.classList.contains('checked') ? '0' : '1';
-  sendRequest(urlRequest.main, 'change_delivery_access', {id: id, mode: mode})
-  .then(result => {
-    result = JSON.parse(result);
-    if (result.ok) {
-      toggle.classList.toggle('checked');
+}
+
+// Доработка объекта формы под конкретные нужды страницы:
+
+function FormAddresses(obj, callback) {
+  Form.apply(this, arguments);
+  this.btns = obj.querySelectorAll('.btn');
+  getEl('#show').addEventListener('change', () => this.checkSubmit());
+
+  // Блокировка/разблокировка кнопок:
+  this.toggleBtn = function() {
+    if (this.isSubmit) {
+      this.btns.forEach(el => el.removeAttribute('disabled'));
     } else {
-      throw new Error('Ошибка');
+      this.btns.forEach(el => el.setAttribute('disabled','disabled'));
     }
-  })
-  .catch(err => {
-    console.log(err);
-    alerts.show('Произошла ошибка, попробуйте позже.');
-  });
+  }
+  this.toggleBtn();
 }
 
 // Открытие всплывающего окна с формой:
@@ -112,16 +87,42 @@ function openAddressPopUp(id) {
     curId = id;
     if (id) {
       formMode = 'edit';
-      title.textContent = 'Редактирование адреса';
+      title.textContent = 'Изменить адрес';
       var data = items.find(el => el.id == id);
       fillForm('#address-form', data, true);
     } else {
       formMode = 'add';
-      title.textContent = 'Добавление адреса';
+      title.textContent = 'Новый адрес';
       clearForm('#address-form');
     }
   }
+  toggleTradeTypeField();
   openPopUp(addressPopUp);
+}
+
+// Блокировка/разблокировка поля выбора типа торговли:
+
+function toggleTradeTypeField() {
+  var toggle = getEl('#show'),
+      field = getEl('#trade-type'),
+      addBtn = getEl('#add-btn');
+  if (toggle.checked) {
+    field.removeAttribute('disabled');
+    field.closest('.form-wrap').setAttribute('required', 'required');
+    showElement(addBtn);
+  } else {
+    window['trade-typeDropdown'].clear();
+    field.setAttribute('disabled', 'disabled');
+    field.closest('.form-wrap').removeAttribute('required', 'required');
+    hideElement(addBtn);
+  }
+}
+
+// Открытие для заполнения в форме времени работы магазина:
+
+function openWorkTime() {
+  showElement('#address .work-time');
+  hideElement('#address .main');
 }
 
 // Отправка формы на сервер:
@@ -135,11 +136,12 @@ function sendForm(formData) {
   sendRequest(urlRequest.main, 'save_delivery', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
+    console.log(result);
     if (result.ok && result.user_address_list.length) {
       if (formMode === 'add') {
         alerts.show('Адрес успешно добавлен.');
       } else if (formMode === 'edit') {
-        alerts.show('Адрес успешно изменен.');
+        alerts.show('Данные по адресу успешно изменены.');
       }
       items = result.user_address_list;
       convertData();

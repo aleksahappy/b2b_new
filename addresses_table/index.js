@@ -11,8 +11,8 @@ var items = [],
 startAddressPage();
 
 function startAddressPage() {
-  sendRequest(`../json/addresses.json`)
-  //sendRequest(urlRequest.main, '???')
+  sendRequest(`../json/addresses_test.json`)
+  // sendRequest(urlRequest.main, 'get_delivery')
   .then(result => {
     if (result) {
       items = JSON.parse(result);
@@ -70,7 +70,7 @@ function initPage() {
         content: `<div class="status pill" data-status="#status#">#status_text#</div>`
       }, {
         title: 'Редактировать',
-        width: '8%',
+        width: '10em',
         align: 'center',
         class: 'pills',
         content: `<div class="edit icon" onclick="openAddressPopUp('#id#')"></div>`
@@ -136,6 +136,7 @@ function FormAddresses(obj, callback) {
   this.toggleBtn();
 }
 
+// Открытие/закрытие карточки с адресом:
 
 function toggleAddress(event) {
   var openAddress = getEl('.address.open'),
@@ -166,7 +167,7 @@ function openAddressPopUp(id) {
     } else {
       formMode = 'add';
       title.textContent = 'Новый адрес';
-      clearForm('#address');
+      clearForm('#address-form');
     }
   }
   toggleTradeTypeField();
@@ -201,36 +202,33 @@ function openWorkTime() {
 // Отправка формы на сервер:
 
 function sendForm(formData) {
-  var action;
   if (formMode === 'add') {
-    action = '???';
+    formData.append('id',  '0');
   } else if (formMode === 'edit') {
-    action = '???';
+    formData.append('id', curId);
   }
-  formData.append('id', curId);
-  sendRequest(urlRequest.main, action, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, 'save_delivery', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
     console.log(result);
-    if (result.error) {
-      alerts.show(result.error);
-    } else {
+    if (result.ok && result.user_address_list.length) {
       if (formMode === 'add') {
         alerts.show('Адрес успешно добавлен.');
       } else if (formMode === 'edit') {
         alerts.show('Данные по адресу успешно изменены.');
       }
-      items = result;
+      items = result.user_address_list;
       convertData();
-      updateTable('#addresses', result);
-      fillTemplate({
-        area: ".table-adaptive",
-        items: data,
-        sub: [{area: '.time', items: 'time'}]
-      });
-      document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
+      updateTable('#addresses', items);
       closePopUp(null, '#address');
       clearForm('#address-form');
+      curId = undefined;
+    } else {
+      if (result.error) {
+        alerts.show(result.error);
+      } else {
+        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      }
     }
     hideElement('#address .loader');
   })

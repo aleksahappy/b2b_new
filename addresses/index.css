@@ -3,129 +3,71 @@
   margin-right: 0;
 }
 
-.addresses-wrap .left-side {
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-right: 1.428em;
-  background: transparent;
-}
-
-.addresses-wrap .left-side .btn {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-#addresses {
-  height: calc(100vh - 321px);
-  overflow: auto;
-}
-
-.address {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 30em;
-  border-bottom: 1px solid #C6C6C6;
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.address:last-child {
-  border-bottom: none;
-}
-
-.address .info {
-  justify-content: space-between;
-  padding: 0.714em 1.428em;
-  background: #FFFFFF;
-}
-
-.address .info .wrap {
-  width: calc(100% - 135px);
-  margin-right: 1.428em;
-}
-
-.address .info .wrap > :not(:last-child) {
-  margin-bottom: 0.357em;
-}
-
-.address .name .title {
-  margin-right: 0.714em;
-  font-weight: 600;
-}
-
-.address .name > .row {
-  align-items: center;
-}
-
-.address .mark.icon {
-  margin-right: 0.714em;
-}
-
-.address .edit.icon {
+.edit.icon {
   width: 19px;
   height: 19px;
   margin-right: 0;
 }
 
-.address .text {
+.trash.icon {
+  width: 19px;
+  height: 19px;
+  margin-right: 0;
+}
+
+.table-desktop {
+  display: table!important;
+}
+
+.table-desktop > tbody > tr > td.name {
+  white-space: normal;
+}
+
+.table-desktop .text {
   font-size: 0.857em;
 }
 
-.address a {
-  text-decoration: none;
-}
-
-.address a.phone {
-  display: block;
-  color: #666666;
-}
-
-.address .img-wrap {
-  flex-grow: 0;
-  flex-shrink: 0;
-  align-self: center;
-  width: 115px;
-  height: 90px;
-}
-
-.address .more {
-  padding: 0.714em 1.428em;
-  padding-top: 0;
-  background: #FFFFFF;
-}
-
-.address .more > div:first-child {
-  font-size: 0.857em;
-  margin-bottom: 0.714em;
-}
-
-.address .work-time {
-  line-height: 1.7;
-}
-
-.address .time > div:first-child {
-  width: 7em;
-  margin-right: 0.714em;
-}
-
-.address:hover .info,
-.address:hover .more {
-  background: #E7EAED;
-}
-
-#map {
-  width: calc(100% - 30em);
-  height: auto;
+.table-desktop > tbody > tr > td.pills {
+  max-width: 10em;
+  min-width: 5em;
+  padding-top: 0.5em;
+  padding-bottom: 0;
+  line-height: 0;
+  vertical-align: top;
 }
 
 /* Всплывающее окно добавления/редактирования адреса */
 
 #address .pop-up {
-  width: 30em;
+  width: 70em;
 }
 
 #address .activate {
   width: 100%;
+}
+
+#address-form .row {
+  justify-content: space-between;
+}
+
+#address-form .top .form-wrap:nth-child(1) {
+  width: 30%;
+}
+
+#address-form .top .form-wrap:nth-child(2) {
+  width: 50%;
+}
+
+#address-form .top .form-wrap:nth-child(3) {
+  width: 20%;
+  min-width: 10.2em;
+}
+
+#address-form .bottom .form-wrap:nth-child(1),
+#address-form .bottom .form-wrap:nth-child(2),
+#address-form .bottom .form-wrap:nth-child(3),
+#address-form .bottom .form-wrap:nth-child(4) {
+  width: 25%;
 }
 
 #address .main .btns-wrap {
@@ -143,14 +85,72 @@
   margin-bottom: 0.714em;
 }
 
-#address .work-time {
-  display: none;
+/* Подсказки для заполнения адреса: */
+
+.kladr-error {
+  border-color: #CE0014 !important;
 }
 
-#address .work-time > .row {
-  align-items: center;
+.kladr-error + .err {
+  display: block;
 }
 
-#address .work-time > .row .form-wrap {
-  margin-left: 1em;
+#kladr_autocomplete ul {
+	position: absolute;
+  display: block;
+  min-width: 200px;
+  max-height: 420px;
+	margin: 0;
+  padding: 0;
+  background-color: #F8F8F8;
+  border: 1px solid #D5D5D5;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+	overflow-x: hidden;
+	overflow-y: auto;
+  z-index: 9999;
+}
+
+#kladr_autocomplete li {
+	display: list-item;
+  margin: 0;
+  /* padding: 0.4em 0.714em; */
+  list-style-type: none;
+  white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+#kladr_autocomplete li:hover {
+  background-color: #E2E2E2;
+}
+
+#kladr_autocomplete li.active {
+  background-color: #E2E2E2;
+}
+
+#kladr_autocomplete a {
+  padding: 0.4em 0.714em;
+	text-decoration: none;
+  color: #666666;
+}
+
+#kladr_autocomplete a[data-val="Совпадений не найдено"] {
+  cursor: default;
+}
+
+#kladr_autocomplete strong {
+	font-weight: 700;
+}
+
+#kladr_autocomplete .spinner {
+	position: absolute;
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	background: url(../img/loader.gif) center center no-repeat;
+	z-index: 9999
 }
