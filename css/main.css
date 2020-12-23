@@ -3452,8 +3452,12 @@ form.post .btns-wrap {
   text-overflow: ellipsis;
 }
 
+.table-desktop > tbody > tr:last-child > td {
+  border-bottom: none;
+}
+
 .table-desktop > tbody > tr > td > a,
-.table-desktop > tbody > tr > td > div:not(.toggle) {
+.table-desktop > tbody > tr > td > div:not(.toggle):not(.icon):not(.pill) {
   width: 100%;
   vertical-align: middle;
   overflow: hidden;
