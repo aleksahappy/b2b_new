@@ -75,8 +75,7 @@ function initPage() {
         items: brands,
         isOpen: true
       }
-    },
-    isHide: false
+    }
   });
   loader.hide();
 }
