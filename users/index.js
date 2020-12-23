@@ -36,7 +36,7 @@ function initPage() {
       head: true,
       cols: [{
         title: 'Доступ',
-        width: '6%',
+        width: '7.5em',
         align: 'center',
         class: 'pills',
         content: '<div class="toggle #isChecked#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
@@ -92,7 +92,7 @@ function initPage() {
     settings.desktop.cols.shift();
     getEl('.table-adaptive .infoblock .head').removeChild(getEl('.table-adaptive .toggle'));
   }
-  initTable("#users", settings);
+  initTable('#users', settings);
   fillTemplate({
     area: ".table-adaptive",
     items: items
@@ -164,36 +164,42 @@ function openUserPopUp(id) {
 // Отправка формы на сервер:
 
 function sendForm(formData) {
-  var action;
   if (formMode === 'add') {
-    action = '???';
+    formData.append('id',  '0');
   } else if (formMode === 'edit') {
-    action = '???';
+    formData.append('id', curId);
   }
-  formData.append('id', curId);
-  sendRequest(urlRequest.main, action, formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, '???', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    console.log(result);
-    if (result.error) {
-      alerts.show(result.error);
-    } else {
+    if (result.ok && result['???'].length) {
       if (formMode === 'add') {
         alerts.show('Пользователь успешно добавлен.');
       } else if (formMode === 'edit') {
         alerts.show('Данные пользователя успешно изменены.');
       }
-      items = result;
+      items = result['???'];
       convertData();
       updateTable('#users', items);
+      fillTemplate({
+        area: ".table-adaptive",
+        items: items
+      });
       closePopUp(null, '#user');
       clearForm('#user-form');
+      curId = undefined;
+    } else {
+      if (result.error) {
+        alerts.show(result.error);
+      } else {
+        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+      }
     }
     hideElement('#user .loader');
   })
   .catch(error => {
     console.log(error);
     alerts.show('Произошла ошибка, попробуйте позже.');
-    hideElement('#user .loader');
+    hideElement('#address .loader');
   })
 }
