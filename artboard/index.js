@@ -109,7 +109,7 @@ var settings = {
       keys: ['index']
     },{
       title: 'Доступ',
-      width: '6%',
+      width: '7.5em',
       keys: ['access'],
       content: '<div class="toggle #access#" onclick="toggle(event)"><div class="toggle-in"></div></div>'
     }, {

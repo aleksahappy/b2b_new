@@ -32,7 +32,7 @@ function initPage(data = []) {
       sub: [{area: '.docs', items: 'docs'}],
       cols: [{
         title: 'Доступ',
-        width: '6%',
+        width: '7.5em',
         class: 'pills',
         keys: ['access'],
         content: '<div class="toggle #isChecked#" onclick="toggleAccess(event, #contr_id#)"><div class="toggle-in"></div></div>'
