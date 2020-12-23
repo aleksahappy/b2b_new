@@ -923,11 +923,11 @@ function switchContent(event) {
   } else {
     container.classList.add('close');
   }
-  if (container.id && container.classList.contains('save')) {
+  if (container.classList.contains('save') && (container.id || container.dataset.key)) {
     if (container.classList.contains('close')) {
-      savePosition(container.id, 'close');
+      savePosition(container.id || container.dataset.key, 'close');
     } else {
-      savePosition(container.id, 'open');
+      savePosition(container.id || container.dataset.key, 'open');
     }
   }
 }
@@ -954,10 +954,9 @@ function removePositions() {
 // Проверка сохраненных положений контейнеров (открыты/закрыты):
 
 function checkPositions() {
-  var positions = getInfo('positions', 'sessionStorage')[pageUrl],
-      el;
+  var positions = getInfo('positions', 'sessionStorage')[pageUrl];
   for (var key in positions) {
-    el = getEl(`#${key}`);
+    var el = getEl(`#${key}`) || getEl(`.switch.save[data-key="${key}"]`);
     if (el) {
       if (positions[key] === 'close') {
         el.classList.add('close');
@@ -2110,14 +2109,14 @@ function openPopUp(el, event) {
       el.style.opacity = '0';
     }
     showElement(el, 'flex');
-    if (!getEl('.pop-up-container.open')) {
-      document.addEventListener('click', closePopUp);
-      document.addEventListener('keydown', closePopUp);
-    }
     if (el.classList.contains('filters')) {
       window.addEventListener('resize', closeFilterPopUp);
     }
     setTimeout(() => {
+      if (!getEl('.pop-up-container.open')) {
+        document.addEventListener('click', closePopUp);
+        document.addEventListener('keydown', closePopUp);
+      }
       el.classList.add('open');
       el.scrollTop = 0;
       // document.querySelectorAll(`.pop-up-container.open:not(#${el.id})`).forEach(el => hideElement(el));
@@ -2737,7 +2736,7 @@ function Form(obj, callback) {
         value = field.value.trim();
         if (field.hasAttribute('data-type')) {
           var isValid = checkInput(field);
-          if (isValid.result && value) {
+          if (isValid.result && value && !field.classList.contains('kladr-error')) {
             return true;
           }
         } else if (type === 'radio' || type === 'checkbox') {
@@ -3352,25 +3351,26 @@ function DropDown(obj, handler, data, defaultValue) {
 //       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
 //       filter: 'checkbox' / 'select'                    - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
 //       items:                                           - данные для заполнения фильтра (чекбоксов или селектов):
-//        {{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
+//        [{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
 //           title: 'заголовок'                               - заголовок пункта фильтра
 //           value: 'значение для поиска'                     - значение, которое будет искаться в данных
 //           (Если есть подфильтры:)
 //           key: 'ключ для подфильтров'                      - ключ в данных, по которому находится информация для подфильтров (если нужно, если нет то пропускаем)
-//           items: {                                         - данные для заполнения подфильтра (если нужно, если нет то пропускаем)
+//           items: [{                                        - данные для заполнения подфильтра (если нужно, если нет то пропускаем)
 //             title: 'Заголовок'
 //             value: 'значение для поиска'
 //             key: ...
 //             items: ...
-//           }
-//         }, {...}
+//           }]
+//         }, {...}]
 //         или ['значение1', 'значение2', ...]              2) второй вариант заполнения (когда название и значение одинаковые и нет подфильтров)
-//       isOpen: true / false                             - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
+//       isOpen: true / false                             - открыт ли фильтр по умолчанию (по умолчанию false - закрыт, true - открыт)
+//       isMore: true / false / 'количество'              - скрывать ли значения фильтра и больше скольки (по умолчанию false - не срывать, true - скрывать больше 4-х, 'количество' - то скрывать больше этого количества)
 //     },
 //     key2: {...}
 //   },
-//   isHide: true / false                       Скрывать ли значения те значения фильтров если их много (больше 4-х) (по умолчанию скрываются)
-//   isSave: true / false                       Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию не сохраняются)
+//   isSave: true / false                             Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию false - не сохраняются)
+//   isVisible: true / false                          Cделать фильтры видимыми на всех разрешениях (по умолчанию false - не видно до 1280px)
 // }
 
 // Инициализация блока фильтров:
@@ -3387,7 +3387,7 @@ function initFilter(el, settings, handler) {
   }
 }
 
-// Очистка фильтра:
+// Заполнение фильтра новыми значениями:
 
 function fillFilter(el, data) {
   var el = getEl(el);
@@ -3401,21 +3401,23 @@ function fillFilter(el, data) {
 function createFilter(area, settings) {
   var mainTitle,
       sortList = '',
-      filterList = '';
+      filterList = '',
+      isSave = settings.isSave ? 'save' : '';
 
   for (var key in settings.filters) {
     var data = settings.filters[key],
-        isOpen = data.isOpen ? '' : 'close',
+        isOpen = data.isOpen ? 'default-open' : 'close',
         title = data.title,
         sort = data.sort,
         search = data.search,
-        filter = data.filter;
+        filter = data.filter,
+        items = data.items;
     if (sort) {
       if (!mainTitle) {
         mainTitle = 'Сортировки';
       }
       sortList +=
-      `<div class="group switch ${isOpen}" data-key="${key}" data-type="${sort}">
+      `<div class="group switch ${isSave} ${isOpen}" data-key="${key}" data-type="${sort}">
         <div class="title row" onclick="switchContent(event)">
           <div class="title white h3">${title}</div>
           <div class="open white icon switch-icon"></div>
@@ -3451,21 +3453,28 @@ function createFilter(area, settings) {
         content += search;
       }
       if (filter && search !== 'date') {
-        var items = data.items,
-            isHide = settings.isHide ? 'hide' : '';
+        var isMore = data.isMore,
+            maxHeight = 'none';
+        if (isMore) {
+          isMore = isMore === true ? 4 : isMore;
+          maxHeight = 2.125 * Number(isMore) + 'em';
+        }
         content +=
-        `<div class="items ${isHide}" data-key="${data.key || ''}">
+        `<div class="items" style="max-height: ${maxHeight}">
           ${fillFilterItems(filter, items)}
         </div>`;
-        var isMore = items && items.length > 4 ? 'displayNone': '';
-        content +=
-        `<div class="more row ${isMore}">
-          <div>Больше</div>
-          <div class="open light icon"></div>
-        </div>`
+        if (isMore) {
+          isMore = items && items.length > isMore ? '' : 'displayNone';
+          content +=
+          `<div class="more row ${isMore}">
+            <div>Больше</div>
+            <div class="open light icon"></div>
+          </div>`;
+        }
       }
+      var isHide = sort || (search && !items) || items.length ? '' : 'displayNone';
       filterList +=
-      `<div class="group switch ${isOpen}" data-key="${key}">
+      `<div class="group switch ${isSave} ${isOpen} ${isHide}" data-key="${key}">
         <div class="title row" onclick="switchContent(event)">
           <div class="title white h3">${title}</div>
           <div class="open white icon switch-icon"></div>
@@ -3486,8 +3495,16 @@ function createFilter(area, settings) {
     mainTitle = 'Фильтры';
   }
 
-  var filterBlock = document.createElement('div');
+  var filterBlock = getEl('.pop-up-container.filters', area);
+  if (filterBlock) {
+    area.removeChild(filterBlock);
+  }
+
+  filterBlock = document.createElement('div');
   filterBlock.classList.add('pop-up-container', 'filters');
+  if (settings.isVisible) {
+    filterBlock.classList.add('visible');
+  }
   filterBlock.id = area.id + '-filters';
   filterBlock.innerHTML =
   `<div class="pop-up">
@@ -3544,7 +3561,7 @@ function fillFilterItems(type, data) {
             </div>
             <div class="open icon switch-icon" onclick="switchContent(event)"></div>
           </div>
-          <div class="items switch-cont">
+          <div class="items switch-cont" data-key="${el.key || ''}">
            ${fillFilterItems(type, el.items)}
           </div>
         </div>`
@@ -3558,7 +3575,7 @@ function fillFilterItems(type, data) {
         items +=
         `<div class="item row" data-value="${value}">
           <div class="${iconType} icon"></div>
-          <div>${title}</div>
+          <div class="text">${title}</div>
         </div>`;
       }
     });
@@ -3576,7 +3593,7 @@ function Filter(obj, handler) {
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.openBtn) {
-      this.openBtn.addEventListener('click', () => openPopUp(`#${this.filter.id}`));
+      this.openBtn.addEventListener('click', () => openPopUp(this.filter));
     }
     if (handler) {
       this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => handler(event)));
@@ -3586,17 +3603,29 @@ function Filter(obj, handler) {
 
   // Заполнение фильтров значениями:
   this.fillItems = function(data) {
-    var items, moreBtn;
+    var filter, group, items, isMore, moreBtn;
     for (var key in data) {
-      items = getEl(`.group[data-key="${key}"] .items`, this.filter);
-      if (items && data[key].filter !== 'date') {
-        items.innerHTML = fillFilterItems(data[key].filter, data[key].items);
-        moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filter);
-        if (moreBtn) {
-          if (data[key].items.length > 4) {
-            moreBtn.classList.remove('displayNone');
-          } else {
-            moreBtn.classList.add('displayNone');
+      filter = data[key];
+      group = getEl(`.group[data-key="${key}"]`, this.filter);
+      items = getEl(`.items`, group);
+      if (items && filter.filter !== 'date') {
+        items.innerHTML = fillFilterItems(filter.filter, filter.items);
+        items = filter.items;
+        isMore = filter.isMore;
+        if (filter.sort || (filter.search && !items) || items.length) {
+          group.classList.remove('displayNone');
+        } else {
+          group.classList.add('displayNone');
+        }
+        if (isMore) {
+          moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filter);
+          isMore = isMore === true ? 4 : isMore;
+          if (moreBtn) {
+            if (items && items.length > isMore) {
+              moreBtn.classList.remove('displayNone');
+            } else {
+              moreBtn.classList.add('displayNone');
+            }
           }
         }
       }
