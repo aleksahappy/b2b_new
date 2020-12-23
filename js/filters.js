@@ -1,8 +1,5 @@
 'use strict';
 
-var catalogFiltersData,
-    zipSelectsData;
-
 //=====================================================================================================
 // Ручные данные для фильтров каталога:
 //=====================================================================================================
@@ -92,34 +89,28 @@ function getDataFromOptions(optNumb) {
   return filter;
 }
 
-// Создание данных для фильтров каталога:
+// Получение данных из переменных для пунктов фильтра:
 
-function createFilterData(data, parent) {
+function createFilterItems(data) {
   var items = [];
   if (!data) {
     return items;
   }
   if (typeof data === 'object') {
     var title,
-        item,
-        subItems,
-        index = 0;
-    for (var key in data) {
+        item;
+    Object.keys(data).forEach((key, index) => {
       title = getTitle(key, data[key]);
       item = {
         title: title,
         value: key != index ? key : title,
       };
-      if (parent) {
-        item.subkey = parent;
-      }
       if (data[key] && typeof data[key] === 'object' && !data[key].title) {
-        subItems = createFilterData(data[key], item.value);
-        item.items = subItems;
+        item.key = item.value;
+        item.items = createFilterItems(data[key]);
       }
       items.push(item);
-      index ++;
-    }
+    });
   }
   return items;
 }
@@ -153,67 +144,57 @@ function getTitle(key, value) {
 //=====================================================================================================
 
 function createCatalogFiltersData() {
-  // Костыль для добавления в фильтры спецпредложений новинок:
-  var specialOffer = {is_new: {title: "Новинка"}};
-  for (var key in actions) {
-    specialOffer[key] = actions[key];
+  var dataNames = {
+    state: 'state',
+    action_id: 'specialOffer',
+    cat: 'catsubs',
+    brand: 'brands',
+    use: 'use',
+    age: 'ages',
+    gender: 'gender',
+    size: 'sizes',
+    color: 'colors'
+  };
+
+  var data = {
+    filters: {},
+    isSave: true,
+    isVisible: true
   }
 
-  var data = [{
-    title: 'Доступность',
-    isOpen: 'default-open',
-    key: 'state',
-    items: createFilterData(state)
-  }, {
-    title: 'Спецпредложение',
-    isOpen: 'default-open',
-    key: 'action_id',
-    items: createFilterData(specialOffer)
-  }, {
-    title: 'Категория',
-    isOpen: 'default-open',
-    key: 'cat',
-    items: createFilterData(window.catsubs)
-  }, {
-    title: 'Бренд',
-    isOpen: 'default-open',
-    key: 'brand',
-    items: createFilterData(window.brands)
-  }];
+  var commonFilters = {
+    state: 'Доступность',
+    action_id: 'Спецпредложение',
+    cat: 'Категория',
+    brand: 'Бренд'
+  };
+
+  for (var key in commonFilters) {
+    data.filters[key] = {
+      title: commonFilters[key],
+      filter: 'checkbox',
+      items: createFilterItems(window[dataNames[key]]),
+      isOpen: true
+    };
+  }
 
   if (pageId === 'equip') {
-    data.push({
-      title: 'Применяемость',
-      isOpen: 'close',
-      key: 'use',
-      items: createFilterData(use)
-    }, {
-      title: 'Возраст',
-      isOpen: 'close',
-      key: 'age',
-      items: createFilterData(ages)
-    }, {
-      title: 'Пол',
-      isOpen: 'close',
-      key: 'gender',
-      items: createFilterData(gender)
-    }, {
-      title: 'Размер',
-      isOpen: 'close',
-      key: 'size',
-      items: createFilterData(sizes)
-    }, {
-      title: 'Цвет',
-      isOpen: 'close',
-      key: 'color',
-      items: createFilterData(colors)
-    });
-  }
-  data.forEach((filter, index) => {
-    if (!filter.items || isEmptyObj(filter.items)) {
-      data.splice(index, 1);
+    var equipFilters = {
+      use: 'Применяемость',
+      age: 'Возраст',
+      gender: 'Пол',
+      size: 'Размер',
+      color: 'Цвет'
     }
-  });
+
+    for (var key in equipFilters) {
+      data.filters[key] = {
+        title: equipFilters[key],
+        filter: 'checkbox',
+        items: createFilterItems(window[dataNames[key]]),
+      };
+    }
+  }
   return data;
 }
 

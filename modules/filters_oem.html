@@ -1,0 +1,36 @@
+<!-- Фильтры по OEM -->
+<div class="wrap">
+  <form id="oem" class="search activate select row">
+    <input type="text" data-value="" autocomplete="off" placeholder="Поиск по OEM">
+    <input class="search icon" type="submit" value="">
+    <div class="close icon"></div>
+    <div class="drop-down">
+      <div class="not-found">Совпадений не найдено</div>
+      <div class="items">
+        <div class="item" data-value="#item#">#item#</div>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="zip-filters" class="group switch save default-open">
+  <div class="title row" onclick="switchContent(event)">
+    <div class="title white h3">Подбор запчастей</div>
+    <div class="open white icon switch-icon"></div>
+  </div>
+  <div class="items switch-cont">
+    <div id="zip-selects" class="template">
+      <div id="#key#" class="activate select" disabled>
+        <div class="title">#title#</div>
+        <div class="head row">
+          <div class="title">Выберите</div>
+          <div class="triangle icon"></div>
+        </div>
+        <div class="drop-down">
+          <div class="items">
+            <div class="item" data-value="@@item@@">@@item@@</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
