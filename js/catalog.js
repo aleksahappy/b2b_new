@@ -139,13 +139,13 @@ function setCatalogEventListeners() {
   if (isCart) {
     window.addEventListener('focus', updateCart);
   }
-  var filters = getEl('#filters');
-  filters.addEventListener('mouseenter', (event) => {
-    if (event.currentTarget.style.position !== 'static') {
-      document.body.classList.add('no-scroll');
-    }
-  });
-  filters.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+  // var filters = getEl('#filters');
+  // filters.addEventListener('mouseenter', (event) => {
+  //   if (event.currentTarget.style.position !== 'static') {
+  //     document.body.classList.add('no-scroll');
+  //   }
+  // });
+  // filters.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
 }
 
 // Инициализация корзины (если есть):
@@ -327,7 +327,7 @@ function convertItem(item) {
 // Проверка действия акции и добавление данных о ней:
 
 function addActionInfo(item) {
-  item.isAction = item.actiontitle ? '' : 'displayNone';
+  item.isAction = item.actiontitle ? '' : 'hidden';
   if (actions && item.action_id && item.action_id > 0) {
     var action = actions[item.action_id];
     if (action && (checkDate(action.begin, action.unending > 0 ? undefined : action.expire))) {
@@ -1183,9 +1183,10 @@ function detailsSearch(search, textToFind) {
       sign: '@'
     });
     if (data.length) {
-      hideElement('.card-details .notice')
+      hideElement('.card-details .notice');
+      highlightText('#details', textToFind);
     } else {
-      showElement('.card-details .notice')
+      showElement('.card-details .notice');
     }
   }
 }
