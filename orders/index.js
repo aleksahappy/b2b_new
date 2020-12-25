@@ -1,5 +1,13 @@
 'use strict';
 
+// Статусы заказа:
+// 1: "Ожидает подтверждения"
+// 2: "Подтвержден"
+// 3: "Не оплачен"
+// 4: "Оплачен"
+// 5: "Завершен"
+// 10: "Отменен"
+
 // Статусы товаров в заказе:
 // 1: "Ожидается
 // 2: "В наличии"
@@ -60,7 +68,7 @@ function initPage(data = []) {
         width: '10%',
         keys: ['order_number', 'order_date'],
         content: `<div class="row">
-                    <div class="download icon" onclick="openShipment(#id#)"></div>
+                    #bill_link#
                     <div>
                       <div>#order_number#</div>
                       <div class="text light">#order_date#</div>
@@ -123,6 +131,14 @@ function convertData(data) {
     if (!el.order_number) {
       el.order_status = 'В обработке';
     }
+
+    var orderStatus = el.order_status.toLowerCase();
+    if (orderStatus == 'в обработке' || orderStatus == 'ожидает подтверждения' || orderStatus == 'отменен') {
+      el.bill_link = '<div class="loader icon"></div>';
+    } else {
+      el.bill_link = `<a class="download icon" href="https://new.topsports.ru/api.php?action=order&order_id=${el.id}&mode=bill&type=pdf""></a>`
+    }
+
     el.order_sum = convertPrice(el.order_sum, 2);
     if (!el.sum) {
       el.sum = {"deleted": 0};

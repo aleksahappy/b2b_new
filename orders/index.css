@@ -10,8 +10,17 @@
 
 /* Стили таблицы: */
 
-#orderslist > table > tbody > tr > td {
-  cursor: pointer;
+#orderslist > table > tbody > tr > td .loader.icon {
+  width: 2em;
+  height: 2em;
+  margin-left: -0.5em;
+  margin-right: 0.5em;
+}
+
+#orderslist > table > tbody > tr > td > .row * {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #orderslist > table > tbody > tr > td.pills {
