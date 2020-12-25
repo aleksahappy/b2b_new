@@ -247,7 +247,8 @@ function createTable(area, settings) {
 // Создание ячейки шапки таблицы:
 
 function createTableHeadCell(col, index, filters) {
-  var th = '';
+  var th = '',
+      thClass = col.class ? col.class : '';
   if (col.keys && filters) {
     var sortConternt = '',
         filterContent = '';
@@ -319,7 +320,7 @@ function createTableHeadCell(col, index, filters) {
     });
     if (sortConternt || filterContent) {
       th =
-      `<th id="${index + 1}" class="activate box">
+      `<th id="${index + 1}" class="activate box ${thClass}">
         <div class="head row">
           <div class="title">${col.title || ''}</div>
           <div class="icons row">
@@ -338,7 +339,7 @@ function createTableHeadCell(col, index, filters) {
   }
   if (!th) {
     th =
-    `<th id="${index + 1}">
+    `<th id="${index + 1}" class="${thClass}">
       <div>${col.title || ''}</div>
       <div class="resize-btn"></div>
     </th>`;
