@@ -19,21 +19,25 @@
   display: table!important;
 }
 
-.table-desktop > tbody > tr > td.name {
+.table-desktop > tbody > tr > td.address {
   white-space: normal;
 }
 
-.table-desktop .text {
-  font-size: 0.857em;
+.table-desktop > thead > tr > th.edit.pills {
+  width: 10em;
 }
 
 .table-desktop > tbody > tr > td.pills {
-  max-width: 10em;
+  max-width: 7.5em;
   min-width: 5em;
   padding-top: 0.5em;
   padding-bottom: 0;
   line-height: 0;
   vertical-align: top;
+}
+
+.table-desktop .text {
+  font-size: 0.857em;
 }
 
 /* Всплывающее окно добавления/редактирования адреса */

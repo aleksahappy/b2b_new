@@ -44,17 +44,18 @@ function initPage() {
         content: '<div class="toggle #isChecked#" onclick="toggleAccess(event, #id#)"><div class="toggle-in"></div></div>'
       }, {
         title: 'Адрес',
-        width: '50%',
-        class: 'name',
+        // width: '50%',
+        class: 'address',
         keys: ['title']
       }, {
-        title: 'Название',
-        keys: ['address_name', 'type'],
-        content: `<div>#address_name#</div><div class="text light">#type#</div>`
-      }, {
+      //   title: 'Название',
+      //   class: 'name',
+      //   keys: ['address_name', 'type'],
+      //   content: `<div>#address_name#</div><div class="text light">#type#</div>`
+      // }, {
         title: 'Редактировать',
         align: 'center',
-        class: 'pills',
+        class: 'edit pills',
         content: `<div class="edit icon" onclick="openAddressPopUp('#id#')"></div>`
       }]
     },
@@ -65,7 +66,6 @@ function initPage() {
   var table = getEl('#addresses');
   if (!isAdmin) {
     settings.desktop.cols.shift();
-    table.classList.remove('admin');
   }
   initTable(table, settings);
   initForm('#address-form', sendForm);

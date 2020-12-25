@@ -3,13 +3,8 @@
     display: block;
   }
 
-  .table.admin .table-desktop > thead > tr > th:nth-child(3),
-  .table.admin .table-desktop > tbody > tr > td:nth-child(3) {
-    display: none;
-  }
-
-  .table:not(.admin) .table-desktop > thead > tr > th:nth-child(2),
-  .table:not(.admin) .table-desktop > tbody > tr > td:nth-child(2) {
+  .table-desktop > thead > tr > th.name,
+  .table-desktop > tbody > tr > td.name {
     display: none;
   }
 }
@@ -25,8 +20,11 @@
   }
 }
 
-
 @media only screen and (max-width: 599px) {
+  .table-desktop > thead > tr > th.edit.pills {
+    width: auto;
+  }
+
   #address #address-form .form-cols > .form-wrap {
     width: 100%;
     padding: 0;
