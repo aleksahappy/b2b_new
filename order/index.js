@@ -41,7 +41,6 @@ function startOrderPage() {
 
 function initPage() {
   convertData();
-  toggleOrderBtns();
   fillTemplate({
     area: '#main',
     items: data
@@ -69,11 +68,25 @@ function convertData() {
   delete data.orderitems;
   data.isShipments = data.nakls.length ? '' : 'disabled';
   data.isPayments = isEmptyObj(data.payments) ? 'disabled' : '';
+  data.order_status = data.order_number ? data.order_status : 'В обработке';
   data.isMoreRow = data.comment || data.source_id > 0 ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
   data.isOrderBnts = data.source_id > 0 ? '' : 'hidden';
   data.isReclms = data.order_type ? ((data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true) : true;
+  toggleBillLink();
   toggleOrderBtns();
+}
+
+// Показ/скрытие ссылки на скачивание счета:
+
+function toggleBillLink() {
+  var orderStatus = data.order_status.toLowerCase(),
+      billLink = getEl('a.docs');
+  if (orderStatus == 'в обработке' || orderStatus == 'ожидает подтверждения' || orderStatus == 'отменен') {
+    billLink.classList.add('displayNone');
+  } else {
+    billLink.classList.remove('displayNone');
+  }
 }
 
 // Блокировка/разблокировка кнопок отмены/подтверждения заказа:
@@ -699,6 +712,7 @@ function changeOrderStatus(event) {
       if (result.ok) {
         data.order_status = result.status;
         getEl('#order-status').textContent = data.order_status;
+        toggleBillLink();
         toggleOrderBtns();
       } else {
         throw new Error('Ошибка');

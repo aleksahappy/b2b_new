@@ -185,6 +185,52 @@
       </div>
     </div>
 
+    <!-- Всплывающее окно отгрузок: -->
+    <div id="shipments" class="pop-up-container">
+      <div class="pop-up">
+        <div class="pop-up-title row">
+          <div class="title h1">Отгрузки</div>
+          <div class="close icon"></div>
+        </div>
+        <div class="pop-up-body">
+          <table>
+            <thead>
+              <tr>
+                <th class="title">Документ</th>
+                <th class="title">Количество</th>
+                <th class="title">Сумма</th>
+                <th class="title">Трекинг</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a class="row" href="https://new.topsports.ru/api.php?action=order&order_id=#id#&mode=nakl&type=pdf&name=#rencname#&id=#rdocid#">
+                    <div class="download icon"></div>
+                    <div>#rdocname#</div>
+                  </a>
+                </td>
+                <td>
+                  <div class="row">
+                    <a href="https://new.topsports.ru/api.php?action=order&order_id=#id#&mode=bar&type=xls&name=#rencname#&id=#rdocid#">
+                      <div class="barcode icon" data-tooltip="Скачать штрихкоды"></div>
+                    </a>
+                    <div>#rkolall#</div>
+                  </div>
+                </td>
+                <td>#rsummall#</td>
+                <td>#rtrac#</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="loader">
+          <div class="loader icon"></div>
+          <div class="text">Пожалуйста, подождите</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Всплывающее окно платежей: -->
     <div id="payments" class="pop-up-container">
       <div class="pop-up">
@@ -228,9 +274,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Подключение всплывающего окна отгрузок: -->
-    <div data-html="../modules/shipments.html"></div>
 
     <!-- Подключение информационной карточки и изображения на весь экран: -->
     <div data-html="../modules/infocard_and_img.html"></div>
