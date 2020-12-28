@@ -11,10 +11,10 @@ var catalogType = document.body.id === 'boats' || document.body.id === 'snow' ? 
     view,
     userView,
     path,
+    items = [],
     cartItems = {},
     curItems,
     itemsToLoad,
-    catalogFiltersData,
     filterItems = [],
     curSelect = null,
     searchText = null;
@@ -50,6 +50,9 @@ var menuContent = {
     }, {
       cat: 'sumruk',
       cat_title: 'Сумки и рюкзаки'
+    }, {
+      cat: 'merch',
+      cat_title: 'Мерчандайзинг'
     }]
   },
   snow: {
@@ -72,7 +75,15 @@ var menuContent = {
     }, {
       cat: 'acc',
       cat_title: 'Аксессуары'
+    }, {
+      cat: 'screws',
+      cat_title: 'Винты гребные'
     }]
+  },
+  technics: {
+    title: 'Техника',
+    id: 'technics',
+    cats: []
   }
 };
 
@@ -110,9 +121,7 @@ function startCatalogPage() {
       result => {
         result = JSON.parse(result); //удалить
         for (var key in result) {
-          if (key !== 'colors') {
-            window[key] = result[key];
-          }
+          window[key] = result[key];
         }
         convertActions();
         convertItems();
@@ -243,12 +252,8 @@ function fillCatalogHeader() {
 
 function convertActions() {
   if (!window.actions) {
-    window.actions = undefined;
-    return;
+    window.actions = {};
   }
-
-  window.specialOffer = {is_new: {title: "Новинка"}}; // Костыль для добавления в фильтры спецпредложений новинок:
-
   for (var key in actions) {
     var action = actions[key];
     action.begin = getDateObj(action.begin, 'yy-mm-dd');
@@ -258,34 +263,13 @@ function convertActions() {
     if (action.art_cnt_perc) {
       action.art_cnt_perc = action.art_cnt_perc.split(';').map(el => el.split(','));
     }
-    specialOffer[key] = actions[key]; // Костыль для добавления в фильтры спецпредложений новинок:
   }
+  actions.is_new = {title: "Новинка"}; // Костыль для добавления в фильтры спецпредложений новинок:
 }
 
-// Преобразование входящих данных для карточек товаров:
-
-// Фильтрация:
-// - входящих данных для страниц ЗИПа
-
-// Добавление:
-// - данных для поиска по странице
-// - данных о картинке в малой карточке
-// - данных о текущей цене
-// - общего количества
-
-// Преобразование:
-// - данных о картинках в карточке товара из строки в массив;
-// - данных для фильтров по производителю
-// - данных о годах в укороченный формат
-
-// Создание:
-// - объекта в разрезе размеров для корзины
+// Преобразование входящих данных и получение информации для фильтров и корзины:
 
 function convertItems() {
-  if (!window.items) {
-    window.items = [];
-    return;
-  }
   items.forEach(item => convertItem(item));
   // items.sort(sortBy(('catid'))); // Сортировка по id категории:
 }
@@ -296,7 +280,6 @@ function convertItem(item) {
   item.title = item.title.replace(/\s/g, ' ');
   item.isFree = item.free_qty > 0 ? '' : 'displayNone';
   item.isArrive = item.arrive_qty > 0 ? '' : 'displayNone';
-  item.isWarehouse = item.warehouse_qty > 0 ? '' : 'displayNone';
   item.isDesc = item.desc ? '' : 'displayNone';
   item.search = [item.title, item.brand, item.cat, item.subcat]; // добавление данных для поиска по странице (далее в функциях будут дополняться)
   if (item.manuf) { // преобразование данных о производителе из JSON в объект
@@ -308,11 +291,15 @@ function convertItem(item) {
       item.manuf = '';
     }
   }
+  if (item.cat === 'Винты гребные') {
+    item.screws = '1';
+  }
   addImgInfo(item);
   addActionInfo(item);
   addPriceInfo(item);
   addMarkupInfo(item);
   addSizeInfo(item);
+  getDataForFilters(item);
   addOptionsInfo(item, optnames);
   addOemInfo(item);
   addManufInfo(item);
@@ -387,7 +374,6 @@ function addSizeInfo(item) {
     size.total_qty = parseInt(size.free_qty || 0, 10) + parseInt(size.arrive_qty || 0, 10);
     size.isFree = size.free_qty > 0 ? '' : 'displayNone';
     size.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
-    size.isWarehouse = size.warehouse_qty > 0 ? '' : 'displayNone';
 
     // добавление данных для поиска по странице
     item.search.push(item.sizes[key].articul);
@@ -487,10 +473,10 @@ function addDescrInfo(item) {
 
 function addFiltersInfo(item) {
   // фильтр по доступности
-  if (item.free_qty && item.free_qty > 0) {
+  if (item.free_qty > 0) {
     item.free = '1';
   }
-  if (item.arrive_qty && item.arrive_qty > 0) {
+  if (item.arrive_qty > 0) {
     item.arrive = '1';
   }
 }
@@ -952,8 +938,7 @@ function addActionTooltip(card) {
   var id = card.dataset.action;
   if (id && actions && actions[id]) {
     var pill = getEl('.pill', card);
-    pill.dataset.tooltip = actions[id].descr ? brText(actions[id].descr) : '';
-    pill.setAttribute('text-align', 'left');
+    pill.dataset.tooltip = actions[id].descr ? actions[id].descr : '';
   }
 }
 
@@ -1265,8 +1250,9 @@ function clearFilters(event) {
 // Инициализация фильтров каталога:
 
 function initFiltersCatalog() {
-  catalogFiltersData = createCatalogFiltersData();
+  createCatalogFiltersData();
   initFilter('#filters', catalogFiltersData, selectFilterCatalog);
+  catalogFiltersData = catalogFiltersData.filters;
   getEl('#filters .pop-up-body').id = 'catalog-filters';
 }
 
@@ -1280,14 +1266,16 @@ function toggleFiltersCatalog() {
 // Проверка необходимости пунктов фильтров на странице и их обновление:
 
 function checkFiltersIsNeed() {
-  var data = JSON.parse(JSON.stringify(catalogFiltersData)).filters,
+  var data = JSON.parse(JSON.stringify(catalogFiltersData)),
       isExsist = false,
       filter;
 
   if (pageId === 'equip' && !location.search) {
     hideElement('#catalog-filters .group[data-key="cat"]');
+    hideElement('#catalog-filters .group[data-key="size"]');
   } else {
     showElement('#catalog-filters .group[data-key="cat"]');
+    showElement('#catalog-filters .group[data-key="size"]');
   }
   var brandFilter = getEl('#catalog-filters .group[data-key="brand"]');
   if (pageId === 'equip' && location.search) {

@@ -276,10 +276,6 @@ body {
   margin-right: 2.5em;
 }
 
-#main.zip .view {
-  display: none;
-}
-
 .view .title {
   margin-right: 1em;
   line-height: 0;
@@ -376,7 +372,7 @@ body {
 }
 
 #filters .pop-up {
-  margin-right: 1.428em;
+  width: 17.6em;
 }
 
 #filters .filter:last-child {
@@ -441,6 +437,10 @@ body {
   margin: 0 auto;
 }
 
+.group[data-key="color"] .switch-cont > .items {
+  margin-left: -8px;
+}
+
 .group[data-key="size"] .checkbox,
 .group[data-key="color"] .checkbox,
 .group[data-key="size"] .item .open.icon,
@@ -475,7 +475,7 @@ body {
 .group[data-key="color"] .item .text {
   width: 25px;
   height: 25px;
-  margin: 4px;
+  margin-left: 8px;
   font-size: 0px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1131,3 +1131,32 @@ body.zip .full-card .card-content {
   display: none;
 }
 
+/* =====================================================================================================
+Изображение на весь экран:
+===================================================================================================== */
+
+#full-img .carousel {
+  position: relative;
+}
+
+#full-img .carousel .left-btn,
+#full-img .carousel .right-btn {
+  top: 0;
+  height: 100%;
+  background: url(../img/slider_arrow.svg) no-repeat center;
+  /* opacity: 0.2; */
+}
+
+#full-img .carousel:hover .left-btn,
+#full-img .carousel:hover .right-btn {
+  /* opacity: 0.5; */
+}
+
+#full-img .carousel-nav {
+  bottom: 1em;
+}
+
+#full-img .carousel-nav > div {
+  width: 1em;
+  height: 1em;
+}
