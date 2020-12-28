@@ -8,7 +8,12 @@ function startCarouselInit(obj, start) {
   if (obj.length) {
     obj.forEach(el => startCarouselInit(el));
   } else {
-    return new Carousel(obj, start);
+    if (obj.id) {
+      console.log(`${obj.id}Carousel`);
+      return window[`${obj.id}Carousel`] = new Carousel(obj, start);
+    } else {
+      return new Carousel(obj, start);
+    }
   }
 }
 
