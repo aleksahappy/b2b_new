@@ -125,7 +125,6 @@ function convertData() {
   // Данные товара:
   recl.isFree = recl.item_free_qty > 0 ? '' : 'displayNone';
   recl.isArrive = recl.item_arrive_qty > 0 ? '' : 'displayNone';
-  recl.isWarehouse = recl.item_warehouse_qty > 0 ? '' : 'displayNone';
   recl.item_price = convertPrice(recl.item_price),
   recl.item = {};
   recl.item.title = recl.item_title;
