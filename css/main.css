@@ -1109,7 +1109,8 @@ input[data-type="range"] {
   min-width: 3em;
   max-height: 10em;
   padding: 0.5em 0.7em;
-  background-color: #D3D6D9;
+  color: #666666 !important;
+  background-color: #D3D6D9 !important;
   border-radius: 3px;
   text-align: left;
   overflow: hidden;
@@ -1255,7 +1256,8 @@ input[data-type="range"] {
   padding: 0.5em 0.7em;
   font-size: 12px;
   line-height: 14px;
-  background-color: #D3D6D9;
+  color: #666666 !important;
+  background-color: #D3D6D9 !important;
   border-radius: 3px;
   text-align: left;
   overflow: visible;
@@ -1291,6 +1293,11 @@ input[data-type="range"] {
   height: 7px;
   border: 7px solid transparent;
   z-index: 1001;
+}
+
+.tooltip * {
+  color: #666666 !important;
+  background-color: #D3D6D9 !important;
 }
 
 /* Позиционирование сверху: */
