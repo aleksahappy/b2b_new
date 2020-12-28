@@ -623,9 +623,6 @@ function getDataFromTotals(type) {
 // Преобразование данных о картинках:
 
 function addImgInfo(item, key = 'images') {
-  if (!item[key]) {
-    return;
-  }
   item[key] = item[key].toString().split(';');
   item.images_full = [];
   item[key].forEach(el => item.images_full.push(`https://b2b.topsports.ru/c/source/${el}.jpg`));
@@ -644,8 +641,12 @@ function addOptionsInfo(item, optnames, key = 'options') {
   }
   var options = [], title, value;
   for (var k in item[key]) {
-    if (optnames) {
-      title = optnames[k.replace('id_', '')];
+    if (k.indexOf('id_' == 0)) {
+      if (optnames) {
+        title = optnames[k.replace('id_', '')];
+      } else {
+        break;
+      }
     } else {
       title = k;
     }
@@ -733,7 +734,7 @@ function renderCarousel(carousel, curImg = 0) {
     function render(carousel) {
       var imgs = carousel.querySelectorAll('img'),
           count = imgs.length;
-      if (count === 0 || (count === 1 && imgs[0].src.indexOf('/img/no_img.jpg') >= 0)) {
+      if (count === 0 || (count === 1 && imgs[0].src.indexOf('no_img.jpg') >= 0)) {
         var parent = carousel.parentElement;
         parent.removeChild(carousel);
         parent.insertAdjacentHTML('afterbegin', '<div class="img-wrap row"><img src="../img/no_img.jpg"></div>');
@@ -1179,7 +1180,7 @@ function sortObjByKey(obj, type = 'string', sortOrder = 1) {
           break;
         case 'number':
           a = typeof a === 'string' ? parseFloat(a.toString().replace(/\s/g, '')) : a;
-          a = typeof b === 'string' ? parseFloat(a.toString().replace(/\s/g, '')) : b;
+          b = typeof b === 'string' ? parseFloat(b.toString().replace(/\s/g, '')) : b;
           result = a - b;
           break;
         case 'date':
@@ -2160,6 +2161,9 @@ function closePopUp(event, el) {
     if (el.classList.contains('filters')) {
       window.removeEventListener('resize', closeFilterPopUp);
     }
+    if (el.classList.contains('full-img-container')) {
+      document.removeEventListener('keydown', moveFullImg);
+    }
     setTimeout(() => {
       hideElement(el);
       if (!document.querySelector('.pop-up-container.open')) {
@@ -2258,7 +2262,7 @@ function openInfoCard(data) {
   loader.hide();
 }
 
-// Отображение картинки на весь экран:
+// Отображение изображения/ий на весь экран:
 
 function showFullImg(event, articul) {
   if (event.target.classList.contains('left-btn') || event.target.classList.contains('right-btn')) {
@@ -2279,7 +2283,7 @@ function showFullImg(event, articul) {
   });
 }
 
-// Открытие картинки на весь экран:
+// Открытие изображения/ий на весь экран:
 
 function openFullImg(event, data, curImg) {
   if (!data) {
@@ -2303,8 +2307,21 @@ function openFullImg(event, data, curImg) {
     if (getEl('img',fullImgContainer).src.indexOf('/img/no_img.jpg') >= 0) {
       closePopUp(null, fullImgContainer);
       alerts.show('При загрузке изображения произошла ошибка.');
+    } else {
+      document.addEventListener('keydown', moveFullImg);
     }
   });
+}
+
+// Переклчючение изображений кнопками клавиатуры:
+
+function moveFullImg(event) {
+  if (event.code.toLowerCase() == 'arrowleft') {
+    window['fullimgCarousel'].startMoveImg('prev', event);
+  }
+  if (event.code.toLowerCase() == 'arrowright') {
+    window['fullimgCarousel'].startMoveImg('next', event);
+  }
 }
 
 //=====================================================================================================
