@@ -9,28 +9,6 @@ var state = {
   'arrive': 'Ожидает поступления'
 };
 
-var use = {
-  'moto': 'Мотоцикл',
-  'quadro': 'Квадроцикл',
-  'velo': 'Велосипед',
-  'skatebord': 'Скейтборд',
-  'sneghod': 'Снегоход',
-  'snegbike': 'Сноубайк',
-  'snegbord': 'Сноуборд',
-  'gornie': 'Горные лыжи',
-  'fitness': 'Фитнесс'
-};
-
-var ages = {
-  'adult':'Взрослые',
-  'child': 'Дети'
-};
-
-var gender = {
-  'male':'Муж.',
-  'female':'Жен.'
-};
-
 var sizes = {
   '2XS': "1",
   'XS': "1",
@@ -43,31 +21,78 @@ var sizes = {
   '4XL': "1"
 };
 
-var colors = {
-  'white': 'Белый',
-  'black': 'Черный',
-  'grey': 'Серый',
-  'brown': 'Коричневый',
-  'blue': 'Синий', // нет в массиве
-  'cyan': 'Голубой',
-  'turquoise': 'Бирюзовый', // нет в массиве
-  'bordo': 'Бордовый',
-  'red': 'Красный',
-  'pink': 'Розовый',
-  'fiol': 'Фиолетовый',
-  'fuxy': 'Фуксия',
-  'green': 'Зеленый',
-  'olive': 'Оливковый', // новый
-  'yellow': 'Желтый',
-  'orange': 'Оранжевый',
-  'camo': 'Камуфляж',
-  'haki': 'Хаки',
-  'multicolor': 'Мульти',
-  'transparent': 'Прозрачный',
-  'black/pink': 'Черный/розовый',
-  'black/grey': 'Черный/серый',
-  'metallic': 'Металик', // нет в массиве
-  'graphite': 'Графитовый' // нет в массиве
+var gender = {
+  'male': 'Муж.',
+  'female': 'Жен.'
+};
+
+var catalogFiltersData = {
+  filters: {
+    action_id: {
+      title: 'Спецпредложение',
+      filter: 'checkbox',
+      items: 'actions',
+      isOpen: true
+    },
+    state: {
+      title: 'Доступность',
+      filter: 'checkbox',
+      items: 'state',
+      isOpen: true
+    },
+    cat: {
+      title: 'Категория',
+      filter: 'checkbox',
+      items: 'catsubs',
+      isOpen: true
+    },
+    brand: {
+      title: 'Бренд',
+      optKey: '12',
+      filter: 'checkbox',
+      items: {},
+      isOpen: true
+    }
+  },
+  isSave: true,
+  isVisible: true
+};
+
+if (pageId === 'equip') {
+  catalogFiltersData.filters.use = {
+    title: 'Применяемость',
+    optKey: '1254',
+    filter: 'checkbox',
+    items: {}
+  };
+  catalogFiltersData.filters.size = {
+    title: 'Размер',
+    filter: 'checkbox',
+    items: 'sizes'
+  };
+  catalogFiltersData.filters.age = {
+    title: 'Возраст',
+    optKey: '42',
+    filter: 'checkbox',
+    items: {}
+  };
+  catalogFiltersData.filters.gender = {
+    title: 'Пол',
+    filter: 'checkbox',
+    items: 'gender'
+  };
+  catalogFiltersData.filters.length = {
+    title: 'Длина, см',
+    optKey: '41',
+    filter: 'checkbox',
+    items: {}
+  };
+  catalogFiltersData.filters.color = {
+    title: 'Цвет',
+    optKey: '27',
+    filter: 'checkbox',
+    items: {}
+  };
 }
 
 //=====================================================================================================
@@ -76,17 +101,33 @@ var colors = {
 
 // Получение данных из options массива items:
 
-function getDataFromOptions(optNumb) {
-  var filter = {}, item;
-  items.forEach(el => {
-    if (el.options && el.options != 0) {
-      item = el.options[optNumb];
-      if (filter[item] === undefined) {
-        filter[item] = 1;
+function getDataForFilters(item) {
+  var needSplit = ['1254', '27'],
+      data, items, title;
+  if (item.options && item.options != 0) {
+    for (var key in catalogFiltersData.filters) {
+      data = catalogFiltersData.filters[key];
+      items = data.items;
+      if (data.optKey) {
+        title = item.options['id_' + data.optKey];
+        if (title) {
+          if (needSplit.indexOf(data.optKey) >= 0) {
+            title = title.split(',');
+            title.forEach(k => getData(k.trim()));
+          } else {
+            getData(title);
+          }
+        }
       }
     }
-  });
-  return filter;
+  }
+
+  function getData(el) {
+    if (items[el] === undefined) {
+      items[el] = '1';
+    }
+    item[el] = '1';
+  }
 }
 
 // Получение данных из переменных для пунктов фильтра:
@@ -144,58 +185,22 @@ function getTitle(key, value) {
 //=====================================================================================================
 
 function createCatalogFiltersData() {
-  var dataNames = {
-    state: 'state',
-    action_id: 'specialOffer',
-    cat: 'catsubs',
-    brand: 'brands',
-    use: 'use',
-    age: 'ages',
-    gender: 'gender',
-    size: 'sizes',
-    color: 'colors'
-  };
-
-  var data = {
-    filters: {},
-    isSave: true,
-    isVisible: true
-  }
-
-  var commonFilters = {
-    state: 'Доступность',
-    action_id: 'Спецпредложение',
-    cat: 'Категория',
-    brand: 'Бренд'
-  };
-
-  for (var key in commonFilters) {
-    data.filters[key] = {
-      title: commonFilters[key],
-      filter: 'checkbox',
-      items: createFilterItems(window[dataNames[key]]),
-      isOpen: true
-    };
-  }
-
-  if (pageId === 'equip') {
-    var equipFilters = {
-      use: 'Применяемость',
-      age: 'Возраст',
-      gender: 'Пол',
-      size: 'Размер',
-      color: 'Цвет'
+  var needSort = ['12', '1254', '41'],
+      sortType = {
+        '41': 'number'
+      },
+      data, items;
+  for (var key in catalogFiltersData.filters) {
+    data = catalogFiltersData.filters[key];
+    items = data.items;
+    if (typeof items === 'string') {
+      items = window[items];
     }
-
-    for (var key in equipFilters) {
-      data.filters[key] = {
-        title: equipFilters[key],
-        filter: 'checkbox',
-        items: createFilterItems(window[dataNames[key]]),
-      };
+    if (items && needSort.indexOf(data.optKey) >= 0) {
+      items = sortObjByKey(items, sortType[data.optKey]);
     }
+    catalogFiltersData.filters[key].items = createFilterItems(items);
   }
-  return data;
 }
 
 //=====================================================================================================
