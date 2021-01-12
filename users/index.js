@@ -125,7 +125,7 @@ function toggleAccess(event, id) {
   }
   var toggle = event.currentTarget,
       mode = toggle.classList.contains('checked') ? '0' : '1';
-  sendRequest(urlRequest.main, ' change_user_access', {id: id, mode: mode})
+  sendRequest(urlRequest.main, 'change_user_access', {id: id, mode: mode})
   .then(result => {
     result = JSON.parse(result);
     if (result.ok) {
