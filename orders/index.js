@@ -68,7 +68,7 @@ function initPage(data = []) {
         width: '10%',
         keys: ['order_number', 'order_date'],
         content: `<div class="row">
-                    #bill_link#
+                    <div class="#isBill# icon" onclick="getBill(event, #id#)"></div>
                     <div>
                       <div>#order_number#</div>
                       <div class="text light">#order_date#</div>
@@ -95,7 +95,7 @@ function initPage(data = []) {
       }, {
         title: 'ДЗ/КЗ',
         align: 'right',
-        keys: ['debt']
+        keys: ['debit_kredit']
       }, {
         title: 'Состояние товаров',
         class: 'pills',
@@ -131,13 +131,17 @@ function convertData(data) {
     if (!el.order_number) {
       el.order_status = 'В обработке';
     }
-
     var orderStatus = el.order_status.toLowerCase();
-    if (orderStatus == 'в обработке' || orderStatus == 'ожидает подтверждения' || orderStatus == 'отменен') {
-      el.bill_link = '<div class="loader icon"></div>';
+
+    if (orderStatus == 'в обработке') {
+      el.isBill = 'loader';
+    } else if (orderStatus == 'отменен') {
+      el.isBill = 'download disabled';
     } else {
-      el.bill_link = `<a class="download icon" href="https://new.topsports.ru/api.php?action=order&order_id=${el.id}&mode=bill&type=pdf""></a>`
+      el.isBill = 'download';
     }
+
+    el.debit_kredit = convertPrice(el.debit_kredit, 2);
 
     el.order_sum = convertPrice(el.order_sum, 2);
     if (!el.sum) {
@@ -168,6 +172,16 @@ function convertData(data) {
     }
     el.sum = sum;
   });
+}
+
+// Скачивание счета:
+
+function getBill(event, id) {
+  if (event.currentTarget.classList.contains('loader') || event.currentTarget.classList.contains('disabled')) {
+    return;
+  } else {
+    window.open(`https://new.topsports.ru/api.php?action=order&order_id=${id}&mode=bill&type=pdf`);
+  }
 }
 
 // Загрузка данных о накладных и открытие всплывающего окна отгрузок:

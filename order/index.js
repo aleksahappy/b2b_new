@@ -150,14 +150,14 @@ function getItemsData() {
   }
 
   var tableKeys = {
-    'nomen': ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid', 'bkma', 'paid', 'dpst'], // Номенклатура
-    'vputi': ['artc', 'titl', 'dpst', 'pric', 'kolv', 'summ', 'paid', 'kdop'], // Ожидается
-    'vnali': ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop'],  // В наличии
-    'sobrn': ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop'], // Собран
-    'otgrz': ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop', 'cods', 'harid', 'naklid', 'nakl', 'dotg', 'recl_num'], // Отгружен
-    'nedop': ['artc', 'titl', 'pric', 'kolv', 'summ', 'stat'], // Недопоставка
-    'reclm': ['reclid', 'recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'summ', 'trac'] // Рекламации
-    // 'debzd': ['artc, titl, kolv, pric, summ, dpst, paid, prcd, prcp, kdop, vdlg, recv, nakl, over, lnk, preview, titllnk'] // Дебиторская задолженность
+    nomen: ['artc', 'titl', 'pric', 'kolv', 'summ', 'skid', 'bkma', 'paid', 'dpst'], // Номенклатура
+    vputi: ['artc', 'titl', 'dpst', 'pric', 'kolv', 'summ', 'paid', 'kdop'], // Ожидается
+    vnali: ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop'],  // В наличии
+    sobrn: ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop'], // Собран
+    otgrz: ['artc', 'titl', 'pric', 'kolv', 'summ', 'paid', 'kdop', 'cods', 'harid', 'naklid', 'nakl', 'dotg', 'recl_num'], // Отгружен
+    nedop: ['artc', 'titl', 'pric', 'kolv', 'summ', 'stat'], // Недопоставка
+    reclm: ['reclid', 'recl_num', 'recl_date', 'artc', 'titl', 'pric', 'kolv', 'summ', 'trac'] // Рекламации
+    // debzd: ['artc, titl, kolv, pric, summ, dpst, paid, prcd, prcp, kdop, vdlg, recv, nakl, over, lnk, preview, titllnk'] // Дебиторская задолженность
   };
 
   var keys = data.orderitems.arlistk.split('@$'),
