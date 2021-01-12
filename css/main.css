@@ -2954,11 +2954,18 @@ form.post .btns-wrap {
 }
 
 .filters .group > .switch-cont > .items {
+  position: relative;
   overflow: hidden;
 }
 
-.filters .group > .switch-cont > .items.hide {
-  max-height: 8.5em;
+.filters .group > .switch-cont > .items.full {
+  max-height: none !important;
+}
+
+.filters .group .not-found {
+  display: none;
+  padding-top: 0.714em;
+  cursor: default;
 }
 
 .filters .group .item {
@@ -2980,7 +2987,6 @@ form.post .btns-wrap {
 }
 
 .filters .group .item.disabled .open.icon {
-  margin-left: 0.714em;
   background-position-x: left;
 }
 
@@ -3022,14 +3028,15 @@ form.post .btns-wrap {
 }
 
 .filters .group .more .open.icon {
-  background-position-x: left;
-  transform: rotate(-180deg);
+  background-position-x: right;
+
+  transform: rotate(0);
   cursor: pointer;
 }
 
-.filters .group .items.hide ~ .more .open.icon {
-  background-position-x: right;
-  transform: rotate(0);
+.filters .group .items.full ~ .more .open.icon {
+  background-position-x: left;
+  transform: rotate(-180deg);
 }
 
 .filters .search.row,
@@ -3041,7 +3048,6 @@ form.post .btns-wrap {
 .filters .btns-wrap {
   display: none;
   flex-grow: 1;
-  padding-top: 1em;
 }
 
 .filters .btn {
