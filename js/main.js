@@ -624,13 +624,9 @@ function getDataFromTotals(type) {
 
 function addImgInfo(item, key = 'images') {
   item[key] = item[key].toString().split(';');
+  item.image = item[key].length ? item[key][0] : '';
   item.images_full = [];
   item[key].forEach(el => item.images_full.push(`https://b2b.topsports.ru/c/source/${el}.jpg`));
-  if (item[key].length) {
-    item.image = `https://b2b.topsports.ru/c/productpage/${item.images[0]}.jpg`;
-  } else {
-    item.image = `../img/no_img.jpg`;
-  }
 }
 
 // Преобразование данных для создания списка характеристик:
@@ -1134,7 +1130,7 @@ function sortBy(key, type = 'text') {
       case 'text':
         return '' + value;
       case 'numb':
-        value = value.toString().replace(/\s/g, '');
+        value = parseFloat(value.toString().replace(/\s/g, ''));
         return parseFloat(value);
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
@@ -1166,7 +1162,7 @@ function sortBy(key, type = 'text') {
 
 // Сортировка объекта по ключу:
 
-function sortObjByKey(obj, type = 'string', sortOrder = 1) {
+function sortObjByKey(obj, type = 'text', sortOrder = 1) {
   var arrayObj = Object.keys(obj),
       sortedObj = {};
   arrayObj = arrayObj.sort(sortObj());
@@ -1175,10 +1171,10 @@ function sortObjByKey(obj, type = 'string', sortOrder = 1) {
     return function (a, b) {
       var result;
       switch (type) {
-        case 'string':
+        case 'text':
           result = (a < b) ? -1 : (a > b) ? 1 : 0;
           break;
-        case 'number':
+        case 'numb':
           a = typeof a === 'string' ? parseFloat(a.toString().replace(/\s/g, '')) : a;
           b = typeof b === 'string' ? parseFloat(b.toString().replace(/\s/g, '')) : b;
           result = a - b;
@@ -1484,8 +1480,10 @@ function goToOldInterface() {
     dashboard: '',
     profile: 'cabinet/',
     equip: inCart ? 'cart/' : 'ekipirovka/',
-    boats: inCart ? 'cart/' : 'zip/',
-    snow: inCart ? 'cart/' : '/zip/',
+    boats: inCart ? 'cart/' : '/lodki_i_motory/',
+    snow: inCart ? 'cart/' : '/snegohody/',
+    snowbike: inCart ? 'cart/' : '/snowbike/',
+    technics: inCart ? 'cart/' : '/technics/',
     orders: 'orders/',
     order: 'orders/order',
     reclamations: 'recl/',
@@ -2881,6 +2879,7 @@ function Search(obj, callback) {
   // Элементы для работы:
   this.obj = obj;
   this.activate = obj.closest('.activate');
+  this.group = this.obj.closest('.group');
   this.input = getEl('input[type="text"]', obj);
   this.calendar = this.input.closest('.calendar-wrap');
   this.searchBtn = getEl('.search', obj);
@@ -2890,9 +2889,14 @@ function Search(obj, callback) {
     this.items = getEl('.items', this.activate);
     this.notFound = getEl('.not-found', this.activate);
   }
+  if (this.group) {
+    this.items = getEl('.items', this.group);
+    this.notFound = getEl('.not-found', this.group);
+    this.more = getEl('.more', this.group);
+  }
 
   // Константы:
-  this.type = this.obj.closest('.box') ? 'inBox' : (this.activate && !this.obj.classList.contains('activate') ? 'inSearchBox' : 'usual');
+  this.type = this.group ? 'inGroup' : (this.activate && !this.obj.classList.contains('activate') ? 'inSearchBox' : 'usual');
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -2900,11 +2904,12 @@ function Search(obj, callback) {
 
     this.obj.addEventListener('submit', event => {
       event.preventDefault();
-      if (this.type !== 'inSearchBox') {
-        this.search();
+      if (this.type === 'inSearchBox' || (this.type === 'inGroup' && this.items)) {
+        return;
       }
+      this.search();
     });
-    if (!this.obj.classList.contains('positioned')) {
+    if (!this.obj.classList.contains('positioned') && (this.type !== 'inGroup' || this.type === 'inGroup' && !this.items)) {
       this.input.addEventListener('focus', () => {
         document.addEventListener('click', this.blurInput);
         if (this.type === 'inSearchBox') {
@@ -2916,9 +2921,7 @@ function Search(obj, callback) {
       this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
       this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
       this.input.addEventListener('input', () => this.showHints());
-      if (this.type !== 'inBox') {
-        this.items.addEventListener('click', event => this.selectHint(event));
-      }
+      this.items.addEventListener('click', event => this.selectHint(event));
     }
     if (this.cancelBtn) {
       this.cancelBtn.addEventListener('click', (event) => this.cancel(event));
@@ -2962,6 +2965,10 @@ function Search(obj, callback) {
     if (this.activate) {
       this.activate.classList.add('open');
     }
+    if (this.type === 'inGroup') {
+      this.toggleBtns();
+      this.toggleMore();
+    }
   }
 
   // Переключение подсказок:
@@ -2978,10 +2985,17 @@ function Search(obj, callback) {
         this.activate.classList.remove('open');
       }
     }
+    if (this.type === 'inGroup') {
+      this.toggleBtns();
+      this.toggleMore();
+    }
   }
 
   // Поиск по подсказке:
   this.selectHint = function(event) {
+    if (this.type === 'inGroup') {
+      return;
+    }
     var curItem = event.target.closest('.item');
     if (!curItem) {
       return;
@@ -3013,14 +3027,13 @@ function Search(obj, callback) {
       var length = callback(this.obj, textToFind);
     }
     if (this.type === 'usual') {
-      this.toggleInfo(textToFind, length);
       this.input.focus();
+      this.toggleInfo(textToFind, length);
       if (this.activate) {
         this.activate.classList.remove('open');
       }
     }
-    this.searchBtn.style.visibility = 'hidden';
-    this.cancelBtn.style.visibility = 'visible';
+    this.toggleBtns();
   }
 
   // Очистка поля поиска:
@@ -3028,9 +3041,8 @@ function Search(obj, callback) {
     this.input.value = '';
     this.input.dataset.value = '';
     this.toggleHints();
+    this.toggleBtns();
     this.toggleInfo();
-    this.cancelBtn.style.visibility = 'hidden';
-    this.searchBtn.style.visibility = 'visible';
   }
 
   // Сброс поиска:
@@ -3041,6 +3053,32 @@ function Search(obj, callback) {
     this.clear();
     if (callback) {
       callback(this.obj);
+    }
+  }
+
+  // Перключение кнопок поиска и сброса:
+  this.toggleBtns = function() {
+    var textToFind = this.input.value.trim();
+    if (!/\S/.test(textToFind)) {
+      this.cancelBtn.style.visibility = 'hidden';
+      this.searchBtn.style.visibility = 'visible';
+    } else {
+      this.searchBtn.style.visibility = 'hidden';
+      this.cancelBtn.style.visibility = 'visible';
+    }
+  }
+
+  // Отображение/скрытие кнопки "Больше/меньше":
+  this.toggleMore = function() {
+    var maxHeight = this.items.style.maxHeight;
+    if (!maxHeight) {
+      return;
+    }
+    maxHeight = Math.round((parseFloat(maxHeight, 10) * parseFloat(window.getComputedStyle(this.items).fontSize, 10)) * 100) / 100;
+    if (this.items.scrollHeight < maxHeight) {
+      hideElement(this.more);
+    } else {
+      showElement(this.more, 'flex');
     }
   }
 
@@ -3256,13 +3294,14 @@ function DropDown(obj, handler, data, defaultValue) {
 
   // Поиск значения:
   this.searchValue = (search, textToFind) => {
-    if (this.items) {
-      this.items.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+    var group = search.closest('.group');
+    if (getEl('.items', group)) {
+      return;
     }
     var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
     this.changeTitle(newTitle);
     this.writeValue(textToFind);
-    search.closest('.group').dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
+    group.dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
   }
 
   // Выбор значения из списка:
@@ -3272,9 +3311,6 @@ function DropDown(obj, handler, data, defaultValue) {
     }
     if (!curItem) {
       return;
-    }
-    if (this.type === 'box' && this.search && this.search.input.dataset.value) {
-      this.search.clear();
     }
     var value;
     if (this.obj.classList.contains('select')) {
@@ -3474,10 +3510,11 @@ function createFilter(area, settings) {
             maxHeight = 'none';
         if (isMore) {
           isMore = isMore === true ? 4 : isMore;
-          maxHeight = 2.125 * Number(isMore) + 'em';
+          maxHeight = 2.1 * Number(isMore) + 'em';
         }
         content +=
-        `<div class="items" style="max-height: ${maxHeight}">
+        `<div class="not-found"">Совпадений не найдено</div>
+        <div class="items" style="max-height: ${maxHeight}">
           ${fillFilterItems(filter, items)}
         </div>`;
         if (isMore) {
@@ -3579,7 +3616,7 @@ function fillFilterItems(type, data) {
             <div class="open icon switch-icon" onclick="switchContent(event)"></div>
           </div>
           <div class="items switch-cont" data-key="${el.key || ''}">
-           ${fillFilterItems(type, el.items)}
+            ${fillFilterItems(type, el.items)}
           </div>
         </div>`
       } else {
@@ -3612,9 +3649,7 @@ function Filter(obj, handler) {
     if (this.openBtn) {
       this.openBtn.addEventListener('click', () => openPopUp(this.filter));
     }
-    if (handler) {
-      this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => handler(event)));
-    }
+    this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.toggleItem(event)));
     this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
   }
 
@@ -3649,21 +3684,73 @@ function Filter(obj, handler) {
     }
   }
 
-  // Отображение/скрытие больше значений фильтра :
+  // Отображение/скрытие значений фильтра:
   this.toggleMore = function(event) {
     var items = event.currentTarget.previousElementSibling;
-    if (items.classList.contains('hide')) {
-      items.classList.remove('hide');
-      event.currentTarget.firstElementChild.textContent = 'Меньше';
-    } else {
-      items.classList.add('hide');
+    if (items.classList.contains('full')) {
+      items.classList.remove('full');
       event.currentTarget.firstElementChild.textContent = 'Больше';
+    } else {
+      items.classList.add('full');
+      event.currentTarget.firstElementChild.textContent = 'Меньше';
     }
+  }
+
+  // Работа со значениями фильтра:
+  this.toggleItem = function(event) {
+    if (event.target.classList.contains('switch-icon')) {
+      return;
+    }
+    var group = event.currentTarget,
+        curEl = event.target.closest('.item');
+    if (!curEl || curEl.classList.contains('disabled')) {
+      return;
+    }
+    if (curEl.classList.contains('checked')) {
+      curEl.classList.remove('checked');
+      curEl.classList.add('close');
+      curEl.querySelectorAll('.item.checked').forEach(subItem => subItem.classList.remove('checked'));
+    } else {
+      curEl.classList.add('checked');
+      curEl.classList.remove('close');
+      var parentItem = curEl.closest('.items').closest('.item');
+      if (parentItem && !parentItem.classList.contains('checked')) {
+        parentItem.classList.add('checked');
+        parentItem.classList.remove('close');
+      }
+      group.classList.remove('close');
+      if (curEl.offsetTop + 10 > curEl.closest('.items').clientHeight) {
+        curEl.closest('.items').classList.add('full');
+      }
+    }
+    if (handler) {
+      var length = handler(group, curEl);
+    }
+    this.toggleBtns(length);
+  }
+
+  // Работа с поисками фильтра:
+  this.searchValue = (search, textToFind) => {
+    var group = search.closest('.group');
+    if (getEl('.items', group)) {
+      return;
+    }
+    if (handler) {
+      var length = handler(group, getEl('input', search));
+    }
+    this.toggleBtns(length);
+  }
+
+  // Переключение кнопок фильтра:
+  this.toggleBtns = function(length) {
+
   }
 
   // Инициализация блока фильтров:
   this.init = function() {
     this.setEventListeners();
+    this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
+    this.filter.querySelectorAll('form.search').forEach(el => initSearch(el, this.searchValue));
     this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
