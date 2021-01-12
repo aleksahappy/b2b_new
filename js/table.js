@@ -870,27 +870,36 @@ function Table(obj, settings = {}) {
   }
 
   // Запуск сортировки, поиска и фильтрации по столбцу:
-  this.changeData = event => {
-    var type = event.detail;
-    if (type === 'sort') {
-      this.sortData(event);
+  this.startChangeData = event => {
+    if (event.target.classList.contains('item')) {
+      this.changeData(event.target);
     } else {
-      this.filterData(event, type);
+      this.changeData(getEl('input', event.target));
     }
   }
 
-  // Сортировка по столбцу:
-  this.sortData = function(event) {
-    var group = getEl('.group.sort', event.currentTarget),
-        type = group.dataset.type,
+  // Cортировка, поиск и фильтрация по ключу:
+  this.changeData = function(curEl) {
+    var group = curEl.closest('.group');
+    if (group.classList.contains('sort')) {
+      this.sortData(curEl, group);
+    } else {
+      this.filterData(curEl, group);
+    }
+    return this.dataToLoad.length;
+  }
+
+  // Сортировка по ключу:
+  this.sortData = function(curEl, group) {
+    var type = group.dataset.type,
         key = group.dataset.key;
-        key = event.target.classList.contains('down') ? key : '-' + key;
+        key = curEl.classList.contains('down') ? key : '-' + key;
     this.head.querySelectorAll('.sort.checked').forEach(el => {
-      if (el !== event.target) {
+      if (el !== curEl) {
         el.classList.remove('checked');
       }
     });
-    if (event.target.classList.contains('checked')) {
+    if (curEl.classList.contains('checked')) {
       this.data.sort(sortBy(key, type));
       this.dataToLoad.sort(sortBy(key, type));
     } else {
@@ -902,19 +911,20 @@ function Table(obj, settings = {}) {
   }
 
   // Поиск и фильтрация по ключу:
-  this.filterData = function(event, type) {
+  this.filterData = function(curEl, group) {
     if (this.search) {
       this.search.clear();
     }
-    var key = event.target.closest('[data-key]').dataset.key,
+    var type = curEl.closest('.item') ? 'filter' : 'search',
+        key = group.dataset.key,
         value,
         action;
     if (type === 'search') {
-      value = event.target.closest('.activate').value,
-      action = value ? 'save' : 'remove';
+      value = curEl.value.trim(),
+      action = !/\S/.test(value) ? 'remove' : 'save';
     } else if (type === 'filter') {
-      value = event.target.dataset.value,
-      action = event.target.classList.contains('checked') ? 'save' : 'remove';
+      value = curEl.dataset.value,
+      action = curEl.classList.contains('checked') ? 'save' : 'remove';
     }
     var oldFilters = JSON.stringify(this.filters);
     this.changeFilter(action, type, key, value);
@@ -997,9 +1007,6 @@ function Table(obj, settings = {}) {
     for (var value of filterValues) {
       if (type === 'search') {
         var regExp = getRegExp(value);
-        if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(itemValue)) {
-          itemValue = itemValue.replace(/\s/g, '').replace('.', ',');
-        }
         if (findByRegExp(itemValue, regExp)) {
           isFound = true;
         }
@@ -1079,7 +1086,7 @@ function Table(obj, settings = {}) {
       this.search = initSearch(this.search, this.fullSearch);
     }
     if (this.dropDowns) {
-      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.changeData));
+      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.startChangeData));
     }
     this.prepare();
     this.setEventListeners();
