@@ -201,6 +201,7 @@
 
   #zip-filters > .items {
     padding: 0.714em 2.5em;
+    padding-bottom: 1em;
   }
 
   .gallery-head,
@@ -276,7 +277,7 @@
   }
 
   body.zip .big-card {
-    height: 18em;
+    height: 19em;
   }
 
   body.zip .big-card .carousel,
@@ -348,6 +349,20 @@
     justify-content: flex-end;
     flex-grow: 1;
   }
+
+  body.zip .full-card .card-sizes {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  body.zip .full-card .select-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 1em;
+  }
 }
 
 /* Стили на ширину от 0 до 768px включительно: */
@@ -397,6 +412,10 @@
     display: none;
   }
 
+  body:not(.zip) .full-card .card-price {
+    margin-bottom: 0;
+  }
+
   .full-card .card-options.desk {
     display: none;
   }
@@ -432,6 +451,7 @@
 
   #zip-filters > .items {
     padding: 0.714em 1.428em;
+    padding-bottom: 1em;
   }
 
   .full-card .pop-up-title {
@@ -443,10 +463,6 @@
   .full-card .card-content {
     padding-left: 1.5em;
     padding-right: 1.5em;
-  }
-
-  .full-card .card-price {
-    margin-bottom: 0;
   }
 
   .full-card .card-body {

@@ -396,9 +396,17 @@ body {
   width: 100%;
 }
 
-#zip-filters:not(.close) {
-  margin-bottom: 0.5em;
+body#snowbike #oem {
+  display: none;
+}
+
+#zip-filters {
+  margin-bottom: 1px;
   padding: 0;
+}
+
+#zip-filters.close {
+  margin-bottom: 0;
 }
 
 #zip-filters > .title {
@@ -408,6 +416,7 @@ body {
 #zip-filters > .items {
   background-color: #F9BA4D;
   padding: 0.714em;
+  padding-bottom: 1em;
 }
 
 #zip-filters .activate {
@@ -427,8 +436,8 @@ body {
 Стили для фильтров каталога:
 ===================================================================================================== */
 
-.group[data-key="size"] .switch-cont > .items,
-.group[data-key="color"] .switch-cont > .items {
+.group[data-key^="size"] .switch-cont > .items,
+.group[data-key^="color"] .switch-cont > .items {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -437,19 +446,19 @@ body {
   margin: 0 auto;
 }
 
-.group[data-key="color"] .switch-cont > .items {
+.group[data-key^="color"] .switch-cont > .items {
   margin-left: -8px;
 }
 
-.group[data-key="size"] .checkbox,
-.group[data-key="color"] .checkbox,
-.group[data-key="size"] .item .open.icon,
-.group[data-key="color"] .item .open.icon {
+.group[data-key^="size"] .checkbox,
+.group[data-key^="color"] .checkbox,
+.group[data-key^="size"] .item .open.icon,
+.group[data-key^="color"] .item .open.icon {
   display: none;
 }
 
-.group[data-key="size"] .text {
-  width: 2.75em;
+.group[data-key^="size"] .text {
+  width: 2.7em;
   padding: 0;
   font-size: 0.857em;
   line-height: 1.4;
@@ -466,13 +475,13 @@ body {
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.group[data-key="size"] .item.checked .text {
+.group[data-key^="size"] .item.checked .text {
   color: #FFFFFF;
   background-color: #F05A28;
   border: 1px solid #F05A28;
 }
 
-.group[data-key="color"] .item .text {
+.group[data-key^="color"] .item .text {
   width: 25px;
   height: 25px;
   margin-left: 8px;
@@ -482,145 +491,110 @@ body {
   cursor: pointer;
 }
 
-.group[data-key="color"] .item:hover .text {
+.group[data-key^="color"] .item:hover .text {
   transform: scale(1.12, 1.12);
 }
 
-.group[data-key="color"] .item.checked .text {
+.group[data-key^="color"] .item.checked .text {
   background-position-x: -25px;
 }
 
-.group[data-key="color"] .item.disabled .text {
+.group[data-key^="color"] .item[data-value] .text {
   display: none;
 }
 
-.group[data-key="color"] .item[data-value="Белый"] .text,
-.group[data-key="color"] .item[data-value="white"] .text {
+.group[data-key^="color"] .item[data-value="Белый"] .text,
+.group[data-key^="color"] .item[data-value="white"] .text {
+  display: block;
   background-image: url(../img/colors/color_white.png);
 }
 
-.group[data-key="color"] .item[data-value="Черный"] .text,
-.group[data-key="color"] .item[data-value="black"] .text {
+.group[data-key^="color"] .item[data-value="Черный"] .text,
+.group[data-key^="color"] .item[data-value="black"] .text {
+  display: block;
   background-image: url(../img/colors/color_black.png);
 }
 
-.group[data-key="color"] .item[data-value="Серый"] .text,
-.group[data-key="color"] .item[data-value="grey"] .text {
+.group[data-key^="color"] .item[data-value="Серый"] .text,
+.group[data-key^="color"] .item[data-value="grey"] .text {
+  display: block;
   background-image: url(../img/colors/color_gray.png);
 }
 
-.group[data-key="color"] .item[data-value="Коричневый"] .text,
-.group[data-key="color"] .item[data-value="brown"] .text {
+.group[data-key^="color"] .item[data-value="Коричневый"] .text,
+.group[data-key^="color"] .item[data-value="brown"] .text {
+  display: block;
   background-image: url(../img/colors/color_brown.png);
 }
 
-.group[data-key="color"] .item[data-value="Синий"] .text,
-.group[data-key="color"] .fitem[data-value="blue"] .text {
+.group[data-key^="color"] .item[data-value="Синий"] .text,
+.group[data-key^="color"] .fitem[data-value="blue"] .text {
+  display: block;
   background-image: url(../img/colors/color_blue.png);
 }
 
-.group[data-key="color"] .item[data-value="Голубой"] .text,
-.group[data-key="color"] .item[data-value="cyan"] .text {
+.group[data-key^="color"] .item[data-value="Голубой"] .text,
+.group[data-key^="color"] .item[data-value="cyan"] .text {
+  display: block;
   background-image: url(../img/colors/color_lightblue.png);
 }
 
-.group[data-key="color"] .item[data-value="Бирюзовый"] .text,
-.group[data-key="color"] .item[data-value="turquoise"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Бордовый"] .text,
-.group[data-key="color"] .item[data-value="bordo"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Красный"] .text,
-.group[data-key="color"] .item[data-value="red"] .text {
+.group[data-key^="color"] .item[data-value="Красный"] .text,
+.group[data-key^="color"] .item[data-value="red"] .text {
+  display: block;
   background-image: url(../img/colors/color_red.png);
 }
 
-.group[data-key="color"] .item[data-value="Розовый"] .text,
-.group[data-key="color"] .item[data-value="pink"] .text {
+.group[data-key^="color"] .item[data-value="Розовый"] .text,
+.group[data-key^="color"] .item[data-value="pink"] .text {
+  display: block;
   background-image: url(../img/colors/color_pink.png);
 }
 
-.group[data-key="color"] .item[data-value="Фиолетовый"] .text,
-.group[data-key="color"] .item[data-value="fiol"] .text {
+.group[data-key^="color"] .item[data-value="Фиолетовый"] .text,
+.group[data-key^="color"] .item[data-value="fiol"] .text {
+  display: block;
   background-image: url(../img/colors/color_purple.png);
 }
 
-.group[data-key="color"] .item[data-value="Фуксия"] .text,
-.group[data-key="color"] .item[data-value="fuxy"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Зеленый"] .text,
-.group[data-key="color"] .item[data-value="green"] .text {
+.group[data-key^="color"] .item[data-value="Зеленый"] .text,
+.group[data-key^="color"] .item[data-value="green"] .text {
+  display: block;
   background-image: url(../img/colors/color_green.png);
 }
 
-.group[data-key="color"] .item[data-value="Оливковый"] .text,
-.group[data-key="color"] .item[data-value="olive"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Желтый"] .text,
-.group[data-key="color"] .item[data-value="yellow"] .text {
+.group[data-key^="color"] .item[data-value="Желтый"] .text,
+.group[data-key^="color"] .item[data-value="yellow"] .text {
+  display: block;
   background-image: url(../img/colors/color_yellow.png);
 }
 
-.group[data-key="color"] .item[data-value="Оранжевый"] .text,
-.group[data-key="color"] .item[data-value="orange"] .text {
+.group[data-key^="color"] .item[data-value="Оранжевый"] .text,
+.group[data-key^="color"] .item[data-value="orange"] .text {
+  display: block;
   background-image: url(../img/colors/color_orange.png);
 }
 
-.group[data-key="color"] .item[data-value="Камуфляж"] .text,
-.group[data-key="color"] .item[data-value="camo"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Хаки"] .text,
-.group[data-key="color"] .item[data-value="haki"] .text {
+.group[data-key^="color"] .item[data-value="Хаки"] .text,
+.group[data-key^="color"] .item[data-value="haki"] .text {
+  display: block;
   background-image: url(../img/colors/color_khaki.png);
 }
 
-.group[data-key="color"] .item[data-value="Мульти"] .text,
-.group[data-key="color"] .item[data-value="multicolor"] .text {
+.group[data-key^="color"] .item[data-value="Мульти"] .text,
+.group[data-key^="color"] .item[data-value="multicolor"] .text {
+  display: block;
   background-image: url(../img/colors/color_colorful.png);
 }
 
-.group[data-key="color"] .item[data-value="Прозрачный"] .text,
-.group[data-key="color"] .item[data-value="transparent"] .text {
+.group[data-key^="color"] .item[data-value="Прозрачный"] .text,
+.group[data-key^="color"] .item[data-value="transparent"] .text {
+  display: block;
   background-image: url(../img/colors/color_transparent.png);
 }
 
-.group[data-key="color"] .item[data-value="Черный/розовый"] .text,
-.group[data-key="color"] .item[data-value="black/pink"] .text {
+.group[data-key^="color"] .item[data-value].disabled .text {
   display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Черный/серый"] .text,
-.group[data-key="color"] .item[data-value="black/grey"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Металик"] .text,
-.group[data-key="color"] .item[data-value="metallic"] .text{
-  display: none;
-  /* background-image: url(../img/colors); */
-}
-
-.group[data-key="color"] .item[data-value="Графитовый"] .text,
-.group[data-key="color"] .item[data-value="graphite"] .text {
-  display: none;
-  /* background-image: url(../img/colors); */
 }
 
 /* =====================================================================================================
@@ -1070,6 +1044,16 @@ body.zip .full-card .card-content {
   border-bottom: none;
 }
 
+body.zip .full-card .select-info {
+  width: auto;
+  padding-bottom: 0;
+  line-height: 1.8;
+}
+
+body.zip  .full-card .card-body {
+  padding-top: 0;
+}
+
 .full-card .manuf-table {
   min-width: 100%;
   max-width: 100%;
@@ -1103,6 +1087,19 @@ body.zip .full-card .card-content {
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.full-card .manuf-table td {
+  vertical-align: top;
+}
+
+body#snowbike .full-card .manuf-table th:nth-child(1),
+body#snowbike .full-card .manuf-table td:nth-child(1) {
+  display: none;
+}
+
+.full-card .manuf-table th:nth-child(2) {
+  min-width: 8em;
 }
 
 .full-card .card-info > .card-details .info {

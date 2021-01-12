@@ -16,5 +16,17 @@
     "title": "Снегоходы",
     "qty": 0,
     "sum": 0
+  },
+  {
+    "id": "snowbike",
+    "title": "Сноубайки",
+    "qty": 1,
+    "sum": 355061
+  },
+  {
+    "id": "technics",
+    "title": "Техника",
+    "qty": 0,
+    "sum": 0
   }
 ]
