@@ -53,13 +53,13 @@ function fillCatalogFilters() {
   catalogFiltersData.filters.action_id = {
     title: 'Спецпредложение',
     filter: 'checkbox',
-    items: actions,
+    items: window.actions || [],
     isOpen: true
   };
   catalogFiltersData.filters.state = {
     title: 'Доступность',
     filter: 'checkbox',
-    items: state,
+    items: window.state || [],
     isOpen: true
   };
 
@@ -80,13 +80,14 @@ function fillCatalogFilters() {
   catalogFiltersData.filters.cat = {
     title: 'Категория',
     filter: 'checkbox',
-    items: catsubs,
+    items: window.catsubs || [],
     isOpen: true
   };
   catalogFiltersData.filters.brand = {
     title: 'Бренд',
+    search: 'usual',
     filter: 'checkbox',
-    items: brands,
+    items: window.brands || [],
     isMore: true
   };
 
@@ -103,60 +104,81 @@ function fillCatalogFilters() {
     catalogFiltersData.filters.use = {
       title: 'Применяемость',
       filter: 'checkbox',
-      items: use,
+      items: window.use || [],
       isMore: true
     };
     catalogFiltersData.filters.sizeREU = {
+      title: 'Все европейские размеры',
+      filter: 'checkbox',
+      itemsSort: 'numb',
+      items: window.sizelist['1252'] || [] // Размер для фильтров
+    };
+
+    catalogFiltersData.filters.size = {
       title: 'Размер',
-      filter: 'checkbox',
-      itemsSort: 'numb',
-      items: sizelist['1252'] // Размер для фильтров
-    };
-    catalogFiltersData.filters.sizeSV = {
-      title: 'Размер стельки',
-      filter: 'checkbox',
-      itemsSort: 'numb',
-      items: sizeSV // Длина стельки взрослый
-    };
-    catalogFiltersData.filters.size1260 = {
-      filter: 'checkbox',
-      optKey: '1260', // Размер взрослый
-      optSplit: ',',
-      optPrefix: 'REUA',
-      itemsSort: 'numb',
-      items: {}
-    };
-    catalogFiltersData.filters.size60 = {
-      filter: 'checkbox',
-      optKey: '60', // Размер детский
-      optSplit: ',',
-      optPrefix: 'REUC',
-      itemsSort: 'numb',
-      items: {}
-    };
-    catalogFiltersData.filters.size1273 = {
-      filter: 'checkbox',
-      optKey: '1273', // Размер американский взрослый
-      optSplit: ',',
-      optPrefix: 'RAMA',
-      itemsSort: 'numb',
-      items: {}
-    };
-    catalogFiltersData.filters.size1274 = {
-      filter: 'checkbox',
-      optKey: '1274', // Размер американский детский
-      optSplit: ',',
-      optPrefix: 'RAMC',
-      itemsSort: 'numb',
-      items: {}
-    };
-    catalogFiltersData.filters.size1295 = {
-      filter: 'checkbox',
-      optKey: '1295', // Длина стельки взрослый
-      optSplit: ',',
-      optPrefix: 'ILA',
-      itemsSort: 'numb',
-      items: {}
+      mode: {EU: 'Европейский размер', US: 'Американский размер', cm: 'Длина стельки, см'},
+      section: {
+        size1260: {
+          title: 'Взрослый',
+          mode: 'EU',
+          filter: 'checkbox',
+          optKey: '1260', // Размер взрослый
+          optSplit: ',',
+          optPrefix: 'EUA',
+          itemsSort: 'numb',
+          items: {}
+        },
+        size60: {
+          title: 'Детский',
+          mode: 'EU',
+          filter: 'checkbox',
+          optKey: '60', // Размер детский
+          optSplit: ',',
+          optPrefix: 'EUC',
+          itemsSort: 'numb',
+          items: {}
+        },
+        size1273: {
+          title: 'Взрослый',
+          mode: 'US',
+          filter: 'checkbox',
+          optKey: '1273', // Размер американский взрослый
+          optSplit: ',',
+          optPrefix: 'USA',
+          itemsSort: 'numb',
+          items: {}
+        },
+        size1274: {
+          title: 'Детский',
+          mode: 'US',
+          filter: 'checkbox',
+          optKey: '1274', // Размер американский детский
+          optSplit: ',',
+          optPrefix: 'USC',
+          itemsSort: 'numb',
+          items: {}
+        },
+        size1295: {
+          title: 'Взрослый',
+          mode: 'cm',
+          filter: 'checkbox',
+          optKey: '1295', // Длина стельки взрослый
+          optSplit: ',',
+          optPrefix: 'CMA',
+          itemsSort: 'numb',
+          items: {}
+        },
+        size1313: {
+          title: 'Детский',
+          mode: 'cm',
+          filter: 'checkbox',
+          optKey: '1295', // Длина стельки детский
+          optSplit: ',',
+          optPrefix: 'CVC',
+          itemsSort: 'numb',
+          items: {}
+        }
+      }
     };
     catalogFiltersData.filters.age = {
       filter: 'checkbox',
@@ -250,21 +272,33 @@ function fillCatalogFilters() {
 // Получение данных из options массива items:
 
 function getDataForFilters(item) {
-  var data, items, title;
+  var filter, data, items, option;
   if (item.options && item.options != 0) {
-    for (var key in catalogFiltersData.filters) {
-      data = catalogFiltersData.filters[key];
-      items = data.items;
-      if (data.optKey) {
-        title = item.options[(pageId === 'equip' ? 'id_' : '') + data.optKey];
-        if (title) {
-          if (data.optSplit) {
-            title = title.split(data.optSplit);
-            title.forEach(k => getData(k.trim()));
-          } else {
-            getData(title);
-          }
+    for (var k in catalogFiltersData.filters) {
+      filter = catalogFiltersData.filters[k];
+      if (filter.section) {
+        for (var kk in filter.section) {
+          data = filter.section[kk];
+          getOpt();
         }
+      } else {
+        data = filter;
+        getOpt();
+      }
+    }
+  }
+  function getOpt() {
+    if (!data.optKey) {
+      return;
+    }
+    items = data.items;
+    option = item.options[(pageId === 'equip' ? 'id_' : '') + data.optKey];
+    if (option) {
+      if (data.optSplit) {
+        option = option.split(data.optSplit);
+        option.forEach(k => getData(k.trim()));
+      } else {
+        getData(option);
       }
     }
   }
@@ -354,21 +388,33 @@ function getTitle(key, value) {
 //=====================================================================================================
 
 function createCatalogFiltersData() {
-  var filter, items;
-  for (var key in catalogFiltersData.filters) {
-    filter = catalogFiltersData.filters[key];
-    items = filter.items;
-    if (!filter.title) {
-      if (filter.optKey && optnames) {
-        filter.title = optnames[filter.optKey];
+  var filter, data, items;
+  for (var k in catalogFiltersData.filters) {
+    filter = catalogFiltersData.filters[k];
+    if (filter.section) {
+      for (var kk in filter.section) {
+        data = filter.section[kk];
+        create();
       }
-      filter.title = filter.title || '';
+    } else {
+      data = filter;
+      create();
+    }
+  }
+
+  function create() {
+    items = data.items;
+    if (!data.title) {
+      if (data.optKey && optnames) {
+        data.title = optnames[data.optKey];
+      }
+      data.title = data.title || '';
     }
     items = createFilterItems(items);
-    if (items && filter.itemsSort) {
-      items.sort(sortBy('title', filter.itemsSort));
+    if (items && data.itemsSort) {
+      items.sort(sortBy('title', data.itemsSort));
     }
-    catalogFiltersData.filters[key].items = items;
+    data.items = items;
   }
 }
 
