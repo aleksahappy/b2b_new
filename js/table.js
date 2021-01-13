@@ -921,7 +921,7 @@ function Table(obj, settings = {}) {
         action;
     if (type === 'search') {
       value = curEl.value.trim(),
-      action = !/\S/.test(value) ? 'remove' : 'save';
+      action = /\S/.test(value) ? 'save' : 'remove';
     } else if (type === 'filter') {
       value = curEl.dataset.value,
       action = curEl.classList.contains('checked') ? 'save' : 'remove';

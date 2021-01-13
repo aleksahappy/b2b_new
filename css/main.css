@@ -2908,34 +2908,79 @@ form.post .btns-wrap {
   margin-top: -5px;
 }
 
-.filters .group {
+.filters .pop-up-body > .switch {
   background-color: #FFFFFF;
   padding-bottom: 0.714em;
 }
 
-.filters .group.close {
+.filters .pop-up-body > .switch.close {
   padding-bottom: 0;
   margin-bottom: 1px;
 }
 
-.filters .group.close:last-child {
+.filters .pop-up-body > .switch.close:last-child {
   margin-bottom: 0;
 }
 
-.filters .group > .title.row {
+.filters .pop-up-body > .switch > .title.row {
   justify-content: space-between;
   padding: 0.357em 0.714em;
   background-color: #B3BAC2;
   cursor: pointer;
 }
 
-.filters .group > .title.row .open.icon {
-  width: 12px;
+.filters .pop-up-body > .switch > .title.row .mode {
+  display: inline-block;
+  margin-left: 1em;
+  font-size: 0.75em;
+  color: #B3BAC2;
+  background-color: #FFFFFF;
+  border-radius: 3px;
+  border: 1px solid #B3BAC2;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.filters .pop-up-body > .switch > .title.row .mode span {
+  display: inline-block;
+  padding: 0 0.5em;
+  border-right: 1px solid #B3BAC2;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.filters .pop-up-body > .switch > .title.row .mode span.active {
+  background-color: #34495E;
+  border-right: 1px solid #34495E;
+}
+
+.filters .pop-up-body > .switch > .title.row .mode span:last-child {
+  border-right: none;
+}
+
+.filters .pop-up-body > .switch > .title.row .open.icon {
+  width: 16px;
   height: 7px;
 }
 
-.filters .group > .switch-cont {
+.filters .pop-up-body > .switch > .switch-cont {
   padding: 0 0.714em;
+}
+
+.filters .switch .row {
+  align-items: center;
+}
+
+.filters .group[data-mode] {
+  display: none;
+}
+
+.filters .group[data-mode].active {
+  display: block;
+}
+
+.filters .group > .title:not(.row) {
+  padding-top: 0.714em;
 }
 
 .filters .group > .switch-cont .open.icon {
@@ -2944,21 +2989,17 @@ form.post .btns-wrap {
   background-size: 10px 5px;
 }
 
-.filters .group .row {
-  align-items: center;
-}
-
 .filters .group .search.row,
 .filters .group .calendar-wrap {
   margin-top: 0.714em;
 }
 
-.filters .group > .switch-cont > .items {
+.filters .group > .content > .items {
   position: relative;
   overflow: hidden;
 }
 
-.filters .group > .switch-cont > .items.full {
+.filters .group > .content > .items.full {
   max-height: none !important;
 }
 
@@ -2984,10 +3025,6 @@ form.post .btns-wrap {
 
 .filters .group .item.disabled .icon {
   cursor: default;
-}
-
-.filters .group .item.disabled .open.icon {
-  background-position-x: left;
 }
 
 .filters .group .item > .row {

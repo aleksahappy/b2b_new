@@ -205,7 +205,7 @@ body {
 }
 
 .clear-filter.btn {
-  width: 18em;
+  width: 17.6em;
   padding: 0.215em 1.5em;
   margin-bottom: 0.714em;
 }
@@ -436,8 +436,8 @@ body#snowbike #oem {
 Стили для фильтров каталога:
 ===================================================================================================== */
 
-.group[data-key^="size"] .switch-cont > .items,
-.group[data-key^="color"] .switch-cont > .items {
+.group[data-key^="size"] .content > .items,
+.group[data-key^="color"] .content > .items {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -446,7 +446,7 @@ body#snowbike #oem {
   margin: 0 auto;
 }
 
-.group[data-key^="color"] .switch-cont > .items {
+.group[data-key^="color"] .content > .items {
   margin-left: -8px;
 }
 
@@ -459,7 +459,7 @@ body#snowbike #oem {
 
 .group[data-key^="size"] .text {
   width: 2.7em;
-  padding: 0;
+  padding: 0 2px;
   font-size: 0.857em;
   line-height: 1.4;
   border: 1px solid #B3B3B3;
@@ -467,6 +467,9 @@ body#snowbike #oem {
   text-transform: uppercase;
   text-align: center;
   margin-right: 0.417em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -481,11 +484,15 @@ body#snowbike #oem {
   border: 1px solid #F05A28;
 }
 
+.group[data-key^="color"] .item {
+  padding-top: 0;
+}
+
 .group[data-key^="color"] .item .text {
   width: 25px;
   height: 25px;
-  margin-left: 8px;
-  font-size: 0px;
+  margin: 0.714em 0 3px 8px;
+  color: transparent;
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
