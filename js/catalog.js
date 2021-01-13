@@ -84,11 +84,6 @@ var menuContent = {
     title: 'Сноубайки',
     id: 'snowbike',
     cats: []
-  },
-  technics: {
-    title: 'Техника',
-    id: 'technics',
-    cats: []
   }
 };
 
@@ -136,7 +131,7 @@ function startCatalogPage() {
       }
     )
     .catch(error => {
-      // console.log(error);
+      console.log(error);
       loader.hide();
       alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
     })
@@ -262,9 +257,9 @@ function convertActions() {
   }
   for (var key in actions) {
     var action = actions[key];
-    action.begin = getDateObj(action.begin, 'yy-mm-dd');
+    action.begin = getDateObj(action.begin,);
     action.begin.setHours(0, 0, 1);
-    action.expire = getDateObj(action.expire, 'yy-mm-dd');
+    action.expire = getDateObj(action.expire);
     action.expire.setHours(23, 59, 59);
     if (action.art_cnt_perc) {
       action.art_cnt_perc = action.art_cnt_perc.split(';').map(el => el.split(','));
@@ -825,14 +820,14 @@ function toggleEventListeners(toggle) {
 // Запуск обработчиков событий при скролле:
 
 function scrollActs() {
-  setFiltersHeight();
+  setFiltersPosition();
   scrollGallery();
 }
 
 // Запуск обработчиков событий при ресайзе:
 
 function resizeActs() {
-  setFiltersHeight();
+  setFiltersPosition();
   setMinCardWidth()
   setView();
   scrollGallery();
@@ -852,8 +847,8 @@ function showCards() {
   }
   setDocumentScroll(0,0);
   setMinCardWidth();
-  setFiltersHeight();
-  toggleFilterBtns();
+  setFiltersPosition();
+  toggleCatalogFilterBtns();
 }
 
 // Добавление новых карточек при скролле страницы:
@@ -945,7 +940,7 @@ function loadCards(cards) {
       addActionTooltip(card);
     });
   }
-  setFiltersHeight();
+  setFiltersPosition();
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1320,7 +1315,7 @@ function checkFiltersIsNeed() {
   var filters = JSON.parse(JSON.stringify(catalogFiltersData));
   var toggleDisplay = {
     // pageUrl вкладки: список ключей для скрытия
-    'equip': ['cat', 'sizeREU', 'sizeSV', 'size1260', 'size60', 'size1273', 'size1274', 'size1295', 'length'], // Вся экипировка
+    'equip': ['cat', 'sizeREU', 'sizeSV', 'size1260', 'size60', 'size1273', 'size1274', 'size1295', 'size1313', 'length'], // Вся экипировка
     'equip?odegda': ['length'], // Одежда
     'equip?obuv': ['length'], // Обувь
     'equip?shlem': ['length'], // Шлемы
@@ -1335,13 +1330,26 @@ function checkFiltersIsNeed() {
   };
 
   var isExsist = false,
-      filter;
-  for (var key in filters) {
-    filter = filters[key];
-    if (toggleDisplay[pageUrl] && toggleDisplay[pageUrl].indexOf(key) >= 0) {
-      filter.items = [];
+      filter, data;
+  for (var k in filters) {
+    filter = filters[k];
+    if (filter.section) {
+      for (var kk in filter.section) {
+        data = filter.section[kk];
+        check(kk);
+      }
     } else {
-      filter.items = filter.items.filter(item => {
+      data = filter;
+      check(k);
+    }
+  }
+  fillFilter('#filters', filters);
+
+  function check(key) {
+    if (toggleDisplay[pageUrl] && toggleDisplay[pageUrl].indexOf(key) >= 0) {
+      data.items = [];
+    } else {
+      data.items = data.items.filter(item => {
         isExsist = curItems.find(card => card[key] == item.value || card[item.value] == 1);
         if (isExsist) {
           if (item.items) {
@@ -1358,7 +1366,6 @@ function checkFiltersIsNeed() {
       });
     }
   }
-  fillFilter('#filters', filters);
 }
 
 // Добавление всплывающих подсказок к фильтрам каталога:
@@ -1467,7 +1474,7 @@ function toggleToActualFilters(filterKey, filterLength) {
       key, value, isItem, isSubitem;
   groups.forEach(group => {
     key = group.dataset.key;
-    group.querySelectorAll('.switch-cont > .items > .item').forEach(item => {
+    group.querySelectorAll('.content > .items > .item').forEach(item => {
       isItem = false;
       value = item.dataset.value;
       isItem = itemsToLoad.find(card => card[key] == value || card[value] == 1);
@@ -1621,10 +1628,11 @@ function changeFilterCatalog(event) {
 // Инициализация фильтров запчастей:
 
 function initFiltersZip() {
-  if (catalogType !== 'zip' || pageId === 'technics') {
+  if (catalogType !== 'zip') {
     return;
   }
   var oemModules = document.createElement('div');
+  oemModules.classList.add('pop-up-body');
   oemModules.dataset.html = `../modules/filters_oem.html`;
   getEl('#filters .pop-up').insertBefore(oemModules, getEl('#filters .pop-up-body'))
   includeHTML();
@@ -1638,7 +1646,7 @@ function initFiltersZip() {
 // Переключение фильтров запчастей на актуальные:
 
 function toggleFiltersZip() {
-  if (catalogType !== 'zip' || pageId === 'technics') {
+  if (catalogType !== 'zip') {
     return;
   }
   fillFilterZip(getEl('#zip-selects').firstElementChild);
@@ -1785,7 +1793,7 @@ function changeZipFiltersInfo() {
 
 // Блокировка/разблокировка кнопок фильтра:
 
-function toggleFilterBtns() {
+function toggleCatalogFilterBtns() {
   var clearBtn = getEl('.clear-filter.btn'),
       clearBtnAdaptive = getEl('#filters .clear-btn'),
       showBtn = getEl('#filters .btn.act'),
@@ -1838,7 +1846,7 @@ function clearCurSelect(type) {
     }
     itemsToLoad = curItems;
     curSelect = null;
-    toggleFilterBtns();
+    toggleCatalogFilterBtns();
   }
 }
 
