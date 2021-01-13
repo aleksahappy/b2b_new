@@ -835,7 +835,7 @@ function onBlurInput(input) {
 
 function highlightText(el, textToFind) {
   el = getEl(el);
-  if (!el) {
+  if (!el || !textToFind) {
     return;
   }
   var children = Array.prototype.slice.call(el.childNodes);
@@ -850,7 +850,7 @@ function highlightText(el, textToFind) {
   function checkAndReplace(node) {
     var nodeVal = node.nodeValue,
         parentNode = node.parentNode;
-    if (nodeVal) {
+    if (/\S/.test(nodeVal)) {
       var isFirst = true,
           textNode, begin, matched, span;
 
@@ -1268,7 +1268,7 @@ function getDateStr(date = new Date(), format = 'dd.mm.yyyy') {
     return;
   }
   var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate(),
-      month = date.getMonth() + 1,
+      month = (date.getMonth() < 10) ? '0' + parseInt(date.getMonth() + 1) : parseInt(date.getMonth() + 1),
       year = date.getFullYear(),
       string;
   if (format === 'dd.mm.yyyy'){
@@ -1483,7 +1483,6 @@ function goToOldInterface() {
     boats: inCart ? 'cart/' : '/lodki_i_motory/',
     snow: inCart ? 'cart/' : '/snegohody/',
     snowbike: inCart ? 'cart/' : '/snowbike/',
-    technics: inCart ? 'cart/' : '/technics/',
     orders: 'orders/',
     order: 'orders/order',
     reclamations: 'recl/',
@@ -3059,12 +3058,12 @@ function Search(obj, callback) {
   // Перключение кнопок поиска и сброса:
   this.toggleBtns = function() {
     var textToFind = this.input.value.trim();
-    if (!/\S/.test(textToFind)) {
-      this.cancelBtn.style.visibility = 'hidden';
-      this.searchBtn.style.visibility = 'visible';
-    } else {
+    if (/\S/.test(textToFind)) {
       this.searchBtn.style.visibility = 'hidden';
       this.cancelBtn.style.visibility = 'visible';
+    } else {
+      this.cancelBtn.style.visibility = 'hidden';
+      this.searchBtn.style.visibility = 'visible';
     }
   }
 
@@ -3457,25 +3456,93 @@ function createFilter(area, settings) {
       filterList = '',
       isSave = settings.isSave ? 'save' : '';
 
-  for (var key in settings.filters) {
-    var data = settings.filters[key],
-        isOpen = data.isOpen ? 'default-open' : 'close',
+  for (var k in settings.filters) {
+    var data = settings.filters[k],
+        result;
+
+    if (data.section) {
+      var sortSection = '',
+          filterSection = '',
+          isOpen = data.isOpen ? 'default-open' : 'close',
+          title = data.title,
+          mode = '',
+          activeMode;
+
+      if (data.mode) {
+        var list = '', tooltip, modeClass;
+        for (var key in data.mode) {
+          tooltip = data.mode[key];
+          var filter, isDisplay = 'displayNone';
+          for (var kk in data.section) {
+            filter = data.section[kk];
+            if (filter.mode && filter.mode == key && filter.items && filter.items.length) {
+              isDisplay = '';
+            }
+          }
+          activeMode = !activeMode && !isDisplay ? key : activeMode;
+          modeClass = key === activeMode ? 'active' : '';
+          list += `<span class="${modeClass} ${isDisplay}" data-mode="${key}" data-tooltip="${tooltip}">${key}</span>`;
+        }
+        mode =`<span class="mode">${list}</span>`;
+      }
+
+      for (var kk in data.section) {
+        result = createEl(kk, data.section[kk], 'section');
+        sortSection += result.sort;
+        filterSection += result.filter;
+      }
+
+      if (sortSection) {
+        sortList +=
+        `<div class="section switch ${isSave} ${isOpen}" data-key="${k}">
+          <div class="title row" onclick="switchContent(event)">
+            <div class="title white h3">${title}${mode}</div>
+            <div class="open white icon switch-icon"></div>
+          </div>
+          <div class="switch-cont">
+            ${sortSection}
+          </div>
+        </div>`;
+      }
+      if (filterSection) {
+        filterList +=
+        `<div class="section switch ${isSave} ${isOpen}" data-key="${k}">
+          <div class="title row" onclick="switchContent(event)">
+            <div class="title white h3">${title}${mode}</div>
+            <div class="open white icon switch-icon"></div>
+          </div>
+          <div class="switch-cont">
+            ${filterSection}
+          </div>
+        </div>`;
+      }
+    } else {
+      result = createEl(k, data);
+      sortList += result.sort;
+      filterList += result.filter;
+    }
+  }
+
+  function createEl(key, data, type) {
+    var isOpen = data.isOpen ? 'default-open' : 'close',
         title = data.title,
         sort = data.sort,
         search = data.search,
         filter = data.filter,
-        items = data.items;
+        items = data.items,
+        mode = data.mode ? `data-mode="${data.mode}"` : '',
+        isActive = data.mode == activeMode ? 'active' : '',
+        result = {sort: '', filter: ''};
+
     if (sort) {
       if (!mainTitle) {
         mainTitle = 'Сортировки';
       }
-      sortList +=
-      `<div class="group switch ${isSave} ${isOpen}" data-key="${key}" data-type="${sort}">
-        <div class="title row" onclick="switchContent(event)">
-          <div class="title white h3">${title}</div>
-          <div class="open white icon switch-icon"></div>
-        </div>
-        <div class="switch-cont">
+      if (type) {
+        result.sort =
+        `<div class="group ${isActive}" data-key="${key}" data-type="${sort}" ${mode}>
+        <div class="title">${title}</div>
+        <div class="content">
           <div class="item sort down row">
             <div class="radio icon"></div>
             <div>${getSortText('down', sort)}</div>
@@ -3486,7 +3553,27 @@ function createFilter(area, settings) {
           </div>
         </div>
       </div>`;
+      } else {
+        result.sort =
+        `<div class="group ${isActive} switch ${isSave} ${isOpen}" data-key="${key}" data-type="${sort}" ${mode}>
+        <div class="title row" onclick="switchContent(event)">
+          <div class="title white h3">${title}</div>
+          <div class="open white icon switch-icon"></div>
+        </div>
+        <div class="content switch-cont">
+          <div class="item sort down row">
+            <div class="radio icon"></div>
+            <div>${getSortText('down', sort)}</div>
+          </div>
+          <div class="item sort up row">
+            <div class="radio icon"></div>
+            <div>${getSortText('up', sort)}</div>
+          </div>
+        </div>
+      </div>`;
+      }
     }
+
     if (search || filter) {
       var content = '';
       if (search) {
@@ -3513,7 +3600,7 @@ function createFilter(area, settings) {
           maxHeight = 2.1 * Number(isMore) + 'em';
         }
         content +=
-        `<div class="not-found"">Совпадений не найдено</div>
+        `<div class="not-found">Совпадений не найдено</div>
         <div class="items" style="max-height: ${maxHeight}">
           ${fillFilterItems(filter, items)}
         </div>`;
@@ -3527,17 +3614,28 @@ function createFilter(area, settings) {
         }
       }
       var isHide = sort || (search && !items) || items.length ? '' : 'displayNone';
-      filterList +=
-      `<div class="group switch ${isSave} ${isOpen} ${isHide}" data-key="${key}">
+      if (type) {
+        result.filter =
+        `<div class="group ${isActive} ${isHide}" data-key="${key}" ${mode}>
+        <div class="title">${title}</div>
+        <div class="content">
+          ${content}
+        </div>
+      </div>`;
+      } else {
+        result.filter =
+        `<div class="group ${isActive} switch ${isSave} ${isOpen} ${isHide}" data-key="${key}" ${mode}>
         <div class="title row" onclick="switchContent(event)">
           <div class="title white h3">${title}</div>
           <div class="open white icon switch-icon"></div>
         </div>
-        <div class="switch-cont">
+        <div class="content switch-cont">
           ${content}
         </div>
       </div>`;
+      }
     }
+    return result;
   }
 
   if (mainTitle) {
@@ -3651,26 +3749,74 @@ function Filter(obj, handler) {
     }
     this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.toggleItem(event)));
     this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
+    this.filter.querySelectorAll('.mode').forEach(el => el.addEventListener('click', event => this.toggleMode(event)));
   }
 
   // Заполнение фильтров значениями:
-  this.fillItems = function(data) {
-    var filter, group, items, isMore, moreBtn;
-    for (var key in data) {
-      filter = data[key];
-      group = getEl(`.group[data-key="${key}"]`, this.filter);
-      items = getEl(`.items`, group);
-      if (items && filter.filter !== 'date') {
-        items.innerHTML = fillFilterItems(filter.filter, filter.items);
-        items = filter.items;
-        isMore = filter.isMore;
-        if (filter.sort || (filter.search && !items) || items.length) {
+  this.fillItems = function(info) {
+    var filter, data, group, items, isMore, moreBtn, activeMode;
+    for (var k in info) {
+      filter = info[k];
+      if (filter.section) {
+        var isSection = false;
+        if (filter.mode) {
+          var modeClass;
+          for (var key in filter.mode) {
+            var modeFilter, isDisplay = 'displayNone';
+            for (var kk in filter.section) {
+              modeFilter = filter.section[kk];
+              if (modeFilter.mode && modeFilter.mode == key && modeFilter.items && modeFilter.items.length) {
+                isDisplay = '';
+              }
+            }
+            activeMode = !activeMode && !isDisplay ? key : activeMode;
+            modeClass = key === activeMode ? 'active' : '';
+            var modeBtn = getEl(`[data-mode="${key}"]`, this.filter);
+            if (isDisplay) {
+              modeBtn.classList.add('displayNone');
+            } else {
+              modeBtn.classList.remove('displayNone');
+            }
+            if (activeMode == key) {
+              modeBtn.classList.add('active');
+            } else {
+              modeBtn.classList.remove('active');
+            }
+          }
+        }
+        for (var kk in filter.section) {
+          data = filter.section[kk];
+          fill(kk, this.filter);
+          if (data.items && data.items.length) {
+            isSection = true;
+          }
+        }
+        var section = getEl(`.section[data-key="${k}"]`,this.filter);
+        if (isSection) {
+          section.classList.remove('displayNone');
+        } else {
+          section.classList.add('displayNone');
+        }
+      } else {
+        data = filter;
+        fill(k, this.filter);
+      }
+    }
+
+    function fill(key, filterBlock) {
+      group = getEl(`.group[data-key="${key}"]:not([data-type])`, filterBlock);
+      items = getEl('.items', group);
+      if (items && data.filter !== 'date') {
+        items.innerHTML = fillFilterItems(data.filter, data.items);
+        items = data.items;
+        isMore = data.isMore;
+        if (data.sort || (data.search && !items) || items.length) {
           group.classList.remove('displayNone');
         } else {
           group.classList.add('displayNone');
         }
         if (isMore) {
-          moreBtn = getEl(`.group[data-key="${key}"] .more`, this.filter);
+          moreBtn = getEl(`.group[data-key="${key}"]:not([data-type]) .more`, filterBlock);
           isMore = isMore === true ? 4 : isMore;
           if (moreBtn) {
             if (items && items.length > isMore) {
@@ -3679,6 +3825,11 @@ function Filter(obj, handler) {
               moreBtn.classList.add('displayNone');
             }
           }
+        }
+        if (data.mode && data.mode == activeMode) {
+          group.classList.add('active');
+        } else {
+          group.classList.remove('active');
         }
       }
     }
@@ -3722,6 +3873,15 @@ function Filter(obj, handler) {
       if (curEl.offsetTop + 10 > curEl.closest('.items').clientHeight) {
         curEl.closest('.items').classList.add('full');
       }
+      var section = curEl.closest('.section.switch');
+      if (section) {
+        var mode = group.dataset.mode;
+        section.querySelectorAll('.mode span').forEach(el => {
+          if (el.dataset.mode === mode && !el.classList.contains('active')) {
+            el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
+          }
+        });
+      }
     }
     if (handler) {
       var length = handler(group, curEl);
@@ -3739,6 +3899,22 @@ function Filter(obj, handler) {
       var length = handler(group, getEl('input', search));
     }
     this.toggleBtns(length);
+  }
+
+  // Переключение сгруппированных фильтров:
+  this.toggleMode = function(event) {
+    var section = event.currentTarget.closest('.section.switch'),
+        mode = event.target.dataset.mode;
+    event.currentTarget.querySelectorAll('span').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
+    section.querySelectorAll('.group[data-mode]').forEach(el => {
+      if (el.dataset.mode === mode) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+        el.querySelectorAll('.item.checked').forEach(item => item.dispatchEvent(new CustomEvent('click', {'bubbles': true})));
+      }
+    });
   }
 
   // Переключение кнопок фильтра:
