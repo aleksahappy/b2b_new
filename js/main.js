@@ -1318,7 +1318,7 @@ function getRegExp(value) {
 // Поиск в значении регулярным выражением:
 
 function findByRegExp(value, regExp) {
-  if (value.toString().search(regExp) >= 0) {
+  if (value != 0 && value && value.toString().search(regExp) >= 0) {
     return true;
   }
 }
@@ -3758,44 +3758,47 @@ function Filter(obj, handler) {
     for (var k in info) {
       filter = info[k];
       if (filter.section) {
-        var isSection = false;
-        if (filter.mode) {
-          var modeClass;
-          for (var key in filter.mode) {
-            var modeFilter, isDisplay = 'displayNone';
-            for (var kk in filter.section) {
-              modeFilter = filter.section[kk];
-              if (modeFilter.mode && modeFilter.mode == key && modeFilter.items && modeFilter.items.length) {
-                isDisplay = '';
+        var section = getEl(`.section[data-key="${k}"]`,this.filter);
+        if (section) {
+          var isSection = false;
+          if (filter.mode) {
+            for (var key in filter.mode) {
+              var modeBtn = getEl(`[data-mode="${key}"]`, this.filter);
+              if (modeBtn) {
+                var modeClass, modeFilter, isDisplay = 'displayNone';;
+                for (var kk in filter.section) {
+                  modeFilter = filter.section[kk];
+                  if (modeFilter.mode && modeFilter.mode == key && modeFilter.items && modeFilter.items.length) {
+                    isDisplay = '';
+                  }
+                }
+                activeMode = !activeMode && !isDisplay ? key : activeMode;
+                modeClass = key === activeMode ? 'active' : '';
+              }
+              if (isDisplay) {
+                modeBtn.classList.add('displayNone');
+              } else {
+                modeBtn.classList.remove('displayNone');
+              }
+              if (activeMode == key) {
+                modeBtn.classList.add('active');
+              } else {
+                modeBtn.classList.remove('active');
               }
             }
-            activeMode = !activeMode && !isDisplay ? key : activeMode;
-            modeClass = key === activeMode ? 'active' : '';
-            var modeBtn = getEl(`[data-mode="${key}"]`, this.filter);
-            if (isDisplay) {
-              modeBtn.classList.add('displayNone');
-            } else {
-              modeBtn.classList.remove('displayNone');
-            }
-            if (activeMode == key) {
-              modeBtn.classList.add('active');
-            } else {
-              modeBtn.classList.remove('active');
+          }
+          for (var kk in filter.section) {
+            data = filter.section[kk];
+            fill(kk, this.filter);
+            if (data.items && data.items.length) {
+              isSection = true;
             }
           }
-        }
-        for (var kk in filter.section) {
-          data = filter.section[kk];
-          fill(kk, this.filter);
-          if (data.items && data.items.length) {
-            isSection = true;
+          if (isSection) {
+            section.classList.remove('displayNone');
+          } else {
+            section.classList.add('displayNone');
           }
-        }
-        var section = getEl(`.section[data-key="${k}"]`,this.filter);
-        if (isSection) {
-          section.classList.remove('displayNone');
-        } else {
-          section.classList.add('displayNone');
         }
       } else {
         data = filter;
@@ -3804,13 +3807,16 @@ function Filter(obj, handler) {
     }
 
     function fill(key, filterBlock) {
+      if (!data.filter) {
+        return;
+      }
       group = getEl(`.group[data-key="${key}"]:not([data-type])`, filterBlock);
       items = getEl('.items', group);
       if (items && data.filter !== 'date') {
         items.innerHTML = fillFilterItems(data.filter, data.items);
         items = data.items;
         isMore = data.isMore;
-        if (data.sort || (data.search && !items) || items.length) {
+        if ((data.search && !items) || items.length) {
           group.classList.remove('displayNone');
         } else {
           group.classList.add('displayNone');
@@ -3871,7 +3877,11 @@ function Filter(obj, handler) {
       }
       group.classList.remove('close');
       if (curEl.offsetTop + 10 > curEl.closest('.items').clientHeight) {
-        curEl.closest('.items').classList.add('full');
+        getEl('.items', group).classList.add('full');
+        var moreBtn = getEl('.more', group);
+        if (moreBtn) {
+          moreBtn.firstElementChild.textContent = 'Меньше';
+        }
       }
       var section = curEl.closest('.section.switch');
       if (section) {
