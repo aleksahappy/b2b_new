@@ -149,7 +149,7 @@ function createTableControl(area, settings) {
     if (controlSettings.pill) {
       pill =
       `<div class="pills" data-key="${controlSettings.pill.key}/value">
-        ${controlSettings.pill.content || '<div class="pill ctr checked" data-value="#value#">#title#</div>'}
+        ${controlSettings.pill.content || '<div class="item pill ctr checked" data-value="#value#">#title#</div>'}
       </div>`;
     }
     options =
@@ -451,16 +451,7 @@ function Table(obj, settings = {}) {
       this.pagination.querySelectorAll('.arrow').forEach(el => el.addEventListener('click', event => this.moveTable(event)))
     }
     if (this.pills) {
-      this.pills.addEventListener('click', event => {
-        if (event.target.classList.contains('pill')) {
-          var pill = event.target;
-          if (pill.classList.contains('disabled')) {
-            return;
-          }
-          pill.classList.toggle('checked');
-          this.filterData(event, 'filter');
-        }
-      });
+      this.pills.addEventListener('click', this.startChangeData);
     }
     if (this.resizeBtns) {
       this.resizeBtns.forEach(el => el.addEventListener('mousedown', event => this.startResize(event)));
@@ -871,16 +862,23 @@ function Table(obj, settings = {}) {
 
   // Запуск сортировки, поиска и фильтрации по столбцу:
   this.startChangeData = event => {
-    if (event.target.classList.contains('item')) {
-      this.changeData(event.target);
-    } else {
-      this.changeData(getEl('input', event.target));
+    var curEl = event.target;
+    if (curEl.classList.contains('disabled')) {
+      return;
+    }
+    if (curEl.classList.contains('pill')) {
+      curEl.classList.toggle('checked');
+      this.changeData(curEl);
+    } else if (curEl.classList.contains('item')) {
+      this.changeData(curEl);
+    } else if (curEl.classList.contains('group')) {
+      this.changeData(getEl('input', curEl));
     }
   }
 
   // Cортировка, поиск и фильтрация по ключу:
   this.changeData = function(curEl) {
-    var group = curEl.closest('.group');
+    var group = curEl.closest('[data-key]');
     if (group.classList.contains('sort')) {
       this.sortData(curEl, group);
     } else {
