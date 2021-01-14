@@ -47,7 +47,7 @@ function initPage(data = []) {
       search: 'Поиск по типу заказа, номеру, контрагенту, заказчику...',
       pill: {
         key: 'sum',
-        content: '<div class="pill ord c10 ctr" data-status="#value#" data-value="#value#">#title#</div>',
+        content: '<div class="item pill ord c10 ctr" data-status="#value#" data-value="#value#">#title#</div>',
         items: [
           {title: "Ожидается", value: "1"},
           {title: "В наличии", value: "2"},
