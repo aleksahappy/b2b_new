@@ -1314,8 +1314,8 @@ function toggleDefaultOpen() {
 function checkFiltersIsNeed() {
   var filters = JSON.parse(JSON.stringify(catalogFiltersData));
   var toggleDisplay = {
-    // pageUrl вкладки: список ключей для скрытия
-    'equip': ['cat', 'sizeREU', 'sizeSV', 'size1260', 'size60', 'size1273', 'size1274', 'size1295', 'size1313', 'length'], // Вся экипировка
+    // pageUrl: список ключей для скрытия
+    'equip': ['cat', 'sizeREU', 'size_1252', 'size_39', 'size_38', 'size_1256', 'size_1260', 'size_60', 'size_1273', 'size_1274', 'size_1295', 'size1260', 'size60', 'size1273', 'size1274', 'size1295', 'size1313', 'length'], // Вся экипировка
     'equip?odegda': ['length'], // Одежда
     'equip?obuv': ['length'], // Обувь
     'equip?shlem': ['length'], // Шлемы
@@ -1323,7 +1323,7 @@ function checkFiltersIsNeed() {
     'equip?zashita': ['length'], // Защита
     'equip?sumruk': ['length'], // Сумки и рюкзаки
     'equip?merch': ['length'], // Мерчандайзинг
-    'boats': ['material', 'power', 'step', 'fit', 'type'], // Все лодки и моторы
+    'boats': ['material', 'power', 'step', 'fit', 'type'], // Лодки и моторы
     'boats?zip': ['material', 'power', 'step', 'fit', 'type'], // Запчасти
     'boats?acc': ['material', 'power', 'step', 'fit', 'type'], // Аксессуары
     'boats?propeller': ['cat'] // Винты гребные

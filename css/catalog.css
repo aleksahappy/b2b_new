@@ -510,92 +510,92 @@ body#snowbike #oem {
   display: none;
 }
 
-.group[data-key^="color"] .item[data-value="Белый"] .text,
-.group[data-key^="color"] .item[data-value="white"] .text {
+.group[data-key^="color"] .item[data-value$="Белый"] .text,
+.group[data-key^="color"] .item[data-value$="white"] .text {
   display: block;
   background-image: url(../img/colors/color_white.png);
 }
 
-.group[data-key^="color"] .item[data-value="Черный"] .text,
-.group[data-key^="color"] .item[data-value="black"] .text {
+.group[data-key^="color"] .item[data-value$="Черный"] .text,
+.group[data-key^="color"] .item[data-value$="black"] .text {
   display: block;
   background-image: url(../img/colors/color_black.png);
 }
 
-.group[data-key^="color"] .item[data-value="Серый"] .text,
-.group[data-key^="color"] .item[data-value="grey"] .text {
+.group[data-key^="color"] .item[data-value$="Серый"] .text,
+.group[data-key^="color"] .item[data-value$="grey"] .text {
   display: block;
   background-image: url(../img/colors/color_gray.png);
 }
 
-.group[data-key^="color"] .item[data-value="Коричневый"] .text,
-.group[data-key^="color"] .item[data-value="brown"] .text {
+.group[data-key^="color"] .item[data-value$="Коричневый"] .text,
+.group[data-key^="color"] .item[data-value$="brown"] .text {
   display: block;
   background-image: url(../img/colors/color_brown.png);
 }
 
-.group[data-key^="color"] .item[data-value="Синий"] .text,
-.group[data-key^="color"] .fitem[data-value="blue"] .text {
+.group[data-key^="color"] .item[data-value$="Синий"] .text,
+.group[data-key^="color"] .fitem[data-value$="blue"] .text {
   display: block;
   background-image: url(../img/colors/color_blue.png);
 }
 
-.group[data-key^="color"] .item[data-value="Голубой"] .text,
-.group[data-key^="color"] .item[data-value="cyan"] .text {
+.group[data-key^="color"] .item[data-value$="Голубой"] .text,
+.group[data-key^="color"] .item[data-value$="cyan"] .text {
   display: block;
   background-image: url(../img/colors/color_lightblue.png);
 }
 
-.group[data-key^="color"] .item[data-value="Красный"] .text,
-.group[data-key^="color"] .item[data-value="red"] .text {
+.group[data-key^="color"] .item[data-value$="Красный"] .text,
+.group[data-key^="color"] .item[data-value$="red"] .text {
   display: block;
   background-image: url(../img/colors/color_red.png);
 }
 
-.group[data-key^="color"] .item[data-value="Розовый"] .text,
-.group[data-key^="color"] .item[data-value="pink"] .text {
+.group[data-key^="color"] .item[data-value$="Розовый"] .text,
+.group[data-key^="color"] .item[data-value$="pink"] .text {
   display: block;
   background-image: url(../img/colors/color_pink.png);
 }
 
-.group[data-key^="color"] .item[data-value="Фиолетовый"] .text,
-.group[data-key^="color"] .item[data-value="fiol"] .text {
+.group[data-key^="color"] .item[data-value$="Фиолетовый"] .text,
+.group[data-key^="color"] .item[data-value$="fiol"] .text {
   display: block;
   background-image: url(../img/colors/color_purple.png);
 }
 
-.group[data-key^="color"] .item[data-value="Зеленый"] .text,
-.group[data-key^="color"] .item[data-value="green"] .text {
+.group[data-key^="color"] .item[data-value$="Зеленый"] .text,
+.group[data-key^="color"] .item[data-value$="green"] .text {
   display: block;
   background-image: url(../img/colors/color_green.png);
 }
 
-.group[data-key^="color"] .item[data-value="Желтый"] .text,
-.group[data-key^="color"] .item[data-value="yellow"] .text {
+.group[data-key^="color"] .item[data-value$="Желтый"] .text,
+.group[data-key^="color"] .item[data-value$="yellow"] .text {
   display: block;
   background-image: url(../img/colors/color_yellow.png);
 }
 
-.group[data-key^="color"] .item[data-value="Оранжевый"] .text,
-.group[data-key^="color"] .item[data-value="orange"] .text {
+.group[data-key^="color"] .item[data-value$="Оранжевый"] .text,
+.group[data-key^="color"] .item[data-value$="orange"] .text {
   display: block;
   background-image: url(../img/colors/color_orange.png);
 }
 
-.group[data-key^="color"] .item[data-value="Хаки"] .text,
-.group[data-key^="color"] .item[data-value="haki"] .text {
+.group[data-key^="color"] .item[data-value$="Хаки"] .text,
+.group[data-key^="color"] .item[data-value$="haki"] .text {
   display: block;
   background-image: url(../img/colors/color_khaki.png);
 }
 
-.group[data-key^="color"] .item[data-value="Мульти"] .text,
-.group[data-key^="color"] .item[data-value="multicolor"] .text {
+.group[data-key^="color"] .item[data-value$="Мульти"] .text,
+.group[data-key^="color"] .item[data-value$="multicolor"] .text {
   display: block;
   background-image: url(../img/colors/color_colorful.png);
 }
 
-.group[data-key^="color"] .item[data-value="Прозрачный"] .text,
-.group[data-key^="color"] .item[data-value="transparent"] .text {
+.group[data-key^="color"] .item[data-value$="Прозрачный"] .text,
+.group[data-key^="color"] .item[data-value$="transparent"] .text {
   display: block;
   background-image: url(../img/colors/color_transparent.png);
 }
