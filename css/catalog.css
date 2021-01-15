@@ -237,7 +237,7 @@ body {
   width: 100%;
 }
 
-#zip-info,
+#additional-info,
 #filters-info {
   display: none;
 }
@@ -246,7 +246,7 @@ body {
   max-width: 15em;
 }
 
-#zip-info .pill {
+#additional-info .pill {
   max-width: 90%;
   background-color: rgba(242, 201, 76, 0.5);
 }
@@ -380,10 +380,10 @@ body {
 }
 
 /* =====================================================================================================
-Стили для фильтров OEM:
+Стили для дополнительных фильтров:
 ===================================================================================================== */
 
-#main.equip #zip-filters {
+#main.equip #filters .additional {
   display: none;
 }
 
@@ -397,38 +397,38 @@ body {
 }
 
 body#snowbike #oem {
-  display: none;
+  display: none !important;
 }
 
-#zip-filters {
+#filters .additional .group {
   margin-bottom: 1px;
   padding: 0;
 }
 
-#zip-filters.close {
+#filters .additional .group.close {
   margin-bottom: 0;
 }
 
-#zip-filters > .title {
+#filters .additional .group > .title {
   background-color: #F05A28;
 }
 
-#zip-filters > .items {
+#filters .additional .group > .items {
   background-color: #F9BA4D;
   padding: 0.714em;
   padding-bottom: 1em;
 }
 
-#zip-filters .activate {
+#filters .additional .group .activate {
   width: 100%;
   margin-bottom: 0.6em;
 }
 
-#zip-filters .activate:last-child {
+#filters .additional .group .activate:last-child {
   margin-bottom: 0;
 }
 
-#zip-filters .activate.open .drop-down {
+#filters .additional .group .activate.open .drop-down {
   max-height: 15em;
 }
 
@@ -458,7 +458,8 @@ body#snowbike #oem {
 }
 
 .group[data-key^="size"] .text {
-  width: 2.7em;
+  /* width: 2.7em; */
+  width: 4.2em;
   padding: 0 2px;
   font-size: 0.857em;
   line-height: 1.4;

@@ -1,12 +1,42 @@
 'use strict';
 
-// Переменная для хранения всех фильтров страницы:
+// Основные фильтры каталога:
 
 var catalogFiltersData = {
   filters: {},
   isSave: true,
   isVisible: true
 };
+
+
+// Фильтр подбора запчастей:
+
+var partsFiltersData = [{
+  title: 'Производитель',
+  key: 'man',
+}, {
+  title: 'Год выпуска',
+  key: 'years',
+}, {
+  title: 'Модель',
+  key: 'model',
+}];
+
+// Фильтр подбора адаптера:
+
+var adapterFiltersData = [{
+  title: 'Год выпуска мотоцикла',
+  key: 'years',
+}, {
+  title: 'Марка мотоцикла',
+  key: 'brand',
+}, {
+  title: 'Модель мотоцикла',
+  key: 'model',
+}, {
+  title: 'Объем двигателя',
+  key: 'engine',
+}];
 
 //=====================================================================================================
 // Ручные данные для фильтров каталога:
@@ -111,7 +141,7 @@ function fillCatalogFilters() {
     catalogFiltersData.filters.sizeREU = {
       title: 'Размер для фильтров (собран из sizelist)',
       filter: 'checkbox',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: window.sizelist['1252'] || [] // Размер для фильтров
     };
 
@@ -119,63 +149,63 @@ function fillCatalogFilters() {
       filter: 'checkbox',
       optKey: '1252', // Размер для фильтров
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_39 = {
       filter: 'checkbox',
       optKey: '39', // Размер поставщика
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_38 = {
       filter: 'checkbox',
       optKey: '38', // Размер для сайта
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_1256 = {
       filter: 'checkbox',
       optKey: '1256', // Европейский размер
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_1260 = {
       filter: 'checkbox',
       optKey: '1260', // Размер взрослый
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_60 = {
       filter: 'checkbox',
       optKey: '60', // Размер детский
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_1273 = {
       filter: 'checkbox',
       optKey: '1273', // Размер американский взрослый
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_1274 = {
       filter: 'checkbox',
       optKey: '1274', // Размер американский детский
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
     catalogFiltersData.filters.size_1295 = {
       filter: 'checkbox',
       optKey: '1295', // Длина стельки взрослый
       optSplit: ',',
-      itemsSort: 'numb',
+      itemsSort: 'size',
       items: {}
     };
 
@@ -189,7 +219,7 @@ function fillCatalogFilters() {
           filter: 'checkbox',
           optKey: '1260', // Размер взрослый
           optSplit: ',',
-          itemsSort: 'numb',
+          itemsSort: 'size',
           items: {}
         },
         size60: {
@@ -198,7 +228,7 @@ function fillCatalogFilters() {
           filter: 'checkbox',
           optKey: '60', // Размер детский
           optSplit: ',',
-          itemsSort: 'numb',
+          itemsSort: 'size',
           items: {}
         },
         size1273: {
@@ -207,7 +237,7 @@ function fillCatalogFilters() {
           filter: 'checkbox',
           optKey: '1273', // Размер американский взрослый
           optSplit: ',',
-          itemsSort: 'numb',
+          itemsSort: 'size',
           items: {}
         },
         size1274: {
@@ -216,7 +246,7 @@ function fillCatalogFilters() {
           filter: 'checkbox',
           optKey: '1274', // Размер американский детский
           optSplit: ',',
-          itemsSort: 'numb',
+          itemsSort: 'size',
           items: {}
         },
         size1295: {
@@ -225,16 +255,16 @@ function fillCatalogFilters() {
           filter: 'checkbox',
           optKey: '1295', // Длина стельки взрослый
           optSplit: ',',
-          itemsSort: 'numb',
+          itemsSort: 'size',
           items: {}
         },
         size1313: {
           title: 'Детский',
           mode: 'cm',
           filter: 'checkbox',
-          optKey: '1295', // Длина стельки детский
+          optKey: '1313', // Длина стельки детский
           optSplit: ',',
-          itemsSort: 'numb',
+          itemsSort: 'size',
           items: {}
         }
       }
@@ -471,22 +501,4 @@ function createCatalogFiltersData() {
     }
     data.items = items;
   }
-}
-
-//=====================================================================================================
-// Создание данных для фильтров ЗИП:
-//=====================================================================================================
-
-function createZipSelectsData() {
-  var data = [{
-    title: 'Производитель',
-    key: 'man',
-  }, {
-    title: 'Год выпуска',
-    key: 'years',
-  }, {
-    title: 'Модель',
-    key: 'model',
-  }]
-  return data;
 }

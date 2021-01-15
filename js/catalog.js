@@ -83,7 +83,19 @@ var menuContent = {
   snowbike: {
     title: 'Сноубайки',
     id: 'snowbike',
-    cats: []
+    cats: [{
+      cat: 'kit',
+      cat_title: 'Комплекты'
+    }, {
+      cat: 'adapter',
+      cat_title: 'Адаптеры'
+    }, {
+      cat: 'zip',
+      cat_title: 'Запчасти'
+    }, {
+      cat: 'acc',
+      cat_title: 'Аксессуары'
+    }]
   }
 };
 
@@ -820,14 +832,14 @@ function toggleEventListeners(toggle) {
 // Запуск обработчиков событий при скролле:
 
 function scrollActs() {
-  setFiltersPosition();
+  setFiltersHeight();
   scrollGallery();
 }
 
 // Запуск обработчиков событий при ресайзе:
 
 function resizeActs() {
-  setFiltersPosition();
+  setFiltersHeight();
   setMinCardWidth()
   setView();
   scrollGallery();
@@ -847,7 +859,7 @@ function showCards() {
   }
   setDocumentScroll(0,0);
   setMinCardWidth();
-  setFiltersPosition();
+  setFiltersHeight();
   toggleCatalogFilterBtns();
 }
 
@@ -940,7 +952,7 @@ function loadCards(cards) {
       addActionTooltip(card);
     });
   }
-  setFiltersPosition();
+  setFiltersHeight();
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1195,14 +1207,14 @@ function detailsSearch(search, textToFind) {
 
 function initFilters() {
   initFiltersCatalog();
-  initFiltersZip();
+  initFiltersAdditional();
 }
 
 // Переключение фильтров галереи на актуальные:
 
 function toggleFilters(filters) {
   toggleFiltersCatalog();
-  toggleFiltersZip();
+  toggleFiltersAdditional();
   showElement('#filters-container');
   setFilterOnPage(filters);
   clearFiltersInfo();
@@ -1279,14 +1291,14 @@ function initFiltersCatalog() {
 // Переключение фильтров каталога на актуальные:
 
 function toggleFiltersCatalog() {
-  toggleDefaultOpen();
+  toggleFilterPosition();
   checkFiltersIsNeed();
   addTooltips('color');
 }
 
 // Переключение свойства открыт по умолчанию (если меняется от вкладки ко вкладке):
 
-function toggleDefaultOpen() {
+function toggleFilterPosition() {
   var addDefaultOpen = {
     // pageUrl вкладки: список ключей где добавить открытие по умолчанию
     'equip': ['brand']
@@ -1299,14 +1311,20 @@ function toggleDefaultOpen() {
       if (filterItem) {
         if (key === pageUrl) {
           filterItem.classList.add('default-open');
-          filterItem.classList.remove('close');
         } else {
           filterItem.classList.remove('default-open');
-          filterItem.classList.add('close');
         }
       }
     });
   }
+
+  document.querySelectorAll(`#catalog-filters .switch.save[data-key]`).forEach(el => {
+    if (el.classList.contains('default-open')) {
+      el.classList.remove('close');
+    } else {
+      el.classList.add('close');
+    }
+  });
 }
 
 // Проверка необходимости пунктов фильтров на странице и обновление их содержимого:
@@ -1621,169 +1639,225 @@ function changeFilterCatalog(event) {
 }
 
 //=====================================================================================================
-//  Функции фильтров запчастей:
+// Функции дополнительных фильтров (подбора запчастей и адаптера):
 //=====================================================================================================
 
+// Инициализация дополнительных фильтров:
 
-// Инициализация фильтров запчастей:
-
-function initFiltersZip() {
+function initFiltersAdditional() {
   if (catalogType !== 'zip') {
     return;
   }
-  var oemModules = document.createElement('div');
-  oemModules.classList.add('pop-up-body');
-  oemModules.dataset.html = `../modules/filters_oem.html`;
-  getEl('#filters .pop-up').insertBefore(oemModules, getEl('#filters .pop-up-body'))
+  initAdditionalFilter('parts', 'begin');
+  if (pageId === 'snowbike') {
+    initAdditionalFilter('adapter', 'end');
+  }
+}
+
+// Инициализация дополнительного фильтра:
+
+function initAdditionalFilter(type, target) {
+  if (!type) {
+    return;
+  }
+  var filters = getEl('#filters .pop-up'),
+      newFilter = document.createElement('div');
+  newFilter.classList.add('pop-up-body', 'additional');
+  newFilter.dataset.html = `../modules/filters_${type}.html`;
+  if (target === 'begin') {
+    filters.insertBefore(newFilter, filters.firstElementChild.nextSibling);
+  } else if (target === 'end') {
+    filters.insertBefore(newFilter, filters.lastElementChild);
+  }
   includeHTML();
+  var selects = getEl(`#${type}-selects`);
   fillTemplate({
-    area: getEl('#zip-selects'),
-    items: createZipSelectsData()
+    area: selects,
+    items: window[`${type}FiltersData`]
   });
-  getEl('#zip-selects').querySelectorAll('.activate').forEach(el => initDropDown(el, selectFilterZip));
+  selects.querySelectorAll('.activate').forEach(el => {
+    window[`${type}${el.dataset.key}Dropdown`] = initDropDown(el, selectFilterAdditional);
+  });
 }
 
-// Переключение фильтров запчастей на актуальные:
+// Заполнение дополнительных фильтров актуальными данными:
 
-function toggleFiltersZip() {
+function toggleFiltersAdditional() {
   if (catalogType !== 'zip') {
     return;
   }
-  fillFilterZip(getEl('#zip-selects').firstElementChild);
-  fillFilterZip(getEl('#oem'));
-  showElement('#zip-filters');
+  fillFilterAdditional(getEl('#oem'));
+  fillFilterAdditional(getEl(`#parts-selects`).firstElementChild);
+  if (pageId === 'snowbike') {
+    var section = pageUrl.split('?')[1];
+    if (!section || section === 'kit' || section === 'adapter') {
+      if (section) {
+        hideElement('#oem');
+        hideElement('#parts');
+      }
+      fillFilterAdditional(getEl(`#adapter-selects`).firstElementChild);
+    } else {
+      hideElement('#adapter');
+    }
+  }
 }
 
-// Заполнение выпадающего списка фильтра/поиска вариантами:
+// Заполнение дополнительного фильтра данными:
 
-function fillFilterZip(filter) {
+function fillFilterAdditional(filter) {
   if (!filter) {
     return;
   }
-  var data = getFilterZipData(filter.id);
+  var group = filter.closest('.group') || filter,
+      selects = filter.closest('.selects'),
+      type = group.id,
+      data = getFilterAdditionalData(type, filter.dataset.key);
   fillTemplate({
     area: getEl('.items', filter),
     items: data,
     sign: '@@'
   });
-  toggleFilterZip(filter, data.length);
+  toggleFilterAdditional(filter, data.length);
+  showElement(group);
+  // if ((!selects || selects.firstElementChild === filter) && !data.length) {
+  //   hideElement(group);
+  // } else {
+  //   fillTemplate({
+  //     area: getEl('.items', filter),
+  //     items: data,
+  //     sign: '@@'
+  //   });
+  //   toggleFilterAdditional(filter, data.length);
+  //   showElement(group);
+  // }
 }
 
-// Подготовка данных для создания списка вариантов фильтра/поиска:
+// Подготовка данных для создания списка вариантов:
 
-function getFilterZipData(key) {
-  if (key === 'man' || key === 'oem') {
-    itemsToLoad = curItems;
-  }
+function getFilterAdditionalData(type, key) {
   var data = [];
-  itemsToLoad.forEach(item => {
-    if (item.manuf) {
-      for (var k in item.manuf[key]) {
-        if (key === 'man' || key === 'oem') {
-          if (!data.find(el => el.toLowerCase() === k.trim().toLowerCase())) {
-            data.push(k);
-          }
-        } else {
-          for (var kk in item.manuf[key][k]) {
-            if (kk === getEl('#man').value && !data.find(el => el.toLowerCase() === k.trim().toLowerCase())) {
+  if (type === 'oem' || type === 'parts') {
+    if (key === 'man' || key === 'oem') {
+      itemsToLoad = curItems;
+    }
+    itemsToLoad.forEach(item => {
+      if (item.manuf) {
+        for (var k in item.manuf[key]) {
+          if (key === 'man' || key === 'oem') {
+            if (!data.find(el => el.toLowerCase() === k.trim().toLowerCase())) {
               data.push(k);
+            }
+          } else {
+            for (var kk in item.manuf[key][k]) {
+              if (kk === getEl('[data-key="man"]').value && !data.find(el => el.toLowerCase() === k.trim().toLowerCase())) {
+                data.push(k);
+              }
             }
           }
         }
       }
-    }
-  });
+    });
+  }
   data.sort();
   return data;
 }
 
-// Блокировка/разблокировка фильтра:
+// Блокировка/разблокировка пункта дополнительного фильтра:
 
-function toggleFilterZip(filter, data) {
-  if (filter.id === 'oem') {
+function toggleFilterAdditional(filter, data) {
+  var selects = filter.closest('.selects');
+  if (!selects) {
     return;
   }
   if (data) {
-    unlockFilterZip(filter);
+    unlockFilterAdditional(filter);
   } else {
-    lockFilterZip(filter);
-    if (filter.id !== 'man') {
-      fillFilterZip(filter.nextElementSibling);
+    lockFilterAdditional(filter);
+    if (selects.firstElementChild !== filter) {
+      fillFilterAdditional(filter.nextElementSibling);
     }
   }
 }
 
-// Переключение блокировки фильтров, следующих за заполняемым:
+// Переключение блокировки пунктов фильтра, следующих за заполняемым:
 
-function lockNextFilterZip(filter) {
+function lockNextFilterAdditional(filter) {
   var nextFilter = filter.nextElementSibling;
   while (nextFilter) {
-    lockFilterZip(nextFilter);
+    lockFilterAdditional(nextFilter);
     nextFilter = nextFilter.nextElementSibling;
   }
 }
 
-// Разблокировка фильтра:
+// Разблокировка пункта дополнительного фильтра:
 
-function unlockFilterZip(filter) {
+function unlockFilterAdditional(filter) {
   filter.removeAttribute('disabled');
   setTimeout(() => getEl('.drop-down', filter).scrollTop = 0, 100);
 }
 
-// Блокировка фильтра:
+// Блокировка пункта дополнительного фильтра:
 
-function lockFilterZip(filter) {
-  clearDropDown(filter);
+function lockFilterAdditional(filter) {
+  var type = filter.closest('.group').id;
+  window[`${type}${filter.dataset.key}Dropdown`].clear();
   filter.setAttribute('disabled', 'disabled');
 }
 
-// Выбор значения фильтра запчастей:
+// Выбор значения в дополнительном фильтре:
 
-function selectFilterZip(event) {
-  var filter = event.currentTarget;
-  lockNextFilterZip(filter);
-  selectCards('zip', true);
-  fillFilterZip(filter.nextElementSibling);
-  changeZipFiltersInfo();
+function selectFilterAdditional(event) {
+  var type = event.currentTarget.closest('.group').id,
+      filter = event.currentTarget;
+  lockNextFilterAdditional(filter);
+  selectCards(type, true);
+  fillFilterAdditional(filter.nextElementSibling);
+  changeAdditionalFiltersInfo(type);
 }
 
-// Получение значений выбранных фильтров:
+// Получение значений выбранных пунктов:
 
-function getFilterZipItems() {
+function getFilterAdditionalItems(type) {
   var filters = {};
-  getEl('#zip-selects').querySelectorAll('.activate').forEach(el => {
+  getEl(`#${type}-selects`).querySelectorAll('.activate').forEach(el => {
     if (el.value) {
-      filters[el.id] = el.value;
+      filters[el.dataset.key] = el.value;
     }
   });
   return filters;
 }
 
-// Очистка фильтров запчастей:
+// Очистка дополнительных фильтров:
 
-function clearFiltersZip() {
-  var filter = getEl('#zip-selects').firstElementChild;
-  clearDropDown(filter);
-  lockNextFilterZip(filter);
-  changeZipFiltersInfo();
+function clearFiltersAdditional(type) {
+  var filter = getEl(`#${type}-selects`).firstElementChild;
+  window[`${type}${filter.dataset.key}Dropdown`].clear();
+  lockNextFilterAdditional(filter);
+  changeAdditionalFiltersInfo(type);
 }
 
-//=====================================================================================================
-//  Функции для работы с "пилюлями" фильтров запчастей:
-//=====================================================================================================
+// Изменение данных о выбранных дополнительных фильтрах:
 
-// Изменение данных о выбранных фильтрах запчастей:
-
-function changeZipFiltersInfo() {
-  var filters = getFilterZipItems(),
-      zipInfo = getEl('#zip-info'),
-      pill = getEl('.pill', zipInfo);
+function changeAdditionalFiltersInfo(type) {
+  var filters = getFilterAdditionalItems(type),
+      info = getEl('#additional-info'),
+      pill = getEl('.pill', info),
+      text = '';
   if (isEmptyObj(filters)) {
-    pill.textContent = '';
-    hideElement(zipInfo);
+    pill.textContent = text;
+    hideElement(info);
   } else {
-    pill.textContent = filters.man + (filters.years ? ' – ' + filters.years : '') + (filters.model ? ' – ' + filters.model : '');
-    showElement(zipInfo);
+    Object.keys(filters).forEach((key, index) => {
+      if (filters[key]) {
+        if (index === 0) {
+          text += filters[key];
+        } else {
+          text += ' – ' + filters[key];
+        }
+      }
+    });
+    pill.textContent = text;
+    showElement(info);
   }
 }
 
@@ -1839,9 +1913,11 @@ function clearCurSelect(type) {
   if (curSelect && type !== curSelect) {
     if (curSelect === 'catalog') {
       clearFiltersCatalog();
-    } else if (curSelect === 'zip') {
-      clearFiltersZip();
-    } else {
+    } else if (curSelect === 'parts') {
+      clearFiltersAdditional(curSelect);
+    } else if (curSelect === 'adapter') {
+      clearFiltersAdditional(curSelect);
+    }  else {
       clearSearch(`#${curSelect}`);
     }
     itemsToLoad = curItems;
@@ -1858,9 +1934,11 @@ function startSelect() {
   }
   if (curSelect === 'catalog') {
     selectCardsByFilterCatalog();
-  } else if (curSelect === 'zip') {
-    selectCardsByFilterZip();
-  } else if (curSelect === 'search') {
+  } else if (curSelect === 'parts') {
+    selectCardsByFilterParts();
+  } else if (curSelect === 'adapter') {
+    selectCardsByFilterAdapter(searchText);
+  }  else if (curSelect === 'search') {
     selectCardsBySearchPage(searchText);
   } else if (curSelect === 'oem') {
     selectCardsBySearchOem(searchText);
@@ -1892,10 +1970,10 @@ function selectCardsByFilterCatalog() {
   }
 }
 
-// Отбор карточек фильтром запчастей:
+// Отбор карточек подбором запчастей:
 
-function selectCardsByFilterZip() {
-  var filters = getFilterZipItems(),
+function selectCardsByFilterParts() {
+  var filters = getFilterAdditionalItems('parts'),
       isFound;
   itemsToLoad = curItems.filter(card => {
     if (card.manuf_filter) {
@@ -1914,6 +1992,12 @@ function selectCardsByFilterZip() {
       }
     }
   });
+}
+
+// Отбор карточек подбором адаптора:
+
+function selectCardsByFilterAdapter() {
+
 }
 
 // Отбор карточек поиском по странице:
