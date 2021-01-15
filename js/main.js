@@ -1120,6 +1120,9 @@ function sortBy(key, type = 'text') {
     sortOrder = -1;
     key = key.substr(1);
   }
+  if (type == 'size') {
+    var sizeTemp = ['XXXS', '3XS', 'XXS', '2XS', 'XS', 'S', 'S/M', 'M', 'M/L', 'L', 'L/XL', 'XL', 'XXL', '2XL', 'XXXL', '3XL', 'XXXXL', '4XL'];
+  }
 
   function getValue(item) {
     var value = item[key];
@@ -1130,10 +1133,24 @@ function sortBy(key, type = 'text') {
       case 'text':
         return '' + value;
       case 'numb':
-        value = parseFloat(value.toString().replace(/\s/g, ''));
-        return parseFloat(value);
+        return parseFloat(value.toString().replace(/\s/g, ''));
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
+      case 'size':
+        var sizeIndex = sizeTemp.findIndex(el => el === value);
+        if (sizeIndex >= 0) {
+          value = sizeIndex;
+        } else {
+          if (value === 'OS' || value === 'NA') {
+            value = Infinity;
+          } else if (/\D/.test(value.replace(/\-|\/|\./gi, ''))) {
+            value = null;
+          } else {
+            console.log(value);
+            value = parseFloat(value.toString().replace(/\s/g, '')) + sizeTemp.length;
+          }
+        }
+        return value;
     }
   }
 
@@ -1150,6 +1167,9 @@ function sortBy(key, type = 'text') {
         break;
       case 'date':
         result = b - a;
+        break;
+      case 'size':
+        result = a - b;
         break;
     }
     return result * sortOrder;

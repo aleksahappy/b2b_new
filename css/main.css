@@ -2438,6 +2438,7 @@ form.search input[type="submit"] {
 form.search .search.icon,
 form.search .close.icon {
   position: absolute;
+  top: 2px;
   right: 2px;
   width: 34px;
   height: 30px;
