@@ -1146,7 +1146,6 @@ function sortBy(key, type = 'text') {
           } else if (/\D/.test(value.replace(/\-|\/|\./gi, ''))) {
             value = null;
           } else {
-            console.log(value);
             value = parseFloat(value.toString().replace(/\s/g, '')) + sizeTemp.length;
           }
         }
@@ -3598,13 +3597,15 @@ function createFilter(area, settings) {
       var content = '';
       if (search) {
         if (search === 'date') {
+          filter = undefined;
           search =
           `<div class="calendar-wrap">
             <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
           </div>`;
         } else {
+          var isDisplay = filter && items && items.length > 15 ? '' : 'displayNone';
           search =
-          `<form class="search row" action="#">
+          `<form class="search row ${isDisplay}" action="#">
             <input type="text" data-value="" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
@@ -3612,7 +3613,7 @@ function createFilter(area, settings) {
         }
         content += search;
       }
-      if (filter && search !== 'date') {
+      if (filter) {
         var isMore = data.isMore,
             maxHeight = 'none';
         if (isMore) {
@@ -3774,7 +3775,7 @@ function Filter(obj, handler) {
 
   // Заполнение фильтров значениями:
   this.fillItems = function(info) {
-    var filter, data, group, items, isMore, moreBtn, activeMode;
+    var filter, data, group, items, isSearch, search, isMore, moreBtn, activeMode;
     for (var k in info) {
       filter = info[k];
       if (filter.section) {
@@ -3785,7 +3786,7 @@ function Filter(obj, handler) {
             for (var key in filter.mode) {
               var modeBtn = getEl(`[data-mode="${key}"]`, this.filter);
               if (modeBtn) {
-                var modeClass, modeFilter, isDisplay = 'displayNone';;
+                var modeFilter, isDisplay = 'displayNone';
                 for (var kk in filter.section) {
                   modeFilter = filter.section[kk];
                   if (modeFilter.mode && modeFilter.mode == key && modeFilter.items && modeFilter.items.length) {
@@ -3793,7 +3794,6 @@ function Filter(obj, handler) {
                   }
                 }
                 activeMode = !activeMode && !isDisplay ? key : activeMode;
-                modeClass = key === activeMode ? 'active' : '';
               }
               if (isDisplay) {
                 modeBtn.classList.add('displayNone');
@@ -3835,11 +3835,20 @@ function Filter(obj, handler) {
       if (items && data.filter !== 'date') {
         items.innerHTML = fillFilterItems(data.filter, data.items);
         items = data.items;
+        isSearch = data.search;
         isMore = data.isMore;
         if ((data.search && !items) || items.length) {
           group.classList.remove('displayNone');
         } else {
           group.classList.add('displayNone');
+        }
+        if (isSearch) {
+          search = getEl(`.group[data-key="${key}"]:not([data-type]) form.search`, filterBlock);
+          if (items && items.length > 15) {
+            search.classList.remove('displayNone');
+          } else {
+            search.classList.add('displayNone');
+          }
         }
         if (isMore) {
           moreBtn = getEl(`.group[data-key="${key}"]:not([data-type]) .more`, filterBlock);

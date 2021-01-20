@@ -324,9 +324,9 @@
   }
 
   .filters .btns-wrap {
-    display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    opacity: 1;
   }
 
   /* Блок фильтров видимый на всех разрешениях: */

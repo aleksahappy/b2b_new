@@ -3084,8 +3084,8 @@ form.post .btns-wrap {
 }
 
 .filters .btns-wrap {
-  display: none;
   flex-grow: 1;
+  opacity: 0;
 }
 
 .filters .btn {
