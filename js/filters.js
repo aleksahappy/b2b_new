@@ -11,20 +11,20 @@ var catalogFiltersData = {
 
 // Фильтр подбора запчастей:
 
-var partsFiltersData = [{
+var manuf2FiltersData = [{
   title: 'Производитель',
-  key: 'man',
+  key: 'brand',
 }, {
   title: 'Год выпуска',
   key: 'years',
 }, {
   title: 'Модель',
-  key: 'model',
+  key: 'models',
 }];
 
 // Фильтр подбора адаптера:
 
-var adapterFiltersData = [{
+var manuf1FiltersData = [{
   title: 'Год выпуска мотоцикла',
   key: 'years',
 }, {
@@ -32,7 +32,7 @@ var adapterFiltersData = [{
   key: 'brand',
 }, {
   title: 'Модель мотоцикла',
-  key: 'model',
+  key: 'modelsonly',
 }, {
   title: 'Объем двигателя',
   key: 'engine',
@@ -131,13 +131,18 @@ function fillCatalogFilters() {
       items: {},
       isMore: true
     };
-    catalogFiltersData.filters.use = {
-      title: 'Применяемость',
-      filter: 'checkbox',
-      items: window.use || [],
-      isMore: true
-    };
+  }
 
+  // Общие фильтры для всех страниц:
+  catalogFiltersData.filters.use = {
+    title: 'Применяемость',
+    filter: 'checkbox',
+    items: window.use || [],
+    isMore: true
+  };
+
+  // Фильтры экипировки:
+  if (pageId === 'equip') {
     catalogFiltersData.filters.sizeREU = {
       title: 'Размер для фильтров (собран из sizelist)',
       filter: 'checkbox',

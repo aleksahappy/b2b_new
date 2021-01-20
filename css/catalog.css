@@ -237,7 +237,7 @@ body {
   width: 100%;
 }
 
-#additional-info,
+#step-info,
 #filters-info {
   display: none;
 }
@@ -246,7 +246,7 @@ body {
   max-width: 15em;
 }
 
-#additional-info .pill {
+#step-info .pill {
   max-width: 90%;
   background-color: rgba(242, 201, 76, 0.5);
 }
@@ -383,7 +383,7 @@ body {
 Стили для дополнительных фильтров:
 ===================================================================================================== */
 
-#main.equip #filters .additional {
+#main.equip #filters .step {
   display: none;
 }
 
@@ -400,36 +400,36 @@ body#snowbike #oem {
   display: none !important;
 }
 
-#filters .additional .group {
+#filters .step .group {
   margin-bottom: 1px;
   padding: 0;
 }
 
-#filters .additional .group.close {
+#filters .step .group.close {
   margin-bottom: 0;
 }
 
-#filters .additional .group > .title {
+#filters .step .group > .title {
   background-color: #F05A28;
 }
 
-#filters .additional .group > .items {
+#filters .step .group > .items {
   background-color: #F9BA4D;
   padding: 0.714em;
   padding-bottom: 1em;
 }
 
-#filters .additional .group .activate {
+#filters .step .group .activate {
   width: 100%;
   margin-bottom: 0.6em;
 }
 
-#filters .additional .group .activate:last-child {
+#filters .step .group .activate:last-child {
   margin-bottom: 0;
 }
 
-#filters .additional .group .activate.open .drop-down {
-  max-height: 15em;
+#filters .step .group .activate.open .drop-down {
+  max-height: 15.5em;
 }
 
 /* =====================================================================================================
@@ -909,7 +909,7 @@ body.zip .big-card .card-info {
   width: 100%;
 }
 
-body.zip .big-card .card-info .oem {
+body.zip .big-card .card-info .oem-list {
   max-height: 5.5em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -919,7 +919,7 @@ body.zip .big-card .card-info .oem {
  Стили для полной карточки:
 ===================================================================================================== */
 
-/* Стили для полной карточки экипировки: */
+/* Общие стили для полной карточки: */
 
 .full-card {
   position: relative;
@@ -1046,10 +1046,14 @@ body.zip .big-card .card-info .oem {
   padding: 1.167em 2.917em;
 }
 
-/* Дополнительные стили для карточек ЗИП: */
+/* Стили для полной карточки ЗИП: */
 
 body.zip .full-card .card-content {
   border-bottom: none;
+}
+
+body.zip .full-card .card-sizes {
+  margin-bottom: 1.428em;
 }
 
 body.zip .full-card .select-info {
@@ -1134,6 +1138,20 @@ body#snowbike .full-card .manuf-table td:nth-child(1) {
 
 .full-card .card-details .notice {
   display: none;
+}
+
+/* Стили для полной карточки комплектов в ЗИП */
+
+.full-card-kit .full-card .card-sizes > .row {
+  align-items: center;
+}
+
+.full-card-kit .full-card .search-info {
+  width: 100%;
+}
+
+.full-card-kit .full-card .card-sizes .btn.sub-act {
+  margin-top: 0.4em;
 }
 
 /* =====================================================================================================
