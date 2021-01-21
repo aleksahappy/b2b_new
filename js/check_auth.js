@@ -22,6 +22,9 @@ if (local) {
 
 // Проверка авторизован ли пользователь:
 
+userInfo = {login: "TS00000905", name: "Александра", lastname: "Чаплыгина", parentname: "Николаевна", super_user: 1}
+// userInfo = {login: "TS00000905", name: "Александра", lastname: "Чаплыгина", parentname: "Николаевна"}
+
 // (function(){
 //   var path = location.pathname.replace('index.html', '').replace(/\//g, '').replace('registr', ''),
 //       xhr = new XMLHttpRequest();
@@ -33,20 +36,22 @@ if (local) {
 //       console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //       throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
 //     } else {
-//       var result = JSON.parse(xhr.response);
-//       if (result.login) {
-//         userInfo = result;
-//         if (!path) {
-//           location.href = '/dashboard';
+//       if (xhr.response) {
+//         var result = JSON.parse(xhr.response);
+//         if (result.login) {
+//           userInfo = result;
+//           if (!path) {
+//             location.href = '/dashboard';
+//           }
+//         } else {
+//           throw new Error('Неверный ответ на авторизацию.');
 //         }
 //       } else {
-//         if (path) {
-//           location.href = `/?${location.href}`;
-//         }
+//         throw new Error('Ответ на авторизацию не получен.');
 //       }
 //     }
 //   } catch(err) {
-//     console.log(err);
+//     // console.log(err);
 //     if (path) {
 //       location.href = `/?${location.href}`;
 //     }
