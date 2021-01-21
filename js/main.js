@@ -707,10 +707,12 @@ function setPaddingToBody() {
 
 // Проверка загруженности всех изображений карусели и ее инициализация:
 
-function renderCarousel(carousel, curImg = 0) {
+function renderCarousel(carousel, curImg = 0, card) {
+  if (!carousel) {
+    return;
+  }
   return new Promise((resolve, reject) => {
     var imgs = carousel.querySelectorAll('img');
-
     imgs.forEach((img, index) => {
       if (index === imgs.length - 1) {
         img.addEventListener('load', () => {
@@ -732,8 +734,10 @@ function renderCarousel(carousel, curImg = 0) {
           count = imgs.length;
       if (count === 0 || (count === 1 && imgs[0].src.indexOf('no_img.jpg') >= 0)) {
         var parent = carousel.parentElement;
-        parent.removeChild(carousel);
-        parent.insertAdjacentHTML('afterbegin', '<div class="img-wrap row"><img src="../img/no_img.jpg"></div>');
+        if (parent) {
+          parent.removeChild(carousel);
+          parent.insertAdjacentHTML('afterbegin', '<div class="img-wrap row"><img src="../img/no_img.jpg"></div>');
+        }
       } else {
         startCarouselInit(carousel, curImg);
       }
