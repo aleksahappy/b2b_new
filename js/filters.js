@@ -8,7 +8,6 @@ var catalogFiltersData = {
   isVisible: true
 };
 
-
 // Фильтр подбора запчастей:
 
 var manuf2FiltersData = [{
@@ -47,24 +46,7 @@ var state = {
   'arrive': 'Ожидается поступление'
 };
 
-var sizes = {
-  '2XS': "1",
-  'XS': "1",
-  'S': "1",
-  'M': "1",
-  'L': "1",
-  'XL': "1",
-  '2XL': "1",
-  '3XL': "1",
-  '4XL': "1"
-};
-
 var sizeSV = {};
-
-var gender = {
-  'male': 'Муж.',
-  'female': 'Жен.'
-};
 
 //=====================================================================================================
 // Первоначальное заполнение фильтров каталога:
@@ -79,142 +61,122 @@ function fillCatalogFilters() {
     sizeSV['SVNA'] = 'NA';
   }
 
-  // Общие фильтры для всех страниц:
-  catalogFiltersData.filters.action_id = {
-    title: 'Спецпредложение',
-    filter: 'checkbox',
-    items: window.actions || [],
-    isOpen: true
-  };
-  catalogFiltersData.filters.state = {
-    title: 'Доступность',
-    filter: 'checkbox',
-    items: window.state || [],
-    isOpen: true
-  };
-
-  // Фильтр для ЗИП:
-  if (pageId !== 'equip') {
-    catalogFiltersData.filters.manuf = {
+  var allFilters = {
+    // Общие:
+    action_id: {
+      title: 'Спецпредложение',
       filter: 'checkbox',
-      optKey: '7', // Производитель техники
-      optSplit: ',',
-      itemsSort: 'text',
-      items: {},
-      isOpen: true,
+      items: window.actions || [],
+    },
+    state: {
+      title: 'Доступность',
+      filter: 'checkbox',
+      items: window.state || [],
+    },
+    cat: {
+      title: 'Категория',
+      filter: 'checkbox',
+      items: window.catsubs || [],
+    },
+    brand: {
+      title: 'Бренд',
+      search: 'usual',
+      filter: 'checkbox',
+      items: window.brands || [],
       isMore: true
-    };
-  }
-
-  // Общие фильтры для всех страниц:
-  catalogFiltersData.filters.cat = {
-    title: 'Категория',
-    filter: 'checkbox',
-    items: window.catsubs || [],
-    isOpen: true
-  };
-  catalogFiltersData.filters.brand = {
-    title: 'Бренд',
-    search: 'usual',
-    filter: 'checkbox',
-    items: window.brands || [],
-    isMore: true
-  };
-
-  // Фильтры экипировки:
-  if (pageId === 'equip') {
-    catalogFiltersData.filters.model = {
+    },
+    model: {
       search: 'usual',
       filter: 'checkbox',
       optKey: '15', // Модель
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-  }
+    },
+    use: {
+      title: 'Применяемость',
+      filter: 'checkbox',
+      items: window.use || [],
+      isMore: true
+    },
+    color: {
+      filter: 'checkbox',
+      optKey: '27', // Цвет
+      optSplit: ',',
+      items: {}
+    },
 
-  // Общие фильтры для всех страниц:
-  catalogFiltersData.filters.use = {
-    title: 'Применяемость',
-    filter: 'checkbox',
-    items: window.use || [],
-    isMore: true
-  };
-
-  // Фильтры экипировки:
-  if (pageId === 'equip') {
-    catalogFiltersData.filters.sizeREU = {
+    // Экипировка:
+    sizeREU: {
       title: 'Размер для фильтров (собран из sizelist)',
       filter: 'checkbox',
       itemsSort: 'size',
-      items: window.sizelist['1252'] || [] // Размер для фильтров
-    };
-
-    catalogFiltersData.filters.size_1252 = {
+      items: window.sizelist ? (window.sizelist['1252'] || []) : [] // Размер для фильтров
+    },
+    size_1252: {
       filter: 'checkbox',
       optKey: '1252', // Размер для фильтров
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_39 = {
+    },
+    size_39: {
       filter: 'checkbox',
       optKey: '39', // Размер поставщика
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_38 = {
+    },
+    size_38: {
       filter: 'checkbox',
       optKey: '38', // Размер для сайта
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_1256 = {
+    },
+    size_1256: {
       filter: 'checkbox',
       optKey: '1256', // Европейский размер
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_1260 = {
+    },
+    size_1260: {
       filter: 'checkbox',
       optKey: '1260', // Размер взрослый
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_60 = {
+    },
+    size_60: {
       filter: 'checkbox',
       optKey: '60', // Размер детский
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_1273 = {
+    },
+    size_1273: {
       filter: 'checkbox',
       optKey: '1273', // Размер американский взрослый
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_1274 = {
+    },
+    size_1274: {
       filter: 'checkbox',
       optKey: '1274', // Размер американский детский
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-    catalogFiltersData.filters.size_1295 = {
+    },
+    size_1295: {
       filter: 'checkbox',
       optKey: '1295', // Длина стельки взрослый
       optSplit: ',',
       itemsSort: 'size',
       items: {}
-    };
-
-    catalogFiltersData.filters.size = {
+    },
+    size: {
       title: 'Размер',
       mode: {EU: 'Европейский размер', US: 'Американский размер', cm: 'Длина стельки, см'},
       section: {
@@ -273,89 +235,161 @@ function fillCatalogFilters() {
           items: {}
         }
       }
-    };
-    catalogFiltersData.filters.age = {
+    },
+    age: {
       filter: 'checkbox',
       optKey: '42', // Возраст
       items: {}
-    };
-    catalogFiltersData.filters.gender = {
+    },
+    gender: {
       filter: 'checkbox',
       optKey: '43', // Пол
       items: {}
-    };
-    catalogFiltersData.filters.length = {
+    },
+    lengthCМ: {
       filter: 'checkbox',
       optKey: '41', // Длина, см
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-  }
+    },
 
-  // Общие фильтры для всех страниц:
-  catalogFiltersData.filters.color = {
-    filter: 'checkbox',
-    optKey: '27', // Цвет
-    optSplit: ',',
-    items: {}
-  };
+    // ЗИП:
+    manuf: {
+      title: 'Производитель',
+      filter: 'checkbox',
+      optKey: '7', // Производитель техники
+      optSplit: ',',
+      itemsSort: 'text',
+      items: {},
+      isMore: true
+    },
 
-  // Фильтры для лодок и моторов:
-  if (pageId === 'boats') {
-    catalogFiltersData.filters.material = {
+    // Лодки и моторы:
+    material: {
       filter: 'checkbox',
       optKey: '3', //Материал
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-    catalogFiltersData.filters.power = {
+    },
+    power: {
       filter: 'checkbox',
       optKey: '5', //Мощность мотора, лс
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-    catalogFiltersData.filters.step = {
+    },
+    step: {
       filter: 'checkbox',
       optKey: '4', //Шаг
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-    catalogFiltersData.filters.fit = {
+    },
+    fit: {
       filter: 'checkbox',
       optKey: '6', // Посадка на вал
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-    catalogFiltersData.filters.type = {
+    },
+    type: {
       filter: 'checkbox',
       optKey: '8', // Тип лодочного мотора'
       itemsSort: 'text',
       items: {},
       isMore: true
-    };
-  }
+    },
 
-  // Фильтры сноубайков:
-  if (pageId === 'snowbike') {
-    catalogFiltersData.filters.year = {
+    // Сноубайки:
+    year: {
       filter: 'checkbox',
       optKey: '32', // Год модели техники
       optSplit: ',',
       itemsSort: 'text',
       items: {}
-    };
-    catalogFiltersData.filters.model = {
+    },
+    model: {
       filter: 'checkbox',
       optKey: '33', // Модель техники
       optSplit: ',',
       itemsSort: 'text',
       items: {}
-    };
+    }
+  };
+
+  var filtersByCatalog = {
+    equip: {
+      action_id: true,
+      state: true,
+      cat: true,
+      brand: false,
+      model: false,
+      use: false,
+      sizeREU: false,
+      size_1252: false,
+      size_39: false,
+      size_38: false,
+      size_1256: false,
+      size_1260: false,
+      size_60: false,
+      size_1273: false,
+      size_1274: false,
+      size_1295: false,
+      size: false,
+      age: false,
+      gender: false,
+      length: false,
+      color: false
+    },
+    boats: {
+      action_id: true,
+      state: true,
+      manuf: true,
+      brand: true,
+      cat: false,
+      use: false,
+      color: false,
+      material: false,
+      power: false,
+      step: false,
+      fit: false,
+      type: false
+    },
+    snow: {
+      action_id: true,
+      state: true,
+      manuf: true,
+      brand: true,
+      cat: false,
+      use: false,
+      color: false
+    },
+    snowbike: {
+      action_id: true,
+      state: true,
+      manuf: true,
+      brand: true,
+      cat: false,
+      use: false,
+      color: false,
+      year: false,
+      model: false
+    }
+  };
+
+  if (filtersByCatalog[pageId]) {
+    var isOpen;
+    for (var key in filtersByCatalog[pageId]) {
+      if (allFilters[key]) {
+        catalogFiltersData.filters[key] = allFilters[key];
+        isOpen = filtersByCatalog[pageId][key];
+        if (isOpen) {
+          catalogFiltersData.filters[key].isOpen = isOpen;
+        }
+      }
+    }
   }
 }
 

@@ -783,8 +783,8 @@ function renderGallery() {
   if (!curItems.length) {
     return;
   }
+  clearCurSelect();
   setValueDropDown('#gallery-sort', '-price_cur1');
-  clearCurSearch();
   showElement('#search', 'flex');
   showElement('#header-catalog');
   showElement('#content', 'flex');
@@ -812,19 +812,6 @@ function getFiltersFromUrl() {
     }
   });
   return filters;
-}
-
-// Очистка текущего поиска:
-
-function clearCurSearch() {
-  if (!curSelect) {
-    return;
-  }
-  if (curSelect === 'search' || curSelect === 'oem') {
-    clearSearch(`#${curSelect}`);
-  }
-  curSelect = null;
-  itemsToLoad = curItems;
 }
 
 // Добавление/удаление обработчиков событий на странице:
@@ -949,14 +936,16 @@ function loadCards(cards) {
     method: countItems === 0 ? 'inner' : 'beforeend'
   });
   if (view === 'list') {
-    document.querySelectorAll('.big-card').forEach(card => {
-      renderCarousel(getEl('.carousel', card));
+    document.querySelectorAll('.big-card.new').forEach(card => {
+      card.classList.remove('new');
+      renderCarousel(getEl('.carousel', card), undefined, card);
       checkCart(card);
       addActionTooltip(card);
     });
   }
   if (view === 'blocks') {
-    document.querySelectorAll('.min-card').forEach(card => {
+    document.querySelectorAll('.min-card.new').forEach(card => {
+      card.classList.remove('new');
       checkMedia(getEl('img', card));
       checkCart(card);
       addActionTooltip(card);
@@ -1034,67 +1023,52 @@ function showFullCard(id) {
     return;
   }
 
-  addDetailsInfo(data)
-  .then(result => {
-    var fullCardContainer;
-    if (data.kit == 1) {
-      fullCardContainer = getEl('.full-card-kit');
-    } else {
-      fullCardContainer = getEl('.full-card-container');
-    }
+  var fullCardContainer;
+  if (data.kit == 1) {
+    fullCardContainer = getEl('.full-card-kit');
+  } else {
+    fullCardContainer = getEl('.full-card-container');
+  }
 
-    fillTemplate({
-      area: fullCardContainer,
-      items: data,
-      sub: [{
-        area: '.carousel-item',
-        items: 'images'
-      }, {
-        area: '.card-size',
-        items: 'sizes'
-      }, {
-        area: '.desk .card-option',
-        items: 'options'
-      }, {
-        area: '.adaptive .card-option',
-        items: 'options'
-      }, {
-        area: '.manuf-row',
-        items: 'manuf_table'
-      }, {
-        area: '.describe',
-        items: 'describe'
-      }]
-    });
-
-    if (catalogType === 'zip') {
-      if (data.details) {
-        fillTemplate({
-          area: '#details',
-          items: data.details,
-          sign: '@'
-        });
-        initSearch('#detail-search', detailsSearch);
-      } else {
-        getEl('.card-details', fullCardContainer).remove();
-      }
-    }
-
-    var curCarousel = getEl('.carousel', fullCardContainer);
-    renderCarousel(curCarousel)
-    .then(result => {
-      curCarousel = getEl('.carousel', fullCardContainer);
-      if (curCarousel) {
-        getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
-        getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
-      }
-    });
-
-    checkCart(getEl('.full-card'));
-    addActionTooltip(getEl('.full-card'));
-    openPopUp(fullCardContainer);
-    loader.hide();
+  fillTemplate({
+    area: fullCardContainer,
+    items: data,
+    sub: [{
+      area: '.carousel-item',
+      items: 'images'
+    }, {
+      area: '.card-size',
+      items: 'sizes'
+    }, {
+      area: '.desk .card-option',
+      items: 'options'
+    }, {
+      area: '.adaptive .card-option',
+      items: 'options'
+    }, {
+      area: '.manuf-row',
+      items: 'manuf_table'
+    }, {
+      area: '.describe',
+      items: 'describe'
+    }]
   });
+  addDetailsInfo(fullCardContainer, data);
+
+  var curCarousel = getEl('.carousel', fullCardContainer);
+  renderCarousel(curCarousel)
+  .then(result => {
+    curCarousel = getEl('.carousel', fullCardContainer);
+    if (curCarousel) {
+      getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+      getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+    }
+  });
+
+  checkCart(getEl('.full-card'));
+  addActionTooltip(getEl('.full-card'));
+  openPopUp(fullCardContainer);
+  loader.hide();
 }
 
 // Отображение информационной карточки товара:
@@ -1152,43 +1126,56 @@ function copyArticul(event, articul) {
 
 // Добавление информации о применяемости деталей:
 
-function addDetailsInfo(data) {
-  return new Promise(resolve => {
-    if (catalogType !== 'zip') {
-      resolve();
-    }
-    if (data.details) {
-      resolve();
-    }
-    sendRequest(`../json/details.json`)
+function addDetailsInfo(fullCardContainer, data) {
+  if (!getEl('.card-details', fullCardContainer)) {
+    return;
+  }
+  if (data.details) {
+    fillDetailsInfo(fullCardContainer, data);
+  } else {
+  sendRequest(`../json/details.json`)
     // sendRequest(urlRequest.main, 'item_models', {id: data.object_id})
     .then(result => {
       if (result) {
         result = JSON.parse(result);
-        var details = [];
-        result.forEach((el, index) => {
-          details[index] = '';
-          if (el.brand) {
-            details[index] += el.brand;
-          }
-          if (el.year) {
-            details[index] += ' — ' + el.year;
-          }
-          if (el.model) {
-            details[index] += ' — ' + el.model;
-          }
+        var list = [], text;
+        result.forEach(el => {
+          text = '';
+          Object.keys(el).forEach((key, index) => {
+            if (el[key]) {
+              if (index === 0) {
+                text += el[key];
+              } else {
+                text += ' – ' + el[key];
+              }
+            }
+          });
+          list.push(text);
         });
-        data.details = details;
-        resolve();
+        data.details = list;
+        fillDetailsInfo(fullCardContainer, data);
       } else {
-        throw new Error('Пустой ответ.');
+        data.details = [];
       }
     })
     .catch(error => {
-      // console.log(error);
-      resolve();
+      console.log(error);
     })
-  });
+  }
+}
+
+// Заполнение информации о применяемости детали:
+
+function fillDetailsInfo(fullCardContainer, data) {
+  if (data.details.length) {
+    fillTemplate({
+      area: '#details',
+      items: data.details,
+      sign: '@'
+    });
+    initSearch('#detail-search', detailsSearch);
+    getEl('.card-details', fullCardContainer).classList.remove('displayNone');
+  }
 }
 
 // Поиск по применяемости:
@@ -1315,23 +1302,32 @@ function toggleFiltersCatalog() {
 // Переключение свойства открыт по умолчанию (если меняется от вкладки ко вкладке):
 
 function toggleFilterPosition() {
-  var addDefaultOpen = {
-    // pageUrl вкладки: список ключей где добавить открытие по умолчанию
-    'equip': ['brand']
+  var toggleDefaultOpen = {
+    // pageUrl вкладки: {ключ фильтра: true - открыт/false - закрыт}
+    equip: {brand: true}
   };
 
-  var filterItem;
-  for (var key in addDefaultOpen) {
-    addDefaultOpen[key].forEach(el => {
-      filterItem = getEl(`#catalog-filters .group[data-key="${el}"]`);
+  var filterItem, isOpen;
+  for (var page in toggleDefaultOpen) {
+    for (var key in toggleDefaultOpen[page]) {
+      filterItem = getEl(`#catalog-filters .group[data-key="${key}"]`);
       if (filterItem) {
-        if (key === pageUrl) {
-          filterItem.classList.add('default-open');
+        isOpen = toggleDefaultOpen[page][key];
+        if (isOpen) {
+          if (page === pageUrl) {
+            filterItem.classList.add('default-open');
+          } else {
+            filterItem.classList.remove('default-open');
+          }
         } else {
-          filterItem.classList.remove('default-open');
+          if (page === pageUrl) {
+            filterItem.classList.remove('default-open');
+          } else {
+            filterItem.classList.add('default-open');
+          }
         }
       }
-    });
+    }
   }
 
   document.querySelectorAll(`#catalog-filters .switch.save[data-key]`).forEach(el => {

@@ -392,7 +392,7 @@
       "preorder_id": "0",
       "free_qty": "0",
       "arrive_qty": "2",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YASU3257",
       "item_code": "YASU3257",
       "brand": "YETI",
@@ -520,7 +520,7 @@
       "preorder_id": "0",
       "free_qty": "2",
       "arrive_qty": "5",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YASU3258",
       "item_code": "YASU3258",
       "brand": "YETI",
@@ -705,7 +705,7 @@
       "preorder_id": "0",
       "free_qty": "0",
       "arrive_qty": "7",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YASU3271",
       "item_code": "YASU3271",
       "brand": "YETI",
@@ -1458,7 +1458,7 @@
       "preorder_id": "0",
       "free_qty": "11",
       "arrive_qty": "0",
-      "arrive_date": "",
+      "arrive_date": "0000-00-00",
       "articul": "YASU3274",
       "item_code": "YASU3274",
       "brand": "YETI",
@@ -1886,7 +1886,7 @@
       "preorder_id": "0",
       "free_qty": "20",
       "arrive_qty": "0",
-      "arrive_date": "",
+      "arrive_date": "0000-00-00",
       "articul": "YAAC1281",
       "item_code": "YAAC1281",
       "brand": "YETI",
@@ -2052,7 +2052,7 @@
       "preorder_id": "0",
       "free_qty": "0",
       "arrive_qty": "3",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YAAK2519",
       "item_code": "YAAK2519",
       "brand": "YETI",
@@ -2271,7 +2271,7 @@
       "preorder_id": "0",
       "free_qty": "0",
       "arrive_qty": "2",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YAAK2548",
       "item_code": "YAAK2548",
       "brand": "YETI",
@@ -2362,7 +2362,7 @@
       "preorder_id": "0",
       "free_qty": "0",
       "arrive_qty": "2",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YAAK2562",
       "item_code": "YAAK2562",
       "brand": "YETI",
@@ -2431,7 +2431,7 @@
       "preorder_id": "0",
       "free_qty": "40",
       "arrive_qty": "20",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YPHW1586",
       "item_code": "YPHW1586",
       "brand": "YETI",
@@ -2711,7 +2711,7 @@
       "preorder_id": "0",
       "free_qty": "40",
       "arrive_qty": "20",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YPHW1676",
       "item_code": "YPHW1676",
       "brand": "YETI",
@@ -5071,7 +5071,7 @@
       "preorder_id": "0",
       "free_qty": "6",
       "arrive_qty": "0",
-      "arrive_date": "",
+      "arrive_date": "0000-00-00",
       "articul": "129FR-3-black",
       "item_code": "129FR-3-black",
       "brand": "YETI",
@@ -5180,101 +5180,59 @@
       "manuf2": [
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0009"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0010"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0021"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0022"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0023"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0024"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0033"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0034"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0035"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0041"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0042"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0043"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0044"
         },
         {
           "brand": "YETI",
-          "models": " ",
-          "modelsonly": "",
-          "years": "",
-          "engine": ""
+          "oem": "9645NIG0047"
         }
       ],
       "kit": "1",
@@ -5303,7 +5261,7 @@
       "preorder_id": "0",
       "free_qty": "4",
       "arrive_qty": "0",
-      "arrive_date": "",
+      "arrive_date": "0000-00-00",
       "articul": "129FR-3-orange",
       "item_code": "129FR-3-orange",
       "brand": "YETI",
@@ -5385,7 +5343,7 @@
       "preorder_id": "0",
       "free_qty": "1",
       "arrive_qty": "0",
-      "arrive_date": "",
+      "arrive_date": "0000-00-00",
       "articul": "129FR-3-silver",
       "item_code": "129FR-3-silver",
       "brand": "YETI",
@@ -5467,7 +5425,7 @@
       "preorder_id": "0",
       "free_qty": "2",
       "arrive_qty": "0",
-      "arrive_date": "",
+      "arrive_date": "0000-00-00",
       "articul": "137MT-3-black",
       "item_code": "137MT-3-black",
       "brand": "YETI",
@@ -5671,7 +5629,7 @@
       "preorder_id": "0",
       "free_qty": "0",
       "arrive_qty": "24",
-      "arrive_date": "21.01",
+      "arrive_date": "22.01",
       "articul": "YPHW1348",
       "item_code": "YPHW1348",
       "brand": "YETI",
