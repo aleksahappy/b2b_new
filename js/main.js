@@ -1416,18 +1416,18 @@ function declOfNum(number, titles) {
 
 // Функция преобразования числа к ценовому формату (с пробелами):
 
-function convertPrice(numb, fix = 0, sign = ',') {
+function convertPrice(numb, fix = 0, sign = ',', separator = ' ') {
   try {
     if (/[^\d|\.|\,|\-]/g.test(numb)) {
       return numb;
     }
     var price = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''), 10);
     price = Number(price).toFixed(fix);
-    return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ').replace('.', sign);
+    return (price + '').replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, `$1${separator}`).replace('.', sign);
   } catch(error) {
     return numb;
   }
-  // второй вариант (менее кросс-браузерный):
+  // второй вариант (менее кросс-браузерный и без возможности замены разделителя разрядов):
   // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: fix, maximumFractionDigits: fix });
 }
 
