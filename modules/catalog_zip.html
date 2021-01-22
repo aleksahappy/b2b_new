@@ -195,7 +195,7 @@
                   </div>
                 </div>
               </div>
-              <a class="sub-act btn" href="https://new.topsports.ru/snowbike/?adapter">Подобрать адаптер</div>
+              <a class="sub-act btn" href="../snowbike/?adapter" data-title="Адаптеры" onclick="openPage(event)">Подобрать адаптер</a>
             </div>
           </div>
           <div class="card-options desk">
@@ -220,12 +220,14 @@
             </div>
           </div>
         </div>
-        <div class="describe switch #isClose#">
-          <div class="head" onclick="switchContent(event)">
-            <div class="title h3">#title#</div>
-            <div class="open white icon switch-icon"></div>
+        <div class="card-describes displayNone">
+          <div class="describe switch @isClose@">
+            <div class="head" onclick="switchContent(event)">
+              <div class="title h3">@title@</div>
+              <div class="open white icon switch-icon"></div>
+            </div>
+            <div class="info switch-cont">@info@</div>
           </div>
-          <div class="info switch-cont">#info#</div>
         </div>
       </div>
     </div>
@@ -317,7 +319,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body #isManuf#">
+      <div class="card-body #isManufTable#">
         <table class="manuf-table">
           <thead>
             <tr>
@@ -331,8 +333,8 @@
             <tr class="manuf-row">
               <td>#oem#</td>
               <td>#years#</td>
-              <td>#man#</td>
-              <td>#model#</td>
+              <td>#brand#</td>
+              <td>#models#</td>
             </tr>
           </tbody>
         </table>
@@ -350,12 +352,14 @@
             </div>
           </div>
         </div>
-        <div class="describe switch #isClose#">
-          <div class="head" onclick="switchContent(event)">
-            <div class="title h3">#title#</div>
-            <div class="open white icon switch-icon"></div>
+        <div class="card-describes displayNone">
+          <div class="describe switch @isClose@">
+            <div class="head" onclick="switchContent(event)">
+              <div class="title h3">@title@</div>
+              <div class="open white icon switch-icon"></div>
+            </div>
+            <div class="info switch-cont">@info@</div>
           </div>
-          <div class="info switch-cont">#info#</div>
         </div>
         <div class="card-details switch close displayNone">
           <div class="head" onclick="switchContent(event)">

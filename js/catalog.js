@@ -288,23 +288,18 @@ function convertActions() {
 
 function convertItems() {
   items.forEach(item => convertItem(item));
-  // items.sort(sortBy(('catid'))); // Сортировка по id категории:
 }
 
 // Преобразование данных по одному товару:
 
 function convertItem(item) {
-  addManufNewInfo(item);
   addManufInfo(item);
-  addOemInfo(item);
   item.title = item.title.replace(/\s/g, ' ');
   item.isFree = item.free_qty > 0 ? '' : 'displayNone';
   item.isArrive = item.arrive_qty > 0 ? '' : 'displayNone';
-  item.isDesc = item.desc ? '' : 'displayNone';
+  item.isOemList = item.oemList ? '' : 'displayNone';
+  item.isManufTable = item.manuf_table ? '' : 'displayNone';
   item.search = [item.title, item.brand, item.cat, item.subcat]; // добавление данных для поиска по странице (далее в функциях будут дополняться)
-  if (item.cat === 'Винты гребные') {
-    item.propeller = '1';
-  }
   addImgInfo(item);
   addActionInfo(item);
   addPriceInfo(item);
@@ -314,93 +309,142 @@ function convertItem(item) {
   addOptionsInfo(item, optnames);
   addDescrInfo(item);
   addFiltersInfo(item);
-  item.isOemList = item.oemList ? '' : 'displayNone';
-  item.isManuf = item.manuf ? '' : 'displayNone';
   item.search = item.search.join(';').replace(/\s/g, ' ');
   return item;
 }
 
-// Преобразование данных о производителе для фильтров, построения таблицы и добавление данных об OEM (новый manuf):
-
-function addManufNewInfo(item) {
-  // item.oemList = '';
-  Object.keys(item).forEach(key => {
-    if (key !== 'manuf' && key.indexOf('manuf') == 0 && Array.isArray(item[key])) {
-      item[key].forEach(el => {
-        for (var key in el) {
-          // if (key === 'oem') {
-          //   item.oemList += el[key] + ';';
-          // }
-          if (el[key].indexOf(';') >= 0) {
-            el[key] = el[key].split(';');
-          }
-        }
-      });
-    }
-  });
-  // item.oemList.slice(0, -1).replace(/;/g, ' ,');
-}
-
-// Преобразование данных о производителе для фильтров и построения таблицы:
+// Преобразование данных о производителе для фильтров, построения таблицы и добавление данных об OEM:
 
 function addManufInfo(item) {
-  if (!item.manuf) {
-    return;
-  }
-  var manufTable = [],
-      manufTableRow,
-      value;
+  var mainTableKey = 'brand',
+      mainKeys = [],
+      tableData = [],
+      oemList = '';
+  addInfo('manuf1');
+  addInfo('manuf2');
 
-  for (var man in item.manuf.man) {;
-    manufTableRow = {};
-    manufTableRow.man = man;
+  function addInfo(manuf) {
+    if (!item[manuf]) {
+      return;
+    }
+    item[manuf].forEach(el => {
+      for (var key in el) {
+        if (key === 'oem' && manuf === 'manuf2') {
+          oemList += el[key] + ';';
+        }
+        if (el[key].indexOf(';') >= 0) {
+          el[key] = el[key].split(';');
+        };
+        if (key === mainTableKey && manuf === 'manuf2') {
+          getUniqManufValue(mainKeys, el[key]);
+        }
+      }
+    });
+    if (manuf === 'manuf2') {
+      var rowData;
+      if (!mainKeys.length) {
+        mainKeys.push('&mdash;');
+      }
+      mainKeys.forEach(mainKey => {
+        rowData = {
+          oem: [],
+          years: [],
+          brand: [],
+          models: []
+        };
 
-    for (var k in item.manuf) {
-      if (k !== 'man') {
-        value = [];
-        for (var kk in item.manuf[k]) {
-          for (var kkk in item.manuf[k][kk]) {
-            if (kkk == man) {
-              value.push(kk);
+        item[manuf].forEach(el => {
+          var isFound;
+          if (mainKey === '&mdash;') {
+            isFound = true;
+          } else {
+            isFound = checkManufEl({[mainTableKey]: mainKey}, el);
+          }
+          if (isFound) {
+            for (var rowKey in rowData) {
+              if (rowKey !== mainTableKey) {
+                getUniqManufValue(rowData[rowKey], el[rowKey]);
+              }
             }
           }
+        });
+
+        for (var rowKey in rowData) {
+          rowData[rowKey] = rowData[rowKey].join(', ');
+          if (rowData[rowKey] && rowKey === 'years') {
+            rowData[rowKey] = convertYears(rowData[rowKey]);
+          }
+          rowData[rowKey] = rowData[rowKey] || '&mdash;';
         }
-        value = value.join(', ');
-        if (value && k === 'years') {
-          value = convertYears(value);
-        }
-        manufTableRow[k] = value || '&ndash;';
-      }
+        rowData[mainTableKey] = mainKey;
+        tableData.push(rowData);
+      });;
     }
-    manufTable.push(manufTableRow);
   }
-  item.manuf_table = manufTable;
+
+  if (tableData.length) {
+    item.manuf_table = tableData.sort(sortBy('oem'));
+  }
+  item.oemList = oemList.slice(0, -1).replace(/;/g, ', ');
 }
 
-// Добавление данных об OEM:
+// Получение уникальных значений из manuf:
 
-function addOemInfo(item) {
-  if (!item.manuf) {
-    return;
+function getUniqManufValue(data, value) {
+  if (value) {
+    if (Array.isArray(value)) {
+      value.forEach(el => {
+        addValue(el)
+      });
+    } else {
+      addValue(value);
+    }
   }
-  item.oemList = [];
-  for (var key in item.manuf.oem) {
-    item.oemList.push(key);
+
+  function addValue(value) {
+    value = value.trim();
+    if (value && !data.find(el => el.toLowerCase() === value.toLowerCase())) {
+      data.push(value);
+    }
   }
-  item.oemList = item.oemList.join(', ');
+}
+
+// Проверка элемента manuf на соответствие фильтрам:
+
+function checkManufEl(filters, el) {
+  var isFound, value;
+  for (var key in filters) {
+    isFound = false;
+    value = el[key];
+    if (value) {
+      if (Array.isArray(value)) {
+        value.forEach(el => {
+          if (el.trim().toLowerCase() === filters[key].toLowerCase()) {
+            isFound = true;
+          }
+        });
+      } else if (value.trim().toLowerCase() === filters[key].toLowerCase()) {
+        isFound = true;
+      }
+    }
+    if (!isFound) {
+      break;
+    }
+  }
+  return isFound;
 }
 
 // Проверка действия акции и добавление данных о ней:
 
 function addActionInfo(item) {
   item.isAction = item.actiontitle ? '' : 'hidden';
-  if (actions && item.action_id && item.action_id > 0) {
+  if (actions && item.action_id > 0) {
     var action = actions[item.action_id];
     if (action && (checkDate(action.begin, action.unending > 0 ? undefined : action.expire))) {
       item.actiontitle = action.title;
       item.actioncolor = action.color ? `#${action.color}` : '';
       item.actiondescr = action.descr;
-      item.actionexpire = action.unending != 0 ? '' : `до: ${getDateStr(action.expire)}`;
+      item.actionexpire = action.unending > 0 ? '' : `до: ${getDateStr(action.expire)}`;
       item.isAction = '';
       return;
     }
@@ -411,19 +455,14 @@ function addActionInfo(item) {
 // Добавление данных о текущей цене и отображении/скрытии старой:
 
 function addPriceInfo(item) {
-  item.isOldPrice = 'displayNone',
-  item.price_cur = item.price,
-  item.price_cur1 = item.price1;
-  if (item.price_user1 !== item.price_action1) {
-    if (cartId.indexOf('preorder') >= 0 && item.preorder_id && item.price_preorder1 > 0) {
-      item.isOldPrice = '';
-      item.price_cur = item.price_preorder;
-      item.price_cur1 = item.price_preorder1;
-    } else if (item.action_id && item.price_action1 > 0) {
-      item.isOldPrice = '';
-      item.price_cur = item.price_action;
-      item.price_cur1 = item.price_action1;
-    }
+  if (item.price_user1 !== item.price_action1 && item.action_id && item.price_action1 > 0) {
+    item.isOldPrice = '';
+    item.price_cur = item.price_action;
+    item.price_cur1 = item.price_action1;
+  } else {
+    item.isOldPrice = 'displayNone',
+    item.price_cur = item.price,
+    item.price_cur1 = item.price1;
   }
 }
 
@@ -476,20 +515,16 @@ function addSizeInfo(item) {
 
 function addDescrInfo(item) {
   item.describe = [];
-  if (item.desc) {
-    item.desc = item.desc.replace(/\\n/g, '');
-    item.describe.push({title: 'Описание товара', info: item.desc,});
-  }
   if (item.actiondescr) {
     item.actiondescr = item.actiondescr.replace(/\\n/g, '');
     item.describe.push({title: 'Условия акции', info: item.actiondescr, isClose: 'close'});
+    delete item.actiondescr;
   }
   if (item.defect_desc) {
     item.defect_desc = item.defect_desc.replace(/\\n/g, '');
     item.describe.push({title: 'Описание дефекта', info: item.defect_desc, isClose: 'close'});
+    delete item.defect_desc;
   }
-  delete item.actiondescr;
-  delete item.defect_desc;
 }
 
 // Добавление данных для фильтрации:
@@ -606,10 +641,11 @@ function setMinCardWidth(width) {
 // Динамическая смена URL и данных на странице:
 //=====================================================================================================
 
-// Изменение URL без перезагрузки страницы:
+// Переход по вкладкам страницы с изменением URL без перезагрузки:
 
 function openPage(event) {
   event.preventDefault();
+  document.querySelectorAll(`.pop-up-container.open`).forEach(el => closePopUp(null, el));
   if (event.type == 'popstate') {
     if (event.state) {
       path = event.state.path;
@@ -960,7 +996,7 @@ function addActionTooltip(card) {
   var id = card.dataset.action;
   if (id && actions && actions[id]) {
     var pill = getEl('.pill', card);
-    pill.dataset.tooltip = actions[id].descr ? actions[id].descr : '';
+    pill.dataset.tooltip = actions[id].descr || '';
   }
 }
 
@@ -1048,11 +1084,9 @@ function showFullCard(id) {
     }, {
       area: '.manuf-row',
       items: 'manuf_table'
-    }, {
-      area: '.describe',
-      items: 'describe'
     }]
   });
+  addDescribeInfo(fullCardContainer, data);
   addDetailsInfo(fullCardContainer, data);
 
   var curCarousel = getEl('.carousel', fullCardContainer);
@@ -1121,8 +1155,50 @@ function copyArticul(event, articul) {
 }
 
 //=====================================================================================================
-// Применяемость деталей:
+// Добавление информации в полную карточку товара и работа с ней:
 //=====================================================================================================
+
+// Добавление описания товара:
+
+function addDescribeInfo(fullCardContainer, data) {
+  if (data.desc) {
+    fillDescribeInfo(fullCardContainer, data);
+  } else {
+    sendRequest(`../json/describe.json`)
+    // sendRequest(urlRequest.main, 'item_descr', {id: data.object_id})
+    .then(result => {
+      if (result) {
+        result = JSON.parse(result);
+        data.desc = result.replace(/\\n/g, '');
+        if (/\S/.test(result)) {
+          data.describe.unshift({title: 'Описание товара', info: data.desc});
+        }
+      } else {
+        data.desc = '';
+      }
+      fillDescribeInfo(fullCardContainer, data);
+    })
+    .catch(error => {
+      console.log(error);
+      fillDescribeInfo(fullCardContainer, data);
+    })
+  }
+}
+
+// Заполнение описания товара:
+
+function fillDescribeInfo(fullCardContainer, data) {
+  var describe = getEl('.card-describes', fullCardContainer);
+  if (data.describe) {
+    fillTemplate({
+      area: describe,
+      items: data.describe,
+      sign: '@'
+    });
+    initSearch('#detail-search', detailsSearch);
+    describe.classList.remove('displayNone');
+  }
+}
 
 // Добавление информации о применяемости деталей:
 
@@ -1134,7 +1210,7 @@ function addDetailsInfo(fullCardContainer, data) {
     fillDetailsInfo(fullCardContainer, data);
   } else {
   sendRequest(`../json/details.json`)
-    // sendRequest(urlRequest.main, 'item_models', {id: data.object_id})
+  // sendRequest(urlRequest.main, 'item_models', {id: data.object_id})
     .then(result => {
       if (result) {
         result = JSON.parse(result);
@@ -1731,58 +1807,23 @@ function fillFilterStep(filter) {
 
 // Получение данных для заполнения выпадающих списков последовательного фильтра:
 
-function getFilterStepData(type, key, isFirst) {
+function getFilterStepData(type, dataKey, isFirst) {
   var data = [];
   type = type === 'oem' ? 'manuf2' : type;
   if (isFirst) {
     itemsToLoad = curItems;
   }
-  var isFound, value,
-      filters = getFilterStepItems(type);
+  var filters = getFilterStepItems(type);
   itemsToLoad.forEach(item => {
     if (item[type]) {
       item[type].forEach(el => {
-        for (var k in filters) {
-          isFound = false;
-          value = el[k];
-          if (value) {
-            if (Array.isArray(value)) {
-              value.forEach(el => {
-                if (el.trim().toLowerCase() === filters[k].toLowerCase()) {
-                  isFound = true;
-                }
-              });
-            } else if (value.trim().toLowerCase() === filters[k].toLowerCase()) {
-              isFound = true;
-            }
-          }
-          if (!isFound) {
-            break;
-          }
-        }
+        var isFound = checkManufEl(filters, el);
         if (isFirst || isFound) {
-          value = el[key];
-          if (value) {
-            if (Array.isArray(value)) {
-              value.forEach(el => {
-                addValue(el)
-              });
-            } else {
-              addValue(value);
-            }
-          }
+          getUniqManufValue(data, el[dataKey]);
         }
       });
     }
   });
-
-  function addValue(value) {
-    value = value.trim();
-    if (value && !data.find(el => el.toLowerCase() === value.toLowerCase())) {
-      data.push(value);
-    }
-  }
-
   data.sort();
   return data;
 }
@@ -1996,30 +2037,11 @@ function selectCardsByFilterCatalog() {
 // Отбор карточек последовательным фильтром:
 
 function selectCardsByFilterStep(type) {
-  var isFound, value,
-      filters = getFilterStepItems(type);
+  var filters = getFilterStepItems(type);
   itemsToLoad = curItems.filter(item => {
     if (item[type]) {
-      for (var info of item[type]) {
-        for (var key in filters) {
-          isFound = false;
-          value = info[key];
-          if (value) {
-            if (Array.isArray(value)) {
-              value.forEach(el => {
-                if (el.trim().toLowerCase() === filters[key].toLowerCase()) {
-                  isFound = true;
-                }
-              });
-            } else if (value.trim().toLowerCase() === filters[key].toLowerCase()){
-              isFound = true;
-            }
-          }
-          if (!isFound) {
-            break;
-          }
-        }
-        if (isFound) {
+      for (var el of item[type]) {
+        if (checkManufEl(filters, el)) {
           return true;
         }
       }
@@ -2037,12 +2059,12 @@ function selectCardsBySearchPage(textToFind) {
 // Отбор карточек поиском по OEM:
 
 function selectCardsBySearchOem(textToFind) {
+  var oemList;
   itemsToLoad = curItems.filter(item => {
-    if (item.manuf) {
-      for (var k in item.manuf.oem) {
-        if (k.toLowerCase().trim() == textToFind.toLowerCase().trim()) {
-          return true;
-        }
+    if (item.oemList) {
+      oemList = item.oemList.split(', ');
+      if (oemList.find(el => el.trim().toLowerCase() == textToFind.toLowerCase())) {
+        return true;
       }
     }
   });

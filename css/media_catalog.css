@@ -497,7 +497,16 @@
 
 /* Стили на ширину от 0 до 499px включительно: */
 @media only screen and (max-width: 499px) {
+  .full-card .manuf-table th.title {
+    min-width: 5em;
+  }
+
   .full-card .manuf-table th:nth-child(3) {
     max-width: 5em;
+  }
+
+  body.zip .full-card .card-body {
+    padding-right: 0;
+    padding-left: 0;
   }
 }
