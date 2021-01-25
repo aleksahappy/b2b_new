@@ -2196,12 +2196,12 @@ function closePopUp(event, el) {
   }
 }
 
-// Автоматическое закрытие блоков фильтров на разрешении больше 1280px:
+// Автоматическое закрытие блоков фильтров на разрешении больше 1359px:
 
 function closeFilterPopUp() {
   clearTimeout(window.resizedFinished);
   window.resizedFinished = setTimeout(function(){
-    if (window.innerWidth > 1280) {
+    if (window.innerWidth > 1359) {
       document.querySelectorAll('.pop-up-container.filters.open').forEach(el => closePopUp(null, el));
     }
   }, 250);
@@ -3445,7 +3445,7 @@ function DropDown(obj, handler, data, defaultValue) {
 //     key2: {...}
 //   },
 //   isSave: true / false                             Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию false - не сохраняются)
-//   isVisible: true / false                          Cделать фильтры видимыми на всех разрешениях (по умолчанию false - не видно до 1280px)
+//   isVisible: true / false                          Cделать фильтры видимыми на всех разрешениях (по умолчанию false - не видно до 1359px)
 // }
 
 // Инициализация блока фильтров:

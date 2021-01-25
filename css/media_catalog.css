@@ -32,8 +32,8 @@
   }
 }
 
-/* Стили на ширину свыше 1280px: */
-@media only screen and (min-width: 1281px) {
+/* Стили на ширину свыше 1359px: */
+@media only screen and (min-width: 1359px) {
   #search:not(:focus-within) .search.icon {
     visibility: visible !important;
   }
@@ -83,8 +83,8 @@
   }
 }
 
-/* Стили на ширину от 0 до 1280px включительно: */
-@media only screen and (max-width: 1280px) {
+/* Стили на ширину от 0 до 1359px включительно: */
+@media only screen and (max-width: 1359px) {
   #header-menu .container {
     display: block;
     margin: 0;
