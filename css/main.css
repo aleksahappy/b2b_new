@@ -529,9 +529,10 @@ body.no-scroll {
   border: 1px solid #3F9726;
 }
 
-/* номенклатура, непоставка и рекламации */
+/* номенклатура, непоставка, рекламации и без статуса*/
 .ord[data-status="5"],
 .ord[data-status="6"],
+.ord[data-status="NA"],
 .nomen,
 .nedop,
 .reclm {
@@ -563,6 +564,7 @@ body.no-scroll {
 
 .ord[data-status="5"].c10,
 .ord[data-status="6"].c10,
+.ord[data-status="NA"].c10,
 .nomen.c10,
 .nedop.c10,
 .reclm.c10 {
@@ -593,6 +595,7 @@ body.no-scroll {
 
 .ord[data-status="5"].c30,
 .ord[data-status="6"].c30,
+.ord[data-status="NA"].c30,
 .nomen.c30,
 .nedop.c30,
 .reclm.c30 {
@@ -602,38 +605,10 @@ body.no-scroll {
 /* Цветовая гамма статусов заказа - выбранные */
 
 .checked.ord[data-status="1"],
-.checked.ord[data-status="2"],
-.checked.ord[data-status="3"],
-.checked.ord[data-status="4"],
-.checked.ord[data-status="5"],
-.checked.ord[data-status="6"],
-.checked .ord[data-status="1"],
-.checked .ord[data-status="2"],
-.checked .ord[data-status="3"],
-.checked .ord[data-status="4"],
-.checked .ord[data-status="5"],
-.checked .ord[data-status="6"],
-.checked.vputi,
-.checked.vnali,
-.checked.sobrn,
-.checked.otgrz,
-.checked.nomen,
-.checked.nedop,
-.checked.reclm,
-.checked .vputi,
-.checked .vnal,
-.checked .sobrn,
-.checked .otgrz,
-.checked .nomen,
-.checked .nedop,
-.checked .reclm {
-  color: #FFFFFF;
-}
-
-.checked.ord[data-status="1"],
 .checked .ord[data-status="1"],
 .checked.vputi,
 .checked .vputi {
+  color: #FFFFFF;
   background-color: #6B99C2;
   border: 1px solid #6B99C2;
 }
@@ -642,6 +617,7 @@ body.no-scroll {
 .checked .ord[data-status="2"],
 .checked.vnali,
 .checked .vnali {
+  color: #FFFFFF;
   background-color: #F9BA4D;
   border: 1px solid #F9BA4D;
 }
@@ -650,6 +626,7 @@ body.no-scroll {
 .checked .ord[data-status="3"],
 .checked.sobrn,
 .checked .sobrn {
+  color: #FFFFFF;
   background-color: #9882A0;
   border: 1px solid #9882A0;
 }
@@ -658,6 +635,7 @@ body.no-scroll {
 .checked .ord[data-status="4"],
 .checked.otgrz,
 .checked .otgrz {
+  color: #FFFFFF;
   background-color: #79B667;
   border: 1px solid #79B667;
 }
@@ -666,12 +644,15 @@ body.no-scroll {
 .checked .ord[data-status="5"],
 .checked.ord[data-status="6"],
 .checked .ord[data-status="6"],
+.checked.ord[data-status="NA"],
+.checked .ord[data-status="NA"],
 .checked.nomen,
 .checked.nedop,
 .checked.reclm,
 .checked .nomen,
 .checked .nedop,
 .checked .reclm {
+  color: #FFFFFF;
   background-color: #91A0AE;
   border: 1px solid #91A0AE;
 }
@@ -3959,7 +3940,7 @@ form.post .btns-wrap {
   justify-content: space-between;
   align-items: center;
   width: calc(100% - 35em);
-  max-width: 1280px;
+  max-width: 1360px;
 }
 
 .header-top .logo {
