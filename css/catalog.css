@@ -396,17 +396,17 @@ body {
   width: 100%;
 }
 
-body#snowbike #oem {
+body#snowbike .oem-wrap {
   display: none !important;
 }
 
 #filters .step .group {
-  margin-bottom: 1px;
+  margin-bottom: 0;
   padding: 0;
 }
 
 #filters .step .group.close {
-  margin-bottom: 0;
+  margin-bottom: 1px;
 }
 
 #filters .step .group > .title {

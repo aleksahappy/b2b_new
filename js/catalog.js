@@ -546,7 +546,7 @@ function addFiltersInfo(item) {
 // Скрытие не умещающихся пунктов меню в кнопку "Еще":
 
 function adaptMenu() {
-  if (window.innerWidth > 1280) {
+  if (window.innerWidth > 1359) {
     var container = getEl('#header-menu .container'),
         searchWidth = location.search === '?cart' ? 0 : 5,
         maxWidth = container.clientWidth - (34 + searchWidth) * parseInt(window.getComputedStyle(container).fontSize, 10) - getEl('#submenu-hide').clientWidth,
@@ -575,7 +575,7 @@ function adaptMenu() {
 // Изменение позиционирования меню фильтров (на данный момент не задействована):
 
 function setFiltersPosition() {
-  if (window.innerWidth > 1280) {
+  if (window.innerWidth > 1359) {
     var gallery = getEl('#gallery'),
         filters = getEl('#filters'),
         filtersContent = getEl('#filters .pop-up');
@@ -1341,7 +1341,7 @@ function clearFilters(event) {
   if (curSelect !== 'search') {
     getDocumentScroll();
     clearCurSelect();
-    if (window.innerWidth > 1280) {
+    if (window.innerWidth > 1359) {
       getEl('#filters').querySelectorAll('.group').forEach(el => {
         if (el.classList.contains('default-open')) {
           el.classList.remove('close');
@@ -1738,7 +1738,7 @@ function initFiltersStep () {
   }
   initStepFilter('manuf2', 'begin');
   if (pageId === 'snowbike') {
-    initStepFilter('manuf1', 'end');
+    initStepFilter('manuf1', 'begin');
   }
 }
 
