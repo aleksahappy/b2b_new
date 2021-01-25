@@ -2,9 +2,10 @@
 
 .control .pills {
   min-width: 43em;
+  /* min-width: 53em; */
 }
 
-[data-status="deleted"] {
+.control .pills [data-status="NA"] {
   display: none;
 }
 
@@ -36,6 +37,10 @@
 
 #orderslist > table > tbody > tr > td.pills > .pill {
   margin-bottom: 0.5em;
+}
+
+#orderslist > table > tbody > tr > td.pills > .pill[data-status="NA"] {
+  display: none;
 }
 
 /* Стили адаптивной таблицы */

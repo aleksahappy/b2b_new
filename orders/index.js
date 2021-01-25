@@ -54,7 +54,7 @@ function initPage(data = []) {
           {title: "Собран", value: "3"},
           {title: "Отгружен", value: "4"},
           {title: "Непоставка", value: "5"},
-          {title: "Удален", value: "deleted"},
+          {title: "Без состояния", value: "NA"},
         ]
       },
       setting: true
@@ -145,11 +145,11 @@ function convertData(data) {
 
     el.order_sum = convertPrice(el.order_sum, 2);
     if (!el.sum) {
-      el.sum = {"deleted": 0};
+      el.sum = {"NA": 0};
     }
     var sum = [], title;
     for (var status in el.sum) {
-      if ((status > 0 && status < 6) || status === 'deleted') {
+      if ((status > 0 && status < 6) || status === 'NA') {
         if (status == '1') {
           title = 'Ожидается';
         } else if (status == '2') {
@@ -160,7 +160,7 @@ function convertData(data) {
           title = 'Отгружен';
         } else if (status == '5') {
           title = 'Непоставка';
-        } else if (status === 'deleted') {
+        } else if (status === 'NA') {
           title = 'Удален';
         }
         sum.push({
