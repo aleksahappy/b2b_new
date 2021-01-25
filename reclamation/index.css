@@ -1,20 +1,20 @@
 .recl-title {
   justify-content: space-between;
   padding-top: 2.8rem;
-  padding-bottom: 3em;
+  margin-bottom: 3em;
 }
 
 /* Статус рекламации: */
 
 .state {
-  width: 75%;
-  padding-right: 1.428em;
+  width: 100%;
+  padding-right: 4em;
 }
 
 .state .item {
   position: relative;
   align-items: center;
-  width: 30%;
+  width: 33%;
 }
 
 .state .item:first-child {
@@ -140,10 +140,14 @@
 /* Лист возврата: */
 
 .return-list {
-  width: 25%;
+  justify-content: flex-end;
+  width: 35%;
+  min-width: 420px;
+  max-width: 500px;
 }
 
 .return-list .info {
+  width: 15em;
   margin-right: 2em;
   text-align: right;
 }
@@ -167,12 +171,12 @@
 }
 
 .recl-info {
-  width: 75%;
+  width: 100%;
   padding-right: 1.428em;
 }
 
-.recl-info > .title {
-  margin-bottom: 1.428em;
+.recl-info .title.h3 {
+  margin-bottom: 1em;
 }
 
 /* Данные рекламации: */
@@ -181,43 +185,37 @@
   margin-bottom: 3em;
 }
 
-.recl-info .up > div:first-child {
-  width: 35%;
-}
-
-.recl-info .up > div:last-child {
-  width: 65%;
-}
-
-.recl-info .up .items {
+.recl-info .up > div:first-child,
+.recl-info .down > div:first-child  {
+  width: 50%;
+  min-width: 420px;
+  max-width: 500px;
   margin-right: 1.428em;
+}
+
+.recl-info .up > div:last-child,
+.recl-info .down > div:last-child {
+  width: 100%;
 }
 
 .recl-info .up .title {
   margin-bottom: 0.357em;
 }
 
-/* Карточка товара и файлы: */
-
-.recl-info .down > div:first-child {
-  width: 35%;
-}
-
-.recl-info .down > div:last-child {
-  width: 65%;
-}
-
 /* Карточка товара: */
 
 .recl-info .card {
   padding: 1em;
-  margin-right: 1.428em;
 }
 
 .recl-info .card .img-wrap {
   height: 17em;
   margin-bottom: 1.428em;
   cursor: pointer;
+}
+
+.recl-info .card .card-body {
+  width: 100%;
 }
 
 .recl-info .card .card-title {
@@ -246,17 +244,21 @@
 /* Файлы: */
 
 #files {
-  position: relative;
+}
+
+#files > .row {
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 #files .item {
-  /* принудительно 150px, картинка будет непропорциональной или будут большие пробелы*/
-  width: 150px;
-  height: 150px;
-    /* разные по ширине - пропорционально картинке */
+  /* принудительно 163px, картинка будет непропорциональной или будут большие пробелы*/
+  width: 163px;
+  height: 163px;
+  /* разные по ширине - пропорционально картинке */
   /* min-width: 80px;
   max-width: 100%;
-  max-height: 150px; */
+  max-height: 163px; */
   margin-right: 10px;
   margin-bottom: 10px;
   background-repeat: no-repeat;
@@ -266,34 +268,22 @@
 }
 
 #files form {
-  position: absolute;
-  top: 0;
-  width: 150px;
-  height: 150px;
+  position: relative;
 }
 
 input[type="file"] ~ .text {
   position: absolute;
   width: 100%;
   height: 100%;
-  line-height: 190px;
+  line-height: 210px;
   text-align: center;
-  background: #D3D6D9 url(../img/clip.svg) no-repeat center 30px;
-}
-
-#files > .files {
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-#files > .row > :first-child {
-  margin-left: 160px;
+  background: #D3D6D7 url(../img/clip.svg) no-repeat center 40px;
 }
 
 #files .img-wrap .img,
 #files .img-wrap .ico {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -312,15 +302,15 @@ input[type="file"] ~ .text {
 
 #files .img-wrap img,
 #files .img-wrap video {
-  /* принудительно 150px, картинка будет непропорциональной */
-  width: 150px;
-  height: 150px;
-  /* максимум 150px - будут большие пробелы между картинками */
-  /* max-width: 150px;
-  max-height: 150px; */
+  /* принудительно 163px, картинка будет непропорциональной */
+  /* width: 163px;
+  height: 163px; */
+  /* максимум 163px - будут большие пробелы между картинками */
+  /* max-width: 163px;
+  max-height: 163px; */
   /* разные по ширине - пропорционально картинке */
   /* max-width: 100%;
-  max-height: 150px; */
+  max-height: 163px; */
 }
 
 #files .progress {
@@ -362,38 +352,44 @@ input[type="file"] ~ .text {
 /* Чат: */
 
 #chat {
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-  height: calc(100vh - 361px);
-  min-height: 700px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 0;
 }
 
-#chat .header {
+#chat .pop-up {
+  width: 30em;
+  height: calc(100vh - 16em);
+  max-height: 48.5em;
+  margin-right: 2.4rem;
+  margin-bottom: 12em;
+  padding: 0;
+}
+
+#chat .pop-up-title {
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.428em;
+  margin-bottom: 0;
+  padding: 0.5em 1em;
+  background-color: #D3D6D9;
 }
 
-#chat .header > .close.icon {
-  display: none;
-}
-
-#chat .body {
+#chat .pop-up-body {
   height: 100%;
   padding-top: 1em;
   background-color: #FFFFFF;
   overflow: hidden;
 }
 
-#chat .body .wrap {
+#chat .pop-up-body .wrap {
   height: 100%;
   padding: 0 1em;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-#chat .body .pill {
+#chat .pop-up-body .pill {
   display: block;
   width: 7em;
   margin: 0 auto;
@@ -402,38 +398,40 @@ input[type="file"] ~ .text {
   background-color: #EEEEEE;
 }
 
-#chat .body .message {
+#chat .pop-up-body .message {
   display: block;
   margin-bottom: 0.714em;
   padding: 0.714em 1.428em;
   background-color: #EEEEEE;
 }
 
-#chat .body .message .title {
+#chat .pop-up-body .message .title {
   font-size: 0.857em;
 }
 
-#chat .body .message .text {
+#chat .pop-up-body .message .text {
   margin: 0.357em 0;
 }
 
-#chat .body .message .time {
+#chat .pop-up-body .message .time {
   font-size: 0.857em;
   color: #C6C6C6;
 }
 
-#chat .footer {
+#chat .btns-wrap {
+  display: flex;
+  flex-direction: row;
   align-items: flex-end;
   flex-shrink: 0;
   padding: 1em;
   background-color: #FFFFFF;
 }
 
-#chat .footer textarea {
+#chat .btns-wrap textarea {
   width: 100%;
   height: 40px;
+  padding: 0.625em;
   margin-right: 0.714em;
-  padding: 0.5em 0.714em;
   overflow: hidden;
 }
 
@@ -442,10 +440,11 @@ input[type="file"] ~ .text {
 .chat.icon {
   display: none;
   position: fixed;
-  right: 5rem;
-  bottom: 90px;
+  right: 2.4rem;
+  bottom: 2rem;
   width: 60px;
   height: 60px;
+  margin-right: 0;
   border-radius: 50%;
   background: url('../img/chat.svg') no-repeat center;
   animation: play 2s ease infinite;
@@ -465,4 +464,8 @@ input[type="file"] ~ .text {
   25% {
     box-shadow: 0 0 0 8px rgba(133, 150, 166, 0.4), 0 0 0 20px rgba(133, 150, 166, 0.2);
   }
+}
+
+#up-btn {
+  display: none !important;
 }

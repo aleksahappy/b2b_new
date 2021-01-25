@@ -86,10 +86,10 @@ function initPage() {
     sub: [{area: '.card', items: 'item'}]
   });
   checkMedia(getEl('.recl-info .card img'));
+  toggleReturnList();
   fillFiles();
   fillChat();
-  getEl('#main .card .img-wrap').addEventListener('click', () => openFullImg(null, data.recl.item));
-  getEl('#main .card .card-open').addEventListener('click', () => openInfoCard(data.recl.item));
+  setReclEventListeners();
   setInterval(checkNewMessages, 60000); // Проверка чата на наличие новых сообщений раз в минуту (polling)
   // checkNewMessages(); // Проверка чата на наличие новых сообщений (polling)
   loader.hide();
@@ -113,9 +113,6 @@ function convertData() {
   } else {
     recl.decision_text = 'Решение';
   }
-
-  // Блокировка/разблокировка листа возврата:
-  recl.isReturnList = recl.status_comment == 'Ожидается товар' ? '' : 'disabled';
 
   // Данные рекламации:
   recl.user_fio = recl.user_lastname + ' ' + recl.user_name + ' ' + recl.user_parentname;
@@ -195,12 +192,18 @@ function convertMessagesData() {
 // Заполнение галереи файлов:
 
 function fillFiles(filesData) {
+  var filesRow = getEl('#files .row');
   fillTemplate({
-    area: '.files',
+    area: '#files .files-item',
+    source: 'outer',
+    target: filesRow,
     items: filesData || data.recl_files,
     sign: '@',
-    method: filesData ? 'beforeend' : 'inner'
+    method: 'beforeend'
   });
+  if (!filesData) {
+    filesRow.removeChild(getEl('.files-item', filesRow));
+  }
   // document.querySelectorAll('#files img').forEach(el => replaceError(el));
   // document.querySelectorAll('#files video').forEach(el => replaceError(el));
 }
@@ -216,6 +219,7 @@ function replaceError(el) {
 // Заполнение чата:
 
 function fillChat() {
+  setScrollChat();
   var chat = getEl('#chat .wrap');
   if (isEmptyObj(data.chat)) {
     chat.classList.add('template');
@@ -231,8 +235,25 @@ function fillChat() {
       items: 'items'
     }]
   });
-  chat.scrollTop = chat.scrollHeight;
-  setTimeout(() => chat.scrollTop = chat.scrollHeight, 100);
+}
+
+// Установка автоматической прокрутки чата при вставке сообщений:
+
+function setScrollChat() {
+  var observer = new MutationObserver(mutations => {
+    if (mutations[0].target.classList.contains('wrap')) {
+      scrollChat(0);
+    }
+  });
+  observer.observe(getEl('#chat .wrap'), {childList: true});
+}
+
+// Разбокировка кнопки получения листа возврата при необходимости:
+
+function toggleReturnList() {
+  if (data.recl.status_comment == 'Ожидается товар') {
+    getEl('.return-list .btn').classList.remove('disabled');
+  }
 }
 
 // Скачивание листа возврата:
@@ -242,6 +263,57 @@ function getReturnList(event) {
     return;
   } else {
     window.open(`https://new.topsports.ru/api.php?action=recl&recl_id=${data.recl.id}&mode=return_list&type=pdf`);
+  }
+}
+
+// Добавление обработчиков событий:
+
+function setReclEventListeners() {
+  togglePlaceholder()
+  window.addEventListener('resize', () => {
+    clearTimeout(window.resizedFinished);
+    window.resizedFinished = setTimeout(function(){
+      closeChat();
+      togglePlaceholder();
+    }, 250);
+  });
+  getEl('#main .card .img-wrap').addEventListener('click', () => openFullImg(null, data.recl.item));
+  getEl('#main .card .card-open').addEventListener('click', () => openInfoCard(data.recl.item));
+}
+
+// Автоматическое закрытие чата на разрешении больше 1359px:
+
+function closeChat() {
+  if (window.innerWidth > 1359) {
+    closePopUp(null, '#chat');
+  }
+}
+
+// Открытие чата:
+
+function openChat() {
+  openPopUp('#chat');
+  scrollChat(100);
+}
+
+// Прокрутка чата в конец сообщений:
+
+function scrollChat(delay) {
+  setTimeout(() => {
+    var chat = getEl('#chat .wrap');
+    chat.scrollTop = chat.scrollHeight;
+  }, delay);
+}
+
+// Переключение текста подсказки в чате:
+
+function togglePlaceholder() {
+  var textarea = getEl('textarea[name="comment"]'),
+      placeholder = textarea.placeholder;
+  if (window.innerWidth > 499 && placeholder !== 'Введите сообщение...') {
+    textarea.placeholder = 'Введите сообщение...';
+  } else if (window.innerWidth <= 499 && placeholder !== 'Введите...') {
+    textarea.placeholder = 'Введите...';
   }
 }
 
