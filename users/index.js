@@ -66,10 +66,10 @@ function initPage() {
         keys: ['status_text'],
         content: '<div class="pill access #status#">#status_text#</div>'
       }, {
-        title: 'Дата заведения',
-        align: 'center',
-        keys: ['date']
-      }, {
+      //   title: 'Дата заведения',
+      //   align: 'center',
+      //   keys: ['date']
+      // }, {
         title: 'Должность',
         keys: ['position']
       }, {
