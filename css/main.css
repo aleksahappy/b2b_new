@@ -172,7 +172,7 @@ ul {
 
 body {
   position: relative;
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   padding-top: 65px;
   padding-bottom: 90px;
@@ -182,12 +182,12 @@ body {
   line-height: normal;
   color: #666666;
   background-color: #F2F2F2;
+  overflow-x: hidden;
   overscroll-behavior: contain;
 }
 
 body.no-scroll {
   overflow: hidden;
-  margin-right: 20px;
 }
 
 .container {
@@ -2767,6 +2767,9 @@ form.post .btns-wrap {
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100vw;
+  min-width: 100vw;
+  min-height: 100vh;
   padding: 64px 0;
   background-color: rgba(102, 102, 102, 0.3);
   -webkit-transition: opacity .15s linear;
@@ -2915,8 +2918,7 @@ form.post .btns-wrap {
   display: inline-block;
   margin-left: 1em;
   font-size: 0.75em;
-  color: #B3BAC2;
-  background-color: #FFFFFF;
+  background-color: #B3BAC2;
   border-radius: 3px;
   border: 1px solid #B3BAC2;
   vertical-align: middle;
@@ -2925,19 +2927,23 @@ form.post .btns-wrap {
 
 .filters .pop-up-body > .switch > .title.row .mode span {
   display: inline-block;
+  height: 17px;
   padding: 0 0.5em;
-  border-right: 1px solid #B3BAC2;
+  color: #B3BAC2;
+  border-left: 1px solid #B3BAC2;
+  background-color: #FFFFFF;
   text-transform: none;
   cursor: pointer;
 }
 
 .filters .pop-up-body > .switch > .title.row .mode span.active {
+  color: #FFFFFF;
   background-color: #34495E;
-  border-right: 1px solid #34495E;
 }
 
-.filters .pop-up-body > .switch > .title.row .mode span:last-child {
-  border-right: none;
+.filters .pop-up-body > .switch > .title.row .mode span:first-child,
+.filters .pop-up-body > .switch > .title.row .mode span.displayNone + span {
+  border-left: none;
 }
 
 .filters .pop-up-body > .switch > .title.row .open.icon {
@@ -3094,6 +3100,9 @@ form.post .btns-wrap {
 
 .pop-up-container.filters.visible {
   position: static;
+  width: auto;
+  min-width: auto;
+  min-height: auto;
   opacity: 1;
 }
 
@@ -3533,7 +3542,7 @@ form.post .btns-wrap {
   position: fixed;
   width: 38px;
   height: 31px;
-  right: 5rem;
+  left: calc(100vw - 5rem - 38px);
   bottom: 20px;
   cursor: pointer;
   z-index: 150;
@@ -3864,6 +3873,7 @@ form.post .btns-wrap {
   top: 0;
   right: 0;
   left: 0;
+  width: 100vw;
   z-index: 200;
 }
 
@@ -4199,6 +4209,7 @@ form.post .btns-wrap {
   bottom: 0;
   right: 0;
   left: 0;
+  width: 100vw;
   color: #FFFFFF;
   background-color: #53606F;
 }
