@@ -161,13 +161,6 @@ function setCatalogEventListeners() {
   if (isCart) {
     window.addEventListener('focus', updateCart);
   }
-  // var filters = getEl('#filters');
-  // filters.addEventListener('mouseenter', (event) => {
-  //   if (event.currentTarget.style.position !== 'static') {
-  //     document.body.classList.add('no-scroll');
-  //   }
-  // });
-  // filters.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
 }
 
 // Инициализация корзины (если есть):
@@ -1774,10 +1767,17 @@ function toggleFiltersStep() {
   if (catalogType !== 'zip') {
     return;
   }
-  fillFilterStep(getEl('#oem'));
-  fillFilterStep(getEl(`#manuf2-selects`).firstElementChild);
   if (pageId === 'snowbike') {
+    if (pageUrl === 'snowbike?kit') {
+      hideElement('#manuf2');
+    } else {
+      showElement('#manuf2');
+      fillFilterStep(getEl(`#manuf2-selects`).firstElementChild);
+    }
     fillFilterStep(getEl(`#manuf1-selects`).firstElementChild);
+  } else {
+    fillFilterStep(getEl('#oem'));
+    fillFilterStep(getEl(`#manuf2-selects`).firstElementChild);
   }
 }
 
