@@ -522,20 +522,19 @@ function countFromCart(idList = undefined, totals = true, soldOut = true) {
   };
   if (totals) {
     orders.forEach(el => {
-      el.sumDiscount = el.sumOpt - el.sum;
-      el.percentDiscount = (el.sumDiscount * 100 / el.sumOpt).toFixed(0);
+      el.sumDiscount = el.sumRetail - el.sum;
+      el.percentDiscount = (el.sumDiscount * 100 / el.sumRetail).toFixed(0);
       el.sum = convertPrice(el.sum);
       el.sumRetail = convertPrice(el.sumRetail);
       el.sumDiscount = convertPrice(el.sumDiscount);
       el.isDiscount = el.sumDiscount == 0 ? 'displayNone' : '';
       el.isPrepaid = pageId.indexOf('preorder') == 0 ? '' : 'displayNone';
-      el.isDate = pageId.indexOf('preorder') == 0 ? '' : 'displayNone';
-      el.date = el.isDate ? '' : getDateStr(getDateExpires(5));
+      el.date = getDateStr(getDateExpires(5));
     });
     result.orders = orders.sort(sortBy('title'));
     result.sumRetail = sumRetail;
-    result.sumDiscount = sumOpt - sum;
-    result.percentDiscount = (result.sumDiscount * 100 / sumOpt).toFixed(0);
+    result.sumDiscount = sumRetail - sum;
+    result.percentDiscount = (result.sumDiscount * 100 / result.sumRetail).toFixed(0);
   } else {
     result.percentDiscount = ((sumOpt - sum) * 100 / sumOpt).toFixed(0);
     result.bonusQty = bonusQty;

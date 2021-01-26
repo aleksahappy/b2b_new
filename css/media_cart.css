@@ -154,9 +154,9 @@
   }
 
   #checkout .pop-up {
-    width: 100%;
-    max-width: none;
-    min-height: 100%;
+    width: 100vw;
+    min-width: 100vw;
+    min-height: 100vh;
     padding: 2.5em;
     padding-bottom: 13em;
   }
