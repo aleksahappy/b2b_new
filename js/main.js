@@ -789,7 +789,7 @@ function hideElement(el) {
   }
 }
 
-// Предотвращение прокручивания страницы:
+// Запрет на скролл страницы:
 
 function stopBodyScroll(event) {
   var el = event.currentTarget,
@@ -1125,7 +1125,28 @@ function sortBy(key, type = 'text') {
     key = key.substr(1);
   }
   if (type == 'size') {
-    var sizeTemp = ['XXXS', '3XS', 'XXS', '2XS', 'XS', 'S', 'S/M', 'M', 'M/L', 'L', 'L/XL', 'XL', 'XXL', '2XL', 'XXXL', '3XL', 'XXXXL', '4XL'];
+    var sizeTemp = [
+      'XXXXS', '4XS',
+      'XXXXS/XXXS', 'XXXXS-XXXS', '4XS/3XS', '4XS-3XS',
+      'XXXS', '3XS',
+      'XXXS/XXS', 'XXXS-XXS', '3XS/2XS', '3XS-2XS',
+      'XXS', '2XS',
+      'XXS/XS', 'XXS-XS', '2XS/XS', '2XS-XS',
+      'XS',
+      'XS/S', 'XS-S',
+      'S',
+      'S/M', 'S-M', 'SM',
+      'M',
+      'M/L', 'M-L', 'ML',
+      'L',
+      'L/XL', 'L-XL',
+      'XL',
+      'XL/XXL', 'XL-XXL', 'XL/2XL', 'XL-2XL',
+      'XXL', '2XL',
+      'XXL/XXXL', 'XXL-XXXL', 'XXL/3XL', 'XXL-3XL',
+      'XXXL', '3XL',
+      'XXXXL', '4XL',
+      'XXXL/XXXXL', 'XXXL-XXXXL', 'XXXL/4XL', 'XXXL-4XL'];
   }
 
   function getValue(item) {
@@ -1141,6 +1162,7 @@ function sortBy(key, type = 'text') {
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
       case 'size':
+        value = value.replace(/\s/g, '');
         var sizeIndex = sizeTemp.findIndex(el => el === value);
         if (sizeIndex >= 0) {
           value = sizeIndex;
@@ -2160,7 +2182,8 @@ function closePopUp(event, el) {
         return;
       }
     } else {
-      if ((event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close') || event.target.closest('.calendar-wrap')) ||
+      if ((event.target.closest('.pop-up') && !event.target.closest('.pop-up-title .close') ||
+          event.target.closest('.calendar-wrap')) ||
           (document.activeElement && document.activeElement.closest('.pop-up'))
       ) {
         return;
@@ -2940,8 +2963,8 @@ function Search(obj, callback) {
       });
     }
     if (this.items) {
-      this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
-      this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+      // this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+      // this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
       this.input.addEventListener('input', () => this.showHints());
       this.items.addEventListener('click', event => this.selectHint(event));
     }
@@ -3766,15 +3789,25 @@ function Filter(obj, handler) {
   // Элементы для работы:
   this.filter = getEl('.pop-up-container.filters', obj);
   this.openBtn = getEl('.relay.icon', obj);
+  this.clearBtn = getEl('.clear-btn', this.filter);
+  this.showBtn = getEl('.btn.act', this.filter);
+  this.showCount = getEl('span', this.showBtn);
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
     if (this.openBtn) {
       this.openBtn.addEventListener('click', () => openPopUp(this.filter));
     }
-    this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.toggleItem(event)));
+    this.filter.addEventListener('mouseenter', (event) => {
+      if (event.currentTarget.style.position !== 'static') {
+        document.body.classList.add('no-scroll');
+      }
+    });
+    this.filter.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+    this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.startToggleItem(event)));
     this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
     this.filter.querySelectorAll('.mode').forEach(el => el.addEventListener('click', event => this.toggleMode(event)));
+
   }
 
   // Заполнение фильтров значениями:
@@ -3886,16 +3919,44 @@ function Filter(obj, handler) {
     }
   }
 
-  // Работа со значениями фильтра:
-  this.toggleItem = function(event) {
+  // Запуск работы со значениями фильтра:
+  this.startToggleItem = function(event) {
     if (event.target.classList.contains('switch-icon')) {
       return;
     }
     var group = event.currentTarget,
-        curEl = event.target.closest('.item');
+    curEl = event.target.closest('.item');
+    this.toggleItem(group, curEl);
+  }
+
+  // Работа со значениями фильтра:
+  this.toggleItem = function(group, curEl) {
     if (!curEl || curEl.classList.contains('disabled')) {
       return;
     }
+    if (getEl('.radio', curEl)) {
+      this.toggleRadio(group, curEl);
+    } else {
+      this.toggleCheckbox(group, curEl);
+    }
+    if (handler) {
+      var length = handler(group, curEl);
+    }
+    this.toggleBtns(length);
+  }
+
+  // Переключение радио-кнопок:
+  this.toggleRadio = function(group, curEl) {
+    if (curEl.classList.contains('checked')) {
+      curEl.classList.remove('checked');
+    } else {
+      group.querySelectorAll('.item').forEach(el => el.classList.remove('checked'));
+      curEl.classList.add('checked');
+    }
+  }
+
+  // Переключение чекбоксов:
+  this.toggleCheckbox = function(group, curEl) {
     if (curEl.classList.contains('checked')) {
       curEl.classList.remove('checked');
       curEl.classList.add('close');
@@ -3926,10 +3987,6 @@ function Filter(obj, handler) {
         });
       }
     }
-    if (handler) {
-      var length = handler(group, curEl);
-    }
-    this.toggleBtns(length);
   }
 
   // Работа с поисками фильтра:
@@ -3962,7 +4019,15 @@ function Filter(obj, handler) {
 
   // Переключение кнопок фильтра:
   this.toggleBtns = function(length) {
-
+    if (length) {
+      showElement(this.clearBtn, 'flex')
+      this.showBtn.classList.remove('disabled');
+      this.showCount.textContent = length;
+    } else {
+      hideElement(this.clearBtn);
+      this.showBtn.classList.add('disabled');
+      this.showCount.textContent = 0;
+    }
   }
 
   // Инициализация блока фильтров:
