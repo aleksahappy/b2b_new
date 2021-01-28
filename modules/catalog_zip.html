@@ -220,14 +220,12 @@
             </div>
           </div>
         </div>
-        <div class="card-describes displayNone">
-          <div class="describe switch @isClose@">
-            <div class="head" onclick="switchContent(event)">
-              <div class="title h3">@title@</div>
-              <div class="open white icon switch-icon"></div>
-            </div>
-            <div class="info switch-cont">@info@</div>
+        <div class="card-describe switch #isClose#">
+          <div class="head" onclick="switchContent(event)">
+            <div class="title h3">#title#</div>
+            <div class="open white icon switch-icon"></div>
           </div>
+          <div class="info switch-cont">#info#</div>
         </div>
       </div>
     </div>
@@ -352,14 +350,12 @@
             </div>
           </div>
         </div>
-        <div class="card-describes displayNone">
-          <div class="describe switch @isClose@">
-            <div class="head" onclick="switchContent(event)">
-              <div class="title h3">@title@</div>
-              <div class="open white icon switch-icon"></div>
-            </div>
-            <div class="info switch-cont">@info@</div>
+        <div class="card-describe switch #isClose#">
+          <div class="head" onclick="switchContent(event)">
+            <div class="title h3">#title#</div>
+            <div class="open white icon switch-icon"></div>
           </div>
+          <div class="info switch-cont">#info#</div>
         </div>
         <div class="card-details switch close displayNone">
           <div class="head" onclick="switchContent(event)">
@@ -367,13 +363,13 @@
             <div class="open white icon switch-icon"></div>
           </div>
           <div class="info switch-cont">
-            <form id="detail-search" class="search row" data-type="fast" action="#">
+            <form class="detail-search search row" data-type="fast" action="#">
               <input type="text" data-value="" placeholder="Введите бренд, год или модель">
               <input class="search icon" type="submit" value="">
               <div class="close icon"></div>
             </form>
-            <div id="details">
-              <div class="detail">@item@</div>
+            <div class="details">
+              <div class="detail">#item#</div>
             </div>
             <div class="notice">По вашему запросу ничего не найдено.</div>
           </div>

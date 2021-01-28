@@ -6,11 +6,11 @@
 
 // Динамически изменяемые переменные:
 
-var catalogType = pageId === 'equip' ? pageId : 'zip',
-    pageUrl = pageId,
+var path,
+    pageUrl,
+    catalogType,
     view,
     userView,
-    path,
     items = [],
     cartItems = {},
     curItems,
@@ -99,19 +99,17 @@ var menuContent = {
   }
 };
 
-// Запускаем рендеринг страницы каталога:
-
-startCatalogPage();
-
 //=====================================================================================================
 // При запуске страницы:
 //=====================================================================================================
 
 // Запуск страницы каталога:
 
-function startCatalogPage() {
+function startPage() {
   setPaddingToBody();
+  defineCatalog();
   addCatalogModules();
+  renderTotalsInHeader('#carts', 'carts');
   setCatalogEventListeners();
   fillCatalogHeader();
   if (view === 'product') {
@@ -150,47 +148,27 @@ function startCatalogPage() {
   }
 }
 
-// Добавление обработчиков событий:
-
-function setCatalogEventListeners() {
-  window.addEventListener('resize', () => {
-    setPaddingToBody();
-    adaptMenu();
-  });
-  window.addEventListener('popstate', (event) => openPage(event));
-  if (isCart) {
-    window.addEventListener('focus', updateCart);
-  }
-}
-
-// Инициализация корзины (если есть):
+// Инициализация корзины:
 
 function initCart() {
-  if (isCart) {
-    getCart()
-    .then(result => {
-      fillOrderForm();
-      initForm('#order-form', sendOrder);
-      return createCartData();
-    }, reject => console.log(reject))
-    .then(result => {
-      initPage();
-    })
-    .catch(error => {
-      console.log(error);
-      loader.hide();
-      alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-    });
-  } else {
-    initPage();
-  }
+  getCart()
+  .then(result => {
+    fillOrderForm();
+    initForm('#order-form', sendOrder);
+    return createCartData();
+  }, reject => console.log(reject))
+  .then(result => initPage())
+  .catch(error => {
+    console.log(error);
+    loader.hide();
+    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
+  });
 }
 
 // Инициализация страницы:
 
 function initPage() {
   loader.hide();
-  path = location.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?').filter(el => el && el.indexOf('=') == -1);
   initDropDown('#gallery-sort', sortItems);
   initSearch('#search', selectCards);
   initSearch('#oem', selectCards);
@@ -199,13 +177,52 @@ function initPage() {
 }
 
 //=====================================================================================================
+// Запросы на сервер:
+//=====================================================================================================
+
+// Получение данных обо всех товарах или наборе товаров по их id:
+
+function getItems(id) {
+  return new Promise((resolve, reject) => {
+    var data = {cat_type: pageId};
+    if (id) {
+      data.list = id;
+    }
+    sendRequest(urlRequest.main, 'items', data)
+    .then(result => {
+      var data = JSON.parse(result);
+      resolve(data);
+    })
+    .catch(error => {
+      console.log(error);
+      reject(error);
+    })
+  });
+}
+
+//=====================================================================================================
 // Построение страницы:
 //=====================================================================================================
+
+// Определение загружаемого каталога:
+
+function defineCatalog() {
+  path = location.search ? location.search.replace(/\//g, '').split('?').filter(el => el && el.indexOf('=') == -1) : undefined;
+  if (path && path.length <= 2 && cartTotals.find(el => el.id === path[0])) {
+    var catalogId = path[0];
+    document.body.id = catalogId;
+    pageId = catalogId;
+    pageUrl = pageId;
+    catalogType = pageId === 'equip' ? pageId : 'zip';
+  } else {
+    location.href = '../err404.html';
+  }
+}
 
 // Построение каталога из модулей:
 
 function addCatalogModules() {
-  document.body.classList.add('main', catalogType);
+  document.body.dataset.catalog = catalogType;
 
   var catalogHeader = document.createElement('div');
   catalogHeader.classList.add('header-bottom');
@@ -235,10 +252,19 @@ function addCatalogModules() {
 
   minCard = getEl('.min-card');
   bigCard = getEl('.big-card');
-  if (isCart) {
-    cartSectionTemp = getEl('.cart-section');
-    cartRowTemp = getEl('.cart-row');
-  }
+  cartSectionTemp = getEl('.cart-section');
+  cartRowTemp = getEl('.cart-row');
+}
+
+// Добавление обработчиков событий:
+
+function setCatalogEventListeners() {
+  window.addEventListener('resize', () => {
+    setPaddingToBody();
+    adaptMenu();
+  });
+  window.addEventListener('popstate', (event) => openPage(event));
+  window.addEventListener('focus', updateCart);
 }
 
 // Динамическое заполнение второго уровня меню:
@@ -541,7 +567,7 @@ function addFiltersInfo(item) {
 function adaptMenu() {
   if (window.innerWidth > 1359) {
     var container = getEl('#header-menu .container'),
-        searchWidth = location.search === '?cart' ? 0 : 5,
+        searchWidth = path[path.length - 1] === 'cart' ? 0 : 5,
         maxWidth = container.clientWidth - (34 + searchWidth) * parseInt(window.getComputedStyle(container).fontSize, 10) - getEl('#submenu-hide').clientWidth,
         menuItems = document.querySelectorAll('#header-menu .submenu-item'),
         width = 0,
@@ -638,7 +664,6 @@ function setMinCardWidth(width) {
 
 function openPage(event) {
   event.preventDefault();
-  document.querySelectorAll(`.pop-up-container.open`).forEach(el => closePopUp(null, el));
   if (event.type == 'popstate') {
     if (event.state) {
       path = event.state.path;
@@ -647,11 +672,15 @@ function openPage(event) {
     }
   } else {
     var oldPath = path;
-    path = event.currentTarget.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').split('?').filter(el => el && el.indexOf('=') == -1);
-    if (path.length === oldPath.length && JSON.stringify(oldPath) === JSON.stringify(path)) {
+    path = event.currentTarget.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace(/\//g, '').replace('catalogs', '').split('?').filter(el => el);
+    if (JSON.stringify(oldPath) === JSON.stringify(path)) {
       return;
     }
-    window.history.pushState({'path': path},'', event.currentTarget.href);
+    if (oldPath[0] !== path[0]) {
+      location.href = event.currentTarget.href;
+    }
+    document.querySelectorAll(`.pop-up-container.open`).forEach(el => closePopUp(null, el));
+    window.history.pushState({'path': path}, '', event.currentTarget.href);
   }
   renderContent();
 }
@@ -726,30 +755,28 @@ function changeMainNav() {
   if (!getEl('#main-nav')) {
     return;
   }
-  if (location.search === '?cart' || view === 'product') {
-    var data = {items: []}, curTitle;
-    path.forEach(el => {
-      curTitle = getEl(`#header-menu [href$="${key}"]`);
-      if (curTitle) {
-        var item = {
-          href: view === 'product' ? '#' : curTitle.href,
-          title: view === 'product' ? items[0].title : curTitle.dataset.title
-        };
-        data.items.push(item);
-      } else {
-        location.href = '../err404.html';
-      }
-    });
-    fillTemplate({
-      area: '#main-nav',
-      items: data,
-      sub: [{
-        area: '.item',
-        items: 'items'
-      }]
-    });
-    showElement('#main-header', 'flex');
-  }
+  var data = {items: []}, curTitle;
+  path.forEach(el => {
+    curTitle = getEl(`#header-menu [href$="${key}"]`);
+    if (curTitle) {
+      var item = {
+        href: view === 'product' ? '#' : curTitle.href,
+        title: view === 'product' ? items[0].title : curTitle.dataset.title
+      };
+      data.items.push(item);
+    } else {
+      location.href = '../err404.html';
+    }
+  });
+  fillTemplate({
+    area: '#main-nav',
+    items: data,
+    sub: [{
+      area: '.item',
+      items: 'items'
+    }]
+  });
+  showElement('#main-header', 'flex');
 }
 
 // Изменение динамических ссылок в соответствии с выбранным разделом:
@@ -812,7 +839,7 @@ function renderGallery() {
   if (!curItems.length) {
     return;
   }
-  clearCurSelect();
+  cancelCurSelect();
   setValueDropDown('#gallery-sort', '-price_cur1');
   showElement('#search', 'flex');
   showElement('#header-catalog');
@@ -826,17 +853,17 @@ function renderGallery() {
 // Получение фильтров из адресной строки:
 
 function getFiltersFromUrl() {
+  pageUrl = pageId;
   if (!location.search) {
-    pageUrl = pageId;
     return;
   }
   var filters = [];
-  location.search.split('?').forEach(el => {
-    if (el) {
+  location.search.replace(/\//g, '').split('?').forEach(el => {
+    if (el && el !== pageId) {
       if (el.indexOf('=') >= 0) {
         filters.push(el);
       } else {
-        pageUrl = pageId + '?' + el;
+        pageUrl += '?' + el;
       }
     }
   });
@@ -1046,9 +1073,10 @@ function findItemData(id, type) {
 function showFullCard(id) {
   event.preventDefault();
   loader.show();
-  var data = findItemData(id, 'catalog');
+  var data = findItemData(id);
   if (!data) {
     loader.hide();
+    alerts.show('При загрузке карточки товара произошла ошибка.');
     return;
   }
 
@@ -1059,43 +1087,117 @@ function showFullCard(id) {
     fullCardContainer = getEl('.full-card-container');
   }
 
-  fillTemplate({
-    area: fullCardContainer,
-    items: data,
-    sub: [{
-      area: '.carousel-item',
-      items: 'images'
-    }, {
-      area: '.card-size',
-      items: 'sizes'
-    }, {
-      area: '.desk .card-option',
-      items: 'options'
-    }, {
-      area: '.adaptive .card-option',
-      items: 'options'
-    }, {
-      area: '.manuf-row',
-      items: 'manuf_table'
-    }]
-  });
-  addDescribeInfo(fullCardContainer, data);
-  addDetailsInfo(fullCardContainer, data);
-
-  var curCarousel = getEl('.carousel', fullCardContainer);
-  renderCarousel(curCarousel)
+  getDescribeInfo(data)
+  .then(result => getDetailsInfo(fullCardContainer, data))
   .then(result => {
-    curCarousel = getEl('.carousel', fullCardContainer);
-    if (curCarousel) {
-      getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
-      getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+    fillTemplate({
+      area: fullCardContainer,
+      items: data,
+      sub: [{
+        area: '.carousel-item',
+        items: 'images'
+      }, {
+        area: '.card-size',
+        items: 'sizes'
+      }, {
+        area: '.desk .card-option',
+        items: 'options'
+      }, {
+        area: '.adaptive .card-option',
+        items: 'options'
+      }, {
+        area: '.manuf-row',
+        items: 'manuf_table'
+      }, {
+        area: '.card-describe',
+        items: 'describe',
+      }, {
+        area: '.details',
+        items: 'details',
+      }]
+    });
+
+    var curCarousel = getEl('.carousel', fullCardContainer);
+    renderCarousel(curCarousel)
+    .then(result => {
+      curCarousel = getEl('.carousel', fullCardContainer);
+      if (curCarousel) {
+        getEl('.carousel-gallery-wrap', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+        getEl('.maximize', curCarousel).addEventListener('click', (event) => showFullImg(event, data));
+      }
+    });
+
+    checkCart(getEl('.full-card'));
+    addActionTooltip(getEl('.full-card'));
+    openPopUp(fullCardContainer);
+    loader.hide();
+  })
+}
+
+// Получение информации о применяемости деталей:
+
+function getDetailsInfo(card, data) {
+  return new Promise(resolve => {
+    if (!getEl('.card-details', card) || data.details) {
+      resolve();
+    } else {
+      sendRequest(`../json/details.json`)
+      // sendRequest(urlRequest.main, 'item_models', {id: data.object_id})
+      .then(result => {
+        if (result) {
+          result = JSON.parse(result);
+          var list = [], text;
+          result.forEach(el => {
+            text = '';
+            Object.keys(el).forEach((key, index) => {
+              if (el[key]) {
+                if (index === 0) {
+                  text += el[key];
+                } else {
+                  text += ' – ' + el[key];
+                }
+              }
+            });
+            list.push(text);
+          });
+          data.details = list;
+          initSearch(getEl('.detail-search', card), detailsSearch);
+          getEl('.card-details', card).classList.remove('displayNone');
+        } else {
+          data.details = [];
+        }
+        resolve();
+      })
+      .catch(error => {
+        console.log(error);
+        resolve();
+      })
     }
   });
+}
 
-  checkCart(getEl('.full-card'));
-  addActionTooltip(getEl('.full-card'));
-  openPopUp(fullCardContainer);
-  loader.hide();
+// Поиск по применяемости:
+
+function detailsSearch(search, textToFind) {
+  var data = findItemData(getEl('.full-card').dataset.id);
+  if (data && data.details) {
+    data = data.details;
+    if (textToFind) {
+      var regExp = getRegExp(textToFind);
+      data = data.filter(item => findByRegExp(item, regExp));
+    }
+    fillTemplate({
+      area: '#details',
+      items: data,
+      sign: '@'
+    });
+    if (data.length) {
+      hideElement('.card-details .notice');
+      highlightText('#details', textToFind);
+    } else {
+      showElement('.card-details .notice');
+    }
+  }
 }
 
 // Отображение информационной карточки товара:
@@ -1148,130 +1250,6 @@ function copyArticul(event, articul) {
 }
 
 //=====================================================================================================
-// Добавление информации в полную карточку товара и работа с ней:
-//=====================================================================================================
-
-// Добавление описания товара:
-
-function addDescribeInfo(fullCardContainer, data) {
-  if (data.desc) {
-    fillDescribeInfo(fullCardContainer, data);
-  } else {
-    sendRequest(`../json/describe.json`)
-    // sendRequest(urlRequest.main, 'item_descr', {id: data.object_id})
-    .then(result => {
-      if (result) {
-        result = JSON.parse(result);
-        data.desc = result.replace(/\\n/g, '');
-        if (/\S/.test(result)) {
-          data.describe.unshift({title: 'Описание товара', info: data.desc});
-        }
-      } else {
-        data.desc = '';
-      }
-      fillDescribeInfo(fullCardContainer, data);
-    })
-    .catch(error => {
-      console.log(error);
-      fillDescribeInfo(fullCardContainer, data);
-    })
-  }
-}
-
-// Заполнение описания товара:
-
-function fillDescribeInfo(fullCardContainer, data) {
-  var describe = getEl('.card-describes', fullCardContainer);
-  if (data.describe) {
-    fillTemplate({
-      area: describe,
-      items: data.describe,
-      sign: '@'
-    });
-    initSearch('#detail-search', detailsSearch);
-    describe.classList.remove('displayNone');
-  }
-}
-
-// Добавление информации о применяемости деталей:
-
-function addDetailsInfo(fullCardContainer, data) {
-  if (!getEl('.card-details', fullCardContainer)) {
-    return;
-  }
-  if (data.details) {
-    fillDetailsInfo(fullCardContainer, data);
-  } else {
-  sendRequest(`../json/details.json`)
-  // sendRequest(urlRequest.main, 'item_models', {id: data.object_id})
-    .then(result => {
-      if (result) {
-        result = JSON.parse(result);
-        var list = [], text;
-        result.forEach(el => {
-          text = '';
-          Object.keys(el).forEach((key, index) => {
-            if (el[key]) {
-              if (index === 0) {
-                text += el[key];
-              } else {
-                text += ' – ' + el[key];
-              }
-            }
-          });
-          list.push(text);
-        });
-        data.details = list;
-        fillDetailsInfo(fullCardContainer, data);
-      } else {
-        data.details = [];
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
-}
-
-// Заполнение информации о применяемости детали:
-
-function fillDetailsInfo(fullCardContainer, data) {
-  if (data.details.length) {
-    fillTemplate({
-      area: '#details',
-      items: data.details,
-      sign: '@'
-    });
-    initSearch('#detail-search', detailsSearch);
-    getEl('.card-details', fullCardContainer).classList.remove('displayNone');
-  }
-}
-
-// Поиск по применяемости:
-
-function detailsSearch(search, textToFind) {
-  var data = items.find(el => el.object_id == getEl('.full-card').dataset.id);
-  if (data && data.details) {
-    data = data.details;
-    if (textToFind) {
-      var regExp = getRegExp(textToFind);
-      data = data.filter(item => findByRegExp(item, regExp));
-    }
-    fillTemplate({
-      area: '#details',
-      items: data,
-      sign: '@'
-    });
-    if (data.length) {
-      hideElement('.card-details .notice');
-      highlightText('#details', textToFind);
-    } else {
-      showElement('.card-details .notice');
-    }
-  }
-}
-
-//=====================================================================================================
 //  Общие функции для работы с фильтрами:
 //=====================================================================================================
 
@@ -1301,7 +1279,7 @@ function setFilterOnPage(filters) {
   if (!filters || !filters.length) {
     return;
   }
-  removeInfo('filters');
+  clearCurSelect();
   var filterData;
   filters.forEach(filter => {
     filterData = decodeURI(filter).toLowerCase().split('=');
@@ -1955,7 +1933,7 @@ function toggleCatalogFilterBtns() {
   }
 }
 
-// Запуск отбора карточек или сброс отбора:
+// Запуск отбора карточек или очистка отбора:
 
 function selectCards(search, textToFind) {
   var type = typeof search === 'object' ? 'search' : 'filter';
@@ -1990,6 +1968,19 @@ function clearCurSelect(type) {
     curSelect = null;
     toggleCatalogFilterBtns();
   }
+}
+
+// Сброс текущего отбора:
+
+function cancelCurSelect() {
+  if (!curSelect) {
+    return;
+  }
+  if (curSelect === 'search' || curSelect === 'oem') {
+    clearSearch(`#${curSelect}`);
+  }
+  curSelect = null;
+  itemsToLoad = curItems;
 }
 
 // Запуск отбора:

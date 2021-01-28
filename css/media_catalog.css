@@ -73,12 +73,12 @@
     width: calc(100% - 20em);
   }
 
-  body.zip .big-card .carousel,
-  body.zip .big-card .img-wrap {
+  [data-catalog="zip"] .big-card .carousel,
+  [data-catalog="zip"] .big-card .img-wrap {
     width: 14.5em;
   }
 
-  body.zip .big-card .card-content {
+  [data-catalog="zip"] .big-card .card-content {
     width: calc(100% - 13em);
   }
 }
@@ -276,49 +276,49 @@
     display: none;
   }
 
-  body.zip .big-card {
+  [data-catalog="zip"] .big-card {
     height: 19em;
   }
 
-  body.zip .big-card .carousel,
-  body.zip .big-card .img-wrap {
+  [data-catalog="zip"] .big-card .carousel,
+  [data-catalog="zip"] .big-card .img-wrap {
     width: 16em;
   }
 
-  body.zip .big-card .card-content {
+  [data-catalog="zip"] .big-card .card-content {
     width: calc(100% - 18em);
   }
 
-  body.zip .big-card .card-body {
+  [data-catalog="zip"] .big-card .card-body {
     position: relative;
     flex-direction: column-reverse;
   }
 
-  body.zip .big-card .card-price {
+  [data-catalog="zip"] .big-card .card-price {
     margin-right: 0;
   }
 
-  body.zip .big-card .card-sizes {
+  [data-catalog="zip"] .big-card .card-sizes {
     display: block !important;
     margin-bottom: -0.5em;
   }
 
-  body.zip .big-card .card-sizes .card-size {
+  [data-catalog="zip"] .big-card .card-sizes .card-size {
     display: none !important;
   }
 
-  body.zip .big-card .select-info {
+  [data-catalog="zip"] .big-card .select-info {
     display: flex;
     margin-bottom: 0;
   }
 
-  body.zip .big-card .card-info {
+  [data-catalog="zip"] .big-card .card-info {
     width: 0;
     height: 0;
     overflow: hidden;
   }
 
-  body.zip .big-card .card-open {
+  [data-catalog="zip"] .big-card .card-open {
     position: absolute;
     bottom: -1.8em;
     left: 0;
@@ -350,12 +350,12 @@
     flex-grow: 1;
   }
 
-  body.zip .pop-up-container:not(.full-card-kit) .full-card .card-sizes {
+  [data-catalog="zip"] .pop-up-container:not(.full-card-kit) .full-card .card-sizes {
     display: flex;
     flex-direction: column-reverse;
   }
 
-  body.zip .pop-up-container:not(.full-card-kit) .full-card .select-info {
+  [data-catalog="zip"] .pop-up-container:not(.full-card-kit) .full-card .select-info {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -412,7 +412,7 @@
     display: none;
   }
 
-  body:not(.zip) .full-card .card-price {
+  body:not([data-catalog="zip"]) .full-card .card-price {
     margin-bottom: 0;
   }
 
@@ -505,7 +505,7 @@
     max-width: 5em;
   }
 
-  body.zip .full-card .card-body {
+  [data-catalog="zip"] .full-card .card-body {
     padding-right: 0;
     padding-left: 0;
   }

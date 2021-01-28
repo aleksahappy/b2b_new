@@ -4,6 +4,12 @@
 // Первоначальные данные для работы:
 //=====================================================================================================
 
+// Данные для работы с корзиной:
+
+var cartId,
+    cart = {},
+    userData = {};
+
 // Динамически изменяемые переменные:
 
 var soldOutItems = [],
@@ -19,6 +25,45 @@ var cartSectionTemp, cartRowTemp;
 //=====================================================================================================
 // Запросы на сервер:
 //=====================================================================================================
+
+// Получение данных конкретной корзины с сервера:
+
+function getCart() {
+  return new Promise((resolve, reject) => {
+    // sendRequest(urlRequest.main, 'get_cart', {cart_type: cartId})
+    sendRequest(`../json/cart_${document.body.id}.json`)
+    .then(
+      result => {
+        if (!result || JSON.parse(result).err) {
+          reject('Корзина и данные для заказа не пришли');
+        }
+        result = JSON.parse(result);
+        if (!result.cart || result.cart === null) {
+          result.cart = {};
+        }
+        if (JSON.stringify(cart) === JSON.stringify(result.cart)) {
+          if (JSON.stringify(userData.contr) !== JSON.stringify(result.user_contr) || JSON.stringify(userData.address) !== JSON.stringify(result.user_address_list)) {
+            console.log('Адреса или контрагенты обновились');
+            userData.contr = result.user_contr,
+            userData.address = result.user_address_list;
+            resolve();
+          } else {
+            reject('Корзина не изменилась');
+          }
+        } else {
+          console.log('Корзина обновилась');
+          cart = result.cart;
+          userData.contr = result.user_contr,
+          userData.address = result.user_address_list;
+          resolve('cart');
+        }
+      }
+    )
+    .catch(error => {
+      reject(error);
+    })
+  });
+}
 
 // Отправка данных корзины на сервер (только изменившихся данных):
 
@@ -104,6 +149,7 @@ function sendOrder(formData) {
 // Создание контента корзины:
 
 function renderCart() {
+  cartId = pageId;
   toggleEventListeners('off');
   addCatalogLink();
   changeCartName();
@@ -216,7 +262,7 @@ function updateCart() {
     if (result === 'cart') {
       createCartData()
       .then(result => {
-        if (location.search === '?cart') {
+        if (path[path.length - 1] === 'cart') {
           renderCart();
         } else {
           var cards;
@@ -657,7 +703,6 @@ function sumLessProc(sum) {
 function changeCartInHeader(totals) {
   if (!totals) {
     totals = countFromCart();
-    console.log(totals);
   }
   var qty = totals.qty,
       sum = totals.sum;
@@ -741,9 +786,6 @@ function getIdList(area) {
 // Проверка наличия товара в корзине и отображение в карточке товара (степпере/кружке):
 
 function checkCart(card) {
-  if (!isCart) {
-    return;
-  }
   if (card.classList.contains('min-card')) {
     var cartInfo = getEl('.cart', card);
     if (cartInfo) {

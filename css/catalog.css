@@ -872,44 +872,44 @@ body#snowbike .oem-wrap {
 
 /* Стили для большой карточки ЗИП: */
 
-body.zip .big-card {
+[data-catalog="zip"] .big-card {
   height: 15.5em;
   padding: 1em;
 }
 
-body.zip .big-card .select-info {
+[data-catalog="zip"] .big-card .select-info {
   display: block;
   margin-bottom: 0.714em;
 }
 
-body.zip .big-card .carousel,
-body.zip .big-card .img-wrap {
+[data-catalog="zip"] .big-card .carousel,
+[data-catalog="zip"] .big-card .img-wrap {
   width: 16.5em;
   margin-bottom: 0;
 }
 
-body.zip .big-card .card-content {
+[data-catalog="zip"] .big-card .card-content {
   width: calc(100% - 18em);
 }
 
-body.zip .big-card .card-title .title {
+[data-catalog="zip"] .big-card .card-title .title {
   margin-right: 0;
 }
 
-body.zip .big-card .card-price {
+[data-catalog="zip"] .big-card .card-price {
   margin-bottom: 0;
 }
 
-body.zip .big-card .card-sizes {
+[data-catalog="zip"] .big-card .card-sizes {
   position: static;
   width: 14.5em;
 }
 
-body.zip .big-card .card-info {
+[data-catalog="zip"] .big-card .card-info {
   width: 100%;
 }
 
-body.zip .big-card .card-info .oem-list {
+[data-catalog="zip"] .big-card .card-info .oem-list {
   max-height: 5.5em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1047,21 +1047,21 @@ body.zip .big-card .card-info .oem-list {
 
 /* Стили для полной карточки ЗИП: */
 
-body.zip .full-card .card-content {
+[data-catalog="zip"] .full-card .card-content {
   border-bottom: none;
 }
 
-body.zip .full-card .card-sizes {
+[data-catalog="zip"] .full-card .card-sizes {
   margin-bottom: 1.428em;
 }
 
-body.zip .full-card .select-info {
+[data-catalog="zip"] .full-card .select-info {
   width: auto;
   padding-bottom: 0;
   line-height: 1.8;
 }
 
-body.zip  .full-card .card-body {
+[data-catalog="zip"]  .full-card .card-body {
   padding-top: 0;
 }
 
