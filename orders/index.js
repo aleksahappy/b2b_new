@@ -18,9 +18,7 @@
 
 // Запуск страницы заказов:
 
-startOrdersPage();
-
-function startOrdersPage() {
+function startPage() {
   // sendRequest(`../json/orders.json`)
   sendRequest(urlRequest.main, 'orderslist')
   .then(result => {

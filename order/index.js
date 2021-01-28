@@ -14,9 +14,7 @@ var data, reclData, reclIcon;
 
 // Запуск страницы заказа:
 
-startOrderPage();
-
-function startOrderPage() {
+function startPage() {
   var id = document.location.search.replace(/\D/g, '');
   if (!id) {
     location.href = '/err404.html';

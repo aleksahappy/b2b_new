@@ -2,9 +2,7 @@
 
 // Запуск страницы документов:
 
-startDocsPage();
-
-function startDocsPage() {
+function startPage() {
   // sendRequest(`../json/documents.json`)
   sendRequest(urlRequest.main, 'files', {type: 'docs'})
   .then(result => {

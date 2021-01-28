@@ -8,9 +8,7 @@ var items = [],
 
 // Запуск страницы адресов:
 
-startAddressPage();
-
-function startAddressPage() {
+function startPage() {
   // sendRequest(`../json/addresses.json`)
   sendRequest(urlRequest.main, 'get_delivery')
   .then(result => {

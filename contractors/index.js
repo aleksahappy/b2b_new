@@ -2,9 +2,7 @@
 
 // Запуск страницы контрагентов:
 
-startContrPage();
-
-function startContrPage() {
+function startPage() {
   // sendRequest(`../json/contractors.json`)
   sendRequest(urlRequest.main, 'get_contr')
   .then(result => {

@@ -9,9 +9,7 @@
 
 // Запуск страницы рекламаций:
 
-startReclmPage();
-
-function startReclmPage() {
+function startPage() {
   // sendRequest(`../json/reclamations.json`)
   sendRequest(urlRequest.main, 'recllist')
   .then(result => {

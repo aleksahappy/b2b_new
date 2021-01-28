@@ -6,9 +6,7 @@ var data;
 
 // Запуск страницы профиля:
 
-startProfilePage();
-
-function startProfilePage() {
+function startPage() {
   // sendRequest(`../json/profile.json`)
   sendRequest(urlRequest.main, 'profile')
   .then(result => {

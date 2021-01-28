@@ -106,13 +106,9 @@ Chart.pluginService.register({
 	}
 });
 
-// Запускаем рендеринг рабочего стола:
-
-startDashboardPage();
-
 // Запуск страницы рабочего стола:
 
-async function startDashboardPage() {
+async function startPage() {
   speedChart();
   getBanners();
 

@@ -42,9 +42,7 @@ var brandNames = {
 
 // Запуск страницы сертификатов:
 
-startCertPage();
-
-function startCertPage() {
+function startPage() {
   // sendRequest(`../json/certificates.json`)
   sendRequest(urlRequest.main, 'files',  {type: 'cert'})
   .then(result => {

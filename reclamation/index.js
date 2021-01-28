@@ -53,9 +53,7 @@ var fullImgCarousel = {
 
 // Запуск страницы рекламации:
 
-startReclPage();
-
-function startReclPage() {
+function startPage() {
   var id = document.location.search.replace(/\D/g, '');
   if (!id) {
     location.href = '/err404.html';

@@ -74,21 +74,6 @@
   width: 25%;
 }
 
-#address .main .btns-wrap {
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-#address .main .btns-wrap .btn {
-  display: block;
-  width: 100%;
-}
-
-#address .main .btns-wrap .btn:first-child {
-  margin-right: 0;
-  margin-bottom: 0.714em;
-}
-
 /* Подсказки для заполнения адреса: */
 
 .kladr-error {

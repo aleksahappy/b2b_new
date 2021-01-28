@@ -8,9 +8,7 @@ var items = [],
 
 // Запуск страницы пользователей:
 
-startUsersPage();
-
-function startUsersPage() {
+function startPage() {
   // sendRequest(`../json/users.json`)
   sendRequest(urlRequest.main, 'userslist')
   .then(result => {
