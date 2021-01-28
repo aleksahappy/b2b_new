@@ -10,7 +10,6 @@ var isManager = userInfo ? (userInfo.group_id > 0 ? true : false) : false,
     isUser = isManager ? false : true,
     isAdmin = userInfo ? (userInfo.super_user > 0 ? true : false) : false,
     website = 'ts_b2b',
-    isCart = true,
     pageId = document.body.id;
 
 // Настройки каруселей:
@@ -34,14 +33,9 @@ var loader,
     upBtn,
     items;
 
-// Данные для работы с корзиной:
+// Данные каталогов и их корзин:
 
-if (isCart) {
-  var cartId = pageId,
-      cartTotals = [],
-      cart = {},
-      userData = {};
-}
+var cartTotals = [];
 
 // Динамически изменяемые переменные:
 
@@ -49,9 +43,9 @@ var currentElem = null,
     tooltip = null,
     scrollPos;
 
-// Запускаем рендеринг страницы:
+// Запускаем страницy:
 
-startPage();
+generatePage();
 
 //=====================================================================================================
 // Полифиллы:
@@ -79,20 +73,20 @@ startPage();
 // Обязательные функции для всех страниц:
 //=====================================================================================================
 
-// Запуск страницы:
+// Собрать и запустить страницу:
 
-function startPage() {
+function generatePage() {
   var path = location.pathname.replace('index.html', '').replace(/\//g, '').replace('registr', '');
   addModules(path);
-  if (path && isCart) {
+  if (path) {
     window.addEventListener('focus', updateCartTotals);
     getTotals()
     .then(result => {
       renderTotals();
-    }, reject => {
-      console.log(reject);
-      renderTotals();
-    });
+      if (typeof startPage == 'function') {
+        startPage();
+      }
+    })
   }
 }
 
@@ -268,85 +262,28 @@ function sendRequest(url, action, data, type = 'application/json; charset=utf-8'
 // Получение данных об итогах всех корзин с сервера:
 
 function getTotals() {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     // sendRequest(urlRequest.main, 'get_total')
     sendRequest('../json/cart_totals.json')
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
-          reject('Итоги не пришли');
+          console.log('Итоги не пришли');
+          resolve();
         }
         result = JSON.parse(result);
         if (JSON.stringify(cartTotals) === JSON.stringify(result)) {
-          reject('Итоги не изменились');
+          console.log('Итоги не изменились');
+          resolve();
         } else {
           console.log('Итоги обновились');
           cartTotals = result;
-          resolve();
+          resolve(true);
         }
       }
     )
     .catch(error => {
-      reject(error);
-    })
-  });
-}
-
-// Получение данных конкретной корзины с сервера:
-
-function getCart() {
-  return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, 'get_cart', {cart_type: cartId})
-    sendRequest(`../json/cart_${document.body.id}.json`)
-    .then(
-      result => {
-        if (!result || JSON.parse(result).err) {
-          reject('Корзина и данные для заказа не пришли');
-        }
-        result = JSON.parse(result);
-        if (!result.cart || result.cart === null) {
-          result.cart = {};
-        }
-        if (JSON.stringify(cart) === JSON.stringify(result.cart)) {
-          if (JSON.stringify(userData.contr) !== JSON.stringify(result.user_contr) || JSON.stringify(userData.address) !== JSON.stringify(result.user_address_list)) {
-            console.log('Адреса или контрагенты обновились');
-            userData.contr = result.user_contr,
-            userData.address = result.user_address_list;
-            resolve();
-          } else {
-            reject('Корзина не изменилась');
-          }
-        } else {
-          console.log('Корзина обновилась');
-          cart = result.cart;
-          userData.contr = result.user_contr,
-          userData.address = result.user_address_list;
-          resolve('cart');
-        }
-      }
-    )
-    .catch(error => {
-      reject(error);
-    })
-  });
-}
-
-// Получение данных о товарах/товаре по id:
-
-function getItems(id) {
-  return new Promise((resolve, reject) => {
-    var data = {cat_type: cartId};
-    if (id) {
-      data.list = id;
-    }
-    sendRequest(urlRequest.main, 'items', data)
-    .then(result => {
-      var data = JSON.parse(result);
-      resolve(data);
-    })
-    .catch(error => {
-      console.log(error);
-      reject(error);
+      resolve();
     })
   });
 }
@@ -364,6 +301,40 @@ function getItem(articul) {
       console.log(error);
       reject(error);
     })
+  });
+}
+
+// Получение информации об описании товара:
+
+function getDescribeInfo(data) {
+  return new Promise(resolve => {
+    if (data.desc !== undefined) {
+      resolve();
+    } else {
+      sendRequest(`../json/describe.json`)
+      // sendRequest(urlRequest.main, 'item_descr', {id: data.object_id})
+      .then(result => {
+        if (result) {
+          result = JSON.parse(result);
+          if (/\S/.test(result)) {
+            result = result.replace(/\s/g, ' ').replace(/\\n/g, '');
+            data.desc = result;
+            if (data.describe) {
+              data.describe.unshift({title: 'Описание товара', info: data.desc});
+            }
+          } else {
+            data.desc = '';
+          }
+        } else {
+          data.desc = '';
+        }
+        resolve();
+      })
+      .catch(error => {
+        console.log(error);
+        resolve();
+      })
+    }
   });
 }
 
@@ -543,26 +514,25 @@ function deleteCookie(key) {
 function updateCartTotals() {
   getTotals()
   .then(result => {
-    renderTotals();
-  }, reject => {
-    console.log(reject);
+    if (result) {
+      renderTotals();
+    }
   });
 }
 
-// Создание списков каталогов и корзин в шапке сайта:
+// Создание списков каталогов в шапке сайта:
 
 function renderTotals() {
-  if (!isCart || !cartTotals.length) {
-    return;
-  }
-  renderCartInHeader('#carts', 'cart');
-  renderCartInHeader('#catalogs', 'catalogs');
-  renderCartInHeader('#mob-catalogs', 'catalogs');
+  renderTotalsInHeader('#catalogs', 'catalogs');
+  renderTotalsInHeader('#mob-catalogs', 'catalogs');
 }
 
 // Создание списка каталогов/корзин в шапке сайта:
 
-function renderCartInHeader(area, type) {
+function renderTotalsInHeader(area, type) {
+  if (!cartTotals.length) {
+    return;
+  }
   area = getEl(area);
   if (!area) {
     return;
@@ -571,48 +541,54 @@ function renderCartInHeader(area, type) {
   fillTemplate({
     area: area,
     items: data,
-    sub: type === 'cart' ? [{area: '.item', items: 'items'}] : null
+    sub: [{
+      area: type === 'catalogs' ? '.catalogs' : '.items',
+      source: 'inner',
+      items: 'items'
+    }]
   });
 }
 
 // Подготовка данных для создания списка каталогов/корзин:
 
 function getDataFromTotals(type) {
-  var data = JSON.parse(JSON.stringify(cartTotals)),
+  var data = type === 'carts' ? {} : [],
+      totals = JSON.parse(JSON.stringify(cartTotals)),
       sum = 0;
-  data.forEach((el, index) => {
-    if (!el.id) {
-      data.splice(index, 1);
-      return;
-    }
-    if (el.qty > 0) {
-      el.isFull = 'full';
-      if (el.qty > 99) {
-        el.qty = type === 'cart' ? '99' : '99+';
-      }
-    } else {
-      el.isFull = '';
-    }
 
-    if (type === 'cart') {
-      sum += el.sum;
-    }
-    el.sum = convertPrice(el.sum);
-    if (document.body.id && document.body.id === el.id) {
-      el.isFunc = 'openPage(event)';
-      if (type === 'cart') {
-        data.unshift(data.splice(index, 1)[0]);
+  totals.forEach((el, index) => {
+    if (el.id) {
+      el.isFull = el.qty > 0 ? 'full' : '';
+      el.qty = el.qty > 99 ? (type === 'carts' ? '99' : '99+') : el.qty;
+      if (type === 'carts') {
+        sum += el.sum;
       }
-    } else {
-      el.isFunc = '';
+      el.sum = convertPrice(el.sum);
+      if (type === 'catalogs') {
+        var section = el.id.indexOf('preorder') == 0 ? 'Предзаказы' : 'Каталоги',
+            curSection = data.find(el => el.section === section);
+        if (curSection) {
+          curSection.items.push(el);
+        } else {
+          data.push({section: section, items: [el]});
+        }
+      }
+      if (type === 'carts' && document.body.id === el.id) {
+        totals.unshift(totals.splice(index, 1)[0]);
+      }
     }
   });
-  if (type === 'cart') {
-    data = {
-      sum: convertPrice(sum),
-      items: data
-    };
+  if (type === 'catalogs') {
+    var preorderIndex = data.findIndex(el => el.section === 'Предзаказы');
+    if (preorderIndex) {
+      data.unshift(data.splice(preorderIndex, 1)[0]);
+    }
   }
+  if (type === 'carts') {
+    data.sum = convertPrice(sum);
+    data.items = totals;
+  }
+
   return data;
 }
 
@@ -1519,15 +1495,11 @@ function showReclm(event, id) {
 // Переход на старый интерфейс:
 
 function goToOldInterface() {
-  var path = location.pathname.replace('index.html', '').replace(/\//g, ''),
-      inCart = location.search && location.search == '?cart';
+  var path = location.pathname.replace('index.html', '').replace(/\//g, '');
   var links = {
     dashboard: '',
     profile: 'cabinet/',
-    equip: inCart ? 'cart/' : 'ekipirovka/',
-    boats: inCart ? 'cart/' : '/lodki_i_motory/',
-    snow: inCart ? 'cart/' : '/snegohody/',
-    snowbike: inCart ? 'cart/' : '/snowbike/',
+    catalogs: getCatalogLink(),
     orders: 'orders/',
     order: 'orders/order',
     reclamations: 'recl/',
@@ -1545,6 +1517,59 @@ function goToOldInterface() {
     links[path] = links[path] + `${data.recl.order_id}_${data.recl.recl_code_1c}.html`;
   }
   location.href = 'https://b2b.topsports.ru/' + links[path];
+
+  function getCatalogLink() {
+    var path = location.search ? location.search.replace(/\//g, '').split('?').filter(el => el && el.indexOf('=') == -1) : undefined,
+        catalogId = path[0],
+        catalogSection = path[1];
+    if (catalogSection === 'cart') {
+      return 'cart/';
+    }
+    if (catalogId === 'equip') {
+      switch (catalogSection) {
+        case 'odegda':
+          return 'odezhda/';
+        case 'obuv':
+          return 'obuv/';
+        case 'shlem':
+          return 'shlemy/';
+        case 'optic':
+          return 'optika/';
+        case 'snarag':
+          return 'snaryazhenie/';
+        case 'zashita':
+          return 'zashita/';
+        case 'sumruk':
+          return 'sumki_i_ryukzaki/';
+        case 'merch':
+          return 'merchequip/';
+        default:
+          return 'ekipirovka/';
+      }
+    }
+    if (catalogId === 'boats') {
+      switch (catalogSection) {
+        case 'propeller':
+          return 'lodki_i_motory/?filter[orig_subsubcat_title]=%D0%92%D0%B8%D0%BD%D1%82%D1%8B+%D0%B3%D1%80%D0%B5%D0%B1%D0%BD%D1%8B%D0%B5&filter[orig_cat_title][%d0%92%d0%b8%d0%bd%d1%82%d1%8b+%d0%b3%d1%80%d0%b5%d0%b1%d0%bd%d1%8b%d0%b5]=%D0%92%D0%B8%D0%BD%D1%82%D1%8B+%D0%B3%D1%80%D0%B5%D0%B1%D0%BD%D1%8B%D0%B5';
+        default:
+          return 'lodki_i_motory/';
+      }
+    }
+    if (catalogId === 'snow') {
+      switch (catalogSection) {
+        default:
+          return 'snegohody/';
+      }
+    }
+    if (catalogId === 'snowbike') {
+      switch (catalogSection) {
+        case 'kit':
+          return 'technics/';
+        default:
+          return 'snowbike/';
+      }
+    }
+  }
 }
 
 //=====================================================================================================
@@ -2271,7 +2296,6 @@ function showInfoCard(articul) {
     if (item && optnames) {
       addImgInfo(item);
       addOptionsInfo(item, optnames);
-      item.isDesc = item.desc ? '' : 'displayNone';
       openInfoCard(item);
     } else {
       throw new Error('Ошибка');
@@ -2290,19 +2314,23 @@ function openInfoCard(data) {
     return;
   }
   loader.show();
-  var infoCardContainer = getEl('#info-card-container');
-  fillTemplate({
-    area: infoCardContainer,
-    items: data,
-    sub: [{
-      area: '.card-option',
-      items: 'options'
-    }]
-  });
-  checkMedia(getEl('img', infoCardContainer));
-  getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
-  openPopUp(infoCardContainer);
-  loader.hide();
+  getDescribeInfo(data)
+  .then(result => {
+    var infoCardContainer = getEl('#info-card-container');
+    data.isDesc = data.desc ? '' : 'displayNone';
+    fillTemplate({
+      area: infoCardContainer,
+      items: data,
+      sub: [{
+        area: '.card-option',
+        items: 'options'
+      }]
+    });
+    checkMedia(getEl('img', infoCardContainer));
+    getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
+    openPopUp(infoCardContainer);
+    loader.hide();
+  })
 }
 
 // Отображение изображения/ий на весь экран:
