@@ -4,36 +4,40 @@
     <div class="container row">
       <div class="left-side row">
         <a class="logo" href="../dashboard"><img src="../img/logo.svg" alt="Логотип"/></a>
-        <div class="activate hover">
-          <div class="head row">
-            <a class="title" href="../dashboard">Рабочий стол</a>
-          </div>
-        </div>
-        <div class="activate hover">
-          <div class="head row">
-            <div class="title">Каталоги</div>
-            <div class="triangle icon"></div>
-          </div>
-          <div id="catalogs" class="drop-down template">
-            <div class="row">
-              <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
-              <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
-                <div class="cart icon"></div>
-                <div class="qty">#qty#</div>
-              </a>
+        <div class="list row">
+          <div class="activate hover">
+            <div class="head row">
+              <a class="title" href="../dashboard">Рабочий стол</a>
             </div>
           </div>
-        </div>
-        <div class="activate hover select">
-          <div class="head row">
-            <div class="title">Закупки</div>
-            <div class="triangle icon"></div>
+          <div id="catalogs" class="row">
+            <div class="activate hover template">
+              <div class="head row">
+                <div class="title">#section#</div>
+                <div class="triangle icon"></div>
+              </div>
+              <div class="catalogs drop-down">
+                <div class="row">
+                  <a class="catalog-#id# item catalog" href="../catalogs/?#id#">#title#</a>
+                  <a class="cart-#id# item cart-info row #isFull#" href="../catalogs/?#id#/?cart">
+                    <div class="cart icon"></div>
+                    <div class="qty">#qty#</div>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="drop-down">
-            <a class="item" href="../orders/">Заказы</a>
-            <a class="item" href="../reclamations/">Рекламации</a>
-            <a class="item" href="../documents/">Документы</a>
-            <a class="item" href="../certificates/">Сертификаты</a>
+          <div class="activate hover select">
+            <div class="head row">
+              <div class="title">Закупки</div>
+              <div class="triangle icon"></div>
+            </div>
+            <div class="drop-down">
+              <a class="item" href="../orders/">Заказы</a>
+              <a class="item" href="../reclamations/">Рекламации</a>
+              <a class="item" href="../documents/">Документы</a>
+              <a class="item" href="../certificates/">Сертификаты</a>
+            </div>
           </div>
         </div>
       </div>
@@ -107,18 +111,20 @@
             <a class="title"href="../dashboard">Рабочий стол</a>
           </div>
         </div>
-        <div class="item switch close">
-          <div class="item-title" onclick="switchContent(event)">
-            <div class="title">Каталоги</div>
-            <div class="open dark icon switch-icon"></div>
-          </div>
-          <div id="mob-catalogs" class="items switch-cont drop-down template">
-            <div class="row">
-              <a class="catalog-#id# item catalog" href="../#id#" onclick="#isFunc#">#title#</a>
-              <a class="cart-#id# item cart-info row #isFull#" href="../#id#/?cart" onclick="#isFunc#">
-                <div class="cart icon"></div>
-                <div class="qty">#qty#</div>
-              </a>
+        <div id="mob-catalogs">
+          <div class="item switch close template">
+            <div class="item-title" onclick="switchContent(event)">
+              <div class="title">#section#</div>
+              <div class="open dark icon switch-icon"></div>
+            </div>
+            <div class="catalogs items switch-cont drop-down">
+              <div class="row">
+                <a class="catalog-#id# item catalog" href="../catalogs/?#id#">#title#</a>
+                <a class="cart-#id# item cart-info row #isFull#" href="../catalogs/?#id#/?cart">
+                  <div class="cart icon"></div>
+                  <div class="qty">#qty#</div>
+                </a>
+              </div>
             </div>
           </div>
         </div>

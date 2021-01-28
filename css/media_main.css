@@ -64,6 +64,12 @@
     margin: 0 3vw;
   }
 
+  /* Хедер: */
+
+  .header-top .right-side .activate {
+    max-width: 22em;
+  }
+
   /* Кнопка "Наверх страницы": */
 
   #up-btn {
