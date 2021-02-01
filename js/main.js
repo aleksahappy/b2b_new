@@ -557,7 +557,9 @@ function getDataFromTotals(type) {
       sum = 0;
 
   totals.forEach((el, index) => {
-    if (el.id) {
+    if (!el.id) {
+      totals.splice(index, 1);
+    } else {
       el.isFull = el.qty > 0 ? 'full' : '';
       el.qty = el.qty > 99 ? (type === 'carts' ? '99' : '99+') : el.qty;
       if (type === 'carts') {
@@ -1906,7 +1908,7 @@ function onlyPhoneChar(event) {
 // Изменение количества степпером:
 
 function changeQty(event, maxQty, minQty = 0) {
-  if (minQty === maxQty) {
+  if (maxQty && maxQty == minQty) {
     return;
   }
   var current = event.currentTarget;
@@ -1945,7 +1947,11 @@ function countQty(sign, qty, maxQty, minQty) {
         qty--;
       }
     } else if (sign == '+') {
-      if (qty < maxQty) {
+      if (maxQty) {
+        if (qty < maxQty) {
+          qty++;
+        }
+      } else {
         qty++;
       }
     } else if (sign == 'Удалить') {
@@ -1956,11 +1962,9 @@ function countQty(sign, qty, maxQty, minQty) {
   } else {
     if (isNaN(+qty)) {
       qty = minQty;
-    }
-    if (qty < minQty) {
+    } else if (qty < minQty) {
       qty = minQty;
-    }
-    if (qty > maxQty) {
+    } else if (maxQty && qty > maxQty) {
       qty = maxQty;
     }
   }
