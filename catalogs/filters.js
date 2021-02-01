@@ -435,7 +435,7 @@ function getDataForFilters(item) {
     if (data.optKey == '43') {
       if (el.indexOf('муж') >= 0) {
         writeData('Муж.');
-      } else if (el.indexOf('муж') >= 0) {
+      } else if (el.indexOf('жен') >= 0) {
         writeData('Жен.');
       } else {
         writeData('Муж.');
@@ -447,64 +447,14 @@ function getDataForFilters(item) {
   }
 
   function writeData(el) {
-    var clearEl = el.replace(/"|'/g, '');
-    if (items[data.optKey + '_' + clearEl] === undefined) {
-      items[data.optKey + '_' + clearEl] = el;
-    }
-    item[data.optKey + '_' + clearEl] = '1';
-  }
-}
-
-// Получение данных из переменных для пунктов фильтра:
-
-function createFilterItems(data, isOptType) {
-  var items = [];
-  if (!data) {
-    return items;
-  }
-  if (typeof data === 'object') {
-    var title,
-        item;
-    Object.keys(data).forEach((key, index) => {
-      title = getTitle(key, data[key], isOptType);
-      item = {
-        title: title,
-        value: Array.isArray(data) ? title : key
-      };
-      if (data[key] && typeof data[key] === 'object' && !data[key].title) {
-        item.key = item.value;
-        item.items = createFilterItems(data[key], isOptType);
+    if (el) {
+      var clearEl = el.toLowerCase().replace(/"|'|\s/g, '');
+      if (items[data.optKey + '_' + clearEl] === undefined) {
+        items[data.optKey + '_' + clearEl] = el;
       }
-      items.push(item);
-    });
+      item[data.optKey + '_' + clearEl] = '1';
+    }
   }
-  return items;
-}
-
-// Получение названия для фильтра, которое будет отображаться на странице:
-
-function getTitle(key, value, isOptType) {
-  var title;
-  if (isOptType) {
-    title = value
-  } else if (value && typeof value === 'object') {
-    title = value.title || key;
-  } else if (!value || value == 1) {
-    title = key;
-  } else {
-    title = value;
-  }
-
-  if (title == 'SpyOptic') {
-    title = 'Spy Optic';
-  } else if (title == 'TroyLeeDesigns') {
-    title = 'Troy Lee Designs';
-  } else if (title == 'KingDolphin') {
-    title = 'King Dolphin';
-  } else if (title == 'LASleeve') {
-    title = 'LA Sleeve';
-  }
-  return title;
 }
 
 //=====================================================================================================
@@ -534,7 +484,7 @@ function createCatalogFiltersData() {
       }
       data.title = data.title || '';
     }
-    items = createFilterItems(items, data.optKey);
+    items = convertDataForFillTemp(items, data.optKey);
     if (items && data.itemsSort) {
       items.sort(sortBy('title', data.itemsSort));
     }
