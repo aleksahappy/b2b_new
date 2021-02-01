@@ -282,7 +282,7 @@ function updateCart() {
 // Создание данных для рендеринга корзины:
 
 function createCartData() {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve=> {
     getSoldOutItems()
     .then(result => {
       cartData = {};
@@ -339,8 +339,8 @@ function createCartItemData(id, qty, checker, status = '') {
   }
   var item = Object.assign(cartItems[id]);
   item.qty = qty;
-  item.price_cur = status === 'bonus' ? 'Подарок' : item.total_qty > 0 ? item.price_cur : 0;
-  item.status = status === 'bonus' ? 'bonus' : item.total_qty > 0 ? qty > item.total_qty ? 'attention' : '' : 'sold';
+  item.price_cur = status === 'bonus' ? 'Подарок' : (isPreorder ? item.price_cur : (item.total_qty > 0 ? item.price_cur : 0));
+  item.status = status === 'bonus' ? 'bonus' : (isPreorder ? '' : (item.total_qty > 0 ? (qty > item.total_qty ? 'attention' : '') : 'sold'));
   // item.isChecked = checker > 0 ? 'checked' : '';
   item.search = `${item.articul};${item.options};${item.title};${convertToString(item.price_cur)}`;
   return item;
@@ -401,7 +401,7 @@ function saveInCartData(id) {
   if (!item) {
     return;
   }
-  var action = item.total_qty && item.total_qty > 0 ? item.action_name : 'Нет в наличии';
+  var action = isPreorder ? item.action_name : (item.total_qty > 0 ? item.action_name : 'Нет в наличии');
   if (!cartData[action]) {
     cartData[action] = {};
     cartData[action].action_name = action;
@@ -420,7 +420,7 @@ function deleteFromCartData(id) {
   if (!item) {
     return;
   }
-  var action = item.total_qty && item.total_qty > 0 ? item.action_name : 'Нет в наличии';
+  var action = isPreorder ? item.action_name : (item.total_qty > 0 ? item.action_name : 'Нет в наличии');
   if (!action) {
     return;
   }
@@ -499,11 +499,11 @@ function countFromCart(idList = undefined, totals = true, soldOut = true) {
       return;
     }
     curItem = cartItems[id];
-    if (!curItem || !(curItem.total_qty > 0)) {
+    if (!isPreorder && (!curItem || !(curItem.total_qty > 0))) {
       qty += el.qty;
       return;
     }
-    if (soldOut) {
+    if (isPreorder || soldOut) {
       curQty = el.qty;
     } else {
       curQty = el.qty > curItem.total_qty ? curItem.total_qty : el.qty;
@@ -840,7 +840,7 @@ function getQty(id) {
 
 function changeCart(event, id) {
   var curEl = event.currentTarget.closest('.manage'),
-      totalQty = cartItems['id_' + id].total_qty,
+      totalQty =  isPreorder ? undefined : cartItems['id_' + id].total_qty,
       qty = changeQty(event, totalQty);
   saveInCart(id, qty);
   if (curEl.classList.contains('card')) {
@@ -1321,7 +1321,9 @@ function toggleAddressField() {
     formWrap.setAttribute('required', 'required');
     title.textContent = 'Адрес доставки*';
   } else {
-    addressDropdown.clear();
+    if (window.addressDropdown) {
+      addressDropdown.clear();
+    }
     address.setAttribute('disabled', 'disabled');
     formWrap.removeAttribute('required', 'required');
     title.textContent = 'Адрес доставки';
