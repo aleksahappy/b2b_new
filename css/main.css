@@ -2845,6 +2845,7 @@ form.post .btns-wrap {
 .pop-up-container.locked {
   position: static;
   display: flex;
+  min-height: auto;
   padding: 2.857em 1.428em 1.428em 1.428em;
   background-color: transparent;
   opacity: 1;
@@ -4313,7 +4314,7 @@ form.post .btns-wrap {
 ===================================================================================================== */
 
 body#auth .container.center {
-  min-height: 80vh;
+  min-height: 70vh;
 }
 
 body#auth .pop-up {
@@ -4342,7 +4343,7 @@ body#auth .notice {
 
 body#err .container.center {
   flex-direction: column;
-  min-height: 80vh;
+  min-height: 70vh;
 }
 
 body#err .img {
