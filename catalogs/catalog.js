@@ -8,7 +8,8 @@
 
 var path,
     pageUrl,
-    catalogType,
+    cardsType,
+    isPreorder,
     view,
     userView,
     items = [],
@@ -34,8 +35,8 @@ function startPage() {
   defineCatalog();
   addCatalogModules();
   renderTotalsInHeader('#carts', 'carts');
+  var menuData = setCatalogName();
   setCatalogEventListeners();
-  fillCatalogHeader();
   if (view === 'product') {
     // getItems(location.search.replace('?',''))
     // .then(
@@ -57,6 +58,7 @@ function startPage() {
         for (var key in result) {
           window[key] = result[key];
         }
+        fillCatalogSubmenu(menuData);
         convertActions();
         fillCatalogFilters();
         convertItems();
@@ -135,7 +137,8 @@ function defineCatalog() {
   if (path && path.length <= 2 && cartTotals.find(el => el.id === path[0])) {
     pageId = path[0];
     document.body.id = pageId;
-    catalogType = pageId === 'equip' ? pageId : 'zip';
+    cardsType = pageId.indexOf('equip') >= 0 || pageId.indexOf('preorder') >= 0 ? 'equip' : 'zip';
+    isPreorder = pageId.indexOf('preorder') == 0 ? true : false;
   } else {
     location.href = '../err404.html';
   }
@@ -144,7 +147,8 @@ function defineCatalog() {
 // Построение каталога из модулей:
 
 function addCatalogModules() {
-  document.body.dataset.catalog = catalogType;
+  document.body.dataset.cards = cardsType;
+  document.body.dataset.preorder = isPreorder;
 
   var catalogHeader = document.createElement('div');
   catalogHeader.classList.add('header-bottom');
@@ -159,7 +163,7 @@ function addCatalogModules() {
 
   var catalogGallery = document.createElement('div');
   catalogGallery.id = 'gallery';
-  catalogGallery.dataset.html = `../modules/catalog_${catalogType}.html`;
+  catalogGallery.dataset.html = `../modules/catalog_${cardsType}.html`;
   getEl('#content').appendChild(catalogGallery);
 
   var popUpModules = document.createElement('div');
@@ -178,6 +182,17 @@ function addCatalogModules() {
   cartRowTemp = getEl('.cart-row');
 }
 
+// Добавление основного названия каталогу:
+
+function setCatalogName() {
+  var data = JSON.parse(JSON.stringify(cartTotals.find(el => el.id === pageId)));
+  fillTemplate({
+    area: '.topmenu',
+    items: data
+  });
+  return data;
+}
+
 // Добавление обработчиков событий:
 
 function setCatalogEventListeners() {
@@ -191,7 +206,7 @@ function setCatalogEventListeners() {
 
 // Динамическое заполнение второго уровня меню:
 
-function fillCatalogHeader() {
+function fillCatalogSubmenu(data) {
   var subMenuData = {
     equip: {
       'odegda': 'Одежда',
@@ -223,17 +238,17 @@ function fillCatalogHeader() {
       'merch': 'Мерчандайзинг'
     }
   }
-  var data = JSON.parse(JSON.stringify(cartTotals.find(el => el.id === pageId)));
+  // if (!window.submenu) {
+  //   return;
+  // }
   data.items = convertDataForFillTemp(subMenuData[data.id]);
-  // если будет subMenuData приходить в totals, то:
-  // data.items = convertDataForFillTemp(data.items);
+  // data.items = convertDataForFillTemp(submenu);
   fillTemplate({
-    area: '#header-menu .container',
+    area: '.submenu',
     items: data,
     sub: [{area: '.submenu-item', items: 'items'}]
   });
   adaptMenu();
-  getEl('#header-menu').style.visibility = 'visible';
 }
 
 //=====================================================================================================
@@ -270,11 +285,10 @@ function convertItems() {
 function convertItem(item) {
   addManufInfo(item);
   item.title = item.title.replace(/\s/g, ' ');
-  item.isFree = item.free_qty > 0 ? '' : 'displayNone';
-  item.isArrive = item.arrive_qty > 0 ? '' : 'displayNone';
   item.isOemList = item.oemList ? '' : 'displayNone';
   item.isManufTable = item.manuf_table ? '' : 'displayNone';
   item.search = [item.title, item.brand, item.cat, item.subcat]; // добавление данных для поиска по странице (далее в функциях будут дополняться)
+  addQtyInfo(item);
   addImgInfo(item);
   addActionInfo(item);
   addPriceInfo(item);
@@ -409,6 +423,21 @@ function checkManufEl(filters, el) {
   return isFound;
 }
 
+// Преобразование данных о наличии:
+
+function addQtyInfo(item) {
+  item.free_qty = isPreorder ? '' : item.free_qty;
+  item.arrive_qty = isPreorder ? '' : item.arrive_qty;
+
+  item.arrive_qty1 = item.arrive_qty > 0 ? `${item.arrive_qty} шт.` : '';
+  item.arrive_date1 = item.arrive_date > 0 ? `к ${item.arrive_date}` : '';
+
+  item.isFree = item.free_qty > 0 ? '' : 'displayNone';
+  item.isArrive = (isPreorder ? item.arrive_date : item.arrive_qty) > 0 ? '' : 'displayNone';
+
+  item.total_qty = parseInt(item.free_qty > 0 ? item.free_qty : 0, 10) + parseInt(item.arrive_qty > 0 ? item.arrive_qty : 0, 10);
+}
+
 // Проверка действия акции и добавление данных о ней:
 
 function addActionInfo(item) {
@@ -457,16 +486,16 @@ function addSizeInfo(item) {
       object_id: item.object_id,
       free_qty: item.free_qty,
       arrive_qty: item.arrive_qty,
-      arrive_date: item.arrive_date
+      arrive_date: item.arrive_date,
+      arrive_qty1: item.arrive_qty1,
+      arrive_date1: item.arrive_date1
     };
   }
   var size;
   for (var key in item.sizes) {
     size = item.sizes[key];
     size.size = typeof size.size === 'string' ? size.size : 'OS';
-    size.total_qty = parseInt(size.free_qty || 0, 10) + parseInt(size.arrive_qty || 0, 10);
-    size.isFree = size.free_qty > 0 ? '' : 'displayNone';
-    size.isArrive = size.arrive_qty > 0 ? '' : 'displayNone';
+    addQtyInfo(size);
 
     // добавление данных для поиска по странице
     item.search.push(item.sizes[key].articul);
@@ -628,7 +657,7 @@ function openPage(event) {
     }
   } else {
     var oldPath = path;
-    path = event.currentTarget.href.replace(/http*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace('catalogs/?', '').split('&').filter(el => el && el.indexOf('=') == -1);
+    path = event.currentTarget.href.replace(/https*:\/\/[^\/]+\//g, '').replace(/\/[^\/]+.html/g, '').replace('catalogs/?', '').split('&').filter(el => el && el.indexOf('=') == -1);
     if (JSON.stringify(oldPath) === JSON.stringify(path)) {
       return;
     }
@@ -1711,7 +1740,7 @@ function changeFilterCatalog(event) {
 // Инициализация последовательных фильтров:
 
 function initFiltersStep () {
-  if (catalogType !== 'zip') {
+  if (cardsType !== 'zip') {
     return;
   }
   initStepFilter('manuf2', 'begin');
@@ -1749,7 +1778,7 @@ function initStepFilter(type, target) {
 // Заполнение последовательных фильтров актуальными данными:
 
 function toggleFiltersStep() {
-  if (catalogType !== 'zip') {
+  if (cardsType !== 'zip') {
     return;
   }
   if (pageId === 'snowbike') {

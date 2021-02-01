@@ -18,7 +18,6 @@ body {
   position: relative;
   color: #FFFFFF;
   background-color: #53606F;
-  visibility: hidden;
 }
 
 #header-menu .container {
@@ -74,6 +73,7 @@ body {
 
 #submenu-hide {
   width: auto;
+  z-index: 10;
 }
 
 #submenu-hide .head {
@@ -88,11 +88,12 @@ body {
 }
 
 #submenu-hide .drop-down {
-  background-color: #53606F;
   width: auto;
   max-width: none;
   left: 0;
   right: auto;
+  background-color: #53606F;
+  border: none;
 }
 
 #submenu-hide:hover .drop-down {
@@ -763,6 +764,12 @@ body#snowbike .oem-wrap {
   width: 100%;
 }
 
+/* Стили для малой карточки в предзаказах: */
+
+[data-cards="equip"][data-preorder="true"] .min-card .tooltips > .row {
+  display: none;
+}
+
 /* =====================================================================================================
  Стили для большой карточки:
 ===================================================================================================== */
@@ -872,47 +879,53 @@ body#snowbike .oem-wrap {
 
 /* Стили для большой карточки ЗИП: */
 
-[data-catalog="zip"] .big-card {
+[data-cards="zip"] .big-card {
   height: 15.5em;
   padding: 1em;
 }
 
-[data-catalog="zip"] .big-card .select-info {
+[data-cards="zip"] .big-card .select-info {
   display: block;
   margin-bottom: 0.714em;
 }
 
-[data-catalog="zip"] .big-card .carousel,
-[data-catalog="zip"] .big-card .img-wrap {
+[data-cards="zip"] .big-card .carousel,
+[data-cards="zip"] .big-card .img-wrap {
   width: 16.5em;
   margin-bottom: 0;
 }
 
-[data-catalog="zip"] .big-card .card-content {
+[data-cards="zip"] .big-card .card-content {
   width: calc(100% - 18em);
 }
 
-[data-catalog="zip"] .big-card .card-title .title {
+[data-cards="zip"] .big-card .card-title .title {
   margin-right: 0;
 }
 
-[data-catalog="zip"] .big-card .card-price {
+[data-cards="zip"] .big-card .card-price {
   margin-bottom: 0;
 }
 
-[data-catalog="zip"] .big-card .card-sizes {
+[data-cards="zip"] .big-card .card-sizes {
   position: static;
   width: 14.5em;
 }
 
-[data-catalog="zip"] .big-card .card-info {
+[data-cards="zip"] .big-card .card-info {
   width: 100%;
 }
 
-[data-catalog="zip"] .big-card .card-info .oem-list {
+[data-cards="zip"] .big-card .card-info .oem-list {
   max-height: 5.5em;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Стили для больших карточек предзаказа: */
+
+[data-preorder="true"] .big-card .tooltips > .free.row {
+  display: none !important;
 }
 
 /* =====================================================================================================
@@ -1047,21 +1060,21 @@ body#snowbike .oem-wrap {
 
 /* Стили для полной карточки ЗИП: */
 
-[data-catalog="zip"] .full-card .card-content {
+[data-cards="zip"] .full-card .card-content {
   border-bottom: none;
 }
 
-[data-catalog="zip"] .full-card .card-sizes {
+[data-cards="zip"] .full-card .card-sizes {
   margin-bottom: 1.428em;
 }
 
-[data-catalog="zip"] .full-card .select-info {
+[data-cards="zip"] .full-card .select-info {
   width: auto;
   padding-bottom: 0;
   line-height: 1.8;
 }
 
-[data-catalog="zip"]  .full-card .card-body {
+[data-cards="zip"]  .full-card .card-body {
   padding-top: 0;
 }
 
