@@ -1517,57 +1517,59 @@ function goToOldInterface() {
     links[path] = links[path] + `${data.recl.order_id}_${data.recl.recl_code_1c}.html`;
   }
   location.href = 'https://b2b.topsports.ru/' + links[path];
+}
 
-  function getCatalogLink() {
-    var path = location.search ? location.search.replace(/\//g, '').split('?').filter(el => el && el.indexOf('=') == -1) : undefined,
-        catalogId = path[0],
-        catalogSection = path[1];
-    if (catalogSection === 'cart') {
-      return 'cart/';
+// Получение ссылки на старый интерфейс для страниц каталога:
+
+function getCatalogLink() {
+  var path = location.search ? location.search.slice(1).split('&').filter(el => el && el.indexOf('=') == -1) : undefined,
+      catalogId = path[0],
+      catalogSection = path[1];
+  if (catalogSection === 'cart') {
+    return 'cart/';
+  }
+  if (catalogId === 'equip') {
+    switch (catalogSection) {
+      case 'odegda':
+        return 'odezhda/';
+      case 'obuv':
+        return 'obuv/';
+      case 'shlem':
+        return 'shlemy/';
+      case 'optic':
+        return 'optika/';
+      case 'snarag':
+        return 'snaryazhenie/';
+      case 'zashita':
+        return 'zashita/';
+      case 'sumruk':
+        return 'sumki_i_ryukzaki/';
+      case 'merch':
+        return 'merchequip/';
+      default:
+        return 'ekipirovka/';
     }
-    if (catalogId === 'equip') {
-      switch (catalogSection) {
-        case 'odegda':
-          return 'odezhda/';
-        case 'obuv':
-          return 'obuv/';
-        case 'shlem':
-          return 'shlemy/';
-        case 'optic':
-          return 'optika/';
-        case 'snarag':
-          return 'snaryazhenie/';
-        case 'zashita':
-          return 'zashita/';
-        case 'sumruk':
-          return 'sumki_i_ryukzaki/';
-        case 'merch':
-          return 'merchequip/';
-        default:
-          return 'ekipirovka/';
-      }
+  }
+  if (catalogId === 'boats') {
+    switch (catalogSection) {
+      case 'propeller':
+        return 'lodki_i_motory/?filter[orig_subsubcat_title]=%D0%92%D0%B8%D0%BD%D1%82%D1%8B+%D0%B3%D1%80%D0%B5%D0%B1%D0%BD%D1%8B%D0%B5&filter[orig_cat_title][%d0%92%d0%b8%d0%bd%d1%82%d1%8b+%d0%b3%d1%80%d0%b5%d0%b1%d0%bd%d1%8b%d0%b5]=%D0%92%D0%B8%D0%BD%D1%82%D1%8B+%D0%B3%D1%80%D0%B5%D0%B1%D0%BD%D1%8B%D0%B5';
+      default:
+        return 'lodki_i_motory/';
     }
-    if (catalogId === 'boats') {
-      switch (catalogSection) {
-        case 'propeller':
-          return 'lodki_i_motory/?filter[orig_subsubcat_title]=%D0%92%D0%B8%D0%BD%D1%82%D1%8B+%D0%B3%D1%80%D0%B5%D0%B1%D0%BD%D1%8B%D0%B5&filter[orig_cat_title][%d0%92%d0%b8%d0%bd%d1%82%d1%8b+%d0%b3%d1%80%d0%b5%d0%b1%d0%bd%d1%8b%d0%b5]=%D0%92%D0%B8%D0%BD%D1%82%D1%8B+%D0%B3%D1%80%D0%B5%D0%B1%D0%BD%D1%8B%D0%B5';
-        default:
-          return 'lodki_i_motory/';
-      }
+  }
+  if (catalogId === 'snow') {
+    switch (catalogSection) {
+      default:
+        return 'snegohody/';
     }
-    if (catalogId === 'snow') {
-      switch (catalogSection) {
-        default:
-          return 'snegohody/';
-      }
-    }
-    if (catalogId === 'snowbike') {
-      switch (catalogSection) {
-        case 'kit':
-          return 'technics/';
-        default:
-          return 'snowbike/';
-      }
+  }
+  if (catalogId === 'snowbike') {
+    switch (catalogSection) {
+      case 'kit':
+        return 'technics/';
+      default:
+        return 'snowbike/';
     }
   }
 }
@@ -1815,6 +1817,64 @@ function insertText(target, txt, method = 'inner') {
     }
     target.insertAdjacentHTML(method, txt);
   }
+}
+
+//=====================================================================================================
+// Преобразование данных для использования их в заполнении по шаблону:
+//=====================================================================================================
+
+// Преобразование данных из формата объекта в массив объектов:
+// на входе: {key1: value1, key2: value2}
+// на выходе: [{title: key1:, value: value1}, {title: key2:, value: value2}])
+
+function convertDataForFillTemp(data, isFix) {
+  var items = [];
+  if (!data) {
+    return items;
+  }
+  if (typeof data === 'object') {
+    var title,
+        item;
+    Object.keys(data).forEach(key => {
+      title = getTitle(key, data[key], isFix);
+      item = {
+        title: title,
+        value: Array.isArray(data) ? title : key
+      };
+      if (data[key] && typeof data[key] === 'object' && !data[key].title) {
+        item.key = item.value;
+        item.items = convertDataForFillTemp(data[key], isFix);
+      }
+      items.push(item);
+    });
+  }
+  return items;
+}
+
+// Получение основного заголовка:
+
+function getTitle(key, value, isFix) {
+  var title;
+  if (isFix) {
+    title = value;
+  } else if (value && typeof value === 'object') {
+    title = value.title || key;
+  } else if (!value || value == 1) {
+    title = key;
+  } else {
+    title = value;
+  }
+
+  if (title == 'SpyOptic') {
+    title = 'Spy Optic';
+  } else if (title == 'TroyLeeDesigns') {
+    title = 'Troy Lee Designs';
+  } else if (title == 'KingDolphin') {
+    title = 'King Dolphin';
+  } else if (title == 'LASleeve') {
+    title = 'LA Sleeve';
+  }
+  return title;
 }
 
 //=====================================================================================================
