@@ -7,10 +7,11 @@
 // 4: "Оплачен"
 // 5: "Завершен"
 // 10: "Отменен"
+// ??: "Ожидается оплата"
 
 // Глобальные переменные:
 
-var data, reclData, reclIcon;
+var data, fromDisplay, reclData, reclIcon;
 
 // Запуск страницы заказа:
 
@@ -64,12 +65,14 @@ function convertData() {
   getPaymentsData();
   addReclmInfo();
   delete data.orderitems;
+
+  fromDisplay = data.source_id > 0 ? true : false;
   data.isShipments = data.nakls.length ? '' : 'disabled';
   data.isPayments = isEmptyObj(data.payments) ? 'disabled' : '';
   data.order_status = data.order_number ? data.order_status : 'В обработке';
-  data.isMoreRow = data.comment || data.source_id > 0 ? '' : 'displayNone';
+  data.isMoreRow = data.comment || fromDisplay ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
-  data.isOrderBnts = data.source_id > 0 ? '' : 'hidden';
+  data.isOrderBnts = fromDisplay ? '' : 'hidden';
   data.isReclms = data.order_type ? ((data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true) : true;
   toggleBillLink();
   toggleOrderBtns();
@@ -80,7 +83,7 @@ function convertData() {
 function toggleBillLink() {
   var orderStatus = data.order_status.toLowerCase(),
       billLink = getEl('a.docs');
-  if (orderStatus == 'в обработке' || orderStatus == 'ожидает подтверждения' || orderStatus == 'отменен') {
+  if (['в обработке', 'ожидает подтверждения', 'отменен'].indexOf(orderStatus) >= 0) {
     billLink.classList.add('displayNone');
   } else {
     billLink.classList.remove('displayNone');
@@ -93,10 +96,15 @@ function toggleOrderBtns() {
   var orderStatus = data.order_status.toLowerCase(),
       cancelBtn = getEl('#cancel'),
       confirmBtn = getEl('#confirm');
-  if (data.source_id > 0 && orderStatus == 'ожидает подтверждения') {
+
+  if (fromDisplay && data.items.sobrn.length) {
+    data.isCancel = false;
+    data.isConfirm = false;
+  } else if (fromDisplay && orderStatus == 'ожидает подтверждения') {
     data.isCancel = true;
     data.isConfirm = true;
-  } else if (data.source_id > 0 && (orderStatus == 'подтвержден' || orderStatus == 'не оплачен')) {
+  // } else if (fromDisplay && ['подтвержден', 'не оплачен', 'ожидается оплата', 'оплачен'].indexOf(orderStatus) >= 0) {
+  } else if (fromDisplay && ['не оплачен', 'ожидается оплата', 'оплачен'].indexOf(orderStatus) >= 0) {
     data.isCancel = true;
     data.isConfirm = false;
   } else {
@@ -701,7 +709,16 @@ function createTables() {
 // Отмена/подтверждение заказа:
 
 function changeOrderStatus(event) {
+  if (fromDisplay) {
+    return;
+  }
   var action = event.currentTarget.id;
+  if (event.currentTarget.classList.contains('disabled')) {
+    if (action === 'cancel' && data.order_status.toLowerCase() !== 'завершен') {
+      alerts.show('Для отмены заказа свяжитесь с вашим менеджером.');
+    }
+    return;
+  }
   if ((action === 'cancel' && data.isCancel) || (action === 'confirm' && data.isConfirm)) {
     sendRequest(urlRequest.main, 'order', {order_id: data.id, mode: action})
     .then(result => {
