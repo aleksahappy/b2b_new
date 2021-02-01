@@ -1,10 +1,5 @@
 /* Стили основного содержимого: */
 
-.template {
-  display: flex;
-  visibility: hidden;
-}
-
 .profile-info {
   display: inline-block;
   padding: 1.428em 2.143em;

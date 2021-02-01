@@ -251,8 +251,7 @@ body.no-scroll {
 }
 
 .template {
-  display: none;
-  /* visibility: hidden; */
+  visibility: hidden;
 }
 
 .highlight {
@@ -3968,6 +3967,10 @@ form.post .btns-wrap {
 
 .header-top .list {
   width: calc(100% - 14em);
+}
+
+#catalogs {
+  min-width: 12em;
 }
 
 .header-top .catalogs > .row {
