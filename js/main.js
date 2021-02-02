@@ -129,12 +129,11 @@ function addModules(path) {
   if (getEl('#modules')) {
     return;
   }
-  var url = path ? '../modules/main_full.html' : '../modules/main_short.html',
-      modules = document.createElement('div');
+  var modules = document.createElement('div');
   modules.id = 'modules';
-  modules.dataset.html = url;
   document.body.insertBefore(modules, document.body.firstChild);
-  includeHTML();
+  loadHTML(modules, path ? '../modules/main_full.html' : '../modules/main_short.html');
+  loadHTML(modules, '../modules/main_common.html');
   initModules(path);
 }
 
@@ -154,7 +153,7 @@ function includeHTML(target) {
   }
 }
 
-// Непосредственно получение и вставка html:
+// Получение и вставка html:
 
 function loadHTML(target, url) {
   target = getEl(target);
@@ -170,7 +169,7 @@ function loadHTML(target, url) {
       throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
     } else {
       if (xhr.response) {
-        target.innerHTML = xhr.responseText;
+        target.innerHTML += xhr.responseText;
         target.removeAttribute('data-html');
       }
     }
@@ -186,6 +185,7 @@ function loadHTML(target, url) {
 // Запуск инициализации всех имеющихся модулей страницы:
 
 function initModules(path) {
+  getEl('#footer .current-year').textContent = new Date().getFullYear();
   if (path) {
     fillUserInfo();
     // initNotifications();
@@ -1501,7 +1501,6 @@ function goToOldInterface() {
   var links = {
     dashboard: '',
     profile: 'cabinet/',
-    catalogs: getCatalogLink(),
     orders: 'orders/',
     order: 'orders/order',
     reclamations: 'recl/',
@@ -1512,13 +1511,15 @@ function goToOldInterface() {
     contractors: 'cabinet/',
     addresses: 'cabinet/'
   };
-  if (path === 'order') {
-    links[path] = links[path] + `${location.search.replace(/\D/g, '')}.html`;
+  if (path === 'catalogs') {
+    location.href = 'https://b2b.topsports.ru/' + getCatalogLink();
+  } else if (path === 'order') {
+    location.href = 'https://b2b.topsports.ru/' + links[path] + `${location.search.replace(/\D/g, '')}.html`;
+  } else if (path === 'reclamation') {
+    location.href = 'https://b2b.topsports.ru/' + links[path] + `${data.recl.order_id}_${data.recl.recl_code_1c}.html`;
+  } else {
+    location.href = 'https://b2b.topsports.ru/' + links[path];
   }
-  if (path === 'reclamation') {
-    links[path] = links[path] + `${data.recl.order_id}_${data.recl.recl_code_1c}.html`;
-  }
-  location.href = 'https://b2b.topsports.ru/' + links[path];
 }
 
 // Получение ссылки на старый интерфейс для страниц каталога:
