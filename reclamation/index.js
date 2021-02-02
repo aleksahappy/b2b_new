@@ -260,7 +260,7 @@ function getReturnList(event) {
   if (event.currentTarget.classList.contains('disabled') || data.recl.status_comment != 'Ожидается товар') {
     return;
   } else {
-    window.open(`https://new.topsports.ru/api.php?action=recl&recl_id=${data.recl.id}&mode=return_list&type=pdf`);
+    window.open(`../api.php?action=recl&recl_id=${data.recl.id}&mode=return_list&type=pdf`);
   }
 }
 

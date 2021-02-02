@@ -178,7 +178,7 @@ function getBill(event, id) {
   if (event.currentTarget.classList.contains('loader') || event.currentTarget.classList.contains('disabled')) {
     return;
   } else {
-    window.open(`https://new.topsports.ru/api.php?action=order&order_id=${id}&mode=bill&type=pdf`);
+    window.open(`../api.php?action=order&order_id=${id}&mode=bill&type=pdf`);
   }
 }
 

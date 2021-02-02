@@ -1268,11 +1268,11 @@ function openCheckout(event) {
     return;
   }
   if (!userData.contr) {
-    alerts.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="http://new.topsports.ru/contractors">Контрагенты</a> для их добавления/включения.');
+    alerts.show('Оформление заказа невозможно: отсутствуют активные контрагенты!<br>Перейдите в раздел <a href="../contractors">Контрагенты</a> для их добавления/включения.');
     return;
   }
   if (!userData.address) {
-    alerts.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="http://new.topsports.ru/addresses">Мои адреса</a> для их добавления/включения.');
+    alerts.show('Внимание: отсутствуют активные адреса!<br>Перейдите в раздел <a href="../addresses">Адреса</a> для их добавления/включения.');
     getEl('#order-form .activate.delivery .item[data-value="2"]').style.display = 'none';
     getEl('#order-form .activate.delivery .item[data-value="3"').style.display = 'none';
   }

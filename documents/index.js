@@ -30,10 +30,10 @@ function initPage(data = []) {
         title: 'Наименование',
         keys: ['file_name'],
         content: `<div class="row">
-                    <a href="https://new.topsports.ru/api.php?action=files&type=docs&id=#id#" target="_blank">
+                    <a href="../api.php?action=files&type=docs&id=#id#" target="_blank">
                       <div class="download icon"></div>
                     </a>
-                    <div><a href="https://new.topsports.ru/api.php?action=files&type=docs&mode=view&id=#id#" target="_blank">#title#</a></div>
+                    <div><a href="../api.php?action=files&type=docs&mode=view&id=#id#" target="_blank">#title#</a></div>
                   </div>`
       }]
     }
