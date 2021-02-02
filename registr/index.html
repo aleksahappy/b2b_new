@@ -7,8 +7,8 @@
     <meta name="keywords" content="ТОП СПОРТС">
     <meta name="description" content="ТОП СПОРТС">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="../js/check_auth.js"></script>
     <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
+    <script src="../js/check_auth.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/fonts.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/main_media.css">
@@ -28,9 +28,16 @@
                 <div class="form-groups">
                   <div class="form-group">
                     <div class="title h3">Информация о компании</div>
-                    <div class="form-wrap" required>
-                      <div class="title">Название магазина<span class="req">*</span></div>
-                      <input type="text" value="" name="shopname" data-type="text" placeholder="Введите название">
+                    <div class="form-cols">
+                      <div class="form-wrap" required>
+                        <div class="title">Название магазина<span class="req">*</span></div>
+                        <input type="text" value="" name="shopname" data-type="text" placeholder="Введите название">
+                      </div>
+                      <div class="form-wrap" required>
+                        <div class="title">Город<span class="req">*</span></div>
+                        <input type="text" value="" name="city" data-type="text" placeholder="Введите город" data-kladr-type="city">
+                        <div class="err">Поле заполнено неверно</div>
+                      </div>
                     </div>
                     <div class="form-cols">
                       <div class="form-wrap form-col2">
@@ -156,7 +163,11 @@
       </div>
     </div>
 
-    <script src ="../js/main.js"></script>
-    <script src ="index.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../js/jquery.kladr.js"></script>
+    <script src="../js/kladr.js"></script>
+    <script src="index.js"></script>
+
   </body>
 </html>

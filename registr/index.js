@@ -1,8 +1,15 @@
 'use strict';
 
-// Инициализация объекта формы:
+// Инициализация формы:
 
 initForm('#registr', sendRegistr);
+initKladr();
+
+// Инициализация подсказок при заполнении города:
+
+function initKladr() {
+  document.querySelectorAll('[data-kladr-type]').forEach(el => kladr_init('address', 'registr'));
+}
 
 // Отправка данных формы на сервер:
 
