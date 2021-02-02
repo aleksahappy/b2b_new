@@ -18,13 +18,13 @@ var data, fromDisplay, reclData, reclIcon;
 function startPage() {
   var id = document.location.search.replace(/\D/g, '');
   if (!id) {
-    location.href = '/err404.html';
+    location.href = '../404';
   }
   // sendRequest(`../json/order1.json`)
   sendRequest(urlRequest.main, 'order', {order_id: id})
   .then(result => {
     if (!result) {
-      location.href = '/err404.html';
+      location.href = '../404';
     }
     data = JSON.parse(result);
     initPage();

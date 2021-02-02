@@ -1,0 +1,175 @@
+<?php include_once "../ver.php";?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ТОП СПОРТС - Дилерство</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="ТОП СПОРТС">
+    <meta name="description" content="ТОП СПОРТС">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="../img/top_sports_logo_black_short_transparency.png">
+    <script src="../js/check_auth.js?<?php echo $ver?>"></script>
+    <link rel="stylesheet" type="text/css" href="../css/fonts.css?<?php echo $ver?>">
+    <link rel="stylesheet" type="text/css" href="../css/main.css?<?php echo $ver?>">
+    <link rel="stylesheet" type="text/css" href="../css/main_media.css?<?php echo $ver?>">
+    <link rel="stylesheet" type="text/css" href="index.css?<?php echo $ver?>">
+  </head>
+
+  <body>
+    <div id="main">
+      <div class="container center">
+        <div class="pop-up-container locked">
+          <div class="pop-up">
+            <div class="pop-up-title row" style="text-align: center;">
+              <div class="title h1">Заявка на дилерство</div>
+            </div>
+            <div class="pop-up-body">
+              <form id="registr" class="post">
+                <div class="form-groups">
+                  <div class="form-group">
+                    <div class="title h3">Информация о компании</div>
+                    <div class="form-cols">
+                      <div class="form-wrap" required>
+                        <div class="title">Название магазина<span class="req">*</span></div>
+                        <input type="text" value="" name="shopname" data-type="text" placeholder="Введите название">
+                      </div>
+                      <div class="form-wrap" required>
+                        <div class="title">Город<span class="req">*</span></div>
+                        <input type="text" value="" name="city" data-type="text" placeholder="Введите город" data-kladr-type="city">
+                        <div class="err">Поле заполнено неверно</div>
+                      </div>
+                    </div>
+                    <div class="form-cols">
+                      <div class="form-wrap form-col2">
+                        <div class="title">Сайт</div>
+                        <input type="text" value="" name="site" data-type="site" placeholder="Введите адрес сайта">
+                      </div>
+                      <div class="form-wrap form-col2">
+                        <div class="title">Тип торговли</div>
+                        <div class="activate select">
+                          <input type="hidden" value="" name="area">
+                          <div class="head row">
+                            <div class="title">Выберите тип торговли</div>
+                            <div class="triangle icon"></div>
+                          </div>
+                          <div class="drop-down">
+                            <div class="item" data-value="Интернет магазин">Интернет магазин</div>
+                            <div class="item" data-value="Официальный дилер">Официальный дилер</div>
+                            <div class="item" data-value="Трейд-ин">Трейд-ин</div>
+                            <div class="item" data-value="Магазин экипировки">Магазин экипировки</div>
+                            <div class="item" data-value="Магазин запчастей">Магазин запчастей</div>
+                            <div class="item" data-value="Сервисный центр">Сервисный центр</div>
+                            <div class="item" data-value="Другое">Другое</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="title h3">Контактная информация</div>
+                    <div class="form-cols">
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Контактное лицо<span class="req">*</span></div>
+                        <input type="text" value="" name="contact" data-type="name" placeholder="Введите имя">
+                      </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Должность<span class="req">*</span></div>
+                        <input type="text" value="" name="job" data-type="text" placeholder="Введите должность">
+                      </div>
+                    </div>
+                    <div class="form-cols">
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Телефон<span class="req">*</span></div>
+                        <input type="text" value="" name="phone" data-type="phone" placeholder="+7 ( _ _ _ ) _ _ _  _ _  _ _"  maxlength="30" oninput="onlyPhoneChar(event)">
+                      </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Email<span class="req">*</span></div>
+                        <input type="text" value="" name="email" data-type="email" placeholder="Введите email">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="title h3">Юридическая информация</div>
+                    <div class="form-cols">
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">ИНН<span class="req">*</span></div>
+                        <input type="text" value="" name="inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="onlyNumb(event)">
+                      </div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Система налогообложения<span class="req">*</span></div>
+                        <div class="activate select">
+                          <input type="hidden" value="" name="nalog">
+                          <div class="head row">
+                            <div class="title">Выберите тип торговли</div>
+                            <div class="triangle icon"></div>
+                          </div>
+                          <div class="drop-down">
+                            <div class="item" data-value="Общая">Общая</div>
+                            <div class="item" data-value="Упрощенная">Упрощенная</div>
+                            <div class="item" data-value="Прочая">Прочая</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-wrap" required>
+                    <div class="option row">
+                      <input type="checkbox" value="1" name="agree">
+                      <div class="checkbox dark icon"></div>
+                      <span class="req">*</span>
+                      <div>Я даю свое согласие <a onclick="openPopUp('#conditions')">на обработку персональных данных</a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btns-wrap">
+                  <input class="btn sub-act" type="submit" value="Отправить" disabled>
+                </div>
+                <div class="loader">
+                  <div class="loader icon"></div>
+                  <div class="text">Пожалуйста, подождите</div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div id="conditions" class="pop-up-container">
+          <div class="pop-up">
+            <div class="pop-up-title row">
+              <div class="title h1">Согласие на обработку</div>
+              <div class="close icon"></div>
+            </div>
+            <div class="pop-up-body">
+              Отправляя данную форму вы даёте согласие на обработку ваших персональных данных
+              ООО "ТОП СПОРТС" и её аффилированных лиц в целях информационного обеспечения для формирования
+              общедоступных источников персональных данных (справочников, адресных книг, информации в СМИ и на сайте
+              организации т.д.), включая выполнение действия по сбору, систематизации, накоплению, хранению, уточнению
+              (обновлению, изменению), распространению (в том числе передаче), размещению для открытого доступа на
+              электронных ресурсах компании ваших персональных данных, входящих в следующий перечень общедоступных
+              сведений:
+              <ul>
+                <li>Фамилия, имя.</li>
+                <li>Номер телефона и адрес электронной почты.</li>
+                <li>Иные сведения, специально предоставленные мной для размещения в общедоступных источниках
+                  персональных данных.</li>
+              </ul>Вышеприведенное согласие на обработку персональных данных представлено с учетом п. 2 ст. 6 и п. 2
+              ст. 9<br>Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных», в соответствии с которыми
+              обработка персональных данных, осуществляемая на основе федерального закона либо для исполнения
+              договора, стороной в котором я являюсь, может осуществляться Оператором без моего дополнительного
+              согласия.
+              * Я соглашаюсь на обработку персональных данных и принимаю политику конфиденциальности.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/main.js?<?php echo $ver?>"></script>
+    <script src="../js/jquery-1.12.4.min.js?<?php echo $ver?>"></script>
+    <script src="../js/jquery.kladr.js?<?php echo $ver?>"></script>
+    <script src="../js/kladr.js?<?php echo $ver?>"></script>
+    <script src="index.js?<?php echo $ver?>"></script>
+
+  </body>
+</html>

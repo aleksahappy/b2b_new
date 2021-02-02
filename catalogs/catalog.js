@@ -46,7 +46,7 @@ function startPage() {
     //     initCart();
     //   },
     //   reject => {
-    //     location.href = '../err404.html';
+    //     location.href = '../404';
     //   }
     // )
   } else {
@@ -140,7 +140,7 @@ function defineCatalog() {
     cardsType = pageId.indexOf('equip') >= 0 || pageId.indexOf('preorder') >= 0 ? 'equip' : 'zip';
     isPreorder = pageId.indexOf('preorder') == 0 ? true : false;
   } else {
-    location.href = '../err404.html';
+    location.href = '../404';
   }
 }
 
@@ -713,7 +713,7 @@ function changePageTitle() {
   } else if (curTitle) {
     title += curTitle.dataset.title;
   } else {
-    location.href = '../err404.html';
+    location.href = '../404';
   }
   document.title = 'ТОП СПОРТС - ' + title;
   var pageTitle = getEl('#page-title');
@@ -750,7 +750,7 @@ function changeMainNav() {
       };
       data.items.push(item);
     } else {
-      location.href = '../err404.html';
+      location.href = '../404';
     }
   });
   fillTemplate({

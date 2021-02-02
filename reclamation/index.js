@@ -56,13 +56,13 @@ var fullImgCarousel = {
 function startPage() {
   var id = document.location.search.replace(/\D/g, '');
   if (!id) {
-    location.href = '/err404.html';
+    location.href = '../404';
   }
   sendRequest(urlRequest.main, 'recl', {recl_id: id})
   // sendRequest(`../json/reclamation.json`)
   .then(result => {
     if (!result) {
-      location.href = '/err404.html';
+      location.href = '../404';
     }
     data = JSON.parse(result);
     initPage();
