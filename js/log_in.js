@@ -20,7 +20,7 @@ function logIn(event) {
   });
 
   var request = new XMLHttpRequest();
-  request.addEventListener('error', () => showError('Произошла ошибка, попробуйте войти позже'));
+  request.addEventListener('error', () => showError('Произошла ошибка, попробуйте позже.'));
   request.addEventListener('load', () => {
     if (request.status !== 200) {
       showError('Произошла ошибка, попробуйте позже.');
@@ -33,7 +33,7 @@ function logIn(event) {
           location.href = '/dashboard';
         }
       } else {
-        showError('Пользователь не найден');
+        showError('Пользователь не найден.');
       }
     }
   });

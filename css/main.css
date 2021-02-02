@@ -1351,6 +1351,78 @@ input[data-type="range"] {
 }
 
 /* =====================================================================================================
+Подсказки при заполнении адреса:
+===================================================================================================== */
+
+.kladr-error {
+  border-color: #CE0014 !important;
+}
+
+.kladr-error + .err {
+  display: block;
+}
+
+#kladr_autocomplete ul {
+	position: absolute;
+  display: block;
+  min-width: 200px;
+  max-height: 420px;
+	margin: 0;
+  padding: 0;
+  background-color: #F8F8F8;
+  border: 1px solid #D5D5D5;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+	overflow-x: hidden;
+	overflow-y: auto;
+  z-index: 9999;
+}
+
+#kladr_autocomplete li {
+	display: list-item;
+  margin: 0;
+  /* padding: 0.4em 0.714em; */
+  list-style-type: none;
+  white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+#kladr_autocomplete li:hover {
+  background-color: #E2E2E2;
+}
+
+#kladr_autocomplete li.active {
+  background-color: #E2E2E2;
+}
+
+#kladr_autocomplete a {
+  padding: 0.4em 0.714em;
+	text-decoration: none;
+  color: #666666;
+}
+
+#kladr_autocomplete a[data-val="Совпадений не найдено"] {
+  cursor: default;
+}
+
+#kladr_autocomplete strong {
+	font-weight: 700;
+}
+
+#kladr_autocomplete .spinner {
+	position: absolute;
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	background: url(../img/loader.gif) center center no-repeat;
+	z-index: 9999
+}
+
+/* =====================================================================================================
 Кнопки:
 ===================================================================================================== */
 
