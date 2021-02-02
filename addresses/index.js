@@ -67,6 +67,7 @@ function initPage() {
   }
   initTable(table, settings);
   initForm('#address-form', sendForm);
+  initKladr();
   loader.hide();
 }
 
@@ -76,6 +77,12 @@ function convertData() {
   items.forEach(el => {
     el.isChecked = el.checked > 0 ? 'checked' : '';
   });
+}
+
+// Инициализация подсказок для заполнения адреса:
+
+function initKladr() {
+  document.querySelectorAll('[data-kladr-type]').forEach(el => kladr_init('address', 'address-form'));
 }
 
 // Включение/отключение доступа:

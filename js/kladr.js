@@ -1,11 +1,3 @@
-// Заполнение адреса:
-
-$(function(){
-  $('[data-kladr-type]').each(function(){
-    kladr_init('address', 'address-form');
-  });
-});
-
 function kladr_init(mode, cont) {
 	var $container = $(document.getElementById(cont));
 	var $city = $container.find('[data-kladr-type="city"]'),
