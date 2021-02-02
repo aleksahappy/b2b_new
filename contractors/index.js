@@ -62,7 +62,7 @@ function initPage(data = []) {
         keys: ['docs'],
         content: `<div class="docs row">
                     <div class="mark icon" data-status="#status#" data-tooltip="#status_text#"></div>
-                    <a href="https://new.topsports.ru/api.php?action=get_dog&contr_id=#contr_id#&id=#id#" target="_blank" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
+                    <a href="../api.php?action=get_dog&contr_id=#contr_id#&id=#id#" target="_blank" data-tooltip="#info#" help>Договор с #title# от #date_start#</a>
                   </div>`
       }]
     },
@@ -147,7 +147,7 @@ function addByInn(event) {
     var data = JSON.parse(result);
     if (data.error) {
       document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
-      alerts.show(result.error);
+      alerts.show(data.error);
     } else {
       document.querySelectorAll('#contr-form .after-inn').forEach(el => el.removeAttribute('disabled'));
       isFillForm = true;
@@ -168,13 +168,13 @@ function addByInn(event) {
 function addContr(formData) {
   sendRequest(urlRequest.main, 'save_contr', formData, 'multipart/form-data')
   .then(result => {
-    result = JSON.parse(result);
-    if (result.error) {
-      alerts.show(result.error);
+    var data = JSON.parse(result);
+    if (data.error) {
+      alerts.show(data.error);
     } else {
       alerts.show('Контрагент успешно добавлен.');
-      convertData(result);
-      updateTable('#contr', result);
+      convertData(data);
+      updateTable('#contr', data);
       fillTemplate({
         area: ".table-adaptive",
         items: data,
