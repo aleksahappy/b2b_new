@@ -7,6 +7,7 @@
 // 4: "Оплачен"
 // 5: "Завершен"
 // 10: "Отменен"
+// ??: "Ожидается оплата"
 
 // Статусы товаров в заказе:
 // 1: "Ожидается
@@ -180,51 +181,4 @@ function getBill(event, id) {
   } else {
     window.open(`../api.php?action=order&order_id=${id}&mode=bill&type=pdf`);
   }
-}
-
-// Загрузка данных о накладных и открытие всплывающего окна отгрузок:
-
-function openShipment(id) {
-  sendRequest(urlRequest.main, 'order', {order_id: id})
-  .then(result => {
-    result = JSON.parse(result);
-    result = getNaklsData(result);
-    if (result.length) {
-      fillTemplate({
-        area: '#shipments tbody',
-        items: result
-      });
-      openPopUp('#shipments');
-    } else {
-      throw new Error('Нет данных.');
-    }
-  })
-  .catch(error => {
-    console.log(error);
-    alerts.show('Отсутствуют данные для загрузки.');
-  });
-}
-
-// Получение данных о накладных из csv-формата:
-
-function getNaklsData(data) {
-  var result = [];
-  if (!data.orderitems || !data.orderitems.arnaklk || !data.orderitems.arnaklv) {
-    return result;
-  }
-  var keys = data.orderitems.arnaklk.split('@$'),
-      values = data.orderitems.arnaklv.split('^@^');
-  for (var i = 0; i < values.length; i++) {
-    var value = values[i].split('@$'),
-        list = [];
-    for (var ii = 0; ii < value.length; ii++) {
-      list[keys[ii]] = value[ii];
-    }
-    list.id = data.id;
-    if (list.rtrac.indexOf('<a ') >= 0) {
-      list.rtrac = list.rtrac.match(/\<a.+\<\/a>/gm)[0];
-    }
-    result[i] = list;
-  }
-  return result;
 }

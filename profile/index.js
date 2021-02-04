@@ -23,13 +23,20 @@ function startPage() {
 // Инициализация страницы:
 
 function initPage() {
+  fillContent();
+  initForm('#profile-form', sendProfile);
+  loader.hide();
+}
+
+// Заполнение/перезаполнение основного содержимого страницы:
+
+function fillContent() {
   convertData();
   fillTemplate({
     area: '.profile-info .content',
-    items: data
+    items: data,
+    replace: '&ndash;'
   });
-  initForm('#profile-form', sendProfile);
-  loader.hide();
 }
 
 // Преобразование полученных данных:
@@ -63,17 +70,13 @@ function sendProfile(formData) {
     console.log(result);
     if (result.data && !isEmptyObj(result.data)) {
       data = result.data;
-      convertData();
-      fillTemplate({
-        area: '.profile-info .content',
-        items: data
-      });
+      fillContent()
       closePopUp(null, '#profile-edit');
     } else {
       if (result.error) {
         alerts.show(result.error);
       } else {
-        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+        throw new Error('Ошибка');
       }
     }
     hideElement('#profile-edit .loader');
