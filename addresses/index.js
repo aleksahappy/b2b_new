@@ -102,8 +102,8 @@ function toggleAccess(event, id) {
       throw new Error('Ошибка');
     }
   })
-  .catch(err => {
-    console.log(err);
+  .catch(error => {
+    console.log(error);
     alerts.show('Произошла ошибка, попробуйте позже.');
   });
 }
@@ -156,7 +156,7 @@ function sendForm(formData) {
       if (result.error) {
         alerts.show(result.error);
       } else {
-        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+        throw new Error('Ошибка');
       }
     }
     hideElement('#address .loader');

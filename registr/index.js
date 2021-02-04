@@ -24,7 +24,6 @@ function sendRegistr(formData) {
   sendRequest(urlRequest.main, 'register', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    // console.log(result);
     if (result.ok) {
       clearForm('#registr');
       alerts.show(`Ваша заявка успешно отправлена.<br>
@@ -34,7 +33,7 @@ function sendRegistr(formData) {
       if (result.error) {
         alerts.show(result.error);
       } else {
-        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+        throw new Error('Ошибка');
       }
     }
     hideElement('#registr .loader');

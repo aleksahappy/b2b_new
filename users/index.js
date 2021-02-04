@@ -190,7 +190,7 @@ function sendForm(formData) {
       if (result.error) {
         alerts.show(result.error);
       } else {
-        alerts.show('Ошибка в отправляемых данных. Перепроверьте и попробуйте еще раз.');
+        throw new Error('Ошибка');
       }
     }
     hideElement('#user .loader');
@@ -198,6 +198,6 @@ function sendForm(formData) {
   .catch(error => {
     console.log(error);
     alerts.show('Произошла ошибка, попробуйте позже.');
-    hideElement('#address .loader');
+    hideElement('#user .loader');
   })
 }
