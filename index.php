@@ -1,4 +1,4 @@
-<?php include_once "../ver.php";?>
+<?php include_once "ver.php";?>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/main_media.css?<?php echo $ver?>">
   </head>
 
-  <body id="auth" >
+  <body id="auth">
     <div id="main">
       <div class="container center">
         <div class="pop-up-container locked">
@@ -56,6 +56,7 @@
               </form>
             </div>
           </div>
+        </div>
       </div>
     </div>
 
