@@ -7,6 +7,10 @@
 
 /* Стили на ширину от 0 до 1440px включительно: */
 @media only screen and (max-width: 1440px) {
+  .cart-search {
+    top: 197px;
+  }
+
   .order-block {
     display: block;
   }
@@ -35,12 +39,21 @@
 
 /* Стили на ширину от 0 до 1359px включительно: */
 @media only screen and (max-width: 1359px) {
-  #header-cart .container {
-    padding-bottom: 2.14em;
-  }
-
   #cart-name  {
     padding: 2.4rem 0;
+  }
+
+  #preorder-info table .percent {
+    padding-left: 0.5em;
+  }
+
+  #preorder-info .short-info {
+    display: block;
+  }
+
+  .cart-search {
+    top: 205px;
+    padding-bottom: 2.14em;
   }
 
   .cart-section {
@@ -282,7 +295,7 @@
 
   .order-block .info {
     display: block;
-    width: 17em;
+    width: 20em;
     margin-right: 2.143em;
   }
 
@@ -306,8 +319,19 @@
     padding: 1.6rem 0;
   }
 
+  .cart-search {
+    top: 189px;
+  }
+
   .cart-section .head {
-    top: 259px;
+    position: static;
+  }
+}
+
+/* Стили на ширину от 0 до 767px включительно: */
+@media only screen and (max-width: 767px) {
+  #preorder-info {
+    display: none !important;
   }
 }
 
@@ -317,21 +341,25 @@
     display: block !important;
   }
 
+  .cart-search {
+    top: 210px;
+  }
+
   #cart-name > div:last-child {
     font-size: 0.583em;
     font-weight: 400;
     color: #666666;
   }
 
-  #header-cart .container > .row {
+  .cart-search {
     display: block;
   }
 
-  #header-cart .search.row {
+  .cart-search .search.row {
     margin-bottom: 1.428em;
   }
 
-  #header-cart .make-order {
+  .cart-search .make-order {
     margin-left: 0;
   }
 
@@ -348,10 +376,6 @@
   .cart-row .wrap {
     margin: 0;
     padding: 1em;
-  }
-
-  .cart-section .head {
-    top: 336px;
   }
 
   .cart-section .head .select-info {
@@ -506,20 +530,20 @@
 
 /* Стили на ширину от 0 до 599px включительно: */
 @media only screen and (max-width: 599px) {
-  #header-cart .container {
-    padding-bottom: 1.428em;
-  }
-
   #cart-name {
     padding: 0.7rem 0;
   }
 
-  #checkout-info {
-    margin-bottom: 0.5em;
+  .cart-search {
+    top: 185px;
   }
 
-  .cart-section .head {
-    top: 297px;
+  .cart-search {
+    padding-bottom: 1.428em;
+  }
+
+  #checkout-info {
+    margin-bottom: 0.5em;
   }
 
   .cart-row .name.row .col div {
@@ -558,25 +582,17 @@
   #checkout-info {
     display: block;
   }
-
-  .cart-section .head {
-    top: 297px;
-  }
 }
 
 /* Стили на ширину от 0 до 340px включительно: */
 @media only screen and (max-width: 350px) {
-  #header-cart .make-order {
+  .cart-search .make-order {
     display: block;
   }
 
   #checkout-info {
     display: flex;
     flex-wrap: nowrap;
-  }
-
-  .cart-section .head {
-    top: 324px;
   }
 }
 

@@ -7,55 +7,8 @@
   background-color: #F2F2F2;
 }
 
-#header-cart .container {
-  padding-bottom: 2.85em;
-}
-
 #cart-name {
   padding: 2.8rem 0;
-}
-
-#header-cart .container > .row {
-  justify-content: space-between;
-  align-items: center;
-}
-
-#header-cart .search.row {
-  width: 100%;
-}
-
-#header-cart .search-info {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 24.684em;
-  margin-left: 5em;
-  text-align: right;
-}
-
-#header-cart .pill {
-  background-color: #D3D6D9;
-}
-
-#header-cart .make-order {
-  justify-content: space-between;
-  align-items: center;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-left: 5em;
-}
-
-#checkout-info {
-  flex-wrap: wrap;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 14em;
-  margin-right: 2.143em;
-  font-size: 0.857em;
-  visibility: hidden;
-}
-
-#checkout-info > div {
-  white-space: nowrap;
 }
 
 /* =====================================================================================================
@@ -92,6 +45,134 @@
  Заполненная корзина:
 ===================================================================================================== */
 
+/* Информация о предзаказе: */
+
+[data-preorder="false"] #preorder-info {
+  display: none !important;
+}
+
+#preorder-info {
+  margin-bottom: 1.428em;
+}
+
+#preorder-info .catalog-link {
+  text-decoration: underline;
+}
+
+#preorder-info .conditions {
+  margin-bottom: 1em;
+}
+
+#preorder-info .conditions > .title {
+  margin-bottom: 0.78em;
+}
+
+#preorder-info table {
+  margin-right: 6.5em;
+  border-collapse: collapse;
+  border: none;
+  border-spacing: 0;
+}
+
+#preorder-info table td {
+  white-space: nowrap;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+#preorder-info table .preorder-descr td:first-child {
+  padding: 0.25em 0;
+}
+
+#preorder-info table .preorder-descr:first-child td:first-child {
+  padding-top: 0;
+}
+
+#preorder-info table .text {
+  font-size: 0.857em;
+}
+
+#preorder-info table .percent {
+  padding-left: 2em;
+  font-size: 1.714em;
+  font-weight: 700;
+  text-align: end;
+}
+
+#preorder-info .short-info {
+  display: none;
+}
+
+#preorder-info .btns-wrap {
+  justify-content: flex-start;
+}
+
+#preorder-info .btns-wrap .btn {
+  width: 12.7em;
+}
+
+#preorder-info form {
+  height: 40px;
+}
+
+#preorder-info form input[type="file"],
+#preorder-info form input[type="submit"] {
+  width: 0;
+  height: 0;
+}
+
+#preorder-info .btns-wrap .btn.load {
+  padding: 0.75em 1.428em 0.75em 3.2em;
+}
+
+/* Поиск по корзине и оформление заказа: */
+
+.cart-search {
+  position: -webkit-sticky;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  top: 200px;
+  padding-bottom: 2.5em;
+  background-color: #F2F2F2;
+  z-index: 20;
+}
+
+.cart-search .search.row {
+  width: 100%;
+}
+
+.cart-search .search-info {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 24.684em;
+  margin-left: 5em;
+  text-align: right;
+}
+
+.cart-search .make-order {
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 5em;
+}
+
+#checkout-info {
+  flex-wrap: wrap;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 14em;
+  margin-right: 2.143em;
+  font-size: 0.857em;
+  visibility: hidden;
+}
+
+#checkout-info > div {
+  white-space: nowrap;
+}
+
+/* Разделы корзины: */
+
 #cart-full {
   display: none;
 }
@@ -126,7 +207,7 @@
 .cart-section .head {
   position: -webkit-sticky;
   position: sticky;
-  top: 275px;
+  top: 272px;
   z-index: 10;
 }
 
@@ -479,7 +560,7 @@
 .order-block .info {
   flex-grow: 0;
   flex-shrink: 0;
-  width: 17em;
+  width: 20em;
   margin-right: 2.143em;
 }
 
