@@ -241,6 +241,7 @@ body {
 #step-info,
 #filters-info {
   display: none;
+  /* overflow-x: auto; */
 }
 
 #filters-info .pill {
@@ -253,6 +254,7 @@ body {
 }
 
 .gallery-head .search-info .fade {
+  /* display: none; */
   position: absolute;
   width: 5em;
   top: 0;

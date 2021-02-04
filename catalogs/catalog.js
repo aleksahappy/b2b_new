@@ -35,7 +35,7 @@ function startPage() {
   defineCatalog();
   addCatalogModules();
   renderTotalsInHeader('#carts', 'carts');
-  var menuData = setCatalogName();
+  var menuData = fillCatalogTopmenu();
   setCatalogEventListeners();
   if (view === 'product') {
     // getItems(location.search.replace('?',''))
@@ -182,13 +182,17 @@ function addCatalogModules() {
   cartRowTemp = getEl('.cart-row');
 }
 
-// Добавление основного названия каталогу:
+// Заполнение основного уровня меню и ссылок на него:
 
-function setCatalogName() {
+function fillCatalogTopmenu() {
   var data = JSON.parse(JSON.stringify(cartTotals.find(el => el.id === pageId)));
   fillTemplate({
     area: '.topmenu',
     items: data
+  });
+  var topmenuHref = getEl('.topmenu-item.active').href;
+  document.querySelectorAll('.catalog-link').forEach(el => {
+    el.href = topmenuHref;
   });
   return data;
 }
@@ -204,45 +208,13 @@ function setCatalogEventListeners() {
   window.addEventListener('focus', updateCart);
 }
 
-// Динамическое заполнение второго уровня меню:
+// Заполнение второго уровня меню:
 
 function fillCatalogSubmenu(data) {
-  var subMenuData = {
-    equip: {
-      'odegda': 'Одежда',
-      'obuv': 'Обувь',
-      'shlem': 'Шлемы',
-      'optic': 'Оптика',
-      'snarag': 'Снаряжение',
-      'zashita': 'Защита',
-      'sumruk': 'Сумки и рюкзаки',
-      'merch': 'Мерчандайзинг'
-    },
-    boats: {
-      'zip': 'Запчасти',
-      'acc': 'Аксессуары',
-      'propeller': 'Винты гребные'
-    },
-    snow: {
-      'zip': 'Запчасти',
-      'acc': 'Аксессуары'
-    },
-    snowbike: {
-      'kit': 'Комплекты',
-      'adapter': 'Адаптеры',
-      'zip': 'Запчасти',
-      'acc': 'Аксессуары',
-      'snarag': 'Снаряжение',
-      'zashita': 'Защита',
-      'sumruk': 'Сумки и рюкзаки',
-      'merch': 'Мерчандайзинг'
-    }
+  if (!window.submenu) {
+    return;
   }
-  // if (!window.submenu) {
-  //   return;
-  // }
-  data.items = convertDataForFillTemp(subMenuData[data.id]);
-  // data.items = convertDataForFillTemp(submenu);
+  data.items = convertDataForFillTemp(submenu);
   fillTemplate({
     area: '.submenu',
     items: data,
@@ -697,7 +669,6 @@ function hideContent() {
   hideElement('#header-catalog');
   hideElement('#header-cart');
   hideElement('#page-title', 'flex');
-  hideElement('#cart-name');
   hideElement('#filters-container');
   hideElement('#content');
   hideElement('#cart');
@@ -956,22 +927,16 @@ function loadCards(cards) {
     sub: sub,
     method: countItems === 0 ? 'inner' : 'beforeend'
   });
-  if (view === 'list') {
-    document.querySelectorAll('.big-card.new').forEach(card => {
-      card.classList.remove('new');
-      renderCarousel(getEl('.carousel', card), undefined, card);
-      checkCart(card);
-      addActionTooltip(card);
-    });
-  }
-  if (view === 'blocks') {
-    document.querySelectorAll('.min-card.new').forEach(card => {
-      card.classList.remove('new');
+  document.querySelectorAll('.min-card.new, .big-card.new').forEach(card => {
+    card.classList.remove('new');
+    if (card.classList.contains('min-card')) {
       checkMedia(getEl('img', card));
-      checkCart(card);
-      addActionTooltip(card);
-    });
-  }
+    } else {
+      renderCarousel(getEl('.carousel', card), undefined, card);
+    }
+    checkCart(card);
+    addActionTooltip(card);
+  });
   setFiltersHeight();
 }
 

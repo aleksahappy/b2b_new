@@ -182,7 +182,7 @@ function loadHTML(target, url) {
 // Инициализация модулей страницы:
 //=====================================================================================================
 
-// Запуск инициализации всех имеющихся модулей страницы:
+// Запуск инициализации основных модулей страницы:
 
 function initModules(path) {
   getEl('#footer .current-year').textContent = new Date().getFullYear();
@@ -2232,6 +2232,7 @@ function goToTop() {
 
 function openPopUp(el, event) {
   if (event) {
+    event.preventDefault();
     if (event.currentTarget.classList.contains('disabled') || event.currentTarget.hasAttribute('disabled')) {
       return;
     }
@@ -2242,8 +2243,8 @@ function openPopUp(el, event) {
       el.style.opacity = '0';
     }
     showElement(el, 'flex');
-    if (el.classList.contains('filters')) {
-      window.addEventListener('resize', closeFilterPopUp);
+    if (el.classList.contains('filters') || el.classList.contains('visible')) {
+      window.addEventListener('resize', closeSpecialPopUp);
     }
     setTimeout(() => {
       if (!getEl('.pop-up-container.open')) {
@@ -2291,8 +2292,8 @@ function closePopUp(event, el) {
       document.removeEventListener('click', closePopUp);
       document.removeEventListener('keydown', closePopUp);
     }
-    if (el.classList.contains('filters')) {
-      window.removeEventListener('resize', closeFilterPopUp);
+    if (el.classList.contains('filters') || el.classList.contains('visible')) {
+      window.removeEventListener('resize', closeSpecialPopUp);
     }
     if (el.classList.contains('full-img-container')) {
       document.removeEventListener('keydown', moveFullImg);
@@ -2311,11 +2312,11 @@ function closePopUp(event, el) {
 
 // Автоматическое закрытие блоков фильтров на разрешении больше 1359px:
 
-function closeFilterPopUp() {
+function closeSpecialPopUp() {
   clearTimeout(window.resizedFinished);
-  window.resizedFinished = setTimeout(function(){
+  window.resizedFinished = setTimeout(() => {
     if (window.innerWidth > 1359) {
-      document.querySelectorAll('.pop-up-container.filters.open').forEach(el => closePopUp(null, el));
+      document.querySelectorAll('.pop-up-container.filters.open, .pop-up-container.visible.open').forEach(el => closePopUp(null, el));
     }
   }, 250);
 }
