@@ -1,18 +1,13 @@
 @media only screen and (min-width: 1360px) {
   #chat {
-    display: block !important;
-    position: static;
     width: 35%;
     min-width: 420px;
     max-width: 500px;
-    background-color: transparent;
-    overflow: visible;
-    opacity: 1;
-    z-index: 0;
+    min-height: 100vh;
   }
 
   #chat .pop-up {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     width: 100%;
     min-width: 100%;
@@ -21,11 +16,6 @@
     min-height: 43em;
     max-height: 103em;
     margin-bottom: 0;
-    padding: 0;
-    background-color: transparent;
-    box-shadow: none;
-    transform-origin: 0 0;
-    opacity: 1;
   }
 
   #chat .pop-up-title {
@@ -33,8 +23,8 @@
     background-color: transparent;
   }
 
-  #chat .pop-up-title > .close.icon {
-    display: none;
+  #chat .pop-up-title {
+    display: flex;
   }
 }
 

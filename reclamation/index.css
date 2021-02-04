@@ -280,6 +280,11 @@ input[type="file"] ~ .text {
   background: #D3D6D7 url(../img/clip.svg) no-repeat center 40px;
 }
 
+#files form input[type="submit"] {
+  width: 0;
+  height: 0;
+}
+
 #files .img-wrap .img,
 #files .img-wrap .ico {
   width: 100%;

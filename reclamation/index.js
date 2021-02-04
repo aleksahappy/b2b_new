@@ -202,16 +202,15 @@ function fillFiles(filesData) {
   if (!filesData) {
     filesRow.removeChild(getEl('.files-item', filesRow));
   }
-  // document.querySelectorAll('#files img').forEach(el => replaceError(el));
-  // document.querySelectorAll('#files video').forEach(el => replaceError(el));
+  // document.querySelectorAll('#files img, #files video').forEach(el => replaceError(el));
 }
 
 // Замена изображений и видео с ошибкой загрузки на иконки:
 
 function replaceError(el) {
-  // var type = el.src.split('.').pop().toLowerCase();
-  // type = fileTypes[type] ? fileTypes[type] : 'txt';
-  // checkMedia(el, 'replace', `img/${type}.svg`);
+  var type = el.src.split('.').pop().toLowerCase();
+  type = fileTypes[type] ? fileTypes[type] : 'txt';
+  checkMedia(el, 'replace', `img/${type}.svg`);
 }
 
 // Заполнение чата:
@@ -240,7 +239,7 @@ function fillChat() {
 function setScrollChat() {
   var observer = new MutationObserver(mutations => {
     if (mutations[0].target.classList.contains('wrap')) {
-      scrollChat(0);
+      scrollChat();
     }
   });
   observer.observe(getEl('#chat .wrap'), {childList: true});
@@ -267,24 +266,10 @@ function getReturnList(event) {
 // Добавление обработчиков событий:
 
 function setReclEventListeners() {
-  togglePlaceholder()
-  window.addEventListener('resize', () => {
-    clearTimeout(window.resizedFinished);
-    window.resizedFinished = setTimeout(function(){
-      closeChat();
-      togglePlaceholder();
-    }, 250);
-  });
+  togglePlaceholder();
+  window.addEventListener('resize', togglePlaceholder);
   getEl('#main .card .img-wrap').addEventListener('click', () => openFullImg(null, data.recl.item));
   getEl('#main .card .card-open').addEventListener('click', () => openInfoCard(data.recl.item));
-}
-
-// Автоматическое закрытие чата на разрешении больше 1359px:
-
-function closeChat() {
-  if (window.innerWidth > 1359) {
-    closePopUp(null, '#chat');
-  }
 }
 
 // Открытие чата:
@@ -296,7 +281,8 @@ function openChat() {
 
 // Прокрутка чата в конец сообщений:
 
-function scrollChat(delay) {
+function scrollChat(delay = 0) {
+  console.log('scrollChat');
   setTimeout(() => {
     var chat = getEl('#chat .wrap');
     chat.scrollTop = chat.scrollHeight;
