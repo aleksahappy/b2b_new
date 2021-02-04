@@ -1104,7 +1104,7 @@ input[data-type="range"] {
 }
 
 [tooltip][help]::after {
-  background-color: #FFF1C1;
+  background-color: #FFF1C1 !important;
 }
 
 [tooltip]:hover::before,
@@ -1256,7 +1256,7 @@ input[data-type="range"] {
 }
 
 .tooltip[help] {
-  background-color: #FFF1C1;
+  background-color: #FFF1C1 !important;
 }
 
 .tooltip[text="center"] {
@@ -1279,6 +1279,10 @@ input[data-type="range"] {
 .tooltip * {
   color: #666666 !important;
   background-color: #D3D6D9 !important;
+}
+
+.tooltip[help] * {
+  background-color: #FFF1C1 !important;
 }
 
 /* Позиционирование сверху: */
@@ -1450,6 +1454,14 @@ input[data-type="range"] {
 .btn.trash {
   padding-left: 3.2em;
   background-image: url(../img/trash.svg);
+  background-size: 15px 15px;
+  background-position: 1.428em center;
+  background-repeat: no-repeat;
+}
+
+.btn.load {
+  padding-left: 3.2em;
+  background-image: url(../img/download.svg);
   background-size: 15px 15px;
   background-position: 1.428em center;
   background-repeat: no-repeat;
@@ -2383,8 +2395,11 @@ div.option input:disabled ~ .checkbox.icon {
 .warnblock {
   justify-content: center;
   align-items: center;
-  background-color: #FFF1C1;
+  margin: 0 -5rem;
+  margin-bottom: 1.428em;
+  padding: 0 5rem;
   color: #CE0014;
+  background-color: #FFF1C1;
 }
 
 .pop-up .warnblock {
@@ -2393,15 +2408,15 @@ div.option input:disabled ~ .checkbox.icon {
   padding: 0 2.5em;
 }
 
+.warnblock > div {
+  margin: 0.714em 0;
+}
+
 .warnblock .attention.icon {
   width: 26px;
   height: 26px;
   margin: 0.714em;
   margin-left: 0;
-}
-
-.warnblock > div {
-  margin: 0.714em 0;
 }
 
 /* =====================================================================================================
@@ -2860,7 +2875,7 @@ form.post .btns-wrap {
 
 .pop-up {
   position: relative;
-  max-width: 90%;
+  max-width: 90vw;
   padding: 2.5em;
   background-color: #F8F8F8;
   box-shadow: 0px 4px 15px rgba(52, 73, 94, 0.1), 0px 2px 10px rgba(52, 73, 94, 0.06), 0px 0px 5px rgba(52, 73, 94, 0.05);
@@ -2943,23 +2958,17 @@ form.post .btns-wrap {
 
 .pop-up-container.filters {
   display: none;
-  padding: 0;
-  background-color: transparent;
 }
 
 .filters .pop-up {
   display: none;
-  width: 18em;
-  max-width: 100%;
   padding: 0;
-  background-color: transparent;
-  box-shadow: none;
-  transform-origin: 0 0;
+  background-color: #FFFFFF;
 }
 
 .filters .pop-up-title,
 .filters .pop-up-body > .title.row {
-  display: none;
+  margin-bottom: 0;
 }
 
 .filters .pop-up-body > .title.row .h2 {
@@ -3167,21 +3176,6 @@ form.post .btns-wrap {
   width: 12px;
   height: 12px;
   margin-left: 0.357em;
-}
-
-/* Блок фильтров видимый на всех разрешениях: */
-
-.pop-up-container.filters.visible {
-  position: static;
-  width: auto;
-  min-width: auto;
-  min-height: auto;
-  opacity: 1;
-}
-
-.filters.visible .pop-up {
-  display: block;
-  opacity: 1;
 }
 
 /* =====================================================================================================
