@@ -125,7 +125,7 @@
               </div>
             </div>
           </div>
-          <div id="chat" class="pop-up-container">
+          <div id="chat" class="pop-up-container visible">
             <div class="pop-up">
               <div class="pop-up-title row">
                 <div class="title h3">Чат с менеджером</div>

@@ -187,6 +187,7 @@
             <div class="sub-act btn">Кнопка второстепенного действия</div>
             <div class="act btn">Кнопка действия</div>
             <div class="btn trash">Кнопка удаления</div>
+            <div class="btn load">Кнопка загрузки</div>
           </div>
           <br>
           <div>Заблокированные кнопки (можно с помощью класса, а можно с помощь атрибута disabled):</div>
@@ -952,6 +953,17 @@
               Nobis, fugit. Ipsum eaque quibusdam autem officia ipsa nemo nulla aperiam dolore recusandae quos, similique sed rem nihil perspiciatis laboriosam. Quas animi recusandae id. A voluptate quaerat illo aut blanditiis?
               Eaque quaerat non odio dolore tempore quo laboriosam consequuntur dignissimos provident delectus iure saepe, blanditiis ea ut ex molestiae voluptas sequi corporis illum distinctio similique ullam tenetur velit. Exercitationem, quisquam.
             </div>
+          </div>
+
+        </div>
+
+        <!-- Предупреждающий блок -->
+        <div class="artboard-title">Предупреждающий блок</div>
+        <div class="arboard-block switch-temp">
+
+          <div class="warnblock row">
+            <span class="attention red icon"></span>
+            <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus, totam eos sequi architecto tempore in doloremque laudantium optio! Eaque beatae architecto perspiciatis culpa magnam vel iste rem saepe ab eius.</div>
           </div>
 
         </div>
