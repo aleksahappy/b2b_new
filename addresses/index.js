@@ -113,15 +113,14 @@ function toggleAccess(event, id) {
 function openAddressPopUp(id) {
   var addressPopUp = getEl('#address'),
       title = getEl('.pop-up-title .title', addressPopUp);
+  formMode = id ? 'edit' : 'add';
   if (curId !== id) {
     curId = id;
     if (id) {
-      formMode = 'edit';
       title.textContent = 'Редактирование адреса';
-      var data = items.find(el => el.id == id);
-      fillForm('#address-form', data, true);
+      var addressData = items.find(el => el.id == id);
+      fillForm('#address-form', addressData, true);
     } else {
-      formMode = 'add';
       title.textContent = 'Добавление адреса';
       clearForm('#address-form');
     }
