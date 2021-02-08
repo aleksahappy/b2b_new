@@ -80,6 +80,7 @@ function generatePage() {
   addModules(path);
   if (path) {
     window.addEventListener('focus', updateCartTotals);
+    includeHTML();
     getTotals()
     .then(result => {
       renderTotals();
@@ -1028,7 +1029,7 @@ function capitalizeFirstLetter(string) {
 function changeCss(selector, key, value) {
   var docStyles = Array.from(document.styleSheets),
       docPath = location.href.replace('index.html', '').replace(/\?.*/gi, '') + 'index.css',
-      curStyle = docStyles.find(el => el.href === docPath);
+      curStyle = docStyles.find(el => el && el.href.replace(/\?.*/g, '') === docPath);
   if (curStyle) {
     var rules = curStyle.cssRules || curStyle.rules,
         rule;
@@ -2310,7 +2311,7 @@ function closePopUp(event, el) {
   }
 }
 
-// Автоматическое закрытие блоков фильтров на разрешении больше 1359px:
+// Автоматическое закрытие всплывающих окон на разрешении больше 1359px:
 
 function closeSpecialPopUp() {
   clearTimeout(window.resizedFinished);
@@ -2630,8 +2631,7 @@ function Alerts(obj) {
 // Регулярные выражения для валидации полей форм:
 
 var textValidate = /[^\s]{2,}/;
-var nameValidate = /^[a-zA-Z ]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя ]{2,30}$/;
-var cyrilValidate = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЭэЮюЯя][АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя]+$/;
+var nameValidate = /^[a-zA-Z|\-|\s]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя|\-|\s]{2,30}$/;
 var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var nicknameValidate =/^\w+@*\w+\.*\w*$/;
 var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
