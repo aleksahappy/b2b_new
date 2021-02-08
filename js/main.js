@@ -962,6 +962,12 @@ function getEl(el, area = document) {
   return el || undefined;
 }
 
+// Проверка на объект:
+
+function isNativeObject(object) {
+  return Object.prototype.toString.call(object) === '[object Object]';
+}
+
 // Проверка пустой ли объект:
 
 function isEmptyObj(obj) {
@@ -2791,7 +2797,7 @@ function initForm(el, callback) {
 
 function clearForm(el) {
   var el = getEl(el);
-  if (window[`${el.id}Form`]) {
+  if (el.id && window[`${el.id}Form`]) {
     window[`${el.id}Form`].clear();
   }
 }
@@ -2800,8 +2806,17 @@ function clearForm(el) {
 
 function fillForm(el, data, isFull) {
   var el = getEl(el);
-  if (window[`${el.id}Form`] && data) {
+  if (el.id && window[`${el.id}Form`] && data) {
     window[`${el.id}Form`].fill(data, isFull);
+  }
+}
+
+// Отображение ошибок формы, приходящих с сервера:
+
+function showFormError(el, error) {
+  var el = getEl(el);
+  if (el.id && window[`${el.id}Form`]) {
+    window[`${el.id}Form`].showServerError(error);
   }
 }
 
@@ -2861,20 +2876,46 @@ function Form(obj, callback) {
       }
       formWrap.classList.remove('error');
     } else {
-      formWrap.classList.add('error');
-      var error = getEl('.err', formWrap);
-      if (!error) {
-        error = document.createElement('div');
-        error.classList.add('err');
-        formWrap.appendChild(error);
+      this.showError(formWrap, isValid.error);
+    }
+  }
+
+  // Отображение ошибки в поле формы:
+
+  this.showError = function(formWrap, errText) {
+    formWrap.classList.add('error');
+    var error = getEl('.err', formWrap);
+    if (!error) {
+      error = document.createElement('div');
+      error.classList.add('err');
+      formWrap.appendChild(error);
+    }
+    if (errText) {
+      error.textContent = errText;
+    } else {
+      error.textContent = 'Поле заполнено неверно';
+    }
+    this.isSubmit = false;
+    this.toggleBtn();
+  }
+
+  // Отображение ошибок в форме, полученных с сервера:
+
+  this.showServerError = function(error) {
+    if (typeof error === 'string') {
+      alerts.show(error);
+    } else if (isNativeObject(error)) {
+      var formWrap;
+      for (var key in error) {
+        formWrap = getEl(`[name=${key}]`, this.form);
+        if (formWrap) {
+          this.showError(formWrap, error[key]);
+        } else {
+          alerts.show('Произошла ошибка, попробуйте позже.');
+        }
       }
-      if (isValid.error) {
-        error.textContent = isValid.error;
-      } else {
-        error.textContent = 'Поле заполнено неверно';
-      }
-      this.isSubmit = false;
-      this.toggleBtn();
+    } else {
+      alerts.show('Произошла ошибка, попробуйте позже.');
     }
   }
 
@@ -2938,7 +2979,7 @@ function Form(obj, callback) {
   }
 
   // Заполнение/перезаполнение формы данными:
-  this.fill = function(data, isFull) {
+  this.fill = function(data, isFull = true) {
     if (isFull) {
       this.clear();
     }
@@ -3007,7 +3048,7 @@ function initSearch(el, callback) {
 
 function clearSearch(el) {
   var el = getEl(el);
-  if (window[`${el.id}Search`]) {
+  if (el.id && window[`${el.id}Search`]) {
     window[`${el.id}Search`].clear();
   }
 }
@@ -3278,7 +3319,7 @@ function initDropDown(el, handler, data, defaultValue) {
 
 function fillDropDown(el, data, defaultValue) {
   var el = getEl(el);
-  if (window[`${el.id}Dropdown`]) {
+  if (el.id && window[`${el.id}Dropdown`]) {
     window[`${el.id}Dropdown`].fillItems(data, defaultValue);
   }
 }
@@ -3287,7 +3328,7 @@ function fillDropDown(el, data, defaultValue) {
 
 function clearDropDown(el) {
   var el = getEl(el);
-  if (window[`${el.id}Dropdown`]) {
+  if (el.id && window[`${el.id}Dropdown`]) {
     window[`${el.id}Dropdown`].clear();
   }
 }
@@ -3296,7 +3337,7 @@ function clearDropDown(el) {
 
 function setValueDropDown(el, value) {
   var el = getEl(el);
-  if (window[`${el.id}Dropdown`]) {
+  if (el.id && window[`${el.id}Dropdown`]) {
     window[`${el.id}Dropdown`].setValue(value);
   }
 }
@@ -3583,7 +3624,7 @@ function initFilter(el, settings, handler) {
 
 function fillFilter(el, data) {
   var el = getEl(el);
-  if (window[`${el.id}Filter`]) {
+  if (el.id && window[`${el.id}Filter`]) {
     window[`${el.id}Filter`].fillItems(data);
   }
 }
