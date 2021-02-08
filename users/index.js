@@ -62,7 +62,7 @@ function initPage() {
         align: 'center',
         class: 'pills',
         keys: ['status_text'],
-        content: '<div class="pill access #status#">#status_text#</div>'
+        content: '<div class="pill access #status#" data-id=#id#>#status_text#</div>'
       }, {
       //   title: 'Дата заведения',
       //   align: 'center',
@@ -110,9 +110,15 @@ function convertData() {
       el.gender_text = 'жен.';
     }
     el.phone = convertPhone(el.phone);
-    el.status = el.checked > 0 ? el.access > 0 ? 'full' : 'limit' : 'off';
-    el.status_text = el.checked  > 0 ? el.access > 0 ? 'Полный' : 'Частичный' : 'Отключен';
+    getStatus(el);
   });
+}
+
+// Определение статуса пользователя:
+
+function getStatus(data) {
+  data.status = data.checked > 0 ? (data.access > 0 ? 'full' : 'limit') : 'off';
+  data.status_text = data.checked  > 0 ? (data.access > 0 ? 'Полный' : 'Частичный') : 'Отключен';
 }
 
 // Включение/отключение доступа:
@@ -128,6 +134,18 @@ function toggleAccess(event, id) {
     result = JSON.parse(result);
     if (result.ok) {
       toggle.classList.toggle('checked');
+      var userData = items.find(el => el.id == id),
+          curPill = getEl(`[data-id="${id}"]`);
+      userData.checked = mode;
+      if (mode === '0') {
+        curPill.textContent = 'Отключен';
+        curPill.classList.remove('full', 'limit');
+        curPill.classList.add('off');
+      } else {
+        curPill.textContent = userData.access > 0 ? 'Полный' : 'Частичный';
+        curPill.classList.remove('off');
+        curPill.classList.add(userData.access > 0 ? 'full' : 'limit');
+      }
     } else {
       throw new Error('Ошибка');
     }
@@ -143,15 +161,14 @@ function toggleAccess(event, id) {
 function openUserPopUp(id) {
   var userPopUp = getEl('#user'),
       title = getEl('.pop-up-title .title', userPopUp);
+  formMode = id ? 'edit' : 'add';
   if (curId !== id) {
     curId = id;
     if (id) {
-      formMode = 'edit';
       title.textContent = 'Редактировать пользователя';
-      var data = items.find(el => el.id == id);
-      fillForm('#user-form', data, true);
+      var userData = items.find(el => el.id == id);
+      fillForm('#user-form', userData, true);
     } else {
-      formMode = 'add';
       title.textContent = 'Новый пользователь';
       clearForm('#user-form');
     }
@@ -167,16 +184,16 @@ function sendForm(formData) {
   } else if (formMode === 'edit') {
     formData.append('id', curId);
   }
-  sendRequest(urlRequest.main, '???', formData, 'multipart/form-data')
+  sendRequest(urlRequest.main, 'user_save', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    if (result.ok && result['???'].length) {
+    if (result.ok && result.userslist.length) {
       if (formMode === 'add') {
         alerts.show('Пользователь успешно добавлен.');
       } else if (formMode === 'edit') {
         alerts.show('Данные пользователя успешно изменены.');
       }
-      items = result['???'];
+      items = result.userslist;
       convertData();
       updateTable('#users', items);
       fillTemplate({
