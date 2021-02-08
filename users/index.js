@@ -167,7 +167,7 @@ function openUserPopUp(id) {
     if (id) {
       title.textContent = 'Редактировать пользователя';
       var userData = items.find(el => el.id == id);
-      fillForm('#user-form', userData, true);
+      fillForm('#user-form', userData);
     } else {
       title.textContent = 'Новый пользователь';
       clearForm('#user-form');
@@ -204,11 +204,7 @@ function sendForm(formData) {
       clearForm('#user-form');
       curId = undefined;
     } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        throw new Error('Ошибка');
-      }
+      showFormError('#user-form', result.error);
     }
     hideElement('#user .loader');
   })

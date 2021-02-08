@@ -57,7 +57,7 @@ function convertData() {
 // Открытие всплывающего окна с формой:
 
 function openProfilePopUp() {
-  fillForm('#profile-form', data, true);
+  fillForm('#profile-form', data);
   openPopUp('#profile-edit');
 }
 
@@ -67,17 +67,12 @@ function sendProfile(formData) {
   sendRequest(urlRequest.main, 'profile_save', formData, 'multipart/form-data')
   .then(result => {
     result = JSON.parse(result);
-    console.log(result);
     if (result.data && !isEmptyObj(result.data)) {
       data = result.data;
       fillContent()
       closePopUp(null, '#profile-edit');
     } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        throw new Error('Ошибка');
-      }
+      showFormError('#profile-form', result.error);
     }
     hideElement('#profile-edit .loader');
   })

@@ -26,7 +26,7 @@
               <div class="title h1">Заявка на дилерство</div>
             </div>
             <div class="pop-up-body">
-              <form id="registr" class="post">
+              <form id="registr-form" class="post">
                 <div class="form-groups">
                   <div class="form-group">
                     <div class="title h3">Информация о компании</div>

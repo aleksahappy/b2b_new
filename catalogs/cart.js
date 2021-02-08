@@ -123,11 +123,9 @@ function sendOrder(formData) {
     cart: cartInfo,
     info: orderInfo
   };
-  // console.log(data);
 
   sendRequest(urlRequest.main, 'send_order', data)
   .then(result => {
-    console.log(result);
     if (result.error) {
       throw new Error('Ошибка');
     } else {

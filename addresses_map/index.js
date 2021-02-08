@@ -87,7 +87,7 @@ function openAddressPopUp(id) {
       formMode = 'edit';
       title.textContent = 'Изменить адрес';
       var data = items.find(el => el.id == id);
-      fillForm('#address-form', data, true);
+      fillForm('#address-form', data);
     } else {
       formMode = 'add';
       title.textContent = 'Новый адрес';
@@ -148,11 +148,7 @@ function sendForm(formData) {
       clearForm('#address-form');
       curId = undefined;
     } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        throw new Error('Ошибка');
-      }
+      showFormError('#address-form', result.error);
     }
     hideElement('#address .loader');
   })

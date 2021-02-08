@@ -2,13 +2,13 @@
 
 // Инициализация формы:
 
-initForm('#registr', sendRegistr);
+initForm('#registr-form', sendRegistr);
 initKladr();
 
 // Инициализация подсказок при заполнении города:
 
 function initKladr() {
-  document.querySelectorAll('[data-kladr-type]').forEach(el => kladr_init('address', 'registr'));
+  document.querySelectorAll('[data-kladr-type]').forEach(el => kladr_init('address', 'registr-form'));
 }
 
 // Отправка данных формы на сервер:
@@ -25,22 +25,18 @@ function sendRegistr(formData) {
   .then(result => {
     result = JSON.parse(result);
     if (result.ok) {
-      clearForm('#registr');
+      clearForm('#registr-form');
       alerts.show(`Ваша заявка успешно отправлена.<br>
       После рассмотрения и активации заявки, мы отправим пароль авторизации на указанный при регистрации e-mail<br/>
       <a href="mailto:${email}">${email}</a>`);
     } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        throw new Error('Ошибка');
-      }
+      showFormError('#registr-form', result.error);
     }
-    hideElement('#registr .loader');
+    hideElement('#registr-form .loader');
   })
   .catch(error => {
     console.log(error);
     alerts.show('Произошла ошибка, попробуйте позже.');
-    hideElement('#registr .loader');
+    hideElement('#registr-form .loader');
   })
 }

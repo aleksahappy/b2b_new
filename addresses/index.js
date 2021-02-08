@@ -119,7 +119,7 @@ function openAddressPopUp(id) {
     if (id) {
       title.textContent = 'Редактирование адреса';
       var addressData = items.find(el => el.id == id);
-      fillForm('#address-form', addressData, true);
+      fillForm('#address-form', addressData);
     } else {
       title.textContent = 'Добавление адреса';
       clearForm('#address-form');
@@ -152,11 +152,7 @@ function sendForm(formData) {
       clearForm('#address-form');
       curId = undefined;
     } else {
-      if (result.error) {
-        alerts.show(result.error);
-      } else {
-        throw new Error('Ошибка');
-      }
+      showFormError('#address-form', result.error);
     }
     hideElement('#address .loader');
   })

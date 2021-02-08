@@ -144,14 +144,14 @@ function addByInn(event) {
   getEl('#inn-loader').style.visibility = 'visible';
   sendRequest(urlRequest.main, 'check_inn', {inn: value})
   .then(result => {
-    var data = JSON.parse(result);
-    if (data.error) {
+    result = JSON.parse(result);
+    if (result.error) {
       document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
-      alerts.show(data.error);
+      showFormError('#contr-form', result.error);
     } else {
       document.querySelectorAll('#contr-form .after-inn').forEach(el => el.removeAttribute('disabled'));
       isFillForm = true;
-      fillForm('#contr-form', data);
+      fillForm('#contr-form', result, false);
     }
     getEl('#inn-loader').style.visibility = 'hidden';
   })
@@ -168,16 +168,16 @@ function addByInn(event) {
 function addContr(formData) {
   sendRequest(urlRequest.main, 'save_contr', formData, 'multipart/form-data')
   .then(result => {
-    var data = JSON.parse(result);
-    if (data.error) {
-      alerts.show(data.error);
+    result = JSON.parse(result);
+    if (result.error) {
+      showFormError('#contr-form', result.error);
     } else {
       alerts.show('Контрагент успешно добавлен.');
-      convertData(data);
-      updateTable('#contr', data);
+      convertData(result);
+      updateTable('#contr', result);
       fillTemplate({
         area: ".table-adaptive",
-        items: data,
+        items: result,
         sub: [{area: '.docs', items: 'docs'}]
       });
       closePopUp(null, '#contractor');
