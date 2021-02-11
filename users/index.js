@@ -162,14 +162,13 @@ function openUserPopUp(id) {
   var userPopUp = getEl('#user'),
       title = getEl('.pop-up-title .title', userPopUp);
   formMode = id ? 'edit' : 'add';
+  title.textContent = id ? 'Редактировать пользователя' : 'Новый пользователь';
   if (curId !== id) {
     curId = id;
     if (id) {
-      title.textContent = 'Редактировать пользователя';
       var userData = items.find(el => el.id == id);
       fillForm('#user-form', userData);
     } else {
-      title.textContent = 'Новый пользователь';
       clearForm('#user-form');
     }
   }
