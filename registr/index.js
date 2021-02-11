@@ -3,13 +3,7 @@
 // Инициализация формы:
 
 initForm('#registr-form', sendRegistr);
-initKladr();
-
-// Инициализация подсказок при заполнении города:
-
-function initKladr() {
-  document.querySelectorAll('[data-kladr-type]').forEach(el => kladr_init('address', 'registr-form'));
-}
+initFias('registr-form');
 
 // Отправка данных формы на сервер:
 

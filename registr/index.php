@@ -46,8 +46,8 @@
                         <div class="title">Сайт</div>
                         <input type="text" value="" name="site" data-type="site" placeholder="Введите адрес сайта">
                       </div>
-                      <div class="form-wrap form-col2">
-                        <div class="title">Тип торговли</div>
+                      <div class="form-wrap form-col2" required>
+                        <div class="title">Тип торговли<span class="req">*</span></div>
                         <div class="activate select">
                           <input type="hidden" value="" name="area">
                           <div class="head row">
@@ -166,9 +166,9 @@
     </div>
 
     <script src="../js/main.js?<?php echo $ver?>"></script>
-    <script src="../js/jquery-1.12.4.min.js?<?php echo $ver?>"></script>
-    <script src="../js/jquery.kladr.js?<?php echo $ver?>"></script>
-    <script src="../js/kladr.js?<?php echo $ver?>"></script>
+    <script src="../js/jquery-3.5.1.min.js?<?php echo $ver?>"></script>
+    <script src="../js/jquery.fias.js?<?php echo $ver?>"></script>
+    <script src="../js/fias.js?<?php echo $ver?>"></script>
     <script src="index.js?<?php echo $ver?>"></script>
 
   </body>
