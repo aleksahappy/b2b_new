@@ -11,6 +11,10 @@
     {
       "id": "887",
       "title": "ООО \"ДЕКАТЛОН\""
+    },
+    {
+      "id": "332",
+      "title": "Чустова В."
     }
   ],
   "user_address_list": [
@@ -52,13 +56,6 @@
     }
   ],
   "cart": {
-    "id_58651": {
-      "id": "58651",
-      "qty": 1,
-      "actionId": 0,
-      "actionName": "Склад",
-      "cartId": "equip"
-    },
     "id_30860": {
       "id": "30860",
       "qty": 1,
@@ -76,106 +73,106 @@
     "id_75767": {
       "id": "75767",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_75765": {
       "id": "75765",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_56832": {
       "id": "56832",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33176": {
       "id": "33176",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33209": {
       "id": "33209",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33208": {
       "id": "33208",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_12273": {
       "id": "12273",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33276": {
       "id": "33276",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33277": {
       "id": "33277",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33279": {
       "id": "33279",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33280": {
       "id": "33280",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33262": {
       "id": "33262",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_33270": {
       "id": "33270",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_26558": {
       "id": "26558",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     },
     "id_26560": {
       "id": "26560",
       "qty": 1,
-      "actionId": 74,
-      "actionName": "Ценопад 2021",
+      "actionId": 0,
+      "actionName": "Склад",
       "cartId": "equip"
     }
   }

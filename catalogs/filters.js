@@ -61,8 +61,8 @@ function fillCatalogFilters() {
     sizeSV['SVNA'] = 'NA';
   }
 
-  var allFilters = {
-    // Общие:
+  // Настройки фильтров:
+  var filterSettings = {
     action_id: {
       title: 'Спецпредложение',
       filter: 'checkbox',
@@ -105,8 +105,6 @@ function fillCatalogFilters() {
       optSplit: ',',
       items: {}
     },
-
-    // Экипировка:
     sizeREU: {
       title: 'Размер для фильтров (собран из sizelist)',
       filter: 'checkbox',
@@ -253,8 +251,6 @@ function fillCatalogFilters() {
       items: {},
       isMore: true
     },
-
-    // ЗИП:
     manuf: {
       title: 'Производитель',
       filter: 'checkbox',
@@ -264,8 +260,6 @@ function fillCatalogFilters() {
       items: {},
       isMore: true
     },
-
-    // Лодки и моторы:
     material: {
       filter: 'checkbox',
       optKey: '3', //Материал
@@ -301,8 +295,6 @@ function fillCatalogFilters() {
       items: {},
       isMore: true
     },
-
-    // Сноубайки:
     year: {
       filter: 'checkbox',
       optKey: '32', // Год модели техники
@@ -319,7 +311,8 @@ function fillCatalogFilters() {
     }
   };
 
-  var filtersByCatalog = {
+  // Основные фильтры в зависимости от типа каталога:
+  var basicFilters = {
     equip: {
       action_id: true,
       state: true,
@@ -343,21 +336,7 @@ function fillCatalogFilters() {
       length: false,
       color: false
     },
-    boats: {
-      action_id: true,
-      state: true,
-      manuf: true,
-      brand: true,
-      cat: false,
-      use: false,
-      color: false,
-      material: false,
-      power: false,
-      step: false,
-      fit: false,
-      type: false
-    },
-    snow: {
+    zip: {
       action_id: true,
       state: true,
       manuf: true,
@@ -365,26 +344,36 @@ function fillCatalogFilters() {
       cat: false,
       use: false,
       color: false
+    }
+  }
+
+  // Дополнительные фильтры по каталогам:
+  var addFilters = {
+    boats: {
+      material: false,
+      power: false,
+      step: false,
+      fit: false,
+      type: false
     },
     snowbike: {
-      action_id: true,
-      state: true,
-      manuf: true,
-      brand: true,
-      cat: false,
-      use: false,
-      color: false,
       year: false,
       model: false
     }
   };
 
-  if (filtersByCatalog[pageId]) {
+  addInCatalogFiltersData(basicFilters[catalogType]);
+  addInCatalogFiltersData(addFilters[pageId]);
+
+  function addInCatalogFiltersData(data) {
+    if (!data) {
+      return;
+    }
     var isOpen;
-    for (var key in filtersByCatalog[pageId]) {
-      if (allFilters[key]) {
-        catalogFiltersData.filters[key] = allFilters[key];
-        isOpen = filtersByCatalog[pageId][key];
+    for (var key in data) {
+      if (filterSettings[key]) {
+        catalogFiltersData.filters[key] = filterSettings[key];
+        isOpen = data[key];
         if (isOpen) {
           catalogFiltersData.filters[key].isOpen = isOpen;
         }

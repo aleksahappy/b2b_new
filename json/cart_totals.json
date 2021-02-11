@@ -1,15 +1,15 @@
 [
   {
-    "id": "preorder_21fxr",
-    "title": "Предзаказ-21 FXR",
-    "qty": 18,
-    "sum": 1133109
+    "id": "preorder_76",
+    "title": "Предзаказ 509",
+    "qty": 0,
+    "sum": 0
   },
   {
     "id": "equip",
     "title": "Экипировка",
-    "qty": 18,
-    "sum": 1133109
+    "qty": 17,
+    "sum": 902514
   },
   {
     "id": "boats",
