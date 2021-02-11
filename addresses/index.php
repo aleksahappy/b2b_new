@@ -45,17 +45,17 @@
             <div class="top form-cols">
               <div class="form-wrap" required>
                 <div class="title">Город<span class="req">*</span></div>
-                <input type="text" value="" name="city" data-type="text" placeholder="Введите город" data-kladr-type="city">
+                <input type="text" value="" name="city" data-type="text" data-kladr-type="city" placeholder="Введите город">
                 <div class="err">Поле заполнено неверно</div>
               </div>
               <div class="form-wrap" required>
                 <div class="title">Улица<span class="req">*</span></div>
-                <input type="text" value="" name="street" data-type="text" placeholder="Введите улицу" data-kladr-type="street">
+                <input type="text" value="" name="street" data-type="text" data-kladr-type="street" placeholder="Введите улицу">
                 <div class="err">Поле заполнено неверно</div>
               </div>
               <div class="form-wrap" required>
                 <div class="title">Дом<span class="req">*</span></div>
-                <input type="text" value="" name="house" placeholder="Введите №" data-kladr-type="building">
+                <input type="text" value="" name="house" data-kladr-type="building" placeholder="Введите №">
                 <div class="err">Поле заполнено неверно</div>
               </div>
             </div>
@@ -74,7 +74,8 @@
               </div>
               <div class="form-wrap" required>
                 <div class="title">Индекс<span class="req">*</span></div>
-                <input type="text" value="" name="index" data-type="text" placeholder="Введите индекс" oninput="onlyNumb(event)">
+                <input type="text" value="" name="index" data-type="text" data-kladr-type="zip" placeholder="Введите индекс" oninput="onlyNumb(event)">
+                <div class="err">Поле заполнено неверно</div>
               </div>
             </div>
             <div class="btns-wrap">
@@ -91,9 +92,9 @@
 
     <script src="../js/main.js?<?php echo $ver?>"></script>
     <script src="../js/table.js?<?php echo $ver?>"></script>
-    <script src="../js/jquery-1.12.4.min.js?<?php echo $ver?>"></script>
-    <script src="../js/jquery.kladr.js?<?php echo $ver?>"></script>
-    <script src="../js/kladr.js?<?php echo $ver?>"></script>
+    <script src="../js/jquery-3.5.1.min.js?<?php echo $ver?>"></script>
+    <script src="../js/jquery.fias.js?<?php echo $ver?>"></script>
+    <script src="../js/fias.js?<?php echo $ver?>"></script>
     <script src="index.js?<?php echo $ver?>"></script>
 
   </body>

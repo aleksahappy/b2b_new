@@ -67,7 +67,7 @@ function initPage() {
   }
   initTable(table, settings);
   initForm('#address-form', sendForm);
-  initKladr();
+  initFias('address-form');
   loader.hide();
 }
 
@@ -77,12 +77,6 @@ function convertData() {
   items.forEach(el => {
     el.isChecked = el.checked > 0 ? 'checked' : '';
   });
-}
-
-// Инициализация подсказок для заполнения адреса:
-
-function initKladr() {
-  document.querySelectorAll('[data-kladr-type]').forEach(el => kladr_init('address', 'address-form'));
 }
 
 // Включение/отключение доступа:
@@ -114,15 +108,16 @@ function openAddressPopUp(id) {
   var addressPopUp = getEl('#address'),
       title = getEl('.pop-up-title .title', addressPopUp);
   formMode = id ? 'edit' : 'add';
+  title.textContent = id ? 'Редактирование адреса' : 'Добавление адреса';
   if (curId !== id) {
     curId = id;
+    var form = getEl('#address-form');
     if (id) {
-      title.textContent = 'Редактирование адреса';
       var addressData = items.find(el => el.id == id);
-      fillForm('#address-form', addressData);
+      fillForm(form, addressData);
+      setFiasConnect('address-form');
     } else {
-      title.textContent = 'Добавление адреса';
-      clearForm('#address-form');
+      clearForm(form);
     }
   }
   openPopUp(addressPopUp);
