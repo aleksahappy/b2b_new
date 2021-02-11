@@ -2905,9 +2905,12 @@ function Form(obj, callback) {
     if (typeof error === 'string') {
       alerts.show(error);
     } else if (isNativeObject(error)) {
-      var formWrap;
+      var input, formWrap;
       for (var key in error) {
-        formWrap = getEl(`[name=${key}]`, this.form);
+        input = getEl(`[name=${key}]`, this.form);
+        if (input) {
+          formWrap = input.closest('.form-wrap');
+        }
         if (formWrap) {
           this.showError(formWrap, error[key]);
         } else {
@@ -2974,6 +2977,8 @@ function Form(obj, callback) {
     this.form.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
     this.form.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
     this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
+    this.form.querySelectorAll('input[data-kladr-id]').forEach(el => el.removeAttribute('data-kladr-id'));
+    this.form.querySelectorAll('.form-wrap.error, input.kladr-error').forEach(el => el.classList.remove('error', 'kladr-error'));
     this.isSubmit = false;
     this.toggleBtn();
   }
@@ -4115,6 +4120,7 @@ function Filter(obj, handler) {
       var section = curEl.closest('.section.switch');
       if (section) {
         var mode = group.dataset.mode;
+        section.classList.remove('close');
         section.querySelectorAll('.mode span').forEach(el => {
           if (el.dataset.mode === mode && !el.classList.contains('active')) {
             el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
