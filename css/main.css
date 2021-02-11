@@ -6,6 +6,8 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::-webkit-input-placeholder {color: #C6C6C6;}
@@ -1375,21 +1377,20 @@ input[data-type="range"] {
   padding: 0;
   background-color: #F8F8F8;
   border: 1px solid #D5D5D5;
-  border-top: none;
   border-radius: 0 0 3px 3px;
-	overflow-x: hidden;
-	overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   z-index: 9999;
 }
 
 #kladr_autocomplete li {
-	display: list-item;
+  display: list-item;
   margin: 0;
-  /* padding: 0.4em 0.714em; */
-  list-style-type: none;
+  padding: 0.4em 0.714em;
   white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  list-style-type: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 
@@ -1402,9 +1403,9 @@ input[data-type="range"] {
 }
 
 #kladr_autocomplete a {
-  padding: 0.4em 0.714em;
-	text-decoration: none;
+  display: inline;
   color: #666666;
+  text-decoration: none;
 }
 
 #kladr_autocomplete a[data-val="Совпадений не найдено"] {
