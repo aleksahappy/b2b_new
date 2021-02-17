@@ -1,0 +1,89 @@
+/* Информация о предзаказе: */
+
+#preorder-info .info {
+  margin-bottom: 1.428em;
+}
+
+#preorder-info .catalog-link {
+  text-decoration: underline;
+}
+
+#preorder-info .conditions {
+  margin-bottom: 1em;
+}
+
+#preorder-info .conditions > .title {
+  margin-bottom: 0.78em;
+}
+
+#preorder-info .left-side {
+  margin-right: 6.5em;
+}
+
+#preorder-info .table-wrap {
+  margin-bottom: 1.428em;
+  overflow-x: auto;
+}
+
+#preorder-info table {
+  min-width: 100%;
+  border-collapse: collapse;
+  border: none;
+  border-spacing: 0;
+}
+
+#preorder-info table td {
+  white-space: nowrap;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+#preorder-info table .preorder-descr td:first-child {
+  padding: 0.25em 0;
+}
+
+#preorder-info table .preorder-descr:first-child td:first-child {
+  padding-top: 0;
+}
+
+#preorder-info table .text {
+  font-size: 0.857em;
+}
+
+#preorder-info table .percent {
+  padding-left: 2em;
+  font-size: 1.714em;
+  font-weight: 700;
+  text-align: end;
+}
+
+#preorder-info .btns-wrap {
+  justify-content: flex-start;
+}
+
+#preorder-info .btns-wrap .btn {
+  width: 12.7em;
+}
+
+#preorder-info form {
+  height: 40px;
+}
+
+#preorder-info form input[type="file"],
+#preorder-info form input[type="submit"] {
+  width: 0;
+  height: 0;
+}
+
+#preorder-info .btns-wrap label.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75em 1.428em;
+}
+
+#preorder-info .btns-wrap img {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 0.5em;
+}

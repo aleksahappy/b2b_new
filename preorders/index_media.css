@@ -1,0 +1,35 @@
+@media only screen and (max-width: 1359px) {
+  #preorder-info .conditions > .row {
+    flex-direction: column-reverse;
+  }
+
+  #preorder-info .right-side {
+    margin-bottom: 1.428em;
+  }
+
+  #preorder-info .left-side {
+    width: 100%;
+  }
+
+  #preorder-info .btns-wrap .btn {
+    width: 12em;
+  }
+}
+
+
+@media only screen and (max-width: 599px) {
+  #preorder-info table .percent {
+    padding-left: 0.5em;
+  }
+
+  #preorder-info .btns-wrap {
+    display: block;
+  }
+
+  #preorder-info .btns-wrap .btn {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 1em;
+  }
+}
