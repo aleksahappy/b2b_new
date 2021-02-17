@@ -19,69 +19,72 @@
   </head>
 
   <body>
-    <div id="main" class="template">
+    <div id="main">
       <div class="container">
-        <div id="main-header" class="row">
-          <div class="title h0">Заказ #order_number# от #order_date#
-            <span class="dot">, </span>
-            <span class="name">#contr_name#</span>
-          </div>
-        </div>
-        <div class="info row">
-          <div class="main row">
-            <div class="side">
-              <div class="title h3">Детали заказа</div>
-              <div class="row">
-                <div class="title">Тип заказа:</div>
-                <div class="text">#order_type#</div>
-              </div>
-              <div class="row">
-                <div class="title">Заказчик:</div>
-                <div class="text">#user_fio#</div>
-              </div>
-              <div class="row">
-                <div class="title">Статус заказа:</div>
-                <div id="order-status" class="text">#order_status#</div>
-              </div>
-            </div>
-            <div class="side">
-              <div class="title h3">Параметры доставки</div>
-              <div class="row">
-                <div class="title">Способ доставки:</div>
-                <div class="text">#delivery_type#</div>
-              </div>
-              <div class="row">
-                <div class="title">Отгрузочные документы:</div>
-                <div class="text">#shipping_docs#</div>
-              </div>
-              <div class="row">
-                <div class="title">Адрес доставки:</div>
-                <div class="text">#order_address#</div>
-              </div>
+        <div id="main-info" class="template">
+          <div id="main-header" class="row">
+            <div class="title h0">Заказ #order_number# от #order_date#
+              <span class="dot">, </span>
+              <span class="name">#contr_name#</span>
             </div>
           </div>
-          <div class="details col">
-            <div class="sum">Сумма заказа: <span>#order_sum#</span></div>
-            <div class="btns">
-              <div class="btn #isShipments#" onclick="openPopUp('#shipments', event)">Отгрузки</div>
-              <div class="btn #isPayments#" onclick="openPopUp('#payments', event)">Платежи</div>
+          <div class="common-info row">
+            <div class="info row">
+              <div class="side">
+                <div class="title h3">Детали заказа</div>
+                <div class="row">
+                  <div class="title">Тип заказа:</div>
+                  <div class="text">#order_type#</div>
+                </div>
+                <div class="row">
+                  <div class="title">Заказчик:</div>
+                  <div class="text">#user_fio#</div>
+                </div>
+                <div class="row">
+                  <div class="title">Статус заказа:</div>
+                  <div id="order-status" class="text">#order_status#</div>
+                </div>
+              </div>
+              <div class="side">
+                <div class="title h3">Параметры доставки</div>
+                <div class="row">
+                  <div class="title">Способ доставки:</div>
+                  <div class="text">#delivery_type#</div>
+                </div>
+                <div class="row">
+                  <div class="title">Отгрузочные документы:</div>
+                  <div class="text">#shipping_docs#</div>
+                </div>
+                <div class="row">
+                  <div class="title">Адрес доставки:</div>
+                  <div class="text">#order_address#</div>
+                </div>
+              </div>
             </div>
-            <a class="docs row" href="../api.php?action=order&order_id=#id#&mode=bill&type=pdf">
-              <div class="download icon"></div>
-              <div>Скачать счет</div>
-            </a>
+            <div class="details col">
+              <div class="sum">Сумма заказа: <span>#order_sum#</span></div>
+              <div class="btns">
+                <div class="btn #isShipments#" onclick="openPopUp('#shipments', event)">Отгрузки</div>
+                <div class="btn #isPayments#" onclick="openPopUp('#payments', event)">Платежи</div>
+              </div>
+              <a class="docs row" href="../api.php?action=order&order_id=#id#&mode=bill&type=pdf" target="_blank">
+                <div class="download icon"></div>
+                <div>Скачать счет</div>
+              </a>
+            </div>
+          </div>
+          <div class="more row #isMoreRow#">
+            <div class="comment row #isComment#">
+              <div class="title">Комментарий:&nbsp;</div>
+              <div class="text">#comment#</div>
+            </div>
+            <div class="btns #isOrderBnts#">
+              <div id="cancel" class="btn" onclick="changeOrderStatus(event)">Отменить заказ</div>
+              <div id="confirm" class="btn sub-act" onclick="changeOrderStatus(event)">Подтвердить заказ</div>
+            </div>
           </div>
         </div>
-        <div class="more row #isMoreRow#">
-          <div class="comment row #isComment#">
-            <div class="title">Комментарий:</div>
-            <div class="text">#comment#</div>
-          </div>
-          <div class="btns #isOrderBnts#">
-            <div id="cancel" class="btn" onclick="changeOrderStatus(event)">Отменить заказ</div>
-            <div id="confirm" class="btn sub-act" onclick="changeOrderStatus(event)">Подтвердить заказ</div>
-          </div>
-        </div>
+
         <div class="tabs row">
           <div class="tab nomen c30 checked" data-area="nomen">Итого</div>
           <div class="tab vputi c30" data-area="vputi">Ожидается</div>
@@ -98,6 +101,153 @@
         <div id="otgrz" class="table"></div>
         <div id="nedop" class="table"></div>
         <div id="reclm" class="table"></div>
+
+        <div class="table-adaptive">
+          <div class="nomen-wrap infoblock switch">
+            <div class="head row" onclick="switchContent(event)">
+              <div class="title white">Состояние товаров</div>
+              <div class="open white icon switch-icon"></div>
+            </div>
+            <div class="switch-cont">
+              <div class="control">
+                <div id="nomen-pills" class="pills template" onclick="selectItems(event)">
+                  <div class="item pill ord c10 ctr checked" data-status=#status# data-value=#bkma#>#title#: #sum#</div>
+                </div>
+                <form id="order-search" class="search row" data-type="fast" action="#">
+                  <input type="text" data-value="" placeholder="Поиск по артикулу, наименованию...">
+                  <input class="search icon" type="submit" value="">
+                  <div class="close icon"></div>
+                </form>
+              </div>
+              <div id="nomen-list" class="template">
+                <div class="info row">
+                  <div>
+                    <div>#titl#</div>
+                    <div class="articul">#artc#</div>
+                  </div>
+                  <div>
+                    <div>#kolv#</div>
+                    <div>#summ#</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="payments-wrap infoblock switch">
+            <div class="head row" onclick="switchContent(event)">
+              <div class="title white">Платежи</div>
+              <div class="open white icon switch-icon"></div>
+            </div>
+            <div class="switch-cont">
+              <div id="payments" class="pop-up-container">
+                <div class="pop-up">
+                  <div class="pop-up-title row">
+                    <div class="title h1">Платежи</div>
+                    <div class="close icon"></div>
+                  </div>
+                  <div class="pop-up-body row">
+                    <div class="total row">
+                      <div class="column">
+                        <div class="title">Тип платежа</div>
+                        <div>График платежей</div>
+                        <!-- <div>Аванс</div> -->
+                        <div>Поступление</div>
+                        <div>К оплате</div>
+                        <div>Переплата</div>
+                      </div>
+                    </div>
+                    <div class="scroll row">
+                      <div class="column">
+                        <div class="title">#title#</div>
+                        <div>#summ#</div>
+                        <!-- <div>#summ_pre#</div> -->
+                        <div>#summ_paid#</div>
+                        <div>#summ_to_pay#</div>
+                        <div>#summ_over#</div>
+                      </div>
+                      <div class="column add">
+                        <div class="title">&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <!-- <div>&nbsp;</div> -->
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="loader">
+                    <div class="loader icon"></div>
+                    <div class="text">Пожалуйста, подождите</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="shipments-wrap infoblock switch">
+            <div class="head row" onclick="switchContent(event)">
+              <div class="title white">Отгрузки</div>
+              <div class="open white icon switch-icon"></div>
+            </div>
+            <div class="switch-cont">
+              <div id="shipments" class="pop-up-container">
+                <div class="pop-up">
+                  <div class="pop-up-title row">
+                    <div class="title h1">Отгрузки</div>
+                    <div class="close icon"></div>
+                  </div>
+                  <div class="pop-up-body">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th class="title">Документ</th>
+                          <th class="title">Количество</th>
+                          <th class="title">Сумма</th>
+                          <th class="title">Трекинг</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="body-row">
+                          <td>
+                            <a class="row" href="../api.php?action=order&order_id=#id#&mode=nakl&type=pdf&name=#rencname#&id=#rdocid#">
+                              <div class="download icon"></div>
+                              <div>#rdocname#</div>
+                            </a>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <a href="../api.php?action=order&order_id=#id#&mode=bar&type=xls&name=#rencname#&id=#rdocid#">
+                                <div class="barcode icon" data-tooltip="Скачать штрихкоды"></div>
+                              </a>
+                              <div>#rkolall#</div>
+                            </div>
+                          </td>
+                          <td>#rsummall#</span></td>
+                          <td>#rtrac#</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="adaptive">
+                      <div class="info row">
+                        <div>
+                          <div>#rdocnameshort#</div>
+                          <div>#rkolall# шт.</div>
+                        </div>
+                        <div>
+                          <div>#rtrac#</div>
+                          <div>#rsummall# руб.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="loader">
+                    <div class="loader icon"></div>
+                    <div class="text">Пожалуйста, подождите</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -183,96 +333,6 @@
               <div class="text">Пожалуйста, подождите</div>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Всплывающее окно отгрузок: -->
-    <div id="shipments" class="pop-up-container">
-      <div class="pop-up">
-        <div class="pop-up-title row">
-          <div class="title h1">Отгрузки</div>
-          <div class="close icon"></div>
-        </div>
-        <div class="pop-up-body">
-          <table>
-            <thead>
-              <tr>
-                <th class="title">Документ</th>
-                <th class="title">Количество</th>
-                <th class="title">Сумма</th>
-                <th class="title">Трекинг</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <a class="row" href="../api.php?action=order&order_id=#id#&mode=nakl&type=pdf&name=#rencname#&id=#rdocid#">
-                    <div class="download icon"></div>
-                    <div>#rdocname#</div>
-                  </a>
-                </td>
-                <td>
-                  <div class="row">
-                    <a href="../api.php?action=order&order_id=#id#&mode=bar&type=xls&name=#rencname#&id=#rdocid#">
-                      <div class="barcode icon" data-tooltip="Скачать штрихкоды"></div>
-                    </a>
-                    <div>#rkolall#</div>
-                  </div>
-                </td>
-                <td>#rsummall#</td>
-                <td>#rtrac#</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="loader">
-          <div class="loader icon"></div>
-          <div class="text">Пожалуйста, подождите</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Всплывающее окно платежей: -->
-    <div id="payments" class="pop-up-container">
-      <div class="pop-up">
-        <div class="pop-up-title row">
-          <div class="title h1">Платежи</div>
-          <div class="close icon"></div>
-        </div>
-        <div class="pop-up-body row">
-          <div class="head row">
-            <div class="info">
-              <div class="title">Тип платежа</div>
-              <div>График платежей</div>
-              <!-- <div>Аванс</div> -->
-              <div>Поступление</div>
-              <div>К оплате</div>
-              <div>Переплата</div>
-            </div>
-            <div class="info">
-              <div class="title">Итого</div>
-              <div>#summ#</div>
-              <!-- <div>#summ_pre#</div> -->
-              <div>#summ_paid#</div>
-              <div>#summ_to_pay#</div>
-              <div>#summ_over#</div>
-            </div>
-          </div>
-          <div class="scroll row">
-            <div class="info">
-              <div class="title">#date#</div>
-              <div>#summ#</div>
-              <!-- <div>#summ_pre#</div> -->
-              <div>#summ_paid#</div>
-              <div>#summ_to_pay#</div>
-              <div>#summ_over#</div>
-            </div>
-          </div>
-        </div>
-        <div class="loader">
-          <div class="loader icon"></div>
-          <div class="text">Пожалуйста, подождите</div>
         </div>
       </div>
     </div>

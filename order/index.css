@@ -4,12 +4,16 @@
 
 /* Стили шапки над таблицами */
 
-.info.row {
+#main-info {
+  margin-bottom: 20px;
+}
+
+.common-info {
   justify-content: space-between;
   padding-bottom: 1em;
 }
 
-.main {
+.common-info .info {
   width: 100%;
 }
 
@@ -39,6 +43,7 @@
 
 .details .sum {
   display: none;
+  margin-right: 1.428em;
 }
 
 .details .sum span {
@@ -62,8 +67,16 @@
   padding-top: 1em;
 }
 
+.comment {
+  margin-right: 1.428em;
+}
+
 .comment .title {
   width: 7.5em;
+}
+
+.btns {
+  flex-shrink: 0;
 }
 
 .btns .btn:first-child {
@@ -77,7 +90,6 @@
   position: sticky;
   top: 64px;
   align-items: stretch;
-  margin-top: 20px;
   background-color: #F2F2F2;
   z-index: 1;
 }
@@ -204,7 +216,7 @@
 }
 
 /* =====================================================================================================
-Всплывающее окно cоздания рекламации:
+Мастер создания рекламации:
 ===================================================================================================== */
 
 #make-reclm .pop-up {
@@ -234,7 +246,7 @@
 }
 
 /* =====================================================================================================
-Всплывающее окно отгрузок:
+Отгрузки:
 ===================================================================================================== */
 
 #shipments .pop-up {
@@ -288,7 +300,7 @@
 }
 
 #shipments td:nth-child(1) .row {
-  align-items: baseline;
+  align-items: center;
   color: #666666;
   text-decoration: none;
 }
@@ -298,38 +310,26 @@
   align-items: center;
 }
 
-#shipments td:nth-child(3) {
+#shipments td:nth-child(3),
+#shipments td:nth-child(4) {
   text-align: right;
 }
 
+#shipments .adaptive {
+  display: none;
+  width: 100%;
+}
+
+#shipments .info > div > div:first-child {
+  margin-bottom: 0.357em;
+}
+
 /* =====================================================================================================
-Всплывающее окно платежей:
+Платежи:
 ===================================================================================================== */
 
 #payments .scroll {
   overflow-y: auto;
-}
-
-#payments .scroll::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-}
-
-#payments .scroll::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid #C6C6C6;
-  border-radius: 19px;
-}
-
-#payments .scroll::-webkit-scrollbar-thumb {
-  background-color: #C6C6C6;
-  border: 1px solid #C6C6C6;
-  border-radius: 19px;
-  cursor: pointer;
-}
-
-#payments .scroll::-webkit-scrollbar-corner {
-  background-color: rgba(255, 255, 255, 0.2);
 }
 
 #payments .pop-up-body > div > div > div {
@@ -339,21 +339,105 @@
   white-space: nowrap;
 }
 
-#payments .head.row .info:first-child > div:not(.title) {
+#payments .total.row .column > div:not(.title) {
   text-align: left;
 }
 
-#payments .head.row .info:last-child > div:not(.title),
-#payments .scroll.row .info > div {
+#payments .scroll.row .column > div {
   text-align: right;
 }
 
-#payments .pop-up-body .info .title {
+#payments .pop-up-body .column .title {
   background-color: #EEEEEE;
   border-bottom: none;
   text-align: center;
 }
 
-#payments .pop-up-body .info > div:last-child {
+#payments .pop-up-body .column > div:last-child {
   border-bottom: none;
+}
+
+#payments .pop-up-body > .scroll.row {
+  flex-grow: 1;
+}
+
+#payments .pop-up-body > .scroll.row .add {
+  width: 100%;
+}
+
+#payments .pop-up-body > .scroll.row .add > div {
+  padding: 0.75em 0;
+}
+
+/* =====================================================================================================
+Адаптивная часть:
+===================================================================================================== */
+
+.table-adaptive {
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+.nomen-wrap,
+.payments-wrap .head,
+.shipments-wrap .head {
+  display: none;
+}
+
+.infoblock {
+  overflow: visible;
+}
+
+.infoblock.disabled {
+  display: none;
+}
+
+.infoblock .head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 40px;
+  z-index: 10;
+}
+
+.control {
+  top: 80px;
+  margin-top: 0;
+  padding-bottom: 1.5em;
+}
+
+.control .pills {
+  margin-left: 0;
+  text-align: left;
+}
+
+.control .pill {
+  margin-bottom: 1em;
+}
+
+.infoblock .info {
+  justify-content: space-between;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.infoblock .info:last-child {
+  border-bottom: none;
+}
+
+.infoblock .info div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoblock .info > div:last-child {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 1em;
+  text-align: right;
+}
+
+.infoblock .notice {
+  padding: 0.75em 1.14em;
 }

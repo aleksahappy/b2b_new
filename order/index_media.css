@@ -1,19 +1,150 @@
-@media only screen and (max-width: 1360px) {
-  .tabs .tab {
-    height: 45px;
+@media only screen and (max-width: 1359px) {
+  #main-header .dot {
+    display: none;
   }
 
-  .table-desktop > thead > tr > th {
-    top: 108px;
+  #main-header .name {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 0.571em;
+    font-weight: 600;
+    color: #666666;
+    text-transform: none;
   }
 
-  .table-desktop > thead > tr.results > th {
-    top: 148px;
+  .common-info {
+    flex-direction: column-reverse;
+  }
+
+  .details {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1.428em;
+  }
+
+  .details .sum {
+    display: block;
+  }
+
+  .details .btns {
+    display: none;
+  }
+
+  .more.row {
+    display: block;
+  }
+
+  .comment {
+    margin-right: 0;
+    margin-bottom: 1.428em;
+  }
+
+  .more.row .btns {
+    text-align: right;
+  }
+
+  .tabs {
+    display: none;
+  }
+
+  .table-adaptive {
+    width: auto;
+    height: auto;
+  }
+
+  .nomen-wrap {
+    display: block;
+  }
+
+  .payments-wrap .head,
+  .shipments-wrap .head {
+    display: flex;
+  }
+
+  .table-adaptive .pop-up-container {
+    display: block !important;
+    position: static;
+    width: auto;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
+    background-color: transparent;
+    overflow: visible;
+    opacity: 1;
+    z-index: 0;
+  }
+
+  .table-adaptive .pop-up-container .pop-up {
+    display: block !important;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  .table-adaptive .pop-up-container .pop-up-title {
+    display: none;
+  }
+
+  #shipments .pop-up {
+    min-width: auto;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .common-info .info {
+    display: block;
+  }
+
+  .side:first-child {
+    margin-right: 0;
+    margin-bottom: 1em;
   }
 }
 
 @media only screen and (max-width: 599px) {
+  .details > div,
+  .details > a {
+    margin-top: 0.5em;
+  }
+
+  .control {
+    margin: 0;
+  }
+
+  .table-adaptive .pop-up-container .pop-up {
+    min-height: auto;
+  }
+
+  .table-adaptive .pop-up-container .pop-up .pop-up-body {
+    flex-direction: row;
+    flex-grow: initial;
+  }
+
+  #shipments table {
+    display: none;
+  }
+
+  #shipments .adaptive {
+    display: block;
+  }
+
   #make-reclm .img-wrap {
     margin-bottom: 1.785em;
+  }
+}
+
+@media only screen and (max-width: 399px) {
+  .more.row .btns .btn {
+    display: block;
+  }
+
+  .more.row .btns .btn:first-child {
+    margin-right: 0;
+    margin-bottom: 1em;
   }
 }
