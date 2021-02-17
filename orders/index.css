@@ -43,39 +43,46 @@
   display: none;
 }
 
-/* Стили адаптивной таблицы */
-
-.infoblock {
-  margin-bottom: 0;
-  border-bottom: 1px solid #C6C6C6;
+#orderslist > table > tbody > tr > td {
+  cursor: pointer;
 }
 
+/* Стили адаптивной таблицы */
+
 .infoblock .info {
-  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #C6C6C6;
+  cursor: pointer;
+}
+
+.infoblock .info:last-child {
+  border-bottom: none;
 }
 
 .infoblock .info > .row {
   flex-grow: 0;
   flex-shrink: 0;
-  width: 45%;
-}
-
-.infoblock .info > .row > div:first-child {
-  width: 13em;
-  min-width: 13em;
-  margin-right: 1.428em;
-}
-
-.infoblock .info > .pills {
-  margin-left: 1em;
-  flex-grow: 0;
-  line-height: normal;
-  white-space: normal;
-}
-
-.infoblock .info div {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.infoblock .info > .row > div:first-child {
+  width: 14em;
+  min-width: 14em;
+  margin-right: 1.428em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoblock .info > .pills {
+  flex-grow: 0;
+  margin-right: -1em;
+  margin-left: 1em;
+  line-height: normal;
+  text-align: right;
+  white-space: normal;
+}
+
+.pill:last-child {
+  margin-right: 1em;
+}

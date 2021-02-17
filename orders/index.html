@@ -23,16 +23,14 @@
           <div class="title h0">Заказы</div>
         </div>
         <div id="orderslist" class="table active">
-          <div class="table-adaptive template">
-            <div class="infoblock" onclick="showOrder(event,`#id#`)">
-              <div class="info row">
-                <div class="row">
-                  <div>#order_number# от #order_date#</div>
-                  <div>#order_type#</div>
-                </div>
-                <div class="pills">
-                  <div class="pill ord c10 #display#" data-status="#value#">#sum#</div>
-                </div>
+          <div class="table-adaptive infoblock template">
+            <div class="info row" onclick="showOrder(event,`#id#`)">
+              <div class="row">
+                <div>#order_number# от #order_date#</div>
+                <div>#order_type#</div>
+              </div>
+              <div class="pills">
+                <div class="pill ord c10 #display#" data-status="#value#">#sum#</div>
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@
 // ??: "Ожидается оплата"
 
 // Статусы товаров в заказе:
-// 1: "Ожидается
+// 1: "Ожидается"
 // 2: "В наличии"
 // 3: "Собран"
 // 4: "Отгружен"
@@ -115,11 +115,7 @@ function initPage(data = []) {
     }
   };
   initTable('#orderslist', settings);
-  // fillTemplate({
-  //   area: '.table-adaptive',
-  //   items: data,
-  //   sub: [{area: '.pill', items: 'sum'}]
-  // });
+  // loadData('.table-adaptive', data, [{area: '.pill', items: 'sum'}]);
   loader.hide();
 }
 
