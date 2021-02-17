@@ -302,7 +302,7 @@ function fillCatalogFilters() {
       itemsSort: 'text',
       items: {}
     },
-    model: {
+    model_technics: {
       filter: 'checkbox',
       optKey: '33', // Модель техники
       optSplit: ',',
@@ -318,7 +318,6 @@ function fillCatalogFilters() {
       state: true,
       cat: true,
       brand: false,
-      model: false,
       use: false,
       sizeREU: false,
       size_1252: false,
@@ -358,7 +357,7 @@ function fillCatalogFilters() {
     },
     snowbike: {
       year: false,
-      model: false
+      model_technics: false
     }
   };
 
@@ -437,7 +436,7 @@ function getDataForFilters(item) {
 
   function writeData(el) {
     if (el) {
-      var clearEl = el.toLowerCase().replace(/"|'|\s/g, '');
+      var clearEl = el.toLowerCase().replace(/["'\s]/g, '');
       if (items[data.optKey + '_' + clearEl] === undefined) {
         items[data.optKey + '_' + clearEl] = el;
       }
