@@ -75,9 +75,6 @@ function initPage(data = []) {
     }
   };
   initTable('#reclm', settings);
-  fillTemplate({
-    area: '.table-adaptive',
-    items: data
-  });
+  loadData('.table-adaptive', data);
   loader.hide();
 }

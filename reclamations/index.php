@@ -24,17 +24,15 @@
           <div class="title h0">Рекламации</div>
         </div>
         <div id="reclm" class="table active">
-          <div class="table-adaptive template">
-            <div class="infoblock" data-status="#status#" onclick="showReclm(event,`#id#`)">
-              <div class="info row">
-                <div>
-                  <div>#item_title#</div>
-                  <div class="articul">#item_articul#</div>
-                </div>
-                <div>
-                  <div>#recl_num#</div>
-                  <div>#recl_date#</div>
-                </div>
+          <div class="table-adaptive infoblock template">
+            <div class="info row" data-status="#status#" onclick="showReclm(event,`#id#`)">
+              <div>
+                <div>#item_title#</div>
+                <div class="articul">#item_articul#</div>
+              </div>
+              <div>
+                <div>#recl_num#</div>
+                <div>#recl_date#</div>
               </div>
             </div>
           </div>

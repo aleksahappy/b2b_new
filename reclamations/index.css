@@ -6,49 +6,50 @@
 
 /* Стили адаптивной таблицы */
 
-.infoblock {
-  margin-bottom: 0;
+.infoblock .info {
+  justify-content: space-between;
   border-left: 2px solid transparent;
   border-bottom: 1px solid #C6C6C6;
   cursor: pointer;
 }
 
-.infoblock:hover {
+.infoblock .info:last-child {
+  border-bottom: none;
+}
+
+.infoblock .info:hover {
   background-color: #F8F8F8;
 }
 
-.infoblock[data-status="1"] {
+.infoblock .info[data-status="1"] {
   border-left: 2px solid #8596A6;
 }
 
-.infoblock[data-status="2"] {
+.infoblock .info[data-status="2"] {
   border-left: 2px solid #F69C00;
 }
 
-.infoblock[data-status="3"] {
+.infoblock .info[data-status="3"] {
   border-left: 2px solid #3F9726;
 }
 
-.infoblock[data-status="4"] {
+.infoblock .info[data-status="4"] {
   border-left: 2px solid #CE0014;
 }
 
-.infoblock[data-status="5"] {
+.infoblock .info[data-status="5"] {
   border-left: 2px solid #2C6DA8;
-}
-
-.infoblock .info {
-  justify-content: space-between;
-}
-
-.infoblock .info > div:last-child {
-  margin-left: 1em;
-  flex-grow: 0;
-  flex-shrink: 0;
 }
 
 .infoblock .info div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.infoblock .info > div:last-child {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 1em;
+  text-align: right;
 }
