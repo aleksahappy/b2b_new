@@ -83,11 +83,7 @@ function initPage(data = []) {
     getEl('.table-adaptive .head').removeChild(getEl('.table-adaptive .toggle'));
   }
   initTable('#contr', settings);
-  fillTemplate({
-    area: ".table-adaptive",
-    items: data,
-    sub: [{area: '.docs', items: 'docs'}]
-  });
+  loadData('.table-adaptive', data, [{area: '.docs', items: 'docs'}]);
   initForm('#contr-form', addContr);
   loader.hide();
 }
@@ -175,11 +171,7 @@ function addContr(formData) {
       alerts.show('Контрагент успешно добавлен.');
       convertData(result);
       updateTable('#contr', result);
-      fillTemplate({
-        area: ".table-adaptive",
-        items: result,
-        sub: [{area: '.docs', items: 'docs'}]
-      });
+      loadData('.table-adaptive', result, [{area: '.docs', items: 'docs'}]);
       closePopUp(null, '#contractor');
       clearForm('#contr-form');
     }

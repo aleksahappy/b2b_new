@@ -89,11 +89,7 @@ function initPage() {
     }
   }
   initTable('#addresses', settings);
-  fillTemplate({
-    area: ".table-adaptive",
-    items: items,
-    sub: [{area: '.time', items: 'time'}]
-  });
+  loadData('.table-adaptive', items, [{area: '.time', items: 'time'}]);
   document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
   initForm('#address-form', sendForm);
   loader.hide();
@@ -245,11 +241,7 @@ function deleteAddress(id) {
       items = result;
       convertData();
       updateTable('#addresses', result);
-      fillTemplate({
-        area: ".table-adaptive",
-        items: data,
-        sub: [{area: '.time', items: 'time'}]
-      });
+      loadData('.table-adaptive', data, [{area: '.time', items: 'time'}]);
       document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
     } else {
       throw new Error('Ошибка');

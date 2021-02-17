@@ -164,11 +164,7 @@ initTable('#table', settings);
 
 // Заполнение адаптивной версии таблицы:
 
-fillTemplate({
-  area: ".table-adaptive",
-  items: data,
-  sub: [{area: '.docs', items: 'docs'}]
-});
+loadData('.table-adaptive', data, [{area: '.docs', items: 'docs'}]);
 
 loader.hide();
 

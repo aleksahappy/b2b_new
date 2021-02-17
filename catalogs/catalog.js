@@ -108,11 +108,11 @@ function initPage() {
 
 // Получение данных обо всех товарах или наборе товаров по их id:
 
-function getItems(id) {
+function getItems(idList) {
   return new Promise((resolve, reject) => {
     var data = {cat_type: pageId};
-    if (id) {
-      data.list = id;
+    if (idList) {
+      data.list = idList;
     }
     sendRequest(urlRequest.main, 'items', data)
     .then(result => {
@@ -201,10 +201,7 @@ function addCatalogModules() {
 
 function fillCatalogTopmenu() {
   var data = JSON.parse(JSON.stringify(cartTotals.find(el => el.id === pageId)));
-  fillTemplate({
-    area: '.topmenu',
-    items: data
-  });
+  loadData('.topmenu', data);
   var topmenuHref = getEl('.topmenu-item.active').href;
   document.querySelectorAll('.catalog-link').forEach(el => {
     el.href = topmenuHref;
@@ -230,11 +227,7 @@ function fillCatalogSubmenu(data) {
     return;
   }
   data.items = convertDataForFillTemp(submenu);
-  fillTemplate({
-    area: '.submenu',
-    items: data,
-    sub: [{area: '.submenu-item', items: 'items'}]
-  });
+  loadData('.submenu', data, [{area: '.submenu-item', items: 'items'}]);
   adaptMenu();
 }
 
@@ -745,14 +738,7 @@ function changeMainNav() {
       location.href = '../404';
     }
   });
-  fillTemplate({
-    area: '#main-nav',
-    items: data,
-    sub: [{
-      area: '.item',
-      items: 'items'
-    }]
-  });
+  loadData('#main-nav', data, [{area: '.item', items: 'items'}]);
   showElement('#main-header', 'flex');
 }
 
@@ -1041,32 +1027,28 @@ function showFullCard(id) {
   getDescribeInfo(data)
   .then(result => getDetailsInfo(fullCardContainer, data))
   .then(result => {
-    fillTemplate({
-      area: fullCardContainer,
-      items: data,
-      sub: [{
-        area: '.carousel-item',
-        items: 'images'
-      }, {
-        area: '.card-size',
-        items: 'sizes'
-      }, {
-        area: '.desk .card-option',
-        items: 'options'
-      }, {
-        area: '.adaptive .card-option',
-        items: 'options'
-      }, {
-        area: '.manuf-row',
-        items: 'manuf_table'
-      }, {
-        area: '.card-describe',
-        items: 'describe',
-      }, {
-        area: '.details',
-        items: 'details',
-      }]
-    });
+    loadData(fullCardContainer, data, [{
+      area: '.carousel-item',
+      items: 'images'
+    }, {
+      area: '.card-size',
+      items: 'sizes'
+    }, {
+      area: '.desk .card-option',
+      items: 'options'
+    }, {
+      area: '.adaptive .card-option',
+      items: 'options'
+    }, {
+      area: '.manuf-row',
+      items: 'manuf_table'
+    }, {
+      area: '.card-describe',
+      items: 'describe',
+    }, {
+      area: '.details',
+      items: 'details',
+    }]);
 
     var curCarousel = getEl('.carousel', fullCardContainer);
     renderCarousel(curCarousel)
@@ -1714,10 +1696,7 @@ function deleteFromFiltersInfo(key, value) {
 // Созание списка выбранных фильтров:
 
 function createFiltersInfo() {
-  fillTemplate({
-    area: '#filters-info',
-    items: filterItems
-  });
+  loadData('#filters-info', filterItems);
   showElement('#filters-info', 'flex');
 }
 
@@ -1774,10 +1753,7 @@ function initStepFilter(type, target) {
   }
   includeHTML();
   var selects = getEl(`#${type}-selects`);
-  fillTemplate({
-    area: selects,
-    items: window[`${type}FiltersData`]
-  });
+  loadData(selects, window[`${type}FiltersData`]);
   selects.querySelectorAll('.activate').forEach(el => {
     window[`${type}${el.dataset.key}Dropdown`] = initDropDown(el, selectFilterStep);
   });

@@ -50,8 +50,8 @@ userInfo = {login: "TS00000905", name: "Александра", lastname: "Чап
 //         throw new Error('Ответ на авторизацию не получен.');
 //       }
 //     }
-//   } catch(err) {
-//     // console.log(err);
+//   } catch(error) {
+//     // console.log(error);
 //     if (path) {
 //       location.href = `/?${location.href}`;
 //     }

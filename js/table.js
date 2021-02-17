@@ -1,6 +1,7 @@
 'use strict';
 
-// Для корректной работы скрипта необходимо подключение перед ним main.js (не будет работать функционала fillTemplate, объектов DropDown, Search)
+// Для корректной работы скрипта необходимо подключение перед ним main.js
+// (не будет работать без функционала loadData, fillTemplate, объектов DropDown, Search)
 
 //=====================================================================================================
 // Работа таблиц:
@@ -527,10 +528,7 @@ function Table(obj, settings = {}) {
     if (sort) {
       data.sort(sortBy(sort));
     }
-    fillTemplate({
-      area: this.pills,
-      items: setting.items || data
-    });
+    loadData(this.pills, setting.items || data);
     if (setting.items) {
       this.pills.querySelectorAll('.pill').forEach(pill => {
         if (!data.find(el => el.value == pill.dataset.value)) {

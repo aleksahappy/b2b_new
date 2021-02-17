@@ -58,8 +58,8 @@ function startPage() {
   if (!id) {
     location.href = '../404';
   }
-  sendRequest(urlRequest.main, 'recl', {recl_id: id})
   // sendRequest(`../json/reclamation.json`)
+  sendRequest(urlRequest.main, 'recl', {recl_id: id})
   .then(result => {
     if (!result) {
       location.href = '../404';
@@ -78,11 +78,7 @@ function startPage() {
 
 function initPage() {
   convertData();
-  fillTemplate({
-    area: '#main',
-    items: data.recl,
-    sub: [{area: '.card', items: 'item'}]
-  });
+  loadData('#main', data.recl, [{area: '.card', items: 'item'}]);
   checkMedia(getEl('.recl-info .card img'));
   toggleReturnList();
   fillFiles();

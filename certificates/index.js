@@ -62,7 +62,7 @@ function startPage() {
 
 function initPage() {
   convertData();
-  loadData();
+  loadData('#cert', itemsToLoad);
   initSearch('#cert-search', findCert);
   initDropDown('#cert-brand', selectBrand, brands, 'Сбросить');
   initFilter('#main', {
@@ -105,20 +105,6 @@ function convertData() {
   itemsToLoad = items;
 }
 
-// Загрузка данных на страницу:
-
-function loadData() {
-  var area = getEl('#cert');
-  if (itemsToLoad.length) {
-    fillTemplate({
-      area: area,
-      items: itemsToLoad
-    });
-  } else {
-    area.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
-  }
-}
-
 // Поиск по ключевым словам:
 
 function findCert(search, textToFind) {
@@ -128,7 +114,7 @@ function findCert(search, textToFind) {
   } else {
     itemsToLoad = items;
   }
-  loadData();
+  loadSearchData('#cert', itemsToLoad);
   if (textToFind && itemsToLoad.length) {
     highlightText('#cert', textToFind);
   }
@@ -144,5 +130,5 @@ function selectBrand(event) {
   } else {
     itemsToLoad = items.filter(el => el.brands.indexOf(value) >= 0);
   }
-  loadData();
+  loadSearchData('#cert', itemsToLoad);
 }

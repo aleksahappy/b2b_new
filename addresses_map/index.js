@@ -28,14 +28,7 @@ function startPage() {
 
 function initPage() {
   convertData();
-  fillTemplate({
-    area: '#addresses',
-    items: items,
-    sub:[{
-      area: '.time',
-      items: 'time'
-    }]
-  });
+  loadData('#addresses', items, [{area: '.time', items: 'time'}]);
   document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
   initForm('#address-form', sendForm);
   loader.hide();
