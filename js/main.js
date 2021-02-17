@@ -161,21 +161,22 @@ function loadHTML(target, url) {
   if (!target || !url) {
     return;
   }
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url , false);
+  var request = new XMLHttpRequest();
+  request.open('GET', url , false);
+  request.setRequestHeader('Cache-Control', 'no-cache');
   try {
-    xhr.send();
-    if (xhr.status != 200) {
-      console.log(`Ошибка ${xhr.status}: ${xhr.statusText}`);
-      throw new Error(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+    request.send();
+    if (request.status != 200) {
+      console.log(`Ошибка ${request.status}: ${request.statusText}`);
+      throw new Error(`Ошибка ${request.status}: ${request.statusText}`);
     } else {
-      if (xhr.response) {
-        target.innerHTML += xhr.responseText;
+      if (request.response) {
+        target.innerHTML += request.responseText;
         target.removeAttribute('data-html');
       }
     }
-  } catch(err) {
-    console.log(err);
+  } catch(error) {
+    console.log(error);
   }
 }
 
@@ -206,20 +207,12 @@ function initModules(path) {
 function fillUserInfo() {
   if (window.userInfo) {
     userInfo.fio = userInfo.lastname + ' ' + userInfo.name + ' ' + userInfo.parentname;
-    fillTemplate({
-      area: '#profile',
-      items: {
-        login: userInfo.login,
-        username: userInfo.name + ' ' + userInfo.lastname
-      }
-    });
-    fillTemplate({
-      area: '#mob-profile',
-      items: {
-        login: userInfo.login,
-        username: userInfo.name + ' ' + userInfo.lastname
-      }
-    });
+    var data = {
+      login: userInfo.login,
+      username: userInfo.name + ' ' + userInfo.lastname
+    }
+    loadData('#profile', data);
+    loadData('#mob-profile', data);
   } else {
     if (location.pathname !== '/') {
       location.href = '/';
@@ -235,7 +228,8 @@ function fillUserInfo() {
 
 function sendRequest(url, action, data, type = 'application/json; charset=utf-8') {
   return new Promise((resolve, reject) => {
-    var request = new XMLHttpRequest();
+    var request = new XMLHttpRequest(),
+        requestType = action ? 'POST' : 'GET';
     request.addEventListener('error', () => reject(new Error('Ошибка сети')));
     request.addEventListener('load', () => {
       if (request.status === 200) {
@@ -243,8 +237,8 @@ function sendRequest(url, action, data, type = 'application/json; charset=utf-8'
       }
       reject(new Error(request.status));
     });
+    request.open(requestType, url);
     if (action) {
-      request.open('POST', url);
       if (type === 'application/json; charset=utf-8') {
         data = data ? {action: action, data: data} : {action: action};
         data = JSON.stringify(data);
@@ -254,7 +248,6 @@ function sendRequest(url, action, data, type = 'application/json; charset=utf-8'
       }
       request.send(data);
     } else {
-      request.open('GET', url);
       request.send();
     }
   });
@@ -539,15 +532,11 @@ function renderTotalsInHeader(area, type) {
     return;
   }
   var data = getDataFromTotals(type);
-  fillTemplate({
-    area: area,
-    items: data,
-    sub: [{
-      area: type === 'catalogs' ? '.catalogs' : '.items',
-      source: 'inner',
-      items: 'items'
-    }]
-  });
+  loadData(area, data, [{
+    area: type === 'catalogs' ? '.catalogs' : '.items',
+    source: 'inner',
+    items: 'items'
+  }]);
 }
 
 // Подготовка данных для создания списка каталогов/корзин:
@@ -570,6 +559,11 @@ function getDataFromTotals(type) {
       if (type === 'catalogs') {
         var section = el.id.indexOf('preorder') == 0 ? 'Предзаказы' : 'Каталоги',
             curSection = data.find(el => el.section === section);
+        if (section === 'Предзаказы') {
+          el.link = `../preorders/?${el.id}`;
+        } else {
+          el.link = `../catalogs/?${el.id}`;
+        }
         if (curSection) {
           curSection.items.push(el);
         } else {
@@ -1035,7 +1029,7 @@ function capitalizeFirstLetter(string) {
 function changeCss(selector, key, value) {
   var docStyles = Array.from(document.styleSheets),
       docPath = location.href.replace('index.html', '').replace(/\?.*/gi, '') + 'index.css',
-      curStyle = docStyles.find(el => el && el.href.replace(/\?.*/g, '') === docPath);
+      curStyle = docStyles.find(el => el && el.href && el.href.replace(/\?.*/g, '') === docPath);
   if (curStyle) {
     var rules = curStyle.cssRules || curStyle.rules,
         rule;
@@ -1340,7 +1334,7 @@ function checkDate(start, end, date = new Date()) {
 
 function getRegExp(value) {
   if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(value)) {
-    value = value.replace(/\s/g, '').replace('.', ',');
+    value = value.replace(/\s/g, '').replace(/[/.,/]/, '[/.,/]');
   }
   return RegExp(value, 'gi');
 }
@@ -1403,7 +1397,7 @@ function convertToString(el) {
       el = el.toString();
       el = el.replace(/\s/g, ' ');
       if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(el)) {
-        el = el.replace(/\s/g, '').replace('.', ',');
+        el = el.replace(/\s/g, '');
       }
       string += el + ';';
     } else if (typeof el === 'object') {
@@ -1425,7 +1419,7 @@ function declOfNum(number, titles) {
 
 function convertPrice(numb, fix = 0, sign = ',', separator = ' ') {
   try {
-    if (/[^\d|\.|\,|\-]/g.test(numb)) {
+    if (/[^\d|\.|\,|\-|\s]/g.test(numb)) {
       return numb;
     }
     var price = parseFloat(numb.toString().replace(',', '.').replace(/\s/g, ''), 10);
@@ -1830,10 +1824,10 @@ function insertText(target, txt, method = 'inner') {
 }
 
 //=====================================================================================================
-// Преобразование данных для использования их в заполнении по шаблону:
+// Дополнительные функции для работы заполнения по шаблону:
 //=====================================================================================================
 
-// Преобразование данных из формата объекта в массив объектов:
+// Преобразование данных для использования их в заполнении по шаблону:
 // на входе: {key1: value1, key2: value2}
 // на выходе: [{title: key1:, value: value1}, {title: key2:, value: value2}])
 
@@ -1885,6 +1879,28 @@ function getTitle(key, value, isFix) {
     title = 'LA Sleeve';
   }
   return title;
+}
+
+// Заполнение данных по шаблону:
+
+function loadData(area, items, sub) {
+  var area = getEl(area);
+  fillTemplate({
+    area: area,
+    items: items,
+    sub: sub
+  });
+}
+
+// Заполнение данных по шаблону/отображение информации о том, что ничего не найдено:
+
+function loadSearchData(area, items, sub) {
+  var area = getEl(area);
+  if (items.length) {
+    loadData(area, items, sub);
+  } else {
+    area.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
+  }
 }
 
 //=====================================================================================================
@@ -2342,10 +2358,7 @@ function initNotifications() {
         notifications = getEl('#notifications');
     if (notifications) {
       var body = getEl('.pop-up-body', notifications);
-      fillTemplate({
-        area: body,
-        items: data
-      });
+      loadData(body, data);
       getEl('.loader', notifications).style.display = 'none';
     }
   })
@@ -2391,14 +2404,7 @@ function openInfoCard(data) {
   .then(result => {
     var infoCardContainer = getEl('#info-card-container');
     data.isDesc = data.desc ? '' : 'displayNone';
-    fillTemplate({
-      area: infoCardContainer,
-      items: data,
-      sub: [{
-        area: '.card-option',
-        items: 'options'
-      }]
-    });
+    loadData(infoCardContainer, data, [{area: '.card-option', items: 'options'}]);
     checkMedia(getEl('img', infoCardContainer));
     getEl('.img-wrap', infoCardContainer).addEventListener('click', (event) => openFullImg(event, data));
     openPopUp(infoCardContainer);
@@ -2434,14 +2440,7 @@ function openFullImg(event, data, curImg) {
     return;
   }
   var fullImgContainer = getEl('#full-img-container');
-  fillTemplate({
-    area: fullImgContainer,
-    items: data,
-    sub: [{
-      area: '.carousel-item',
-      items: 'images_full'
-    }]
-  });
+  loadData(fullImgContainer, data, [{area: '.carousel-item', items: 'images_full'}]);
   var fullCarousel = getEl('.carousel', fullImgContainer),
       curCarousel = event ? event.currentTarget.closest('.carousel') : null;
   curImg = curImg || (curCarousel ? curCarousel.dataset.img : null);
@@ -3433,10 +3432,7 @@ function DropDown(obj, handler, data, defaultValue) {
     if (!this.items || !data) {
       return;
     }
-    fillTemplate({
-      area: this.items,
-      items: data
-    });
+    loadData(this.items, data);
     if (defaultValue && this.obj.classList.contains('select')) {
       this.items.insertAdjacentHTML('afterbegin', `<div class="item" data-value="default">${defaultValue}</div>`)
     }
