@@ -41,25 +41,25 @@
 .disabled ::placeholder {color: transparent;}
 :disabled::placeholder {color: transparent;}
 
-#main :not(.pop-up-container)::-webkit-scrollbar {
+#main div:not(.pop-up-container)::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
-#main :not(.pop-up-container)::-webkit-scrollbar-track {
+#main div:not(.pop-up-container)::-webkit-scrollbar-track {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid #C6C6C6;
   border-radius: 19px;
 }
 
-#main :not(.pop-up-container)::-webkit-scrollbar-thumb {
+#main div:not(.pop-up-container)::-webkit-scrollbar-thumb {
   background-color: #C6C6C6;
   border: 1px solid #C6C6C6;
   border-radius: 19px;
   cursor: pointer;
 }
 
-#main :not(.pop-up-container)::-webkit-scrollbar-corner {
+#main div:not(.pop-up-container)::-webkit-scrollbar-corner {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -490,7 +490,7 @@ body.no-scroll {
 }
 
 .pill.ctr.checked {
-  padding-right: 1.571em;
+  padding-right: 22px;
   background-image: url(../img/close_white.svg);
   background-size: 8px 8px;
   background-position: calc(100% - 0.5em) 55%;
@@ -763,9 +763,11 @@ body.no-scroll {
 ===================================================================================================== */
 
 .pill.disabled {
-  color: #B3B3B3 !important;;
+  padding-right: 10px !important;
+  color: #B3B3B3 !important;
   background-color: #D3D6D9 !important;
-  border: 1px solid #D3D6D9 !important;;
+  background-image: none !important;
+  border: 1px solid #D3D6D9 !important;
 }
 
 .pill.disabled .close.icon {
@@ -2425,9 +2427,9 @@ div.option input:disabled ~ .checkbox.icon {
 ===================================================================================================== */
 
 .infoblock {
-  width: 100%;
   margin-bottom: 1.428em;
   background: #FFFFFF;
+  box-shadow: 0px 0px 5px rgb(52 73 94 / 5%), 0px 2px 10px rgb(52 73 94 / 6%), 0px 4px 15px rgb(52 73 94 / 10%);
   overflow: hidden;
   text-overflow: ellipsis;
 }
