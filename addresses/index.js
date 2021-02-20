@@ -2,28 +2,19 @@
 
 // Глобальные переменные:
 
-var items = [],
+var items,
     formMode,
     curId;
 
 // Запуск страницы адресов:
 
-function startPage() {
-  // sendRequest(`../json/addresses.json`)
-  sendRequest(urlRequest.main, 'get_delivery')
-  .then(result => {
-    if (result) {
-      result = JSON.parse(result);
-      items = result.user_address_list || [];
-    }
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/addresses_test.json')
+getPageData(urlRequest.main, 'get_delivery')
+.then(result => {
+  items = result.user_address_list || [];
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -61,14 +52,12 @@ function initPage() {
       'title': {title: 'По адресу', sort: 'text', search: 'usual'}
     }
   }
-  var table = getEl('#addresses');
   if (!isAdmin) {
     settings.desktop.cols.shift();
   }
-  initTable(table, settings);
+  initTable('#addresses', settings);
   initForm('#address-form', sendForm);
   initFias('address-form');
-  loader.hide();
 }
 
 // Преобразование полученных данных:

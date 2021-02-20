@@ -2,32 +2,23 @@
 
 // Глобальные переменные:
 
-var items = [],
+var items,
     formMode,
     curId;
 
 // Запуск страницы адресов:
 
-function startPage() {
-  sendRequest(`../json/addresses_test.json`)
-  // sendRequest(urlRequest.main, 'get_delivery')
-  .then(result => {
-    if (result) {
-      items = JSON.parse(result);
-    }
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/addresses_test.json')
+getPageData(urlRequest.main, 'get_delivery')
+.then(result => {
+  items = result || [];
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
 function initPage() {
-  document.addEventListener('click', toggleAddress);
   convertData();
   var settings = {
     data: items,
@@ -91,6 +82,7 @@ function initPage() {
   initTable('#addresses', settings);
   loadData('.table-adaptive', items, [{area: '.time', items: 'time'}]);
   document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
+  document.addEventListener('click', toggleAddress);
   initForm('#address-form', sendForm);
   loader.hide();
 }

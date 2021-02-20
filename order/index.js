@@ -19,30 +19,24 @@
 
 // Глобальные переменные:
 
-var data, fromDisplay, reclData, reclIcon;
+var id = document.location.search.replace(/\D/g, ''),
+    data, fromDisplay, reclData, reclIcon;
 
 // Запуск страницы заказа:
 
-function startPage() {
-  var id = document.location.search.replace(/\D/g, '');
-  if (!id) {
+if (!id) {
+  location.href = '../404';
+}
+// getPageData('../json/order.json')
+getPageData(urlRequest.main, 'order', {order_id: id})
+.then(result => {
+  if (!result) {
     location.href = '../404';
   }
-  // sendRequest(`../json/order1.json`)
-  sendRequest(urlRequest.main, 'order', {order_id: id})
-  .then(result => {
-    if (!result) {
-      location.href = '../404';
-    }
-    data = JSON.parse(result);
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+  data = result;
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -55,7 +49,6 @@ function initPage() {
   loadData('#payments', data, [{area: '.scroll.row .column', items: 'payments'}]);
   createTables();
   initSearch('#order-search', adaptiveSearch);
-  loader.hide();
 }
 
 // Преобразование полученных данных:

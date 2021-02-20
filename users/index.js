@@ -2,27 +2,19 @@
 
 // Глобальные переменные:
 
-var items = [],
+var items,
     formMode,
     curId;
 
 // Запуск страницы пользователей:
 
-function startPage() {
-  // sendRequest(`../json/users.json`)
-  sendRequest(urlRequest.main, 'userslist')
-  .then(result => {
-    if (result) {
-      items = JSON.parse(result);
-    }
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/users.json')
+getPageData(urlRequest.main, 'userslist')
+.then(result => {
+  items = result || [],
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -93,7 +85,6 @@ function initPage() {
   initTable('#users', settings);
   loadData('.table-adaptive', items);
   initForm('#user-form', sendForm);
-  loader.hide();
 }
 
 // Преобразование полученных данных:

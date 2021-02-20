@@ -9,7 +9,8 @@
 
 // Глобальные переменные:
 
-var data;
+var id = document.location.search.replace(/\D/g, ''),
+    data;
 
 var fileTypes = {
   'jpg': 'jpg',
@@ -53,26 +54,19 @@ var fullImgCarousel = {
 
 // Запуск страницы рекламации:
 
-function startPage() {
-  var id = document.location.search.replace(/\D/g, '');
-  if (!id) {
+if (!id) {
+  location.href = '../404';
+}
+// getPageData('../json/reclamation.json')
+getPageData(urlRequest.main, 'recl', {recl_id: id})
+.then(result => {
+  if (!result) {
     location.href = '../404';
   }
-  // sendRequest(`../json/reclamation.json`)
-  sendRequest(urlRequest.main, 'recl', {recl_id: id})
-  .then(result => {
-    if (!result) {
-      location.href = '../404';
-    }
-    data = JSON.parse(result);
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+  data = result;
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -86,7 +80,6 @@ function initPage() {
   setReclEventListeners();
   setInterval(checkNewMessages, 60000); // Проверка чата на наличие новых сообщений раз в минуту (polling)
   // checkNewMessages(); // Проверка чата на наличие новых сообщений (polling)
-  loader.hide();
 }
 
 // Преобразование полученных данных:

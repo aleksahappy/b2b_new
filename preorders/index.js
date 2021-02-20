@@ -5,32 +5,31 @@
 var preorderId,
     preorderName;
 
+// Ожидаем загрузку итогов корзин и запускаем страницy:
+
+waitCartTotals()
+.then(() => {
+  definePreorder();
+  changePageTitle();
+  getPageData('../json/preorders.json')
+  // getPageData(urlRequest.main, 'preorder_info',  {type: preorderId})
+  .then(result => {
+    initPage(result);
+    loader.hide();
+  });
+})
+
 // Запуск страницы предзаказов:
 
 function startPage() {
-  definePreorder();
-  changePageTitle();
-  sendRequest(`../json/preorders.json`)
-  // sendRequest(urlRequest.main, 'preorder_info',  {type: preorderId})
-  .then(result => {
-    if (result) {
-      result = JSON.parse(result);
-    }
-    initPage(result);
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
+
 }
 
 // Инициализация страницы:
 
-function initPage(data) {
+function initPage(data = []) {
   data.preorderId = preorderId;
   loadData('#preorder-info', data);
-  loader.hide();
 }
 
 // Определение загружаемого предзаказа:

@@ -2,21 +2,12 @@
 
 // Запуск страницы документов:
 
-function startPage() {
-  // sendRequest(`../json/documents.json`)
-  sendRequest(urlRequest.main, 'files', {type: 'docs'})
-  .then(result => {
-    if (result) {
-      var data = JSON.parse(result);
-    }
-    initPage(data);
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/documents.json')
+getPageData(urlRequest.main, 'files', {type: 'docs'})
+.then(result => {
+  initPage(result);
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -29,15 +20,15 @@ function initPage(data = []) {
       cols: [{
         title: 'Наименование',
         keys: ['file_name'],
-        content: `<div class="row">
-                    <a href="../api.php?action=files&type=docs&id=#id#" target="_blank">
-                      <div class="download icon"></div>
-                    </a>
-                    <div><a href="../api.php?action=files&type=docs&mode=view&id=#id#" target="_blank">#title#</a></div>
-                  </div>`
+        content:
+        `<div class="row">
+          <a href="../api.php?action=files&type=docs&id=#id#" target="_blank">
+            <div class="download icon"></div>
+          </a>
+          <div><a href="../api.php?action=files&type=docs&mode=view&id=#id#" target="_blank">#title#</a></div>
+        </div>`
       }]
     }
   }
   initTable('#docs', settings);
-  loader.hide();
 }

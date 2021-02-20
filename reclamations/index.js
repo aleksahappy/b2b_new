@@ -9,21 +9,12 @@
 
 // Запуск страницы рекламаций:
 
-function startPage() {
-  // sendRequest(`../json/reclamations.json`)
-  sendRequest(urlRequest.main, 'recllist')
-  .then(result => {
-    if (result) {
-      var data = JSON.parse(result);
-    }
-    initPage(data);
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/reclamations.json')
+getPageData(urlRequest.main, 'recllist')
+.then(result => {
+  initPage(result);
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -76,5 +67,4 @@ function initPage(data = []) {
   };
   initTable('#reclm', settings);
   loadData('.table-adaptive', data);
-  loader.hide();
 }

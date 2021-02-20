@@ -19,21 +19,12 @@
 
 // Запуск страницы заказов:
 
-function startPage() {
-  // sendRequest(`../json/orders.json`)
-  sendRequest(urlRequest.main, 'orderslist')
-  .then(result => {
-    if (result) {
-      var data = JSON.parse(result);
-    }
-    initPage(data);
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/orders.json')
+getPageData(urlRequest.main, 'orderslist')
+.then(result => {
+  initPage(result);
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -116,7 +107,6 @@ function initPage(data = []) {
   };
   initTable('#orderslist', settings);
   // loadData('.table-adaptive', data, [{area: '.pill', items: 'sum'}]);
-  loader.hide();
 }
 
 // Преобразование полученных данных:

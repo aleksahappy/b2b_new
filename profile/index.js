@@ -6,26 +6,19 @@ var data;
 
 // Запуск страницы профиля:
 
-function startPage() {
-  // sendRequest(`../json/profile.json`)
-  sendRequest(urlRequest.main, 'profile')
-  .then(result => {
-    data = JSON.parse(result);
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/profile.json')
+getPageData(urlRequest.main, 'profile')
+.then(result => {
+  data = result;
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
 function initPage() {
   fillContent();
   initForm('#profile-form', sendProfile);
-  loader.hide();
 }
 
 // Заполнение/перезаполнение основного содержимого страницы:
@@ -43,7 +36,7 @@ function fillContent() {
 
 function convertData() {
   if (isEmptyObj(data)) {
-    return
+    return;
   }
   if (data.gender == '1') {
     data.gender_text = 'муж.';

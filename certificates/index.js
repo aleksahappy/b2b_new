@@ -2,7 +2,7 @@
 
 // Глобальные переменные:
 
-var items = [],
+var items,
     itemsToLoad,
     brands = [];
 
@@ -42,21 +42,13 @@ var brandNames = {
 
 // Запуск страницы сертификатов:
 
-function startPage() {
-  // sendRequest(`../json/certificates.json`)
-  sendRequest(urlRequest.main, 'files',  {type: 'cert'})
-  .then(result => {
-    if (result) {
-      items = JSON.parse(result);
-    }
-    initPage();
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/certificates.json')
+getPageData(urlRequest.main, 'files',  {type: 'cert'})
+.then(result => {
+  items = result || [];
+  initPage();
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -75,7 +67,6 @@ function initPage() {
       }
     }
   });
-  loader.hide();
 }
 
 // Преобразование полученных данных:
