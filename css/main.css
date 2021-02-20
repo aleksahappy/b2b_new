@@ -161,6 +161,12 @@ select:disabled ,
   border-color: #D5D5D5;
   background-color: #ECECEC;
   opacity: 1;
+  cursor: default;
+}
+
+input[readonly],
+textarea[readonly] {
+  cursor: default;
 }
 
 ul {
@@ -2832,6 +2838,7 @@ form.post .form-wrap .text-counter {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: default;
 }
 
 form.post > .loader {
