@@ -61,25 +61,25 @@
           <form id="contr-form" class="post">
             <div class="title">Добавьте ИНН, данные юридического лица загрузятся автоматически</div>
             <div class="form-cols">
-              <div class="row">
-                <div class="form-wrap" required>
-                  <div class="title">ИНН<span class="req">*</span></div>
+              <div class="form-wrap" required>
+                <div class="title">ИНН<span class="req">*</span></div>
+                <div class="row">
                   <input type="text" value="" name="contr_inn" data-type="inn" placeholder="Введите ИНН" maxlength="12" oninput="addByInn(event)">
+                  <div id="inn-loader" class="loader icon"></div>
                 </div>
-                <div id="inn-loader" class="loader icon"></div>
               </div>
               <div class="form-wrap">
                 <div class="title">КПП</div>
-                <input class="after-inn" type="text" value="" name="kpp" data-type="kpp" placeholder="" maxlength="9" disabled>
+                <input class="after-inn" type="text" value="" name="kpp" data-type="kpp" placeholder="" maxlength="9" readonly disabled>
               </div>
             </div>
-            <div class="form-wrap">
-              <div class="title">Название</div>
-              <input class="after-inn" type="text" value="" name="contr_name" placeholder="" disabled>
+            <div class="form-wrap" required>
+              <div class="title">Название<span class="req">*</span></div>
+              <input class="after-inn" type="text" value="" name="contr_name" placeholder="" readonly disabled>
             </div>
             <div class="form-wrap" required>
               <div class="title">Юридический адрес<span class="req">*</span></div>
-              <textarea class="after-inn" name="address" maxlength="250" placeholder="" disabled></textarea>
+              <textarea class="after-inn" name="address" maxlength="250" placeholder="" readonly disabled></textarea>
             </div>
             <div class="form-wrap" required>
               <div class="title">Система налогообложения<span class="req">*</span></div>

@@ -2,21 +2,12 @@
 
 // Запуск страницы контрагентов:
 
-function startPage() {
-  // sendRequest(`../json/contractors.json`)
-  sendRequest(urlRequest.main, 'get_contr')
-  .then(result => {
-    if (result) {
-      var data = JSON.parse(result);
-    }
-    initPage(data);
-  })
-  .catch(error => {
-    console.log(error);
-    loader.hide();
-    alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
-  });
-}
+// getPageData('../json/contractors.json')
+getPageData(urlRequest.main, 'get_contr')
+.then(result => {
+  initPage(result);
+  loader.hide();
+});
 
 // Инициализация страницы:
 
@@ -130,10 +121,10 @@ function addByInn(event) {
       isValid = innValidate(value);
   if (!isValid.result) {
     if (isFillForm) {
-      clearForm('#contr-form');
-      event.currentTarget.value = value;
-      document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
       isFillForm = false;
+      clearForm('#contr-form');
+      resetInputs();
+      event.currentTarget.value = value;
     }
     return;
   }
@@ -142,21 +133,49 @@ function addByInn(event) {
   .then(result => {
     result = JSON.parse(result);
     if (result.error) {
-      document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
+      resetInputs();
       showFormError('#contr-form', result.error);
     } else {
-      document.querySelectorAll('#contr-form .after-inn').forEach(el => el.removeAttribute('disabled'));
       isFillForm = true;
-      fillForm('#contr-form', result, false);
+      updateInputs(result);
+      fillForm('#contr-form', result);
     }
-    getEl('#inn-loader').style.visibility = 'hidden';
   })
   .catch(err => {
     console.log(err);
-    document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
-    getEl('#inn-loader').style.visibility = 'hidden';
+    resetInputs();
     alerts.show('Произошла ошибка, попробуйте позже.');
   });
+}
+
+// Сброс полей формы до изначального состояния:
+
+function resetInputs() {
+  document.querySelectorAll('#contr-form .after-inn').forEach(el => el.setAttribute('disabled', 'disabled'));
+  getEl('[name="contr_name"]').setAttribute('readonly', true);
+  getEl('[name="address"]').setAttribute('readonly', true);
+  getEl('#inn-loader').style.visibility = 'hidden';
+}
+
+// Обновление состояния полей формы после получения данных по ИНН:
+
+function updateInputs(result) {
+  var isPersonInn = getEl('[name="contr_inn"]').value.length === 12,
+      afterInn = document.querySelectorAll(`#contr-form .after-inn${isPersonInn ? ':not([name="kpp"])' : ''}`),
+      nameField = getEl('[name="contr_name"]'),
+      addressField = getEl('[name="address"]');
+  afterInn.forEach(el => el.removeAttribute('disabled'));
+  if (result.contr_name) {
+    nameField.setAttribute('readonly', true);
+  } else {
+    nameField.removeAttribute('readonly');
+  }
+  if (result.address) {
+    addressField.setAttribute('readonly', true);
+  } else {
+    addressField.removeAttribute('readonly');
+  }
+  getEl('#inn-loader').style.visibility = 'hidden';
 }
 
 // Отправка формы на сервер:

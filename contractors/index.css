@@ -15,11 +15,15 @@
   margin-bottom: 2em;
 }
 
-#contractor form.post > .form-cols > .row {
+#contractor form.post > .form-cols .row {
   align-items: center;
 }
 
-#contractor form.post > .form-cols .form-wrap input {
+#contractor form.post > .form-cols .form-wrap:first-child {
+  width: auto;
+}
+
+#contractor form.post > .form-cols .form-wrap:first-child input {
   width: 16.5em;
 }
 
