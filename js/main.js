@@ -10,7 +10,8 @@ var isManager = userInfo ? (userInfo.group_id > 0 ? true : false) : false,
     isUser = isManager ? false : true,
     isAdmin = userInfo ? (userInfo.super_user > 0 ? true : false) : false,
     website = 'ts_b2b',
-    pageId = document.body.id;
+    pageId = location.pathname.replace('index.html', '').replace(/\//g, '').replace('registr', ''),
+    pageUrl = pageId;
 
 // Настройки каруселей:
 
@@ -35,7 +36,7 @@ var loader,
 
 // Данные каталогов и их корзин:
 
-var cartTotals = [];
+var cartTotals;
 
 // Динамически изменяемые переменные:
 
@@ -45,7 +46,7 @@ var currentElem = null,
 
 // Запускаем страницy:
 
-generatePage();
+startPage();
 
 //=====================================================================================================
 // Полифиллы:
@@ -73,22 +74,52 @@ generatePage();
 // Обязательные функции для всех страниц:
 //=====================================================================================================
 
-// Собрать и запустить страницу:
+// Запуск страницы:
 
-function generatePage() {
-  var path = location.pathname.replace('index.html', '').replace(/\//g, '').replace('registr', '');
-  addModules(path);
-  if (path) {
+function startPage() {
+  addModules();
+  if (pageId) {
     window.addEventListener('focus', updateCartTotals);
     includeHTML();
-    getTotals()
+    getTotals(true)
     .then(result => {
       renderTotals();
-      if (typeof startPage == 'function') {
-        startPage();
-      }
     })
   }
+}
+
+// Получение данных, необходимых для загрузки страницы:
+
+function getPageData(url, action, data) {
+  return new Promise((resolve => {
+    sendRequest(url, action, data)
+    .then(result => {
+      if (result) {
+        result = JSON.parse(result);
+      }
+      resolve(result);
+    })
+    .catch(error => {
+      console.log(error);
+      loader.hide();
+      alerts.show('Во время загрузки страницы произошла ошибка. Попробуйте позже.');
+    })
+  }));
+}
+
+// Ожидание подгрузки итогов корзин:
+
+function waitCartTotals() {
+  return new Promise(resolve => {
+    check();
+    function check() {
+      if (cartTotals) {
+        resolve();
+      } else {
+        setTimeout(check, 10);
+      }
+    }
+  });
 }
 
 // Выход из авторизации:
@@ -126,16 +157,16 @@ function toggleMobMenu(action) {
 
 // Добавление обязательных модулей при загрузке страницы:
 
-function addModules(path) {
+function addModules() {
   if (getEl('#modules')) {
     return;
   }
   var modules = document.createElement('div');
   modules.id = 'modules';
   document.body.insertBefore(modules, document.body.firstChild);
-  loadHTML(modules, path ? '../modules/main_full.html' : '../modules/main_short.html');
+  loadHTML(modules, pageId ? '../modules/main_full.html' : '../modules/main_short.html');
   loadHTML(modules, '../modules/main_common.html');
-  initModules(path);
+  initModules();
 }
 
 // Добавление html из других файлов:
@@ -164,6 +195,7 @@ function loadHTML(target, url) {
   var request = new XMLHttpRequest();
   request.open('GET', url , false);
   request.setRequestHeader('Cache-Control', 'no-cache');
+  request.setRequestHeader('Cache-Control', 'no-store');
   try {
     request.send();
     if (request.status != 200) {
@@ -186,9 +218,9 @@ function loadHTML(target, url) {
 
 // Запуск инициализации основных модулей страницы:
 
-function initModules(path) {
+function initModules() {
   getEl('#footer .current-year').textContent = new Date().getFullYear();
-  if (path) {
+  if (pageId) {
     fillUserInfo();
     // initNotifications();
   }
@@ -197,7 +229,7 @@ function initModules(path) {
   initUpBtn();
   initTooltips();
   initInputFiles();
-  if (path) {
+  if (pageId) {
     loader.show();
   }
 }
@@ -255,28 +287,33 @@ function sendRequest(url, action, data, type = 'application/json; charset=utf-8'
 
 // Получение данных об итогах всех корзин с сервера:
 
-function getTotals() {
+function getTotals(isInitial = false) {
   return new Promise(resolve => {
     // sendRequest(urlRequest.main, 'get_total')
     sendRequest('../json/cart_totals.json')
     .then(
       result => {
-        if (!result || JSON.parse(result).err) {
-          console.log('Итоги не пришли');
-          resolve();
+        if (!result) {
+          throw new Error('Итоги пустые.');
         }
         result = JSON.parse(result);
-        if (JSON.stringify(cartTotals) === JSON.stringify(result)) {
-          console.log('Итоги не изменились');
+        if (result.err) {
+          throw new Error(result.err);
+        } else if (JSON.stringify(cartTotals) === JSON.stringify(result)) {
+          console.log('Итоги не изменились.');
           resolve();
         } else {
-          console.log('Итоги обновились');
+          console.log('Итоги обновились.');
           cartTotals = result;
           resolve(true);
         }
       }
     )
     .catch(error => {
+      console.log('Ошибка получения итогов:' + error);
+      if (isInitial) {
+        cartTotals = [];
+      }
       resolve();
     })
   });
@@ -570,7 +607,7 @@ function getDataFromTotals(type) {
           data.push({section: section, items: [el]});
         }
       }
-      if (type === 'carts' && document.body.id === el.id) {
+      if (type === 'carts' && pageId === 'catalogs' && location.search && location.search.slice(1).split('&')[0] === el.id) {
         totals.unshift(totals.splice(index, 1)[0]);
       }
     }
@@ -662,7 +699,7 @@ function addOptionsInfo(item, optnames, key = 'options') {
       value: value
     });
   }
-  item[key] = options;
+  item.options = options;
 }
 
 //=====================================================================================================
@@ -680,11 +717,11 @@ function setPaddingToBody() {
 
 // Проверка загруженности всех изображений карусели и ее инициализация:
 
-function renderCarousel(carousel, curImg = 0, card) {
+function renderCarousel(carousel, curImg = 0) {
   if (!carousel) {
     return;
   }
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     var imgs = carousel.querySelectorAll('img');
     imgs.forEach((img, index) => {
       if (index === imgs.length - 1) {
@@ -930,7 +967,7 @@ function removePositions() {
 function checkPositions() {
   var positions = getInfo('positions', 'sessionStorage')[pageUrl];
   for (var key in positions) {
-    var el = getEl(`#${key}`) || getEl(`.switch.save[data-key="${key}"]`);
+    var el = getEl(`#${key}`) || getEl(`.save[data-key="${key}"]`);
     if (el) {
       if (positions[key] === 'close') {
         el.classList.add('close');
@@ -3139,10 +3176,10 @@ function Search(obj, callback) {
         items = Array.from(this.items.querySelectorAll('.item')),
         curItems = items.filter(el => findByRegExp(el.textContent, regExp));
 
-    items.forEach(el => hideElement(el));
+    items.forEach(el => el.classList.add('displayNone'));
     if (curItems.length > 0) {
       hideElement(this.notFound);
-      curItems.forEach(el => showElement(el, 'flex'));
+      curItems.forEach(el => el.classList.remove('displayNone'));
     } else {
       showElement(this.notFound);
     }
@@ -3162,9 +3199,9 @@ function Search(obj, callback) {
     }
     hideElement(this.notFound);
     if (this.type !== 'usual') {
-      this.items.querySelectorAll('.item').forEach(el => showElement(el, 'flex'));
+      this.items.querySelectorAll('.item').forEach(el => el.classList.remove('displayNone'));
     } else {
-      this.items.querySelectorAll('.item').forEach(el => hideElement(el));
+      this.items.querySelectorAll('.item').forEach(el => el.classList.add('displayNone'));
       if (this.activate) {
         this.activate.classList.remove('open');
       }
@@ -3208,11 +3245,13 @@ function Search(obj, callback) {
     }
     textToFind = textToFind.replace(/\s*\,\s*/gm, ',').replace(/\s*\/\s*/gi, '/');
     if (callback) {
-      var length = callback(this.obj, textToFind);
+      var count = callback(this.obj, textToFind);
     }
     if (this.type === 'usual') {
       this.input.focus();
-      this.toggleInfo(textToFind, length);
+      if (count !== undefined) {
+        this.toggleInfo(textToFind, count);
+      }
       if (this.activate) {
         this.activate.classList.remove('open');
       }
@@ -3254,15 +3293,18 @@ function Search(obj, callback) {
 
   // Отображение/скрытие кнопки "Больше/меньше":
   this.toggleMore = function() {
-    var maxHeight = this.items.style.maxHeight;
+    var maxHeight = this.items.dataset.maxHeight;
     if (!maxHeight) {
       return;
     }
-    maxHeight = Math.round((parseFloat(maxHeight, 10) * parseFloat(window.getComputedStyle(this.items).fontSize, 10)) * 100) / 100;
-    if (this.items.scrollHeight < maxHeight) {
-      hideElement(this.more);
-    } else {
+    var count = this.items.querySelectorAll('.item:not(.displayNone)').length,
+        maxCount = parseFloat(this.items.dataset.maxCount, 10);
+    if (count > maxCount + 3) {
+      this.items.style.maxHeight = maxHeight;
       showElement(this.more, 'flex');
+    } else {
+      this.items.style.maxHeight = 'none';
+      hideElement(this.more);
     }
   }
 
@@ -3613,20 +3655,41 @@ function initFilter(el, settings, handler) {
   el = getEl(el);
   if (el) {
     createFilter(el, settings);
+    var filter;
     if (el.id) {
-      return window[`${el.id}Filter`] = new Filter(el, handler);
+      filter = window[`${el.id}Filter`] = new Filter(el, handler);
     } else {
-      return new Filter(el, handler);
+      filter = new Filter(el, handler);
     }
+    filter.fillItems(settings.filters);
+    return filter;
   }
 }
 
-// Заполнение фильтра новыми значениями:
+// Заполнение блока фильтров новыми значениями:
 
 function fillFilter(el, data) {
   var el = getEl(el);
   if (el.id && window[`${el.id}Filter`]) {
     window[`${el.id}Filter`].fillItems(data);
+  }
+}
+
+// Переключение кнопок блока фильтров:
+
+function toggleFilterBtns(el, count) {
+  var el = getEl(el);
+  if (el.id && window[`${el.id}Filter`]) {
+    window[`${el.id}Filter`].toggleBtns(count);
+  }
+}
+
+// Очистка блока фильтров:
+
+function clearFilter(el) {
+  var el = getEl(el);
+  if (el.id && window[`${el.id}Filter`]) {
+    window[`${el.id}Filter`].clearFilter();
   }
 }
 
@@ -3636,7 +3699,8 @@ function createFilter(area, settings) {
   var mainTitle,
       sortList = '',
       filterList = '',
-      isSave = settings.isSave ? 'save' : '';
+      isSave = settings.isSave ? 'save' : '',
+      activeMode = null;
 
   for (var k in settings.filters) {
     var data = settings.filters[k],
@@ -3647,8 +3711,7 @@ function createFilter(area, settings) {
           filterSection = '',
           isOpen = data.isOpen ? 'default-open' : 'close',
           title = data.title,
-          mode = '',
-          activeMode;
+          mode = '';
 
       if (data.mode) {
         var list = '', tooltip, modeClass;
@@ -3713,7 +3776,7 @@ function createFilter(area, settings) {
         filter = data.filter,
         items = data.items,
         mode = data.mode ? `data-mode="${data.mode}"` : '',
-        isActive = data.mode == activeMode ? 'active' : '',
+        isActive = data.mode === activeMode ? 'active' : '',
         result = {sort: '', filter: ''};
 
     if (sort) {
@@ -3766,7 +3829,7 @@ function createFilter(area, settings) {
             <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
           </div>`;
         } else {
-          var isDisplay = filter && items && items.length > 15 ? '' : 'displayNone';
+          var isDisplay = filter ? (filter && items && items.length > 15 ? '' : 'displayNone') : '';
           search =
           `<form class="search row ${isDisplay}" action="#">
             <input type="text" data-value="" placeholder="Поиск...">
@@ -3777,21 +3840,12 @@ function createFilter(area, settings) {
         content += search;
       }
       if (filter) {
-        var isMore = data.isMore,
-            maxHeight = 'none';
-        if (isMore) {
-          isMore = isMore === true ? 4 : isMore;
-          maxHeight = 2.1 * Number(isMore) + 'em';
-        }
         content +=
         `<div class="not-found">Совпадений не найдено</div>
-        <div class="items" style="max-height: ${maxHeight}">
-          ${fillFilterItems(filter, items)}
-        </div>`;
-        if (isMore) {
-          isMore = items && items.length > isMore ? '' : 'displayNone';
+        <div class="items"></div>`;
+        if (data.isMore) {
           content +=
-          `<div class="more row ${isMore}">
+          `<div class="more row">
             <div>Больше</div>
             <div class="open light icon"></div>
           </div>`;
@@ -3801,22 +3855,22 @@ function createFilter(area, settings) {
       if (type) {
         result.filter =
         `<div class="group ${isActive} ${isHide}" data-key="${key}" ${mode}>
-        <div class="title">${title}</div>
-        <div class="content">
-          ${content}
-        </div>
-      </div>`;
+          <div class="title">${title}</div>
+          <div class="content">
+            ${content}
+          </div>
+        </div>`;
       } else {
         result.filter =
         `<div class="group ${isActive} switch ${isSave} ${isOpen} ${isHide}" data-key="${key}" ${mode}>
-        <div class="title row" onclick="switchContent(event)">
-          <div class="title white h3">${title}</div>
-          <div class="open white icon switch-icon"></div>
-        </div>
-        <div class="content switch-cont">
-          ${content}
-        </div>
-      </div>`;
+          <div class="title row" onclick="switchContent(event)">
+            <div class="title white h3">${title}</div>
+            <div class="open white icon switch-icon"></div>
+          </div>
+          <div class="content switch-cont">
+            ${content}
+          </div>
+        </div>`;
       }
     }
     return result;
@@ -3924,6 +3978,8 @@ function fillFilterItems(type, data) {
 function Filter(obj, handler) {
   // Элементы для работы:
   this.filter = getEl('.pop-up-container.filters', obj);
+  this.searches = this.filter.querySelectorAll('form.search');
+  // this.calendars = this.filter.querySelectorAll('.calendar-wrap');
   this.openBtn = getEl('.relay.icon', obj);
   this.clearBtn = getEl('.clear-btn', this.filter);
   this.showBtn = getEl('.btn.act', this.filter);
@@ -3943,12 +3999,21 @@ function Filter(obj, handler) {
     this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.startToggleItem(event)));
     this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
     this.filter.querySelectorAll('.mode').forEach(el => el.addEventListener('click', event => this.toggleMode(event)));
-
+    this.clearBtn.addEventListener('click', () => {
+      this.clearFilter();
+      if (handler) {
+        handler();
+      }
+    });
+    this.showBtn.addEventListener('click', event => this.closeFilter(event));
   }
 
   // Заполнение фильтров значениями:
   this.fillItems = function(info) {
-    var filter, data, group, items, isSearch, search, isMore, moreBtn, activeMode;
+    if (!info) {
+      return;
+    }
+    var filter, data, group, groupItems, items, isSearch, search, isMore, moreBtn, activeMode;
     for (var k in info) {
       filter = info[k];
       if (filter.section) {
@@ -4004,36 +4069,47 @@ function Filter(obj, handler) {
         return;
       }
       group = getEl(`.group[data-key="${key}"]:not([data-type])`, filterBlock);
-      items = getEl('.items', group);
-      if (items && data.filter !== 'date') {
-        items.innerHTML = fillFilterItems(data.filter, data.items);
+      groupItems = getEl('.items', group);
+      if (groupItems && data.filter !== 'date') {
+        groupItems.innerHTML = fillFilterItems(data.filter, data.items);
         items = data.items;
         isSearch = data.search;
         isMore = data.isMore;
+
         if ((data.search && !items) || items.length) {
           group.classList.remove('displayNone');
         } else {
           group.classList.add('displayNone');
+          return;
         }
+
         if (isSearch) {
           search = getEl(`.group[data-key="${key}"]:not([data-type]) form.search`, filterBlock);
-          if (items && items.length > 15) {
-            search.classList.remove('displayNone');
-          } else {
-            search.classList.add('displayNone');
+          if (search) {
+            if (items && items.length > 15) {
+              search.classList.remove('displayNone');
+            } else {
+              search.classList.add('displayNone');
+            }
           }
         }
+
         if (isMore) {
           moreBtn = getEl(`.group[data-key="${key}"]:not([data-type]) .more`, filterBlock);
-          isMore = isMore === true ? 4 : isMore;
           if (moreBtn) {
-            if (items && items.length > isMore) {
+            isMore = isMore === true ? 4 : isMore;
+            groupItems.dataset.maxHeight = 2.1 * Number(isMore) + 'em';
+            groupItems.dataset.maxCount = isMore;
+            if (items.length > isMore + 3) {
+              groupItems.style.maxHeight = groupItems.dataset.maxHeight;
               moreBtn.classList.remove('displayNone');
             } else {
+              groupItems.style.maxHeight = 'none';
               moreBtn.classList.add('displayNone');
             }
           }
         }
+
         if (data.mode && data.mode == activeMode) {
           group.classList.add('active');
         } else {
@@ -4076,9 +4152,11 @@ function Filter(obj, handler) {
       this.toggleCheckbox(group, curEl);
     }
     if (handler) {
-      var length = handler(group, curEl);
+      var count = handler(group, curEl);
+      if (count !== undefined) {
+        this.toggleBtns(count);
+      }
     }
-    this.toggleBtns(length);
   }
 
   // Переключение радио-кнопок:
@@ -4086,7 +4164,14 @@ function Filter(obj, handler) {
     if (curEl.classList.contains('checked')) {
       curEl.classList.remove('checked');
     } else {
-      group.querySelectorAll('.item').forEach(el => el.classList.remove('checked'));
+      var curGroup = curEl.closest('.group'),
+          items;
+      if (curGroup.hasAttribute('data-type')) {
+        items = this.filter.querySelectorAll('.group[data-type] .item');
+      } else {
+        items = curGroup.querySelectorAll('.item');
+      }
+      items.forEach(el => el.classList.remove('checked'))
       curEl.classList.add('checked');
     }
   }
@@ -4133,9 +4218,11 @@ function Filter(obj, handler) {
       return;
     }
     if (handler) {
-      var length = handler(group, getEl('input', search));
+      var count = handler(group, getEl('input', search));
+      if (count !== undefined) {
+        this.toggleBtns(count);
+      }
     }
-    this.toggleBtns(length);
   }
 
   // Переключение сгруппированных фильтров:
@@ -4155,11 +4242,11 @@ function Filter(obj, handler) {
   }
 
   // Переключение кнопок фильтра:
-  this.toggleBtns = function(length) {
-    if (length) {
+  this.toggleBtns = function(count) {
+    if (count) {
       showElement(this.clearBtn, 'flex')
       this.showBtn.classList.remove('disabled');
-      this.showCount.textContent = length;
+      this.showCount.textContent = count;
     } else {
       hideElement(this.clearBtn);
       this.showBtn.classList.add('disabled');
@@ -4167,12 +4254,36 @@ function Filter(obj, handler) {
     }
   }
 
+  // Очистка блока фильтров:
+
+  this.clearFilter = function() {
+    this.filter.querySelectorAll('.item').forEach(el => el.classList.remove('checked', 'disabled'));
+    this.filter.querySelectorAll('.save').forEach(el => {
+      if (el.classList.contains('default-open')) {
+        el.classList.remove('close');
+      } else {
+        el.classList.add('close');
+      }
+    })
+    this.filter.querySelectorAll('.items').forEach(el => el.classList.remove('full'));
+    this.filter.querySelectorAll('.more').forEach(el => el.firstElementChild.textContent = 'Больше');
+    this.searches.forEach((el, index) => this[`search${index}`].clear());
+  }
+
+  // Закрытие блока фильтров:
+
+  this.closeFilter = function(event) {
+    if (event.currentTarget.classList.contains('disabled')) {
+      return;
+    }
+    closePopUp(null, this.filter);
+  }
+
   // Инициализация блока фильтров:
   this.init = function() {
     this.setEventListeners();
-    this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
-    this.filter.querySelectorAll('form.search').forEach(el => initSearch(el, this.searchValue));
-    this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
+    this.searches.forEach((el, index) => this[`search${index}`] = initSearch(el, this.searchValue));
+    // this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
 }
