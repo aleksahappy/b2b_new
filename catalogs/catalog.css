@@ -367,10 +367,6 @@ body {
   overflow-y: auto;
 }
 
-#filters .pop-up {
-  width: 17.6em;
-}
-
 #filters .filter:last-child {
   margin-bottom: 20px;
 }

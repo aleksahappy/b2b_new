@@ -29,8 +29,8 @@ var cartSectionTemp, cartRowTemp;
 
 function getCart() {
   return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, 'get_cart', {cart_type: pageId})
-    sendRequest(`../json/cart_${document.body.id}.json`)
+    // sendRequest(urlRequest.main, 'get_cart', {cart_type: catalogId})
+    sendRequest(`../json/cart_${catalogId}.json`)
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
@@ -70,7 +70,7 @@ function cartSentServer() {
   clearTimeout(cartTimer);
   cartTimer = setTimeout(function () {
     // console.log(JSON.stringify(cartChanges));
-    sendRequest(urlRequest.main, 'set_cart', {[pageId]: cartChanges})
+    sendRequest(urlRequest.main, 'set_cart', {[catalogId]: cartChanges})
       .then(response => {
         cartChanges = {};
         console.log(response);
@@ -88,7 +88,7 @@ window.addEventListener('unload', () => {
   if(!isEmptyObj(cartChanges)) {
     var data = {
       action: 'set_cart',
-      data: {[pageId]: cartChanges}
+      data: {[catalogId]: cartChanges}
     };
     navigator.sendBeacon(urlRequest.main, JSON.stringify(data));
   }
@@ -104,12 +104,12 @@ function sendOrder(formData) {
     return;
   }
   var cartInfo = {};
-  cartInfo[pageId] = {};
+  cartInfo[catalogId] = {};
   idList.forEach(id => {
-    cartInfo[pageId]['id_' + id] = cart['id_' + id];
+    cartInfo[catalogId]['id_' + id] = cart['id_' + id];
   });
   var orderInfo = {
-    cart_name: pageId,
+    cart_name: catalogId,
     comments: {}
   };
   formData.forEach((value, key) => {
@@ -243,8 +243,8 @@ function updateCart() {
     if (result === 'cart') {
       changeCartInHeader();
       createCartData()
-      .then(result => {
-        if (path[path.length - 1] === 'cart') {
+      .then(() => {
+        if (pageType === 'cart') {
           renderCart();
           fillCheckout();
         } else {
@@ -285,11 +285,10 @@ function getSoldOutItems() {
       }
     }
     if (data.length) {
-      // getItems(data.join(','))
-      sendRequest(`../json/equip_missing.json`)
+      sendRequest('../json/items_equip_missing.json')
+      // sendRequest(urlRequest.main, 'items', {cat_type: catalogId, list: data.join(',')})
       .then(result => {
-        result = JSON.parse(result); //удалить
-        // console.log(result);
+        result = JSON.parse(result);
         for (var key in result.items) {
           soldOutItems.push(convertItem(result.items[key]));
         }
@@ -337,7 +336,7 @@ function saveInCart(id, qty) {
   cart[id].qty = qty;
   cart[id].actionId = parseFloat(cartItems[id].action_id, 10);
   cart[id].actionName = cartItems[id].action_name;
-  cart[id].cartId = pageId;
+  cart[id].cartId = catalogId;
   // cart[id].checker = '1';
 
   cartChanges[id] = cart[id];
@@ -410,7 +409,7 @@ function deleteFromCartData(id) {
 // Сохранение данных об итогах корзины:
 
 function saveCartTotals() {
-  var curTotal = cartTotals.find(el => el.id === pageId);
+  var curTotal = cartTotals.find(el => el.id === catalogId);
   if (!curTotal) {
     return;
   }
@@ -525,7 +524,7 @@ function countFromCart(idList = undefined, totals = true, soldOut = true) {
         bonusQty += discount.bonusQty;
         bonusId = discount.bonusId;
       }
-    } else if (totals && actions && actions[pageId]) {
+    } else if (totals && actions && actions[catalogId]) {
       itemsForOrderDiscount.push(id);
       sumForOrderDiscount += curQty * curItem.price_user1;
     }
@@ -549,7 +548,7 @@ function countFromCart(idList = undefined, totals = true, soldOut = true) {
       el.sumRetail = convertPrice(el.sumRetail);
       el.sumDiscount = convertPrice(el.sumDiscount);
       el.isDiscount = el.sumDiscount == 0 ? 'displayNone' : '';
-      el.isPrepaid = pageId.indexOf('preorder') == 0 ? '' : 'displayNone';
+      el.isPrepaid = catalogId.indexOf('preorder') == 0 ? '' : 'displayNone';
       el.date = getDateStr(getDateExpires(5));
     });
     result.orders = orders.sort(sortBy('title'));
@@ -694,7 +693,7 @@ function fillCartInHeader(qty, sum, area, type) {
   if (!area) {
     return;
   }
-  var curCart = getEl(`.cart-${pageId}`, area),
+  var curCart = getEl(`.cart-${catalogId}`, area),
       cartQty = getEl('.qty', curCart),
       cartSum = getEl('.sum span', curCart);
   if (cartSum) {
@@ -729,7 +728,7 @@ function changeCartName(qty) {
   var cartName = getEl('#cart-name');
   if (cartName) {
     if (!qty) {
-      var curTotal = cartTotals.find(el => el.id === pageId);
+      var curTotal = cartTotals.find(el => el.id === catalogId);
       qty = curTotal ? curTotal.qty : 0;
     };
     var catalogName = getEl('.topmenu-item.active').textContent;

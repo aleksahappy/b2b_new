@@ -32,14 +32,18 @@
   }
 }
 
-/* Стили на ширину свыше 1359px: */
-@media only screen and (min-width: 1359px) {
+/* Стили на ширину больше 1359px: */
+@media only screen and (min-width: 1360px) {
   #search:not(:focus-within) .search.icon {
     visibility: visible !important;
   }
 
   #search:not(:focus-within) .close.icon {
     visibility: hidden !important;
+  }
+
+  #filters .pop-up {
+    width: 17.6em;
   }
 }
 

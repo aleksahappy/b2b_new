@@ -54,7 +54,7 @@ var sizeSV = {};
 
 function fillCatalogFilters() {
   // Костыль по преобразованию данных в sizelist:
-  if (pageId === 'equip' && window.sizelist) {
+  if (catalogId === 'equip' && window.sizelist) {
     for (var key in sizelist['1295']) {
       sizeSV[key.replace('REU', 'SV')] = key.replace('REU', '');
     }
@@ -362,7 +362,7 @@ function fillCatalogFilters() {
   };
 
   addInCatalogFiltersData(basicFilters[catalogType]);
-  addInCatalogFiltersData(addFilters[pageId]);
+  addInCatalogFiltersData(addFilters[catalogId]);
 
   function addInCatalogFiltersData(data) {
     if (!data) {
@@ -408,7 +408,7 @@ function getDataForFilters(item) {
       return;
     }
     items = data.items;
-    option = item.options[(pageId === 'equip' ? 'id_' : '') + data.optKey];
+    option = item.options[(catalogId === 'equip' ? 'id_' : '') + data.optKey];
     if (option) {
       if (data.optSplit) {
         option = option.split(data.optSplit);
