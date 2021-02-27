@@ -289,8 +289,8 @@ function sendRequest(url, action, data, type = 'application/json; charset=utf-8'
 
 function getTotals(isInitial = false) {
   return new Promise(resolve => {
-    // sendRequest(urlRequest.main, 'get_total')
     sendRequest('../json/cart_totals.json')
+    // sendRequest(urlRequest.main, 'get_total')
     .then(
       result => {
         if (!result) {
@@ -1379,6 +1379,9 @@ function getRegExp(value) {
 // Поиск в значении регулярным выражением:
 
 function findByRegExp(value, regExp) {
+  if (/^\d+[\d\s]*(\.{0,1}|\,{0,1}){0,1}[\d\s]*$/.test(value)) {
+    value = value.replace(/\s/g, '');
+  }
   if (value != 0 && value && value.toString().search(regExp) >= 0) {
     return true;
   }
@@ -1616,7 +1619,7 @@ function getCatalogLink() {
 }
 
 //=====================================================================================================
-// Универсальное заполнение данных по шаблону:
+// Заполнение данных по шаблону:
 //=====================================================================================================
 
 // В каком виде данные нужно передавать в функцию fillTemplate:
@@ -1861,7 +1864,7 @@ function insertText(target, txt, method = 'inner') {
 }
 
 //=====================================================================================================
-// Дополнительные функции для работы заполнения по шаблону:
+// Функции для заполнения данных по шаблону:
 //=====================================================================================================
 
 // Преобразование данных для использования их в заполнении по шаблону:
@@ -2388,8 +2391,8 @@ function closeSpecialPopUp() {
 // Инициализация работы окна уведомлений:
 
 function initNotifications() {
-  // sendRequest(urlRequest.main, 'notifications')
   sendRequest(`../json/notifications.json`)
+  // sendRequest(urlRequest.main, 'notifications')
   .then(result => {
     var data = JSON.parse(result),
         notifications = getEl('#notifications');
@@ -3139,10 +3142,15 @@ function Search(obj, callback) {
       });
     }
     if (this.items) {
-      // this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
-      // this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+      if (!this.items.closest('.pop-up-container.filters')) {
+        this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+        this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+      }
       this.input.addEventListener('input', () => this.showHints());
       this.items.addEventListener('click', event => this.selectHint(event));
+      if (this.type === 'inGroup' && this.items) {
+        this.input.addEventListener('blur', () => this.clear());
+      }
     }
     if (this.cancelBtn) {
       this.cancelBtn.addEventListener('click', (event) => this.cancel(event));
@@ -3257,6 +3265,20 @@ function Search(obj, callback) {
       }
     }
     this.toggleBtns();
+  }
+
+  // Установка/сброс значения в поиске:
+  this.toggleValue = function(value) {
+    if (value) {
+      this.input.value = value;
+      this.input.dataset.value = value;
+    } else {
+      this.clear();
+    }
+    this.toggleBtns();
+    if (this.group) {
+      value ? this.group.classList.remove('close') : this.group.classList.add('close');
+    }
   }
 
   // Очистка поля поиска:
@@ -3401,7 +3423,7 @@ function DropDown(obj, handler, data, defaultValue) {
   if (!this.search) {
     this.calendar = getEl('.calendar-wrap', obj);
   }
-  this.items = getEl('.items', obj) || getEl('.drop-down', obj);
+  this.items = getEl('.items', obj);
   this.clearBtn = getEl('.clear-btn', obj);
 
   // Константы:
@@ -3499,7 +3521,7 @@ function DropDown(obj, handler, data, defaultValue) {
 
   // Сортировка значений:
   this.sortValue = function(event) {
-    var item = event.target.closest('.sort:not(.icon)');
+    var item = event.target.closest('.item.sort');
     if (!item) {
       return;
     }
@@ -3530,7 +3552,7 @@ function DropDown(obj, handler, data, defaultValue) {
   // Выбор значения из списка:
   this.selectValue = function(event, curItem) {
     if (event) {
-      curItem = event.target.closest('.item:not(.sort)');
+      curItem = event.target.closest('.item');
     }
     if (!curItem) {
       return;
@@ -3699,8 +3721,7 @@ function createFilter(area, settings) {
   var mainTitle,
       sortList = '',
       filterList = '',
-      isSave = settings.isSave ? 'save' : '',
-      activeMode = null;
+      isSave = settings.isSave ? 'save' : '';
 
   for (var k in settings.filters) {
     var data = settings.filters[k],
@@ -3714,19 +3735,10 @@ function createFilter(area, settings) {
           mode = '';
 
       if (data.mode) {
-        var list = '', tooltip, modeClass;
+        var list = '', tooltip;
         for (var key in data.mode) {
           tooltip = data.mode[key];
-          var filter, isDisplay = 'displayNone';
-          for (var kk in data.section) {
-            filter = data.section[kk];
-            if (filter.mode && filter.mode == key && filter.items && filter.items.length) {
-              isDisplay = '';
-            }
-          }
-          activeMode = !activeMode && !isDisplay ? key : activeMode;
-          modeClass = key === activeMode ? 'active' : '';
-          list += `<span class="${modeClass} ${isDisplay}" data-mode="${key}" data-tooltip="${tooltip}">${key}</span>`;
+          list += `<span data-mode="${key}" data-tooltip="${tooltip}">${key}</span>`;
         }
         mode =`<span class="mode">${list}</span>`;
       }
@@ -3776,7 +3788,6 @@ function createFilter(area, settings) {
         filter = data.filter,
         items = data.items,
         mode = data.mode ? `data-mode="${data.mode}"` : '',
-        isActive = data.mode === activeMode ? 'active' : '',
         result = {sort: '', filter: ''};
 
     if (sort) {
@@ -3785,14 +3796,14 @@ function createFilter(area, settings) {
       }
       if (type) {
         result.sort =
-        `<div class="group ${isActive}" data-key="${key}" data-type="${sort}" ${mode}>
+        `<div class="group sort" data-key="${key}" data-type="${sort}" ${mode}>
         <div class="title">${title}</div>
         <div class="content">
-          <div class="item sort down row">
+          <div class="item sort down row" data-value="down">
             <div class="radio icon"></div>
             <div>${getSortText('down', sort)}</div>
           </div>
-          <div class="item sort up row">
+          <div class="item sort up row" data-value="up">
             <div class="radio icon"></div>
             <div>${getSortText('up', sort)}</div>
           </div>
@@ -3800,17 +3811,17 @@ function createFilter(area, settings) {
       </div>`;
       } else {
         result.sort =
-        `<div class="group ${isActive} switch ${isSave} ${isOpen}" data-key="${key}" data-type="${sort}" ${mode}>
+        `<div class="group sort switch ${isSave} ${isOpen}" data-key="${key}" data-type="${sort}" ${mode}>
         <div class="title row" onclick="switchContent(event)">
           <div class="title white h3">${title}</div>
           <div class="open white icon switch-icon"></div>
         </div>
         <div class="content switch-cont">
-          <div class="item sort down row">
+          <div class="item sort down row" data-value="down">
             <div class="radio icon"></div>
             <div>${getSortText('down', sort)}</div>
           </div>
-          <div class="item sort up row">
+          <div class="item sort up row" data-value="up">
             <div class="radio icon"></div>
             <div>${getSortText('up', sort)}</div>
           </div>
@@ -3831,7 +3842,7 @@ function createFilter(area, settings) {
         } else {
           var isDisplay = filter ? (filter && items && items.length > 15 ? '' : 'displayNone') : '';
           search =
-          `<form class="search row ${isDisplay}" action="#">
+          `<form class="search row ${isDisplay}" data-type="fast" action="#">
             <input type="text" data-value="" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
@@ -3851,10 +3862,9 @@ function createFilter(area, settings) {
           </div>`;
         }
       }
-      var isHide = sort || (search && !items) || items.length ? '' : 'displayNone';
       if (type) {
         result.filter =
-        `<div class="group ${isActive} ${isHide}" data-key="${key}" ${mode}>
+        `<div class="group" data-key="${key}" ${mode}>
           <div class="title">${title}</div>
           <div class="content">
             ${content}
@@ -3862,7 +3872,7 @@ function createFilter(area, settings) {
         </div>`;
       } else {
         result.filter =
-        `<div class="group ${isActive} switch ${isSave} ${isOpen} ${isHide}" data-key="${key}" ${mode}>
+        `<div class="group switch ${isSave} ${isOpen}" data-key="${key}" ${mode}>
           <div class="title row" onclick="switchContent(event)">
             <div class="title white h3">${title}</div>
             <div class="open white icon switch-icon"></div>
@@ -3996,15 +4006,10 @@ function Filter(obj, handler) {
       }
     });
     this.filter.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
-    this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.startToggleItem(event)));
+    this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.toggleItem(event)));
     this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
     this.filter.querySelectorAll('.mode').forEach(el => el.addEventListener('click', event => this.toggleMode(event)));
-    this.clearBtn.addEventListener('click', () => {
-      this.clearFilter();
-      if (handler) {
-        handler();
-      }
-    });
+    this.clearBtn.addEventListener('click', event => this.clearFilter(event));
     this.showBtn.addEventListener('click', event => this.closeFilter(event));
   }
 
@@ -4013,7 +4018,7 @@ function Filter(obj, handler) {
     if (!info) {
       return;
     }
-    var filter, data, group, groupItems, items, isSearch, search, isMore, moreBtn, activeMode;
+    var filter, data, activeMode;
     for (var k in info) {
       filter = info[k];
       if (filter.section) {
@@ -4068,15 +4073,15 @@ function Filter(obj, handler) {
       if (!data.filter) {
         return;
       }
-      group = getEl(`.group[data-key="${key}"]:not([data-type])`, filterBlock);
-      groupItems = getEl('.items', group);
-      if (groupItems && data.filter !== 'date') {
+      var group = getEl(`.group:not(.sort)[data-key="${key}"]`, filterBlock),
+          groupItems = getEl('.items', group);
+      if (groupItems) {
         groupItems.innerHTML = fillFilterItems(data.filter, data.items);
-        items = data.items;
-        isSearch = data.search;
-        isMore = data.isMore;
+        var items = data.items,
+            isSearch = data.search,
+            isMore = data.isMore;
 
-        if ((data.search && !items) || items.length) {
+        if (items && items.length) {
           group.classList.remove('displayNone');
         } else {
           group.classList.add('displayNone');
@@ -4084,7 +4089,7 @@ function Filter(obj, handler) {
         }
 
         if (isSearch) {
-          search = getEl(`.group[data-key="${key}"]:not([data-type]) form.search`, filterBlock);
+          var search = getEl('form.search', group);
           if (search) {
             if (items && items.length > 15) {
               search.classList.remove('displayNone');
@@ -4095,7 +4100,7 @@ function Filter(obj, handler) {
         }
 
         if (isMore) {
-          moreBtn = getEl(`.group[data-key="${key}"]:not([data-type]) .more`, filterBlock);
+          var moreBtn = getEl('.more', group);
           if (moreBtn) {
             isMore = isMore === true ? 4 : isMore;
             groupItems.dataset.maxHeight = 2.1 * Number(isMore) + 'em';
@@ -4131,45 +4136,44 @@ function Filter(obj, handler) {
     }
   }
 
-  // Запуск работы со значениями фильтра:
-  this.startToggleItem = function(event) {
-    if (event.target.classList.contains('switch-icon')) {
+  // Работа со значениями фильтра:
+  this.toggleItem = function(event, curEl) {
+    if (event && event.target.classList.contains('switch-icon')) {
       return;
     }
-    var group = event.currentTarget,
-    curEl = event.target.closest('.item');
-    this.toggleItem(group, curEl);
-  }
-
-  // Работа со значениями фильтра:
-  this.toggleItem = function(group, curEl) {
+    if (event) {
+      curEl = event.target.closest('.item');
+    }
     if (!curEl || curEl.classList.contains('disabled')) {
       return;
     }
+    var group = curEl.closest('.group');
     if (getEl('.radio', curEl)) {
-      this.toggleRadio(group, curEl);
+      this.toggleRadio(event, group, curEl);
     } else {
-      this.toggleCheckbox(group, curEl);
+      this.toggleCheckbox(event, group, curEl);
     }
-    if (handler) {
-      var count = handler(group, curEl);
-      if (count !== undefined) {
+    if (event && handler) {
+      var count = handler(curEl);
+      if (!group.classList.contains('sort')) {
         this.toggleBtns(count);
       }
+    }
+    if (!event) {
+      group.classList.remove('close');
     }
   }
 
   // Переключение радио-кнопок:
-  this.toggleRadio = function(group, curEl) {
+  this.toggleRadio = function(event, group, curEl) {
     if (curEl.classList.contains('checked')) {
       curEl.classList.remove('checked');
     } else {
-      var curGroup = curEl.closest('.group'),
-          items;
-      if (curGroup.hasAttribute('data-type')) {
-        items = this.filter.querySelectorAll('.group[data-type] .item');
+      var items;
+      if (group.classList.contains('sort')) {
+        items = this.filter.querySelectorAll('.group.sort .item');
       } else {
-        items = curGroup.querySelectorAll('.item');
+        items = group.querySelectorAll('.item');
       }
       items.forEach(el => el.classList.remove('checked'))
       curEl.classList.add('checked');
@@ -4177,7 +4181,7 @@ function Filter(obj, handler) {
   }
 
   // Переключение чекбоксов:
-  this.toggleCheckbox = function(group, curEl) {
+  this.toggleCheckbox = function(event, group, curEl) {
     if (curEl.classList.contains('checked')) {
       curEl.classList.remove('checked');
       curEl.classList.add('close');
@@ -4190,7 +4194,7 @@ function Filter(obj, handler) {
         parentItem.classList.add('checked');
         parentItem.classList.remove('close');
       }
-      group.classList.remove('close');
+      // НЕ РАБОТАЕТ ДЛЯ АДАПТИВНЫХ ФИЛЬТРОВ, КОГДА СКРЫТЫ
       if (curEl.offsetTop + 10 > curEl.closest('.items').clientHeight) {
         getEl('.items', group).classList.add('full');
         var moreBtn = getEl('.more', group);
@@ -4198,15 +4202,17 @@ function Filter(obj, handler) {
           moreBtn.firstElementChild.textContent = 'Меньше';
         }
       }
-      var section = curEl.closest('.section.switch');
-      if (section) {
-        var mode = group.dataset.mode;
-        section.classList.remove('close');
-        section.querySelectorAll('.mode span').forEach(el => {
-          if (el.dataset.mode === mode && !el.classList.contains('active')) {
-            el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
-          }
-        });
+      if (!event) {
+        var section = curEl.closest('.section.switch');
+        if (section) {
+          var mode = group.dataset.mode;
+          section.classList.remove('close');
+          section.querySelectorAll('.mode span').forEach(el => {
+            if (el.dataset.mode === mode && !el.classList.contains('active')) {
+              el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
+            }
+          });
+        }
       }
     }
   }
@@ -4218,9 +4224,24 @@ function Filter(obj, handler) {
       return;
     }
     if (handler) {
-      var count = handler(group, getEl('input', search));
-      if (count !== undefined) {
-        this.toggleBtns(count);
+      var curEl = getEl('input', search),
+          count = handler(curEl);
+      textToFind ? this.toggleBtns(count) : this.toggleBtns(0);
+    }
+  }
+
+  // Установка/снятие значения в фильтре:
+  this.toggleValue = function(type, key, value) {
+    var curEl;
+    if (type === 'search') {
+      curEl = this[`search${key}`];
+      if (curEl) {
+        curEl.toggleValue(value);
+      }
+    } else {
+      curEl = getEl(`.group[data-key="${key}"] [data-value="${value}"]`, this.filter);
+      if (curEl) {
+        this.toggleItem(null, curEl);
       }
     }
   }
@@ -4243,6 +4264,9 @@ function Filter(obj, handler) {
 
   // Переключение кнопок фильтра:
   this.toggleBtns = function(count) {
+    if (count === undefined) {
+      return;
+    }
     if (count) {
       showElement(this.clearBtn, 'flex')
       this.showBtn.classList.remove('disabled');
@@ -4256,18 +4280,22 @@ function Filter(obj, handler) {
 
   // Очистка блока фильтров:
 
-  this.clearFilter = function() {
+  this.clearFilter = function(event) {
     this.filter.querySelectorAll('.item').forEach(el => el.classList.remove('checked', 'disabled'));
-    this.filter.querySelectorAll('.save').forEach(el => {
+    this.filter.querySelectorAll('.switch').forEach(el => {
       if (el.classList.contains('default-open')) {
         el.classList.remove('close');
       } else {
         el.classList.add('close');
       }
-    })
+    });
     this.filter.querySelectorAll('.items').forEach(el => el.classList.remove('full'));
     this.filter.querySelectorAll('.more').forEach(el => el.firstElementChild.textContent = 'Больше');
     this.searches.forEach((el, index) => this[`search${index}`].clear());
+    this.toggleBtns(0);
+    if (event && handler) {
+      handler();
+    }
   }
 
   // Закрытие блока фильтров:
@@ -4282,7 +4310,10 @@ function Filter(obj, handler) {
   // Инициализация блока фильтров:
   this.init = function() {
     this.setEventListeners();
-    this.searches.forEach((el, index) => this[`search${index}`] = initSearch(el, this.searchValue));
+    this.searches.forEach((el, index) => {
+      var key = el.closest('.group').dataset.key;
+      this[`search${index}`] = this[`search${key}`] = initSearch(el, this.searchValue);
+    });
     // this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
