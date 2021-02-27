@@ -389,10 +389,6 @@
   overflow: visible;
 }
 
-.infoblock.disabled {
-  display: none;
-}
-
 .infoblock .head {
   position: -webkit-sticky;
   position: sticky;

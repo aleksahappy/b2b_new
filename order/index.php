@@ -102,7 +102,7 @@
         <div id="nedop" class="table"></div>
         <div id="reclm" class="table"></div>
 
-        <div class="table-adaptive">
+        <div class="table-adaptive template">
           <div class="nomen-wrap infoblock switch">
             <div class="head row" onclick="switchContent(event)">
               <div class="title white">Состояние товаров</div>
@@ -110,7 +110,7 @@
             </div>
             <div class="switch-cont">
               <div class="control">
-                <div id="nomen-pills" class="pills template" onclick="selectItems(event)">
+                <div class="pills" onclick="selectItems(event)">
                   <div class="item pill ord c10 ctr checked" data-status=#status# data-value=#bkma#>#title#: #sum#</div>
                 </div>
                 <form id="order-search" class="search row" data-type="fast" action="#">
@@ -119,7 +119,7 @@
                   <div class="close icon"></div>
                 </form>
               </div>
-              <div id="nomen-list" class="template">
+              <div id="nomen-list">
                 <div class="info row">
                   <div>
                     <div>#titl#</div>
@@ -133,7 +133,7 @@
               </div>
             </div>
           </div>
-          <div class="payments-wrap infoblock switch">
+          <div class="payments-wrap infoblock switch #isPayments#">
             <div class="head row" onclick="switchContent(event)">
               <div class="title white">Платежи</div>
               <div class="open white icon switch-icon"></div>
@@ -183,7 +183,7 @@
               </div>
             </div>
           </div>
-          <div class="shipments-wrap infoblock switch">
+          <div class="shipments-wrap infoblock switch #isShipments#">
             <div class="head row" onclick="switchContent(event)">
               <div class="title white">Отгрузки</div>
               <div class="open white icon switch-icon"></div>
@@ -206,7 +206,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="body-row">
+                        <tr class="shipments-row">
                           <td>
                             <a class="row" href="../api.php?action=order&order_id=#id#&mode=nakl&type=pdf&name=#rencname#&id=#rdocid#">
                               <div class="download icon"></div>

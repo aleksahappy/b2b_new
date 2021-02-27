@@ -43,10 +43,16 @@ getPageData(urlRequest.main, 'order', {order_id: id})
 function initPage() {
   convertData();
   loadData('#main-info', data);
-  loadData('#nomen-pills', data.pills);
   loadData('#nomen-list', data.items.nomen);
-  loadData('#shipments', data, [{area: '.body-row', items: 'nakls'}, {area: '.info', items: 'nakls'}]);
-  loadData('#payments', data, [{area: '.scroll.row .column', items: 'payments'}]);
+  loadData('.table-adaptive', data.items, [{
+    area: '.pill', items: 'pills'
+  }, {
+    area: '.shipments-row', items: 'nakls'
+  }, {
+    area: '#shipments .info', items: 'nakls'
+  }, {
+    area: '#payments .scroll.row .column', items: 'payments'
+  }]);
   createTables();
   initSearch('#order-search', adaptiveSearch);
 }
@@ -54,6 +60,7 @@ function initPage() {
 // Преобразование полученных данных:
 
 function convertData() {
+  data.items = {};
   getNaklsData();
   getItemsData();
   getPaymentsData();
@@ -61,8 +68,8 @@ function convertData() {
   delete data.orderitems;
 
   fromDisplay = data.source_id > 0 ? true : false;
-  data.isShipments = data.nakls.length ? '' : 'disabled';
-  data.isPayments = isEmptyObj(data.payments) ? 'disabled' : '';
+  data.isShipments = data.items.nakls ? '' : 'disabled';
+  data.isPayments = data.items.payments ? '' : 'disabled';
   data.order_status = data.order_number ? data.order_status : 'В обработке';
   data.isMoreRow = data.comment || fromDisplay ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
@@ -70,14 +77,12 @@ function convertData() {
   data.isReclms = data.order_type ? ((data.order_type.toLowerCase() == 'распродажа' || data.order_type.toLowerCase() == 'уценка') ? false : true) : true;
   toggleBillLink();
   toggleOrderBtns();
-  togglePopUps();
 }
 
 // Получение данных о накладных из csv-формата:
 
 function getNaklsData() {
   if (!data.orderitems || !data.orderitems.arnaklk || !data.orderitems.arnaklv) {
-    data.nakls = [];
     return;
   }
   var keys = data.orderitems.arnaklk.split('@$'),
@@ -97,7 +102,7 @@ function getNaklsData() {
     }
     result[i] = list;
   }
-  data.nakls = result;
+  data.items.nakls = result;
 }
 
 // Получение данных о товарах из csv-формата:
@@ -174,8 +179,7 @@ function getItemsData() {
     fullInfo.push(obj);
   }
 
-  data.items = {};
-  data.pills = [];
+  data.items.pills = [];
   for (var name in orderInfo) {
     getItems(name, orderInfo[name], fullInfo);
     getPill(name, orderInfo[name]);
@@ -227,7 +231,7 @@ function getPill(name, info) {
     if (name === 'nomen') {
       data.order_sum = sum;
     } else {
-      data.pills.push({
+      data.items.pills.push({
         title: info.title,
         sum: sum,
         status: status,
@@ -264,15 +268,11 @@ function extendNomenItems() {
 //   * "переплата" высчитывается исходя из общей суммы и общих поступлений
 
 function getPaymentsData() {
-  if (!data.items) {
-    data.payments = {};
-    return;
-  }
   var info = data.items.nomen;
   if (!info || !info.length) {
-    data.payments = {};
     return;
   }
+
   var payments = [];
   var totals = {
     title: 'Итого',
@@ -320,7 +320,6 @@ function getPaymentsData() {
   });
 
   if (totals.summ == 0 && totals.summ_paid == 0) {
-    data.payments = {};
     return;
   }
 
@@ -336,16 +335,16 @@ function getPaymentsData() {
       }
     }
   });
-  data.payments = payments;
+  data.items.payments = payments;
 }
 
 // Добавление в данные информации для мастера создания рекламаций:
 
 function addReclmInfo() {
-  if (!data.items) {
+  data.items.makeReclm = [];
+  if (!data.items.otgrz) {
     return;
   }
-  data.items.makeReclm = [];
   data.items.otgrz.forEach(item => {
     var newItem = Object.assign(item),
         reclm = data.items.reclm.find(el => el.artc == item.artc);
@@ -399,17 +398,6 @@ function toggleOrderBtns() {
     confirmBtn.classList.remove('disabled');
   } else {
     confirmBtn.classList.add('disabled');
-  }
-}
-
-// Отображение/скрытие всплывающих окон отгрузок и платежей:
-
-function togglePopUps() {
-  if (data.isShipments === 'disabled') {
-    hideElement('.shipments-wrap');
-  }
-  if (data.isPayments === 'disabled') {
-    hideElement('.payments-wrap');
   }
 }
 
