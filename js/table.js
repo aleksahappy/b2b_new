@@ -15,10 +15,6 @@
 //     area: элемент / селектор элемента                - место вставки панели управления если нужно расположить не в контейнере таблицы (по умолчанию вставится перед таблицей)
 //     pagination: true / false                         - наличие пагинации (по умолчанию отсутствует)
 //     search: 'Поиск к подсказке' / false              - наличие поиска и его подсказка (по умолчанию отсутствует)
-//     toggle: {                                        - наличие переключателя и его настройки (по умолчанию отсутствует):
-//       title: 'Заголовок'                               - заголовок переключателя
-//       key: 'key1'                                      - ключ в данных, по которому брать данные для работы
-//     }
 //     pill: {                                          - наличие чекбоксов-"пилюль" (по умолчанию отсутствуют)
 //       key: 'key1'                                      - ключ в данных, по которому брать данные для работы (если ключ находится во вложенности объектов, то указывать его как 'key1/key1.1')
 //       content: html разметка                           - html "пилюли", при отсутствии будет html по умолчанию,
@@ -49,9 +45,10 @@
 //       content: html разметка                           - содержимое ячейки, по умолчанию это: #key1# #key2#..., иначе вносим html разметку
 //     }, {...}]
 //   },
-//   adaptive: {                                      Настройки адаптивной таблицы (если необходимы):
-//     sign: '#' / '@@' / другой                        - Символ для поиска мест замены в html (по умолчанию - '#')
-//     sub: [{area: селектор, items: ключ в data}]      - данные о подшаблонах (по умолчанию подшаблонов нет) - как заполнять смотри fillTemplate
+//   adaptive: {                                      Настройки заполнения адаптивной таблицы (если необходимы):
+//     sub: [{area: селектор, items: ключ в data}]     - по умолчанию только {area: '.table-adaptive', items: data}
+//     sign: '#' / '@@' / другой                       - можно дополнить полями sub, sign и т.д. - как заполнять смотри fillTemplate
+//     ...
 //   },
 //   filters: {                                       Сортировки и фильтры таблицы:
 //     key1: {                                          - ключ в данных, по которому будет браться информация
@@ -261,11 +258,11 @@ function createTableHeadCell(col, index, filters) {
           sortConternt =
           `<div class="group sort" data-key="${key}" data-type="${type}">
             <div class="title">Сортировка</div>
-            <div class="item sort down row">
+            <div class="item sort down row" data-value="down">
               <div class="sort icon"></div>
               <div>${getSortText('down', type)}</div>
             </div>
-            <div class="item sort up row">
+            <div class="item sort up row" data-value="up">
               <div class="sort icon"></div>
               <div>${getSortText('up', type)}</div>
             </div>
@@ -283,7 +280,7 @@ function createTableHeadCell(col, index, filters) {
               </div>`;
             } else {
               search =
-              `<form class="search row" action="#">
+              `<form class="search row" data-type="fast" action="#">
                 <input type="text" data-value="" placeholder="Поиск...">
                 <input class="search icon" type="submit" value="">
                 <div class="close icon"></div>
@@ -389,9 +386,10 @@ function Table(obj, settings = {}) {
   this.control = getEl(`.control[data-area=${obj.id}]`);
   this.desktop = getEl('.table-desktop', obj);
   this.adaptive = getEl('.table-adaptive', obj);
+
   if (this.control) {
     this.pagination = getEl('.pagination', this.control);
-    this.search = getEl('form.search', this.control);
+    this.fullSearch = getEl('form.search', this.control);
     this.pills = getEl('.pills', this.control);
   }
   if (this.desktop) {
@@ -403,22 +401,17 @@ function Table(obj, settings = {}) {
       this.dropDowns = this.head.querySelectorAll('.activate');
     }
   }
-  if (this.adaptive) {
-    this.adaptive.id = obj.id + '-adaptive';
-    if (getEl('.relay.icon', this.wrap)) {
-      this.filterPopUp = initFilter(obj, {sorts: settings.sorts, filters: settings.filters});
-    }
-  }
 
   // Константы:
   this.initialData = settings.data;
 
   // Динамические переменные:
+  this.mode;
   this.data = [];
   this.dataToLoad = [];
   this.countItems = 0;
   this.countItemsTo = 0;
-  this.incr = 50;
+  this.incr;
   this.direction;
   if (this.pagination) {
     this.paginationSwitch = null;
@@ -437,7 +430,7 @@ function Table(obj, settings = {}) {
     if (this.tab) {
       this.tab.addEventListener('click', event => this.open(event));
     }
-    window.addEventListener('scroll', throttle(() => this.scrollTable()));
+    window.addEventListener('scroll', throttle(() => this.loadByScroll()));
     // document.addEventListener('keydown', event => {
     //   if (event.metaKey && event.code === 'ArrowDown') {
     //     console.log('вниз');
@@ -457,13 +450,32 @@ function Table(obj, settings = {}) {
     if (this.resizeBtns) {
       this.resizeBtns.forEach(el => el.addEventListener('mousedown', event => this.startResize(event)));
     }
+    if (this.adaptive) {
+      window.addEventListener('resize', throttle(() => this.toggleMode()));
+    }
+  }
+
+  // Переключение режима таблицы:
+  this.toggleMode = function() {
+    if (this.adaptive) {
+      if (window.innerWidth > 1359 && this.mode !== 'desktop') {
+        this.mode = 'desktop';
+      } else if (window.innerWidth <= 1359 && this.mode !== 'adaptive') {
+        this.mode = 'adaptive';
+      } else {
+        return;
+      }
+    } else {
+      this.mode = 'desktop';
+    }
+    this.fill();
   }
 
   // Подготовка таблицы для работы:
   this.prepare = function() {
     this.prepareData();
     this.initTab();
-    this.fill('init');
+    this.toggleMode();
     this.fillPills();
     this.fillItems();
   }
@@ -471,11 +483,9 @@ function Table(obj, settings = {}) {
   // Преобразование входящих данных:
   this.prepareData = function() {
     this.initialData = Array.isArray(this.initialData) ? this.initialData.filter(el => el) : [];
-    if (this.initialData) {
-      this.data = JSON.parse(JSON.stringify(this.initialData));
-      this.data.forEach(el => this.addDataForSearch(el));
-      this.dataToLoad = this.data;
-    }
+    this.data = JSON.parse(JSON.stringify(this.initialData));
+    this.data.forEach(el => this.addDataForSearch(el));
+    this.dataToLoad = this.data;
   }
 
   // Добавление данных для поиска по всей таблице:
@@ -510,10 +520,15 @@ function Table(obj, settings = {}) {
 
   // Заполнение таблицы данными:
   this.fill = function() {
-    this.loadData();
-    this.fillResults();
-    this.fillPagination()
-    this.changeResizeBtns();
+    setDocumentScroll(0,0);
+    if (this.mode === 'desktop') {
+      this.loadTableData();
+      this.fillResults();
+      this.fillPagination()
+      this.changeResizeBtns();
+    } else {
+      this.loadAdaptiveData();
+    }
   }
 
   // Заполнение "пилюль" значениями и блокировка неактуальных:
@@ -524,11 +539,11 @@ function Table(obj, settings = {}) {
     var setting = settings.control.pill,
         key = setting.key,
         sort = setting.sort,
-        data = this.getItems(key);
+        data = setting.items ?  setting.items : this.getItems(key);
     if (sort) {
       data.sort(sortBy(sort));
     }
-    loadData(this.pills, setting.items || data);
+    loadData(this.pills, data);
     if (setting.items) {
       this.pills.querySelectorAll('.pill').forEach(pill => {
         if (!data.find(el => el.value == pill.dataset.value)) {
@@ -584,7 +599,8 @@ function Table(obj, settings = {}) {
       } else {
         title = value = item;
       }
-      if ((typeof title === 'string' || typeof title === 'number') && (typeof value === 'string' || typeof value === 'number')) {
+      var types = ['string', 'number'];
+      if ((/\S/.test(title)) && (/\S/.test(value)) && (types.indexOf(typeof title) >= 0) && (types.indexOf(typeof value) >= 0)) {
         item = {
           title: title,
           value: value
@@ -598,34 +614,30 @@ function Table(obj, settings = {}) {
   }
 
   // Заполнение фильтров значениями:
-  this.fillItems = function(curDropDown) {
+  this.fillItems = function() {
     if (!settings.filters) {
       return;
     }
     this.getFilterItems();
     if (this.dropDowns) {
       this.dropDowns.forEach((el, index) => {
-        if (el !== curDropDown) {
-          if (getEl('.items', el)) {
-            var key = getEl('.group.filter', el).dataset.key;
-            if (settings.filters[key].items) {
-              this[`dropDown${index}`].fillItems(settings.filters[key].items);
-            }
+        if (getEl('.items', el)) {
+          var key = getEl('.group.filter', el).dataset.key;
+          if (settings.filters[key].items) {
+            this[`dropDown${index}`].fillItems(settings.filters[key].items);
           }
         }
       });
-      if (curDropDown) {
-        // this.checkItems(curDropDown ? curDropDown.dataset.key : '');
-      }
     }
-    if (this.filterPopUp && !curDropDown) {
+    if (this.filterPopUp) {
       this.filterPopUp.fillItems(settings.filters);
     }
   }
 
   // Загрузка данных в таблицу:
-  this.loadData = function(direction) {
+  this.loadTableData = function(direction) {
     this.stopScroll = true;
+    this.incr = 50;
     if (!direction || direction === 'next') {
       if (!direction) {
         this.countItems = 0;
@@ -647,13 +659,13 @@ function Table(obj, settings = {}) {
       return;
     }
 
-    var tableItems = [];
-    for (let i = this.countItems; i < this.countItemsTo; i++) {
-      tableItems.push(this.dataToLoad[i]);
+    var data = [];
+    for (var i = this.countItems; i < this.countItemsTo; i++) {
+      data.push(this.dataToLoad[i]);
     }
     var list = fillTemplate({
       area: this.body,
-      items: tableItems,
+      items: data,
       sub: settings.desktop.sub,
       sign: settings.desktop.sign,
       action: 'return'
@@ -682,7 +694,7 @@ function Table(obj, settings = {}) {
       this.stopScroll = false;
       this.curBodyBlock = newBodyBlock;
       this.scrollPos = window.pageYOffset;
-      this.loadData('next');
+      this.loadTableData('next');
     } else {
       setTimeout(() => {
         this.stopScroll = false;
@@ -695,15 +707,15 @@ function Table(obj, settings = {}) {
   this.replaceData = function() {
     this.stopScroll = true;
     this.wrap.querySelectorAll('.table-desktop > tbody').forEach(bodyBlock => {
-      var tableItems = [],
+      var data = [],
           from = parseInt(bodyBlock.dataset.from, 10),
           to = parseInt(bodyBlock.dataset.to, 10);
       for (let i = from; i < to; i++) {
-        tableItems.push(this.dataToLoad[i]);
+        data.push(this.dataToLoad[i]);
       }
       var list = fillTemplate({
         area: this.body,
-        items: tableItems,
+        items: data,
         sub: settings.desktop.sub,
         sign: settings.desktop.sign,
         action: 'return'
@@ -713,6 +725,56 @@ function Table(obj, settings = {}) {
     });
     this.stopScroll = false;
     this.scrollPos = window.pageYOffset;
+  }
+
+  // Загрузка данных в адаптивную часть:
+  this.loadAdaptiveData = function(isScroll) {
+    if (!isScroll) {
+      this.countItems = 0;
+    } else {
+      this.countItems = this.countItemsTo;
+    }
+
+    if (window.innerWidth > 2000) {
+      this.incr = 100;
+    } else if (window.innerWidth < 1080) {
+      this.incr = 20;
+    } else {
+      this.incr = 50;
+    }
+
+    this.countItemsTo = this.countItems + this.incr;
+    if (this.countItemsTo > this.dataToLoad.length) {
+      this.countItemsTo = this.dataToLoad.length;
+    }
+    if (this.dataToLoad.length && this.countItems === this.countItemsTo) {
+      return;
+    }
+
+    var data = [];
+    for (var i = this.countItems; i < this.countItemsTo; i++) {
+      data.push(this.dataToLoad[i]);
+    }
+    var obj = {
+      area: '.table-adaptive',
+      items: data,
+      method: this.countItems === 0 ? 'inner' : 'beforeend'
+    };
+    if (settings.adaptive) {
+      for (var key in settings.adaptive) {
+        obj[key] = settings.adaptive[key];
+      }
+    }
+    fillTemplate(obj);
+  }
+
+  // Подгрузка при скролле:
+  this.loadByScroll = function() {
+    if (this.mode === 'desktop') {
+      this.scrollTable();
+    } else if (this.mode === 'adaptive') {
+      this.scrollAdaptive();
+    }
   }
 
   // Подгрузка таблицы при скролле:
@@ -729,7 +791,7 @@ function Table(obj, settings = {}) {
         this.curBodyBlock = next;
         this.fillPagination('next');
         if (this.desktop.lastElementChild.dataset.to < this.dataToLoad.length) {
-          this.loadData('next');
+          this.loadTableData('next');
         }
       }
     } else if (scrolled < this.scrollPos &&
@@ -740,12 +802,19 @@ function Table(obj, settings = {}) {
         this.curBodyBlock = prev;
         this.fillPagination('prev');
         if (this.head.nextElementSibling.dataset.from > 0) {
-          this.loadData('prev');
+          this.loadTableData('prev');
         }
       }
     }
     this.scrollPos = scrolled;
     this.changeResizeBtns();
+  }
+
+  // Подгрузка адаптивной части при скролле:
+  this.scrollAdaptive = function() {
+    if (window.pageYOffset * 2 + window.innerHeight >= document.body.clientHeight) {
+      this.loadAdaptiveData(true);
+    }
   }
 
   // Подгрузка таблицы при нажатии на кнопки пагинации:
@@ -824,11 +893,12 @@ function Table(obj, settings = {}) {
     });
   }
 
-  // Визуальное отображение таблицы:
+  // Отображение таблицы:
   this.show = function() {
-    showElement(this.wrap);
-    this.changeResizeBtns();
-    this.wrap.classList.add('active');
+    if (this.wrap.classList.contains('active')) {
+      showElement(this.wrap);
+      this.changeResizeBtns();
+    }
   }
 
   // Переход с одной таблицы на другую при клике на вкладку:
@@ -836,18 +906,20 @@ function Table(obj, settings = {}) {
     if (event.currentTarget.classList.contains('disabled')) {
       return;
     }
+    document.querySelectorAll('.tabs .tab').forEach(el => el.classList.remove('checked'));
+    event.currentTarget.classList.add('checked');
+
     var activeTable = getEl('.table.active');
     if (activeTable) {
       hideElement(activeTable);
       activeTable.classList.remove('active');
     }
-    document.querySelectorAll('.tabs .tab').forEach(el => el.classList.remove('checked'));
-    event.currentTarget.classList.add('checked');
+    this.wrap.classList.add('active');
     this.show();
   }
 
   // Поиск по всей таблице:
-  this.fullSearch = (search, textToFind) => {
+  this.startFullSearch = (search, textToFind) => {
     this.resetFilters();
     if (textToFind) {
       var regExp = getRegExp(textToFind);
@@ -861,7 +933,7 @@ function Table(obj, settings = {}) {
   // Запуск сортировки, поиска и фильтрации по столбцу:
   this.startChangeData = event => {
     var curEl = event.target;
-    if (curEl.classList.contains('disabled')) {
+    if (curEl.closest('.disabled')) {
       return;
     }
     if (curEl.classList.contains('pill')) {
@@ -878,20 +950,21 @@ function Table(obj, settings = {}) {
   this.changeData = function(curEl) {
     var group = curEl.closest('[data-key]');
     if (group.classList.contains('sort')) {
-      this.sortData(curEl, group);
+      this.sortData(group, curEl);
     } else {
-      this.filterData(curEl, group);
+      this.filterData(group, curEl);
     }
-    return this.dataToLoad.length;
+    this.syncFilters(group, curEl);
+    return isEmptyObj(this.filters) ? 0 : this.dataToLoad.length;
   }
 
   // Сортировка по ключу:
-  this.sortData = function(curEl, group) {
+  this.sortData = function(group, curEl) {
     var type = group.dataset.type,
         key = group.dataset.key;
-        key = curEl.classList.contains('down') ? key : '-' + key;
+        key = curEl.dataset.value === 'down' ? key : '-' + key;
     this.head.querySelectorAll('.sort.checked').forEach(el => {
-      if (el !== curEl) {
+      if (!(el.closest('.group').dataset.key === group.dataset.key && el.dataset.value === curEl.dataset.value)) {
         el.classList.remove('checked');
       }
     });
@@ -902,15 +975,12 @@ function Table(obj, settings = {}) {
       this.data = JSON.parse(JSON.stringify(this.initialData));
       this.selectData();
     }
-    // this.fill();
-    this.replaceData();
+    this.fill();
   }
 
   // Поиск и фильтрация по ключу:
-  this.filterData = function(curEl, group) {
-    if (this.search) {
-      this.search.clear();
-    }
+  this.filterData = function(group, curEl) {
+    this.resetFullSearch();
     var type = curEl.closest('.item') ? 'filter' : 'search',
         key = group.dataset.key,
         value,
@@ -928,7 +998,6 @@ function Table(obj, settings = {}) {
       this.selectData();
     }
     this.fill();
-    // this.fill(action === 'save' ? dropDown : '');
   }
 
   // Сохранение/удаление фильтра:
@@ -1015,21 +1084,49 @@ function Table(obj, settings = {}) {
     return isFound;
   }
 
-  // Очистка поиска и фильтров по ключу:
+  // Синхронизация фильтров основного и адаптивного разрешения:
+  this.syncFilters = function(group, curEl) {
+    var type = curEl.classList.contains('item') ? (curEl.classList.contains('sort') ? 'sort' : 'filter') : 'search';
+    if (this.mode === 'desktop') {
+      var value;
+      if (type === 'search') {
+        value = curEl.value;
+      } else {
+        value = curEl.dataset.value;
+      }
+      this.filterPopUp.toggleValue(type, group.dataset.key, value);
+      if (type !== 'sort') {
+        var count = isEmptyObj(this.filters) ? 0 : count;
+        this.filterPopUp.toggleBtns(count);
+      }
+    } else {
+
+    }
+  }
+
+  // Очистка поиска по всей таблице:
+  this.resetFullSearch = function() {
+    if (this.fullSearch) {
+      this.fullSearch.clear();
+    }
+  }
+
+  // Очистка сортировки, поиска и фильтров по ключу:
   this.resetFilters = function() {
     this.filters = {};
     this.addPillsInFilter();
     if (this.dropDowns) {
       this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
     }
+    if (this.mode === 'desktop') {
+      this.filterPopUp.clearFilter();
+    }
   }
 
-  // Полная очистка поиска и фильтрации:
-  this.reset = function() {
-    if (this.search) {
-      this.search.clear();
-    }
+  // Полная очистка сортировки, поиска и фильтрации по ключу:
+  this.clearFilters = function() {
     this.resetFilters();
+    this.data = JSON.parse(JSON.stringify(this.initialData));
     this.dataToLoad = this.data;
     this.fill();
   }
@@ -1078,17 +1175,21 @@ function Table(obj, settings = {}) {
 
   // Инициализация таблицы:
   this.init = function() {
-    if (this.search) {
-      this.search = initSearch(this.search, this.fullSearch);
+    if (this.fullSearch) {
+      this.fullSearch = initSearch(this.fullSearch, this.startFullSearch);
     }
     if (this.dropDowns) {
       this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.startChangeData));
     }
+    if (this.adaptive) {
+      this.adaptive.id = obj.id + '-adaptive';
+      if (getEl('.relay.icon', this.wrap)) {
+        this.filterPopUp = initFilter(obj, settings, curEl => curEl ? this.changeData(curEl) : this.clearFilters());
+      }
+    }
     this.prepare();
     this.setEventListeners();
-    if (this.wrap.classList.contains('active')) {
-      this.show();
-    }
+    this.show();
   }
   this.init();
 }
