@@ -802,7 +802,7 @@ function resizeActs() {
 
 function showCards() {
   if (itemsToLoad.length) {
-    loadCards(itemsToLoad);
+    loadCards(true);
   } else {
     getEl('#gallery').innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
   }
@@ -817,7 +817,6 @@ function showCards() {
 function scrollGallery() {
   if (window.pageYOffset * 2 + window.innerHeight >= document.body.clientHeight) {
     loadCards();
-    setMinCardWidth();
   }
 }
 
@@ -827,8 +826,8 @@ var countItems = 0,
     countItemsTo = 0,
     incr;
 
-function loadCards(cards) {
-  if (cards) {
+function loadCards(isFirst = false) {
+  if (isFirst) {
     countItems = 0;
   } else {
     countItems = countItemsTo;
@@ -879,6 +878,7 @@ function loadCards(cards) {
     addActionTooltip(card);
   });
   setFiltersHeight();
+  setMinCardWidth();
 }
 
 // Вывод информации об акции в подсказке в карточке товара:
@@ -1269,10 +1269,10 @@ function getLinkWithFilters() {
   }
 }
 
-// Сброс сохраненных положений контейнеров (открыты/закрыты) до первоначального положения:
+// Сброс положений контейнеров (открыты/закрыты) до первоначального положения:
 
 function resetPositions() {
-  document.querySelectorAll(`#filters .switch.save`).forEach(el => {
+  document.querySelectorAll(`#filters .switch`).forEach(el => {
     if (el.classList.contains('default-open')) {
       el.classList.remove('close');
     } else {
@@ -1303,19 +1303,9 @@ function clearFilters(event) {
 
 function initFiltersCatalog() {
   createCatalogFiltersData();
-  initFilter('#filters', catalogFiltersData, filtersHandler);
+  initFilter('#filters', catalogFiltersData, curEl => curEl ? selectFilterCatalog(curEl) : clearFilters());
   catalogFiltersData = catalogFiltersData.filters;
   getEl('#filters .pop-up-body').id = 'catalog-filters';
-}
-
-// Обработчик событий блока фильтров:
-
-function filtersHandler(group, curEl) {
-  if (!group) {
-    clearFilters();
-  } else {
-    selectFilterCatalog(group, curEl);
-  }
 }
 
 // Переключение фильтров каталога на актуальные:
@@ -1428,8 +1418,9 @@ function addTooltips(key) {
 
 // Выбор значения фильтра каталога:
 
-function selectFilterCatalog(group, curEl) {
-  var key = group.dataset.key,
+function selectFilterCatalog(curEl) {
+  var group = curEl.closest('.group'),
+      key = group.dataset.key,
       subkey = curEl.closest('.items').dataset.key,
       value = curEl.dataset.value;
 
