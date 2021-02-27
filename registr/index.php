@@ -54,7 +54,7 @@
                             <div class="title">Выберите тип торговли</div>
                             <div class="triangle icon"></div>
                           </div>
-                          <div class="drop-down">
+                          <div class="drop-down items">
                             <div class="item" data-value="Интернет магазин">Интернет магазин</div>
                             <div class="item" data-value="Официальный дилер">Официальный дилер</div>
                             <div class="item" data-value="Трейд-ин">Трейд-ин</div>
@@ -105,7 +105,7 @@
                             <div class="title">Выберите тип торговли</div>
                             <div class="triangle icon"></div>
                           </div>
-                          <div class="drop-down">
+                          <div class="drop-down items">
                             <div class="item" data-value="Общая">Общая</div>
                             <div class="item" data-value="Упрощенная">Упрощенная</div>
                             <div class="item" data-value="Прочая">Прочая</div>

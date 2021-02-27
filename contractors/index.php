@@ -89,7 +89,7 @@
                   <div class="title">Выберите систему</div>
                   <div class="triangle icon"></div>
                 </div>
-                <div class="drop-down">
+                <div class="drop-down items">
                   <div class="item" data-value="Общая">Общая</div>
                   <div class="item" data-value="Упрощенная">Упрощенная</div>
                   <div class="item" data-value="Прочая">Прочая</div>

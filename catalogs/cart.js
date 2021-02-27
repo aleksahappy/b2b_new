@@ -29,8 +29,8 @@ var cartSectionTemp, cartRowTemp;
 
 function getCart() {
   return new Promise((resolve, reject) => {
-    // sendRequest(urlRequest.main, 'get_cart', {cart_type: catalogId})
     sendRequest(`../json/cart_${catalogId}.json`)
+    // sendRequest(urlRequest.main, 'get_cart', {cart_type: catalogId})
     .then(
       result => {
         if (!result || JSON.parse(result).err) {
