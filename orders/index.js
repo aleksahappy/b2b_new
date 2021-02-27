@@ -94,19 +94,19 @@ function initPage(data = []) {
         content: '<div class="pill ord c10 #display#" data-status="#value#">#sum#</div>'
       }]
     },
+    adaptive: {sub: [{area: '.pill', items: 'sum'}]},
     filters: {
       'order_date': {title: 'По дате заказа', sort: 'date'},
       'order_number': {title: 'По номеру заказа', search: 'usual'},
       'order_status': {title: 'По статусу заказа', sort: 'text', search: 'usual', filter: 'checkbox'},
       'contr_name': {title: 'По контрагенту', sort: 'text', search: 'usual'},
       'user_fio': {title: 'По заказчику', sort: 'text', search: 'usual'},
-      'order_type': {title: 'По типу заказа', sort: 'text', search: 'usual', filter: 'checkbox'},
+      'order_type': {title: 'По типу заказа', sort: 'text', search: 'usual', filter: 'checkbox', isMore: true},
       'order_sum': {title: 'По сумме счета', sort: 'numb', search: 'usual'},
       'debt': {title: 'По ДЗ/КЗ', sort: 'numb', search: 'usual'}
     }
   };
   initTable('#orderslist', settings);
-  // loadData('.table-adaptive', data, [{area: '.pill', items: 'sum'}]);
 }
 
 // Преобразование полученных данных:
@@ -146,7 +146,7 @@ function convertData(data) {
         } else if (status == '5') {
           title = 'Непоставка';
         } else if (status === 'NA') {
-          title = 'Удален';
+          title = 'Без состояния';
         }
         sum.push({
           title: title,

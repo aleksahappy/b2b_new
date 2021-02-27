@@ -1,12 +1,12 @@
 /* Общие стили: */
 
-.control .pills {
-  min-width: 43em;
-  /* min-width: 53em; */
+.pill[data-status="NA"] {
+  display: none;
 }
 
-.control .pills [data-status="NA"] {
-  display: none;
+.control .pills {
+  min-width: 43em;
+  /* min-width: 54em; */
 }
 
 /* Стили таблицы: */
@@ -39,10 +39,6 @@
   margin-bottom: 0.5em;
 }
 
-#orderslist > table > tbody > tr > td.pills > .pill[data-status="NA"] {
-  display: none;
-}
-
 #orderslist > table > tbody > tr > td {
   cursor: pointer;
 }
@@ -51,6 +47,7 @@
 
 .infoblock .info {
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #C6C6C6;
   cursor: pointer;
 }
