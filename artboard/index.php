@@ -609,7 +609,7 @@
               <div class="title">Select</div>
               <div class="triangle icon"></div>
             </div>
-            <div class="drop-down">
+            <div class="drop-down items">
               <div class="item" data-value="default">По умолчанию</div>
               <div class="item" data-value="1">Значение 1</div>
               <div class="item" data-value="2">Значение 2</div>
@@ -627,7 +627,7 @@
               <div class="title">Checkbox</div>
               <div class="triangle icon"></div>
             </div>
-            <div class="drop-down">
+            <div class="drop-down items">
               <div class="item row" data-value="1">
                 <div>Значение 1</div>
                 <div class="check icon"></div>
@@ -671,11 +671,11 @@
             <div class="drop-down">
               <div class="group sort">
                 <div class="title">Сортировка</div>
-                <div class="item sort down row">
+                <div class="item sort down row" data-value="down">
                   <div class="sort icon"></div>
                   <div>От А до Я</div>
                 </div>
-                <div class="item sort up row">
+                <div class="item sort up row" data-value="up">
                   <div class="sort icon"></div>
                   <div>От Я до А</div>
                 </div>
@@ -712,11 +712,11 @@
             <div class="drop-down">
               <div class="group sort">
                 <div class="title">Сортировка</div>
-                <div class="item sort down row">
+                <div class="item sort down row" data-value="down">
                   <div class="sort icon"></div>
                   <div>От А до Я</div>
                 </div>
-                <div class="item sort up row">
+                <div class="item sort up row" data-value="up">
                   <div class="sort icon"></div>
                   <div>От Я до А</div>
                 </div>
@@ -775,11 +775,11 @@
             <div class="drop-down">
               <div class="group sort">
                 <div class="title">Сортировка</div>
-                <div class="item sort down row">
+                <div class="item sort down row" data-value="down">
                   <div class="sort icon"></div>
                   <div>Сначала новые</div>
                 </div>
-                <div class="item sort up row">
+                <div class="item sort up row" data-value="up">
                   <div class="sort icon"></div>
                   <div>Сначала старые</div>
                 </div>
@@ -865,7 +865,7 @@
               <div class="title">Select</div>
               <div class="triangle icon"></div>
             </div>
-            <div class="drop-down">
+            <div class="drop-down items">
               <div class="item" data-value="default">По умолчанию</div>
               <div class="item" data-value="1">Значение 1</div>
               <div class="item" data-value="2">Значение 2</div>
@@ -981,14 +981,14 @@
                 <div class="close icon"></div>
               </div>
               <div class="pop-up-body">
-                <div class="group switch">
+                <div class="group switch" data-key="Группа1">
                   <div class="title row" onclick="switchContent(event)">
                     <div class="title white h3">Название фильтра 1</div>
                     <div class="open white icon switch-icon"></div>
                   </div>
                   <div class="switch-cont">
                     <div class="items">
-                      <div class="item switch close">
+                      <div class="item switch close" data-value="Вариант1">
                         <div class="row">
                           <div class="title row">
                             <div class="checkbox icon"></div>
@@ -997,17 +997,17 @@
                           <div class="open icon switch-icon" onclick="switchContent(event)"></div>
                         </div>
                         <div class="items switch-cont">
-                          <div class="item row">
+                          <div class="item row" data-value="Подвариант1">
                             <div class="checkbox icon"></div>
                             <div>Подвариант 1</div>
                           </div>
-                          <div class="item row">
+                          <div class="item row" data-value="Подвариант2">
                             <div class="checkbox icon"></div>
                             <div>Подвариант 2</div>
                           </div>
                         </div>
                       </div>
-                      <div class="item switch close">
+                      <div class="item switch close" data-value="Вариант2">
                         <div class="row">
                           <div class="title row">
                             <div class="checkbox icon"></div>
@@ -1016,11 +1016,11 @@
                           <div class="open icon switch-icon" onclick="switchContent(event)"></div>
                         </div>
                         <div class="items switch-cont">
-                          <div class="item row">
+                          <div class="item row" data-value="Подвариант1">
                             <div class="checkbox icon"></div>
                             <div>Подвариант 1</div>
                           </div>
-                          <div class="item row">
+                          <div class="item row" data-value="Подвариант2">
                             <div class="checkbox icon"></div>
                             <div>Подвариант 2</div>
                           </div>
@@ -1033,14 +1033,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="group switch">
+                <div class="group switch" data-key="Группа2">
                   <div class="title row" onclick="switchContent(event)">
                     <div class="title white h3">Название фильтра 2</div>
                     <div class="open white icon switch-icon"></div>
                   </div>
                   <div class="switch-cont">
                     <div class="items">
-                      <div class="item switch close">
+                      <div class="item switch close" data-value="Вариант1">
                         <div class="row">
                           <div class="title row">
                             <div class="checkbox icon"></div>
@@ -1048,7 +1048,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="item switch close">
+                      <div class="item switch close" data-value="Вариант2">
                         <div class="row">
                           <div class="title row">
                             <div class="checkbox icon"></div>
@@ -1083,11 +1083,11 @@
                     <div class="open white icon switch-icon"></div>
                   </div>
                   <div class="switch-cont">
-                    <div class="item sort down row">
+                    <div class="item sort down row" data-value="down">
                       <div class="radio icon"></div>
                       <div>По возрастанию</div>
                     </div>
-                    <div class="item sort up row">
+                    <div class="item sort up row" data-value="up">
                       <div class="radio icon"></div>
                       <div>По убыванию</div>
                     </div>
@@ -1366,7 +1366,7 @@
                     <div class="title">Выберите систему</div>
                     <div class="triangle icon"></div>
                   </div>
-                  <div class="drop-down">
+                  <div class="drop-down items">
                     <div class="item" data-value="Общая">Общая</div>
                     <div class="item" data-value="Урощенная">Урощенная</div>
                     <div class="item" data-value="Прочая">Прочая</div>
@@ -1426,7 +1426,7 @@
                 <div class="close icon"></div>
               </div>
               <div class="pop-up-body">
-                <form class="post">
+                <form id="form2" class="post">
                   <div class="title">Добавьте ИНН, данные юридического лица загрузятся автоматически</div>
                   <div class="row">
                     <div class="row">
@@ -1458,7 +1458,7 @@
                         <div class="title">Выберите систему</div>
                         <div class="triangle icon"></div>
                       </div>
-                      <div class="drop-down">
+                      <div class="drop-down items">
                         <div class="item" data-value="Общая">Общая</div>
                         <div class="item" data-value="Урощенная">Упрощенная</div>
                         <div class="item" data-value="Прочая">Прочая</div>

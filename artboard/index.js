@@ -18,6 +18,7 @@ initCalendar('#calendar1');
 initCalendar('#calendar2');
 initCalendar('#calendar3');
 initForm('#form1');
+initForm('#form2');
 
 // Добавление функционала в блок фильтров для демонстрации работы:
 
