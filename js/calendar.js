@@ -6,19 +6,10 @@ function initCalendar(el) {
   el = getEl(el);
   if (el) {
     var type = getEl('input', el).dataset.type;
-    if (type === 'date') {
-      if (el.id) {
-        return window[`${el.id}Calendar`] = new Calendar(el);
-      } else {
-        return new Calendar(el);
-      }
-    }
-    if (type === 'range') {
-      if (el.id) {
-        return window[`${el.id}Calendar`] = new CalendarRange(el);
-      } else {
-        return new CalendarRange(el);
-      }
+    if (el.id) {
+      return window[`${el.id}Calendar`] = type === 'range' ? new CalendarRange(el) : new Calendar(el);
+    } else {
+      return type === 'range' ? new CalendarRange(el) : new Calendar(el);
     }
   }
 }
@@ -27,7 +18,7 @@ function initCalendar(el) {
 
 function clearCalendar(el) {
   var el = getEl(el);
-  if (window[`${el.id}Calendar`]) {
+  if (el.id && window[`${el.id}Calendar`]) {
     window[`${el.id}Calendar`].clear();
   }
 }
@@ -76,6 +67,7 @@ class Calendar {
   // Инициализация календаря
   init() {
     this.create();
+    this.getElements();
     this.addEventListeners();
   }
 
@@ -90,8 +82,10 @@ class Calendar {
 
     // Добавление контейнера на страницу:
     this.wrap.appendChild(this.cContainer);
+  }
 
-    // Получение необходимых элементов календаря:
+  // Получение элементов календаря для работы:
+  getElements() {
     this.cInputArea = this.cContainer.getElementsByClassName('input-area')[0];
     this.cMonthNavigator = this.cInputArea.getElementsByClassName('month-navigator')[0];
     this.cMonthPrevious = this.cMonthNavigator.getElementsByClassName('month-previous')[0];
