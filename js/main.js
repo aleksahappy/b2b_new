@@ -3040,7 +3040,7 @@ function Form(obj, callback) {
           } else if (type === 'hidden' && field.closest('.activate')) {
             this.dropDowns.forEach((el, index) => {
               if (getEl('input', el) === field) {
-                this[`dropDown${index}`].setValue(data[key]);
+                this[`dropDown${index}`].selectValue(data[key]);
               }
             });
           } else {
@@ -3148,9 +3148,6 @@ function Search(obj, callback) {
       }
       this.input.addEventListener('input', () => this.showHints());
       this.items.addEventListener('click', event => this.selectHint(event));
-      if (this.type === 'inGroup' && this.items) {
-        this.input.addEventListener('blur', () => this.clear());
-      }
     }
     if (this.cancelBtn) {
       this.cancelBtn.addEventListener('click', (event) => this.cancel(event));
@@ -3252,7 +3249,7 @@ function Search(obj, callback) {
       return;
     }
     textToFind = textToFind.replace(/\s*\,\s*/gm, ',').replace(/\s*\/\s*/gi, '/');
-    if (callback) {
+    if (callback && !(this.group && this.items)) {
       var count = callback(this.obj, textToFind);
     }
     if (this.type === 'usual') {
@@ -3267,8 +3264,8 @@ function Search(obj, callback) {
     this.toggleBtns();
   }
 
-  // Установка/сброс значения в поиске:
-  this.toggleValue = function(value) {
+  // Изменение значения в поиске:
+  this.setValue = function(value) {
     if (value) {
       this.input.value = value;
       this.input.dataset.value = value;
@@ -3277,7 +3274,11 @@ function Search(obj, callback) {
     }
     this.toggleBtns();
     if (this.group) {
-      value ? this.group.classList.remove('close') : this.group.classList.add('close');
+      if (this.items) {
+        value ? this.group.classList.remove('close') : (this.items.querySelectorAll('.checked').length ? '' : this.group.classList.add('close'));
+      } else {
+        value ? this.group.classList.remove('close') : this.group.classList.add('close');
+      }
     }
   }
 
@@ -3296,7 +3297,7 @@ function Search(obj, callback) {
       this.input.focus();
     }
     this.clear();
-    if (callback) {
+    if (callback && !(this.group && this.items)) {
       callback(this.obj);
     }
   }
@@ -3401,12 +3402,21 @@ function clearDropDown(el) {
   }
 }
 
-// Установка значения выпадающего списка:
+// Выбор значения выпадающего списка:
 
-function setValueDropDown(el, value) {
+function selectValueDropDown(el, value) {
   var el = getEl(el);
   if (el.id && window[`${el.id}Dropdown`]) {
-    window[`${el.id}Dropdown`].setValue(value);
+    window[`${el.id}Dropdown`].selectValue(value);
+  }
+}
+
+// Изменение значения выпадающего списка:
+
+function setValueDropDown(el, type, key, value) {
+  var el = getEl(el);
+  if (el.id && window[`${el.id}Dropdown`]) {
+    window[`${el.id}Dropdown`].setValue(type, key, value);
   }
 }
 
@@ -3441,17 +3451,17 @@ function DropDown(obj, handler, data, defaultValue) {
       this.head.addEventListener('click', event => this.toggle(event));
     }
     if (this.sort) {
-      this.sort.addEventListener('click', event => this.sortValue(event))
+      this.sort.addEventListener('click', event => this.toggleSort(event))
     }
     if (this.calendar) {
       this.calendar.addEventListener('change', event => {
         event.stopPropagation();
         var textToFind = event.currentTarget.value;
-        this.searchValue(event.currentTarget, textToFind);
+        this.toggleSearch(event.currentTarget, textToFind);
       });
     }
     if (this.items) {
-      this.items.addEventListener('click', event => this.selectValue(event));
+      this.items.addEventListener('click', event => this.toggleItem(event));
     }
     if (this.clearBtn) {
       this.clearBtn.addEventListener('click', () => this.clear());
@@ -3519,38 +3529,37 @@ function DropDown(obj, handler, data, defaultValue) {
     }
   }
 
-  // Сортировка значений:
-  this.sortValue = function(event) {
-    var item = event.target.closest('.item.sort');
-    if (!item) {
+  // Работа с пунктами сортировки:
+  this.toggleSort = function(event, curItem) {
+    if (event) {
+      curItem = event.target.closest('.item.sort');
+    }
+    if (!curItem) {
       return;
     }
-    if (item.classList.contains('checked')) {
-      item.classList.remove('checked');
+    if (curItem.classList.contains('checked')) {
+      curItem.classList.remove('checked');
     } else {
-      var curItem = getEl('.checked.row', this.sort);
-      if (curItem) {
-        curItem.classList.remove('checked');
-      }
-      item.classList.add('checked');
+      this.sort.querySelectorAll('.checked').forEach(el => el.classList.remove('checked'));
+      curItem.classList.add('checked');
     }
-    item.dispatchEvent(new CustomEvent('change', {'detail': 'sort', 'bubbles': true}));
+    if (event) {
+      curItem.dispatchEvent(new CustomEvent('change', {'detail': 'sort', 'bubbles': true}));
+    }
   }
 
-  // Поиск значения:
-  this.searchValue = (search, textToFind) => {
-    var group = search.closest('.group');
-    if (getEl('.items', group)) {
-      return;
-    }
+  // Работа с поиском:
+  this.toggleSearch = (search, textToFind) => {
     var newTitle = textToFind ? 'Поиск: ' + textToFind : '';
     this.changeTitle(newTitle);
     this.writeValue(textToFind);
-    group.dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
+    if (search) {
+      search.closest('.group').dispatchEvent(new CustomEvent('change', {'detail': 'search', 'bubbles': true}));
+    }
   }
 
-  // Выбор значения из списка:
-  this.selectValue = function(event, curItem) {
+  // Работа с пунктами списка:
+  this.toggleItem = function(event, curItem) {
     if (event) {
       curItem = event.target.closest('.item');
     }
@@ -3583,16 +3592,37 @@ function DropDown(obj, handler, data, defaultValue) {
       }
     }
     this.writeValue(value);
-    curItem.dispatchEvent(new CustomEvent('change', {'detail': 'filter', 'bubbles': true}));
+    if (event) {
+      curItem.dispatchEvent(new CustomEvent('change', {'detail': 'filter', 'bubbles': true}));
+    }
   }
 
+    // Выбор пункта списка:
+    this.selectValue = function(value) {
+      this.obj.querySelectorAll('.item').forEach(el => {
+        if ((el.dataset.value).toLowerCase() === value.toLowerCase()) {
+          el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
+        }
+      });
+    }
+
   // Установка значения:
-  this.setValue = function(value) {
-    this.obj.querySelectorAll('.item:not(.sort)').forEach(el => {
-      if ((el.dataset.value).toLowerCase() === value.toLowerCase()) {
-        this.selectValue(null, el);
+  this.setValue = function(type, key, value) {
+    if (type === 'search') {
+      if (this.search) {
+        this.search.setValue(value);
+        this.toggleSearch(null, value);
       }
-    });
+    } else {
+      var curEl = key ? getEl(`.group[data-key="${key}"] [data-value="${value}"]`, this.obj) : getEl(`[data-value="${value}"]`);
+      if (curEl) {
+        if (type === 'sort') {
+          this.toggleSort(null, curEl);
+        } else {
+          this.toggleItem(null, curEl);
+        }
+      }
+    }
   }
 
   // Запись выбранных значений в value объекта:
@@ -3623,7 +3653,7 @@ function DropDown(obj, handler, data, defaultValue) {
   this.init = function() {
     this.setEventListeners();
     if (this.search) {
-      this.search = initSearch(this.search, this.searchValue);
+      this.search = initSearch(this.search, this.toggleSearch);
     }
     if (this.calendar) {
       initCalendar(this.calendar);
@@ -3642,7 +3672,7 @@ function DropDown(obj, handler, data, defaultValue) {
 // В каком виде нужно передавать данные для создания фильтров:
 
 // var settings = {
-//   filters: {                                       Сортировки и фильтры таблицы:
+//   filters: {                                       Перечень сортировок и фильтров:
 //     key1: {                                          - ключ в данных, по которому находится информация
 //       title: 'Заголовок'                               - заголовок сортировки
 //       sort: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
@@ -3676,15 +3706,11 @@ function DropDown(obj, handler, data, defaultValue) {
 function initFilter(el, settings, handler) {
   el = getEl(el);
   if (el) {
-    createFilter(el, settings);
-    var filter;
     if (el.id) {
-      filter = window[`${el.id}Filter`] = new Filter(el, handler);
+      return window[`${el.id}Filter`] = new Filter(el, settings, handler);
     } else {
-      filter = new Filter(el, handler);
+      return new Filter(el, settings, handler);
     }
-    filter.fillItems(settings.filters);
-    return filter;
   }
 }
 
@@ -3703,6 +3729,15 @@ function toggleFilterBtns(el, count) {
   var el = getEl(el);
   if (el.id && window[`${el.id}Filter`]) {
     window[`${el.id}Filter`].toggleBtns(count);
+  }
+}
+
+// Установка значения в блок фильтров:
+
+function setValueFilter(el, type, key, value) {
+  var el = getEl(el);
+  if (el.id && window[`${el.id}Filter`]) {
+    window[`${el.id}Filter`].setValue(type, key, value);
   }
 }
 
@@ -3840,9 +3875,8 @@ function createFilter(area, settings) {
             <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
           </div>`;
         } else {
-          var isDisplay = filter ? (filter && items && items.length > 15 ? '' : 'displayNone') : '';
           search =
-          `<form class="search row ${isDisplay}" data-type="fast" action="#">
+          `<form class="search row" data-type="fast" action="#">
             <input type="text" data-value="" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
@@ -3940,11 +3974,12 @@ function getSortText(sortOrder, type) {
 
 // Заполнение фильтра значениями:
 
-function fillFilterItems(type, data) {
+function fillFilterItems(type, data, isFirst) {
   var items = '';
   if (data && Array.isArray(data)) {
-    data.forEach(el => {
-      var title, value;
+    data.forEach((el, index) => {
+      var numb = isFirst ? `data-numb="${index + 1}"` : '',
+          title, value;
       if (typeof el === 'object') {
         title = el.title;
         value = el.value;
@@ -3953,7 +3988,7 @@ function fillFilterItems(type, data) {
       }
       if (el.items) {
         items +=
-        `<div class="item switch close" data-value="${value}">
+        `<div class="item switch close" ${numb} data-value="${value}">
           <div class="row">
             <div class="title row">
               <div class="checkbox icon"></div>
@@ -3973,7 +4008,7 @@ function fillFilterItems(type, data) {
           iconType = 'checkbox';
         }
         items +=
-        `<div class="item row" data-value="${value}">
+        `<div class="item row" ${numb} data-value="${value}">
           <div class="${iconType} icon"></div>
           <div class="text">${title}</div>
         </div>`;
@@ -3985,15 +4020,34 @@ function fillFilterItems(type, data) {
 
 // Объект фильтра:
 
-function Filter(obj, handler) {
+function Filter(obj, settings, handler) {
+  // Создание разметки фильтра:
+  this.create = function() {
+    createFilter(obj, settings);
+    this.fillItems(settings.filters);
+  }
+
+  // Получение элементов фильтра для работы:
+  this.getElements = function()  {
   // Элементы для работы:
-  this.filter = getEl('.pop-up-container.filters', obj);
-  this.searches = this.filter.querySelectorAll('form.search');
-  // this.calendars = this.filter.querySelectorAll('.calendar-wrap');
-  this.openBtn = getEl('.relay.icon', obj);
-  this.clearBtn = getEl('.clear-btn', this.filter);
-  this.showBtn = getEl('.btn.act', this.filter);
-  this.showCount = getEl('span', this.showBtn);
+    this.filter = getEl('.pop-up-container.filters', obj);
+    this.searches = this.filter.querySelectorAll('form.search');
+    // this.calendars = this.filter.querySelectorAll('.calendar-wrap');
+    this.openBtn = getEl('.relay.icon', obj);
+    this.clearBtn = getEl('.clear-btn', this.filter);
+    this.showBtn = getEl('.btn.act', this.filter);
+    this.showCount = getEl('span', this.showBtn);
+    this.initElements();
+  }
+
+  // Инициализация элементов фильтра для работы:
+  this.initElements = function() {
+    this.searches.forEach((el, index) => {
+      var key = el.closest('.group').dataset.key;
+      this[`search${index}`] = this[`search${key}`] = initSearch(el, this.toggleSearch);
+    });
+    // this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
+  }
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -4070,13 +4124,13 @@ function Filter(obj, handler) {
     }
 
     function fill(key, filterBlock) {
-      if (!data.filter) {
+      if (!data.filter || !data.items || !data.items.length) {
         return;
       }
       var group = getEl(`.group:not(.sort)[data-key="${key}"]`, filterBlock),
           groupItems = getEl('.items', group);
       if (groupItems) {
-        groupItems.innerHTML = fillFilterItems(data.filter, data.items);
+        groupItems.innerHTML = fillFilterItems(data.filter, data.items, true);
         var items = data.items,
             isSearch = data.search,
             isMore = data.isMore;
@@ -4091,7 +4145,7 @@ function Filter(obj, handler) {
         if (isSearch) {
           var search = getEl('form.search', group);
           if (search) {
-            if (items && items.length > 15) {
+            if (items && items.length > 8) {
               search.classList.remove('displayNone');
             } else {
               search.classList.add('displayNone');
@@ -4149,9 +4203,9 @@ function Filter(obj, handler) {
     }
     var group = curEl.closest('.group');
     if (getEl('.radio', curEl)) {
-      this.toggleRadio(event, group, curEl);
+      this.toggleRadio(group, curEl);
     } else {
-      this.toggleCheckbox(event, group, curEl);
+      this.toggleCheckbox(group, curEl);
     }
     if (event && handler) {
       var count = handler(curEl);
@@ -4159,13 +4213,15 @@ function Filter(obj, handler) {
         this.toggleBtns(count);
       }
     }
-    if (!event) {
+    if (group.querySelectorAll('.checked').length) {
       group.classList.remove('close');
+    } else if (!event) {
+      group.classList.add('close');
     }
   }
 
   // Переключение радио-кнопок:
-  this.toggleRadio = function(event, group, curEl) {
+  this.toggleRadio = function(group, curEl) {
     if (curEl.classList.contains('checked')) {
       curEl.classList.remove('checked');
     } else {
@@ -4181,7 +4237,7 @@ function Filter(obj, handler) {
   }
 
   // Переключение чекбоксов:
-  this.toggleCheckbox = function(event, group, curEl) {
+  this.toggleCheckbox = function(group, curEl) {
     if (curEl.classList.contains('checked')) {
       curEl.classList.remove('checked');
       curEl.classList.add('close');
@@ -4194,49 +4250,43 @@ function Filter(obj, handler) {
         parentItem.classList.add('checked');
         parentItem.classList.remove('close');
       }
-      // НЕ РАБОТАЕТ ДЛЯ АДАПТИВНЫХ ФИЛЬТРОВ, КОГДА СКРЫТЫ
-      if (curEl.offsetTop + 10 > curEl.closest('.items').clientHeight) {
-        getEl('.items', group).classList.add('full');
+      var items = getEl('.items', group);
+      if (parseFloat(curEl.dataset.numb, 10) > parseFloat(items.dataset.maxCount, 10)) {
+        items.classList.add('full');
         var moreBtn = getEl('.more', group);
         if (moreBtn) {
           moreBtn.firstElementChild.textContent = 'Меньше';
         }
       }
-      if (!event) {
-        var section = curEl.closest('.section.switch');
-        if (section) {
-          var mode = group.dataset.mode;
-          section.classList.remove('close');
-          section.querySelectorAll('.mode span').forEach(el => {
-            if (el.dataset.mode === mode && !el.classList.contains('active')) {
-              el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
-            }
-          });
-        }
+      var section = curEl.closest('.section.switch');
+      if (section) {
+        var mode = group.dataset.mode;
+        section.classList.remove('close');
+        section.querySelectorAll('.mode span').forEach(el => {
+          if (el.dataset.mode === mode && !el.classList.contains('active')) {
+            el.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
+          }
+        });
       }
     }
   }
 
   // Работа с поисками фильтра:
-  this.searchValue = (search, textToFind) => {
-    var group = search.closest('.group');
-    if (getEl('.items', group)) {
-      return;
-    }
+  this.toggleSearch = (search, textToFind) => {
     if (handler) {
       var curEl = getEl('input', search),
           count = handler(curEl);
-      textToFind ? this.toggleBtns(count) : this.toggleBtns(0);
+      this.toggleBtns(count);
     }
   }
 
-  // Установка/снятие значения в фильтре:
-  this.toggleValue = function(type, key, value) {
+  // Установка значения в фильтре:
+  this.setValue = function(type, key, value) {
     var curEl;
     if (type === 'search') {
       curEl = this[`search${key}`];
       if (curEl) {
-        curEl.toggleValue(value);
+        curEl.setValue(value);
       }
     } else {
       curEl = getEl(`.group[data-key="${key}"] [data-value="${value}"]`, this.filter);
@@ -4289,7 +4339,7 @@ function Filter(obj, handler) {
         el.classList.add('close');
       }
     });
-    this.filter.querySelectorAll('.items').forEach(el => el.classList.remove('full'));
+    this.filter.querySelectorAll('.full').forEach(el => el.classList.remove('full'));
     this.filter.querySelectorAll('.more').forEach(el => el.firstElementChild.textContent = 'Больше');
     this.searches.forEach((el, index) => this[`search${index}`].clear());
     this.toggleBtns(0);
@@ -4309,12 +4359,9 @@ function Filter(obj, handler) {
 
   // Инициализация блока фильтров:
   this.init = function() {
+    this.create();
+    this.getElements();
     this.setEventListeners();
-    this.searches.forEach((el, index) => {
-      var key = el.closest('.group').dataset.key;
-      this[`search${index}`] = this[`search${key}`] = initSearch(el, this.searchValue);
-    });
-    // this.filter.querySelectorAll('.calendar-wrap').forEach(el => initCalendar(el));
   }
   this.init();
 }
