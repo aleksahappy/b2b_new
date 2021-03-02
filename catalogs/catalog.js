@@ -747,7 +747,7 @@ function renderGallery() {
   }
   clearCurSelect(null, false);
   if (!isPreorder) {
-    setValueDropDown('#gallery-sort', '-price_cur1');
+    selectValueDropDown('#gallery-sort', '-price_cur1');
   }
   showElement('#search', 'flex');
   showElement('#header-catalog');
@@ -1188,7 +1188,7 @@ function checkFiltersFromUrl() {
               }
             });
             if (curItem) {
-              dropdown.setValue(value);
+              dropdown.selectValue(value);
             } else {
               notFound();
               break;
@@ -1644,12 +1644,13 @@ function clearFiltersInfo() {
 // Снятие выбранного фильтра:
 
 function changeFilterCatalog(event) {
-  if (!event.target.classList.contains('pill')) {
+  var curEl = event.target;
+  if (!curEl.classList.contains('pill')) {
     return;
   }
-  var curItem = getCurFilterItem(event.target.dataset.key, event.target.dataset.value);
-  if (curItem) {
-    curItem.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
+  curEl = getCurFilterItem(curEl.dataset.key, curEl.dataset.value);
+  if (curEl) {
+    curEl.dispatchEvent(new CustomEvent('click', {'bubbles': true}));
   }
 }
 
