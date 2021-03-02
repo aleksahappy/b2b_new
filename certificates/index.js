@@ -53,11 +53,7 @@ getPageData(urlRequest.main, 'files',  {type: 'cert'})
 // Инициализация страницы:
 
 function initPage() {
-  convertData();
-  loadData('#cert', itemsToLoad);
-  initSearch('#cert-search', findCert);
-  initDropDown('#cert-brand', selectBrand, brands, 'Сбросить');
-  initFilter('#main', {
+  var filterSettings = {
     filters: {
       'brands': {
         title: 'По бренду',
@@ -66,7 +62,12 @@ function initPage() {
         isOpen: true
       }
     }
-  });
+  };
+  convertData();
+  loadData('#cert', itemsToLoad);
+  initSearch('#cert-search', findCert);
+  initDropDown('#cert-brand', event => selectBrand(event.target, 'desktop'), brands, 'Сбросить');
+  initFilter('#main', filterSettings, curEl => selectBrand(curEl, 'adaptive'));
 }
 
 // Преобразование полученных данных:
@@ -100,6 +101,7 @@ function convertData() {
 
 function findCert(search, textToFind) {
   clearDropDown('#cert-brand');
+  clearFilter('#main');
   if (textToFind) {
     itemsToLoad = items.filter(el => findByRegExp(el.search, getRegExp(textToFind)));
   } else {
@@ -113,8 +115,13 @@ function findCert(search, textToFind) {
 
 // Фильтр по бренду:
 
-function selectBrand(event) {
-  var value = event.target.dataset.value;
+function selectBrand(curEl, mode) {
+  var value;
+  if (!curEl || !curEl.classList.contains('checked')) {
+    value = 'default';
+  } else {
+    value = curEl.dataset.value;
+  }
   clearSearch('#cert-search');
   if (value === 'default') {
     itemsToLoad = items;
@@ -122,4 +129,17 @@ function selectBrand(event) {
     itemsToLoad = items.filter(el => el.brands.indexOf(value) >= 0);
   }
   loadSearchData('#cert', itemsToLoad);
+  syncFilters(mode, value);
+  return itemsToLoad.length;
+}
+
+// Синхронизация основных и адаптивных фильтров:
+
+function syncFilters(mode, value) {
+  if (mode === 'desktop') {
+    value === 'default' ? clearFilter('#main') : setValueFilter('#main', 'filter', 'brands', value);
+    toggleFilterBtns('#main', value === 'default' ? 0 : itemsToLoad.length);
+  } else {
+    value === 'default' ? clearDropDown('#cert-brand') : setValueDropDown('#cert-brand', 'filter', null, value);
+  }
 }
