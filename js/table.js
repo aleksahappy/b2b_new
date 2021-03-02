@@ -51,26 +51,32 @@
 //     ...
 //   },
 //   filters: {                                       Сортировки и фильтры таблицы:
-//     key1: {                                          - ключ в данных, по которому будет браться информация
+//     key1: {                                          - ключ в данных, по которому находится информация
 //       title: 'Заголовок'                               - заголовок сортировки
 //       sort: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
 //       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
 //       filter: 'checkbox' / 'select'                    - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
 //       items:                                           - данные для заполнения фильтра (чекбоксов или селектов):
-//        {{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
+//        [{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
 //           title: 'заголовок'                               - заголовок пункта фильтра
 //           value: 'значение для поиска'                     - значение, которое будет искаться в данных
-//           items: { - если есть подфильтры:                 - данные для заполнения подфильтра (если нужно, если нет то пропускаем этот ключ)
+//           (Если есть подфильтры:)
+//           key: 'ключ для подфильтров'                      - ключ в данных, по которому находится информация для подфильтров (если нужно, если нет то пропускаем)
+//           items: [{                                        - данные для заполнения подфильтра (если нужно, если нет то пропускаем)
 //             title: 'Заголовок'
 //             value: 'значение для поиска'
+//             key: ...
 //             items: ...
-//           }
-//         }, {...}
+//           }]
+//         }, {...}]
 //         или ['значение1', 'значение2', ...]              2) второй вариант заполнения (когда название и значение одинаковые и нет подфильтров)
-//       isOpen: true / false                             - фильтр открыт или закрыт (true - открыт, по умолчанию false - закрыт)
+//       isOpen: true / false                             - открыт ли фильтр по умолчанию (по умолчанию false - закрыт, true - открыт)
+//       isMore: true / false / 'количество'              - скрывать ли значения фильтра и больше скольки (по умолчанию false - не срывать, true - скрывать больше 4-х, 'количество' - то скрывать больше этого количества)
 //     },
 //     key2: {...}
-//   }
+//   },
+//   isSave: true / false                             Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию false - не сохраняются)
+//   isVisible: true / false                          Cделать фильтры видимыми на всех разрешениях (по умолчанию false - не видно до 1359px)
 // }
 
 // Инициализация таблицы:
@@ -78,8 +84,6 @@
 function initTable(el, settings) {
   var el = getEl(el);
   if (el) {
-    createTableControl(el, settings)
-    createTable(el, settings);
     if (el.id) {
       return window[`${el.id}Table`] = new Table(el, settings);
     } else {
@@ -91,11 +95,13 @@ function initTable(el, settings) {
 // Обновление таблицы новыми данными:
 
 function updateTable(el, data) {
-  var el = getEl(el),
-      table = window[`${el.id}Table`];
-  if (table) {
-    table.initialData = data;
-    table.prepare();
+  var el = getEl(el);
+  if (el.id) {
+    var table = window[`${el.id}Table`];
+    if (table) {
+      table.initialData = data;
+      table.prepare();
+    }
   }
 }
 
@@ -380,30 +386,9 @@ function createTableBodyCell(col, sign = '#') {
 // Объект таблицы:
 
 function Table(obj, settings = {}) {
-  // Элементы для работы:
-  this.wrap = obj;
-  this.tab = getEl(`.tab[data-area=${obj.id}]`);
-  this.control = getEl(`.control[data-area=${obj.id}]`);
-  this.desktop = getEl('.table-desktop', obj);
-  this.adaptive = getEl('.table-adaptive', obj);
-
-  if (this.control) {
-    this.pagination = getEl('.pagination', this.control);
-    this.fullSearch = getEl('form.search', this.control);
-    this.pills = getEl('.pills', this.control);
-  }
-  if (this.desktop) {
-    this.head = getEl('thead', obj);
-    this.body = getEl('tbody', obj);
-    if (this.head) {
-      this.results = getEl('.results', this.head);
-      this.resizeBtns = this.head.querySelectorAll('.resize-btn');
-      this.dropDowns = this.head.querySelectorAll('.activate');
-    }
-  }
-
   // Константы:
   this.initialData = settings.data;
+  this.isSync = true;
 
   // Динамические переменные:
   this.mode;
@@ -423,6 +408,53 @@ function Table(obj, settings = {}) {
     this.startCoord;
     this.prevWidth;
     this.nextWidth;
+  }
+
+  // Создание разметки таблицы:
+  this.createTable = function() {
+    createTableControl(obj, settings)
+    createTable(obj, settings);
+  }
+
+  // Получение элементов таблицы для работы:
+  this.getElements = function()  {
+    this.wrap = obj;
+    this.tab = getEl(`.tab[data-area=${obj.id}]`);
+    this.control = getEl(`.control[data-area=${obj.id}]`);
+    this.desktop = getEl('.table-desktop', obj);
+    this.adaptive = getEl('.table-adaptive', obj);
+
+    if (this.control) {
+      this.pagination = getEl('.pagination', this.control);
+      this.fullSearch = getEl('form.search', this.control);
+      this.pills = getEl('.pills', this.control);
+    }
+    if (this.desktop) {
+      this.head = getEl('thead', obj);
+      this.body = getEl('tbody', obj);
+      if (this.head) {
+        this.results = getEl('.results', this.head);
+        this.resizeBtns = this.head.querySelectorAll('.resize-btn');
+        this.dropDowns = this.head.querySelectorAll('.activate');
+      }
+    }
+    this.initElements();
+  }
+
+  // Инициализация элементов таблицы для работы:
+  this.initElements = function() {
+    if (this.fullSearch) {
+      this.fullSearch = initSearch(this.fullSearch, this.startFullSearch);
+    }
+    if (this.dropDowns) {
+      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.startChangeData));
+    }
+    if (this.adaptive) {
+      this.adaptive.id = obj.id + '-adaptive';
+      if (getEl('.relay.icon', this.wrap)) {
+        this.filterPopUp = initFilter(obj, settings, curEl => curEl ? this.changeData(curEl) : this.clearFilters());
+      }
+    }
   }
 
   // Установка обработчиков событий:
@@ -455,22 +487,6 @@ function Table(obj, settings = {}) {
     }
   }
 
-  // Переключение режима таблицы:
-  this.toggleMode = function() {
-    if (this.adaptive) {
-      if (window.innerWidth > 1359 && this.mode !== 'desktop') {
-        this.mode = 'desktop';
-      } else if (window.innerWidth <= 1359 && this.mode !== 'adaptive') {
-        this.mode = 'adaptive';
-      } else {
-        return;
-      }
-    } else {
-      this.mode = 'desktop';
-    }
-    this.fill();
-  }
-
   // Подготовка таблицы для работы:
   this.prepare = function() {
     this.prepareData();
@@ -483,12 +499,12 @@ function Table(obj, settings = {}) {
   // Преобразование входящих данных:
   this.prepareData = function() {
     this.initialData = Array.isArray(this.initialData) ? this.initialData.filter(el => el) : [];
+    this.initialData.forEach(el => this.addDataForSearch(el));
     this.data = JSON.parse(JSON.stringify(this.initialData));
-    this.data.forEach(el => this.addDataForSearch(el));
     this.dataToLoad = this.data;
   }
 
-  // Добавление данных для поиска по всей таблице:
+  // Добавление данных для поиска по таблице:
   this.addDataForSearch = function(el) {
     if (settings.desktop.cols) {
       el.search = '';
@@ -516,6 +532,25 @@ function Table(obj, settings = {}) {
       }
       showElement(this.tab, 'flex');
     }
+  }
+
+  // Переключение режима таблицы:
+  this.toggleMode = function() {
+    if (this.adaptive) {
+      if (window.innerWidth > 1359 && this.mode !== 'desktop') {
+        this.mode = 'desktop';
+      } else if (window.innerWidth <= 1359 && this.mode !== 'adaptive') {
+        this.mode = 'adaptive';
+      } else {
+        return;
+      }
+    } else {
+      this.mode = 'desktop';
+    }
+    if (!this.isSync) {
+      this.clear();
+    }
+    this.fill();
   }
 
   // Заполнение таблицы данными:
@@ -670,7 +705,7 @@ function Table(obj, settings = {}) {
       sign: settings.desktop.sign,
       action: 'return'
     });
-    list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
+    list = list.replace(/(<td[^>]*>)\s*<\/td>/g, '$1&ndash;<\/td>');
 
     var newBodyBlock = document.createElement('tbody');
     newBodyBlock.dataset.from = this.countItems;
@@ -704,7 +739,7 @@ function Table(obj, settings = {}) {
   }
 
   // Замена данных в таблице:
-  this.replaceData = function() {
+  this.replaceTableData = function() {
     this.stopScroll = true;
     this.wrap.querySelectorAll('.table-desktop > tbody').forEach(bodyBlock => {
       var data = [],
@@ -720,7 +755,7 @@ function Table(obj, settings = {}) {
         sign: settings.desktop.sign,
         action: 'return'
       });
-      list = list.replace(/<td>\s*<\/td>/g, '<td>&ndash;<\/td>');
+      list = list.replace(/(<td[^>]*>)\s*<\/td>/g, '$1&ndash;<\/td>');
       bodyBlock.innerHTML = list;
     });
     this.stopScroll = false;
@@ -983,13 +1018,11 @@ function Table(obj, settings = {}) {
     this.resetFullSearch();
     var type = curEl.closest('.item') ? 'filter' : 'search',
         key = group.dataset.key,
-        value,
+        value = curEl.dataset.value,
         action;
     if (type === 'search') {
-      value = curEl.value.trim(),
       action = /\S/.test(value) ? 'save' : 'remove';
     } else if (type === 'filter') {
-      value = curEl.dataset.value,
       action = curEl.classList.contains('checked') ? 'save' : 'remove';
     }
     var oldFilters = JSON.stringify(this.filters);
@@ -1086,21 +1119,29 @@ function Table(obj, settings = {}) {
 
   // Синхронизация фильтров основного и адаптивного разрешения:
   this.syncFilters = function(group, curEl) {
-    var type = curEl.classList.contains('item') ? (curEl.classList.contains('sort') ? 'sort' : 'filter') : 'search';
-    if (this.mode === 'desktop') {
-      var value;
-      if (type === 'search') {
-        value = curEl.value;
-      } else {
+    if (!this.isSync || !this.dropDowns || !this.filterPopUp) {
+      return;
+    }
+    var type = curEl.classList.contains('item') ? (curEl.classList.contains('sort') ? 'sort' : 'filter') : 'search',
+        key = group.dataset.key,
         value = curEl.dataset.value;
-      }
-      this.filterPopUp.toggleValue(type, group.dataset.key, value);
+    if (this.mode === 'desktop') {
+      this.filterPopUp.setValue(type, key, value);
       if (type !== 'sort') {
-        var count = isEmptyObj(this.filters) ? 0 : count;
+        var count = isEmptyObj(this.filters) ? 0 : this.dataToLoad.length;
         this.filterPopUp.toggleBtns(count);
       }
-    } else {
-
+    } else if (this.head) {
+      var curEl;
+      if (type === 'search') {
+        curEl = getEl(`[data-key="${key}"] form.search`);
+      } else {
+        curEl = getEl(`[data-key="${key}"] [data-value="${value}"]`, this.head);
+      }
+      if (curEl) {
+        var index = parseFloat(curEl.closest('th').id, 10) - 1;
+        this[`dropDown${index}`].setValue(type, key, value);
+      }
     }
   }
 
@@ -1118,13 +1159,22 @@ function Table(obj, settings = {}) {
     if (this.dropDowns) {
       this.dropDowns.forEach((el, index) => this[`dropDown${index}`].clear());
     }
-    if (this.mode === 'desktop') {
+    if (this.filterPopUp) {
       this.filterPopUp.clearFilter();
     }
   }
 
   // Полная очистка сортировки, поиска и фильтрации по ключу:
   this.clearFilters = function() {
+    this.resetFilters();
+    this.data = JSON.parse(JSON.stringify(this.initialData));
+    this.dataToLoad = this.data;
+    this.fill();
+  }
+
+  // Полная очистка всех фильтров и поисков таблицы:
+  this.clear = function() {
+    this.resetFullSearch();
     this.resetFilters();
     this.data = JSON.parse(JSON.stringify(this.initialData));
     this.dataToLoad = this.data;
@@ -1175,18 +1225,8 @@ function Table(obj, settings = {}) {
 
   // Инициализация таблицы:
   this.init = function() {
-    if (this.fullSearch) {
-      this.fullSearch = initSearch(this.fullSearch, this.startFullSearch);
-    }
-    if (this.dropDowns) {
-      this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el, this.startChangeData));
-    }
-    if (this.adaptive) {
-      this.adaptive.id = obj.id + '-adaptive';
-      if (getEl('.relay.icon', this.wrap)) {
-        this.filterPopUp = initFilter(obj, settings, curEl => curEl ? this.changeData(curEl) : this.clearFilters());
-      }
-    }
+    this.createTable();
+    this.getElements();
     this.prepare();
     this.setEventListeners();
     this.show();
