@@ -50,6 +50,7 @@
 //     sign: '#' / '@@' / другой                       - можно дополнить полями sub, sign и т.д. - как заполнять смотри fillTemplate
 //     ...
 //   },
+//   bound: число пикселей (например 768)             Разрешение, на котором должно происходить переключение обычной таблицы на адаптивную (по умолчанию - 1359px)
 //   filters: {                                       Сортировки и фильтры таблицы:
 //     key1: {                                          - ключ в данных, по которому находится информация
 //       title: 'Заголовок'                               - заголовок сортировки
@@ -76,7 +77,6 @@
 //     key2: {...}
 //   },
 //   isSave: true / false                             Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию false - не сохраняются)
-//   isVisible: true / false                          Cделать фильтры видимыми на всех разрешениях (по умолчанию false - не видно до 1359px)
 // }
 
 // Инициализация таблицы:
@@ -100,7 +100,7 @@ function updateTable(el, data) {
     var table = window[`${el.id}Table`];
     if (table) {
       table.initialData = data;
-      table.prepare();
+      table.prepare(true);
     }
   }
 }
@@ -388,6 +388,7 @@ function createTableBodyCell(col, sign = '#') {
 function Table(obj, settings = {}) {
   // Константы:
   this.initialData = settings.data;
+  this.bound = settings.bound || 1359;
   this.isSync = true;
 
   // Динамические переменные:
@@ -398,9 +399,6 @@ function Table(obj, settings = {}) {
   this.countItemsTo = 0;
   this.incr;
   this.direction;
-  if (this.pagination) {
-    this.paginationSwitch = null;
-  }
   this.filters = {};
   if (this.head) {
     this.prevColumn = null;
@@ -408,6 +406,16 @@ function Table(obj, settings = {}) {
     this.startCoord;
     this.prevWidth;
     this.nextWidth;
+  }
+
+  // Инициализация таблицы:
+  this.init = function() {
+    this.createTable();
+    this.getElements();
+    this.initElements();
+    this.prepare();
+    this.setEventListeners();
+    this.show();
   }
 
   // Создание разметки таблицы:
@@ -423,6 +431,7 @@ function Table(obj, settings = {}) {
     this.control = getEl(`.control[data-area=${obj.id}]`);
     this.desktop = getEl('.table-desktop', obj);
     this.adaptive = getEl('.table-adaptive', obj);
+    this.toggleModeBtn = getEl('.relay.icon', this.wrap);
 
     if (this.control) {
       this.pagination = getEl('.pagination', this.control);
@@ -438,7 +447,6 @@ function Table(obj, settings = {}) {
         this.dropDowns = this.head.querySelectorAll('.activate');
       }
     }
-    this.initElements();
   }
 
   // Инициализация элементов таблицы для работы:
@@ -451,7 +459,7 @@ function Table(obj, settings = {}) {
     }
     if (this.adaptive) {
       this.adaptive.id = obj.id + '-adaptive';
-      if (getEl('.relay.icon', this.wrap)) {
+      if (this.toggleModeBtn) {
         this.filterPopUp = initFilter(obj, settings, curEl => curEl ? this.changeData(curEl) : this.clearFilters());
       }
     }
@@ -488,10 +496,10 @@ function Table(obj, settings = {}) {
   }
 
   // Подготовка таблицы для работы:
-  this.prepare = function() {
+  this.prepare = function(isUpdate) {
     this.prepareData();
     this.initTab();
-    this.toggleMode();
+    this.toggleMode(isUpdate);
     this.fillPills();
     this.fillItems();
   }
@@ -535,31 +543,41 @@ function Table(obj, settings = {}) {
   }
 
   // Переключение режима таблицы:
-  this.toggleMode = function() {
+  this.toggleMode = function(isUpdate) {
     if (this.adaptive) {
-      if (window.innerWidth > 1359 && this.mode !== 'desktop') {
+      if (window.innerWidth > this.bound && this.mode !== 'desktop') {
         this.mode = 'desktop';
-      } else if (window.innerWidth <= 1359 && this.mode !== 'adaptive') {
+        hideElement(this.adaptive);
+        hideElement(this.toggleModeBtn);
+        showElement(this.desktop, 'table');
+      } else if (window.innerWidth <= this.bound && this.mode !== 'adaptive') {
         this.mode = 'adaptive';
-      } else {
+        hideElement(this.desktop);
+        showElement(this.adaptive);
+        showElement(this.toggleModeBtn);
+      } else if (!isUpdate) {
         return;
       }
     } else {
       this.mode = 'desktop';
+      hideElement(this.toggleModeBtn);
+      showElement(this.desktop, 'table');
     }
     if (!this.isSync) {
       this.clear();
     }
-    this.fill();
+    this.fill(isUpdate);
   }
 
   // Заполнение таблицы данными:
-  this.fill = function() {
-    setDocumentScroll(0,0);
+  this.fill = function(isUpdate) {
+    if (!isUpdate) {
+      setDocumentScroll(0, this.wrap.getBoundingClientRect().top + pageYOffset - 200);
+    }
     if (this.mode === 'desktop') {
       this.loadTableData();
       this.fillResults();
-      this.fillPagination()
+      this.fillPagination();
       this.changeResizeBtns();
     } else {
       this.loadAdaptiveData();
@@ -1223,13 +1241,5 @@ function Table(obj, settings = {}) {
     }
   };
 
-  // Инициализация таблицы:
-  this.init = function() {
-    this.createTable();
-    this.getElements();
-    this.prepare();
-    this.setEventListeners();
-    this.show();
-  }
   this.init();
 }
