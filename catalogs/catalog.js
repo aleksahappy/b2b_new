@@ -1302,10 +1302,13 @@ function clearFilters(event) {
 // Инициализация фильтров каталога:
 
 function initFiltersCatalog() {
+  var filters = getEl('#filters');
   createCatalogFiltersData();
-  initFilter('#filters', catalogFiltersData, curEl => curEl ? selectFilterCatalog(curEl) : clearFilters());
+  initFilter(filters, catalogFiltersData, curEl => curEl ? selectFilterCatalog(curEl) : clearFilters());
+  getEl('.pop-up-body', filters).id = 'catalog-filters';
+  filters.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+  filters.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
   catalogFiltersData = catalogFiltersData.filters;
-  getEl('#filters .pop-up-body').id = 'catalog-filters';
 }
 
 // Переключение фильтров каталога на актуальные:
