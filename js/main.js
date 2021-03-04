@@ -42,7 +42,8 @@ var cartTotals;
 
 var currentElem = null,
     tooltip = null,
-    scrollPos;
+    scrollPos,
+    resizeHandler = null;
 
 // Запускаем страницy:
 
@@ -984,7 +985,8 @@ function checkPositions() {
 
 // Получение элемента по селектору:
 
-function getEl(el, area = document) {
+function getEl(el, area) {
+  area = arguments.length === 1 ? document : area;
   if (typeof el === 'string') {
     el = el.trim();
     area = typeof area === 'string' ? getEl(area): area;
@@ -1517,22 +1519,13 @@ function convertPhone(phone) {
 // Переход на другие страницы:
 //=====================================================================================================
 
-// Переход на страницу заказа:
+// Переход на страницу:
 
-function showOrder(event, id) {
+function goToPage(event, href) {
   if (checkIsAction(event)) {
     return;
   }
-  location.href = `/order/?${id}`;
-}
-
-// Переход на страницу рекламации:
-
-function showReclm(event, id) {
-  if (checkIsAction(event)) {
-    return;
-  }
-  location.href = `/reclamation/?${id}`;
+  location.href = `/${href}`;
 }
 
 // Переход на старый интерфейс:
@@ -1699,7 +1692,7 @@ function fillTemplate(data) {
 
   if (typeof data.area === 'string') {
     data.areaName = (data.parentAreaName || '') + data.area;
-    data.area = getEl(data.area, data.parentArea);
+    data.area = data.parentArea ? getEl(data.area, data.parentArea) : getEl(data.area);
   } else {
     data.areaName = data.area.id || data.area.classList[0];
   }
@@ -2075,7 +2068,7 @@ function showTooltip(event) {
   }
   currentElem = target;
   if (tooltip) {
-    hideTooltip();
+    hideTooltip(event);
   }
   createTooltip(target, tooltipHtml);
 }
@@ -2178,7 +2171,7 @@ function positionTooltip(element, flow) {
 
 // Скрытие подсказки:
 
-function hideTooltip() {
+function hideTooltip(event) {
   if (!currentElem || !tooltip) {
     return;
   }
@@ -2306,8 +2299,11 @@ function openPopUp(el, event) {
       el.style.opacity = '0';
     }
     showElement(el, 'flex');
-    if (el.classList.contains('filters') || el.classList.contains('visible')) {
-      window.addEventListener('resize', closeSpecialPopUp);
+    var bound = el.dataset.bound;
+    if (bound) {
+      bound = bound === 'true' ? 1359 : bound;
+      resizeHandler = () => closePopUpAtBound(el, bound, el.dataset.boundReverse);
+      window.addEventListener('resize', resizeHandler);
     }
     setTimeout(() => {
       if (!getEl('.pop-up-container.open')) {
@@ -2355,8 +2351,8 @@ function closePopUp(event, el) {
       document.removeEventListener('click', closePopUp);
       document.removeEventListener('keydown', closePopUp);
     }
-    if (el.classList.contains('filters') || el.classList.contains('visible')) {
-      window.removeEventListener('resize', closeSpecialPopUp);
+    if (el.dataset.bound) {
+      window.removeEventListener('resize', resizeHandler);
     }
     if (el.classList.contains('full-img-container')) {
       document.removeEventListener('keydown', moveFullImg);
@@ -2373,13 +2369,19 @@ function closePopUp(event, el) {
   }
 }
 
-// Автоматическое закрытие всплывающих окон на разрешении больше 1359px:
+// Автоматическое закрытие всплывающих окон:
 
-function closeSpecialPopUp() {
+function closePopUpAtBound(el, bound, isReverse) {
   clearTimeout(window.resizedFinished);
   window.resizedFinished = setTimeout(() => {
-    if (window.innerWidth > 1359) {
-      document.querySelectorAll('.pop-up-container.filters.open, .pop-up-container.visible.open').forEach(el => closePopUp(null, el));
+    if (isReverse) {
+      if (window.innerWidth <= bound) {
+        closePopUp(null, el);
+      }
+    } else {
+      if (window.innerWidth > bound) {
+        closePopUp(null, el);
+      }
     }
   }, 250);
 }
@@ -2571,12 +2573,7 @@ function showSelectFiles(event) {
 
 function initLoader() {
   loader = getEl('#page-loader');
-  if (loader) {
-    loader = new Loader(loader);
-  } else {
-    console.log(loader);
-    loader = {};
-  }
+  loader = loader ? new Loader(loader) : {};
 }
 
 // Объект лоадера страницы:
@@ -2605,11 +2602,7 @@ function Loader(obj) {
 
 function initAlerts() {
   alerts = getEl('#alerts');
-  if (alerts) {
-    alerts = new Alerts(alerts);
-  } else {
-    alerts = {};
-  }
+  alerts = alerts ? new Alerts(alerts) : {};
 }
 
 // Объект системного окна сообщений (обязательно передавать текст):
@@ -2862,11 +2855,30 @@ function showFormError(el, error) {
 // Объект формы:
 
 function Form(obj, callback) {
-  // Элементы для работы:
-  this.form = obj;
-  this.submitBtn = getEl('input[type="submit"]', obj);
-  this.dropDowns = this.form.querySelectorAll('.activate');
-  this.calendars = this.form.querySelectorAll('div:not(.activate) .calendar-wrap');
+  // Динамические переменные:
+  this.isSubmit = false;
+
+  // Инициализация формы:
+  this.init = function() {
+    this.getElements();
+    this.initElements();
+    this.toggleBtn();
+    this.setEventListeners();
+  }
+
+  // Получение элементов для работы:
+  this.getElements = function() {
+    this.form = obj;
+    this.submitBtn = getEl('input[type="submit"]', obj);
+    this.dropDowns = this.form.querySelectorAll('.activate');
+    this.calendars = this.form.querySelectorAll('div:not(.activate) .calendar-wrap');
+  }
+
+  // Инициализация элементов для работы:
+  this.initElements = function() {
+    this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
+    this.calendars.forEach(el => initCalendar(el));
+  }
 
   // Блокировка/разблокировка кнопки отправки формы:
   this.toggleBtn = function() {
@@ -2920,7 +2932,6 @@ function Form(obj, callback) {
   }
 
   // Отображение ошибки в поле формы:
-
   this.showError = function(formWrap, errText) {
     formWrap.classList.add('error');
     var error = getEl('.err', formWrap);
@@ -2939,7 +2950,6 @@ function Form(obj, callback) {
   }
 
   // Отображение ошибок в форме, полученных с сервера:
-
   this.showServerError = function(error) {
     if (typeof error === 'string') {
       alerts.show(error);
@@ -3051,14 +3061,6 @@ function Form(obj, callback) {
     }
   }
 
-  // Инициализация формы:
-  this.init = function() {
-    this.isSubmit = false;
-    this.toggleBtn();
-    this.setEventListeners();
-    this.dropDowns.forEach((el, index) => this[`dropDown${index}`] = initDropDown(el));
-    this.calendars.forEach(el => initCalendar(el));
-  }
   this.init();
 }
 
@@ -3072,18 +3074,10 @@ function initSearch(el, callback) {
   el = getEl(el);
   if (el) {
     var type = el.dataset.type;
-    if (type === 'fast') {
-      if (el.id) {
-        return window[`${el.id}Search`] = new SearchFast(el, callback);
-      } else {
-        return new SearchFast(el, callback);
-      }
+    if (el.id) {
+      return window[`${el.id}Search`] = type === 'fast' ? new SearchFast(el, callback) : new Search(el, callback);
     } else {
-      if (el.id) {
-        return window[`${el.id}Search`] = new Search(el, callback);
-      } else {
-        return new Search(el, callback);
-      }
+      return type === 'fast' ? new SearchFast(el, callback) : new Search(el, callback);
     }
   }
 }
@@ -3100,27 +3094,41 @@ function clearSearch(el) {
 // Объект поля поиска:
 
 function Search(obj, callback) {
-  // Элементы для работы:
-  this.obj = obj;
-  this.activate = obj.closest('.activate');
-  this.group = this.obj.closest('.group');
-  this.input = getEl('input[type="text"]', obj);
-  this.calendar = this.input.closest('.calendar-wrap');
-  this.searchBtn = getEl('.search', obj);
-  this.cancelBtn = getEl('.close', obj);
-  this.result = getEl(`[data-search="${this.obj.id}"]`);
-  if (this.activate) {
-    this.items = getEl('.items', this.activate);
-    this.notFound = getEl('.not-found', this.activate);
-  }
-  if (this.group) {
-    this.items = getEl('.items', this.group);
-    this.notFound = getEl('.not-found', this.group);
-    this.more = getEl('.more', this.group);
+  // Инициализация поиска:
+  this.init = function() {
+    this.getElements();
+    this.setEventListeners();
+    this.initElements();
   }
 
-  // Константы:
-  this.type = this.group ? 'inGroup' : (this.activate && !this.obj.classList.contains('activate') ? 'inSearchBox' : 'usual');
+  // Получение элементов для работы:
+  this.getElements = function() {
+    this.obj = obj;
+    this.activate = obj.closest('.activate');
+    this.group = this.obj.closest('.group');
+    this.input = getEl('input[type="text"]', obj);
+    this.calendar = this.input.closest('.calendar-wrap');
+    this.searchBtn = getEl('.search', obj);
+    this.cancelBtn = getEl('.close', obj);
+    this.result = getEl(`[data-search="${this.obj.id}"]`);
+    if (this.activate) {
+      this.items = getEl('.items', this.activate);
+      this.notFound = getEl('.not-found', this.activate);
+    }
+    if (this.group) {
+      this.items = getEl('.items', this.group);
+      this.notFound = getEl('.not-found', this.group);
+      this.more = getEl('.more', this.group);
+    }
+    this.type = this.group ? 'inGroup' : (this.activate && !this.obj.classList.contains('activate') ? 'inSearchBox' : 'usual');
+  }
+
+  // Инициализация элементов для работы:
+  this.initElements = function() {
+    if (this.calendar) {
+      initCalendar(this.calendar);
+    }
+  }
 
   // Установка обработчиков событий:
   this.setEventListeners = function() {
@@ -3142,10 +3150,10 @@ function Search(obj, callback) {
       });
     }
     if (this.items) {
-      if (!this.items.closest('.pop-up-container.filters')) {
-        this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
-        this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
-      }
+      // if (!this.items.closest('.pop-up-container.filters')) {
+      //   this.items.addEventListener('mouseenter', () => document.body.classList.add('no-scroll'));
+      //   this.items.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
+      // }
       this.input.addEventListener('input', () => this.showHints());
       this.items.addEventListener('click', event => this.selectHint(event));
     }
@@ -3345,13 +3353,6 @@ function Search(obj, callback) {
     }
   }
 
-  // Инициализация поиска:
-  this.init = function() {
-    this.setEventListeners();
-    if (this.calendar) {
-      initCalendar(this.calendar);
-    }
-  }
   this.init();
 }
 
@@ -3423,23 +3424,39 @@ function setValueDropDown(el, type, key, value) {
 // Объект выпадающего списка:
 
 function DropDown(obj, handler, data, defaultValue) {
-  // Элементы для работы:
-  this.obj = obj;
-  this.hiddenInput = getEl('input[type="hidden"]', obj);
-  this.head = getEl('.head', obj);
-  this.title = getEl('.head .title', obj);
-  this.sort = getEl('.group.sort', obj);
-  this.search = getEl('form.search', obj);
-  if (!this.search) {
-    this.calendar = getEl('.calendar-wrap', obj);
+  // Инициализация выпадающего списка:
+  this.init = function() {
+    this.getElements();
+    this.setEventListeners();
+    this.initElements();
+    this.fillItems(data, defaultValue);
   }
-  this.items = getEl('.items', obj);
-  this.clearBtn = getEl('.clear-btn', obj);
 
-  // Константы:
-  this.type = this.obj.classList.contains('box') ? 'box' : (this.obj.classList.contains('search') ? 'searchBox' : 'usual')
-  if (this.title) {
-    this.titleText = this.title.textContent;
+  // Получение элементов для работы:
+  this.getElements = function() {
+    this.obj = obj;
+    this.hiddenInput = getEl('input[type="hidden"]', obj);
+    this.head = getEl('.head', obj);
+    this.title = getEl('.head .title', obj);
+    this.sort = getEl('.group.sort', obj);
+    this.search = getEl('form.search', obj);
+    if (!this.search) {
+      this.calendar = getEl('.calendar-wrap', obj);
+    }
+    this.items = getEl('.items', obj);
+    this.clearBtn = getEl('.clear-btn', obj);
+    this.type = this.obj.classList.contains('box') ? 'box' : (this.obj.classList.contains('search') ? 'searchBox' : 'usual')
+    this.titleText = this.title ? this.title.textContent : null;
+  }
+
+  // Инициализация элементов для работы:
+  this.initElements = function() {
+    if (this.search) {
+      this.search = initSearch(this.search, this.toggleSearch);
+    }
+    if (this.calendar) {
+      initCalendar(this.calendar);
+    }
   }
 
   // Установка обработчиков событий:
@@ -3649,19 +3666,6 @@ function DropDown(obj, handler, data, defaultValue) {
     this.writeValue();
   }
 
-  // Инициализация выпадающего списка:
-  this.init = function() {
-    this.setEventListeners();
-    if (this.search) {
-      this.search = initSearch(this.search, this.toggleSearch);
-    }
-    if (this.calendar) {
-      initCalendar(this.calendar);
-    }
-    if (data) {
-      this.fillItems(data, defaultValue);
-    }
-  }
   this.init();
 }
 
@@ -3697,6 +3701,7 @@ function DropDown(obj, handler, data, defaultValue) {
 //     },
 //     key2: {...}
 //   },
+//   bound: число пикселей (например 768)             Разрешение свыше которого всплывающее окно с фильтрами должно закрываться (по умолчанию - 1359px)
 //   isSave: true / false                             Cохранять ли положение групп фильтров в текущей сессии браузера (открыты/закрыты) (по умолчанию false - не сохраняются)
 //   isVisible: true / false                          Cделать фильтры видимыми на всех разрешениях (по умолчанию false - не видно до 1359px)
 // }
@@ -3936,6 +3941,7 @@ function createFilter(area, settings) {
 
   filterBlock = document.createElement('div');
   filterBlock.classList.add('pop-up-container', 'filters');
+  filterBlock.dataset.bound = settings.bound || true;
   if (settings.isVisible) {
     filterBlock.classList.add('visible');
   }
@@ -4021,15 +4027,22 @@ function fillFilterItems(type, data, isFirst) {
 // Объект фильтра:
 
 function Filter(obj, settings, handler) {
+  // Инициализация блока фильтров:
+  this.init = function() {
+    this.create();
+    this.getElements();
+    this.initElements();
+    this.fillItems(settings.filters);
+    this.setEventListeners();
+  }
+
   // Создание разметки фильтра:
   this.create = function() {
     createFilter(obj, settings);
-    this.fillItems(settings.filters);
   }
 
   // Получение элементов фильтра для работы:
   this.getElements = function()  {
-  // Элементы для работы:
     this.filter = getEl('.pop-up-container.filters', obj);
     this.searches = this.filter.querySelectorAll('form.search');
     // this.calendars = this.filter.querySelectorAll('.calendar-wrap');
@@ -4037,7 +4050,6 @@ function Filter(obj, settings, handler) {
     this.clearBtn = getEl('.clear-btn', this.filter);
     this.showBtn = getEl('.btn.act', this.filter);
     this.showCount = getEl('span', this.showBtn);
-    this.initElements();
   }
 
   // Инициализация элементов фильтра для работы:
@@ -4054,12 +4066,6 @@ function Filter(obj, settings, handler) {
     if (this.openBtn) {
       this.openBtn.addEventListener('click', () => openPopUp(this.filter));
     }
-    this.filter.addEventListener('mouseenter', (event) => {
-      if (event.currentTarget.style.position !== 'static') {
-        document.body.classList.add('no-scroll');
-      }
-    });
-    this.filter.addEventListener('mouseleave', () => document.body.classList.remove('no-scroll'));
     this.filter.querySelectorAll('.group').forEach(el => el.addEventListener('click', event => this.toggleItem(event)));
     this.filter.querySelectorAll('.more').forEach(el => el.addEventListener('click', event => this.toggleMore(event)));
     this.filter.querySelectorAll('.mode').forEach(el => el.addEventListener('click', event => this.toggleMode(event)));
@@ -4357,11 +4363,5 @@ function Filter(obj, settings, handler) {
     closePopUp(null, this.filter);
   }
 
-  // Инициализация блока фильтров:
-  this.init = function() {
-    this.create();
-    this.getElements();
-    this.setEventListeners();
-  }
   this.init();
 }
