@@ -25,7 +25,7 @@
         </div>
         <div id="reclm" class="table active">
           <div class="table-adaptive infoblock template">
-            <div class="info row" data-status="#status#" onclick="showReclm(event,`#id#`)">
+            <div class="info row" data-status="#status#" onclick="goToPage(event,`reclamation/?#id#`)">
               <div>
                 <div>#item_title#</div>
                 <div class="articul">#item_articul#</div>

@@ -29,7 +29,7 @@ function initPage(data = []) {
     desktop: {
       head: true,
       result: false,
-      trFunc: 'onclick=showReclm(event,#id#)',
+      trFunc: 'onclick="goToPage(event,`reclamation/?#id#`)"',
       cols: [{
         title: '№',
         width: '7%',
@@ -66,5 +66,4 @@ function initPage(data = []) {
     }
   };
   initTable('#reclm', settings);
-  loadData('.table-adaptive', data);
 }
