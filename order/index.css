@@ -26,8 +26,8 @@
 }
 
 .side:first-child .row > .title {
-  width: 7.5em;
-  min-width: 7.5em;
+  width: 7.7em;
+  min-width: 7.7em;
 }
 
 .side:last-child .row > .title {
@@ -72,7 +72,8 @@
 }
 
 .comment .title {
-  width: 7.5em;
+  width: 7.7em;
+  min-width: 7.7em;
 }
 
 .btns {
@@ -109,10 +110,6 @@
 }
 
 /* Стили для всех таблиц */
-
-.table-desktop > tbody > tr:last-child > td {
-  border-bottom: none;
-}
 
 .table-desktop > thead > tr > th {
   top: 116px;

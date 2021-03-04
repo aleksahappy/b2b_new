@@ -804,7 +804,7 @@ function selectItems(event) {
   }
   var items = [],
       filters = [];
-  document.querySelectorAll('#nomen-pills .pill.checked').forEach(el => filters.push(el.dataset.value));
+  document.querySelectorAll('.table-adaptive .pill.checked').forEach(el => filters.push(el.dataset.value));
   if (filters.length) {
     items = data.items.nomen.filter(el => {
       var isFound = false;
@@ -823,7 +823,7 @@ function selectItems(event) {
 
 function adaptiveSearch(search, textToFind) {
   var items = data.items.nomen,
-      pills = document.querySelectorAll('#nomen-pills .pill');
+      pills = document.querySelectorAll('.table-adaptive .pill');
   if (textToFind) {
     pills.forEach(el => el.classList.add('disabled'));
     items = items.filter(el => findByRegExp(el.search, getRegExp(textToFind)));

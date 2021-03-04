@@ -63,6 +63,10 @@
     display: flex;
   }
 
+  .table-desktop {
+    display: none !important;
+  }
+
   .table-adaptive .pop-up-container {
     display: block !important;
     position: static;
@@ -93,6 +97,10 @@
   #shipments .pop-up {
     min-width: auto;
   }
+
+  #make-reklm {
+    display: none !important;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -103,6 +111,14 @@
   .side:first-child {
     margin-right: 0;
     margin-bottom: 1em;
+  }
+
+  .comment {
+    display: block;
+  }
+
+  .comment .title {
+    margin-bottom: 0.357em;
   }
 }
 

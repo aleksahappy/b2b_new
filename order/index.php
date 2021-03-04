@@ -67,7 +67,7 @@
                 <div class="btn #isShipments#" onclick="openPopUp('#shipments', event)">Отгрузки</div>
                 <div class="btn #isPayments#" onclick="openPopUp('#payments', event)">Платежи</div>
               </div>
-              <a class="docs row" href="../api.php?action=order&order_id=#id#&mode=bill&type=pdf" target="_blank">
+              <a class="docs row" href="../api.php?action=order&order_id=#id#&mode=bill&type=pdf">
                 <div class="download icon"></div>
                 <div>Скачать счет</div>
               </a>
@@ -139,7 +139,7 @@
               <div class="open white icon switch-icon"></div>
             </div>
             <div class="switch-cont">
-              <div id="payments" class="pop-up-container">
+              <div id="payments" class="pop-up-container" data-bound="true" data-bound-reverse="true">
                 <div class="pop-up">
                   <div class="pop-up-title row">
                     <div class="title h1">Платежи</div>
@@ -189,7 +189,7 @@
               <div class="open white icon switch-icon"></div>
             </div>
             <div class="switch-cont">
-              <div id="shipments" class="pop-up-container">
+              <div id="shipments" class="pop-up-container" data-bound="true" data-bound-reverse="true">
                 <div class="pop-up">
                   <div class="pop-up-title row">
                     <div class="title h1">Отгрузки</div>
@@ -215,9 +215,7 @@
                           </td>
                           <td>
                             <div class="row">
-                              <a href="../api.php?action=order&order_id=#id#&mode=bar&type=xls&name=#rencname#&id=#rdocid#">
-                                <div class="barcode icon" data-tooltip="Скачать штрихкоды"></div>
-                              </a>
+                              <a class="barcode icon" href="../api.php?action=order&order_id=#id#&mode=bar&type=xls&name=#rencname#&id=#rdocid#" data-tooltip="Скачать штрихкоды"></a>
                               <div>#rkolall#</div>
                             </div>
                           </td>
@@ -251,7 +249,7 @@
       </div>
     </div>
 
-    <div id="make-reclm" class="pop-up-container">
+    <div id="make-reclm" class="pop-up-container" data-bound="true" data-bound-reverse="true">
       <div class="pop-up">
         <div class="pop-up-title row">
           <div class="title h1">Оформление рекламации</div>
