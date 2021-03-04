@@ -1,0 +1,139 @@
+/* =====================================================================================================
+Основное содержимое страницы:
+===================================================================================================== */
+
+/* Стили шапки над таблицами */
+
+#main-info {
+  margin-bottom: 20px;
+}
+
+.common-info {
+  justify-content: space-between;
+  padding-bottom: 1em;
+}
+
+.common-info .info {
+  width: 100%;
+}
+
+.side:first-child {
+  margin-right: 2em;
+}
+
+.side > div {
+  margin-bottom: 0.357em;
+}
+
+.side:first-child .row > .title {
+  width: 7.7em;
+  min-width: 7.7em;
+}
+
+.side:last-child .row > .title {
+  width: 13em;
+  min-width: 13em;
+}
+
+.details {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.details .sum {
+  display: none;
+  margin-right: 1.428em;
+}
+
+.details .sum span {
+  font-weight: 700;
+}
+
+.details .btns {
+  flex-shrink: 0;
+}
+
+.details .btns > div {
+  align-items: center;
+}
+
+.details .btns > div:first-child {
+  margin-bottom: 1em;
+}
+
+.details .icon {
+  display: none;
+}
+
+.details .btn {
+  width: 12.5em;
+}
+
+.more {
+  padding-top: 1em;
+  border-top: 1px solid #C6C6C6;
+}
+
+.more > .row:not(.comment) {
+  display: none;
+}
+
+.comment .title {
+  width: 7.7em;
+  min-width: 7.7em;
+}
+
+/* Стили таблицы */
+
+.table-desktop > tbody > tr > td.link {
+  color: #117FED;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Адаптивная таблица: */
+
+.infoblock {
+  display: none;
+  overflow: visible;
+}
+
+.infoblock .head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 40px;
+  z-index: 10;
+}
+
+.control {
+  top: 80px;
+  margin-top: 0;
+  padding-bottom: 1.5em;
+}
+
+.infoblock .info {
+  justify-content: space-between;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid #D5D5D5;
+}
+
+.infoblock .info:last-child {
+  border-bottom: none;
+}
+
+.infoblock .info div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoblock .info > div:last-child {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-left: 1em;
+  text-align: right;
+}
+
+.infoblock .notice {
+  padding: 0.75em 1.14em;
+}

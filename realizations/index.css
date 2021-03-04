@@ -1,0 +1,55 @@
+/* Стили таблицы: */
+
+.table-desktop > tbody > tr > td.attention {
+  color: #CE0014;
+}
+
+.table-desktop > thead > tr > th.adaptive,
+.table-desktop > tbody > tr > td.adaptive {
+  display: none;
+}
+
+.table-desktop > thead > tr > th:nth-child(9) .resize-btn {
+  display: none;
+}
+
+/* Стили адаптивной таблицы */
+
+.infoblock .info {
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #C6C6C6;
+  cursor: pointer;
+}
+
+.infoblock .info:last-child {
+  border-bottom: none;
+}
+
+.infoblock .info * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoblock .info > div:not(:last-child) {
+  margin-right: 1em;
+}
+
+.infoblock .info > div:last-child {
+  text-align: right;
+}
+
+.infoblock .info a {
+  display: block;
+}
+
+.infoblock .info > .row {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.infoblock .download.icon {
+  width: 18px;
+  height: 18px;
+}

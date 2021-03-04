@@ -1,0 +1,103 @@
+@media only screen and (max-width: 1359px) {
+  #main-header .dot {
+    display: none;
+  }
+
+  #main-header .name {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 0.571em;
+    font-weight: 600;
+    color: #666666;
+    text-transform: none;
+  }
+
+  .common-info {
+    flex-direction: column-reverse;
+  }
+
+  .details {
+    width: 100%;
+    margin-bottom: 1.428em;
+  }
+
+  .details .sum {
+    display: block;
+  }
+
+  .details .btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .details .btns > div:first-child {
+    margin-right: 1.428em;
+    margin-bottom: 0;
+  }
+
+  .details .icon {
+    display: block;
+  }
+
+  .details .btn {
+    width: auto;
+    padding: 0;
+    color: #117FED;
+    background-color: transparent;
+    border-radius: 0;
+    text-align: left;
+    text-decoration: underline;
+  }
+
+  .infoblock {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .common-info .info {
+    display: block;
+  }
+
+  .side:first-child {
+    margin-right: 0;
+    margin-bottom: 1em;
+  }
+
+  .details .btns {
+    display: none;
+  }
+
+  .more > .row:not(.comment) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+
+  .comment {
+    display: block;
+  }
+
+  .comment .title {
+    margin-bottom: 0.357em;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .details {
+    margin-top: 0.5em;
+  }
+
+  .infoblock {
+    margin: 0 -1.6rem;
+  }
+
+  .table-adaptive {
+    margin: 0;
+  }
+
+  .control {
+    margin: 0;
+  }
+}

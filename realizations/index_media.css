@@ -1,0 +1,11 @@
+@media only screen and (max-width: 1359px) {
+  .table-desktop > thead > tr > th.adaptive,
+  .table-desktop > tbody > tr > td.adaptive {
+    display: table-cell;
+  }
+
+  .table-desktop > thead > tr > th.desktop,
+  .table-desktop > tbody > tr > td.desktop {
+    display: none;
+  }
+}
