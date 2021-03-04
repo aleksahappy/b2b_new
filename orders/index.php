@@ -26,7 +26,7 @@
         </div>
         <div id="orderslist" class="table active">
           <div class="table-adaptive infoblock template">
-            <div class="info row" onclick="showOrder(event,`#id#`)">
+            <div class="info row" onclick="goToPage(event,`order/?#id#`)">
               <div class="row">
                 <div>#order_number# от #order_date#</div>
                 <div>#order_type#</div>

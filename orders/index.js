@@ -44,14 +44,14 @@ function initPage(data = []) {
           {title: "Собран", value: "3"},
           {title: "Отгружен", value: "4"},
           {title: "Непоставка", value: "5"},
-          {title: "Без состояния", value: "NA"},
+          {title: "Без состояния", value: "NA"}
         ]
       },
       setting: true
     },
     desktop: {
       head: true,
-      trFunc: 'onclick=showOrder(event,#id#)',
+      trFunc: 'onclick="goToPage(event,`order/?#id#`)"',
       sub: [{area: '.pill', items: 'sum'}],
       cols: [{
         title: 'Заказ',
@@ -103,7 +103,7 @@ function initPage(data = []) {
       'user_fio': {title: 'По заказчику', sort: 'text', search: 'usual'},
       'order_type': {title: 'По типу заказа', sort: 'text', search: 'usual', filter: 'checkbox', isMore: true},
       'order_sum': {title: 'По сумме счета', sort: 'numb', search: 'usual'},
-      'debt': {title: 'По ДЗ/КЗ', sort: 'numb', search: 'usual'}
+      'debit_kredit': {title: 'По сумме ДЗ/КЗ', sort: 'numb', search: 'usual'}
     }
   };
   initTable('#orderslist', settings);

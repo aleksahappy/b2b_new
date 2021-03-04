@@ -43,8 +43,7 @@
   }
 
   .infoblock .info > .row > div:last-child {
-    flex-grow: 0;
-    flex-shrink: 0;
+    text-align: right;
   }
 
   .infoblock .info > .pills {
