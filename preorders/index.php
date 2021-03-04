@@ -19,10 +19,10 @@
   </head>
 
   <body>
-    <div id="main">
+    <div id="main" class="template">
       <div class="container">
         <div id="main-header" class="row">
-          <div id="page-title" class="title h0"></div>
+          <div class="title h0">#preorderName#</div>
         </div>
         <div id="preorder-info">
           <div class="info">Прочитайте условия участия в предзаказе и <a class="catalog-link" href="../catalogs/?#preorderId#">перейдите в каталог</a> для выбора товаров. Или скачайте бланк и заполните его вручную. После чего загрузите его на этой странице (корзина наполнится товарами из файла).</div>

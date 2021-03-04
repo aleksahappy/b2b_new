@@ -10,7 +10,6 @@ var preorderId,
 waitCartTotals()
 .then(() => {
   definePreorder();
-  changePageTitle();
   getPageData('../json/preorders.json')
   // getPageData(urlRequest.main, 'preorder_info',  {type: preorderId})
   .then(result => {
@@ -19,17 +18,12 @@ waitCartTotals()
   });
 })
 
-// Запуск страницы предзаказов:
-
-function startPage() {
-
-}
-
 // Инициализация страницы:
 
 function initPage(data = []) {
   data.preorderId = preorderId;
-  loadData('#preorder-info', data);
+  data.preorderName = preorderName;
+  loadData('#main', data);
 }
 
 // Определение загружаемого предзаказа:
@@ -42,15 +36,6 @@ function definePreorder() {
     preorderName = curCatalog.title;
   } else {
     location.href = '../404';
-  }
-}
-
-// Изменение заголовка страницы:
-
-function changePageTitle() {
-  var pageTitle = getEl('#page-title');
-  if (pageTitle) {
-    pageTitle.textContent = preorderName;
   }
 }
 
