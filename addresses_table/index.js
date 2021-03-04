@@ -71,6 +71,7 @@ function initPage() {
         content: `<div class="trash icon" onclick="deleteAddress('#id#')"></div>`
       }]
     },
+    adaptive: {sub: [{area: '.time', items: 'time'}]},
     filters: {
       'full_address': {title: 'По адресу', sort: 'text', search: 'usual'},
       'title': {title: 'По названию', sort: 'text', search: 'usual'},
@@ -80,7 +81,6 @@ function initPage() {
     }
   }
   initTable('#addresses', settings);
-  loadData('.table-adaptive', items, [{area: '.time', items: 'time'}]);
   document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
   document.addEventListener('click', toggleAddress);
   initForm('#address-form', sendForm);
@@ -233,7 +233,6 @@ function deleteAddress(id) {
       items = result;
       convertData();
       updateTable('#addresses', result);
-      loadData('.table-adaptive', data, [{area: '.time', items: 'time'}]);
       document.querySelectorAll('.address img').forEach(el => checkMedia(el, 'delete'));
     } else {
       throw new Error('Ошибка');

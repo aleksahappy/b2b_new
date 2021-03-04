@@ -83,7 +83,6 @@ function initPage() {
     getEl('.table-adaptive .infoblock .head').removeChild(getEl('.table-adaptive .toggle'));
   }
   initTable('#users', settings);
-  loadData('.table-adaptive', items);
   initForm('#user-form', sendForm);
 }
 
@@ -183,7 +182,6 @@ function sendForm(formData) {
       items = result.userslist;
       convertData();
       updateTable('#users', items);
-      loadData('.table-adaptive', items);
       closePopUp(null, '#user');
       clearForm('#user-form');
       curId = undefined;

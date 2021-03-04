@@ -1444,9 +1444,9 @@ input[data-type="range"] {
   flex-grow: 0;
   flex-shrink: 0;
   padding: 0.75em 1.428em;
-  border-radius: 3px;
   color: #34495E;
   background-color: #D4D7DB;
+  border-radius: 3px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -3303,6 +3303,10 @@ form.post .btns-wrap {
 /* Основная таблица */
 
 .table-desktop {
+  display: none;
+}
+
+.table-desktop {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -3310,6 +3314,7 @@ form.post .btns-wrap {
   border-collapse: collapse;
   border: none;
   border-spacing: 0;
+  box-shadow: 0px 0px 5px rgb(52 73 94 / 5%), 0px 2px 10px rgb(52 73 94 / 6%), 0px 4px 15px rgb(52 73 94 / 10%);
   text-align: left;
   direction: ltr;
   table-layout: fixed;
@@ -3402,6 +3407,9 @@ form.post .btns-wrap {
 }
 
 .table-desktop > thead > tr.results > th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 104px;
   color: #666666;
   font-weight: 600;
   background-color: #EEEEEE;

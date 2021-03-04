@@ -57,9 +57,7 @@ function initPage(data = []) {
                   </div>`
       }]
     },
-    adaptive: {
-      sub: [{area: '.docs', items: 'docs'}]
-    },
+    adaptive: {sub: [{area: '.docs', items: 'docs'}]},
     filters: {
       'inn': {title: 'По ИНН', sort: 'numb', search: 'usual'},
       'title': {title: 'По контрагенту', sort: 'text', search: 'usual', filter: 'checkbox'},
@@ -74,7 +72,6 @@ function initPage(data = []) {
     getEl('.table-adaptive .head').removeChild(getEl('.table-adaptive .toggle'));
   }
   initTable('#contr', settings);
-  loadData('.table-adaptive', data, [{area: '.docs', items: 'docs'}]);
   initForm('#contr-form', addContr);
   loader.hide();
 }
@@ -190,7 +187,6 @@ function addContr(formData) {
       alerts.show('Контрагент успешно добавлен.');
       convertData(result);
       updateTable('#contr', result);
-      loadData('.table-adaptive', result, [{area: '.docs', items: 'docs'}]);
       closePopUp(null, '#contractor');
       clearForm('#contr-form');
     }

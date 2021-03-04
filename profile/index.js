@@ -62,7 +62,7 @@ function sendProfile(formData) {
     result = JSON.parse(result);
     if (result.data && !isEmptyObj(result.data)) {
       data = result.data;
-      fillContent()
+      fillContent();
       closePopUp(null, '#profile-edit');
     } else {
       showFormError('#profile-form', result.error);
