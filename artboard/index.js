@@ -20,18 +20,6 @@ initCalendar('#calendar3');
 initForm('#form1');
 initForm('#form2');
 
-// Добавление функционала в блок фильтров для демонстрации работы:
-
-document.querySelectorAll('.filters').forEach(el => {
-  el.querySelectorAll('.item').forEach (el => el.addEventListener('click', event => {
-    event.stopPropagation();
-    if (event.target.closest('.open.icon')) {
-      return;
-    }
-    toggle(event);
-  }));
-})
-
 //=====================================================================================================
 // Работа с таблицами:
 //=====================================================================================================
@@ -92,7 +80,69 @@ for (var i = 0; i < 80; i++) {
   });
 }
 
-// Настройки таблицы:
+// Инициализация блоков фильтров:
+
+// Инициализация блока фильтров по умолчанию (появляется с разрешения 1359px):
+
+var filterSettings = {
+  filters: {
+    'key1': {
+      title: 'Фильтр 1',
+      filter: 'checkbox',
+      items: [{
+        title: 'Вариант 1',
+        value: 'value1',
+        items: ['Подвариант 1', 'Подвариант 2', 'Подвариант 3']
+      }, {
+        title: 'Вариант 2',
+        value: 'value2',
+        items: ['Подвариант 1', 'Подвариант 2', 'Подвариант 3']
+      }, {
+        title: 'Вариант 3',
+        value: 'value3',
+        items: ['Подвариант 1', 'Подвариант 2', 'Подвариант 3']
+      }, {
+        title: 'Вариант 4',
+        value: 'value4',
+        items: ['Подвариант 1', 'Подвариант 2', 'Подвариант 3']
+      }, {
+        title: 'Вариант 5',
+        value: 'value5',
+        items: ['Подвариант 1', 'Подвариант 2', 'Подвариант 3']
+      }],
+      isOpen: true
+    },
+    'key2': {
+      title: 'Фильтр 2',
+      filter: 'checkbox',
+      items: [{title: 'Вариант 1', value: 'value1'}, {title: 'Вариант 2', value: 'value2'}, {title: 'Вариант 3', value: 'value3'}, {title: 'Вариант 4', value: 'value4'}],
+      isOpen: true
+    },
+    'key3': {
+      title: 'Фильтр 3',
+      search: 'usual',
+      filter: 'checkbox',
+      items: ['Вариант 1', 'Вариант 2', 'Вариант 3', 'Вариант 4', 'Вариант 5', 'Вариант 6', 'Вариант 7', 'Вариант 8', 'Вариант 9', 'Вариант 10', 'Вариант 11', 'Вариант 12', 'Вариант 13', 'Вариант 14', 'Вариант 15', 'Вариант 16', 'Вариант 17', 'Вариант 18', 'Вариант 19', 'Вариант 20'],
+      isOpen: true,
+      isMore: true
+    },
+    'key4': {
+      title: 'Фильтр 4',
+      filter: 'select',
+      items: ['Вариант 1', 'Вариант 2', 'Вариант 3'],
+      isOpen: true
+    }
+  }
+};
+initFilter('#filter1', filterSettings);
+
+// Инициализация блока фильтров, который есть на всех разрешениях:
+
+filterSettings.isVisible = true;
+filterSettings.filters.key1.sort = 'text';
+initFilter('#filter2', filterSettings);
+
+// Инициализация таблицы:
 
 var settings = {
   data: data,
@@ -144,9 +194,7 @@ var settings = {
                 </div>`
     }]
   },
-  adaptive: {
-    sub: [{area: '.docs', items: 'docs'}]
-  },
+  adaptive: {sub: [{area: '.docs', items: 'docs'}]},
   filters: {
     'index': {title: 'По номеру', sort: 'numb', search: 'usual'},
     'inn': {title: 'По ИНН', sort: 'numb', search: 'usual'},
@@ -158,17 +206,9 @@ var settings = {
     'docs/title': {title: 'По документу', search: 'usual', filter: 'checkbox'},
   }
 }
-
-// Инициализация таблицы:
-
 initTable('#table', settings);
 
-// Заполнение адаптивной версии таблицы:
-
-loadData('.table-adaptive', data, [{area: '.docs', items: 'docs'}]);
-
 loader.hide();
-
 
 //=====================================================================================================
 // Функции для презентации верстки с тестовыми json:

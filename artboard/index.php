@@ -968,219 +968,6 @@
 
         </div>
 
-        <!-- Блок фильтров -->
-        <div class="artboard-title">Блок фильтров</div>
-        <div class="arboard-block filters-temp">
-
-          <div>Блок фильтров, который есть на всех разрешениях</div>
-          <div class="relay icon" onclick="openPopUp('#filters1')"></div>
-          <div id="filters1" class="pop-up-container filters visible">
-            <div class="pop-up">
-              <div class="pop-up-title row">
-                <div class="title h2">Фильтры</div>
-                <div class="close icon"></div>
-              </div>
-              <div class="pop-up-body">
-                <div class="group switch" data-key="Группа1">
-                  <div class="title row" onclick="switchContent(event)">
-                    <div class="title white h3">Название фильтра 1</div>
-                    <div class="open white icon switch-icon"></div>
-                  </div>
-                  <div class="switch-cont">
-                    <div class="items">
-                      <div class="item switch close" data-value="Вариант1">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Вариант 1</div>
-                          </div>
-                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                        </div>
-                        <div class="items switch-cont">
-                          <div class="item row" data-value="Подвариант1">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 1</div>
-                          </div>
-                          <div class="item row" data-value="Подвариант2">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item switch close" data-value="Вариант2">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Вариант 2</div>
-                          </div>
-                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                        </div>
-                        <div class="items switch-cont">
-                          <div class="item row" data-value="Подвариант1">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 1</div>
-                          </div>
-                          <div class="item row" data-value="Подвариант2">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="more row #isMore#">
-                      <div>Больше</div>
-                      <div class="open light icon"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="group switch" data-key="Группа2">
-                  <div class="title row" onclick="switchContent(event)">
-                    <div class="title white h3">Название фильтра 2</div>
-                    <div class="open white icon switch-icon"></div>
-                  </div>
-                  <div class="switch-cont">
-                    <div class="items">
-                      <div class="item switch close" data-value="Вариант1">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Вариант 1</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item switch close" data-value="Вариант2">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Вариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="btns-wrap">
-                  <div class="btn act">Показать (<span>0</span>)</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <br>
-
-          <div>Блок фильтров, который появляется с разрешения 1359px</div>
-          <div class="relay icon" onclick="openPopUp('#filters2')"></div>
-          <div id="filters2" class="pop-up-container filters">
-            <div class="pop-up">
-              <div class="pop-up-title row">
-                <div class="title h2">Сортировки</div>
-                <div class="close icon"></div>
-              </div>
-              <div class="pop-up-body">
-                <div class="group switch">
-                  <div class="title row" onclick="switchContent(event)">
-                    <div class="title white h3">Название сортировки 1</div>
-                    <div class="open white icon switch-icon"></div>
-                  </div>
-                  <div class="switch-cont">
-                    <div class="item sort down row" data-value="down">
-                      <div class="radio icon"></div>
-                      <div>По возрастанию</div>
-                    </div>
-                    <div class="item sort up row" data-value="up">
-                      <div class="radio icon"></div>
-                      <div>По убыванию</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="title row">
-                  <div class="title h2">Фильтры</div>
-                </div>
-                <div class="group switch">
-                  <div class="title row" onclick="switchContent(event)">
-                    <div class="title white h3">Название фильтра 1</div>
-                    <div class="open white icon switch-icon"></div>
-                  </div>
-                  <div class="switch-cont">
-                    <div class="items">
-                      <div class="item switch close">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Вариант 1</div>
-                          </div>
-                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                        </div>
-                        <div class="items switch-cont">
-                          <div class="item row">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 1</div>
-                          </div>
-                          <div class="item row">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item switch close">
-                        <div class="row">
-                          <div class="title row">
-                            <div class="checkbox icon"></div>
-                            <div class="text">Вариант 2</div>
-                          </div>
-                          <div class="open icon switch-icon" onclick="switchContent(event)"></div>
-                        </div>
-                        <div class="items switch-cont">
-                          <div class="item row">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 1</div>
-                          </div>
-                          <div class="item row">
-                            <div class="checkbox icon"></div>
-                            <div>Подвариант 2</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="item row">
-                        <div class="checkbox icon"></div>
-                        <div>Вариант 3</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="group switch">
-                  <div class="title row" onclick="switchContent(event)">
-                    <div class="title white h3">Название фильтра 2</div>
-                    <div class="open white icon switch-icon"></div>
-                  </div>
-                  <div class="switch-cont">
-                    <form class="search row" action="#">
-                      <input type="text" data-value="" placeholder="Поиск...">
-                      <input class="search icon" type="submit" value="">
-                      <div class="close icon"></div>
-                    </form>
-                    <div class="items">
-                      <div class="item row">
-                        <div class="checkbox icon"></div>
-                        <div>Вариант 1</div>
-                      </div>
-                      <div class="item row">
-                        <div class="checkbox icon"></div>
-                        <div>Вариант 2</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="btns-wrap">
-                  <div class="btn act">Показать (<span>0</span>)</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-
         <!-- Всплывающее окно -->
         <div class="artboard-title">Всплывающее окно</div>
         <div class="arboard-block pop-up-temp">
@@ -1480,18 +1267,39 @@
 
         </div>
 
+        <!-- Блок фильтров -->
+
+        <div class="artboard-title">Блок фильтров</div>
+        <div class="arboard-block filters-temp">
+
+          <!-- Чтобы создать блок фильтров с помощью общего функционала нужно:
+          1) инициализировать фильтр, вызвав функцию initFilter(), куда передать первым параметром id контейнера, а вторым настройки (подробно про настройки в main.js) -->
+
+          <div>Блок фильтров, который появляется с разрешения 1359px</div>
+          <div id="filter1">
+            <div class="relay icon"></div>
+          </div>
+
+          <br>
+
+          <div>Блок фильтров, который есть на всех разрешениях</div>
+          <div id="filter2">
+            <div class="relay icon"></div>
+          </div>
+
+        </div>
+
         <!-- Таблица -->
-        <div class="artboard-title">Таблицы</div>
+        <div class="artboard-title">Таблица (адаптивная версия по умолчанию появляется с 1359px)</div>
         <div class="arboard-block table-temp" style="min-height: 40em;">
 
-          <!-- Чтобы таблица отобразилась на странице корректно нужно:
+          <br>
+
+          <!-- Чтобы создать таблицу с помощью общего функционала нужно:
           1) создать контейнер для таблицы с классом table (и active если она должна отображаться сразу), присвоить id контейнеру
           2) создать разметку для адаптивной части таблицы (если необходимо) с классом table-adaptive внутри контейнера
           3) инициализировать таблицу, вызвав функцию initTable(), куда передать первым параметром id контейнера, а вторым настройки (подробно про настройки в table.js) -->
 
-          <div class="title h1">Таблица, созданная динамически</div>
-          <div class="title h2">(её адаптивная версия появляется с 1359px)</div>
-          <br>
           <div id="table" class="table active"> <!-- Контейнер таблицы -->
             <div class="table-adaptive template"> <!-- Адаптивная часть таблицы -->
               <div class="infoblock">
