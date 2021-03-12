@@ -37,10 +37,10 @@ function initPage(data = []) {
         title: 'Система налогообложения',
         keys: ['system']
       }, {
-      //   title: 'Дата заведения',
-      //   align: 'center',
-      //   keys: ['date']
-      // }, {
+        title: 'Дата заведения',
+        align: 'center',
+        keys: ['date']
+      }, {
         title: 'Юридический адрес',
         width: '20%',
         keys: ['address']
