@@ -53,7 +53,11 @@ userInfo = {login: "TS00000905", name: "Александра", lastname: "Чап
 //   } catch(error) {
 //     // console.log(error);
 //     if (path) {
-//       location.href = `/?${location.href}`;
+//       if (path === '404') {
+//         location.href = `/`;
+//       } else {
+//         location.href = `/?${(location.pathname + location.search).replace('/', '')}`;
+//       }
 //     }
 //   }
 // })();

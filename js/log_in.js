@@ -28,7 +28,7 @@ function logIn(event) {
       var result = JSON.parse(request.response);
       if (result.ok) {
         if (location.search) {
-          location.href = location.search.replace('?', '');
+          location.href = location.search.replace('?', '/');
         } else {
           location.href = '/dashboard';
         }
