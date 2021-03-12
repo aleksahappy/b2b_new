@@ -44,7 +44,7 @@ function initPage() {
   convertData();
   loadData('#main-info', data);
   loadData('#nomen-list', data.items.nomen);
-  loadData('.table-adaptive', data.items, [{
+  loadData('.table-adaptive', data, [{
     area: '.pill', items: 'pills'
   }, {
     area: '.shipments-row', items: 'nakls'
@@ -68,8 +68,8 @@ function convertData() {
   delete data.orderitems;
 
   fromDisplay = data.source_id > 0 ? true : false;
-  data.isShipments = data.items.nakls ? '' : 'disabled';
-  data.isPayments = data.items.payments ? '' : 'disabled';
+  data.isShipments = data.nakls ? '' : 'disabled';
+  data.isPayments = data.payments ? '' : 'disabled';
   data.order_status = data.order_number ? data.order_status : 'В обработке';
   data.isMoreRow = data.comment || fromDisplay ? '' : 'displayNone';
   data.isComment = data.comment ? '' : 'hidden';
@@ -102,7 +102,7 @@ function getNaklsData() {
     }
     result[i] = list;
   }
-  data.items.nakls = result;
+  data.nakls = result;
 }
 
 // Получение данных о товарах из csv-формата:
@@ -179,7 +179,7 @@ function getItemsData() {
     fullInfo.push(obj);
   }
 
-  data.items.pills = [];
+  data.pills = [];
   for (var name in orderInfo) {
     getItems(name, orderInfo[name], fullInfo);
     getPill(name, orderInfo[name]);
@@ -231,7 +231,7 @@ function getPill(name, info) {
     if (name === 'nomen') {
       data.order_sum = sum;
     } else {
-      data.items.pills.push({
+      data.pills.push({
         title: info.title,
         sum: sum,
         status: status,
@@ -335,7 +335,7 @@ function getPaymentsData() {
       }
     }
   });
-  data.items.payments = payments;
+  data.payments = payments;
 }
 
 // Добавление в данные информации для мастера создания рекламаций:
@@ -376,7 +376,7 @@ function toggleOrderBtns() {
       cancelBtn = getEl('#cancel'),
       confirmBtn = getEl('#confirm');
 
-  if (fromDisplay && data.items.sobrn.length) {
+  if (fromDisplay && (data.items.sobrn.length || data.items.otgrz.length)) {
     data.isCancel = false;
     data.isConfirm = false;
   } else if (fromDisplay && orderStatus == 'ожидает подтверждения') {
@@ -796,12 +796,13 @@ function changeOrderStatus(event) {
 
 // Фильтрация в списке товаров на адаптиве:
 
-function selectItems(event) {
+function filterItems(event) {
   clearSearch('#order-search');
   var curEl = event.target;
-  if (curEl.classList.contains('pill')) {
-    curEl.classList.toggle('checked');
+  if (!curEl.classList.contains('pill')) {
+    return;
   }
+  curEl.classList.toggle('checked');
   var items = [],
       filters = [];
   document.querySelectorAll('.table-adaptive .pill.checked').forEach(el => filters.push(el.dataset.value));
@@ -816,20 +817,27 @@ function selectItems(event) {
       return isFound;
     });
   }
-  loadSearchData('#nomen-list', items);
+  fillData(items);
 }
 
 // Поиск в списке товаров на адаптиве:
 
 function adaptiveSearch(search, textToFind) {
-  var items = data.items.nomen,
+  var items = [],
       pills = document.querySelectorAll('.table-adaptive .pill');
   if (textToFind) {
     pills.forEach(el => el.classList.add('disabled'));
-    items = items.filter(el => findByRegExp(el.search, getRegExp(textToFind)));
+    items = data.items.nomen.filter(el => findByRegExp(el.search, getRegExp(textToFind)));
   } else {
     pills.forEach(el => el.classList.remove('disabled'));
   }
+  fillData(items);
+}
+
+// Изменение данных в списке товаров на адаптиве:
+
+function fillData(items) {
+  // setDocumentScroll(0, getEl('.nomen-wrap').getBoundingClientRect().top + pageYOffset);
   loadSearchData('#nomen-list', items);
 }
 
