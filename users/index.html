@@ -41,12 +41,12 @@
                     <div>
                       <div class="title">Должность: <span class="text">#position#</span></div>
                       <div class="title">Дата рождения: <span class="text">#birth#</span></div>
-                      <div class="title">Пол: <span class="text">#gender#</span></div>
+                      <div class="title">Пол: <span class="text">#gender_text#</span></div>
                     </div>
                     <div>
-                      <div class="title">Телефон: <a href="tel:#phone#">#phone#</a></div>
-                      <div class="title">Email: <a href="mailto:#email#">#email#</a></div>
-                      <div class="title">Дата заведения: <span class="text">#date#</span></div>
+                      <div class="title">Телефон: <span class="text">#phone_link#</span></div>
+                      <div class="title">Email: <span class="text">#email_link#</span></div>
+                      <!-- <div class="title">Дата заведения: <span class="text">#date#</span></div> -->
                     </div>
                   </div>
                 </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="form-wrap" required>
               <div class="title">Должность<span class="req">*</span></div>
-              <input type="text" value="" name="position" placeholder="Введите должность" maxlength="40">
+              <input type="text" value="" name="position" data-type="text" placeholder="Введите должность" maxlength="40">
             </div>
             <div class="form-cols">
               <div class="form-wrap form-col2" required>

@@ -43,12 +43,10 @@ function initPage() {
         keys: ['birth']
       }, {
         title: 'Телефон',
-        keys: ['phone'],
-        content: '<a href="tel:#phone#">#phone#</a>'
+        keys: ['phone_link']
       }, {
         title: 'Email',
-        keys: ['email'],
-        content: '<a href="mailto:#email#">#email#</a>'
+        keys: ['email_link']
       }, {
         title: 'Тип доступа',
         align: 'center',
@@ -97,6 +95,8 @@ function convertData() {
       el.gender_text = 'жен.';
     }
     el.phone = convertPhone(el.phone);
+    el.phone_link = el.phone ? `<a href="tel:${el.phone}">${el.phone}</a>` : '';
+    el.email_link = el.email ? `<a href="mailto:${el.email}">${el.email}</a>` : '';
     getStatus(el);
   });
 }
