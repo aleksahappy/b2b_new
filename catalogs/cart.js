@@ -1292,13 +1292,13 @@ function toggleAddressField() {
   if (deliveryType.value === '2' || deliveryType.value === '3') {
     address.removeAttribute('disabled');
     formWrap.setAttribute('required', 'required');
-    title.textContent = 'Адрес доставки*';
+    title.innerHTML = 'Адрес доставки<span class="req">*</span>';
   } else {
     if (window.addressDropdown) {
       addressDropdown.clear();
     }
     address.setAttribute('disabled', 'disabled');
     formWrap.removeAttribute('required', 'required');
-    title.textContent = 'Адрес доставки';
+    title.innerHTML = 'Адрес доставки';
   }
 }

@@ -407,20 +407,21 @@ function addActionInfo(item) {
 // Добавление данных о текущей цене и отображении/скрытии старой:
 
 function addPriceInfo(item) {
+  var newPrice;
   if (isPreorder) {
-    item.isOldPrice = '';
-    item.price_cur = item.price_preorder;
-    item.price_cur1 = item.price_preorder1;
+    newPrice = item.price_preorder1 > 0 && item.price_user1 !== item.price_preorder1 ? 'price_preorder' : undefined;
   } else {
-    if (item.price_user1 !== item.price_action1 && item.action_id && item.price_action1 > 0) {
-      item.isOldPrice = '';
-      item.price_cur = item.price_action;
-      item.price_cur1 = item.price_action1;
-    } else {
-      item.isOldPrice = 'displayNone',
-      item.price_cur = item.price,
-      item.price_cur1 = item.price1;
-    }
+    newPrice = item.action_id && item.price_action1 > 0 && item.price_user1 !== item.price_action1 ? 'price_action' : undefined;
+  }
+
+  if (newPrice) {
+    item.isOldPrice = '';
+    item.price_cur = item[newPrice];
+    item.price_cur1 = item[`${newPrice}1`];
+  } else {
+    item.isOldPrice = 'displayNone',
+    item.price_cur = item.price,
+    item.price_cur1 = item.price1;
   }
 }
 

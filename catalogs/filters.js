@@ -379,6 +379,10 @@ function fillCatalogFilters() {
       }
     }
   }
+
+  // if (isPreorder) {
+  //   delete catalogFiltersData.filters.brand;
+  // }
 }
 
 //=====================================================================================================
