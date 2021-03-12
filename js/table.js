@@ -227,7 +227,7 @@ function createTable(area, settings) {
   var table = getEl('.table-desktop', area);
   if (table) {
     area.removeChild(table);
-    window[`${area.id}-bodyTemp`] = undefined;
+    window[`${area.id}bodyTemp`] = undefined;
   }
   table = document.createElement('table');
   table.classList.add('table-desktop');
@@ -809,9 +809,10 @@ function Table(obj, settings = {}) {
       data.push(this.dataToLoad[i]);
     }
     var obj = {
-      area: '.table-adaptive',
+      area: this.adaptive,
       items: data,
-      method: this.countItems === 0 ? 'inner' : 'beforeend'
+      method: this.countItems === 0 ? 'inner' : 'beforeend',
+      replace: '&ndash;'
     };
     if (settings.adaptive) {
       for (var key in settings.adaptive) {
