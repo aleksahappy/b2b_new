@@ -102,7 +102,7 @@
   position: -webkit-sticky;
   position: sticky;
   top: 40px;
-  z-index: 10;
+  z-index: 20;
 }
 
 .control {

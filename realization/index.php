@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-    <title>ТОП СПОРТС - Заказ</title>
+    <title>ТОП СПОРТС - Реализация</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="ТОП СПОРТС">
@@ -99,7 +99,7 @@
             </div>
             <div class="switch-cont">
               <div class="control">
-                <form id="realiz-search" class="search row" data-type="fast" action="#">
+                <form id="realization-search" class="search row" data-type="fast" action="#">
                   <input type="text" data-value="" placeholder="Поиск по артикулу, наименованию...">
                   <input class="search icon" type="submit" value="">
                   <div class="close icon"></div>

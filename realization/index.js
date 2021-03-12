@@ -80,7 +80,7 @@ function initPage() {
     }
   };
   initTable(`#realization`, settings);
-  // initSearch('#realization-search', adaptiveSearch);
+  initSearch('#realization-search', adaptiveSearch);
 }
 
 // Преобразование полученных данных:
@@ -88,19 +88,19 @@ function initPage() {
 function convertData() {
   data.realiz_sum = convertPrice(data.realiz_sum, 2);
   data.isComment = data.comment ? '' : 'hidden';
+  data.items.forEach(el => {
+    el.search = `${el.titl};${el.artc};${el.kolv};${convertToString(el.summ)}`;
+  });
 }
 
 // Поиск в списке товаров на адаптиве:
 
 function adaptiveSearch(search, textToFind) {
-  var items = data.items.nomen,
-      pills = document.querySelectorAll('.table-adaptive .pill');
+  // setDocumentScroll(0, getEl('#realization').getBoundingClientRect().top + pageYOffset - 40);
+  var items = data.items;
   if (textToFind) {
-    pills.forEach(el => el.classList.add('disabled'));
     items = items.filter(el => findByRegExp(el.search, getRegExp(textToFind)));
-  } else {
-    pills.forEach(el => el.classList.remove('disabled'));
   }
-  loadSearchData('#nomen-list', items);
+  loadSearchData('.table-adaptive', items);
 }
 
