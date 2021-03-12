@@ -1696,6 +1696,7 @@ function fillTemplate(data) {
   } else {
     data.areaName = data.area.id || data.area.classList[0];
   }
+  data.areaName = data.areaName.replace(/\W/gi, '');
 
   var temp = window[`${data.areaName}Temp`]; // шаблон
   if (!temp) {
@@ -1821,7 +1822,7 @@ function fillSubTemp(data, items, temp) {
 
 function replaceInTemp(key, items, temp, sign) {
   var value = key ? items[key] : items;
-  if (value !== undefined && value !== null && typeof value !== 'object') {
+  if (typeof value !== 'object' && value !== undefined && /\S/.test(value)) {
     var regex = new RegExp(sign + (key || 'item') + sign, 'gi');
     temp = temp.replace(regex, value);
   }
@@ -1929,10 +1930,12 @@ function loadData(area, items, sub) {
 
 function loadSearchData(area, items, sub) {
   var area = getEl(area);
-  if (items.length) {
-    loadData(area, items, sub);
-  } else {
-    area.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
+  if (area) {
+    if (items.length) {
+      loadData(area, items, sub);
+    } else {
+      area.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
+    }
   }
 }
 
@@ -2669,7 +2672,7 @@ function Alerts(obj) {
 // Регулярные выражения для валидации полей форм:
 
 var textValidate = /[^\s]{2,}/;
-var nameValidate = /^[a-zA-Z|\-|\s]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯя|\-|\s]{2,30}$/;
+var nameValidate = /^[a-zA-Z\s-]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯ\s-]{2,}$/;
 var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var nicknameValidate =/^\w+@*\w+\.*\w*$/;
 var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
@@ -4130,7 +4133,7 @@ function Filter(obj, settings, handler) {
     }
 
     function fill(key, filterBlock) {
-      if (!data.filter || !data.items || !data.items.length) {
+      if (!data.filter) {
         return;
       }
       var group = getEl(`.group:not(.sort)[data-key="${key}"]`, filterBlock),
