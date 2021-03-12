@@ -1,9 +1,3 @@
-/* Стили таблицы */
-
-#reclm > table > tbody > tr > td {
-  cursor: pointer;
-}
-
 /* Стили адаптивной таблицы */
 
 .infoblock .info {

@@ -39,10 +39,6 @@
   margin-bottom: 0.5em;
 }
 
-#orderslist > table > tbody > tr > td {
-  cursor: pointer;
-}
-
 /* Стили адаптивной таблицы */
 
 .infoblock .info {

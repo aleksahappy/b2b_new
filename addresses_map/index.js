@@ -93,7 +93,7 @@ function toggleTradeTypeField() {
     field.closest('.form-wrap').setAttribute('required', 'required');
     showElement(addBtn);
   } else {
-    window['trade-typeDropdown'].clear();
+    tradetypeDropdown.clear();
     field.setAttribute('disabled', 'disabled');
     field.closest('.form-wrap').removeAttribute('required', 'required');
     hideElement(addBtn);
