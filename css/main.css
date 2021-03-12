@@ -3198,9 +3198,10 @@ form.post .btns-wrap {
   justify-content: space-between;
   align-items: center;
   top: 64px;
-  width: 100%;
-  margin-top: -1em;
-  padding: 1em 0;
+  width: calc(100% + 20px);
+  /* margin-top: -1em; */
+  margin-left: -10px;
+  padding: 1em 10px;
   background-color: #F2F2F2;
   z-index: 10;
 }
@@ -3496,6 +3497,10 @@ form.post .btns-wrap {
 
 .table-desktop > tbody.template {
   display: none;
+}
+
+.table-desktop > tbody > tr[onclick] {
+  cursor: pointer;
 }
 
 .table-desktop > tbody > tr:hover {
