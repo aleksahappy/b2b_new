@@ -1358,17 +1358,18 @@ function checkFiltersIsNeed() {
   var filters = JSON.parse(JSON.stringify(catalogFiltersData));
   var toggleDisplay = {
     // pageUrl: список ключей для скрытия
-    'equip': ['cat', 'sizeREU', 'size_1252', 'size_39', 'size_38', 'size_1256', 'size_1260', 'size_60', 'size_1273', 'size_1274', 'size_1295', 'size1260', 'size60', 'size1273', 'size1274', 'size1295', 'size1313', 'length'], // Вся экипировка
-    'equip/odegda': ['length'], // Одежда
-    'equip/obuv': ['length'], // Обувь
-    'equip/shlem': ['length'], // Шлемы
-    'equip/optic': ['length'], // Оптика
-    'equip/zashita': ['length'], // Защита
-    'equip/sumruk': ['length'], // Сумки и рюкзаки
-    'equip/merch': ['length'], // Мерчандайзинг
-    'boats': ['material', 'power', 'step', 'fit', 'type'], // Лодки и моторы
-    'boats/zip': ['material', 'power', 'step', 'fit', 'type'], // Запчасти
-    'boats/acc': ['material', 'power', 'step', 'fit', 'type'], // Аксессуары
+    'equip': ['cat', 'id_15', 'sizeREU', 'size_1252', 'size_39', 'size_38', 'size_1256', 'size_1260', 'size_60', 'size_1273', 'size_1274', 'size_1295', 'size_1313', 'id_1253', 'id_1262', 'id_41'], // Вся экипировка
+    'equip/odegda': ['id_41'], // Одежда
+    'equip/obuv': ['id_41'], // Обувь
+    'equip/shlem': ['id_41'], // Шлемы
+    'equip/optic': ['id_41'], // Оптика
+    'equip/snaryazhenie': [''], // Снаряжение
+    'equip/zashita': ['id_41'], // Защита
+    'equip/sumruk': ['id_41'], // Сумки и рюкзаки
+    'equip/merch': ['id_41'], // Мерчандайзинг
+    'boats': ['id_3', 'id_5', 'id_4', 'id_6', 'id_8'], // Лодки и моторы
+    'boats/zip': ['id_3', 'id_5', 'id_4', 'id_6', 'id_8'], // Запчасти
+    'boats/acc': ['id_3', 'id_5', 'id_4', 'id_6', 'id_8'], // Аксессуары
     'boats/propeller': ['cat'] // Винты гребные
   };
 
