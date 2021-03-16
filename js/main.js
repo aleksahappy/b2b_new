@@ -1180,12 +1180,12 @@ function sortBy(key, type = 'text') {
       case 'date':
         return getDateObj(value, 'dd.mm.yy');
       case 'size':
-        value = value.replace(/\s/g, '');
+        value = value.replace(/\s/g, '').toUpperCase();
         var sizeIndex = sizeTemp.findIndex(el => el === value);
         if (sizeIndex >= 0) {
           value = sizeIndex;
         } else {
-          if (value === 'OS' || value === 'NA') {
+          if (['OS', 'O/S', 'ONESIZE', 'NA', 'N/A'].indexOf(value) >= 0) {
             value = Infinity;
           } else if (/\D/.test(value.replace(/\-|\/|\./gi, ''))) {
             value = null;
@@ -3144,7 +3144,7 @@ function Search(obj, callback) {
       }
       this.search();
     });
-    if (!this.obj.classList.contains('positioned') && (this.type !== 'inGroup' || this.type === 'inGroup' && !this.items)) {
+    if (!this.obj.classList.contains('positioned')) {
       this.input.addEventListener('focus', () => {
         document.addEventListener('click', this.blurInput);
         if (this.type === 'inSearchBox') {
@@ -3170,11 +3170,18 @@ function Search(obj, callback) {
 
 // Возвращение значения в инпут при потере фокуса поиском:
   this.blurInput = event => {
-    if (event && event.target.closest('form.search') === this.obj) {
-      return;
+    if (this.type === 'inGroup' && this.items) {
+      if (event && (event.target.closest('form.search') === this.obj || event.target.closest('.items') === this.items || event.target.closest('.more') === this.more)) {
+        return;
+      }
+      this.clear();
+    } else {
+      if (event && event.target.closest('form.search') === this.obj) {
+        return;
+      }
+      onBlurInput(this.input);
+      this.toggleHints();
     }
-    onBlurInput(this.input);
-    this.toggleHints();
     document.removeEventListener('click', this.blurInput);
   }
 
@@ -3260,7 +3267,7 @@ function Search(obj, callback) {
       return;
     }
     textToFind = textToFind.replace(/\s*\,\s*/gm, ',').replace(/\s*\/\s*/gi, '/');
-    if (callback && !(this.group && this.items)) {
+    if (callback && !(this.type === 'inGroup' && this.items)) {
       var count = callback(this.obj, textToFind);
     }
     if (this.type === 'usual') {
@@ -3308,7 +3315,7 @@ function Search(obj, callback) {
       this.input.focus();
     }
     this.clear();
-    if (callback && !(this.group && this.items)) {
+    if (callback && !(this.type === 'inGroup' && this.items)) {
       callback(this.obj);
     }
   }
@@ -3683,7 +3690,7 @@ function DropDown(obj, handler, data, defaultValue) {
 //     key1: {                                          - ключ в данных, по которому находится информация
 //       title: 'Заголовок'                               - заголовок сортировки
 //       sort: 'text' / 'numb' / 'date'                   - формат сортировки (по умолчанию text)
-//       search: 'usual' / 'date'                         - нужен ли поиск по ключу и его формат (по умолчанию отсутствует)
+//       search: 'usual' / 'date' / false                 - нужен ли поиск по ключу/ вариантам и его формат (по умолчанию если нет вариантов - отсутствует, если есть варианты - обычный, если false - отсутствует)
 //       filter: 'checkbox' / 'select'                    - нужна ли фильтрация по ключу и ее формат (по умолчанию отсутствует)
 //       items:                                           - данные для заполнения фильтра (чекбоксов или селектов):
 //        [{                                                1) первый вариант заполенения (когда название отличается от значения и/или есть подфильтры):
@@ -3700,7 +3707,7 @@ function DropDown(obj, handler, data, defaultValue) {
 //         }, {...}]
 //         или ['значение1', 'значение2', ...]              2) второй вариант заполнения (когда название и значение одинаковые и нет подфильтров)
 //       isOpen: true / false                             - открыт ли фильтр по умолчанию (по умолчанию false - закрыт, true - открыт)
-//       isMore: true / false / 'количество'              - скрывать ли значения фильтра и больше скольки (по умолчанию false - не срывать, true - скрывать больше 4-х, 'количество' - то скрывать больше этого количества)
+//       isMore: true / 'количество' / false              - скрывать ли значения фильтра и больше скольки (по умолчанию true - скрывать больше 4-х, если указано количество - то скрывать больше этого количества, false - не скрывать)
 //     },
 //     key2: {...}
 //   },
@@ -3875,28 +3882,30 @@ function createFilter(area, settings) {
 
     if (search || filter) {
       var content = '';
-      if (search) {
-        if (search === 'date') {
+
+      if (search !== false) {
+        if (!filter && search === 'date') {
           filter = undefined;
           search =
           `<div class="calendar-wrap">
-            <input type="text" value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
+            <input type="text" value="" data-value="" data-type="date" placeholder="ДД.ММ.ГГГГ" maxlength="10" autocomplete="off" oninput="onlyDateChar(event)">
           </div>`;
         } else {
           search =
           `<form class="search row" data-type="fast" action="#">
-            <input type="text" data-value="" placeholder="Поиск...">
+            <input type="text" value="" data-value="" placeholder="Поиск...">
             <input class="search icon" type="submit" value="">
             <div class="close icon"></div>
           </form>`;
         }
         content += search;
       }
+
       if (filter) {
         content +=
         `<div class="not-found">Совпадений не найдено</div>
         <div class="items"></div>`;
-        if (data.isMore) {
+        if (data.isMore !== false) {
           content +=
           `<div class="more row">
             <div>Больше</div>
@@ -4142,7 +4151,7 @@ function Filter(obj, settings, handler) {
         groupItems.innerHTML = fillFilterItems(data.filter, data.items, true);
         var items = data.items,
             isSearch = data.search,
-            isMore = data.isMore;
+            isMore = data.isMore === false ? false : (!data.isMore || data.isMore === true ? 4 : data.isMore);
 
         if (items && items.length) {
           group.classList.remove('displayNone');
@@ -4151,10 +4160,10 @@ function Filter(obj, settings, handler) {
           return;
         }
 
-        if (isSearch) {
+        if (isSearch !== false) {
           var search = getEl('form.search', group);
           if (search) {
-            if (items && items.length > 8) {
+            if (items && items.length > (isMore ? parseFloat(isMore, 10) + 4 : 8)) {
               search.classList.remove('displayNone');
             } else {
               search.classList.add('displayNone');
@@ -4162,19 +4171,16 @@ function Filter(obj, settings, handler) {
           }
         }
 
-        if (isMore) {
-          var moreBtn = getEl('.more', group);
-          if (moreBtn) {
-            isMore = isMore === true ? 4 : isMore;
-            groupItems.dataset.maxHeight = 2.1 * Number(isMore) + 'em';
-            groupItems.dataset.maxCount = isMore;
-            if (items.length > isMore + 3) {
-              groupItems.style.maxHeight = groupItems.dataset.maxHeight;
-              moreBtn.classList.remove('displayNone');
-            } else {
-              groupItems.style.maxHeight = 'none';
-              moreBtn.classList.add('displayNone');
-            }
+        var moreBtn = getEl('.more', group);
+        if (moreBtn && isMore) {
+          groupItems.dataset.maxHeight = 2.1 * Number(isMore) + 'em';
+          groupItems.dataset.maxCount = isMore;
+          if (items.length > isMore + 3) {
+            groupItems.style.maxHeight = groupItems.dataset.maxHeight;
+            moreBtn.classList.remove('displayNone');
+          } else {
+            groupItems.style.maxHeight = 'none';
+            moreBtn.classList.add('displayNone');
           }
         }
 
