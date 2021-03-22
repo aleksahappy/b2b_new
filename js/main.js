@@ -1917,22 +1917,23 @@ function getTitle(key, value, isFix) {
 
 // Заполнение данных по шаблону:
 
-function loadData(area, items, sub) {
+function loadData(area, items, sub, sign) {
   var area = getEl(area);
   fillTemplate({
     area: area,
     items: items,
-    sub: sub
+    sub: sub,
+    sign: sign
   });
 }
 
 // Заполнение данных по шаблону/отображение информации о том, что ничего не найдено:
 
-function loadSearchData(area, items, sub) {
+function loadSearchData(area, items, sub, sign) {
   var area = getEl(area);
   if (area) {
     if (items.length) {
-      loadData(area, items, sub);
+      loadData(area, items, sub, sign);
     } else {
       area.innerHTML = '<div class="notice">По вашему запросу ничего не найдено.</div>';
     }
