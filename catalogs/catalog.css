@@ -1143,10 +1143,6 @@ body#snowbike .full-card .manuf-table td:nth-child(1) {
   background-color: #F8F8F8;
 }
 
-.full-card .card-details .notice {
-  display: none;
-}
-
 /* Стили для полной карточки комплектов в ЗИП */
 
 .full-card-kit .full-card .card-sizes > .row {

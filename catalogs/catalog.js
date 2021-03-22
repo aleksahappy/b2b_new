@@ -95,6 +95,7 @@ function defineCatalog() {
   path = location.search ? location.search.slice(1).split('&').filter(el => el && el.indexOf('=') == -1) : undefined;
   if (path && path.length <= 3 && cartTotals.find(el => el.id === path[0])) {
     catalogId = path[0];
+    document.body.id = catalogId;
     getCatalogSettings();
     getPageType();
   } else {
@@ -407,12 +408,8 @@ function addActionInfo(item) {
 // Добавление данных о текущей цене и отображении/скрытии старой:
 
 function addPriceInfo(item) {
-  var newPrice;
-  if (isPreorder) {
-    newPrice = item.price_preorder1 > 0 && item.price_user1 !== item.price_preorder1 ? 'price_preorder' : undefined;
-  } else {
-    newPrice = item.action_id && item.price_action1 > 0 && item.price_user1 !== item.price_action1 ? 'price_action' : undefined;
-  }
+  var newPrice = item.action_id && item.price_action1 > 0 && item.price_user1 !== item.price_action1 ? 'price_action' : undefined;
+  newPrice = item.price_preorder1 > 0 && item.price_user1 !== item.price_preorder1 ? 'price_preorder' : newPrice;
 
   if (newPrice) {
     item.isOldPrice = '';
@@ -972,7 +969,6 @@ function fillCard(cardContainer, data) {
     getDescribeInfo(data)
     .then(() => getDetailsInfo(cardContainer, data))
     .then(() => {
-      loadData(getEl('.details', cardContainer), data.details);
       loadData(cardContainer, data, [{
         area: '.carousel-item',
         items: 'images'
@@ -992,6 +988,7 @@ function fillCard(cardContainer, data) {
         area: '.card-describe',
         items: 'describe',
       }]);
+      loadData(getEl('.details', cardContainer), data.details, null, '@');
 
       var card = getEl('.card', cardContainer),
           curCarousel = getEl('.carousel', card);
@@ -1063,14 +1060,10 @@ function detailsSearch(search, textToFind) {
       var regExp = getRegExp(textToFind);
       data = data.filter(item => findByRegExp(item, regExp));
     }
-    var details = getEl('.details', card),
-        notice = getEl('.card-details .notice', card);
-    loadData(details, data);
+    var details = getEl('.details', card);
+    loadSearchData(details, data, null, '@');
     if (data.length) {
-      hideElement(notice);
       highlightText(details, textToFind);
-    } else {
-      showElement(notice);
     }
   }
 }

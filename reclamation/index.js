@@ -271,7 +271,6 @@ function openChat() {
 // Прокрутка чата в конец сообщений:
 
 function scrollChat(delay = 0) {
-  console.log('scrollChat');
   setTimeout(() => {
     var chat = getEl('#chat .wrap');
     chat.scrollTop = chat.scrollHeight;
