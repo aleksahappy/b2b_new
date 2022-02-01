@@ -565,7 +565,7 @@ function setFiltersHeight() {
 
 // Установка ширины малых карточек товаров:
 
-function setMinCardWidth(width) {
+function setMinCardWidth() {
   if (view === 'list') {
     return;
   }
