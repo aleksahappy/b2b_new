@@ -38,7 +38,7 @@ class Calendar {
     <div class='month-navigator'>
       <div class='month-previous'></div>
       <div class='nav-center'>
-        <div class='month'>October 2019</div>
+        <div class='month'></div>
         <div class='years-nav'>
           <div class='next-year'></div>
           <div class='prev-year'></div>
