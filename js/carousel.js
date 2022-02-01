@@ -22,9 +22,7 @@ function startCarouselInit(obj, start) {
 //=====================================================================================================
 
 function Carousel(obj, start) {
-
   // НАСТРОЙКИ ПО УМОЛЧАНИЮ:
-
   this.settings = {
     isNav: false,            // Наличие навигации (точек или картинок под каруселью)
     navType: 'img',          // Тип навигации ('img' или 'dot')
@@ -47,7 +45,6 @@ function Carousel(obj, start) {
   };
 
   // ЭЛЕМЕНТЫ:
-
   this.carousel = obj;
   this.carouselType = obj.dataset.type;
   this.galleryWrap = obj.querySelector('.carousel-gallery-wrap');
@@ -59,12 +56,10 @@ function Carousel(obj, start) {
   this.rightBtn = obj.querySelector('.right-btn');
 
   // КОНСТАНТЫ:
-
   this.visibleImg = Math.round(this.gallery.clientWidth / this.itemsGallery[0].clientWidth) || 0;
   this.offset = 0;
 
   // ПЕРЕМЕННЫЕ:
-
   this.curImg = 0;
   this.itemWidth = parseFloat(window.getComputedStyle(this.itemsGallery[0]).width);
   this.galleryMargin = 0;
@@ -73,11 +68,6 @@ function Carousel(obj, start) {
   this.touchNext = true;
   this.isMoveSlide = false;
   this.scrollTimeout;
-  this.imgIndex;
-  this.i;
-  this.oldEl;
-  this.newEl;
-  this.diffNum;
   this.img;
   this.imgDimentions;
   this.galleryDimentions;
@@ -85,13 +75,10 @@ function Carousel(obj, start) {
   this.imgHeight;
   this.halfImgWidth;
   this.halfImgHeight;
-  this.offsetX;
-  this.offsetY;
 
   // ФУНКЦИИ:
 
   // Установка обработчиков событий:
-
   this.setEventListeners = function() {
     this.leftBtn.addEventListener('click', event => this.startMoveImg('prev', event));
     this.rightBtn.addEventListener('click', event => this.startMoveImg('next', event));
@@ -121,7 +108,6 @@ function Carousel(obj, start) {
   };
 
   // Создание навигации миниатюрами:
-
   this.createNav = function() {
     if (this.imgCount < 2) {
       this.settings.isNav = false;
@@ -131,14 +117,15 @@ function Carousel(obj, start) {
     }
     this.nav = document.createElement('div');
     this.nav.classList.add('carousel-nav');
+    var newEl;
     this.itemsGallery.forEach((el, index) => {
       if (this.settings.navType === 'dot') {
-        this.newEl = document.createElement('div');
-        this.newEl.dataset.numb = index;
+        newEl = document.createElement('div');
+        newEl.dataset.numb = index;
       } else {
-        this.newEl = el.cloneNode(true);
+        newEl = el.cloneNode(true);
       }
-      this.nav.appendChild(this.newEl);
+      this.nav.appendChild(newEl);
     });
     this.carousel.appendChild(this.nav);
     if (this.settings.navType === 'dot') {
@@ -149,7 +136,6 @@ function Carousel(obj, start) {
   };
 
   // Инициализация кнопок карусели:
-
   this.initBtns = function() {
     if (this.imgCount < 2 || this.imgCount < this.visibleImg) {
       this.leftBtn.style.visibility = 'hidden';
@@ -166,7 +152,6 @@ function Carousel(obj, start) {
   };
 
   // Переключение активности кнопок карусели:
-
   this.toggleDisplayBtns = function() {
     if (this.settings.isInfinitie) {
       return;
@@ -188,7 +173,6 @@ function Carousel(obj, start) {
   };
 
   // Запуск автоматической прокрутки:
-
   this.setAutoScroll = function() {
     if (this.settings.isInfinitie && this.settings.isAutoScroll) {
       if (this.imgCount < this.visibleImg) {
@@ -199,13 +183,11 @@ function Carousel(obj, start) {
   };
 
   // Остановка автоматической прокрутки:
-
   this.stopAutoScroll = function() {
     clearTimeout(this.scrollTimeout);
   };
 
   // Установка активной картинки по центру:
-
   this.setImgToCenter = function() {
     if (this.settings.isInfinitie && this.settings.isCenter) {
       if (this.imgCount > 1) {
@@ -223,13 +205,11 @@ function Carousel(obj, start) {
   }
 
   // Получение начальных координат тач-события:
-
   this.touchStart = function(event) {
     this.xCoord = event.touches[0].clientX;
   };
 
   // Получение конечных координат тач-события и запуск переключения изображений:
-
   this.touchEnd = function(event) {
     this.xDiff = event.changedTouches[0].clientX - this.xCoord;
     if (Math.abs(this.xDiff) > 15) {
@@ -243,7 +223,6 @@ function Carousel(obj, start) {
   };
 
   // Запуск переключения изображения:
-
   this.startMoveImg = function(direction, event) {
     if (this.isMoveSlide) {
       return;
@@ -275,15 +254,15 @@ function Carousel(obj, start) {
       }
     } else {
       this.targetImg = parseInt(direction, 10);
-      this.diffNum = this.targetImg - this.curImg;
-      this.numb = Math.abs(this.diffNum);
+      var diffNum = this.targetImg - this.curImg;
+      this.numb = Math.abs(diffNum);
       this.duration = this.settings.durationNav;
-      if (this.diffNum < 0) {
+      if (diffNum < 0) {
         this.direction = 'prev';
         if (!this.settings.isInfinitie) {
           this.targetImg = this.targetImg < 0 ? this.targetImg = 0 : this.targetImg;
         }
-      } else if (this.diffNum > 0) {
+      } else if (diffNum > 0) {
         this.direction = 'next';
         if (!this.settings.isInfinitie) {
           this.targetImg = this.imgCount - this.targetImg < this.visibleImg ? this.targetImg - (this.visibleImg - (this.imgCount - this.targetImg)) : this.targetImg;
@@ -310,7 +289,6 @@ function Carousel(obj, start) {
   };
 
   // Переключение изображений бесконечной карусели:
-
   this.moveAnimate = function() {
     this.isMoveSlide = true;
     if (this.curImg == this.targetImg) {
@@ -352,7 +330,6 @@ function Carousel(obj, start) {
   };
 
   // Переключение не зацикленной карусели:
-
   this.move = function() {
     if (this.curImg == this.targetImg) {
       return;
@@ -370,78 +347,72 @@ function Carousel(obj, start) {
   };
 
   // Копирование изображений:
-
   this.copyImgs = function() {
-    this.imgIndex = (this.curImg - this.offset) < 0 ? this.imgCount + (this.curImg - this.offset) : this.curImg - this.offset;
-    this.i = 0;
-    for (this.i ; this.i < this.numb; this.i++) {
+    var imgIndex = (this.curImg - this.offset) < 0 ? this.imgCount + (this.curImg - this.offset) : this.curImg - this.offset;
+    for (var i = 0 ; i < this.numb; i++) {
       if (this.direction == 'prev') {
-        this.imgIndex = this.imgIndex - 1 < 0 ? this.imgCount - 1 : this.imgIndex - 1;
+        imgIndex = imgIndex - 1 < 0 ? this.imgCount - 1 : imgIndex - 1;
       }
       if (this.direction == 'next') {
-        if (this.i != 0) {
-          this.imgIndex = this.imgIndex + 1 > this.imgCount - 1 ? 0 : this.imgIndex + 1;
+        if (i != 0) {
+          imgIndex = imgIndex + 1 > this.imgCount - 1 ? 0 : imgIndex + 1;
         }
       }
-      this.oldEl = this.itemsGallery[this.imgIndex];
-      this.newEl = this.oldEl.cloneNode(true);
+      var oldEl = this.itemsGallery[imgIndex],
+          newEl = oldEl.cloneNode(true);
       if (this.direction == 'prev') {
-        this.gallery.insertBefore(this.newEl, this.gallery.firstElementChild);
+        this.gallery.insertBefore(newEl, this.gallery.firstElementChild);
       }
       if (this.direction == 'next') {
-        this.gallery.appendChild(this.newEl);
+        this.gallery.appendChild(newEl);
       }
       if (this.settings.isLoupe) {
-        this.newEl.addEventListener('mouseenter', this.initLoupe);
-        this.newEl.addEventListener('mousemove', this.moveLoupe);
+        newEl.addEventListener('mouseenter', this.initLoupe);
+        newEl.addEventListener('mousemove', this.moveLoupe);
       }
     }
   };
 
   // Удаление ранее скопированных изображений:
-
   this.removeImgs = function() {
-    this.i = 0;
-    for (this.i ; this.i < this.numb; this.i++) {
+    var oldEl;
+    for (var i = 0 ; i < this.numb; i++) {
       if (this.direction == 'prev') {
-        this.oldEl = this.gallery.lastElementChild;
+        oldEl = this.gallery.lastElementChild;
       }
       if (this.direction == 'next') {
-        this.oldEl = this.gallery.firstElementChild;
+        oldEl = this.gallery.firstElementChild;
       }
-      this.oldEl.removeEventListener('mouseenter', this.initLoupe);
-      this.oldEl.removeEventListener('mousemove', this.moveLoupe);
-      this.gallery.removeChild(this.oldEl);
+      oldEl.removeEventListener('mouseenter', this.initLoupe);
+      oldEl.removeEventListener('mousemove', this.moveLoupe);
+      this.gallery.removeChild(oldEl);
     };
   };
 
   // Подсветка активной миниатюры / индикатора:
-
   this.toggleNav = function() {
     if (!this.settings.isNav) {
       return;
     }
     this.itemsNav.forEach(item => item.classList.remove('active'));
-    this.imgIndex = this.curImg;
+    var imgIndex = this.curImg;
     if (this.settings.isCenter) {
-      this.itemsNav[this.imgIndex].classList.add('active');
+      this.itemsNav[imgIndex].classList.add('active');
     } else {
-      this.i = 0;
-      for (this.i ; this.i < this.visibleImg; this.i++) {
-        if (this.i != 0) {
+      for (var i = 0; i < this.visibleImg; i++) {
+        if (i != 0) {
           if (this.settings.isInfinitie) {
-            this.imgIndex = this.imgIndex + 1 > this.imgCount - 1 ? 0 : this.imgIndex + 1;
+            imgIndex = imgIndex + 1 > this.imgCount - 1 ? 0 : imgIndex + 1;
           } else {
-            this.imgIndex = this.imgIndex + 1;
+            imgIndex = imgIndex + 1;
           }
         }
-        this.itemsNav[this.imgIndex].classList.add('active');
+        this.itemsNav[imgIndex].classList.add('active');
       }
     }
   };
 
   // Создание лупы:
-
   this.createLoupe = function() {
     if (!this.settings.isLoupe) {
       return;
@@ -465,7 +436,6 @@ function Carousel(obj, start) {
   };
 
   // Инициализация изображения для лупы:
-
   this.initLoupe = (event) => {
     if ('ontouchstart' in window) {
       return;
@@ -498,7 +468,6 @@ function Carousel(obj, start) {
   };
 
   // Работа лупы:
-
   this.moveLoupe = (event) => {
     if ('ontouchstart' in window) {
       return;
@@ -506,10 +475,8 @@ function Carousel(obj, start) {
     if (this.isMoveSlide) {
       return;
     }
-    this.imgDimentions = this.img.getBoundingClientRect();
-    this.galleryDimentions = this.galleryWrap.getBoundingClientRect();
-    this.offsetX = ((event.clientX - this.imgDimentions.left) / this.imgWidth);
-    this.offsetY = ((event.clientY - this.imgDimentions.top) / this.imgHeight);
+    var offsetX = ((event.clientX - this.imgDimentions.left) / this.imgWidth),
+        offsetY = ((event.clientY - this.imgDimentions.top) / this.imgHeight);
 
     if (event.clientX > this.imgDimentions.left + this.imgWidth ||
         event.clientX < this.imgDimentions.left ||
@@ -529,32 +496,30 @@ function Carousel(obj, start) {
     if (this.settings.isLoupeOutside) {
       this.loupe.style.left = event.clientX - this.halfImgWidth + 'px';
       this.loupe.style.top = event.clientY - this.halfImgHeight + 'px';
-      this.bigImg.style.left = -(this.offsetX * this.bigImg.clientWidth - this.halfImgWidth) + 'px';
-      this.bigImg.style.top = -(this.offsetY * this.bigImg.clientHeight - this.halfImgHeight) + 'px';
+      this.bigImg.style.left = -(offsetX * this.bigImg.clientWidth - this.halfImgWidth) + 'px';
+      this.bigImg.style.top = -(offsetY * this.bigImg.clientHeight - this.halfImgHeight) + 'px';
     } else {
       this.loupe.style.left = this.imgDimentions.left - this.galleryDimentions.left + 'px';
       this.loupe.style.top = this.imgDimentions.top - this.galleryDimentions.top + 'px';
-      this.bigImg.style.left = -(this.offsetX * this.bigImg.clientWidth - this.offsetX * this.imgWidth) + 'px';
-      this.bigImg.style.top = -(this.offsetY * this.bigImg.clientHeight - this.offsetY* this.imgHeight) + 'px';
+      this.bigImg.style.left = -(offsetX * this.bigImg.clientWidth - offsetX * this.imgWidth) + 'px';
+      this.bigImg.style.top = -(offsetY * this.bigImg.clientHeight - offsetY* this.imgHeight) + 'px';
     }
   };
 
   // Закрытие лупы:
-
   this.closeLoupe = function() {
     this.loupe.style.display = 'none';
     this.setAutoScroll();
   };
 
   // Инициализация карусели:
-
-  this.initCarousel = function() {
+  this.init = function() {
     if (start && start === 0) {
       start = null;
     }
     this.carousel.dataset.img = 0;
-    for (this.i = 0; this.i < this.imgCount; this.i++) {
-      this.itemsGallery[this.i].dataset.numb = this.i;
+    for (var i = 0; i < this.imgCount; i++) {
+      this.itemsGallery[i].dataset.numb = i;
     }
     if (this.carouselType) {
       var newSettings = window[this.carouselType + 'Carousel'];
@@ -579,7 +544,6 @@ function Carousel(obj, start) {
     this.carousel.style.visibility = 'visible';
   };
 
-  // ЗАПУСК ИНИЦИАЛИЗАЦИИ:
-
-  this.initCarousel();
+  // Запуск инициализации:
+  this.init();
 }
