@@ -657,10 +657,7 @@ function addOptionsInfo(item, optnames, key = 'options') {
     } else {
       title = k;
     }
-    if (title == 'Производитель техники' ||
-      title == 'OEM' ||
-      title == 'Модель техники' ||
-      title == 'Год модели техники') {
+    if (['Производитель техники', 'OEM', 'Модель техники', 'Год модели техники'].indexOf(title) >= 0) {
       continue;
     }
     value = item[key][k];
@@ -668,31 +665,11 @@ function addOptionsInfo(item, optnames, key = 'options') {
       item.search.push(value.toString().replace(/\"/g, ''));
     }
     value = value.toString().replace(/\,/gi, ', ').replace(/\//gi, '/ ');
-    if (title == 'Категория' ||
-      title == 'Бренд' ||
-      title == 'Модель' ||
-      title == 'Серия' ||
-      title == 'Цвет' ||
-      title == 'Цвет оригинальный' ||
-      title == 'Статус товара' ||
-      title == 'Тип линзы' ||
-      title == 'Размер обуви' ||
-      title == 'Размер для сайта' ||
-      title == 'Размер поставщика' ||
-      title == 'Размер взрослый' ||
-      title == 'Размер детский' ||
-      title == 'Размер для фильтров' ||
-      title == 'Американский размер' ||
-      title == 'Европейский размер' ||
-      title == 'Размер американский взрослый' ||
-      title == 'Размер американский детский' ||
-      title == 'Длина стельки взрослый' ||
-      title == 'Вес, грамм' ||
-      title == 'Длина, мм' ||
-      title == 'Высота, мм' ||
-      title == 'Ширина, мм' ||
-      title == 'Порядок' ||
-      title == 'Контент менеджер') {
+    var exceptions = ['Категория', 'Бренд', 'Модель', 'Серия', 'Цвет', 'Цвет оригинальный','Статус товара', 'Тип линзы', 'Размер обуви',
+                      'Размер для сайта', 'Размер поставщика', 'Размер взрослый', 'Размер детский', 'Размер для фильтров', 'Американский размер',
+                      'Европейский размер', 'Размер американский взрослый', 'Размер американский детский', 'Длина стельки взрослый',
+                      'Вес, грамм', 'Длина, мм', 'Высота, мм', 'Ширина, мм', 'Порядок', 'Контент менеджер'];
+    if (exceptions.indexOf(title) >= 0) {
       continue;
     }
     options.push({
@@ -1030,8 +1007,7 @@ function checkIsAction(event) {
 
 function brText(text) {
 	text = text.trim();
-	text = text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '<br/>');
-	return text;
+	return  text.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '<br/>');
 }
 
 // Нахождение суммы элементов массива:
@@ -1051,10 +1027,7 @@ function getNumb(item) {
 // Получение сколько процентов составляет часть в целом:
 
 function getPercent(item, all) {
-  if (!item) {
-    return 0;
-  }
-  return parseInt(+item) * 100 / all;
+  return !item ? 0 : parseInt(+item) * 100 / all;
 }
 
 // Изменение первой буквы строки на заглавную:
@@ -1471,7 +1444,7 @@ function convertPrice(numb, fix = 0, sign = ',', separator = ' ') {
     return numb;
   }
   // второй вариант (менее кросс-браузерный и без возможности замены разделителя разрядов):
-  // return Number(price).toLocaleString('ru-RU', { minimumFractionDigits: fix, maximumFractionDigits: fix });
+  // return Number(numb).toLocaleString('ru-RU', { minimumFractionDigits: fix, maximumFractionDigits: fix });
 }
 
 // Функция преобразования строки с годами к укороченному формату:
@@ -1941,7 +1914,7 @@ function loadSearchData(area, items, sub, sign) {
 }
 
 //=====================================================================================================
-// Функции степпера:
+// Функции для инпутов:
 //=====================================================================================================
 
 // Запрет на ввод в инпут любого значения кроме цифр:
@@ -1950,7 +1923,7 @@ function onlyNumb(event) {
   event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '');
 }
 
-// Запрет на ввод в инпут любого значения кроме тех что допускаются в дат:
+// Запрет на ввод в инпут любого значения кроме тех что допускаются в дате:
 
 function onlyDateChar(event) {
   if (event.currentTarget.dataset.type === 'range') {
@@ -1965,6 +1938,10 @@ function onlyDateChar(event) {
 function onlyPhoneChar(event) {
   event.currentTarget.value = event.currentTarget.value.replace(/[^\d|\+|\-|\(|\/)\s]/g, '');
 }
+
+//=====================================================================================================
+// Функции степпера:
+//=====================================================================================================
 
 // Изменение количества степпером:
 
@@ -2673,7 +2650,7 @@ function Alerts(obj) {
 // Регулярные выражения для валидации полей форм:
 
 var textValidate = /[^\s]{2,}/;
-var nameValidate = /^[a-zA-Z\s-]|[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщъыьЭэЮюЯ\s-]{2,}$/;
+var nameValidate = /^[а-яА-ЯёЁa-zA-Z\s-]{2,}$/;
 var emailValidate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var nicknameValidate =/^\w+@*\w+\.*\w*$/;
 var timeValidate = /^([01][0-9]|2[0-3]):([0-5][0-9])\s*-\s*([01][0-9]|2[0-4]):([0-5][0-9])$/;
